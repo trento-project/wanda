@@ -11,6 +11,15 @@ defmodule Wanda.FactsGathering do
     # given the checks identifiers we can retieve their information (facts gathering DSL mainly)
     # once we have the DSL we can choose whether to parse it in wanda or on the agent side
 
+    checks
+    |> Enum.flat_map(fn check -> Wanda.ChecksRepository.load_check(check) end)
+    |> Enum.flat_map(fn {_check_key, %{"id" => _id, "facts" => facts}} ->
+      # is the check id needed per fact?
+      # Enum.map(facts, fn fact -> Map.put(fact, "check_id", id) end)
+      facts
+    end)
+    |> IO.inspect()
+
     Enum.each(checks, fn check -> simulate_facts_gathering(execution_id, target, check) end)
 
     :ok
