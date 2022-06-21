@@ -1,10 +1,11 @@
-defmodule Wanda.Instrumentation do
+defmodule Wanda.FactsGathering do
   @moduledoc """
   Remote targets instrumentation module.
   """
 
-  def trigger_facts_gathering(execution_id, target, checks) do
-    IO.puts("trigger_facts_gathering")
+  def start(execution_id, target, checks) do
+    # 1000..2000 |> Enum.random() |> Process.sleep()
+    IO.puts("staring facts_gathering on target #{target} - execution: " <> execution_id)
     IO.inspect(checks)
 
     # given the checks identifiers we can retieve their information (facts gathering DSL mainly)
@@ -21,7 +22,7 @@ defmodule Wanda.Instrumentation do
       1000..4000 |> Enum.random() |> Process.sleep()
 
       # this would be executed from a Receiver that listens for Agent published messages related to facts gathering
-      Wanda.ExecutionServer.collect_gathered_facts(
+      Wanda.ExecutionServer.gather_facts(
         execution_id,
         %{
           execution_id: execution_id,

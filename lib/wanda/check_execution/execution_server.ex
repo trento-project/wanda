@@ -61,7 +61,7 @@ defmodule Wanda.ExecutionServer do
 
   # %{s
 
-  def collect_gathered_facts(process_name, check_facts) do
+  def gather_facts(process_name, check_facts) do
     process_name |> via_tuple() |> GenServer.cast({:gather_facts, check_facts})
   end
 
@@ -108,21 +108,21 @@ defmodule Wanda.ExecutionServer do
          } = check_facts},
         %Wanda.ExecutionServer{selections: selections, gathered_facts: gf} = state
       ) do
-    IO.puts("Gathered facts: #{gathered_facts}")
-    IO.puts("launch check evaluation " <> check <> " if possible")
-    IO.puts("")
-
+    # gf is just a temporary hack to keep count of gathered facts
     gf = gf + 1
-    all_checks = Enum.flat_map(selections, fn selection -> selection.checks end)
+    all_checks = Enum.flat_map(selections, fn %{checks: checks} -> checks end)
 
-    # IO.inspect(length(all_checks))
-    # IO.inspect(gf)
+    case length(all_checks) do
+      ^gf ->
+        Logger.info(
+          "Execution completed, remaining #{Registry.count(:execution_registry) - 1} processes"
+        )
 
-    if length(all_checks) == gf do
-      IO.puts("Execution completed")
+        {:stop, :normal, {:something}}
+
+      _ ->
+        {:noreply, %Wanda.ExecutionServer{state | execution_id: execution_id, gathered_facts: gf}}
     end
-
-    {:noreply, %Wanda.ExecutionServer{state | execution_id: execution_id, gathered_facts: gf}}
   end
 
   @impl true
@@ -133,22 +133,17 @@ defmodule Wanda.ExecutionServer do
            cluster_id: cluster_id,
            targets_selections: targets_selections
          }},
-        _state
+        state
       ) do
-    new_state = %__MODULE__{
-      execution_id: execution_id,
-      cluster_id: cluster_id,
-      selections: targets_selections
-    }
-
-    IO.inspect(new_state.selections)
-
-    new_state.selections
+    targets_selections
     # ignore targets whose selection is empty
     |> Enum.reject(fn %{checks: checks} -> checks == [] end)
     # Trigger facts gathering for the selection
     |> Enum.each(fn %{host_id: host_id, checks: checks} ->
-      Wanda.Instrumentation.trigger_facts_gathering(execution_id, host_id, checks)
+      # this?
+      # start_facts_gathering(execution_id, host_id, checks)
+      # or this?
+      Wanda.FactsGathering.start(execution_id, host_id, checks)
     end)
 
     # wait
@@ -158,7 +153,24 @@ defmodule Wanda.ExecutionServer do
 
     # {:noreply, new_state, 500}
 
-    {:noreply, new_state}
+    {:noreply,
+     %__MODULE__{
+       state
+       | execution_id: execution_id,
+         cluster_id: cluster_id,
+         selections: targets_selections
+     }}
+  end
+
+  def handle_cast({:start_facts_gathering, {execution_id, host_id, checks}}, state) do
+    Wanda.FactsGathering.start(execution_id, host_id, checks)
+    {:noreply, state}
+  end
+
+  def start_facts_gathering(execution_id, host_id, checks) do
+    execution_id
+    |> via_tuple()
+    |> GenServer.cast({:start_facts_gathering, {execution_id, host_id, checks}})
   end
 
   # Following handle_info/2 were implemented after noticing the following
@@ -174,7 +186,7 @@ defmodule Wanda.ExecutionServer do
 
   @impl true
   def handle_info(:timeout, %{execution_id: execution_id} = state) do
-    IO.puts("execution timed out")
+    IO.puts("execution #{execution_id} timed out")
 
     # What should happen on timeout? Stop the execution?
     # Wanda.ExecutionServer.stop(execution_id, :normal)
