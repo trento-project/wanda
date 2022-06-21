@@ -1,0 +1,13 @@
+version: "3.7"
+
+services:
+  rabbitmq:
+    container_name: trento-message-broker
+    image: rabbitmq:3.10.5-management-alpine
+    restart: unless-stopped
+    ports:
+      - 5672:5672
+      - 15672:15672
+    environment:
+      RABBITMQ_DEFAULT_USER: wanda
+      RABBITMQ_DEFAULT_PASS: wanda
