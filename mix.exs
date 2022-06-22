@@ -24,7 +24,8 @@ defmodule Wanda.MixProject do
     [
       {:elixir_uuid, "~> 1.2"},
       {:yaml_elixir, "~> 2.9"},
-      {:jason, "~> 1.3"}
+      {:jason, "~> 1.3"},
+      {:amqp, "~> 3.1"}
       # {:dep_from_hexpm, "~> 0.3.0"},
       # {:dep_from_git, git: "https://github.com/elixir-lang/my_dep.git", tag: "0.1.0"}
     ]
