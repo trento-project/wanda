@@ -1,4 +1,9 @@
 defmodule Wanda.ExecutionServer do
+  @moduledoc """
+  Represents the execution of the CheckSelection(s) on the target nodes/agents of a cluster
+  Orchestrates facts gathering on the targets - issuing execution and receiving back facts - and following check evaluations
+  """
+
   use GenServer
   require Logger
 
@@ -99,6 +104,48 @@ defmodule Wanda.ExecutionServer do
 
   @impl true
   def handle_cast(
+        {:start_execution,
+         %Wanda.CheckExecution{
+           execution_id: execution_id,
+           cluster_id: cluster_id,
+           targets_selections: targets_selections
+         }},
+        state
+      ) do
+    targets_selections
+    |> ignore_empty_selections()
+    |> start_facts_gathering(execution_id)
+
+    # the 500ms timeout would be the timeout to complete the execution
+    # THE WHOLE EXECUTION: FACTS GATHERING AND CHECK EVALUATION
+
+    # {:noreply, new_state, 5000}
+
+    {:noreply,
+     %__MODULE__{
+       state
+       | execution_id: execution_id,
+         cluster_id: cluster_id,
+         selections: targets_selections
+     }}
+  end
+
+  defp ignore_empty_selections(selection) do
+    Enum.reject(selection, fn %{checks: checks} -> checks == [] end)
+  end
+
+  defp start_facts_gathering(selection, execution_id) do
+    selection
+    |> Enum.each(fn %{host_id: agent, checks: checks} ->
+      # this?
+      # start_facts_gathering(execution_id, host_id, checks)
+      # or this?
+      Wanda.Facts.Gathering.start(execution_id, agent, checks)
+    end)
+  end
+
+  @impl true
+  def handle_cast(
         {:gather_facts,
          %{
            execution_id: execution_id,
@@ -125,45 +172,8 @@ defmodule Wanda.ExecutionServer do
     end
   end
 
-  @impl true
-  def handle_cast(
-        {:start_execution,
-         %Wanda.CheckExecution{
-           execution_id: execution_id,
-           cluster_id: cluster_id,
-           targets_selections: targets_selections
-         }},
-        state
-      ) do
-    targets_selections
-    # ignore targets whose selection is empty
-    |> Enum.reject(fn %{checks: checks} -> checks == [] end)
-    # Trigger facts gathering for the selection
-    |> Enum.each(fn %{host_id: host_id, checks: checks} ->
-      # this?
-      # start_facts_gathering(execution_id, host_id, checks)
-      # or this?
-      Wanda.FactsGathering.start(execution_id, host_id, checks)
-    end)
-
-    # wait
-
-    # the 500ms timeout would be the timeout to complete the execution
-    # THE WHOLE EXECUTION: FACTS GATHERING AND CHECK EVALUATION
-
-    # {:noreply, new_state, 500}
-
-    {:noreply,
-     %__MODULE__{
-       state
-       | execution_id: execution_id,
-         cluster_id: cluster_id,
-         selections: targets_selections
-     }}
-  end
-
   def handle_cast({:start_facts_gathering, {execution_id, host_id, checks}}, state) do
-    Wanda.FactsGathering.start(execution_id, host_id, checks)
+    Wanda.Facts.Gathering.start(execution_id, host_id, checks)
     {:noreply, state}
   end
 

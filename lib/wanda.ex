@@ -43,4 +43,7 @@ defmodule Wanda do
   def kaboom do
     Enum.each(1..20, fn _ -> start_check_execution() end)
   end
+
+  def receive_gathered_facts() do
+  end
 end
