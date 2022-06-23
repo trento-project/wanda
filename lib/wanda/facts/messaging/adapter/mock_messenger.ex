@@ -21,6 +21,15 @@ defmodule Wanda.Facts.Messenger.Mock do
         facts: facts
       })
 
+    # move this to actual rabbit adapter
+    dsn = "amqp://wanda:wanda@localhost:5672"
+    # dsn = "amqp://wanda:wanda@7.tcp.eu.ngrok.io:19381"
+    {:ok, connection} = AMQP.Connection.open(dsn)
+    {:ok, channel} = AMQP.Channel.open(connection)
+    AMQP.Queue.declare(channel, "gather_facts")
+    AMQP.Basic.publish(channel, "", "some-agent", payload)
+    AMQP.Connection.close(connection)
+
     Logger.debug(payload)
   end
 
