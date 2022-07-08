@@ -1,4 +1,5 @@
 %{
+  "abacus": {:hex, :abacus, "0.4.2", "632837177bd534e55a520d373b7195bc9bfcbc9425fefb5e93e3cf3336ba9737", [:mix], [], "hexpm", "2e7bd7c0ba2a594808d42c1b946f11c47bf8254506403031958b58054c807986"},
   "amqp": {:hex, :amqp, "3.1.1", "a96ee272d196dfd1bf4ffc15dc7dcf900004d928dbdc6f5fcb80e6b0da03927c", [:mix], [{:amqp_client, "~> 3.9.1", [hex: :amqp_client, repo: "hexpm", optional: false]}], "hexpm", "ee7ca576351b4629b6be0701db8c085e203e242c577c59f344be56ef5a262056"},
   "amqp_client": {:hex, :amqp_client, "3.9.20", "1d95c0401cc6ea9a5cabd583c59f0cdd5ac534109976078f16942848e2774d37", [:make, :rebar3], [{:rabbit_common, "3.9.20", [hex: :rabbit_common, repo: "hexpm", optional: false]}], "hexpm", "3945ab858fd99c343745485f9c5e12f9f7ec878e84e40f986e326c6d8d060aea"},
   "credentials_obfuscation": {:hex, :credentials_obfuscation, "3.1.0", "2c405ea0c5db7b3344aa5a99f86c33e7b6ecea97d2cb613371e1cf0d192ef2c6", [:rebar3], [], "hexpm", "04884e62b1c6cdfba999d4d6b3e99bc0a59d5e439517bc5c01767255afb7b778"},
