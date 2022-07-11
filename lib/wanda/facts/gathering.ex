@@ -22,19 +22,6 @@ defmodule Wanda.Facts.Gathering do
     :ok
   end
 
-  defmodule Fact do
-    @moduledoc """
-    A representation of a Fact that can be serialized and sent to the targets as part of the message initiating facts gathering
-    """
-
-    @derive Jason.Encoder
-    defstruct [
-      :name,
-      :gatherer,
-      :argument
-    ]
-  end
-
   @spec extract_facts(checks) :: [map]
   defp extract_facts(checks) do
     # given the checks identifiers we can retieve their information (facts gathering DSL mainly)
