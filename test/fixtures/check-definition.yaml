@@ -10,13 +10,12 @@ check_corosync_token_timeout:
     ## Remediation
     ...
   facts:
-    -
-      name: corosync_token_timeout
+    - name: corosync_token_timeout
       gatherer: corosync
       argument: totem.token
-    -
-      name: some_other_fact_useful_for_this_check
+    - name: some_other_fact_useful_for_this_check
       gatherer: another_reference_to_a_gatherer
       argument: something_else
   expectations:
-    TDB: TBD
+    - name: timeout
+      expect: corosync_token_timeout == 30000
