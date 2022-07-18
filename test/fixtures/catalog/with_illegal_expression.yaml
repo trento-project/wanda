@@ -1,0 +1,15 @@
+id: with_illegal_expression
+name: Checks with illegal expression
+group: Test
+description: |
+  Checks with errors
+remediation: |
+  ## Remediation
+  Fix your code
+facts:
+  - name: jedi
+    gatherer: wandalorian
+    argument: -o
+expectations:
+  - name: illegal_expression
+    expect: jedi $%# 2
