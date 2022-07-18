@@ -10,8 +10,7 @@ defmodule Wanda.Application do
   @impl true
   def start(_type, _args) do
     children = [
-      Wanda.ExecutionSupervisor,
-      {Registry, [keys: :unique, name: @registry]}
+      Wanda.ExecutionSupervisor
     ]
 
     # See https://hexdocs.pm/elixir/Supervisor.html
