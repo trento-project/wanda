@@ -37,7 +37,7 @@ defmodule Wanda.MixProject do
       {:yaml_elixir, "~> 2.9"},
       # test deps
       {:credo, "~> 1.6", only: [:dev, :test], runtime: false},
-      {:dialyxir, "~> 1.0", only: [:dev], runtime: false},
+      {:dialyxir, "~> 1.0", only: [:dev, :test], runtime: false},
       {:mox, "~> 1.0", only: :test},
       {:ex_machina, "~> 2.7.0"},
       {:faker, "~> 0.17", only: :test}
