@@ -1,4 +1,6 @@
 defmodule Wanda.Factory do
+  @moduledoc false
+
   use ExMachina
 
   alias Wanda.Execution.{
