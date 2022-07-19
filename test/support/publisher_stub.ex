@@ -1,5 +1,5 @@
 defmodule Wanda.Support.PublisherStub do
-  @moduledoc nil
+  @moduledoc false
 
   @behaviour Wanda.Messaging.Adapters.Behaviour
 

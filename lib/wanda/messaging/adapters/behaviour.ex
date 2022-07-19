@@ -1,5 +1,5 @@
 defmodule Wanda.Messaging.Adapters.Behaviour do
-  @moduledoc nil
+  @moduledoc false
 
   @callback publish(message :: any) :: :ok
 end

@@ -1,5 +1,5 @@
 defmodule Wanda.ExecutionSupervisor do
-  @moduledoc nil
+  @moduledoc false
 
   use DynamicSupervisor
 

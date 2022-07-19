@@ -1,5 +1,5 @@
 defmodule Wanda.Support.MessagingCase do
-  @moduledoc nil
+  @moduledoc false
 
   use ExUnit.CaseTemplate
 
