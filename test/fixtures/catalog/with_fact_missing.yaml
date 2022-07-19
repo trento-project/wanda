@@ -1,0 +1,15 @@
+id: with_fact_missing
+name: Checks with missing fact
+group: Test
+description: |
+  Checks with errors
+remediation: |
+  ## Remediation
+  Fix your code
+facts:
+  - name: corosync_token_timeout
+    gatherer: corosync
+    argument: totem.token
+expectations:
+  - name: fact_missing
+    expect: corosync_token_timeout == 30000

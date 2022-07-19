@@ -1,0 +1,17 @@
+id: 156F64
+name: Corosync configuration file
+group: Corosync
+description: |
+  Corosync `token` timeout is set to `{{ platform.corosync.expectedTokenTimeout }}`
+remediation: |
+  ## Abstract
+  The value of the Corosync `token` timeout is not set as recommended.
+  ## Remediation
+  ...
+facts:
+  - name: corosync_token_timeout
+    gatherer: corosync
+    argument: totem.token
+expectations:
+  - name: timeout
+    expect: corosync_token_timeout == 30000
