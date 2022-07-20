@@ -1,0 +1,15 @@
+id: group_expect_all
+name: Test check
+group: Test
+description: |
+  Just a check
+remediation: |
+  ## Remediation
+  Remediation text
+facts:
+  - name: corosync_token_timeout
+    gatherer: corosync
+    argument: totem.token
+expectations:
+  - name: timeout
+    group_expect_all: corosync_token_timeout == 30000
