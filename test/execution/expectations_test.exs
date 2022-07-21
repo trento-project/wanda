@@ -131,7 +131,7 @@ defmodule Wanda.Execution.ExpectationsTest do
         }
       }
 
-      Expectations.eval(gathered_facts) |> IO.inspect()
+      Expectations.eval(gathered_facts)
     end
   end
 end

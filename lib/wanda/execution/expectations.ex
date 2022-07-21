@@ -21,7 +21,7 @@ defmodule Wanda.Execution.Expectations do
   @spec eval(map()) :: [Result.t()]
   def eval(gathered_facts) do
     {results, group_results_map} =
-      Enum.map_reduce(gathered_facts, %{}, fn {agent_id, checks}, acc ->
+      Enum.map_reduce(gathered_facts, [], fn {agent_id, checks}, acc ->
         {checks_results, group_results_map} = build_checks_results(checks, acc)
 
         {%Result{
@@ -30,7 +30,44 @@ defmodule Wanda.Execution.Expectations do
          }, group_results_map}
       end)
 
-    results
+    grouped_stuff =
+      Enum.group_by(
+        group_results_map,
+        fn el -> {el.check_id, el.expectation, el.type} end,
+        fn el -> el.result end
+      )
+
+    grouped_stuff_computed =
+      Enum.into(grouped_stuff, %{}, fn {{check, name, type}, v} ->
+        {{check, name}, compute_group(type, v)}
+      end)
+
+    compute_final_results(results, grouped_stuff_computed) |> IO.inspect()
+  end
+
+  defp compute_group(:all, results) do
+    Enum.all?(results, &(&1.local_result == true))
+  end
+
+  defp compute_final_results(results, grouped_stuff_computed) do
+    Enum.map(results, fn result ->
+      %Result{
+        result
+        | checks_results:
+            Enum.map(result.checks_results, fn cr ->
+              expectations_results =
+                Enum.map(cr.expectations_results, fn %GroupExpectationResult{name: name} = gr ->
+                  Map.put(gr, :result, Map.get(grouped_stuff_computed, {cr.check_id, name}))
+                end)
+
+              %CheckResult{
+                cr
+                | expectations_results: expectations_results,
+                  result: passed?(expectations_results)
+              }
+            end)
+      }
+    end)
   end
 
   defp build_checks_results(checks, group_results_map) do
@@ -46,26 +83,24 @@ defmodule Wanda.Execution.Expectations do
             false
         end)
 
-      group_results_map =
-        Enum.reduce(group_expectations_results, acc, fn %GroupExpectationResult{
-                                                          name: name
-                                                        } = result,
-                                                        acc ->
-          update_in(acc, [Access.key(check_id, %{}), name], fn
-            nil ->
-              [result]
-
-            current_value ->
-              [result | current_value]
-          end)
-        end)
+      new_stuff =
+        Enum.map(
+          group_expectations_results,
+          fn %GroupExpectationResult{} = g ->
+            %{
+              type: g.type,
+              result: g,
+              check_id: check_id,
+              expectation: g.name
+            }
+          end
+        )
 
       {%CheckResult{
          facts: facts,
          check_id: check_id,
-         expectations_results: expectations_results,
-         result: passed?(expectations_results)
-       }, group_results_map}
+         expectations_results: expectations_results
+       }, acc ++ new_stuff}
     end)
   end
 
