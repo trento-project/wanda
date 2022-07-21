@@ -8,6 +8,7 @@ defmodule Wanda.Execution.Expectations do
   alias Wanda.Execution.{
     CheckResult,
     ExpectationResult,
+    GroupExpectationResult,
     Result
   }
 
@@ -19,24 +20,52 @@ defmodule Wanda.Execution.Expectations do
   """
   @spec eval(map()) :: [Result.t()]
   def eval(gathered_facts) do
-    Enum.map(gathered_facts, fn {agent_id, checks} ->
-      %Result{
-        agent_id: agent_id,
-        checks_results: eval_expectations(checks)
-      }
-    end)
+    {results, group_results_map} =
+      Enum.map_reduce(gathered_facts, %{}, fn {agent_id, checks}, acc ->
+        {checks_results, group_results_map} = build_checks_results(checks, acc)
+
+        {%Result{
+           agent_id: agent_id,
+           checks_results: checks_results
+         }, group_results_map}
+      end)
+
+    results
   end
 
-  defp eval_expectations(checks) do
-    Enum.map(checks, fn {check_id, facts} ->
+  defp build_checks_results(checks, group_results_map) do
+    Enum.map_reduce(checks, group_results_map, fn {check_id, facts}, acc ->
       expectations_results = eval_expectations(check_id, facts)
 
-      %CheckResult{
-        facts: facts,
-        check_id: check_id,
-        expectations_results: expectations_results,
-        result: passed?(expectations_results)
-      }
+      group_expectations_results =
+        Enum.filter(expectations_results, fn
+          %GroupExpectationResult{} ->
+            true
+
+          _ ->
+            false
+        end)
+
+      group_results_map =
+        Enum.reduce(group_expectations_results, acc, fn %GroupExpectationResult{
+                                                          name: name
+                                                        } = result,
+                                                        acc ->
+          update_in(acc, [Access.key(check_id, %{}), name], fn
+            nil ->
+              [result]
+
+            current_value ->
+              [result | current_value]
+          end)
+        end)
+
+      {%CheckResult{
+         facts: facts,
+         check_id: check_id,
+         expectations_results: expectations_results,
+         result: passed?(expectations_results)
+       }, group_results_map}
     end)
   end
 
@@ -44,6 +73,19 @@ defmodule Wanda.Execution.Expectations do
     check_id
     |> Catalog.get_expectations()
     |> Enum.map(&eval_expectation(&1, facts))
+  end
+
+  defp eval_expectation(%{"name" => name, "group_expect_all" => expect}, facts) do
+    case Abacus.eval(expect, facts) do
+      {:ok, result} ->
+        %GroupExpectationResult{name: name, type: :all, local_result: result}
+
+      {:error, :einkey} ->
+        %GroupExpectationResult{name: name, type: :all, local_result: :fact_missing_error}
+
+      _ ->
+        %GroupExpectationResult{name: name, type: :all, local_result: :illegal_expression_error}
+    end
   end
 
   defp eval_expectation(%{"name" => name, "expect" => expect}, facts) do
