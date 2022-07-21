@@ -145,3 +145,38 @@ defmodule Wanda.Execution.Expectations do
     end
   end
 end
+
+# %Result{
+#   exeuction_id: exeuction_id,
+#   group_id: group_id,
+#   result: passing, warning, critical,
+#   checks_results: [
+#       %CheckResult{
+#           result: passing, warning, critical,
+#           expectations: [%ExpectationResult{
+#                       result: result
+#                       name
+#                       type: :all, :any, :none
+#                   }],
+#           agents_results: [
+#               %AgentResult{
+#                   agent_id: agent_id,
+#                   expectations: [%LocalExpectationResult{
+#                       name: name
+#                       local_result: true
+#                       type: :all, :any, :none
+#                   }],
+#                   facts: [%Fact{
+
+#                   }],
+#               },
+#           ]
+#       }
+#   ]
+# }
+
+# expect: tutti sono true
+# expect_any: almeno uno è true
+# expect_none: nessuno è true
+
+# expect_same: tutti gli agenti hanno lo stesso risultato (es. tutti sono 30000)
