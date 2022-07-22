@@ -1,6 +1,6 @@
-defmodule Wanda.Execution.ExpectationResult do
+defmodule Wanda.Execution.AgentExpectationResult do
   @moduledoc """
-  Represents the result of an expectation.
+  Represents the result of an expectation of a specific agent.
   """
 
   defstruct [

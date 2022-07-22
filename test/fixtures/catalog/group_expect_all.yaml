@@ -12,4 +12,4 @@ facts:
     argument: totem.token
 expectations:
   - name: timeout
-    group_expect_all: corosync_token_timeout == 30000
+    expect_same: corosync_token_timeout

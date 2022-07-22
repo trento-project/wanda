@@ -6,177 +6,136 @@ defmodule Wanda.Execution.Expectations do
   alias Wanda.Catalog
 
   alias Wanda.Execution.{
+    AgentCheckResult,
+    AgentExpectationResult,
     CheckResult,
     ExpectationResult,
-    GroupExpectationResult,
     Result
   }
 
   # Abacus spec is wrong
   @dialyzer {:nowarn_function, eval_expectation: 2}
 
-  @doc """
-  Returns the results of checks expectations by agent.
-  """
-  @spec eval(map()) :: [Result.t()]
-  def eval(gathered_facts) do
-    {results, group_results_map} =
-      Enum.map_reduce(gathered_facts, [], fn {agent_id, checks}, acc ->
-        {checks_results, group_results_map} = build_checks_results(checks, acc)
+  def eval(execution_id, group_id, gathered_facts) do
+    %Result{
+      execution_id: execution_id,
+      group_id: group_id
+    }
+    |> add_checks_result(gathered_facts)
+    |> aggregate_execution_result()
+  end
 
-        {%Result{
-           agent_id: agent_id,
-           checks_results: checks_results
-         }, group_results_map}
+  defp add_checks_result(%Result{} = result, gathered_facts) do
+    checks_result =
+      Enum.map(gathered_facts, fn {check_id, agents_facts} ->
+        build_check_result(check_id, agents_facts)
       end)
 
-    grouped_stuff =
-      Enum.group_by(
-        group_results_map,
-        fn el -> {el.check_id, el.expectation, el.type} end,
-        fn el -> el.result end
-      )
+    %Result{result | checks_result: checks_result}
+  end
 
-    grouped_stuff_computed =
-      Enum.into(grouped_stuff, %{}, fn {{check, name, type}, v} ->
-        {{check, name}, compute_group(type, v)}
+  defp build_check_result(check_id, agents_facts) do
+    %CheckResult{
+      check_id: check_id
+    }
+    |> add_agents_results(agents_facts)
+    |> add_expectations_results()
+    |> aggregate_result()
+  end
+
+  defp add_agents_results(%CheckResult{check_id: check_id} = check_result, agents_facts) do
+    agents_results =
+      Enum.map(agents_facts, fn {agent_id, facts} ->
+        %AgentCheckResult{agent_id: agent_id, facts: facts}
+        |> add_agent_expectation_result(check_id)
       end)
 
-    compute_final_results(results, grouped_stuff_computed) |> IO.inspect()
+    %CheckResult{check_result | agents_result: agents_results}
   end
 
-  defp compute_group(:all, results) do
-    Enum.all?(results, &(&1.local_result == true))
+  defp add_agent_expectation_result(
+         %AgentCheckResult{facts: facts} = agent_check_result,
+         check_id
+       ) do
+    agent_expectations_result =
+      check_id
+      |> Catalog.get_expectations()
+      |> Enum.map(&eval_expectation(&1, facts))
+
+    %AgentCheckResult{agent_check_result | expectations_result: agent_expectations_result}
   end
 
-  defp compute_final_results(results, grouped_stuff_computed) do
-    Enum.map(results, fn result ->
-      %Result{
-        result
-        | checks_results:
-            Enum.map(result.checks_results, fn cr ->
-              expectations_results =
-                Enum.map(cr.expectations_results, fn %GroupExpectationResult{name: name} = gr ->
-                  Map.put(gr, :result, Map.get(grouped_stuff_computed, {cr.check_id, name}))
-                end)
+  defp eval_expectation(%{"name" => name, "expect" => expression}, facts),
+    do: eval_per_davvero(name, expression, :expect, facts)
 
-              %CheckResult{
-                cr
-                | expectations_results: expectations_results,
-                  result: passed?(expectations_results)
-              }
-            end)
-      }
-    end)
-  end
+  defp eval_expectation(%{"name" => name, "expect_same" => expression}, facts),
+    do: eval_per_davvero(name, expression, :expect_same, facts)
 
-  defp build_checks_results(checks, group_results_map) do
-    Enum.map_reduce(checks, group_results_map, fn {check_id, facts}, acc ->
-      expectations_results = eval_expectations(check_id, facts)
-
-      group_expectations_results =
-        Enum.filter(expectations_results, fn
-          %GroupExpectationResult{} ->
-            true
-
-          _ ->
-            false
-        end)
-
-      new_stuff =
-        Enum.map(
-          group_expectations_results,
-          fn %GroupExpectationResult{} = g ->
-            %{
-              type: g.type,
-              result: g,
-              check_id: check_id,
-              expectation: g.name
-            }
-          end
-        )
-
-      {%CheckResult{
-         facts: facts,
-         check_id: check_id,
-         expectations_results: expectations_results
-       }, acc ++ new_stuff}
-    end)
-  end
-
-  defp eval_expectations(check_id, facts) do
-    check_id
-    |> Catalog.get_expectations()
-    |> Enum.map(&eval_expectation(&1, facts))
-  end
-
-  defp eval_expectation(%{"name" => name, "group_expect_all" => expect}, facts) do
-    case Abacus.eval(expect, facts) do
+  defp eval_per_davvero(name, expression, type, facts) do
+    case Abacus.eval(expression, facts) do
       {:ok, result} ->
-        %GroupExpectationResult{name: name, type: :all, local_result: result}
+        %AgentExpectationResult{name: name, type: type, result: result}
 
       {:error, :einkey} ->
-        %GroupExpectationResult{name: name, type: :all, local_result: :fact_missing_error}
+        %AgentExpectationResult{name: name, type: type, result: :fact_missing_error}
 
       _ ->
-        %GroupExpectationResult{name: name, type: :all, local_result: :illegal_expression_error}
+        %AgentExpectationResult{name: name, type: type, result: :illegal_expression_error}
     end
   end
 
-  defp eval_expectation(%{"name" => name, "expect" => expect}, facts) do
-    case Abacus.eval(expect, facts) do
-      {:ok, result} ->
-        %ExpectationResult{name: name, result: result}
+  defp add_expectations_results(%CheckResult{agents_result: agents_result} = result) do
+    expectations_result =
+      agents_result
+      |> Enum.flat_map(fn %AgentCheckResult{expectations_result: expectations_result} ->
+        expectations_result
+      end)
+      |> Enum.group_by(&{&1.name, &1.type})
+      |> Enum.map(fn {{name, type}, expectations} ->
+        %ExpectationResult{
+          name: name,
+          type: type,
+          result: evaluate_expectations_result(type, expectations)
+        }
+      end)
 
-      {:error, :einkey} ->
-        %ExpectationResult{name: name, result: :fact_missing_error}
-
-      _ ->
-        %ExpectationResult{name: name, result: :illegal_expression_error}
-    end
+    %CheckResult{result | expectations_result: expectations_result}
   end
 
-  # TODO: read catalog to get check severity
-  defp passed?(expectations_results) do
-    if Enum.all?(expectations_results, &(&1.result == true)) do
-      :passing
-    else
-      :critical
-    end
+  defp evaluate_expectations_result(:expect_same, expectations) do
+    expectations
+    |> Enum.uniq_by(& &1.result)
+    |> Kernel.length() == 1
   end
+
+  defp evaluate_expectations_result(:expect, expectations) do
+    Enum.all?(expectations, &(&1.result == true))
+  end
+
+  defp aggregate_result(%CheckResult{expectations_result: expectations_result} = check_result) do
+    result =
+      if Enum.all?(expectations_result, &(&1.result == true)) do
+        :passing
+      else
+        :critical
+      end
+
+    %CheckResult{check_result | result: result}
+  end
+
+  defp aggregate_execution_result(%Result{checks_result: checks_result} = execution_result) do
+    result =
+      checks_result
+      |> Enum.map(& &1.result)
+      |> Enum.map(&{&1, result_weight(&1)})
+      |> Enum.max_by(fn {_, weight} -> weight end)
+      |> elem(0)
+
+    %Result{execution_result | result: result}
+  end
+
+  defp result_weight(:unknown), do: 3
+  defp result_weight(:critical), do: 2
+  defp result_weight(:warning), do: 1
+  defp result_weight(:passing), do: 0
 end
-
-# %Result{
-#   exeuction_id: exeuction_id,
-#   group_id: group_id,
-#   result: passing, warning, critical,
-#   checks_results: [
-#       %CheckResult{
-#           result: passing, warning, critical,
-#           expectations: [%ExpectationResult{
-#                       result: result
-#                       name
-#                       type: :all, :any, :none
-#                   }],
-#           agents_results: [
-#               %AgentResult{
-#                   agent_id: agent_id,
-#                   expectations: [%LocalExpectationResult{
-#                       name: name
-#                       local_result: true
-#                       type: :all, :any, :none
-#                   }],
-#                   facts: [%Fact{
-
-#                   }],
-#               },
-#           ]
-#       }
-#   ]
-# }
-
-# expect: tutti sono true
-# expect_any: almeno uno è true
-# expect_none: nessuno è true
-
-# expect_same: tutti gli agenti hanno lo stesso risultato (es. tutti sono 30000)
