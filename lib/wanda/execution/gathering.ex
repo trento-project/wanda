@@ -10,12 +10,13 @@ defmodule Wanda.Execution.Gathering do
   """
   @spec put_gathered_facts(map(), String.t(), [Fact.t()]) :: map()
   def put_gathered_facts(gathered_facts, agent_id, facts) do
-    facts =
-      Enum.reduce(facts, %{}, fn %Fact{check_id: check_id, name: name, value: value}, acc ->
-        put_in(acc, [Access.key(check_id, %{}), name], value)
-      end)
-
-    Map.put(gathered_facts, agent_id, facts)
+    Enum.reduce(
+      facts,
+      gathered_facts,
+      fn %Fact{check_id: check_id, name: name, value: value}, acc ->
+        put_in(acc, [Access.key(check_id, %{}), Access.key(agent_id, %{}), name], value)
+      end
+    )
   end
 
   @doc """
@@ -28,10 +29,11 @@ defmodule Wanda.Execution.Gathering do
   @doc """
   Check if all the agents have sent the facts
   """
-  @spec all_agents_sent_facts?(map(), [Target.t()]) :: boolean()
-  def all_agents_sent_facts?(gathered_facts, targets) do
-    Enum.all?(targets, fn %Target{agent_id: agent_id} ->
-      Map.has_key?(gathered_facts, agent_id)
-    end)
+  @spec all_agents_sent_facts?([String.t()], [Target.t()]) :: boolean()
+  def all_agents_sent_facts?(agents_gathered, targets) do
+    Enum.sort(agents_gathered) ==
+      targets
+      |> Enum.map(& &1.agent_id)
+      |> Enum.sort()
   end
 end
