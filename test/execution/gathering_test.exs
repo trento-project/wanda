@@ -38,13 +38,13 @@ defmodule Wanda.Execution.GatheringTest do
                ^check_id_2 => %{
                  ^agent_id_2 => %{
                    ^name_2 => ^value_2
-                 },
+                 }
                },
                ^check_id_3 => %{
-                ^agent_id_2 => %{
-                  ^name_3 => ^value_3
-                }
-              }
+                 ^agent_id_2 => %{
+                   ^name_3 => ^value_3
+                 }
+               }
              } = Gathering.put_gathered_facts(gathered_facts, agent_id_2, facts)
     end
   end
