@@ -139,7 +139,9 @@ defmodule Wanda.Execution.Evaluation do
     Enum.all?(expectations_evaluations, &(&1.return_value == true))
   end
 
-  defp aggregate_check_result(%CheckResult{expectation_results: expectation_results} = check_result) do
+  defp aggregate_check_result(
+         %CheckResult{expectation_results: expectation_results} = check_result
+       ) do
     result =
       if Enum.all?(expectation_results, &(&1.result == true)) do
         :passing
