@@ -5,11 +5,13 @@ defmodule Wanda.Execution.ExpectationResult do
 
   defstruct [
     :name,
-    :result
+    :result,
+    :type
   ]
 
   @type t :: %__MODULE__{
           name: String.t(),
-          result: boolean() | :fact_missing_error | :illegal_expression_error
+          result: boolean(),
+          type: :expect | :expect_same
         }
 end

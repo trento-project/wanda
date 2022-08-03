@@ -1,21 +1,21 @@
 defmodule Wanda.Execution.CheckResult do
   @moduledoc """
-  Represents the result of check.
+  Represents the result of a a check.
   """
 
-  alias Wanda.Execution.ExpectationResult
+  alias Wanda.Execution.{AgentCheckResult, ExpectationResult}
 
   defstruct [
     :check_id,
-    :expectations_results,
-    :facts,
+    :expectation_results,
+    :agents_check_results,
     :result
   ]
 
   @type t :: %__MODULE__{
           check_id: String.t(),
-          expectations_results: [ExpectationResult.t()],
-          facts: %{(name :: String.t()) => result :: any()},
+          expectation_results: [ExpectationResult.t()],
+          agents_check_results: [AgentCheckResult.t()],
           result: :passing | :warning | :critical
         }
 end
