@@ -43,7 +43,7 @@ defmodule Wanda.Execution.Evaluation do
     }
     |> add_agents_results(agents_facts)
     |> add_expectation_evaluations()
-    |> aggregate_result()
+    |> aggregate_check_result()
   end
 
   defp add_agents_results(%CheckResult{check_id: check_id} = check_result, agents_facts) do
@@ -139,7 +139,7 @@ defmodule Wanda.Execution.Evaluation do
     Enum.all?(expectations_evaluations, &(&1.return_value == true))
   end
 
-  defp aggregate_result(%CheckResult{expectation_results: expectation_results} = check_result) do
+  defp aggregate_check_result(%CheckResult{expectation_results: expectation_results} = check_result) do
     result =
       if Enum.all?(expectation_results, &(&1.result == true)) do
         :passing
