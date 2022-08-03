@@ -1,6 +1,6 @@
 defmodule Wanda.Execution.CheckResult do
   @moduledoc """
-  Represents the result of a a check.
+  Represents the result of a check.
   """
 
   alias Wanda.Execution.{AgentCheckResult, ExpectationResult}
