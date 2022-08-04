@@ -15,8 +15,8 @@ defmodule Wanda.Execution.GatheringTest do
       [%Fact{check_id: check_id_1, name: name_1, value: value_1}] = facts = build_list(1, :fact)
 
       assert %{
-               ^agent_id_1 => %{
-                 ^check_id_1 => %{
+               ^check_id_1 => %{
+                 ^agent_id_1 => %{
                    ^name_1 => ^value_1
                  }
                }
@@ -30,16 +30,18 @@ defmodule Wanda.Execution.GatheringTest do
       ] = facts = build_list(2, :fact)
 
       assert %{
-               ^agent_id_1 => %{
-                 ^check_id_1 => %{
+               ^check_id_1 => %{
+                 ^agent_id_1 => %{
                    ^name_1 => ^value_1
                  }
                },
-               ^agent_id_2 => %{
-                 ^check_id_2 => %{
+               ^check_id_2 => %{
+                 ^agent_id_2 => %{
                    ^name_2 => ^value_2
-                 },
-                 ^check_id_3 => %{
+                 }
+               },
+               ^check_id_3 => %{
+                 ^agent_id_2 => %{
                    ^name_3 => ^value_3
                  }
                }
@@ -63,31 +65,25 @@ defmodule Wanda.Execution.GatheringTest do
 
   describe "all agents sent facts" do
     test "should return true if all the agents have sent facts" do
-      [%Target{agent_id: agent_id} | _] = targets = build_list(1, :target)
+      targets =
+        1..10
+        |> Enum.random()
+        |> build_list(:target)
 
-      gathered_facts = %{
-        agent_id => %{
-          "check_1" => %{
-            "fact_name" => "fact_value"
-          }
-        }
-      }
+      agents_gathered = Enum.map(targets, & &1.agent_id)
 
-      assert Gathering.all_agents_sent_facts?(gathered_facts, targets)
+      assert Gathering.all_agents_sent_facts?(agents_gathered, targets)
     end
 
     test "should return false if all the agents have not sent facts" do
-      [%Target{agent_id: agent_id} | _] = targets = build_list(2, :target)
+      targets =
+        1..10
+        |> Enum.random()
+        |> build_list(:target)
 
-      gathered_facts = %{
-        agent_id => %{
-          "check_1" => %{
-            "fact_name" => "fact_value"
-          }
-        }
-      }
+      agents_gathered = ["agent_007"]
 
-      refute Gathering.all_agents_sent_facts?(gathered_facts, targets)
+      refute Gathering.all_agents_sent_facts?(agents_gathered, targets)
     end
   end
 end

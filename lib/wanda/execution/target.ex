@@ -1,6 +1,6 @@
 defmodule Wanda.Execution.Target do
   @moduledoc """
-  Execution targets
+  Execution targets.
   """
 
   defstruct [

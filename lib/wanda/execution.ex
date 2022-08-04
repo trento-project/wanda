@@ -6,7 +6,7 @@ defmodule Wanda.Execution do
 
   use GenServer
 
-  alias Wanda.Execution.{Expectations, Gathering, State}
+  alias Wanda.Execution.{Evaluation, Gathering, State}
   alias Wanda.Messaging.Publisher
 
   require Logger
@@ -63,15 +63,23 @@ defmodule Wanda.Execution do
   end
 
   defp continue_or_complete_execution(
-         %State{gathered_facts: gathered_facts, targets: targets} = state,
+         %State{
+           execution_id: execution_id,
+           group_id: group_id,
+           gathered_facts: gathered_facts,
+           targets: targets,
+           agents_gathered: agents_gathered
+         } = state,
          agent_id,
          facts
        ) do
     gathered_facts = Gathering.put_gathered_facts(gathered_facts, agent_id, facts)
-    state = %State{state | gathered_facts: gathered_facts}
+    agents_gathered = [agent_id | agents_gathered]
 
-    if Gathering.all_agents_sent_facts?(gathered_facts, targets) do
-      Expectations.eval(gathered_facts)
+    state = %State{state | gathered_facts: gathered_facts, agents_gathered: agents_gathered}
+
+    if Gathering.all_agents_sent_facts?(agents_gathered, targets) do
+      Evaluation.execute(execution_id, group_id, gathered_facts)
 
       Publisher.send_execution_results("", "", "")
       {:stop, :normal, state}

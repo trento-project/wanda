@@ -50,7 +50,7 @@ defmodule Wanda.ExecutionTest do
       execution_id = UUID.uuid4()
       group_id = UUID.uuid4()
 
-      targets = build_list(3, :target, %{checks: ["happy"]})
+      targets = build_list(3, :target, %{checks: ["expect_check"]})
 
       expect(Wanda.Messaging.Adapters.Mock, :publish, 2, fn
         "stuff2" ->
@@ -73,14 +73,9 @@ defmodule Wanda.ExecutionTest do
       Enum.each(targets, fn target ->
         Execution.receive_facts(execution_id, target.agent_id, [
           %Wanda.Execution.Fact{
-            check_id: "happy",
+            check_id: "expect_check",
             name: "corosync_token_timeout",
             value: 30_000
-          },
-          %Wanda.Execution.Fact{
-            check_id: "happy",
-            name: "http_port_open",
-            value: true
           }
         ])
       end)

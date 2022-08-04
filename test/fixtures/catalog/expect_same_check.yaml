@@ -1,4 +1,4 @@
-id: happy
+id: group_expect_all
 name: Test check
 group: Test
 description: |
@@ -10,11 +10,6 @@ facts:
   - name: corosync_token_timeout
     gatherer: corosync
     argument: totem.token
-  - name: http_port_open
-    gatherer: port
-    argument: 80
 expectations:
   - name: timeout
-    expect: corosync_token_timeout == 30000
-  - name: http_port_open
-    expect: http_port_open
+    expect_same: corosync_token_timeout
