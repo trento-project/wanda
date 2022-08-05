@@ -1,6 +1,26 @@
 import Config
 
-config :wanda, Wanda.Facts.Messenger, adapter: Wanda.Facts.Messenger.RabbitMQ
+config :wanda, Wanda.Messaging.Publisher, adapter: Wanda.Messaging.Adapters.AMQP
+
+config :wanda, Wanda.Facts.Messenger.Supervisor,
+  children: [Wanda.Messaging.Adapters.AMQP.Publisher, Wanda.Messaging.Adapters.AMQP.Consumer]
+
+config :wanda, :messaging,
+  adapter: Wanda.Messaging.Adapters.AMQP,
+  amqp: [
+    consumer: [
+      queue: "events_wanda",
+      exchange: "events",
+      routing_key: "checks.*",
+      prefetch_count: "10",
+      connection: "amqp://wanda:wanda@localhost:5672"
+    ],
+    publisher: [
+      exchange: "events",
+      connection: "amqp://wanda:wanda@localhost:5672"
+    ]
+  ]
+
 config :wanda, Wanda.Catalog, catalog_path: "priv/catalog"
 
 # Import environment specific config. This must remain at the bottom
