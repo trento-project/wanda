@@ -5,12 +5,11 @@ defmodule Wanda.Application do
 
   use Application
 
-  @registry :execution_registry
-
   @impl true
   def start(_type, _args) do
     children = [
-      Wanda.ExecutionSupervisor
+      Wanda.ExecutionSupervisor,
+      Wanda.Messaging.Supervisor
     ]
 
     # See https://hexdocs.pm/elixir/Supervisor.html
