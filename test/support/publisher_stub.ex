@@ -5,7 +5,4 @@ defmodule Wanda.Support.PublisherStub do
 
   @impl true
   def publish(_, _), do: :ok
-
-  @impl true
-  def child_spec, do: []
 end

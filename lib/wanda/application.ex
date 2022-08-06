@@ -7,10 +7,10 @@ defmodule Wanda.Application do
 
   @impl true
   def start(_type, _args) do
-    children = [
-      Wanda.ExecutionSupervisor,
-      Wanda.Messaging.Supervisor
-    ]
+    children =
+      [
+        Wanda.ExecutionSupervisor
+      ] ++ Application.get_env(:wanda, :children, [])
 
     # See https://hexdocs.pm/elixir/Supervisor.html
     # for other strategies and supported options

@@ -2,7 +2,7 @@ import Config
 
 config :wanda, Wanda.Messaging.Publisher, adapter: Wanda.Messaging.Adapters.AMQP
 
-config :wanda, Wanda.Facts.Messenger.Supervisor,
+config :wanda,
   children: [Wanda.Messaging.Adapters.AMQP.Publisher, Wanda.Messaging.Adapters.AMQP.Consumer]
 
 config :wanda, :messaging,
