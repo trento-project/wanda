@@ -28,7 +28,8 @@ defmodule Wanda.ExecutionTest do
     test "should start an execution" do
       pid = self()
 
-      expect(Wanda.Messaging.Adapters.Mock, :publish, fn _ ->
+      expect(Wanda.Messaging.Adapters.Mock, :publish, fn "checks.agents.*",
+                                                         "initiate_facts_gathering" ->
         send(pid, :wandalorian)
 
         :ok
@@ -53,12 +54,12 @@ defmodule Wanda.ExecutionTest do
       targets = build_list(3, :target, %{checks: ["expect_check"]})
 
       expect(Wanda.Messaging.Adapters.Mock, :publish, 2, fn
-        "stuff2" ->
+        "checks.execution", _ ->
           send(pid, :executed)
 
           :ok
 
-        _ ->
+        _, _ ->
           :ok
       end)
 

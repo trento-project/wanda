@@ -4,5 +4,5 @@ defmodule Wanda.Support.PublisherStub do
   @behaviour Wanda.Messaging.Adapters.Behaviour
 
   @impl true
-  def publish(_), do: :ok
+  def publish(_, _), do: :ok
 end

@@ -34,6 +34,7 @@ defmodule Wanda.MixProject do
     [
       {:abacus, "~> 0.4.2"},
       {:elixir_uuid, "~> 1.2"},
+      {:gen_rmq, "~> 4.0"},
       {:jason, "~> 1.3"},
       {:yaml_elixir, "~> 2.9"},
       # test deps
