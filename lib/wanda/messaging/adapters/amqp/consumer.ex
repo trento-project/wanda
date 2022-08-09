@@ -3,6 +3,9 @@ defmodule Wanda.Messaging.Adapters.AMQP.Consumer do
   AMQP consumer.
   """
 
+  alias Wanda.Messaging.Mapper
+  alias Wanda.Policy
+
   @behaviour GenRMQ.Consumer
 
   require Logger
@@ -18,17 +21,19 @@ defmodule Wanda.Messaging.Adapters.AMQP.Consumer do
   def start_link(_opts), do: GenRMQ.Consumer.start_link(__MODULE__, name: __MODULE__)
 
   @impl GenRMQ.Consumer
-  def consumer_tag do
-    "wanda_consumer"
-  end
+  def consumer_tag, do: "wanda"
 
   @impl GenRMQ.Consumer
-  def handle_message(message) do
-    Logger.debug(message)
+  def handle_message(%GenRMQ.Message{payload: payload} = message) do
+    case Mapper.from_json(payload) do
+      {:ok, event} -> Policy.handle_event(event)
+      {:error, reason} -> handle_error(message, reason)
+    end
   end
 
   @impl GenRMQ.Consumer
   def handle_error(message, _reason) do
+    Logger.error("Unable to handle message", message: inspect(message))
     GenRMQ.Consumer.reject(message, true)
   end
 
