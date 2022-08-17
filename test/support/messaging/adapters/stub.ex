@@ -1,4 +1,4 @@
-defmodule Wanda.Support.PublisherStub do
+defmodule Wanda.Support.Messaging.Adapters.Stub do
   @moduledoc false
 
   @behaviour Wanda.Messaging.Adapters.Behaviour
