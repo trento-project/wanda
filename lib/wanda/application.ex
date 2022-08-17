@@ -9,7 +9,7 @@ defmodule Wanda.Application do
   def start(_type, _args) do
     children =
       [
-        Wanda.ExecutionSupervisor
+        {DynamicSupervisor, strategy: :one_for_one, name: Wanda.Execution.Supervisor}
       ] ++ Application.get_env(:wanda, :children, [])
 
     # See https://hexdocs.pm/elixir/Supervisor.html
