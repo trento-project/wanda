@@ -5,6 +5,7 @@ defmodule Wanda.Execution.AgentCheckResult do
 
   alias Wanda.Execution.{ExpectationEvaluation, ExpectationEvaluationError}
 
+  @derive Jason.Encoder
   defstruct [
     :agent_id,
     :facts,
