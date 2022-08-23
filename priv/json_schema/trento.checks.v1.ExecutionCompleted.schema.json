@@ -1,0 +1,184 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "type": "object",
+  "title": "ExecutionCompletedV1",
+  "properties": {
+    "execution_id": {
+      "type": "string",
+      "format": "uuid"
+    },
+    "group_id": {
+      "type": "string",
+      "format": "uuid"
+    },
+    "result": {
+      "type": "string",
+      "enum": [
+        "passing",
+        "warning",
+        "critical"
+      ]
+    },
+    "check_results": {
+      "type": "array",
+      "items": {
+        "title": "CheckResult",
+        "type": "object",
+        "properties": {
+          "check_id": {
+            "type": "string"
+          },
+          "agents_check_results": {
+            "type": "array",
+            "items": {
+              "title": "AgentCheckResult",
+              "type": "object",
+              "properties": {
+                "agent_id": {
+                  "type": "string"
+                },
+                "expectation_evaluations": {
+                  "type": "array",
+                  "items": {
+                    "oneOf": [
+                      {
+                        "type": "object",
+                        "title": "ExpectationEvaluation",
+                        "properties": {
+                          "name": {
+                            "type": "string"
+                          },
+                          "return_value": {
+                            "oneOf": [
+                              {
+                                "type": "number"
+                              },
+                              {
+                                "type": "boolean"
+                              },
+                              {
+                                "type": "string"
+                              }
+                            ]
+                          },
+                          "type": {
+                            "type": "string",
+                            "enum": [
+                              "expect",
+                              "expect_same"
+                            ]
+                          }
+                        },
+                        "required": [
+                          "name",
+                          "return_value",
+                          "type"
+                        ]
+                      },
+                      {
+                        "type": "object",
+                        "title": "ExpectationEvaluationError",
+                        "properties": {
+                          "name": {
+                            "type": "string"
+                          },
+                          "message": {
+                            "type": "string"
+                          },
+                          "type": {
+                            "type": "string",
+                            "enum": [
+                              "fact_missing_error",
+                              "illegal_expression_error"
+                            ]
+                          }
+                        },
+                        "required": [
+                          "name",
+                          "message",
+                          "type"
+                        ]
+                      }
+                    ]
+                  }
+                },
+                "facts": {
+                  "type": "object",
+                  "title": "GatheredFacts",
+                  "propertyNames": {
+                    "pattern": "^[A-Za-z0-9_][A-Za-z0-9_]*$"
+                  },
+                  "patternProperties": {
+                    ".*": {
+                      "type": [
+                        "number",
+                        "string",
+                        "boolean",
+                        "object",
+                        "array"
+                      ]
+                    }
+                  }
+                }
+              },
+              "required": [
+                "agent_id",
+                "expectation_evaluations",
+                "facts"
+              ]
+            }
+          },
+          "expectation_results": {
+            "type": "array",
+            "items": [
+              {
+                "title": "ExpectationResult",
+                "type": "object",
+                "properties": {
+                  "name": {
+                    "type": "string"
+                  },
+                  "result": {
+                    "type": "boolean"
+                  },
+                  "type": {
+                    "type": "string",
+                    "enum": [
+                      "expect",
+                      "expect_same"
+                    ]
+                  }
+                },
+                "required": [
+                  "name",
+                  "result",
+                  "type"
+                ]
+              }
+            ]
+          },
+          "result": {
+            "type": "string",
+            "enum": [
+              "passing",
+              "warning",
+              "critical"
+            ]
+          }
+        },
+        "required": [
+          "agents_check_results",
+          "check_id",
+          "expectation_results",
+          "result"
+        ]
+      }
+    }
+  },
+  "required": [
+    "execution_id",
+    "group_id",
+    "result",
+    "check_results"
+  ]
+}
