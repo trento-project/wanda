@@ -105,6 +105,9 @@
                 "facts": {
                   "type": "object",
                   "title": "GatheredFacts",
+                  "propertyNames": {
+                    "pattern": "^[A-Za-z0-9_][A-Za-z0-9_]*$"
+                  },
                   "patternProperties": {
                     ".*": {
                       "type": [
