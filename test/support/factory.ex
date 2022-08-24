@@ -4,7 +4,12 @@ defmodule Wanda.Factory do
   use ExMachina
 
   alias Wanda.Execution.{
+    AgentCheckResult,
+    CheckResult,
+    ExpectationEvaluation,
+    ExpectationResult,
     Fact,
+    Result,
     Target
   }
 
@@ -20,6 +25,51 @@ defmodule Wanda.Factory do
       check_id: Map.get(attrs, :name, UUID.uuid4()),
       name: Map.get(attrs, :name, Faker.StarWars.character()),
       value: Map.get(attrs, :value, Faker.StarWars.planet())
+    }
+  end
+
+  def execution_result_factory(attrs) do
+    %Result{
+      execution_id: Map.get(attrs, :execution_id, UUID.uuid4()),
+      group_id: Map.get(attrs, :group_id, UUID.uuid4()),
+      check_results: [
+        %CheckResult{
+          agents_check_results: [
+            %AgentCheckResult{
+              agent_id: "agent_1",
+              expectation_evaluations: [
+                %ExpectationEvaluation{
+                  name: "timeout",
+                  return_value: true,
+                  type: :expect
+                }
+              ],
+              facts: %{"corosync_token_timeout" => 30_000}
+            },
+            %AgentCheckResult{
+              agent_id: "agent_2",
+              expectation_evaluations: [
+                %ExpectationEvaluation{
+                  name: "timeout",
+                  return_value: true,
+                  type: :expect
+                }
+              ],
+              facts: %{"corosync_token_timeout" => 30_000}
+            }
+          ],
+          check_id: "expect_check",
+          expectation_results: [
+            %ExpectationResult{
+              name: "timeout",
+              result: true,
+              type: :expect
+            }
+          ],
+          result: :passing
+        }
+      ],
+      result: :passing
     }
   end
 end
