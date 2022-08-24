@@ -14,6 +14,7 @@ env:
   ELIXIR_VERSION: 1.13.4
   OTP_VERSION: 24
   MIX_ENV: test
+  CACHE_VERSION: 1.0
 
 jobs:
   elixir-deps:
@@ -41,7 +42,7 @@ jobs:
             deps
             _build/test
             priv/plts
-          key: ${{ runner.os }}-${{ env.OTP_VERSION }}-${{ env.ELIXIR_VERSION }}-${{ hashFiles('mix.lock') }}
+          key: ${{ runner.os }}-${{ env.OTP_VERSION }}-${{ env.ELIXIR_VERSION }}-${{ hashFiles('mix.lock') }}-${{ env.CACHE_VERSION }}
 
       - name: Install Dependencies
         if: steps.mix-cache.outputs.cache-hit != 'true'
@@ -80,7 +81,7 @@ jobs:
             deps
             _build/test
             priv/plts
-          key: ${{ runner.os }}-${{ env.OTP_VERSION }}-${{ env.ELIXIR_VERSION }}-${{ hashFiles('mix.lock') }}
+          key: ${{ runner.os }}-${{ env.OTP_VERSION }}-${{ env.ELIXIR_VERSION }}-${{ hashFiles('mix.lock') }}-${{ env.CACHE_VERSION }}
 
       - name: Check Code Format
         run: mix format --check-formatted
@@ -116,7 +117,7 @@ jobs:
             deps
             _build/test
             priv/plts
-          key: ${{ runner.os }}-${{ env.OTP_VERSION }}-${{ env.ELIXIR_VERSION }}-${{ hashFiles('mix.lock') }}
+          key: ${{ runner.os }}-${{ env.OTP_VERSION }}-${{ env.ELIXIR_VERSION }}-${{ hashFiles('mix.lock') }}-${{ env.CACHE_VERSION }}
 
       - name: Run test
         run: mix test --color --trace --slowest 10
