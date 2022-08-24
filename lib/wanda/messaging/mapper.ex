@@ -6,7 +6,7 @@ defmodule Wanda.Messaging.Mapper do
 
   alias Wanda.JsonSchema
 
-  alias Wanda.Messaging.EventsRegistry
+  @execution_completed_event "trento.checks.v1.ExecutionCompleted"
 
   # TODO: move this in the contract repository, keep this module to map domain structure to events.
 
@@ -20,7 +20,7 @@ defmodule Wanda.Messaging.Mapper do
 
   @spec to_json(struct()) :: binary() | {:error, any()}
   def to_json(event) do
-    with {:ok, type, identifier} <- EventsRegistry.extract_metadata(event),
+    with {:ok, {type, identifier}} <- extract_metadata(event),
          {:ok, cloud_event} <- build_cloud_event(identifier, type, event) do
       Cloudevents.to_json(cloud_event)
     end
@@ -36,4 +36,10 @@ defmodule Wanda.Messaging.Mapper do
     }
     |> CloudEvent.from_map()
   end
+
+  @spec extract_metadata(any()) :: {:ok, {String.t(), String.t()}} | {:error, any()}
+  defp extract_metadata(%Wanda.Execution.Result{execution_id: execution_id}),
+    do: {:ok, {@execution_completed_event, execution_id}}
+
+  defp extract_metadata(_), do: {:error, :unsupported_event}
 end
