@@ -5,6 +5,7 @@ defmodule Wanda.Execution.CheckResult do
 
   alias Wanda.Execution.{AgentCheckResult, ExpectationResult}
 
+  @derive Jason.Encoder
   defstruct [
     :check_id,
     :expectation_results,

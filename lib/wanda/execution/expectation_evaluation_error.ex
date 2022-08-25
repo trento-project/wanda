@@ -3,6 +3,7 @@ defmodule Wanda.Execution.ExpectationEvaluationError do
   Represents an error occurred during the evaluation of an expectation.
   """
 
+  @derive Jason.Encoder
   defstruct [
     :name,
     :message,

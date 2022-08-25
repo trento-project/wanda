@@ -3,6 +3,7 @@ defmodule Wanda.Execution.ExpectationEvaluation do
   Represents the evaluation of an expectation.
   """
 
+  @derive Jason.Encoder
   defstruct [
     :name,
     :return_value,

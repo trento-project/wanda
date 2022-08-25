@@ -7,6 +7,12 @@ defmodule Wanda.Messaging.Adapters.AMQP do
 
   alias Wanda.Messaging.Adapters.AMQP.Publisher
 
+  alias Wanda.Messaging.Mapper
+
   @impl true
-  def publish(routing_key, message), do: Publisher.publish_message(message, routing_key)
+  def publish(routing_key, message),
+    do:
+      message
+      |> Mapper.to_json()
+      |> Publisher.publish_message(routing_key)
 end
