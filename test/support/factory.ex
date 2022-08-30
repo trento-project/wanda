@@ -9,6 +9,7 @@ defmodule Wanda.Factory do
     ExpectationEvaluation,
     ExpectationResult,
     Fact,
+    FactsRequest,
     Result,
     Target
   }
@@ -32,44 +33,75 @@ defmodule Wanda.Factory do
     %Result{
       execution_id: Map.get(attrs, :execution_id, UUID.uuid4()),
       group_id: Map.get(attrs, :group_id, UUID.uuid4()),
-      check_results: [
-        %CheckResult{
-          agents_check_results: [
-            %AgentCheckResult{
-              agent_id: "agent_1",
-              expectation_evaluations: [
-                %ExpectationEvaluation{
-                  name: "timeout",
-                  return_value: true,
-                  type: :expect
-                }
-              ],
-              facts: %{"corosync_token_timeout" => 30_000}
-            },
-            %AgentCheckResult{
-              agent_id: "agent_2",
-              expectation_evaluations: [
-                %ExpectationEvaluation{
-                  name: "timeout",
-                  return_value: true,
-                  type: :expect
-                }
-              ],
-              facts: %{"corosync_token_timeout" => 30_000}
-            }
-          ],
-          check_id: "expect_check",
-          expectation_results: [
-            %ExpectationResult{
-              name: "timeout",
-              result: true,
-              type: :expect
-            }
-          ],
-          result: :passing
-        }
-      ],
+      check_results:
+        Map.get(attrs, :check_results, [
+          %CheckResult{
+            agents_check_results: [
+              %AgentCheckResult{
+                agent_id: "agent_1",
+                expectation_evaluations: [
+                  %ExpectationEvaluation{
+                    name: "timeout",
+                    return_value: true,
+                    type: :expect
+                  }
+                ],
+                facts: %{"corosync_token_timeout" => 30_000}
+              },
+              %AgentCheckResult{
+                agent_id: "agent_2",
+                expectation_evaluations: [
+                  %ExpectationEvaluation{
+                    name: "timeout",
+                    return_value: true,
+                    type: :expect
+                  }
+                ],
+                facts: %{"corosync_token_timeout" => 30_000}
+              }
+            ],
+            check_id: "expect_check",
+            expectation_results: [
+              %ExpectationResult{
+                name: "timeout",
+                result: true,
+                type: :expect
+              }
+            ],
+            result: :passing
+          }
+        ]),
       result: :passing
+    }
+  end
+
+  def facts_request_factory(attrs) do
+    agent_id = UUID.uuid4()
+
+    %FactsRequest{
+      execution_id: Map.get(attrs, :execution_id, UUID.uuid4()),
+      group_id: Map.get(attrs, :group_id, UUID.uuid4()),
+      targets: Map.get(attrs, :targets, [agent_id]),
+      facts:
+        Map.get(attrs, :facts, [
+          %Wanda.Execution.AgentFacts{
+            agent_id: agent_id,
+            facts: [
+              %Wanda.Catalog.Fact{
+                check_id: "CHK01",
+                name: "some_fact_name",
+                gatherer: "some_gatherer",
+                argument: "some_argument"
+              },
+              %Wanda.Catalog.Fact{
+                check_id: "CHK02",
+                name: "another_fact_name",
+                gatherer: "another_gatherer",
+                argument: "another_argument"
+              }
+            ]
+          }
+        ])
     }
   end
 end

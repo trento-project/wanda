@@ -4,9 +4,12 @@ defmodule Wanda.Messaging.Mapper do
   """
   alias Cloudevents.Format.V_1_0.Event, as: CloudEvent
 
+  alias Wanda.Execution.{FactsRequest, Result}
+
   alias Wanda.JsonSchema
 
   @execution_completed_event "trento.checks.v1.ExecutionCompleted"
+  @facts_gathering_requested_event "trento.checks.v1.FactsGatheringRequested"
 
   # TODO: move this in the contract repository, keep this module to map domain structure to events.
 
@@ -38,8 +41,11 @@ defmodule Wanda.Messaging.Mapper do
   end
 
   @spec extract_metadata(any()) :: {:ok, {String.t(), String.t()}} | {:error, any()}
-  defp extract_metadata(%Wanda.Execution.Result{execution_id: execution_id}),
+  defp extract_metadata(%Result{execution_id: execution_id}),
     do: {:ok, {@execution_completed_event, execution_id}}
+
+  defp extract_metadata(%FactsRequest{execution_id: execution_id}),
+    do: {:ok, {@facts_gathering_requested_event, execution_id}}
 
   defp extract_metadata(_), do: {:error, :unsupported_event}
 end
