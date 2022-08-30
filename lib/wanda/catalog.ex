@@ -3,7 +3,7 @@ defmodule Wanda.Catalog do
   Function to interact with the checks catalog.
   """
 
-  alias Wanda.Catalog.Expectation
+  alias Wanda.Catalog.{Expectation, Fact}
 
   @catalog_path Application.compile_env!(:wanda, [__MODULE__, :catalog_path])
 
@@ -22,6 +22,17 @@ defmodule Wanda.Catalog do
     check_id
     |> get_expectations()
     |> Enum.find(&(&1.name == name))
+  end
+
+  @doc """
+  Get a list of facts for a given check.
+  """
+  @spec get_facts(String.t()) :: [Fact.t()]
+  def get_facts(check_id) do
+    check_id
+    |> get_check()
+    |> Map.fetch!("facts")
+    |> Enum.map(&map_fact(check_id, &1))
   end
 
   defp get_check(check_id) do
@@ -43,6 +54,19 @@ defmodule Wanda.Catalog do
       name: name,
       type: :expect_same,
       expression: expression
+    }
+  end
+
+  defp map_fact(check_id, %{
+         "name" => name,
+         "gatherer" => gatherer,
+         "argument" => argument
+       }) do
+    %Fact{
+      check_id: check_id,
+      name: name,
+      gatherer: gatherer,
+      argument: argument
     }
   end
 end
