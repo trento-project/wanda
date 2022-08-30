@@ -6,7 +6,7 @@ defmodule Wanda.Execution.Server do
 
   use GenServer
 
-  alias Wanda.Execution.{Evaluation, Gathering, State}
+  alias Wanda.Execution.{Evaluation, FactsRequest, Gathering, State}
   alias Wanda.Messaging
 
   require Logger
@@ -39,11 +39,16 @@ defmodule Wanda.Execution.Server do
   def handle_continue(
         :start_execution,
         %State{
-          execution_id: _execution_id,
-          targets: _targets
+          execution_id: execution_id,
+          group_id: group_id,
+          targets: targets
         } = state
       ) do
-    :ok = Messaging.publish("checks.agents.*", "initiate_facts_gathering")
+    :ok =
+      Messaging.publish(
+        "checks.agents.*",
+        map_targets_to_facts_request(execution_id, group_id, targets)
+      )
 
     {:noreply, state}
   end
@@ -98,6 +103,30 @@ defmodule Wanda.Execution.Server do
   #     type: :worker
   #   }
   # end
+
+  @spec map_targets_to_facts_request(String.t(), String.t(), [Wanda.Execution.Target.t()]) ::
+          FactsRequest.t()
+  defp map_targets_to_facts_request(execution_id, group_id, targets) do
+    %FactsRequest{
+      execution_id: execution_id,
+      group_id: group_id,
+      targets: Enum.map(targets, & &1.agent_id),
+      facts:
+        targets
+        |> Enum.map(
+          &%Wanda.Execution.AgentFacts{
+            agent_id: &1.agent_id,
+            facts: get_facts_definitions(&1.checks)
+          }
+        )
+    }
+  end
+
+  defp get_facts_definitions(checks) do
+    checks
+    |> Enum.map(&Wanda.Catalog.get_facts/1)
+    |> Enum.flat_map(& &1)
+  end
 
   defp via_tuple(execution_id),
     do: {:via, :global, {__MODULE__, execution_id}}
