@@ -130,8 +130,7 @@
           },
           "expectation_results": {
             "type": "array",
-            "items": [
-              {
+            "items": {
                 "title": "ExpectationResult",
                 "type": "object",
                 "properties": {
@@ -155,7 +154,6 @@
                   "type"
                 ]
               }
-            ]
           },
           "result": {
             "type": "string",
