@@ -1,0 +1,76 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "type": "object",
+  "title": "FactsGatheringRequestedV1",
+  "properties": {
+    "execution_id": {
+      "type": "string",
+      "format": "uuid"
+    },
+    "group_id": {
+      "type": "string",
+      "format": "uuid"
+    },
+    "targets": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "format": "uuid"
+      }
+    },
+    "facts": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "title": "AgentFacts",
+        "properties": {
+          "agent_id": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "facts": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "title": "FactDefinition",
+              "properties": {
+                "check_id": {
+                  "type": "string",
+                  "minLength": 1
+                },
+                "name": {
+                  "type": "string",
+                  "minLength": 1
+                },
+                "gatherer": {
+                  "type": "string",
+                  "minLength": 1
+                },
+                "argument": {
+                  "type": "string",
+                  "minLength": 1
+                }
+              },
+              "required": [
+                "check_id",
+                "name",
+                "gatherer",
+                "argument"
+              ]
+            }
+          }
+        },
+        "required": [
+          "agent_id",
+          "facts"
+        ]
+      }
+    }
+  },
+  "required": [
+    "execution_id",
+    "group_id",
+    "targets",
+    "facts"
+  ]
+}

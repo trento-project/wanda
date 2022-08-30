@@ -1,0 +1,33 @@
+{
+  "data": {
+    "execution_id": "dec60401-8f33-45d7-bbd5-f42a3f9e9b48",
+    "facts": [
+      {
+        "agent_id": "37b6a7ea-3f2e-45ed-b762-23bd39129a90",
+        "facts": [
+          {
+            "argument": "some_argument",
+            "check_id": "CHK01",
+            "gatherer": "some_gatherer",
+            "name": "some_fact_name"
+          },
+          {
+            "argument": "another_argument",
+            "check_id": "CHK02",
+            "gatherer": "another_gatherer",
+            "name": "another_fact_name"
+          }
+        ]
+      }
+    ],
+    "group_id": "421af233-dbb2-4328-907e-8b355b00bde8",
+    "targets": [
+      "37b6a7ea-3f2e-45ed-b762-23bd39129a90"
+    ]
+  },
+  "datacontenttype": "application/json",
+  "id": "dec60401-8f33-45d7-bbd5-f42a3f9e9b48",
+  "source": "https://github.com/trento-project/wanda",
+  "specversion": "1.0",
+  "type": "trento.checks.v1.FactsGatheringRequested"
+}
