@@ -26,15 +26,29 @@ defmodule Wanda.Messaging.Adapters.AMQP.Consumer do
   @impl GenRMQ.Consumer
   def handle_message(%GenRMQ.Message{payload: payload} = message) do
     case Mapper.from_json(payload) do
-      {:ok, event} -> Policy.handle_event(event)
-      {:error, reason} -> handle_error(message, reason)
+      {:ok, event} ->
+        _ = Policy.handle_event(event)
+
+        GenRMQ.Consumer.ack(message)
+
+      {:error, reason} ->
+        handle_error(message, reason)
     end
+
+    # with {:ok, event} <- Mapper.from_json(payload),
+    #      _ <- Policy.handle_event(event) do
+    #   GenRMQ.Consumer.ack(message)
+    # else
+    #   {:error, reason} ->
+    #     handle_error(message, reason)
+    # end
   end
 
   @impl GenRMQ.Consumer
-  def handle_error(message, _reason) do
+  def handle_error(message, reason) do
     Logger.error("Unable to handle message", message: inspect(message))
-    GenRMQ.Consumer.reject(message, true)
+    IO.inspect(reason)
+    GenRMQ.Consumer.reject(message)
   end
 
   def child_spec(opts) do

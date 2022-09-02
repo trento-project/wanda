@@ -44,13 +44,44 @@ defmodule Wanda.Execution.Server do
           targets: targets
         } = state
       ) do
-    :ok =
-      Messaging.publish(
-        "checks.agents.*",
-        map_targets_to_facts_request(execution_id, group_id, targets)
-      )
+    case Wanda.Messaging.ProcessCache.get(execution_id) do
+      :started ->
+        :noop
+
+      nil ->
+        Wanda.Messaging.ProcessCache.put(execution_id, :started)
+        handle_execution_started(execution_id, group_id, targets)
+    end
 
     {:noreply, state}
+  end
+
+  defp handle_execution_started(execution_id, group_id, targets) do
+    # One message per execution variant
+    # subscribed agents (all) decide whether to react or not
+    # :ok =
+    #   Messaging.publish(
+    #     "checks.agents.execution.#{execution_id}",
+    #     map_targets_to_facts_request(execution_id, group_id, targets)
+    #   )
+
+    # One message per agent per execution variant
+    #
+    %FactsRequest{execution_id: ^execution_id, facts: facts} =
+      map_targets_to_facts_request(execution_id, group_id, targets)
+
+    facts
+    |> Enum.each(fn %{agent_id: agent_id, facts: agent_facts} ->
+      Messaging.publish(
+        "checks.agents.execution.#{agent_id}",
+        %{
+          execution_id: execution_id,
+          facts: agent_facts
+        }
+      )
+    end)
+
+    # end hack
   end
 
   @impl true
@@ -88,6 +119,7 @@ defmodule Wanda.Execution.Server do
     if Gathering.all_agents_sent_facts?(agents_gathered, targets) do
       result = Evaluation.execute(execution_id, group_id, gathered_facts)
 
+      # TODO: publish to correct routing key
       :ok = Messaging.publish("checks.execution", result)
       {:stop, :normal, state}
     else

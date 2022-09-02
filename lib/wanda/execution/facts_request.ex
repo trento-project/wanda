@@ -15,3 +15,20 @@ defmodule Wanda.Execution.FactsRequest do
           facts: [AgentFacts.t()]
         }
 end
+
+# TODO: decide between one msg or many msgs
+defmodule Wanda.Execution.AgentFactsRequest do
+  @moduledoc """
+  Represents a request to gather Facts for a given Agent.
+  """
+
+  alias Wanda.Execution.AgentFacts
+
+  @derive Jason.Encoder
+  defstruct [:execution_id, :facts]
+
+  @type t :: %__MODULE__{
+          execution_id: String.t(),
+          facts: [AgentFacts.t()]
+        }
+end

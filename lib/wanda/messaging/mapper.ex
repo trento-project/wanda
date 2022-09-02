@@ -47,5 +47,11 @@ defmodule Wanda.Messaging.Mapper do
   defp extract_metadata(%FactsRequest{execution_id: execution_id}),
     do: {:ok, {@facts_gathering_requested_event, execution_id}}
 
+  defp extract_metadata(%{"execution_id" => execution_id, "group_id" => _, "targets" => _}),
+    do: {:ok, {"trento.checks.v1.ExecutionRequested", execution_id}}
+
+  defp extract_metadata(%{execution_id: execution_id, facts: _}),
+    do: {:ok, {@facts_gathering_requested_event, execution_id}}
+
   defp extract_metadata(_), do: {:error, :unsupported_event}
 end
