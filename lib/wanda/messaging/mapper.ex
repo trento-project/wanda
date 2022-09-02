@@ -8,8 +8,8 @@ defmodule Wanda.Messaging.Mapper do
 
   alias Wanda.JsonSchema
 
-  @execution_completed_event "trento.checks.v1.ExecutionCompleted"
-  @facts_gathering_requested_event "trento.checks.v1.FactsGatheringRequested"
+  @execution_completed_event "trento.checks.v1.wanda.ExecutionCompleted"
+  @facts_gathering_requested_event "trento.checks.v1.wanda.FactsGatheringRequested"
 
   # TODO: move this in the contract repository, keep this module to map domain structure to events.
 
@@ -48,7 +48,7 @@ defmodule Wanda.Messaging.Mapper do
     do: {:ok, {@facts_gathering_requested_event, execution_id}}
 
   defp extract_metadata(%{"execution_id" => execution_id, "group_id" => _, "targets" => _}),
-    do: {:ok, {"trento.checks.v1.ExecutionRequested", execution_id}}
+    do: {:ok, {"trento.checks.v1.web.ExecutionRequested", execution_id}}
 
   defp extract_metadata(%{execution_id: execution_id, facts: _}),
     do: {:ok, {@facts_gathering_requested_event, execution_id}}
