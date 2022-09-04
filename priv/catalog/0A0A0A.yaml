@@ -1,0 +1,22 @@
+id: 0A0A0A
+name: Fake Check
+group: Development
+description: |
+  Just a Fake Check
+remediation: |
+  ## Abstract
+  ## Remediation
+  ...
+facts:
+  - name: corosync_token_timeout
+    gatherer: corosync
+    argument: totem.token
+  - name: sbd_pacemaker
+    gatherer: sbd_config
+    argument: SBD_PACEMAKER
+  - name: sbd_startmode
+    gatherer: sbd_config
+    argument: SBD_STARTMODE
+expectations:
+  - name: timeout
+    expect: corosync_token_timeout == 30000
