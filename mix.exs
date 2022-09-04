@@ -44,7 +44,8 @@ defmodule Wanda.MixProject do
       {:dialyxir, "~> 1.0", only: [:dev, :test], runtime: false},
       {:mox, "~> 1.0", only: :test},
       {:ex_machina, "~> 2.7.0", only: :test},
-      {:faker, "~> 0.17", only: :test}
+      {:faker, "~> 0.17", only: :test},
+      {:nebulex, "~> 2.4"},
     ]
   end
 end

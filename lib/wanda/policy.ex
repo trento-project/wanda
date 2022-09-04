@@ -6,8 +6,8 @@ defmodule Wanda.Policy do
   alias Cloudevents.Format.V_1_0.Event, as: CloudEvent
   alias Wanda.Execution.{Fact, Target}
 
-  @execution_requested_event "trento.checks.v1.ExecutionRequested"
-  @facts_gathered_event "trento.checks.v1.FactsGathered"
+  @execution_requested_event "trento.checks.v1.web.ExecutionRequested"
+  @facts_gathered_event "trento.checks.v1.agent.FactsGathered"
 
   # TODO: move the CloudEvent unwrapping part in the contract repository.
   # we want to receive just the domain event here
@@ -28,7 +28,7 @@ defmodule Wanda.Policy do
 
   def handle_event(%CloudEvent{
         type: @facts_gathered_event,
-        data: %{"execution_id" => execution_id, "agent_id" => agent_id, "facts" => facts}
+        data: %{"execution_id" => execution_id, "agent_id" => agent_id, "facts_gathered" => facts}
       }) do
     execution_impl().receive_facts(
       execution_id,

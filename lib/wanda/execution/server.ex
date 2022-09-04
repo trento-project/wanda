@@ -44,11 +44,19 @@ defmodule Wanda.Execution.Server do
           targets: targets
         } = state
       ) do
-    :ok =
-      Messaging.publish(
-        "checks.agents.*",
-        map_targets_to_facts_request(execution_id, group_id, targets)
-      )
+    case Wanda.Messaging.ProcessCache.get(execution_id) do
+      :started ->
+        :noop
+
+      nil ->
+        Wanda.Messaging.ProcessCache.put(execution_id, :started)
+
+        :ok =
+          Messaging.publish(
+            "checks.agents.execution.#{execution_id}",
+            map_targets_to_facts_request(execution_id, group_id, targets)
+          )
+    end
 
     {:noreply, state}
   end
@@ -88,7 +96,9 @@ defmodule Wanda.Execution.Server do
     if Gathering.all_agents_sent_facts?(agents_gathered, targets) do
       result = Evaluation.execute(execution_id, group_id, gathered_facts)
 
-      :ok = Messaging.publish("checks.execution", result)
+      # TODO: publish to correct routing key
+      :ok = Messaging.publish("checks.execution.completed-#{execution_id}", result)
+
       {:stop, :normal, state}
     else
       {:noreply, state}
