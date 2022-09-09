@@ -8,10 +8,10 @@ defmodule Wanda.Execution do
   alias Wanda.Execution.{Server, Supervisor}
 
   @impl true
-  def start_execution(execution_id, group_id, targets) do
+  def start_execution(execution_id, group_id, targets, config \\ []) do
     DynamicSupervisor.start_child(
       Supervisor,
-      {Server, execution_id: execution_id, group_id: group_id, targets: targets}
+      {Server, execution_id: execution_id, group_id: group_id, targets: targets, config: config}
     )
   end
 

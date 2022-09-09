@@ -95,5 +95,40 @@ defmodule Wanda.Execution.ServerTest do
       assert_receive :executed
       assert_receive {:DOWN, ^ref, _, ^pid, :normal}
     end
+
+    test "should timeout" do
+      pid = self()
+      execution_id = UUID.uuid4()
+      group_id = UUID.uuid4()
+
+      targets = build_list(3, :target, %{checks: ["expect_check"]})
+
+      expect(Wanda.Messaging.Adapters.Mock, :publish, 2, fn
+        "checks.execution", _ ->
+          send(pid, :timeout)
+
+          :ok
+
+        _, _ ->
+          :ok
+      end)
+
+      {:ok, pid} =
+        start_supervised(
+          {Server,
+           [
+             execution_id: execution_id,
+             group_id: group_id,
+             targets: targets,
+             config: [timeout: 100]
+           ]}
+        )
+
+      ref = Process.monitor(pid)
+
+      assert_receive :timeout, 200
+
+      assert_receive {:DOWN, ^ref, _, ^pid, :normal}
+    end
   end
 end
