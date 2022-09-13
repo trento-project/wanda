@@ -37,8 +37,8 @@ defmodule Wanda.MixProject do
       {:gen_rmq, "~> 4.0"},
       {:jason, "~> 1.3"},
       {:yaml_elixir, "~> 2.9"},
-      {:cloudevents, "~> 0.4.0"},
-      {:ex_json_schema, "~> 0.9.1"},
+      {:miss, "~> 0.1.5"},
+      {:trento_contracts, github: "fabriziosestito/contracts", ref: "6ff25b1", sparse: "elixir"},
       # test deps
       {:credo, "~> 1.6", only: [:dev, :test], runtime: false},
       {:dialyxir, "~> 1.0", only: [:dev, :test], runtime: false},
