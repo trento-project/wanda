@@ -11,15 +11,19 @@ defmodule Wanda.Execution.Server do
 
   require Logger
 
+  @default_timeout 5 * 60 * 1_000
+
   def start_link(opts) do
     execution_id = Keyword.fetch!(opts, :execution_id)
+    config = Keyword.get(opts, :config, [])
 
     GenServer.start_link(
       __MODULE__,
       %State{
         execution_id: execution_id,
         group_id: Keyword.fetch!(opts, :group_id),
-        targets: Keyword.fetch!(opts, :targets)
+        targets: Keyword.fetch!(opts, :targets),
+        timeout: Keyword.get(config, :timeout, @default_timeout)
       },
       name: via_tuple(execution_id)
     )
@@ -40,10 +44,12 @@ defmodule Wanda.Execution.Server do
         :start_execution,
         %State{
           execution_id: _execution_id,
-          targets: _targets
+          targets: _targets,
+          timeout: timeout
         } = state
       ) do
     :ok = Messaging.publish("checks.agents.*", "initiate_facts_gathering")
+    Process.send_after(self(), :timeout, timeout)
 
     {:noreply, state}
   end
@@ -62,6 +68,16 @@ defmodule Wanda.Execution.Server do
 
       {:noreply, state}
     end
+  end
+
+  @impl true
+  def handle_info(
+        :timeout,
+        %State{} = state
+      ) do
+    :ok = Messaging.publish("checks.execution", :timeout)
+
+    {:stop, :normal, state}
   end
 
   defp continue_or_complete_execution(
