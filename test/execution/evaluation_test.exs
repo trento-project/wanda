@@ -8,6 +8,7 @@ defmodule Wanda.Execution.EvaluationTest do
     ExpectationEvaluation,
     ExpectationEvaluationError,
     ExpectationResult,
+    Fact,
     Result
   }
 
@@ -42,7 +43,13 @@ defmodule Wanda.Execution.EvaluationTest do
                            type: :expect
                          }
                        ],
-                       facts: %{"corosync_token_timeout" => 30_000}
+                       facts: [
+                         %Fact{
+                           check_id: "expect_check",
+                           name: "corosync_token_timeout",
+                           value: 30_000
+                         }
+                       ]
                      },
                      %AgentCheckResult{
                        agent_id: "agent_2",
@@ -53,7 +60,13 @@ defmodule Wanda.Execution.EvaluationTest do
                            type: :expect
                          }
                        ],
-                       facts: %{"corosync_token_timeout" => 30_000}
+                       facts: [
+                         %Fact{
+                           check_id: "expect_check",
+                           name: "corosync_token_timeout",
+                           value: 30_000
+                         }
+                       ]
                      }
                    ],
                    check_id: "expect_check",
@@ -101,7 +114,13 @@ defmodule Wanda.Execution.EvaluationTest do
                            type: :expect
                          }
                        ],
-                       facts: %{"corosync_token_timeout" => 10_000}
+                       facts: [
+                        %Fact{
+                          check_id: "expect_check",
+                          name: "corosync_token_timeout",
+                          value: 10_000
+                        }
+                      ]
                      },
                      %AgentCheckResult{
                        agent_id: "agent_2",
@@ -112,7 +131,13 @@ defmodule Wanda.Execution.EvaluationTest do
                            type: :expect
                          }
                        ],
-                       facts: %{"corosync_token_timeout" => 30_000}
+                       facts: [
+                         %Fact{
+                           check_id: "expect_check",
+                           name: "corosync_token_timeout",
+                           value: 30_000
+                         }
+                       ]
                      }
                    ],
                    check_id: "expect_check",
@@ -160,7 +185,13 @@ defmodule Wanda.Execution.EvaluationTest do
                            type: :expect_same
                          }
                        ],
-                       facts: %{"corosync_token_timeout" => 30_000}
+                       facts: [
+                         %Fact{
+                           check_id: "expect_same_check",
+                           name: "corosync_token_timeout",
+                           value: 30_000
+                         }
+                       ]
                      },
                      %AgentCheckResult{
                        agent_id: "agent_2",
@@ -171,7 +202,13 @@ defmodule Wanda.Execution.EvaluationTest do
                            type: :expect_same
                          }
                        ],
-                       facts: %{"corosync_token_timeout" => 30_000}
+                       facts: [
+                         %Fact{
+                           check_id: "expect_same_check",
+                           name: "corosync_token_timeout",
+                           value: 30_000
+                         }
+                       ]
                      }
                    ],
                    check_id: "expect_same_check",
@@ -219,7 +256,13 @@ defmodule Wanda.Execution.EvaluationTest do
                            type: :expect_same
                          }
                        ],
-                       facts: %{"corosync_token_timeout" => "abc"}
+                       facts: [
+                         %Fact{
+                           check_id: "expect_same_check",
+                           name: "corosync_token_timeout",
+                           value: "abc"
+                         }
+                       ]
                      },
                      %AgentCheckResult{
                        agent_id: "agent_2",
@@ -230,7 +273,13 @@ defmodule Wanda.Execution.EvaluationTest do
                            type: :expect_same
                          }
                        ],
-                       facts: %{"corosync_token_timeout" => 30_000}
+                       facts: [
+                         %Fact{
+                           check_id: "expect_same_check",
+                           name: "corosync_token_timeout",
+                           value: 30_000
+                         }
+                       ]
                      }
                    ],
                    check_id: "expect_same_check",
@@ -274,7 +323,7 @@ defmodule Wanda.Execution.EvaluationTest do
                            type: :fact_missing_error
                          }
                        ],
-                       facts: %{}
+                       facts: []
                      }
                    ],
                    expectation_results: [
@@ -315,8 +364,7 @@ defmodule Wanda.Execution.EvaluationTest do
                            name: "illegal_expression",
                            type: :illegal_expression_error
                          }
-                       ],
-                       facts: %{}
+                       ]
                      },
                      %AgentCheckResult{
                        agent_id: "agent_2",
@@ -325,8 +373,7 @@ defmodule Wanda.Execution.EvaluationTest do
                            name: "illegal_expression",
                            type: :illegal_expression_error
                          }
-                       ],
-                       facts: %{}
+                       ]
                      }
                    ],
                    expectation_results: [
