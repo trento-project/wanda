@@ -19,6 +19,16 @@ defmodule Wanda.Execution.Gathering do
     )
   end
 
+  @spec put_gathering_timeouts(map(), [Target.t()]) :: map()
+  def put_gathering_timeouts(gathered_facts, timed_out_agents) do
+    Enum.reduce(timed_out_agents, gathered_facts, fn %Target{agent_id: agent_id, checks: checks},
+                                                     acc ->
+      Enum.reduce(checks, acc, fn check_id, accumulator ->
+        put_in(accumulator, [Access.key(check_id, %{}), Access.key(agent_id, %{})], :timeout)
+      end)
+    end)
+  end
+
   @doc """
   Check if an agent is a target of an execution
   """

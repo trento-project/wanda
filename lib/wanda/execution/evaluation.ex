@@ -6,6 +6,7 @@ defmodule Wanda.Execution.Evaluation do
   alias Wanda.Catalog.{Check, Expectation}
 
   alias Wanda.Execution.{
+    AgentCheckError,
     AgentCheckResult,
     CheckResult,
     ExpectationEvaluation,
@@ -54,10 +55,14 @@ defmodule Wanda.Execution.Evaluation do
          agents_facts
        ) do
     agents_results =
-      Enum.map(agents_facts, fn {agent_id, facts} ->
-        %AgentCheckResult{agent_id: agent_id}
-        |> add_agent_expectation_result(facts, expectations)
-        |> add_facts(facts, check_id)
+      Enum.map(agents_facts, fn
+        {agent_id, :timeout} ->
+          %AgentCheckError{agent_id: agent_id, error: :timeout, message: "Timeout dude"}
+
+        {agent_id, facts} ->
+          %AgentCheckResult{agent_id: agent_id}
+          |> add_agent_expectation_result(facts, expectations)
+          |> add_facts(facts, check_id)
       end)
 
     %CheckResult{check_result | agents_check_results: agents_results}

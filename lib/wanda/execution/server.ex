@@ -80,8 +80,22 @@ defmodule Wanda.Execution.Server do
   @impl true
   def handle_info(
         :timeout,
-        %State{} = state
+        %State{
+          execution_id: execution_id,
+          group_id: group_id,
+          gathered_facts: gathered_facts,
+          targets: targets,
+          agents_gathered: agents_gathered
+        } = state
       ) do
+    timed_out_agents =
+      Enum.filter(targets, fn %Wanda.Execution.Target{agent_id: agent_id} ->
+        agent_id not in agents_gathered
+      end)
+
+    gathered_facts = Gathering.put_gathering_timeouts(gathered_facts, timed_out_agents)
+    result = Evaluation.execute(execution_id, group_id, gathered_facts)
+
     :ok = Messaging.publish("results", :timeout)
 
     {:stop, :normal, state}
