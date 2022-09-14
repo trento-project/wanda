@@ -3,31 +3,36 @@ defmodule Wanda.Catalog do
   Function to interact with the checks catalog.
   """
 
-  alias Wanda.Catalog.Expectation
+  alias Wanda.Catalog.{
+    Check,
+    Expectation,
+    Fact
+  }
 
   @catalog_path Application.compile_env!(:wanda, [__MODULE__, :catalog_path])
 
   @doc """
-  Get a list of expectations for a given check.
+  Get a check from the catalog.
   """
-  @spec get_expectations(String.t()) :: [Expectation.t()]
-  def get_expectations(check_id) do
-    check_id
-    |> get_check()
-    |> Map.fetch!("expectations")
-    |> Enum.map(&map_expectation/1)
-  end
-
-  def get_expectation(check_id, name) do
-    check_id
-    |> get_expectations()
-    |> Enum.find(&(&1.name == name))
-  end
-
-  defp get_check(check_id) do
+  def get_check(check_id) do
     @catalog_path
     |> Path.join("#{check_id}.yaml")
     |> YamlElixir.read_from_file!()
+    |> map_check()
+  end
+
+  defp map_check(%{
+         "id" => id,
+         "name" => name,
+         "facts" => facts,
+         "expectations" => expectations
+       }) do
+    %Check{
+      id: id,
+      name: name,
+      facts: Enum.map(facts, &map_fact/1),
+      expectations: Enum.map(expectations, &map_expectation/1)
+    }
   end
 
   defp map_expectation(%{"name" => name, "expect" => expression}) do
@@ -43,6 +48,14 @@ defmodule Wanda.Catalog do
       name: name,
       type: :expect_same,
       expression: expression
+    }
+  end
+
+  defp map_fact(%{"name" => name, "gatherer" => gatherer, "argument" => argument}) do
+    %Fact{
+      name: name,
+      gatherer: gatherer,
+      argument: argument
     }
   end
 end
