@@ -44,8 +44,7 @@ defmodule Wanda.Factory do
                   return_value: true,
                   type: :expect
                 }
-              ],
-
+              ]
             },
             %AgentCheckResult{
               agent_id: "agent_2",
@@ -60,8 +59,7 @@ defmodule Wanda.Factory do
                   message: Faker.StarWars.quote(),
                   type: :fact_missing_error
                 }
-              ],
-
+              ]
             }
           ],
           check_id: "expect_check",

@@ -115,12 +115,12 @@ defmodule Wanda.Execution.EvaluationTest do
                          }
                        ],
                        facts: [
-                        %Fact{
-                          check_id: "expect_check",
-                          name: "corosync_token_timeout",
-                          value: 10_000
-                        }
-                      ]
+                         %Fact{
+                           check_id: "expect_check",
+                           name: "corosync_token_timeout",
+                           value: 10_000
+                         }
+                       ]
                      },
                      %AgentCheckResult{
                        agent_id: "agent_2",
