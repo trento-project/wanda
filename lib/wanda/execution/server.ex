@@ -106,15 +106,6 @@ defmodule Wanda.Execution.Server do
     end
   end
 
-  # def child_spec(args) do
-  #   %{
-  #     id: {Execution, execution_id},
-  #     start: {Execution, :start_link, [execution_id, group_id, targets]},
-  #     restart: :temporary,
-  #     type: :worker
-  #   }
-  # end
-
   defp via_tuple(execution_id),
     do: {:via, :global, {__MODULE__, execution_id}}
 end
