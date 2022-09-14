@@ -7,6 +7,7 @@ defmodule Wanda.Factory do
     AgentCheckResult,
     CheckResult,
     ExpectationEvaluation,
+    ExpectationEvaluationError,
     ExpectationResult,
     Fact,
     Result,
@@ -43,8 +44,7 @@ defmodule Wanda.Factory do
                   return_value: true,
                   type: :expect
                 }
-              ],
-              facts: %{"corosync_token_timeout" => 30_000}
+              ]
             },
             %AgentCheckResult{
               agent_id: "agent_2",
@@ -53,9 +53,13 @@ defmodule Wanda.Factory do
                   name: "timeout",
                   return_value: true,
                   type: :expect
+                },
+                %ExpectationEvaluationError{
+                  name: "timeout",
+                  message: Faker.StarWars.quote(),
+                  type: :fact_missing_error
                 }
-              ],
-              facts: %{"corosync_token_timeout" => 30_000}
+              ]
             }
           ],
           check_id: "expect_check",

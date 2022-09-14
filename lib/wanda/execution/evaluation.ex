@@ -12,6 +12,7 @@ defmodule Wanda.Execution.Evaluation do
     ExpectationEvaluation,
     ExpectationEvaluationError,
     ExpectationResult,
+    Fact,
     Result
   }
 
@@ -49,15 +50,17 @@ defmodule Wanda.Execution.Evaluation do
   defp add_agents_results(%CheckResult{check_id: check_id} = check_result, agents_facts) do
     agents_results =
       Enum.map(agents_facts, fn {agent_id, facts} ->
-        %AgentCheckResult{agent_id: agent_id, facts: facts}
-        |> add_agent_expectation_result(check_id)
+        %AgentCheckResult{agent_id: agent_id}
+        |> add_agent_expectation_result(facts, check_id)
+        |> add_facts(facts, check_id)
       end)
 
     %CheckResult{check_result | agents_check_results: agents_results}
   end
 
   defp add_agent_expectation_result(
-         %AgentCheckResult{facts: facts} = agent_check_result,
+         %AgentCheckResult{} = agent_check_result,
+         facts,
          check_id
        ) do
     expectation_evaluations =
@@ -68,6 +71,16 @@ defmodule Wanda.Execution.Evaluation do
     %AgentCheckResult{
       agent_check_result
       | expectation_evaluations: expectation_evaluations
+    }
+  end
+
+  defp add_facts(%AgentCheckResult{} = agent_check_result, facts, check_id) do
+    %AgentCheckResult{
+      agent_check_result
+      | facts:
+          Enum.map(facts, fn {name, value} ->
+            %Fact{check_id: check_id, name: name, value: value}
+          end)
     }
   end
 

@@ -3,7 +3,7 @@ defmodule Wanda.Messaging.Adapters.AMQP.Consumer do
   AMQP consumer.
   """
 
-  alias Wanda.Messaging.Mapper
+  alias Trento.Contracts
   alias Wanda.Policy
 
   @behaviour GenRMQ.Consumer
@@ -25,15 +25,19 @@ defmodule Wanda.Messaging.Adapters.AMQP.Consumer do
 
   @impl GenRMQ.Consumer
   def handle_message(%GenRMQ.Message{payload: payload} = message) do
-    case Mapper.from_json(payload) do
-      {:ok, event} -> Policy.handle_event(event)
-      {:error, reason} -> handle_error(message, reason)
+    case Contracts.from_event(payload) do
+      {:ok, event} ->
+        Policy.handle_event(event)
+
+      {:error, reason} ->
+        handle_error(message, reason)
     end
   end
 
   @impl GenRMQ.Consumer
   def handle_error(message, _reason) do
     Logger.error("Unable to handle message", message: inspect(message))
+
     GenRMQ.Consumer.reject(message, true)
   end
 
