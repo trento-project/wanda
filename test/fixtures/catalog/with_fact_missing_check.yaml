@@ -1,4 +1,4 @@
-id: with_fact_missing
+id: with_fact_missing_check
 name: Checks with missing fact
 group: Test
 description: |
