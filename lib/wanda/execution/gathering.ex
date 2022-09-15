@@ -19,6 +19,9 @@ defmodule Wanda.Execution.Gathering do
     )
   end
 
+  @doc """
+  Adds timeout data to gathered facts.
+  """
   @spec put_gathering_timeouts(map(), [Target.t()]) :: map()
   def put_gathering_timeouts(gathered_facts, timed_out_agents) do
     Enum.reduce(timed_out_agents, gathered_facts, fn %Target{agent_id: agent_id, checks: checks},
