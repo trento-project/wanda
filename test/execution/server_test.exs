@@ -131,7 +131,7 @@ defmodule Wanda.Execution.ServerTest do
              execution_id: execution_id,
              group_id: group_id,
              targets: targets,
-             checks: build_list(1, :check, name: "expect_check"),
+             checks: [Catalog.get_check("expect_check")],
              config: [timeout: 100]
            ]}
         )

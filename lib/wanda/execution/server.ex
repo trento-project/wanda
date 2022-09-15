@@ -85,6 +85,7 @@ defmodule Wanda.Execution.Server do
           group_id: group_id,
           gathered_facts: gathered_facts,
           targets: targets,
+          checks: checks,
           agents_gathered: agents_gathered
         } = state
       ) do
@@ -94,7 +95,7 @@ defmodule Wanda.Execution.Server do
       end)
 
     gathered_facts = Gathering.put_gathering_timeouts(gathered_facts, targets)
-    result = Evaluation.execute(execution_id, group_id, gathered_facts)
+    result = Evaluation.execute(execution_id, group_id, checks, gathered_facts)
 
     :ok = Messaging.publish("results", result)
 
