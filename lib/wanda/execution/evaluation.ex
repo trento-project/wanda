@@ -3,7 +3,7 @@ defmodule Wanda.Execution.Evaluation do
   Evaluation functional core.
   """
 
-  alias Wanda.Catalog
+  alias Wanda.Catalog.{Check, Expectation}
 
   alias Wanda.Execution.{
     AgentCheckResult,
@@ -18,39 +18,45 @@ defmodule Wanda.Execution.Evaluation do
   # Abacus spec is wrong
   @dialyzer {:nowarn_function, eval_expectation: 2}
 
-  @spec execute(String.t(), String.t(), map()) :: Result.t()
-  def execute(execution_id, group_id, gathered_facts) do
+  @spec execute(String.t(), String.t(), [Check.t()], map()) :: Result.t()
+  def execute(execution_id, group_id, checks, gathered_facts) do
     %Result{
       execution_id: execution_id,
       group_id: group_id
     }
-    |> add_checks_result(gathered_facts)
+    |> add_checks_result(checks, gathered_facts)
     |> aggregate_execution_result()
   end
 
-  defp add_checks_result(%Result{} = result, gathered_facts) do
+  defp add_checks_result(%Result{} = result, checks, gathered_facts) do
     check_results =
       Enum.map(gathered_facts, fn {check_id, agents_facts} ->
-        build_check_result(check_id, agents_facts)
+        %Check{expectations: expectations} = Enum.find(checks, &(&1.id == check_id))
+
+        build_check_result(check_id, expectations, agents_facts)
       end)
 
     %Result{result | check_results: check_results}
   end
 
-  defp build_check_result(check_id, agents_facts) do
+  defp build_check_result(check_id, expectations, agents_facts) do
     %CheckResult{
       check_id: check_id
     }
-    |> add_agents_results(agents_facts)
-    |> add_expectation_evaluations()
+    |> add_agents_results(expectations, agents_facts)
+    |> add_expectation_evaluations(expectations)
     |> aggregate_check_result()
   end
 
-  defp add_agents_results(%CheckResult{check_id: check_id} = check_result, agents_facts) do
+  defp add_agents_results(
+         %CheckResult{check_id: check_id} = check_result,
+         expectations,
+         agents_facts
+       ) do
     agents_results =
       Enum.map(agents_facts, fn {agent_id, facts} ->
         %AgentCheckResult{agent_id: agent_id}
-        |> add_agent_expectation_result(facts, check_id)
+        |> add_agent_expectation_result(facts, expectations)
         |> add_facts(facts, check_id)
       end)
 
@@ -60,10 +66,8 @@ defmodule Wanda.Execution.Evaluation do
   defp add_agent_expectation_result(
          %AgentCheckResult{} = agent_check_result,
          facts,
-         check_id
+         expectations
        ) do
-    %Catalog.Check{expectations: expectations} = Catalog.get_check(check_id)
-
     %AgentCheckResult{
       agent_check_result
       | expectation_evaluations: Enum.map(expectations, &eval_expectation(&1, facts))
@@ -81,7 +85,7 @@ defmodule Wanda.Execution.Evaluation do
   end
 
   defp eval_expectation(
-         %Catalog.Expectation{name: name, type: type, expression: expression},
+         %Expectation{name: name, type: type, expression: expression},
          facts
        ) do
     case Abacus.eval(expression, facts) do
@@ -105,7 +109,8 @@ defmodule Wanda.Execution.Evaluation do
   end
 
   defp add_expectation_evaluations(
-         %CheckResult{check_id: check_id, agents_check_results: agents_check_results} = result
+         %CheckResult{agents_check_results: agents_check_results} = result,
+         expectations
        ) do
     expectation_results =
       agents_check_results
@@ -114,11 +119,9 @@ defmodule Wanda.Execution.Evaluation do
       end)
       |> Enum.group_by(& &1.name)
       |> Enum.map(fn {name, expectation_evaluations} ->
-        %Catalog.Check{expectations: expectations} = Catalog.get_check(check_id)
-
         type =
           Enum.find_value(expectations, fn
-            %Catalog.Expectation{name: ^name, type: type} -> type
+            %Expectation{name: ^name, type: type} -> type
             _ -> false
           end)
 
