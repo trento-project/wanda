@@ -1,4 +1,4 @@
-id: group_expect_all
+id: expect_same_check
 name: Test check
 group: Test
 description: |

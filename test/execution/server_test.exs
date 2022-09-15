@@ -4,14 +4,21 @@ defmodule Wanda.Execution.ServerTest do
   import Mox
   import Wanda.Factory
 
+  alias Wanda.Catalog
   alias Wanda.Execution.Server
 
   setup [:set_mox_from_context, :verify_on_exit!]
 
   describe "start_link/3" do
-    test "should accept an execution_id, a group_id and targets on start" do
+    test "should accept an execution_id, a group_id, targets and checks on start" do
       execution_id = UUID.uuid4()
       group_id = UUID.uuid4()
+      targets = build_list(10, :target)
+
+      checks =
+        targets
+        |> Enum.flat_map(& &1.checks)
+        |> Enum.map(&build(:check, id: &1))
 
       assert {:ok, pid} =
                start_supervised(
@@ -19,7 +26,8 @@ defmodule Wanda.Execution.ServerTest do
                   [
                     execution_id: execution_id,
                     group_id: group_id,
-                    targets: build_list(10, :target)
+                    targets: targets,
+                    checks: checks
                   ]}
                )
 
@@ -46,7 +54,8 @@ defmodule Wanda.Execution.ServerTest do
          [
            execution_id: execution_id,
            group_id: group_id,
-           targets: build_list(10, :target)
+           targets: build_list(10, :target),
+           checks: []
          ]}
       )
 
@@ -76,7 +85,8 @@ defmodule Wanda.Execution.ServerTest do
            [
              execution_id: execution_id,
              group_id: group_id,
-             targets: targets
+             targets: targets,
+             checks: [Catalog.get_check("expect_check")]
            ]}
         )
 
@@ -120,6 +130,7 @@ defmodule Wanda.Execution.ServerTest do
              execution_id: execution_id,
              group_id: group_id,
              targets: targets,
+             checks: build_list(1, :check, name: "expect_check"),
              config: [timeout: 100]
            ]}
         )

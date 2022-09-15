@@ -23,6 +23,7 @@ defmodule Wanda.Execution.Server do
         execution_id: execution_id,
         group_id: Keyword.fetch!(opts, :group_id),
         targets: Keyword.fetch!(opts, :targets),
+        checks: Keyword.fetch!(opts, :checks),
         timeout: Keyword.get(config, :timeout, @default_timeout)
       },
       name: via_tuple(execution_id)
@@ -86,6 +87,7 @@ defmodule Wanda.Execution.Server do
            group_id: group_id,
            gathered_facts: gathered_facts,
            targets: targets,
+           checks: checks,
            agents_gathered: agents_gathered
          } = state,
          agent_id,
@@ -97,7 +99,7 @@ defmodule Wanda.Execution.Server do
     state = %State{state | gathered_facts: gathered_facts, agents_gathered: agents_gathered}
 
     if Gathering.all_agents_sent_facts?(agents_gathered, targets) do
-      result = Evaluation.execute(execution_id, group_id, gathered_facts)
+      result = Evaluation.execute(execution_id, group_id, checks, gathered_facts)
 
       :ok = Messaging.publish("checks.execution", result)
       {:stop, :normal, state}

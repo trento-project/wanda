@@ -1,6 +1,8 @@
 defmodule Wanda.Execution.EvaluationTest do
   use ExUnit.Case
 
+  alias Wanda.Catalog
+
   alias Wanda.Execution.{
     AgentCheckResult,
     CheckResult,
@@ -27,6 +29,7 @@ defmodule Wanda.Execution.EvaluationTest do
 
       execution_id = UUID.uuid4()
       group_id = UUID.uuid4()
+      checks = [Catalog.get_check("expect_check")]
 
       assert %Result{
                execution_id: ^execution_id,
@@ -81,7 +84,7 @@ defmodule Wanda.Execution.EvaluationTest do
                  }
                ],
                result: :passing
-             } = Evaluation.execute(execution_id, group_id, gathered_facts)
+             } = Evaluation.execute(execution_id, group_id, checks, gathered_facts)
     end
 
     test "should return a critical result when not all the agents fullfill the expectations with an expect condition" do
@@ -98,6 +101,7 @@ defmodule Wanda.Execution.EvaluationTest do
 
       execution_id = UUID.uuid4()
       group_id = UUID.uuid4()
+      checks = [Catalog.get_check("expect_check")]
 
       assert %Result{
                execution_id: ^execution_id,
@@ -152,7 +156,7 @@ defmodule Wanda.Execution.EvaluationTest do
                  }
                ],
                result: :critical
-             } = Evaluation.execute(execution_id, group_id, gathered_facts)
+             } = Evaluation.execute(execution_id, group_id, checks, gathered_facts)
     end
 
     test "should return a passing result when all the agents fullfill the expectations with an expect_same condition" do
@@ -169,6 +173,7 @@ defmodule Wanda.Execution.EvaluationTest do
 
       execution_id = UUID.uuid4()
       group_id = UUID.uuid4()
+      checks = [Catalog.get_check("expect_same_check")]
 
       assert %Result{
                execution_id: ^execution_id,
@@ -223,7 +228,7 @@ defmodule Wanda.Execution.EvaluationTest do
                  }
                ],
                result: :passing
-             } = Evaluation.execute(execution_id, group_id, gathered_facts)
+             } = Evaluation.execute(execution_id, group_id, checks, gathered_facts)
     end
 
     test "should return a passing result when not all the agents fullfill the expectations with an expect_same condition" do
@@ -240,6 +245,7 @@ defmodule Wanda.Execution.EvaluationTest do
 
       execution_id = UUID.uuid4()
       group_id = UUID.uuid4()
+      checks = [Catalog.get_check("expect_same_check")]
 
       assert %Result{
                execution_id: ^execution_id,
@@ -294,7 +300,7 @@ defmodule Wanda.Execution.EvaluationTest do
                  }
                ],
                result: :critical
-             } = Evaluation.execute(execution_id, group_id, gathered_facts)
+             } = Evaluation.execute(execution_id, group_id, checks, gathered_facts)
     end
 
     test "should return a critical result if a fact is missing from the agent fact gathering" do
@@ -306,6 +312,8 @@ defmodule Wanda.Execution.EvaluationTest do
           "agent_2" => %{}
         }
       }
+
+      checks = [Catalog.get_check("with_fact_missing_check")]
 
       assert %Result{
                result: :critical,
@@ -335,7 +343,7 @@ defmodule Wanda.Execution.EvaluationTest do
                    ]
                  }
                ]
-             } = Evaluation.execute(UUID.uuid4(), UUID.uuid4(), gathered_facts)
+             } = Evaluation.execute(UUID.uuid4(), UUID.uuid4(), checks, gathered_facts)
     end
 
     test "should return a critical result if an illegal expression was specified in a check expectation" do
@@ -349,6 +357,8 @@ defmodule Wanda.Execution.EvaluationTest do
           }
         }
       }
+
+      checks = [Catalog.get_check("with_illegal_expression_check")]
 
       assert %Result{
                result: :critical,
@@ -385,7 +395,7 @@ defmodule Wanda.Execution.EvaluationTest do
                    ]
                  }
                ]
-             } = Evaluation.execute(UUID.uuid4(), UUID.uuid4(), gathered_facts)
+             } = Evaluation.execute(UUID.uuid4(), UUID.uuid4(), checks, gathered_facts)
     end
   end
 end

@@ -1,4 +1,4 @@
-id: with_illegal_expression
+id: with_illegal_expression_check
 name: Checks with illegal expression
 group: Test
 description: |
