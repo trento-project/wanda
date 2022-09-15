@@ -4,7 +4,9 @@ defmodule Wanda.Execution.ServerTest do
   import Mox
   import Wanda.Factory
 
+  alias Trento.Checks.V1.FactsGatheringRequested
   alias Wanda.Catalog
+
   alias Wanda.Execution.Server
 
   setup [:set_mox_from_context, :verify_on_exit!]
@@ -39,8 +41,7 @@ defmodule Wanda.Execution.ServerTest do
     test "should start an execution" do
       pid = self()
 
-      expect(Wanda.Messaging.Adapters.Mock, :publish, fn "checks.agents.*",
-                                                         "initiate_facts_gathering" ->
+      expect(Wanda.Messaging.Adapters.Mock, :publish, fn "agents", %FactsGatheringRequested{} ->
         send(pid, :wandalorian)
 
         :ok
@@ -55,7 +56,7 @@ defmodule Wanda.Execution.ServerTest do
            execution_id: execution_id,
            group_id: group_id,
            targets: build_list(10, :target),
-           checks: []
+           checks: build_list(10, :check)
          ]}
       )
 
@@ -70,7 +71,7 @@ defmodule Wanda.Execution.ServerTest do
       targets = build_list(3, :target, %{checks: ["expect_check"]})
 
       expect(Wanda.Messaging.Adapters.Mock, :publish, 2, fn
-        "checks.execution", _ ->
+        "results", _ ->
           send(pid, :executed)
 
           :ok
@@ -114,7 +115,7 @@ defmodule Wanda.Execution.ServerTest do
       targets = build_list(3, :target, %{checks: ["expect_check"]})
 
       expect(Wanda.Messaging.Adapters.Mock, :publish, 2, fn
-        "checks.execution", _ ->
+        "results", _ ->
           send(pid, :timeout)
 
           :ok
