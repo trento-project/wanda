@@ -23,6 +23,7 @@ defmodule Wanda.Execution.Server do
         execution_id: execution_id,
         group_id: Keyword.fetch!(opts, :group_id),
         targets: Keyword.fetch!(opts, :targets),
+        checks: Keyword.fetch!(opts, :checks),
         timeout: Keyword.get(config, :timeout, @default_timeout)
       },
       name: via_tuple(execution_id)

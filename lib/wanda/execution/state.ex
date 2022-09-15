@@ -3,6 +3,7 @@ defmodule Wanda.Execution.State do
   State of an execution.
   """
 
+  alias Wanda.Catalog
   alias Wanda.Execution.Target
 
   defstruct [
@@ -10,6 +11,7 @@ defmodule Wanda.Execution.State do
     :group_id,
     :timeout,
     targets: [],
+    checks: [],
     gathered_facts: %{},
     agents_gathered: []
   ]
@@ -19,6 +21,7 @@ defmodule Wanda.Execution.State do
           group_id: String.t(),
           timeout: integer(),
           targets: [Target.t()],
+          checks: [Catalog.Check.t()],
           gathered_facts: map(),
           agents_gathered: [String.t()]
         }
