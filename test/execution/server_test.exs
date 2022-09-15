@@ -4,6 +4,7 @@ defmodule Wanda.Execution.ServerTest do
   import Mox
   import Wanda.Factory
 
+  alias Wanda.Catalog
   alias Wanda.Execution.Server
 
   setup [:set_mox_from_context, :verify_on_exit!]
@@ -85,7 +86,7 @@ defmodule Wanda.Execution.ServerTest do
              execution_id: execution_id,
              group_id: group_id,
              targets: targets,
-             checks: build_list(1, :check, name: "expect_check")
+             checks: [Catalog.get_check("expect_check")]
            ]}
         )
 
