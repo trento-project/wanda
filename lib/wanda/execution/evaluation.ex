@@ -123,8 +123,12 @@ defmodule Wanda.Execution.Evaluation do
        ) do
     expectation_results =
       agents_check_results
-      |> Enum.flat_map(fn %AgentCheckResult{expectation_evaluations: expectation_evaluations} ->
-        expectation_evaluations
+      |> Enum.flat_map(fn
+        %AgentCheckError{} ->
+          []
+
+        %AgentCheckResult{expectation_evaluations: expectation_evaluations} ->
+          expectation_evaluations
       end)
       |> Enum.group_by(& &1.name)
       |> Enum.map(fn {name, expectation_evaluations} ->
@@ -170,10 +174,14 @@ defmodule Wanda.Execution.Evaluation do
   end
 
   defp aggregate_check_result(
-         %CheckResult{expectation_results: expectation_results} = check_result
+         %CheckResult{
+           expectation_results: expectation_results,
+           agents_check_results: agents_check_results
+         } = check_result
        ) do
     result =
-      if Enum.all?(expectation_results, &(&1.result == true)) do
+      if Enum.all?(expectation_results, &(&1.result == true)) and
+           not errors?(agents_check_results) do
         :passing
       else
         :critical
@@ -192,6 +200,13 @@ defmodule Wanda.Execution.Evaluation do
 
     %Result{execution_result | result: result}
   end
+
+  defp errors?(agents_check_results),
+    do:
+      Enum.any?(agents_check_results, fn
+        %AgentCheckError{} -> true
+        _ -> false
+      end)
 
   # TODO: is unknown needed?
   # defp result_weight(:unknown), do: 3

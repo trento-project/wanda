@@ -6,7 +6,7 @@ defmodule Wanda.Execution.Server do
 
   use GenServer, restart: :transient
 
-  alias Wanda.Execution.{Evaluation, Gathering, State}
+  alias Wanda.Execution.{Evaluation, Gathering, State, Target}
   alias Wanda.Messaging
 
   require Logger
@@ -88,15 +88,15 @@ defmodule Wanda.Execution.Server do
           agents_gathered: agents_gathered
         } = state
       ) do
-    timed_out_agents =
-      Enum.filter(targets, fn %Wanda.Execution.Target{agent_id: agent_id} ->
+    targets =
+      Enum.filter(targets, fn %Target{agent_id: agent_id} ->
         agent_id not in agents_gathered
       end)
 
-    gathered_facts = Gathering.put_gathering_timeouts(gathered_facts, timed_out_agents)
+    gathered_facts = Gathering.put_gathering_timeouts(gathered_facts, targets)
     result = Evaluation.execute(execution_id, group_id, gathered_facts)
 
-    :ok = Messaging.publish("results", :timeout)
+    :ok = Messaging.publish("results", result)
 
     {:stop, :normal, state}
   end
