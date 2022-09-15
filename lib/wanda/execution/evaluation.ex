@@ -57,7 +57,11 @@ defmodule Wanda.Execution.Evaluation do
     agents_results =
       Enum.map(agents_facts, fn
         {agent_id, :timeout} ->
-          %AgentCheckError{agent_id: agent_id, error: :timeout, message: "Timeout dude"}
+          %AgentCheckError{
+            agent_id: agent_id,
+            type: :timeout,
+            message: "Agent timed out during the execution"
+          }
 
         {agent_id, facts} ->
           %AgentCheckResult{agent_id: agent_id}

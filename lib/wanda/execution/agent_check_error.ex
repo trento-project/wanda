@@ -6,13 +6,13 @@ defmodule Wanda.Execution.AgentCheckError do
   @derive Jason.Encoder
   defstruct [
     :agent_id,
-    :error,
+    :type,
     :message
   ]
 
   @type t :: %__MODULE__{
           agent_id: String.t(),
-          error: atom(),
+          type: :timeout,
           message: String.t()
         }
 end
