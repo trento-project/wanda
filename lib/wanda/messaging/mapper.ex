@@ -12,9 +12,9 @@ defmodule Wanda.Messaging.Mapper do
 
   alias Trento.Checks.V1.{
     ExecutionCompleted,
+    FactRequest,
     FactsGatheringRequested,
-    FactsGatheringRequestedTarget,
-    FactRequest
+    FactsGatheringRequestedTarget
   }
 
   def to_facts_gathering_requested(execution_id, group_id, targets, checks) do
