@@ -123,10 +123,11 @@ defmodule Wanda.Execution.Evaluation do
        ) do
     expectation_results =
       agents_check_results
+      |> Enum.filter(fn
+        %AgentCheckError{} -> false
+        _ -> true
+      end)
       |> Enum.flat_map(fn
-        %AgentCheckError{} ->
-          []
-
         %AgentCheckResult{expectation_evaluations: expectation_evaluations} ->
           expectation_evaluations
       end)
