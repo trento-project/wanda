@@ -13,7 +13,7 @@ defmodule Wanda.Execution do
   def start_execution(execution_id, group_id, targets, config \\ []) do
     checks =
       targets
-      |> Enum.map(& &1.check)
+      |> Enum.map(& &1.checks)
       |> Enum.uniq()
       |> Enum.map(&Catalog.get_check/1)
 
