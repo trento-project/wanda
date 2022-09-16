@@ -17,15 +17,21 @@ defmodule Wanda.Execution do
       |> Enum.uniq()
       |> Enum.map(&Catalog.get_check/1)
 
-    DynamicSupervisor.start_child(
-      Supervisor,
-      {Server,
-       execution_id: execution_id,
-       group_id: group_id,
-       targets: targets,
-       checks: checks,
-       config: config}
-    )
+    case DynamicSupervisor.start_child(
+           Supervisor,
+           {Server,
+            execution_id: execution_id,
+            group_id: group_id,
+            targets: targets,
+            checks: checks,
+            config: config}
+         ) do
+      {:ok, _} ->
+        :ok
+
+      {:error, _} = error ->
+        error
+    end
   end
 
   @impl true
