@@ -14,7 +14,7 @@ defmodule Wanda.Messaging.Adapters.AMQP do
 
   def publish(routing_key, message) do
     message
-    |> Trento.Contracts.to_event(source: "wanda")
+    |> Trento.Contracts.to_event(source: "github.com/trento-project/wanda")
     |> Publisher.publish_message(routing_key)
   end
 end
