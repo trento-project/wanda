@@ -9,14 +9,14 @@ config :wanda, :messaging,
   adapter: Wanda.Messaging.Adapters.AMQP,
   amqp: [
     consumer: [
-      queue: "events_wanda",
-      exchange: "events",
-      routing_key: "checks.*",
+      queue: "trento.checks.executions",
+      exchange: "trento.checks",
+      routing_key: "executions",
       prefetch_count: "10",
       connection: "amqp://wanda:wanda@localhost:5672"
     ],
     publisher: [
-      exchange: "events",
+      exchange: "trento.checks",
       connection: "amqp://wanda:wanda@localhost:5672"
     ]
   ]

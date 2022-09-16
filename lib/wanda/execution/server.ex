@@ -44,12 +44,18 @@ defmodule Wanda.Execution.Server do
   def handle_continue(
         :start_execution,
         %State{
-          execution_id: _execution_id,
-          targets: _targets,
+          execution_id: execution_id,
+          group_id: group_id,
+          targets: targets,
+          checks: checks,
           timeout: timeout
         } = state
       ) do
-    :ok = Messaging.publish("checks.agents.*", "initiate_facts_gathering")
+    facts_gathering_requested =
+      Messaging.Mapper.to_facts_gathering_requested(execution_id, group_id, targets, checks)
+
+    :ok = Messaging.publish("agents", facts_gathering_requested)
+
     Process.send_after(self(), :timeout, timeout)
 
     {:noreply, state}
@@ -76,7 +82,7 @@ defmodule Wanda.Execution.Server do
         :timeout,
         %State{} = state
       ) do
-    :ok = Messaging.publish("checks.execution", :timeout)
+    :ok = Messaging.publish("results", :timeout)
 
     {:stop, :normal, state}
   end
@@ -100,8 +106,8 @@ defmodule Wanda.Execution.Server do
 
     if Gathering.all_agents_sent_facts?(agents_gathered, targets) do
       result = Evaluation.execute(execution_id, group_id, checks, gathered_facts)
+      :ok = Messaging.publish("results", result)
 
-      :ok = Messaging.publish("checks.execution", result)
       {:stop, :normal, state}
     else
       {:noreply, state}
