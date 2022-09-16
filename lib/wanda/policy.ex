@@ -36,7 +36,7 @@ defmodule Wanda.Policy do
     execution_impl().receive_facts(
       execution_id,
       agent_id,
-      Enum.map(facts_gathered, fn %{check_id: check_id, name: name, value: value} ->
+      Enum.map(facts_gathered, fn %{check_id: check_id, name: name, value: {_, value}} ->
         %Fact{check_id: check_id, name: name, value: value}
       end)
     )
