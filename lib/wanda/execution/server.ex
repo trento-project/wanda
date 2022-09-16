@@ -106,7 +106,9 @@ defmodule Wanda.Execution.Server do
 
     if Gathering.all_agents_sent_facts?(agents_gathered, targets) do
       result = Evaluation.execute(execution_id, group_id, checks, gathered_facts)
-      :ok = Messaging.publish("results", result)
+
+      execution_completed = Messaging.Mapper.to_execution_completed(result)
+      :ok = Messaging.publish("results", execution_completed)
 
       {:stop, :normal, state}
     else

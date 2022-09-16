@@ -25,10 +25,10 @@ defmodule Wanda.Messaging.Adapters.AMQP.Consumer do
 
   @impl GenRMQ.Consumer
   def handle_message(%GenRMQ.Message{payload: payload} = message) do
-    case Contracts.from_event(payload) do
-      {:ok, event} ->
-        Policy.handle_event(event)
-
+    with {:ok, event} <- Contracts.from_event(payload),
+         :ok <- Policy.handle_event(event) do
+      GenRMQ.Consumer.ack(message)
+    else
       {:error, reason} ->
         handle_error(message, reason)
     end

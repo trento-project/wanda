@@ -13,12 +13,20 @@ defmodule Wanda.Policy do
     Target
   }
 
+  require Logger
+
   @spec handle_event(ExecutionRequested.t() | FactsGathered.t()) :: :ok | {:error, any}
-  def handle_event(%ExecutionRequested{
-        execution_id: execution_id,
-        group_id: agent_id,
-        targets: targets
-      }) do
+  def handle_event(event) do
+    Logger.debug("Handling event #{inspect(event)}")
+
+    handle(event)
+  end
+
+  defp handle(%ExecutionRequested{
+         execution_id: execution_id,
+         group_id: agent_id,
+         targets: targets
+       }) do
     execution_impl().start_execution(
       execution_id,
       agent_id,
@@ -28,15 +36,15 @@ defmodule Wanda.Policy do
     )
   end
 
-  def handle_event(%FactsGathered{
-        execution_id: execution_id,
-        agent_id: agent_id,
-        facts_gathered: facts_gathered
-      }) do
+  defp handle(%FactsGathered{
+         execution_id: execution_id,
+         agent_id: agent_id,
+         facts_gathered: facts_gathered
+       }) do
     execution_impl().receive_facts(
       execution_id,
       agent_id,
-      Enum.map(facts_gathered, fn %{check_id: check_id, name: name, value: value} ->
+      Enum.map(facts_gathered, fn %{check_id: check_id, name: name, value: {_, value}} ->
         %Fact{check_id: check_id, name: name, value: value}
       end)
     )
