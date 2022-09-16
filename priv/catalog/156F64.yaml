@@ -10,7 +10,7 @@ remediation: |
   ...
 facts:
   - name: corosync_token_timeout
-    gatherer: corosync
+    gatherer: corosync.conf
     argument: totem.token
 expectations:
   - name: timeout
