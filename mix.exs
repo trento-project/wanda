@@ -37,7 +37,6 @@ defmodule Wanda.MixProject do
       {:gen_rmq, "~> 4.0"},
       {:jason, "~> 1.3"},
       {:yaml_elixir, "~> 2.9"},
-      {:miss, "~> 0.1.5"},
       {:trento_contracts, github: "fabriziosestito/contracts", ref: "fa28c21", sparse: "elixir"},
       # test deps
       {:credo, "~> 1.6", only: [:dev, :test], runtime: false},
