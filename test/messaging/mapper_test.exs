@@ -90,7 +90,52 @@ defmodule Wanda.Messaging.MapperTest do
 
     execution_result = build(:execution_result, execution_id: execution_id, group_id: group_id)
 
-    assert %ExecutionCompleted{execution_id: ^execution_id, group_id: ^group_id} =
-             Mapper.to_execution_completed(execution_result)
+    assert %ExecutionCompleted{
+             execution_id: ^execution_id,
+             group_id: ^group_id,
+             result: :PASSING,
+             check_results: [
+               %{
+                 check_id: "expect_check",
+                 agents_check_results: [
+                   %{
+                     agent_id: "agent_1",
+                     facts: [%{name: "corosync_timeout", value: 1000}],
+                     evaluations: [
+                       %{
+                         evaluations: %{
+                           name: "corosync_timeout",
+                           return_value: true,
+                           type: :EXPECT
+                         }
+                       }
+                     ]
+                   },
+                   %{
+                     agent_id: "agent_2",
+                     facts: [%{name: "corosync_timeout", value: 1000}],
+                     evaluations: [
+                       %{
+                         evaluations: %{
+                           name: "corosync_timeout",
+                           return_value: true,
+                           type: :EXPECT
+                         }
+                       },
+                       %{
+                         evaluations: %{
+                           name: "corosync_timeout",
+                           message: "error_message",
+                           type: :FACT_MISSING_ERROR
+                         }
+                       }
+                     ]
+                   }
+                 ],
+                 expectation_results: [%{name: "corosync_timeout", result: true, type: :EXPECT}],
+                 result: :PASSING
+               }
+             ]
+           } = Mapper.to_execution_completed(execution_result)
   end
 end

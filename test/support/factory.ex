@@ -65,9 +65,15 @@ defmodule Wanda.Factory do
           agents_check_results: [
             %AgentCheckResult{
               agent_id: "agent_1",
+              facts: [
+                %Fact{
+                  name: "corosync_timeout",
+                  value: 1000
+                }
+              ],
               expectation_evaluations: [
                 %ExpectationEvaluation{
-                  name: "timeout",
+                  name: "corosync_timeout",
                   return_value: true,
                   type: :expect
                 }
@@ -75,15 +81,21 @@ defmodule Wanda.Factory do
             },
             %AgentCheckResult{
               agent_id: "agent_2",
+              facts: [
+                %Fact{
+                  name: "corosync_timeout",
+                  value: 1000
+                }
+              ],
               expectation_evaluations: [
                 %ExpectationEvaluation{
-                  name: "timeout",
+                  name: "corosync_timeout",
                   return_value: true,
                   type: :expect
                 },
                 %ExpectationEvaluationError{
-                  name: "timeout",
-                  message: Faker.StarWars.quote(),
+                  name: "corosync_timeout",
+                  message: "error_message",
                   type: :fact_missing_error
                 }
               ]
@@ -92,7 +104,7 @@ defmodule Wanda.Factory do
           check_id: "expect_check",
           expectation_results: [
             %ExpectationResult{
-              name: "timeout",
+              name: "corosync_timeout",
               result: true,
               type: :expect
             }
