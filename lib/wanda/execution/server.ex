@@ -4,7 +4,7 @@ defmodule Wanda.Execution.Server do
   Orchestrates facts gathering on the targets - issuing execution and receiving back facts - and following check evaluations.
   """
 
-  use GenServer
+  use GenServer, restart: :transient
 
   alias Wanda.Execution.{Evaluation, Gathering, State}
   alias Wanda.Messaging
