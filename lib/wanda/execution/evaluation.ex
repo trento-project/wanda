@@ -20,10 +20,11 @@ defmodule Wanda.Execution.Evaluation do
   @dialyzer {:nowarn_function, eval_expectation: 2}
 
   @spec execute(String.t(), String.t(), [Check.t()], map()) :: Result.t()
-  def execute(execution_id, group_id, checks, gathered_facts) do
+  def execute(execution_id, group_id, checks, gathered_facts, timeouts \\ []) do
     %Result{
       execution_id: execution_id,
-      group_id: group_id
+      group_id: group_id,
+      timeout: timeouts
     }
     |> add_checks_result(checks, gathered_facts)
     |> aggregate_execution_result()

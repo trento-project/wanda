@@ -94,8 +94,10 @@ defmodule Wanda.Execution.Server do
         agent_id not in agents_gathered
       end)
 
+    timedout_agents = Enum.map(targets, & &1.agent_id)
+
     gathered_facts = Gathering.put_gathering_timeouts(gathered_facts, targets)
-    result = Evaluation.execute(execution_id, group_id, checks, gathered_facts)
+    result = Evaluation.execute(execution_id, group_id, checks, gathered_facts, timedout_agents)
     execution_completed = Messaging.Mapper.to_execution_completed(result)
 
     :ok = Messaging.publish("results", execution_completed)
