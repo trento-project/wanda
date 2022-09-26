@@ -49,6 +49,56 @@ defmodule Wanda.Execution.GatheringTest do
     end
   end
 
+  describe "put gathering timeouts" do
+    test "should put gathering timeouts for the proper agents" do
+      agent_id_1 = UUID.uuid4()
+      [%Fact{check_id: check_id_1, name: name_1, value: value_1}] = facts = build_list(1, :fact)
+
+      gathered_facts = Gathering.put_gathered_facts(%{}, agent_id_1, facts)
+
+      agent_id_2 = UUID.uuid4()
+
+      [
+        %Fact{check_id: check_id_2, name: name_2, value: value_2},
+        %Fact{check_id: check_id_3, name: name_3, value: value_3}
+      ] = facts = build_list(2, :fact)
+
+      gathered_facts = Gathering.put_gathered_facts(gathered_facts, agent_id_2, facts)
+
+      timeout_agent_id_1 = UUID.uuid4()
+      timeout_agent_id_2 = UUID.uuid4()
+      timeout_check_id = UUID.uuid4()
+
+      timeout_targets = [
+        %Target{agent_id: timeout_agent_id_1, checks: [timeout_check_id]},
+        %Target{agent_id: timeout_agent_id_2, checks: [timeout_check_id, check_id_3]}
+      ]
+
+      assert %{
+               ^check_id_1 => %{
+                 ^agent_id_1 => %{
+                   ^name_1 => ^value_1
+                 }
+               },
+               ^check_id_2 => %{
+                 ^agent_id_2 => %{
+                   ^name_2 => ^value_2
+                 }
+               },
+               ^check_id_3 => %{
+                 ^agent_id_2 => %{
+                   ^name_3 => ^value_3
+                 },
+                 ^timeout_agent_id_2 => :timeout
+               },
+               ^timeout_check_id => %{
+                 ^timeout_agent_id_1 => :timeout,
+                 ^timeout_agent_id_2 => :timeout
+               }
+             } = Gathering.put_gathering_timeouts(gathered_facts, timeout_targets)
+    end
+  end
+
   describe "target" do
     test "should return true if the agent_id is present inside targets" do
       [%Target{agent_id: agent_id} | _] = targets = build_list(Enum.random(1..100), :target)

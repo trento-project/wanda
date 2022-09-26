@@ -29,7 +29,7 @@ defmodule Wanda.Messaging.Mapper do
     result
     # TODO: do proper mapping, remove miss
     |> Miss.Map.from_nested_struct()
-    |> ExecutionCompleted.new!()
+    |> ExecutionCompleted.new()
   end
 
   defp to_facts_gathering_requested_target(

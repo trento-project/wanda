@@ -131,7 +131,7 @@ defmodule Wanda.Execution.ServerTest do
              execution_id: execution_id,
              group_id: group_id,
              targets: targets,
-             checks: build_list(1, :check, name: "expect_check"),
+             checks: [Catalog.get_check("expect_check")],
              config: [timeout: 100]
            ]}
         )
@@ -139,6 +139,33 @@ defmodule Wanda.Execution.ServerTest do
       ref = Process.monitor(pid)
 
       assert_receive :timeout, 200
+
+      assert_receive {:DOWN, ^ref, _, ^pid, :normal}
+    end
+
+    test "should go down when the timeout function gets called" do
+      execution_id = UUID.uuid4()
+      group_id = UUID.uuid4()
+
+      targets = build_list(3, :target, %{checks: ["expect_check"]})
+
+      {:ok, pid} =
+        start_supervised(
+          {Server,
+           [
+             execution_id: execution_id,
+             group_id: group_id,
+             targets: targets,
+             checks: [Catalog.get_check("expect_check")],
+             config: [timeout: 99_999]
+           ]}
+        )
+
+      ref = Process.monitor(pid)
+
+      # TODO: test partial gathering of facts before sending the timeout signal
+
+      Process.send(pid, :timeout, [:noconnect])
 
       assert_receive {:DOWN, ^ref, _, ^pid, :normal}
     end

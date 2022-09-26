@@ -10,6 +10,7 @@ defmodule Wanda.Execution.Result do
     :execution_id,
     :group_id,
     :check_results,
+    :timeout,
     :result
   ]
 
@@ -17,6 +18,7 @@ defmodule Wanda.Execution.Result do
           execution_id: String.t(),
           group_id: String.t(),
           check_results: [CheckResult.t()],
+          timeout: [String.t()],
           result: :passing | :warning | :critical
         }
 end
