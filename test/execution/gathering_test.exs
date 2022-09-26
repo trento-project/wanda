@@ -80,6 +80,7 @@ defmodule Wanda.Execution.GatheringTest do
       [
         %FactError{check_id: check_id_3, name: name_3, type: type_3, message: msg_3}
       ] = facts_error = build_list(1, :fact_error)
+
       [
         %Fact{check_id: check_id_4, name: name_4, value: value_4}
       ] = facts = build_list(1, :fact)

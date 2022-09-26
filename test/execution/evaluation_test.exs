@@ -203,15 +203,8 @@ defmodule Wanda.Execution.EvaluationTest do
                          }
                        ]
                      },
-                     %AgentCheckResult{
+                     %AgentCheckError{
                        agent_id: "agent_2",
-                       expectation_evaluations: [
-                         %ExpectationEvaluation{
-                           name: "timeout",
-                           return_value: false,
-                           type: :expect
-                         }
-                       ],
                        facts: [
                          %FactError{
                            check_id: "expect_check",
@@ -219,7 +212,9 @@ defmodule Wanda.Execution.EvaluationTest do
                            type: "some-error",
                            message: "some message"
                          }
-                       ]
+                       ],
+                       message: "Fact gathering ocurred during the execution",
+                       type: :fact_gathering_error
                      }
                    ],
                    check_id: "expect_check",

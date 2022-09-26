@@ -66,37 +66,57 @@ defmodule Wanda.Execution.Evaluation do
           }
 
         {agent_id, facts} ->
-          %AgentCheckResult{agent_id: agent_id}
-          |> add_agent_expectation_result(facts, expectations)
+          add_agent_check_result_or_error(agent_id, facts, expectations)
           |> add_facts(facts, check_id)
       end)
 
     %CheckResult{check_result | agents_check_results: agents_results}
   end
 
-  defp add_agent_expectation_result(
-         %AgentCheckResult{} = agent_check_result,
-         facts,
-         expectations
-       ) do
-    %AgentCheckResult{
-      agent_check_result
-      | expectation_evaluations: Enum.map(expectations, &eval_expectation(&1, facts))
-    }
+  defp add_agent_check_result_or_error(agent_id, facts, expectations) do
+    if has_some_fact_gathering_error?(facts) do
+      %AgentCheckError{
+        agent_id: agent_id,
+        type: :fact_gathering_error,
+        message: "Fact gathering ocurred during the execution"
+      }
+    else
+      %AgentCheckResult{
+        agent_id: agent_id,
+        expectation_evaluations: Enum.map(expectations, &eval_expectation(&1, facts))
+      }
+    end
+  end
+
+  def has_some_fact_gathering_error?(facts) do
+    Enum.any?(facts, fn
+      {_, %{type: _, message: _}} -> true
+      _ -> false
+    end)
   end
 
   defp add_facts(%AgentCheckResult{} = agent_check_result, facts, check_id) do
     %AgentCheckResult{
       agent_check_result
-      | facts:
-          Enum.map(facts, fn
-            {name, %{type: type, message: message}} ->
-              %FactError{check_id: check_id, name: name, type: type, message: message}
-
-            {name, value} ->
-              %Fact{check_id: check_id, name: name, value: value}
-          end)
+      | facts: build_facts(check_id, facts)
     }
+  end
+
+  defp add_facts(%AgentCheckError{} = agent_check_result, facts, check_id) do
+    %AgentCheckError{
+      agent_check_result
+      | facts: build_facts(check_id, facts)
+    }
+  end
+
+  defp build_facts(check_id, facts) do
+    Enum.map(facts, fn
+      {name, %{type: type, message: message}} ->
+        %FactError{check_id: check_id, name: name, type: type, message: message}
+
+      {name, value} ->
+        %Fact{check_id: check_id, name: name, value: value}
+    end)
   end
 
   defp eval_expectation(
