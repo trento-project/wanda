@@ -13,6 +13,7 @@ defmodule Wanda.Execution.Evaluation do
     ExpectationEvaluationError,
     ExpectationResult,
     Fact,
+    FactError,
     Result
   }
 
@@ -88,8 +89,12 @@ defmodule Wanda.Execution.Evaluation do
     %AgentCheckResult{
       agent_check_result
       | facts:
-          Enum.map(facts, fn {name, value} ->
-            %Fact{check_id: check_id, name: name, value: value}
+          Enum.map(facts, fn
+            {name, %{type: type, message: message}} ->
+              %FactError{check_id: check_id, name: name, type: type, message: message}
+
+            {name, value} ->
+              %Fact{check_id: check_id, name: name, value: value}
           end)
     }
   end

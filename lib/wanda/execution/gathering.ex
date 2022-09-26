@@ -3,21 +3,36 @@ defmodule Wanda.Execution.Gathering do
   Facts gathering functional core.
   """
 
-  alias Wanda.Execution.{Fact, Target}
+  alias Wanda.Execution.{Fact, FactError, Target}
 
   @doc """
   Adds gathered facts of an agent.
   """
-  @spec put_gathered_facts(map(), String.t(), [Fact.t()]) :: map()
+  @spec put_gathered_facts(map(), String.t(), [Fact.t() | FactError.t()]) :: map()
   def put_gathered_facts(gathered_facts, agent_id, facts) do
     Enum.reduce(
       facts,
       gathered_facts,
-      fn %Fact{check_id: check_id, name: name, value: value}, acc ->
-        put_in(acc, [Access.key(check_id, %{}), Access.key(agent_id, %{}), name], value)
+      fn fact, acc ->
+        put_gathered_fact(acc, agent_id, fact)
       end
     )
   end
+
+  defp put_gathered_fact(acc, agent_id, %Fact{check_id: check_id, name: name, value: value}),
+    do: put_in(acc, [Access.key(check_id, %{}), Access.key(agent_id, %{}), name], value)
+
+  defp put_gathered_fact(acc, agent_id, %FactError{
+         check_id: check_id,
+         name: name,
+         type: type,
+         message: message
+       }),
+       do:
+         put_in(acc, [Access.key(check_id, %{}), Access.key(agent_id, %{}), name], %{
+           type: type,
+           message: message
+         })
 
   @doc """
   Adds timeout data to gathered facts.
