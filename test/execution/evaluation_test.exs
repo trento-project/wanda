@@ -12,6 +12,7 @@ defmodule Wanda.Execution.EvaluationTest do
     ExpectationEvaluationError,
     ExpectationResult,
     Fact,
+    FactError,
     Result
   }
 
@@ -141,6 +142,82 @@ defmodule Wanda.Execution.EvaluationTest do
                            check_id: "expect_check",
                            name: "corosync_token_timeout",
                            value: 30_000
+                         }
+                       ]
+                     }
+                   ],
+                   check_id: "expect_check",
+                   expectation_results: [
+                     %ExpectationResult{
+                       name: "timeout",
+                       result: false,
+                       type: :expect
+                     }
+                   ],
+                   result: :critical
+                 }
+               ],
+               result: :critical
+             } = Evaluation.execute(execution_id, group_id, checks, gathered_facts)
+    end
+
+    test "should return a critical result when some agent gets fact gathering errors" do
+      gathered_facts = %{
+        "expect_check" => %{
+          "agent_1" => %{
+            "corosync_token_timeout" => 10_000
+          },
+          "agent_2" => %{
+            "corosync_token_timeout" => %{
+              type: "some-error",
+              message: "some message"
+            }
+          }
+        }
+      }
+
+      execution_id = UUID.uuid4()
+      group_id = UUID.uuid4()
+      checks = [Catalog.get_check("expect_check")]
+
+      assert %Result{
+               execution_id: ^execution_id,
+               group_id: ^group_id,
+               check_results: [
+                 %CheckResult{
+                   agents_check_results: [
+                     %AgentCheckResult{
+                       agent_id: "agent_1",
+                       expectation_evaluations: [
+                         %ExpectationEvaluation{
+                           name: "timeout",
+                           return_value: false,
+                           type: :expect
+                         }
+                       ],
+                       facts: [
+                         %Fact{
+                           check_id: "expect_check",
+                           name: "corosync_token_timeout",
+                           value: 10_000
+                         }
+                       ]
+                     },
+                     %AgentCheckResult{
+                       agent_id: "agent_2",
+                       expectation_evaluations: [
+                         %ExpectationEvaluation{
+                           name: "timeout",
+                           return_value: false,
+                           type: :expect
+                         }
+                       ],
+                       facts: [
+                         %FactError{
+                           check_id: "expect_check",
+                           name: "corosync_token_timeout",
+                           type: "some-error",
+                           message: "some message"
                          }
                        ]
                      }
