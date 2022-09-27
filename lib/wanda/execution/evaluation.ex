@@ -52,7 +52,7 @@ defmodule Wanda.Execution.Evaluation do
   end
 
   defp add_agents_results(
-         %CheckResult{check_id: check_id} = check_result,
+         %CheckResult{} = check_result,
          expectations,
          agents_facts
        ) do
@@ -67,7 +67,6 @@ defmodule Wanda.Execution.Evaluation do
 
         {agent_id, facts} ->
           add_agent_check_result_or_error(agent_id, facts, expectations)
-          |> add_facts(facts, check_id)
       end)
 
     %CheckResult{check_result | agents_check_results: agents_results}
@@ -77,12 +76,14 @@ defmodule Wanda.Execution.Evaluation do
     if has_some_fact_gathering_error?(facts) do
       %AgentCheckError{
         agent_id: agent_id,
+        facts: facts,
         type: :fact_gathering_error,
         message: "Fact gathering ocurred during the execution"
       }
     else
       %AgentCheckResult{
         agent_id: agent_id,
+        facts: facts,
         expectation_evaluations: Enum.map(expectations, &eval_expectation(&1, facts))
       }
     end
@@ -90,32 +91,8 @@ defmodule Wanda.Execution.Evaluation do
 
   def has_some_fact_gathering_error?(facts) do
     Enum.any?(facts, fn
-      {_, %{type: _, message: _}} -> true
+      %FactError{} -> true
       _ -> false
-    end)
-  end
-
-  defp add_facts(%AgentCheckResult{} = agent_check_result, facts, check_id) do
-    %AgentCheckResult{
-      agent_check_result
-      | facts: build_facts(check_id, facts)
-    }
-  end
-
-  defp add_facts(%AgentCheckError{} = agent_check_result, facts, check_id) do
-    %AgentCheckError{
-      agent_check_result
-      | facts: build_facts(check_id, facts)
-    }
-  end
-
-  defp build_facts(check_id, facts) do
-    Enum.map(facts, fn
-      {name, %{type: type, message: message}} ->
-        %FactError{check_id: check_id, name: name, type: type, message: message}
-
-      {name, value} ->
-        %Fact{check_id: check_id, name: name, value: value}
     end)
   end
 
@@ -123,7 +100,12 @@ defmodule Wanda.Execution.Evaluation do
          %Expectation{name: name, type: type, expression: expression},
          facts
        ) do
-    case Abacus.eval(expression, facts) do
+    scoped_facts =
+      Enum.reduce(facts, %{}, fn %Fact{name: name, value: value}, acc ->
+        put_in(acc, [name], value)
+      end)
+
+    case Abacus.eval(expression, scoped_facts) do
       {:ok, return_value} ->
         %ExpectationEvaluation{name: name, type: type, return_value: return_value}
 

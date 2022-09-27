@@ -13,26 +13,11 @@ defmodule Wanda.Execution.Gathering do
     Enum.reduce(
       facts,
       gathered_facts,
-      fn fact, acc ->
-        put_gathered_fact(acc, agent_id, fact)
+      fn %{check_id: check_id} = fact, acc ->
+        update_in(acc, [Access.key(check_id, %{}), Access.key(agent_id, [])], &[fact | &1])
       end
     )
   end
-
-  defp put_gathered_fact(acc, agent_id, %Fact{check_id: check_id, name: name, value: value}),
-    do: put_in(acc, [Access.key(check_id, %{}), Access.key(agent_id, %{}), name], value)
-
-  defp put_gathered_fact(acc, agent_id, %FactError{
-         check_id: check_id,
-         name: name,
-         type: type,
-         message: message
-       }),
-       do:
-         put_in(acc, [Access.key(check_id, %{}), Access.key(agent_id, %{}), name], %{
-           type: type,
-           message: message
-         })
 
   @doc """
   Adds timeout data to gathered facts.

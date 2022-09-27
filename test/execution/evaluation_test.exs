@@ -20,12 +20,12 @@ defmodule Wanda.Execution.EvaluationTest do
     test "should return a passing result when all the agents fullfill the expectations with an expect condition" do
       gathered_facts = %{
         "expect_check" => %{
-          "agent_1" => %{
-            "corosync_token_timeout" => 30_000
-          },
-          "agent_2" => %{
-            "corosync_token_timeout" => 30_000
-          }
+          "agent_1" => [
+            %Fact{name: "corosync_token_timeout", check_id: "expect_check", value: 30_000}
+          ],
+          "agent_2" => [
+            %Fact{name: "corosync_token_timeout", check_id: "expect_check", value: 30_000}
+          ]
         }
       }
 
@@ -92,12 +92,12 @@ defmodule Wanda.Execution.EvaluationTest do
     test "should return a critical result when not all the agents fullfill the expectations with an expect condition" do
       gathered_facts = %{
         "expect_check" => %{
-          "agent_1" => %{
-            "corosync_token_timeout" => 10_000
-          },
-          "agent_2" => %{
-            "corosync_token_timeout" => 30_000
-          }
+          "agent_1" => [
+            %Fact{name: "corosync_token_timeout", check_id: "expect_check", value: 10_000}
+          ],
+          "agent_2" => [
+            %Fact{name: "corosync_token_timeout", check_id: "expect_check", value: 30_000}
+          ]
         }
       }
 
@@ -164,15 +164,17 @@ defmodule Wanda.Execution.EvaluationTest do
     test "should return a critical result when some agent gets fact gathering errors" do
       gathered_facts = %{
         "expect_check" => %{
-          "agent_1" => %{
-            "corosync_token_timeout" => 10_000
-          },
-          "agent_2" => %{
-            "corosync_token_timeout" => %{
+          "agent_1" => [
+            %Fact{name: "corosync_token_timeout", check_id: "expect_check", value: 10_000}
+          ],
+          "agent_2" => [
+            %FactError{
+              name: "corosync_token_timeout",
+              check_id: "expect_check",
               type: "some-error",
               message: "some message"
             }
-          }
+          ]
         }
       }
 
@@ -235,12 +237,12 @@ defmodule Wanda.Execution.EvaluationTest do
     test "should return a passing result when all the agents fullfill the expectations with an expect_same condition" do
       gathered_facts = %{
         "expect_same_check" => %{
-          "agent_1" => %{
-            "corosync_token_timeout" => 30_000
-          },
-          "agent_2" => %{
-            "corosync_token_timeout" => 30_000
-          }
+          "agent_1" => [
+            %Fact{name: "corosync_token_timeout", check_id: "expect_same_check", value: 30_000}
+          ],
+          "agent_2" => [
+            %Fact{name: "corosync_token_timeout", check_id: "expect_same_check", value: 30_000}
+          ]
         }
       }
 
@@ -307,12 +309,12 @@ defmodule Wanda.Execution.EvaluationTest do
     test "should return a passing result when not all the agents fullfill the expectations with an expect_same condition" do
       gathered_facts = %{
         "expect_same_check" => %{
-          "agent_1" => %{
-            "corosync_token_timeout" => "abc"
-          },
-          "agent_2" => %{
-            "corosync_token_timeout" => 30_000
-          }
+          "agent_1" => [
+            %Fact{name: "corosync_token_timeout", check_id: "expect_same_check", value: "abc"}
+          ],
+          "agent_2" => [
+            %Fact{name: "corosync_token_timeout", check_id: "expect_same_check", value: 30_000}
+          ]
         }
       }
 
@@ -379,10 +381,14 @@ defmodule Wanda.Execution.EvaluationTest do
     test "should return a critical result if a fact is missing from the agent fact gathering" do
       gathered_facts = %{
         "with_fact_missing_check" => %{
-          "agent_1" => %{
-            "corosync_token_timeout" => 30_000
-          },
-          "agent_2" => %{}
+          "agent_1" => [
+            %Fact{
+              name: "corosync_token_timeout",
+              check_id: "with_fact_missing_check",
+              value: 30_000
+            }
+          ],
+          "agent_2" => []
         }
       }
 
@@ -422,12 +428,12 @@ defmodule Wanda.Execution.EvaluationTest do
     test "should return a critical result if an illegal expression was specified in a check expectation" do
       gathered_facts = %{
         "with_illegal_expression_check" => %{
-          "agent_1" => %{
-            "jedi" => Faker.StarWars.character()
-          },
-          "agent_2" => %{
-            "jedi" => Faker.StarWars.character()
-          }
+          "agent_1" => [
+            %Fact{name: "jedi", value: Faker.StarWars.character()}
+          ],
+          "agent_2" => [
+            %Fact{name: "jedi", value: Faker.StarWars.character()}
+          ]
         }
       }
 
@@ -474,12 +480,12 @@ defmodule Wanda.Execution.EvaluationTest do
     test "should return a critical result if an agent times out" do
       gathered_facts = %{
         "expect_check" => %{
-          "agent_1" => %{
-            "corosync_token_timeout" => 30_000
-          },
-          "agent_2" => %{
-            "corosync_token_timeout" => 30_000
-          },
+          "agent_1" => [
+            %Fact{name: "corosync_token_timeout", check_id: "expect_check", value: 30_000}
+          ],
+          "agent_2" => [
+            %Fact{name: "corosync_token_timeout", check_id: "expect_check", value: 30_000}
+          ],
           "agent_3" => :timeout
         }
       }
