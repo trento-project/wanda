@@ -6,3 +6,5 @@ Application.put_env(:wanda, Wanda.Policy, execution_impl: Wanda.Execution.Mock)
 
 ExUnit.start(capture_log: true)
 Faker.start()
+
+Ecto.Adapters.SQL.Sandbox.mode(Wanda.Repo, :manual)

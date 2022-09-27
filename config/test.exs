@@ -1,5 +1,32 @@
 import Config
 
+# Configure your database
+#
+# The MIX_TEST_PARTITION environment variable can be used
+# to provide built-in test partitioning in CI environment.
+# Run `mix help test` for more information.
+config :wanda, Wanda.Repo,
+  username: "postgres",
+  password: "postgres",
+  hostname: "localhost",
+  database: "wanda_test#{System.get_env("MIX_TEST_PARTITION")}",
+  port: 5433,
+  pool: Ecto.Adapters.SQL.Sandbox,
+  pool_size: 10
+
+# We don't run a server during test. If one is required,
+# you can enable the server option below.
+config :wanda, WandaWeb.Endpoint,
+  http: [ip: {127, 0, 0, 1}, port: 4002],
+  secret_key_base: "HipLWaSCDXUy5NYo9pu2D4cv9utZCdrmF00nHGN9maeDOxyricNSH7dUz+RNFLBY",
+  server: false
+
+# Print only warnings and errors during test
+config :logger, level: :warn
+
+# Initialize plugs at runtime for faster test compilation
+config :phoenix, :plug_init_mode, :runtime
+
 config :wanda, Wanda.Catalog, catalog_path: "test/fixtures/catalog"
 
 config :wanda, :messaging,
