@@ -18,7 +18,7 @@ defmodule Wanda.Messaging.Adapters.AMQP.Publisher do
   def publish_message(message, routing_key \\ "") do
     Logger.info("Publishing message #{inspect(message)}")
 
-    GenRMQ.Publisher.publish(__MODULE__, message, routing_key, [{:content_type, Contracts.content_type}])
+    GenRMQ.Publisher.publish(__MODULE__, message, routing_key, [{:content_type, Contracts.content_type()}])
   end
 
   def child_spec(opts) do
