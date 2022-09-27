@@ -8,7 +8,7 @@ defmodule Wanda.Messaging.Adapters.AMQP.Publisher do
   require Logger
 
   def init do
-    Application.fetch_env!(:wanda, :messaging)[:amqp][:publisher]
+    Application.fetch_env!(:wanda, Wanda.Messaging.Adapters.AMQP)[:publisher]
   end
 
   def start_link(_opts), do: GenRMQ.Publisher.start_link(__MODULE__, name: __MODULE__)

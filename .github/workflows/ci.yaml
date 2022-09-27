@@ -95,6 +95,14 @@ jobs:
     name: Test
     needs: elixir-deps
     runs-on: ubuntu-20.04
+    services:
+      rabbitmq:
+        image: rabbitmq
+        env:
+          RABBITMQ_DEFAULT_USER: wanda
+          RABBITMQ_DEFAULT_PASS: wanda
+        ports:
+          - 5672:5672
 
     steps:
       - name: Checkout

@@ -12,7 +12,7 @@ defmodule Wanda.Messaging.Adapters.AMQP.Consumer do
 
   @impl GenRMQ.Consumer
   def init do
-    config = Application.fetch_env!(:wanda, :messaging)[:amqp][:consumer]
+    config = Application.fetch_env!(:wanda, Wanda.Messaging.Adapters.AMQP)[:consumer]
 
     Keyword.merge(config, retry_delay_function: fn attempt -> :timer.sleep(2000 * attempt) end)
   end
