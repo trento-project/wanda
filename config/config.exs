@@ -24,6 +24,25 @@ config :wanda, Wanda.Catalog, catalog_path: "priv/catalog"
 
 config :wanda, Wanda.Policy, execution_impl: Wanda.Execution
 
+# Phoenix configuration
+
+config :wanda,
+  ecto_repos: [Wanda.Repo]
+
+# Configures the endpoint
+config :wanda, WandaWeb.Endpoint,
+  url: [host: "localhost"],
+  render_errors: [view: WandaWeb.ErrorView, accepts: ~w(json), layout: false],
+  live_view: [signing_salt: "j6kcshS4"]
+
+# Configures Elixir's Logger
+config :logger, :console,
+  format: "$time $metadata[$level] $message\n",
+  metadata: [:request_id]
+
+# Use Jason for JSON parsing in Phoenix
+config :phoenix, :json_library, Jason
+
 # Import environment specific config. This must remain at the bottom
 # of this file so it overrides the configuration defined above.
 import_config "#{config_env()}.exs"

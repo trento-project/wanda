@@ -11,3 +11,17 @@ services:
     environment:
       RABBITMQ_DEFAULT_USER: wanda
       RABBITMQ_DEFAULT_PASS: wanda
+  postgres:
+    image: postgres:latest
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+      PGDATA: /var/lib/postgresql/data/pgdata
+    ports:
+      - 5434:5432
+    restart: always
+    volumes:
+      - pg_data:/var/lib/postgresql/data
+
+volumes:
+  pg_data:
