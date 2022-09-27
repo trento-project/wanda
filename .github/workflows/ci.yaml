@@ -102,7 +102,7 @@ jobs:
             POSTGRES_PASSWORD: postgres
             POSTGRES_DB: wanda_test
           ports:
-            - 5433:5432
+            - 5434:5432
           # Set health checks to wait until postgres has started
           options: >-
             --health-cmd pg_isready
