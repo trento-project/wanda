@@ -3,7 +3,7 @@ defmodule Wanda.Execution.Behaviour do
   Execution API behaviour.
   """
 
-  alias Wanda.Execution.{Fact, Target}
+  alias Wanda.Execution.{Fact, FactError, Target}
 
   @callback start_execution(
               execution_id :: String.t(),
@@ -18,6 +18,10 @@ defmodule Wanda.Execution.Behaviour do
               config :: Keyword.t()
             ) :: :ok | {:error, any}
 
-  @callback receive_facts(execution_id :: String.t(), agent_id :: String.t(), facts :: [Fact.t()]) ::
+  @callback receive_facts(
+              execution_id :: String.t(),
+              agent_id :: String.t(),
+              facts :: [Fact.t() | FactError.t()]
+            ) ::
               :ok | {:error, any}
 end

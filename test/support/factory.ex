@@ -12,6 +12,7 @@ defmodule Wanda.Factory do
     ExpectationEvaluationError,
     ExpectationResult,
     Fact,
+    FactError,
     Result,
     Target
   }
@@ -50,9 +51,18 @@ defmodule Wanda.Factory do
 
   def fact_factory(attrs) do
     %Fact{
-      check_id: Map.get(attrs, :name, UUID.uuid4()),
+      check_id: Map.get(attrs, :check_id, UUID.uuid4()),
       name: Map.get(attrs, :name, Faker.StarWars.character()),
       value: Map.get(attrs, :value, Faker.StarWars.planet())
+    }
+  end
+
+  def fact_error_factory(attrs) do
+    %FactError{
+      check_id: Map.get(attrs, :check_id, UUID.uuid4()),
+      name: Map.get(attrs, :name, Faker.StarWars.character()),
+      type: Map.get(attrs, :type, Faker.StarWars.planet()),
+      message: Map.get(attrs, :message, Faker.StarWars.quote())
     }
   end
 
