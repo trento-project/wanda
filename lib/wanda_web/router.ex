@@ -7,5 +7,6 @@ defmodule WandaWeb.Router do
 
   scope "/api", WandaWeb do
     pipe_through :api
+    get "/results/:group_id", ResultsController, :results
   end
 end
