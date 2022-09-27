@@ -13,8 +13,6 @@ defmodule Wanda.Application do
         Wanda.Repo,
         # Start the Telemetry supervisor
         WandaWeb.Telemetry,
-        # Start the PubSub system
-        {Phoenix.PubSub, name: Wanda.PubSub},
         # Start the Endpoint (http/https)
         WandaWeb.Endpoint,
         # Start a worker by calling: Wanda.Worker.start_link(arg)

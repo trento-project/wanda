@@ -33,7 +33,6 @@ config :wanda,
 config :wanda, WandaWeb.Endpoint,
   url: [host: "localhost"],
   render_errors: [view: WandaWeb.ErrorView, accepts: ~w(json), layout: false],
-  pubsub_server: Wanda.PubSub,
   live_view: [signing_salt: "j6kcshS4"]
 
 # Configures Elixir's Logger
