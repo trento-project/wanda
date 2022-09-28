@@ -88,9 +88,21 @@ defmodule Wanda.Messaging.MapperTest do
     execution_id = UUID.uuid4()
     group_id = UUID.uuid4()
 
-    execution_result = build(:execution_result, execution_id: execution_id, group_id: group_id)
+    result_map = %{passing: :PASSING, warning: :WARNING, critical: :CRITICAL}
 
-    assert %ExecutionCompleted{execution_id: ^execution_id, group_id: ^group_id} =
-             Mapper.to_execution_completed(execution_result)
+    Enum.each(result_map, fn {domain_result, event_result} ->
+      execution_result =
+        build(:execution_result,
+          execution_id: execution_id,
+          group_id: group_id,
+          result: domain_result
+        )
+
+      assert %ExecutionCompleted{
+               execution_id: ^execution_id,
+               group_id: ^group_id,
+               result: ^event_result
+             } = Mapper.to_execution_completed(execution_result)
+    end)
   end
 end
