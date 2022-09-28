@@ -110,7 +110,7 @@ defmodule Wanda.Factory do
           result: :passing
         }
       ],
-      result: :passing
+      result: Map.get(attrs, :result, Enum.random([:passing, :warning, :critical]))
     }
   end
 end

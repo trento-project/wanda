@@ -25,12 +25,21 @@ defmodule Wanda.Messaging.Mapper do
     )
   end
 
-  def to_execution_completed(%Result{} = result) do
-    result
-    # TODO: do proper mapping, remove miss
-    |> Miss.Map.from_nested_struct()
-    |> ExecutionCompleted.new()
+  def to_execution_completed(%Result{
+        execution_id: execution_id,
+        group_id: group_id,
+        result: result
+      }) do
+    ExecutionCompleted.new!(
+      execution_id: execution_id,
+      group_id: group_id,
+      result: to_result(result)
+    )
   end
+
+  defp to_result(:passing), do: :PASSING
+  defp to_result(:warning), do: :WARNING
+  defp to_result(:critical), do: :CRITICAL
 
   defp to_facts_gathering_requested_target(
          %Target{agent_id: agent_id, checks: target_checks},
