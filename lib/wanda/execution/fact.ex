@@ -3,6 +3,7 @@ defmodule Wanda.Execution.Fact do
   A fact is a piece of information that was gathered from a target.
   """
 
+  @derive Jason.Encoder
   defstruct [
     :check_id,
     :name,
