@@ -8,10 +8,10 @@ defmodule Wanda.Factory do
   alias Wanda.Execution.{
     AgentCheckResult,
     CheckResult,
+    ExecutionResult,
     ExpectationEvaluation,
     ExpectationEvaluationError,
     ExpectationResult,
-    ExecutionResult,
     Fact,
     FactError,
     Result,
