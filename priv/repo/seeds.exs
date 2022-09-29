@@ -13,7 +13,7 @@
 execution_id = "00000000-0000-0000-0000-000000000001"
 group_id = "00000000-0000-0000-0000-000000000002"
 
-%Wanda.Results.ExecutionResult{
+%Wanda.Execution.ExecutionResult{
   execution_id: execution_id,
   group_id: group_id,
   payload: %Wanda.Execution.Result{
