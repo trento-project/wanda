@@ -1,7 +1,7 @@
 defmodule Wanda.Factory do
   @moduledoc false
 
-  use ExMachina
+  use ExMachina.Ecto, repo: Wanda.Repo
 
   alias Wanda.Catalog
 
@@ -11,6 +11,7 @@ defmodule Wanda.Factory do
     ExpectationEvaluation,
     ExpectationEvaluationError,
     ExpectationResult,
+    ExecutionResult,
     Fact,
     FactError,
     Result,
@@ -111,6 +112,17 @@ defmodule Wanda.Factory do
         }
       ],
       result: Map.get(attrs, :result, Enum.random([:passing, :warning, :critical]))
+    }
+  end
+
+  def execution_result_log_item_factory(attrs) do
+    execution_id = Map.get(attrs, :execution_id, Faker.UUID.v4())
+    group_id = Map.get(attrs, :group_id, Faker.UUID.v4())
+
+    %ExecutionResult{
+      execution_id: execution_id,
+      group_id: group_id,
+      payload: build(:execution_result, execution_id: execution_id, group_id: group_id)
     }
   end
 end
