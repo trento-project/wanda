@@ -3,6 +3,7 @@ defmodule Wanda.Execution.FactError do
   Fact with an error.
   """
 
+  @derive Jason.Encoder
   defstruct [
     :check_id,
     :name,
