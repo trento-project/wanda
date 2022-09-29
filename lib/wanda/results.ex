@@ -7,7 +7,7 @@ defmodule Wanda.Results do
 
   alias Wanda.Execution.{ExecutionResult, Result}
 
-  @spec append(Result.t()) :: {:ok, any() } | {:error, any()}
+  @spec append(Result.t()) :: {:ok, any()} | {:error, any()}
   def append(
         %Result{
           execution_id: execution_id,
