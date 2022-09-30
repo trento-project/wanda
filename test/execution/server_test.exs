@@ -110,7 +110,7 @@ defmodule Wanda.Execution.ServerTest do
       assert_receive :executed
       assert_receive {:DOWN, ^ref, _, ^pid, :normal}
 
-      assert [%ExecutionResult{execution_id: ^execution_id}] = Repo.all(ExecutionResult)
+      assert %ExecutionResult{execution_id: ^execution_id} = Repo.one!(ExecutionResult)
     end
 
     test "should timeout" do
@@ -148,8 +148,8 @@ defmodule Wanda.Execution.ServerTest do
 
       assert_receive {:DOWN, ^ref, _, ^pid, :normal}
 
-      assert [%ExecutionResult{execution_id: ^execution_id, group_id: ^group_id}] =
-               Repo.all(ExecutionResult)
+      assert %ExecutionResult{execution_id: ^execution_id, group_id: ^group_id} =
+               Repo.one!(ExecutionResult)
     end
 
     test "should go down when the timeout function gets called" do
@@ -178,15 +178,13 @@ defmodule Wanda.Execution.ServerTest do
 
       assert_receive {:DOWN, ^ref, _, ^pid, :normal}
 
-      assert [
-               %ExecutionResult{
-                 execution_id: ^execution_id,
-                 group_id: ^group_id,
-                 payload: %{
-                   "timeout" => timedout_targets
-                 }
+      assert %ExecutionResult{
+               execution_id: ^execution_id,
+               group_id: ^group_id,
+               payload: %{
+                 "timeout" => timedout_targets
                }
-             ] = Repo.all(ExecutionResult)
+             } = Repo.one!(ExecutionResult)
 
       assert timedout_targets == Enum.map(targets, & &1.agent_id)
     end

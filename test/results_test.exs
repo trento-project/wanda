@@ -21,16 +21,14 @@ defmodule Wanda.ResultsTest do
       )
       |> Results.save_result()
 
-      assert [
-               %ExecutionResult{
-                 execution_id: ^execution_id,
-                 group_id: ^group_id,
-                 payload: %{
-                   "result" => "passing",
-                   "check_results" => [_ | _]
-                 }
+      assert %ExecutionResult{
+               execution_id: ^execution_id,
+               group_id: ^group_id,
+               payload: %{
+                 "result" => "passing",
+                 "check_results" => [_ | _]
                }
-             ] = Repo.all(ExecutionResult)
+             } = Repo.one!(ExecutionResult)
     end
 
     test "should correctly add an item to a non empty log" do
