@@ -5,10 +5,11 @@ defmodule Wanda.Results do
    - append an item to the log
   """
 
-  alias Wanda.Execution.{ExecutionResult, Result}
+  alias Wanda.Execution.Result
+  alias Wanda.Results.ExecutionResult
 
-  @spec append(Result.t()) :: {:ok, any()} | {:error, any()}
-  def append(
+  @spec save_result(Result.t()) :: ExecutionResult.t()
+  def save_result(
         %Result{
           execution_id: execution_id,
           group_id: group_id
@@ -19,6 +20,6 @@ defmodule Wanda.Results do
       group_id: group_id,
       payload: result
     }
-    |> Wanda.Repo.insert()
+    |> Wanda.Repo.insert!()
   end
 end

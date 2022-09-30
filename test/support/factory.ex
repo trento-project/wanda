@@ -8,7 +8,6 @@ defmodule Wanda.Factory do
   alias Wanda.Execution.{
     AgentCheckResult,
     CheckResult,
-    ExecutionResult,
     ExpectationEvaluation,
     ExpectationEvaluationError,
     ExpectationResult,
@@ -17,6 +16,8 @@ defmodule Wanda.Factory do
     Result,
     Target
   }
+
+  alias Wanda.Results.ExecutionResult
 
   def check_factory(attrs) do
     %Catalog.Check{
@@ -115,7 +116,7 @@ defmodule Wanda.Factory do
     }
   end
 
-  def execution_result_log_item_factory(attrs) do
+  def result_factory(attrs) do
     execution_id = Map.get(attrs, :execution_id, Faker.UUID.v4())
     group_id = Map.get(attrs, :group_id, Faker.UUID.v4())
 

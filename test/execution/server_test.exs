@@ -8,7 +8,8 @@ defmodule Wanda.Execution.ServerTest do
   alias Trento.Checks.V1.FactsGatheringRequested
   alias Wanda.Catalog
 
-  alias Wanda.Execution.{ExecutionResult, Server}
+  alias Wanda.Execution.Server
+  alias Wanda.Results.ExecutionResult
 
   setup [:set_mox_from_context, :verify_on_exit!]
 
@@ -34,10 +35,8 @@ defmodule Wanda.Execution.ServerTest do
                   ]}
                )
 
-      history_log = Repo.all(ExecutionResult)
-
       assert pid == :global.whereis_name({Server, execution_id})
-      assert Enum.empty?(history_log)
+      assert ExecutionResult |> Repo.all() |> Enum.empty?()
     end
   end
 
@@ -64,10 +63,8 @@ defmodule Wanda.Execution.ServerTest do
          ]}
       )
 
-      history_log = Repo.all(ExecutionResult)
-
       assert_receive :wandalorian
-      assert Enum.empty?(history_log)
+      assert ExecutionResult |> Repo.all() |> Enum.empty?()
     end
 
     test "should exit when all facts are sent by all agents" do
@@ -113,9 +110,7 @@ defmodule Wanda.Execution.ServerTest do
       assert_receive :executed
       assert_receive {:DOWN, ^ref, _, ^pid, :normal}
 
-      history_log = Repo.all(ExecutionResult)
-      assert 1 == length(history_log)
-      assert [%ExecutionResult{execution_id: ^execution_id}] = history_log
+      assert [%ExecutionResult{execution_id: ^execution_id}] = Repo.all(ExecutionResult)
     end
 
     test "should timeout" do
@@ -153,10 +148,8 @@ defmodule Wanda.Execution.ServerTest do
 
       assert_receive {:DOWN, ^ref, _, ^pid, :normal}
 
-      history_log = Repo.all(ExecutionResult)
-      assert 1 == length(history_log)
-
-      assert [%ExecutionResult{execution_id: ^execution_id, group_id: ^group_id}] = history_log
+      assert [%ExecutionResult{execution_id: ^execution_id, group_id: ^group_id}] =
+               Repo.all(ExecutionResult)
     end
 
     test "should go down when the timeout function gets called" do
@@ -185,20 +178,15 @@ defmodule Wanda.Execution.ServerTest do
 
       assert_receive {:DOWN, ^ref, _, ^pid, :normal}
 
-      history_log = Repo.all(ExecutionResult)
-      assert 1 == length(history_log)
-
       assert [
                %ExecutionResult{
                  execution_id: ^execution_id,
                  group_id: ^group_id,
                  payload: %{
-                   "execution_id" => ^execution_id,
-                   "group_id" => ^group_id,
                    "timeout" => timedout_targets
                  }
                }
-             ] = history_log
+             ] = Repo.all(ExecutionResult)
 
       assert timedout_targets == Enum.map(targets, & &1.agent_id)
     end
