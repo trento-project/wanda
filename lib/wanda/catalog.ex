@@ -9,16 +9,18 @@ defmodule Wanda.Catalog do
     Fact
   }
 
-  @catalog_path Application.compile_env!(:wanda, [__MODULE__, :catalog_path])
-
   @doc """
   Get a check from the catalog.
   """
   def get_check(check_id) do
-    @catalog_path
+    get_catalog_path()
     |> Path.join("#{check_id}.yaml")
     |> YamlElixir.read_from_file!()
     |> map_check()
+  end
+
+  defp get_catalog_path do
+    Application.fetch_env!(:wanda, Wanda.Catalog)[:catalog_path]
   end
 
   defp map_check(%{

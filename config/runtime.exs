@@ -77,4 +77,12 @@ if config_env() == :prod do
     publisher: [
       connection: amqp_url
     ]
+
+  # Update catalog path to the current application dir during runtime
+  config :wanda, Wanda.Catalog,
+    catalog_path:
+      Application.app_dir(
+        :wanda,
+        Application.fetch_env!(:wanda, Wanda.Catalog)[:catalog_path]
+      )
 end
