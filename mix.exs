@@ -34,8 +34,10 @@ defmodule Wanda.MixProject do
   defp deps do
     [
       {:abacus, "~> 0.4.2"},
-      {:elixir_uuid, "~> 1.2"},
       {:gen_rmq, "~> 4.0"},
+      # this is pinned since the 3.1.0 version requires OTP 23.2
+      # overrides gen_rmq dependency
+      {:credentials_obfuscation, "3.0.0", override: true},
       {:jason, "~> 1.3"},
       {:yaml_elixir, "~> 2.9"},
       {:miss, "~> 0.1.5"},
