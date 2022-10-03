@@ -5,7 +5,7 @@ defmodule Wanda.Execution.Result do
 
   alias Wanda.Execution.CheckResult
 
-  @derive Jason.Encoder
+  @derive {Jason.Encoder, except: [:execution_id, :group_id]}
   defstruct [
     :execution_id,
     :group_id,

@@ -13,62 +13,57 @@
 execution_id = "00000000-0000-0000-0000-000000000001"
 group_id = "00000000-0000-0000-0000-000000000002"
 
-%Wanda.Results.ExecutionResult{
+Wanda.Results.save_result(%Wanda.Execution.Result{
   execution_id: execution_id,
   group_id: group_id,
-  payload: %Wanda.Execution.Result{
-    execution_id: execution_id,
-    group_id: group_id,
-    check_results: [
-      %Wanda.Execution.CheckResult{
-        agents_check_results: [
-          %Wanda.Execution.AgentCheckResult{
-            agent_id: "agent_1",
-            expectation_evaluations: [
-              %Wanda.Execution.ExpectationEvaluation{
-                name: "timeout",
-                return_value: true,
-                type: :expect
-              }
-            ],
-            facts: [
-              %Wanda.Execution.Fact{
-                check_id: "expect_check",
-                name: "corosync_token_timeout",
-                value: 30_000
-              }
-            ]
-          },
-          %Wanda.Execution.AgentCheckResult{
-            agent_id: "agent_2",
-            expectation_evaluations: [
-              %Wanda.Execution.ExpectationEvaluation{
-                name: "timeout",
-                return_value: true,
-                type: :expect
-              }
-            ],
-            facts: [
-              %Wanda.Execution.Fact{
-                check_id: "expect_check",
-                name: "corosync_token_timeout",
-                value: 30_000
-              }
-            ]
-          }
-        ],
-        check_id: "expect_check",
-        expectation_results: [
-          %Wanda.Execution.ExpectationResult{
-            name: "timeout",
-            result: true,
-            type: :expect
-          }
-        ],
-        result: :passing
-      }
-    ],
-    result: :passing
-  }
-}
-|> Wanda.Repo.insert!()
+  check_results: [
+    %Wanda.Execution.CheckResult{
+      agents_check_results: [
+        %Wanda.Execution.AgentCheckResult{
+          agent_id: "agent_1",
+          expectation_evaluations: [
+            %Wanda.Execution.ExpectationEvaluation{
+              name: "timeout",
+              return_value: true,
+              type: :expect
+            }
+          ],
+          facts: [
+            %Wanda.Execution.Fact{
+              check_id: "expect_check",
+              name: "corosync_token_timeout",
+              value: 30_000
+            }
+          ]
+        },
+        %Wanda.Execution.AgentCheckResult{
+          agent_id: "agent_2",
+          expectation_evaluations: [
+            %Wanda.Execution.ExpectationEvaluation{
+              name: "timeout",
+              return_value: true,
+              type: :expect
+            }
+          ],
+          facts: [
+            %Wanda.Execution.Fact{
+              check_id: "expect_check",
+              name: "corosync_token_timeout",
+              value: 30_000
+            }
+          ]
+        }
+      ],
+      check_id: "expect_check",
+      expectation_results: [
+        %Wanda.Execution.ExpectationResult{
+          name: "timeout",
+          result: true,
+          type: :expect
+        }
+      ],
+      result: :passing
+    }
+  ],
+  result: :passing
+})

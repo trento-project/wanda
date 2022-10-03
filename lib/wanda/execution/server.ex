@@ -98,9 +98,8 @@ defmodule Wanda.Execution.Server do
 
     gathered_facts = Gathering.put_gathering_timeouts(gathered_facts, targets)
     result = Evaluation.execute(execution_id, group_id, checks, gathered_facts, timedout_agents)
-    execution_completed = Messaging.Mapper.to_execution_completed(result)
 
-    :ok = Messaging.publish("results", execution_completed)
+    store_and_publish_execution_result(result)
 
     {:stop, :normal, state}
   end
@@ -125,13 +124,19 @@ defmodule Wanda.Execution.Server do
     if Gathering.all_agents_sent_facts?(agents_gathered, targets) do
       result = Evaluation.execute(execution_id, group_id, checks, gathered_facts)
 
-      execution_completed = Messaging.Mapper.to_execution_completed(result)
-      :ok = Messaging.publish("results", execution_completed)
+      store_and_publish_execution_result(result)
 
       {:stop, :normal, state}
     else
       {:noreply, state}
     end
+  end
+
+  defp store_and_publish_execution_result(%Wanda.Execution.Result{} = result) do
+    Wanda.Results.save_result(result)
+
+    execution_completed = Messaging.Mapper.to_execution_completed(result)
+    :ok = Messaging.publish("results", execution_completed)
   end
 
   defp via_tuple(execution_id),

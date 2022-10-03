@@ -1,7 +1,7 @@
 defmodule Wanda.Factory do
   @moduledoc false
 
-  use ExMachina
+  use ExMachina.Ecto, repo: Wanda.Repo
 
   alias Wanda.Catalog
 
@@ -16,6 +16,8 @@ defmodule Wanda.Factory do
     Result,
     Target
   }
+
+  alias Wanda.Results.ExecutionResult
 
   def check_factory(attrs) do
     %Catalog.Check{
@@ -66,7 +68,7 @@ defmodule Wanda.Factory do
     }
   end
 
-  def execution_result_factory(attrs) do
+  def result_factory(attrs) do
     %Result{
       execution_id: Map.get(attrs, :execution_id, UUID.uuid4()),
       group_id: Map.get(attrs, :group_id, UUID.uuid4()),
@@ -111,6 +113,17 @@ defmodule Wanda.Factory do
         }
       ],
       result: Map.get(attrs, :result, Enum.random([:passing, :warning, :critical]))
+    }
+  end
+
+  def execution_result_factory(attrs) do
+    execution_id = Map.get(attrs, :execution_id, Faker.UUID.v4())
+    group_id = Map.get(attrs, :group_id, Faker.UUID.v4())
+
+    %ExecutionResult{
+      execution_id: execution_id,
+      group_id: group_id,
+      payload: build(:result, execution_id: execution_id, group_id: group_id)
     }
   end
 end
