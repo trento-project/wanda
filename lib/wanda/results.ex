@@ -15,11 +15,10 @@ defmodule Wanda.Results do
           group_id: group_id
         } = result
       ) do
-    %ExecutionResult{
+    Wanda.Repo.insert!(%ExecutionResult{
       execution_id: execution_id,
       group_id: group_id,
       payload: result
-    }
-    |> Wanda.Repo.insert!()
+    })
   end
 end
