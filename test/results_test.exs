@@ -14,7 +14,7 @@ defmodule Wanda.ResultsTest do
       group_id = UUID.uuid4()
 
       build(
-        :execution_result,
+        :result,
         execution_id: execution_id,
         group_id: group_id,
         result: :passing
@@ -36,13 +36,13 @@ defmodule Wanda.ResultsTest do
         %ExecutionResult{execution_id: execution_1, group_id: group_1},
         %ExecutionResult{execution_id: execution_2, group_id: group_2},
         %ExecutionResult{execution_id: execution_3, group_id: group_3}
-      ] = insert_list(3, :result)
+      ] = insert_list(3, :execution_result)
 
       execution_id = UUID.uuid4()
       group_id = UUID.uuid4()
 
       build(
-        :execution_result,
+        :result,
         execution_id: execution_id,
         group_id: group_id,
         result: :passing

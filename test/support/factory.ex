@@ -68,7 +68,7 @@ defmodule Wanda.Factory do
     }
   end
 
-  def execution_result_factory(attrs) do
+  def result_factory(attrs) do
     %Result{
       execution_id: Map.get(attrs, :execution_id, UUID.uuid4()),
       group_id: Map.get(attrs, :group_id, UUID.uuid4()),
@@ -116,14 +116,14 @@ defmodule Wanda.Factory do
     }
   end
 
-  def result_factory(attrs) do
+  def execution_result_factory(attrs) do
     execution_id = Map.get(attrs, :execution_id, Faker.UUID.v4())
     group_id = Map.get(attrs, :group_id, Faker.UUID.v4())
 
     %ExecutionResult{
       execution_id: execution_id,
       group_id: group_id,
-      payload: build(:execution_result, execution_id: execution_id, group_id: group_id)
+      payload: build(:result, execution_id: execution_id, group_id: group_id)
     }
   end
 end

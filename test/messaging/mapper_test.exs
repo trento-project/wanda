@@ -92,7 +92,7 @@ defmodule Wanda.Messaging.MapperTest do
 
     Enum.each(result_map, fn {domain_result, event_result} ->
       execution_result =
-        build(:execution_result,
+        build(:result,
           execution_id: execution_id,
           group_id: group_id,
           result: domain_result
