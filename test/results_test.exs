@@ -64,4 +64,47 @@ defmodule Wanda.ResultsTest do
              ] = Repo.all(ExecutionResult)
     end
   end
+
+  describe "Getting Execution Results" do
+    test "no filter or pagination applied" do
+      [
+        %ExecutionResult{execution_id: execution_1, group_id: group_1},
+        %ExecutionResult{execution_id: execution_2, group_id: group_2},
+        %ExecutionResult{execution_id: execution_3, group_id: group_3}
+      ] = insert_list(3, :execution_result)
+
+      assert [
+               %ExecutionResult{execution_id: ^execution_1, group_id: ^group_1},
+               %ExecutionResult{execution_id: ^execution_2, group_id: ^group_2},
+               %ExecutionResult{execution_id: ^execution_3, group_id: ^group_3}
+             ] = Results.list_execution_results(%{page: 1})
+    end
+
+    test "apply filtering by group id" do
+      [
+        %ExecutionResult{execution_id: execution_1, group_id: group_1},
+        %ExecutionResult{},
+        %ExecutionResult{}
+      ] = insert_list(3, :execution_result)
+
+      assert [
+               %ExecutionResult{execution_id: ^execution_1, group_id: ^group_1}
+             ] = Results.list_execution_results(%{group_id: group_1, page: 1})
+    end
+
+    test "apply pagination" do
+      [
+        %ExecutionResult{},
+        %ExecutionResult{},
+        %ExecutionResult{},
+        %ExecutionResult{execution_id: execution_4, group_id: group_4},
+        %ExecutionResult{execution_id: execution_5, group_id: group_5}
+      ] = insert_list(5, :execution_result)
+
+      assert [
+               %ExecutionResult{execution_id: ^execution_4, group_id: ^group_4},
+               %ExecutionResult{execution_id: ^execution_5, group_id: ^group_5}
+             ] = Results.list_execution_results(%{page: 2, items_per_page: 3})
+    end
+  end
 end
