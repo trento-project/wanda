@@ -13,13 +13,14 @@ defmodule Wanda.ResultsTest do
       execution_id = UUID.uuid4()
       group_id = UUID.uuid4()
 
-      build(
-        :result,
-        execution_id: execution_id,
-        group_id: group_id,
-        result: :passing
+      Results.save_result(
+        build(
+          :result,
+          execution_id: execution_id,
+          group_id: group_id,
+          result: :passing
+        )
       )
-      |> Results.save_result()
 
       assert %ExecutionResult{
                execution_id: ^execution_id,
@@ -41,13 +42,14 @@ defmodule Wanda.ResultsTest do
       execution_id = UUID.uuid4()
       group_id = UUID.uuid4()
 
-      build(
-        :result,
-        execution_id: execution_id,
-        group_id: group_id,
-        result: :passing
+      Results.save_result(
+        build(
+          :result,
+          execution_id: execution_id,
+          group_id: group_id,
+          result: :passing
+        )
       )
-      |> Results.save_result()
 
       assert [
                %ExecutionResult{execution_id: ^execution_1, group_id: ^group_1},
