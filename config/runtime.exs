@@ -62,4 +62,27 @@ if config_env() == :prod do
       port: port
     ],
     secret_key_base: secret_key_base
+
+  amqp_url =
+    System.get_env("AMQP_URL") ||
+      raise """
+      environment variable AMQP_URL is missing.
+      For example: amqp://USER:PASSWORD@HOST
+      """
+
+  config :wanda, Wanda.Messaging.Adapters.AMQP,
+    consumer: [
+      connection: amqp_url
+    ],
+    publisher: [
+      connection: amqp_url
+    ]
+
+  # Update catalog path to the current application dir during runtime
+  config :wanda, Wanda.Catalog,
+    catalog_path:
+      Application.app_dir(
+        :wanda,
+        Application.fetch_env!(:wanda, Wanda.Catalog)[:catalog_path]
+      )
 end
