@@ -16,6 +16,7 @@ defmodule Wanda.PolicyTest do
     execution_id = UUID.uuid4()
     group_id = UUID.uuid4()
     agent_id = UUID.uuid4()
+    env = %{"key1" => "value1", "key2" => "value2"}
 
     expect(Wanda.Execution.Mock, :start_execution, fn ^execution_id,
                                                       ^group_id,
@@ -24,7 +25,8 @@ defmodule Wanda.PolicyTest do
                                                           agent_id: ^agent_id,
                                                           checks: ["check_id"]
                                                         }
-                                                      ] ->
+                                                      ],
+                                                      ^env ->
       :ok
     end)
 
@@ -32,7 +34,8 @@ defmodule Wanda.PolicyTest do
              %{
                execution_id: execution_id,
                group_id: group_id,
-               targets: [%{agent_id: agent_id, checks: ["check_id"]}]
+               targets: [%{agent_id: agent_id, checks: ["check_id"]}],
+               env: env
              }
              |> ExecutionRequested.new!()
              |> Wanda.Policy.handle_event()

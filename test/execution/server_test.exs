@@ -14,7 +14,7 @@ defmodule Wanda.Execution.ServerTest do
   setup [:set_mox_from_context, :verify_on_exit!]
 
   describe "start_link/3" do
-    test "should accept an execution_id, a group_id, targets and checks on start" do
+    test "should accept an execution_id, a group_id, targets, checks and env on start" do
       execution_id = UUID.uuid4()
       group_id = UUID.uuid4()
       targets = build_list(10, :target)
@@ -24,6 +24,8 @@ defmodule Wanda.Execution.ServerTest do
         |> Enum.flat_map(& &1.checks)
         |> Enum.map(&build(:check, id: &1))
 
+      env = %{"key1" => "value1", "key2" => "value2"}
+
       assert {:ok, pid} =
                start_supervised(
                  {Server,
@@ -31,7 +33,8 @@ defmodule Wanda.Execution.ServerTest do
                     execution_id: execution_id,
                     group_id: group_id,
                     targets: targets,
-                    checks: checks
+                    checks: checks,
+                    env: env
                   ]}
                )
 
@@ -52,6 +55,7 @@ defmodule Wanda.Execution.ServerTest do
 
       execution_id = UUID.uuid4()
       group_id = UUID.uuid4()
+      env = %{"key1" => "value1", "key2" => "value2"}
 
       start_supervised!(
         {Server,
@@ -59,7 +63,8 @@ defmodule Wanda.Execution.ServerTest do
            execution_id: execution_id,
            group_id: group_id,
            targets: build_list(10, :target),
-           checks: build_list(10, :check)
+           checks: build_list(10, :check),
+           env: env,
          ]}
       )
 
@@ -71,6 +76,7 @@ defmodule Wanda.Execution.ServerTest do
       pid = self()
       execution_id = UUID.uuid4()
       group_id = UUID.uuid4()
+      env = %{"key1" => "value1", "key2" => "value2"}
 
       targets = build_list(3, :target, %{checks: ["expect_check"]})
 
@@ -91,7 +97,8 @@ defmodule Wanda.Execution.ServerTest do
              execution_id: execution_id,
              group_id: group_id,
              targets: targets,
-             checks: [Catalog.get_check("expect_check")]
+             checks: [Catalog.get_check("expect_check")],
+             env: env
            ]}
         )
 
@@ -117,6 +124,7 @@ defmodule Wanda.Execution.ServerTest do
       pid = self()
       execution_id = UUID.uuid4()
       group_id = UUID.uuid4()
+      env = %{"key1" => "value1", "key2" => "value2"}
 
       targets = build_list(3, :target, %{checks: ["expect_check"]})
 
@@ -138,6 +146,7 @@ defmodule Wanda.Execution.ServerTest do
              group_id: group_id,
              targets: targets,
              checks: [Catalog.get_check("expect_check")],
+             env: env,
              config: [timeout: 100]
            ]}
         )
@@ -155,6 +164,7 @@ defmodule Wanda.Execution.ServerTest do
     test "should go down when the timeout function gets called" do
       execution_id = UUID.uuid4()
       group_id = UUID.uuid4()
+      env = %{"key1" => "value1", "key2" => "value2"}
 
       targets = build_list(3, :target, %{checks: ["expect_check"]})
 
@@ -166,6 +176,7 @@ defmodule Wanda.Execution.ServerTest do
              group_id: group_id,
              targets: targets,
              checks: [Catalog.get_check("expect_check")],
+             env: env,
              config: [timeout: 99_999]
            ]}
         )
