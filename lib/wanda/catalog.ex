@@ -26,12 +26,14 @@ defmodule Wanda.Catalog do
   defp map_check(%{
          "id" => id,
          "name" => name,
+         "severity" => severity,
          "facts" => facts,
          "expectations" => expectations
        }) do
     %Check{
       id: id,
       name: name,
+      severity: severity,
       facts: Enum.map(facts, &map_fact/1),
       expectations: Enum.map(expectations, &map_expectation/1)
     }
