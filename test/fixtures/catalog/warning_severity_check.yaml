@@ -1,12 +1,12 @@
-id: expect_check
-name: Test check
+id: warning_severity_check
+name: Warning check
 group: Test
 description: |
-  Just a check
+  Check with warning severity
 remediation: |
   ## Remediation
   Remediation text
-severity: critical
+severity: warning
 facts:
   - name: corosync_token_timeout
     gatherer: corosync
