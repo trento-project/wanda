@@ -7,6 +7,7 @@ defmodule Wanda.Results.ExecutionResult do
 
   @type t :: %__MODULE__{}
 
+  @derive {Jason.Encoder, [except: [:__meta__]]}
   @primary_key false
   schema "execution_results" do
     field :execution_id, Ecto.UUID, primary_key: true
