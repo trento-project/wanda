@@ -19,6 +19,14 @@ defmodule Wanda.Factory do
 
   alias Wanda.Results.ExecutionResult
 
+  def map_factory(attrs) do
+    count = Map.get(attrs, :count, 5)
+
+    Enum.reduce(0..count, %{}, fn _, acc ->
+      Map.put(acc, Faker.Pokemon.name(), Faker.Pokemon.name())
+    end)
+  end
+
   def check_factory(attrs) do
     %Catalog.Check{
       id: Map.get(attrs, :id, UUID.uuid4()),

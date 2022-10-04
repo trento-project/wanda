@@ -24,7 +24,7 @@ defmodule Wanda.Execution.ServerTest do
         |> Enum.flat_map(& &1.checks)
         |> Enum.map(&build(:check, id: &1))
 
-      env = %{"key1" => "value1", "key2" => "value2"}
+      env = build(:map)
 
       assert {:ok, pid} =
                start_supervised(
@@ -55,7 +55,7 @@ defmodule Wanda.Execution.ServerTest do
 
       execution_id = UUID.uuid4()
       group_id = UUID.uuid4()
-      env = %{"key1" => "value1", "key2" => "value2"}
+      env = build(:map)
 
       start_supervised!(
         {Server,
@@ -64,7 +64,7 @@ defmodule Wanda.Execution.ServerTest do
            group_id: group_id,
            targets: build_list(10, :target),
            checks: build_list(10, :check),
-           env: env,
+           env: env
          ]}
       )
 
@@ -76,7 +76,7 @@ defmodule Wanda.Execution.ServerTest do
       pid = self()
       execution_id = UUID.uuid4()
       group_id = UUID.uuid4()
-      env = %{"key1" => "value1", "key2" => "value2"}
+      env = build(:map)
 
       targets = build_list(3, :target, %{checks: ["expect_check"]})
 
@@ -124,7 +124,7 @@ defmodule Wanda.Execution.ServerTest do
       pid = self()
       execution_id = UUID.uuid4()
       group_id = UUID.uuid4()
-      env = %{"key1" => "value1", "key2" => "value2"}
+      env = build(:map)
 
       targets = build_list(3, :target, %{checks: ["expect_check"]})
 
@@ -164,7 +164,7 @@ defmodule Wanda.Execution.ServerTest do
     test "should go down when the timeout function gets called" do
       execution_id = UUID.uuid4()
       group_id = UUID.uuid4()
-      env = %{"key1" => "value1", "key2" => "value2"}
+      env = build(:map)
 
       targets = build_list(3, :target, %{checks: ["expect_check"]})
 
