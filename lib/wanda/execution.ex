@@ -10,7 +10,7 @@ defmodule Wanda.Execution do
   alias Wanda.Execution.{Server, Supervisor}
 
   @impl true
-  def start_execution(execution_id, group_id, targets, config \\ []) do
+  def start_execution(execution_id, group_id, targets, env, config \\ []) do
     checks =
       targets
       |> Enum.map(& &1.checks)
@@ -24,6 +24,7 @@ defmodule Wanda.Execution do
             group_id: group_id,
             targets: targets,
             checks: checks,
+            env: env,
             config: config}
          ) do
       {:ok, _} ->

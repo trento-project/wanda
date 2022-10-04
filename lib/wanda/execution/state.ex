@@ -12,6 +12,7 @@ defmodule Wanda.Execution.State do
     :timeout,
     targets: [],
     checks: [],
+    env: %{},
     gathered_facts: %{},
     agents_gathered: []
   ]
@@ -22,6 +23,7 @@ defmodule Wanda.Execution.State do
           timeout: integer(),
           targets: [Target.t()],
           checks: [Catalog.Check.t()],
+          env: %{String.t() => String.t()},
           gathered_facts: map(),
           agents_gathered: [String.t()]
         }

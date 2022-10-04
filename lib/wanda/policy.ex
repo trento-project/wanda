@@ -26,14 +26,16 @@ defmodule Wanda.Policy do
   defp handle(%ExecutionRequested{
          execution_id: execution_id,
          group_id: agent_id,
-         targets: targets
+         targets: targets,
+         env: env
        }) do
     execution_impl().start_execution(
       execution_id,
       agent_id,
       Enum.map(targets, fn %{agent_id: agent_id, checks: checks} ->
         %Target{agent_id: agent_id, checks: checks}
-      end)
+      end),
+      env
     )
   end
 
