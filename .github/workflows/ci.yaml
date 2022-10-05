@@ -82,6 +82,9 @@ jobs:
             priv/plts
           key: ${{ runner.os }}-${{ env.OTP_VERSION }}-${{ env.ELIXIR_VERSION }}-${{ hashFiles('mix.lock') }}
 
+      - name: Check for Unused Dependencies
+        run: mix deps.unlock --check-unused
+
       - name: Check Code Format
         run: mix format --check-formatted
 
