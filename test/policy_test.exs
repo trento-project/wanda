@@ -2,7 +2,6 @@ defmodule Wanda.PolicyTest do
   use ExUnit.Case
 
   import Mox
-  import Wanda.Factory
 
   alias Trento.Checks.V1.{
     ExecutionRequested,
@@ -17,9 +16,6 @@ defmodule Wanda.PolicyTest do
     execution_id = UUID.uuid4()
     group_id = UUID.uuid4()
     agent_id = UUID.uuid4()
-    env = build(:execution_requested_env)
-
-    expected_env = Map.new(env, fn {key, %{kind: {_, value}}} -> {key, value} end)
 
     expect(Wanda.Execution.Mock, :start_execution, fn ^execution_id,
                                                       ^group_id,
@@ -29,7 +25,10 @@ defmodule Wanda.PolicyTest do
                                                           checks: ["check_id"]
                                                         }
                                                       ],
-                                                      ^expected_env ->
+                                                      %{
+                                                        "key" => "value",
+                                                        "other_key" => "other_value"
+                                                      } ->
       :ok
     end)
 
@@ -38,7 +37,10 @@ defmodule Wanda.PolicyTest do
                execution_id: execution_id,
                group_id: group_id,
                targets: [%{agent_id: agent_id, checks: ["check_id"]}],
-               env: env
+               env: %{
+                 "key" => %{kind: {:string_value, "value"}},
+                 "other_key" => %{kind: {:string_value, "other_value"}}
+               }
              }
              |> ExecutionRequested.new!()
              |> Wanda.Policy.handle_event()

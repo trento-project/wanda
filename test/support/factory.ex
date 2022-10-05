@@ -67,25 +67,6 @@ defmodule Wanda.Factory do
     ])
   end
 
-  def execution_requested_env_factory(attrs) do
-    count = Map.get(attrs, :count, 5)
-
-    Enum.reduce(0..count, %{}, fn _, acc ->
-      Map.put(acc, Faker.Pokemon.name(), random_env_kind())
-    end)
-  end
-
-  defp random_env_kind do
-    %{
-      kind:
-        Faker.Util.pick([
-          {:string_value, Faker.Pokemon.name()},
-          {:number_value, Enum.random(1..10)},
-          {:bool_value, Enum.random([false, true])}
-        ])
-    }
-  end
-
   def fact_factory(attrs) do
     %Fact{
       check_id: Map.get(attrs, :check_id, UUID.uuid4()),

@@ -2,7 +2,6 @@ defmodule Wanda.Messaging.Adapters.AMQP.ConsumerTest do
   use ExUnit.Case
 
   import Mox
-  import Wanda.Factory
 
   alias Trento.Checks.V1.{
     ExecutionRequested,
@@ -29,7 +28,10 @@ defmodule Wanda.Messaging.Adapters.AMQP.ConsumerTest do
                  execution_id: UUID.uuid4(),
                  group_id: UUID.uuid4(),
                  targets: [%{agent_id: UUID.uuid4(), checks: ["check_id"]}],
-                 env: build(:execution_requested_env)
+                 env: %{
+                   "key" => %{kind: {:string_value, "value"}},
+                   "other_key" => %{kind: {:string_value, "other_value"}}
+                 }
                }
                |> ExecutionRequested.new!()
                |> Trento.Contracts.to_event()
