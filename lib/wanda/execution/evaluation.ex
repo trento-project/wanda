@@ -34,21 +34,22 @@ defmodule Wanda.Execution.Evaluation do
   defp add_checks_result(%Result{} = result, checks, gathered_facts) do
     check_results =
       Enum.map(gathered_facts, fn {check_id, agents_facts} ->
-        %Check{expectations: expectations} = Enum.find(checks, &(&1.id == check_id))
+        %Check{severity: severity, expectations: expectations} =
+          Enum.find(checks, &(&1.id == check_id))
 
-        build_check_result(check_id, expectations, agents_facts)
+        build_check_result(check_id, severity, expectations, agents_facts)
       end)
 
     %Result{result | check_results: check_results}
   end
 
-  defp build_check_result(check_id, expectations, agents_facts) do
+  defp build_check_result(check_id, severity, expectations, agents_facts) do
     %CheckResult{
       check_id: check_id
     }
     |> add_agents_results(expectations, agents_facts)
     |> add_expectation_evaluations(expectations)
-    |> aggregate_check_result()
+    |> aggregate_check_result(severity)
   end
 
   defp add_agents_results(
@@ -186,14 +187,15 @@ defmodule Wanda.Execution.Evaluation do
          %CheckResult{
            expectation_results: expectation_results,
            agents_check_results: agents_check_results
-         } = check_result
+         } = check_result,
+         severity
        ) do
     result =
       if Enum.all?(expectation_results, &(&1.result == true)) and
            not errors?(agents_check_results) do
         :passing
       else
-        :critical
+        severity
       end
 
     %CheckResult{check_result | result: result}

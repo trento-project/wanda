@@ -9,6 +9,8 @@ defmodule Wanda.Catalog do
     Fact
   }
 
+  @default_severity :critical
+
   @doc """
   Get a check from the catalog.
   """
@@ -23,19 +25,26 @@ defmodule Wanda.Catalog do
     Application.fetch_env!(:wanda, Wanda.Catalog)[:catalog_path]
   end
 
-  defp map_check(%{
-         "id" => id,
-         "name" => name,
-         "facts" => facts,
-         "expectations" => expectations
-       }) do
+  defp map_check(
+         %{
+           "id" => id,
+           "name" => name,
+           "facts" => facts,
+           "expectations" => expectations
+         } = check
+       ) do
     %Check{
       id: id,
       name: name,
+      severity: map_severity(check),
       facts: Enum.map(facts, &map_fact/1),
       expectations: Enum.map(expectations, &map_expectation/1)
     }
   end
+
+  defp map_severity(%{"severity" => "critical"}), do: :critical
+  defp map_severity(%{"severity" => "warning"}), do: :warning
+  defp map_severity(_), do: @default_severity
 
   defp map_expectation(%{"name" => name, "expect" => expression}) do
     %Expectation{

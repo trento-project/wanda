@@ -554,5 +554,85 @@ defmodule Wanda.Execution.EvaluationTest do
                result: :critical
              } = Evaluation.execute(execution_id, group_id, checks, gathered_facts)
     end
+
+    test "should return warning result if the check severity is specified as warning" do
+      gathered_facts = %{
+        "warning_severity_check" => %{
+          "agent_1" => [
+            %Fact{
+              name: "corosync_token_timeout",
+              check_id: "warning_severity_check",
+              value: 30_000
+            }
+          ],
+          "agent_2" => [
+            %Fact{
+              name: "corosync_token_timeout",
+              check_id: "warning_severity_check",
+              value: 30_001
+            }
+          ]
+        }
+      }
+
+      execution_id = UUID.uuid4()
+      group_id = UUID.uuid4()
+      checks = [Catalog.get_check("warning_severity_check")]
+
+      assert %Result{
+               execution_id: ^execution_id,
+               group_id: ^group_id,
+               check_results: [
+                 %CheckResult{
+                   agents_check_results: [
+                     %AgentCheckResult{
+                       agent_id: "agent_1",
+                       expectation_evaluations: [
+                         %ExpectationEvaluation{
+                           name: "timeout",
+                           return_value: true,
+                           type: :expect
+                         }
+                       ],
+                       facts: [
+                         %Fact{
+                           check_id: "warning_severity_check",
+                           name: "corosync_token_timeout",
+                           value: 30_000
+                         }
+                       ]
+                     },
+                     %AgentCheckResult{
+                       agent_id: "agent_2",
+                       expectation_evaluations: [
+                         %ExpectationEvaluation{
+                           name: "timeout",
+                           return_value: false,
+                           type: :expect
+                         }
+                       ],
+                       facts: [
+                         %Fact{
+                           check_id: "warning_severity_check",
+                           name: "corosync_token_timeout",
+                           value: 30_001
+                         }
+                       ]
+                     }
+                   ],
+                   check_id: "warning_severity_check",
+                   expectation_results: [
+                     %ExpectationResult{
+                       name: "timeout",
+                       result: false,
+                       type: :expect
+                     }
+                   ],
+                   result: :warning
+                 }
+               ],
+               result: :warning
+             } = Evaluation.execute(execution_id, group_id, checks, gathered_facts)
+    end
   end
 end
