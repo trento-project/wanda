@@ -50,15 +50,15 @@ defmodule Wanda.Policy do
       execution_id,
       agent_id,
       Enum.map(facts_gathered, fn %{check_id: check_id, name: name, value: value} ->
-        build_gathered_fact(check_id, name, value)
+        map_gathered_fact(check_id, name, value)
       end)
     )
   end
 
-  defp build_gathered_fact(check_id, name, {:error_value, %{type: type, message: message}}),
+  defp map_gathered_fact(check_id, name, {:error_value, %{type: type, message: message}}),
     do: %FactError{check_id: check_id, name: name, type: type, message: message}
 
-  defp build_gathered_fact(check_id, name, {_, value}),
+  defp map_gathered_fact(check_id, name, {_, value}),
     do: %Fact{check_id: check_id, name: name, value: value}
 
   defp execution_impl, do: Application.fetch_env!(:wanda, Wanda.Policy)[:execution_impl]
