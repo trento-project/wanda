@@ -23,7 +23,7 @@ defmodule Wanda.Execution.State do
           timeout: integer(),
           targets: [Target.t()],
           checks: [Catalog.Check.t()],
-          env: %{String.t() => String.t()},
+          env: map(),
           gathered_facts: map(),
           agents_gathered: [String.t()]
         }

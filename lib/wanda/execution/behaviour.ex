@@ -9,14 +9,14 @@ defmodule Wanda.Execution.Behaviour do
               execution_id :: String.t(),
               group_id :: String.t(),
               targets :: [Target.t()],
-              env :: %{String.t() => String.t()}
+              env :: map()
             ) :: :ok | {:error, any}
 
   @callback start_execution(
               execution_id :: String.t(),
               group_id :: String.t(),
               targets :: [Target.t()],
-              env :: %{String.t() => String.t()},
+              env :: map(),
               config :: Keyword.t()
             ) :: :ok | {:error, any}
 
