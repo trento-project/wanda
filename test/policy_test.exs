@@ -19,10 +19,7 @@ defmodule Wanda.PolicyTest do
     agent_id = UUID.uuid4()
     env = build(:execution_requested_env)
 
-    expected_env =
-      Enum.reduce(env, %{}, fn {key, %{kind: {_, value}}}, acc ->
-        Map.put(acc, key, value)
-      end)
+    expected_env = Map.new(env, fn {key, %{kind: {_, value}}} -> {key, value} end)
 
     expect(Wanda.Execution.Mock, :start_execution, fn ^execution_id,
                                                       ^group_id,
