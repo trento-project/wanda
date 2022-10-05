@@ -29,7 +29,7 @@ defmodule Wanda.Messaging.Adapters.AMQP.ConsumerTest do
                  execution_id: UUID.uuid4(),
                  group_id: UUID.uuid4(),
                  targets: [%{agent_id: UUID.uuid4(), checks: ["check_id"]}],
-                 env: build(:map)
+                 env: build(:execution_requested_env)
                }
                |> ExecutionRequested.new!()
                |> Trento.Contracts.to_event()

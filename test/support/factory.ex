@@ -19,14 +19,6 @@ defmodule Wanda.Factory do
 
   alias Wanda.Results.ExecutionResult
 
-  def map_factory(attrs) do
-    count = Map.get(attrs, :count, 5)
-
-    Enum.reduce(0..count, %{}, fn _, acc ->
-      Map.put(acc, Faker.Pokemon.name(), Faker.Pokemon.name())
-    end)
-  end
-
   def check_factory(attrs) do
     %Catalog.Check{
       id: Map.get(attrs, :id, UUID.uuid4()),
@@ -56,6 +48,41 @@ defmodule Wanda.Factory do
     %Target{
       agent_id: Map.get(attrs, :agent_id, UUID.uuid4()),
       checks: Map.get(attrs, :checks, Enum.map(1..10, fn _ -> UUID.uuid4() end))
+    }
+  end
+
+  def env_factory(attrs) do
+    count = Map.get(attrs, :count, 5)
+
+    Enum.reduce(0..count, %{}, fn _, acc ->
+      Map.put(acc, Faker.Pokemon.name(), random_env_value())
+    end)
+  end
+
+  defp random_env_value do
+    Faker.Util.pick([
+      Faker.Pokemon.name(),
+      Enum.random(1..10),
+      Enum.random([false, true])
+    ])
+  end
+
+  def execution_requested_env_factory(attrs) do
+    count = Map.get(attrs, :count, 5)
+
+    Enum.reduce(0..count, %{}, fn _, acc ->
+      Map.put(acc, Faker.Pokemon.name(), random_env_kind())
+    end)
+  end
+
+  defp random_env_kind do
+    %{
+      kind:
+        Faker.Util.pick([
+          {:string_value, Faker.Pokemon.name()},
+          {:number_value, Enum.random(1..10)},
+          {:bool_value, Enum.random([false, true])}
+        ])
     }
   end
 
