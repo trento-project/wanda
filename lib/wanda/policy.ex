@@ -35,7 +35,9 @@ defmodule Wanda.Policy do
       Enum.map(targets, fn %{agent_id: agent_id, checks: checks} ->
         %Target{agent_id: agent_id, checks: checks}
       end),
-      env
+      Enum.reduce(env, %{}, fn {key, %{kind: {_, value}}}, acc ->
+        Map.put(acc, key, value)
+      end)
     )
   end
 
