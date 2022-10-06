@@ -26,6 +26,6 @@ defmodule WandaWeb.ExecutionsController do
   def list_checks_executions(conn, params) do
     results = Results.list_execution_results(params)
     total_count = Results.count_execution_results(params)
-    json(conn, %{data: results, total_count: total_count})
+    render(conn, data: results, total_count: total_count)
   end
 end
