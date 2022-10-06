@@ -80,18 +80,16 @@ defmodule Wanda.Catalog do
   defp map_values(_), do: []
 
   defp map_value(%{"name" => name, "default" => default} = value) do
-    conditions = Map.get(value, "conditions", [])
+    conditions =
+      value
+      |> Map.get("conditions", [])
+      |> Enum.map(fn %{"value" => condition_value, "when" => expression} ->
+        %Condition{
+          value: condition_value,
+          expression: expression
+        }
+      end)
 
-    %Value{
-      name: name,
-      default: default,
-      conditions:
-        Enum.map(conditions, fn %{"value" => value, "when" => expression} ->
-          %Condition{
-            value: value,
-            expression: expression
-          }
-        end)
-    }
+    %Value{name: name, default: default, conditions: conditions}
   end
 end
