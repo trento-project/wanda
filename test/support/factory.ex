@@ -59,14 +59,6 @@ defmodule Wanda.Factory do
     end)
   end
 
-  defp random_env_value do
-    Faker.Util.pick([
-      Faker.Pokemon.name(),
-      Enum.random(1..10),
-      Enum.random([false, true])
-    ])
-  end
-
   def fact_factory(attrs) do
     %Fact{
       check_id: Map.get(attrs, :check_id, UUID.uuid4()),
@@ -141,5 +133,13 @@ defmodule Wanda.Factory do
       group_id: group_id,
       payload: build(:result, execution_id: execution_id, group_id: group_id)
     }
+  end
+
+  defp random_env_value do
+    Faker.Util.pick([
+      Faker.Pokemon.name(),
+      Enum.random(1..10),
+      Enum.random([false, true])
+    ])
   end
 end
