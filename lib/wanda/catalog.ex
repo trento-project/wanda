@@ -5,8 +5,10 @@ defmodule Wanda.Catalog do
 
   alias Wanda.Catalog.{
     Check,
+    Condition,
     Expectation,
-    Fact
+    Fact,
+    Value
   }
 
   @default_severity :critical
@@ -38,6 +40,7 @@ defmodule Wanda.Catalog do
       name: name,
       severity: map_severity(check),
       facts: Enum.map(facts, &map_fact/1),
+      values: map_values(check),
       expectations: Enum.map(expectations, &map_expectation/1)
     }
   end
@@ -68,5 +71,25 @@ defmodule Wanda.Catalog do
       gatherer: gatherer,
       argument: argument
     }
+  end
+
+  defp map_values(%{"values" => values}) do
+    Enum.map(values, &map_value/1)
+  end
+
+  defp map_values(_), do: []
+
+  defp map_value(%{"name" => name, "default" => default} = value) do
+    conditions =
+      value
+      |> Map.get("conditions", [])
+      |> Enum.map(fn %{"value" => condition_value, "when" => expression} ->
+        %Condition{
+          value: condition_value,
+          expression: expression
+        }
+      end)
+
+    %Value{name: name, default: default, conditions: conditions}
   end
 end

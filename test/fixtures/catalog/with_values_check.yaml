@@ -1,0 +1,30 @@
+id: with_values
+name: Test check
+group: Test
+description: |
+  Just a check
+remediation: |
+  ## Remediation
+  Remediation text
+facts:
+  - name: jedi
+    gatherer: wandalorian
+    argument: -o
+values:
+  - name: expected_value
+    default: 5
+    conditions:
+      - value: 10
+        when: some_expression
+      - value: 15
+        when: some_other_expression
+  - name: expected_higher_value
+    default: 10
+    conditions:
+      - value: 5
+        when: some_third_expression
+expectations:
+  - name: some_expectation
+    expect: jedi == values.expected_value
+  - name: some_other_expectation
+    expect: jedi > values.expected_higher_value
