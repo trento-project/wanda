@@ -26,14 +26,16 @@ defmodule Wanda.Policy do
   defp handle(%ExecutionRequested{
          execution_id: execution_id,
          group_id: agent_id,
-         targets: targets
+         targets: targets,
+         env: env
        }) do
     execution_impl().start_execution(
       execution_id,
       agent_id,
       Enum.map(targets, fn %{agent_id: agent_id, checks: checks} ->
         %Target{agent_id: agent_id, checks: checks}
-      end)
+      end),
+      Map.new(env, fn {key, %{kind: {_, value}}} -> {key, value} end)
     )
   end
 
@@ -46,15 +48,15 @@ defmodule Wanda.Policy do
       execution_id,
       agent_id,
       Enum.map(facts_gathered, fn %{check_id: check_id, name: name, value: value} ->
-        build_gathered_fact(check_id, name, value)
+        map_gathered_fact(check_id, name, value)
       end)
     )
   end
 
-  defp build_gathered_fact(check_id, name, {:error_value, %{type: type, message: message}}),
+  defp map_gathered_fact(check_id, name, {:error_value, %{type: type, message: message}}),
     do: %FactError{check_id: check_id, name: name, type: type, message: message}
 
-  defp build_gathered_fact(check_id, name, {_, value}),
+  defp map_gathered_fact(check_id, name, {_, value}),
     do: %Fact{check_id: check_id, name: name, value: value}
 
   defp execution_impl, do: Application.fetch_env!(:wanda, Wanda.Policy)[:execution_impl]

@@ -41,7 +41,7 @@ defmodule Wanda.MixProject do
       {:jason, "~> 1.3"},
       {:yaml_elixir, "~> 2.9"},
       {:miss, "~> 0.1.5"},
-      {:trento_contracts, github: "trento-project/contracts", ref: "6fabcbb", sparse: "elixir"},
+      {:trento_contracts, github: "trento-project/contracts", ref: "357519a", sparse: "elixir"},
       # test deps
       {:credo, "~> 1.6", only: [:dev, :test], runtime: false},
       {:dialyxir, "~> 1.0", only: [:dev, :test], runtime: false},

@@ -24,7 +24,11 @@ defmodule Wanda.PolicyTest do
                                                           agent_id: ^agent_id,
                                                           checks: ["check_id"]
                                                         }
-                                                      ] ->
+                                                      ],
+                                                      %{
+                                                        "key" => "value",
+                                                        "other_key" => "other_value"
+                                                      } ->
       :ok
     end)
 
@@ -32,7 +36,11 @@ defmodule Wanda.PolicyTest do
              %{
                execution_id: execution_id,
                group_id: group_id,
-               targets: [%{agent_id: agent_id, checks: ["check_id"]}]
+               targets: [%{agent_id: agent_id, checks: ["check_id"]}],
+               env: %{
+                 "key" => %{kind: {:string_value, "value"}},
+                 "other_key" => %{kind: {:string_value, "other_value"}}
+               }
              }
              |> ExecutionRequested.new!()
              |> Wanda.Policy.handle_event()

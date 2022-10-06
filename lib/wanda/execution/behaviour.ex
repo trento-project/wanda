@@ -8,13 +8,15 @@ defmodule Wanda.Execution.Behaviour do
   @callback start_execution(
               execution_id :: String.t(),
               group_id :: String.t(),
-              targets :: [Target.t()]
+              targets :: [Target.t()],
+              env :: %{String.t() => boolean() | number() | String.t()}
             ) :: :ok | {:error, any}
 
   @callback start_execution(
               execution_id :: String.t(),
               group_id :: String.t(),
               targets :: [Target.t()],
+              env :: %{String.t() => boolean() | number() | String.t()},
               config :: Keyword.t()
             ) :: :ok | {:error, any}
 

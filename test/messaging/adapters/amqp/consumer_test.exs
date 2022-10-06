@@ -18,7 +18,7 @@ defmodule Wanda.Messaging.Adapters.AMQP.ConsumerTest do
     test "should consume ExecutionRequested" do
       pid = self()
 
-      expect(Wanda.Execution.Mock, :start_execution, fn _, _, _ ->
+      expect(Wanda.Execution.Mock, :start_execution, fn _, _, _, _ ->
         send(pid, :consumed)
         :ok
       end)
@@ -27,7 +27,11 @@ defmodule Wanda.Messaging.Adapters.AMQP.ConsumerTest do
                %{
                  execution_id: UUID.uuid4(),
                  group_id: UUID.uuid4(),
-                 targets: [%{agent_id: UUID.uuid4(), checks: ["check_id"]}]
+                 targets: [%{agent_id: UUID.uuid4(), checks: ["check_id"]}],
+                 env: %{
+                   "key" => %{kind: {:string_value, "value"}},
+                   "other_key" => %{kind: {:string_value, "other_value"}}
+                 }
                }
                |> ExecutionRequested.new!()
                |> Trento.Contracts.to_event()
