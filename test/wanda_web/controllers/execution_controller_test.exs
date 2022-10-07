@@ -1,4 +1,4 @@
-defmodule WandaWeb.ExecutionsControllerTest do
+defmodule WandaWeb.ExecutionControllerTest do
   use WandaWeb.ConnCase, async: true
   import OpenApiSpex.TestAssertions
   import Wanda.Factory
@@ -6,7 +6,7 @@ defmodule WandaWeb.ExecutionsControllerTest do
   alias Wanda.Results.ExecutionResult
   alias WandaWeb.ApiSpec
 
-  describe "Executions controller" do
+  describe "ExecutionController" do
     test "listing check executions produces a CheckExecutionResponse", %{conn: conn} do
       [
         %ExecutionResult{},

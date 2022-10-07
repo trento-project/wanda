@@ -1,4 +1,4 @@
-defmodule WandaWeb.ExecutionsViewTest do
+defmodule WandaWeb.ExecutionViewTest do
   use WandaWeb.ConnCase, async: true
 
   import Phoenix.View
@@ -6,7 +6,7 @@ defmodule WandaWeb.ExecutionsViewTest do
 
   alias Wanda.Results.ExecutionResult
 
-  describe "ExecutionsView" do
+  describe "ExecutionView" do
     test "renders list_checks_executions.json" do
       [
         %ExecutionResult{execution_id: execution_1, group_id: group_1},
@@ -22,7 +22,7 @@ defmodule WandaWeb.ExecutionsViewTest do
                ],
                total_count: 3
              } =
-               render(WandaWeb.ExecutionsView, "list_checks_executions.json",
+               render(WandaWeb.ExecutionView, "list_checks_executions.json",
                  data: data,
                  total_count: length(data)
                )
