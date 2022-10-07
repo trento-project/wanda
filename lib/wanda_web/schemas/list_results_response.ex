@@ -1,7 +1,5 @@
 defmodule WandaWeb.Schemas.ListResultsResponse do
-  @moduledoc """
-  Check execution response API spec
-  """
+  @moduledoc nil
 
   require OpenApiSpex
 
