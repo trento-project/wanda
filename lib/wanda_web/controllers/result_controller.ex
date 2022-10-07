@@ -1,31 +1,33 @@
-defmodule WandaWeb.ExecutionController do
+defmodule WandaWeb.ResultController do
   use WandaWeb, :controller
   use OpenApiSpex.ControllerSpecs
 
   alias Wanda.Results
-  alias WandaWeb.Schemas.CheckExecutionResponse
+  alias WandaWeb.Schemas.ListResultsResponse
 
   plug OpenApiSpex.Plug.CastAndValidate, json_render_error_v2: true
 
-  operation :list_checks_executions,
-    summary: "List checks executions",
+  operation :list_results,
+    summary: "List results",
     parameters: [
       group_id: [
         in: :query,
-        description: "Group ID to filter upon",
+        description: "Filter by group_id",
         type: :string,
         example: "00000000-0000-0000-0000-000000000001"
       ],
       page: [in: :query, description: "Page", type: :integer, example: 3],
       items_per_page: [in: :query, description: "Items per page", type: :integer, example: 20]
     ],
-    responses: [
-      ok: {"Check executions response", "application/json", CheckExecutionResponse}
-    ]
+    responses: %{
+      200 => {"List results response", "application/json", ListResultsResponse},
+      422 => OpenApiSpex.JsonErrorResponse.response()
+    }
 
-  def list_checks_executions(conn, params) do
+  def list_results(conn, params) do
     results = Results.list_execution_results(params)
     total_count = Results.count_execution_results(params)
-    render(conn, data: results, total_count: total_count)
+
+    render(conn, results: results, total_count: total_count)
   end
 end

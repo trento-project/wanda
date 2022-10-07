@@ -1,20 +1,19 @@
-defmodule WandaWeb.Schemas.CheckExecution do
-  @moduledoc """
-  Check execution API spec
-  """
+defmodule WandaWeb.Schemas.Result do
+  @moduledoc nil
 
   require OpenApiSpex
 
   alias OpenApiSpex.Schema
 
   OpenApiSpex.schema(%{
-    title: "CheckExecution",
-    description: "A single execution of checks",
+    title: "Result",
+    description: "The result of an execution",
     type: :object,
     properties: %{
       execution_id: %Schema{type: :string, description: "Execution ID"},
       group_id: %Schema{type: :string, description: "Group ID"},
       payload: %Schema{type: :object, description: "Payload of the check execution"}
-    }
+    },
+    required: [:execution_id, :group_id, :payload]
   })
 end
