@@ -1,7 +1,17 @@
 defmodule WandaWeb.ExecutionsView do
   use WandaWeb, :view
 
+  alias Wanda.Results.ExecutionResult
+
   def render("list_checks_executions.json", %{data: data, total_count: total_count}) do
-    %{data: data, total_count: total_count}
+    %{
+      data:
+        render_many(data, WandaWeb.ExecutionsView, "execution_result.json", as: :execution_result),
+      total_count: total_count
+    }
+  end
+
+  def render("execution_result.json", %{execution_result: %ExecutionResult{} = execution_result}) do
+    execution_result
   end
 end
