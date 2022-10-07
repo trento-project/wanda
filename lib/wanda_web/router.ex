@@ -1,8 +1,6 @@
 defmodule WandaWeb.Router do
   use WandaWeb, :router
 
-  alias OpenApiSpex.Plug.CastAndValidate
-
   pipeline :api do
     plug :accepts, ["json"]
     plug OpenApiSpex.Plug.PutApiSpec, module: WandaWeb.ApiSpec
@@ -10,7 +8,7 @@ defmodule WandaWeb.Router do
 
   scope "/api", WandaWeb do
     pipe_through :api
-    get "/checks/executions", ExecutionsController, :list_checks_executions
+    get "/checks/executions", ExecutionController, :list_checks_executions
   end
 
   scope "/api" do
