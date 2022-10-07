@@ -14,37 +14,16 @@ defmodule Wanda.CatalogTest do
   describe "checks catalog" do
     test "should load a check from a yaml file properly" do
       assert %Check{
-               id: "expect_check",
+               id: "test_check",
                name: "Test check",
                severity: :critical,
                facts: [
                  %Fact{
-                   name: "corosync_token_timeout",
-                   gatherer: "corosync",
-                   argument: "totem.token"
+                   name: "jedi",
+                   gatherer: "wandalorian",
+                   argument: "-o"
                  }
                ],
-               values: [],
-               expectations: [
-                 %Expectation{
-                   name: "timeout",
-                   type: :expect,
-                   expression: "corosync_token_timeout == 30000"
-                 }
-               ]
-             } = Catalog.get_check("expect_check")
-    end
-
-    test "should load a critical as default severity" do
-      assert %Check{severity: :critical} = Catalog.get_check("expect_same_check")
-    end
-
-    test "should load a warning severity" do
-      assert %Check{severity: :warning} = Catalog.get_check("warning_severity_check")
-    end
-
-    test "should load checks with values" do
-      assert %Check{
                values: [
                  %Value{
                    conditions: [
@@ -61,8 +40,37 @@ defmodule Wanda.CatalogTest do
                    default: 10,
                    name: "expected_higher_value"
                  }
+               ],
+               expectations: [
+                 %Expectation{
+                   name: "some_expectation",
+                   type: :expect,
+                   expression: "jedi == values.expected_value"
+                 },
+                 %Expectation{
+                   name: "some_other_expectation",
+                   type: :expect,
+                   expression: "jedi > values.expected_higher_value"
+                 }
                ]
-             } = Catalog.get_check("with_values_check")
+             } = Catalog.get_check("expect_check")
+    end
+
+    test "should load a expect_same expectation type" do
+      assert %Check{
+               values: [],
+               expectations: [
+                 %Expectation{
+                   name: "some_expectation",
+                   type: :expect_same,
+                   expression: "jedi"
+                 }
+               ]
+             } = Catalog.get_check("expect_same_check")
+    end
+
+    test "should load a warning severity" do
+      assert %Check{severity: :warning} = Catalog.get_check("warning_severity_check")
     end
   end
 end
