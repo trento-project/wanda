@@ -22,25 +22,42 @@ defmodule Wanda.Factory do
   def check_factory(attrs) do
     %Catalog.Check{
       id: Map.get(attrs, :id, UUID.uuid4()),
-      name: Map.get(attrs, :id, Faker.StarWars.character()),
+      name: Map.get(attrs, :name, Faker.StarWars.character()),
+      severity: Map.get(attrs, :severity, Enum.random([:critical, :warning, :passing])),
       facts: Map.get(attrs, :facts, build_list(10, :catalog_fact)),
+      values: Map.get(attrs, :values, build_list(10, :catalog_value)),
       expectations: Map.get(attrs, :expectations, build_list(10, :catalog_expectation))
     }
   end
 
   def catalog_fact_factory(attrs) do
     %Catalog.Fact{
-      name: Map.get(attrs, :name, Faker.StarWars.character()),
+      name: Map.get(attrs, :name, Faker.Cat.name()),
       gatherer: Map.get(attrs, :gatherer, Faker.StarWars.character()),
       argument: Map.get(attrs, :argument, Faker.StarWars.quote())
     }
   end
 
-  def catalog_expectation_factory(attrs) do
-    %Catalog.Fact{
+  def catalog_value_factory(attrs) do
+    %Catalog.Value{
       name: Map.get(attrs, :name, Faker.StarWars.character()),
-      gatherer: Map.get(attrs, :gatherer, Faker.StarWars.character()),
-      argument: Map.get(attrs, :argument, Faker.StarWars.quote())
+      default: Map.get(attrs, :default, Faker.StarWars.character()),
+      conditions: Map.get(attrs, :conditions, build_list(10, :catalog_condition))
+    }
+  end
+
+  def catalog_condition_factory(attrs) do
+    %Catalog.Condition{
+      value: Map.get(attrs, :value, Faker.StarWars.character()),
+      expression: Map.get(attrs, :expression, Faker.StarWars.quote())
+    }
+  end
+
+  def catalog_expectation_factory(attrs) do
+    %Catalog.Expectation{
+      name: Map.get(attrs, :name, Faker.StarWars.character()),
+      type: Map.get(attrs, :type, Enum.random([:expect, :expect_same])),
+      expression: Map.get(attrs, :expression, Faker.StarWars.quote())
     }
   end
 
