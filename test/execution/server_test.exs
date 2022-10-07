@@ -86,13 +86,13 @@ defmodule Wanda.Execution.ServerTest do
       assert ExecutionResult |> Repo.all() |> Enum.empty?()
     end
 
-    test "should exit when all facts are sent by all agents", state do
+    test "should exit when all facts are sent by all agents", context do
       pid = self()
       execution_id = UUID.uuid4()
       group_id = UUID.uuid4()
       env = build(:env)
 
-      targets = build_list(3, :target, %{checks: [state[:check].id]})
+      targets = build_list(3, :target, %{checks: [context[:check].id]})
 
       expect(Wanda.Messaging.Adapters.Mock, :publish, 2, fn
         "results", _ ->
@@ -111,7 +111,7 @@ defmodule Wanda.Execution.ServerTest do
              execution_id: execution_id,
              group_id: group_id,
              targets: targets,
-             checks: [state[:check]],
+             checks: [context[:check]],
              env: env
            ]}
         )
@@ -122,7 +122,7 @@ defmodule Wanda.Execution.ServerTest do
         Server.receive_facts(
           execution_id,
           target.agent_id,
-          build_list(1, :fact, check_id: state[:check].id)
+          build_list(1, :fact, check_id: context[:check].id)
         )
       end)
 
@@ -132,13 +132,13 @@ defmodule Wanda.Execution.ServerTest do
       assert %ExecutionResult{execution_id: ^execution_id} = Repo.one!(ExecutionResult)
     end
 
-    test "should timeout", state do
+    test "should timeout", context do
       pid = self()
       execution_id = UUID.uuid4()
       group_id = UUID.uuid4()
       env = build(:env)
 
-      targets = build_list(3, :target, %{checks: [state[:check].id]})
+      targets = build_list(3, :target, %{checks: [context[:check].id]})
 
       expect(Wanda.Messaging.Adapters.Mock, :publish, 2, fn
         "results", _ ->
@@ -157,7 +157,7 @@ defmodule Wanda.Execution.ServerTest do
              execution_id: execution_id,
              group_id: group_id,
              targets: targets,
-             checks: [state[:check]],
+             checks: [context[:check]],
              env: env,
              config: [timeout: 100]
            ]}
@@ -173,12 +173,12 @@ defmodule Wanda.Execution.ServerTest do
                Repo.one!(ExecutionResult)
     end
 
-    test "should go down when the timeout function gets called", state do
+    test "should go down when the timeout function gets called", context do
       execution_id = UUID.uuid4()
       group_id = UUID.uuid4()
       env = build(:env)
 
-      targets = build_list(3, :target, %{checks: [state[:check].id]})
+      targets = build_list(3, :target, %{checks: [context[:check].id]})
 
       {:ok, pid} =
         start_supervised(
@@ -187,7 +187,7 @@ defmodule Wanda.Execution.ServerTest do
              execution_id: execution_id,
              group_id: group_id,
              targets: targets,
-             checks: [state[:check]],
+             checks: [context[:check]],
              env: env,
              config: [timeout: 99_999]
            ]}
