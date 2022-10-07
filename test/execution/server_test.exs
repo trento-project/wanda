@@ -13,6 +13,20 @@ defmodule Wanda.Execution.ServerTest do
 
   setup [:set_mox_from_context, :verify_on_exit!]
 
+  setup_all do
+    [%Catalog.Fact{name: fact_name}] = catalog_facts = build_list(1, :catalog_fact)
+
+    expectations =
+      build_list(1, :catalog_expectation,
+        type: :expect,
+        expression: "#{fact_name}"
+      )
+
+    check = build(:check, facts: catalog_facts, values: [], expectations: expectations)
+
+    {:ok, check: check}
+  end
+
   describe "start_link/3" do
     test "should accept an execution_id, a group_id, targets, checks and env on start" do
       execution_id = UUID.uuid4()
@@ -72,13 +86,13 @@ defmodule Wanda.Execution.ServerTest do
       assert ExecutionResult |> Repo.all() |> Enum.empty?()
     end
 
-    test "should exit when all facts are sent by all agents" do
+    test "should exit when all facts are sent by all agents", state do
       pid = self()
       execution_id = UUID.uuid4()
       group_id = UUID.uuid4()
       env = build(:env)
 
-      targets = build_list(3, :target, %{checks: ["expect_check"]})
+      targets = build_list(3, :target, %{checks: [state[:check].id]})
 
       expect(Wanda.Messaging.Adapters.Mock, :publish, 2, fn
         "results", _ ->
@@ -97,7 +111,7 @@ defmodule Wanda.Execution.ServerTest do
              execution_id: execution_id,
              group_id: group_id,
              targets: targets,
-             checks: [Catalog.get_check("expect_check")],
+             checks: [state[:check]],
              env: env
            ]}
         )
@@ -105,13 +119,11 @@ defmodule Wanda.Execution.ServerTest do
       ref = Process.monitor(pid)
 
       Enum.each(targets, fn target ->
-        Server.receive_facts(execution_id, target.agent_id, [
-          %Wanda.Execution.Fact{
-            check_id: "expect_check",
-            name: "corosync_token_timeout",
-            value: 30_000
-          }
-        ])
+        Server.receive_facts(
+          execution_id,
+          target.agent_id,
+          build_list(1, :fact, check_id: state[:check].id)
+        )
       end)
 
       assert_receive :executed
@@ -120,13 +132,13 @@ defmodule Wanda.Execution.ServerTest do
       assert %ExecutionResult{execution_id: ^execution_id} = Repo.one!(ExecutionResult)
     end
 
-    test "should timeout" do
+    test "should timeout", state do
       pid = self()
       execution_id = UUID.uuid4()
       group_id = UUID.uuid4()
       env = build(:env)
 
-      targets = build_list(3, :target, %{checks: ["expect_check"]})
+      targets = build_list(3, :target, %{checks: [state[:check].id]})
 
       expect(Wanda.Messaging.Adapters.Mock, :publish, 2, fn
         "results", _ ->
@@ -145,7 +157,7 @@ defmodule Wanda.Execution.ServerTest do
              execution_id: execution_id,
              group_id: group_id,
              targets: targets,
-             checks: [Catalog.get_check("expect_check")],
+             checks: [state[:check]],
              env: env,
              config: [timeout: 100]
            ]}
@@ -161,12 +173,12 @@ defmodule Wanda.Execution.ServerTest do
                Repo.one!(ExecutionResult)
     end
 
-    test "should go down when the timeout function gets called" do
+    test "should go down when the timeout function gets called", state do
       execution_id = UUID.uuid4()
       group_id = UUID.uuid4()
       env = build(:env)
 
-      targets = build_list(3, :target, %{checks: ["expect_check"]})
+      targets = build_list(3, :target, %{checks: [state[:check].id]})
 
       {:ok, pid} =
         start_supervised(
@@ -175,7 +187,7 @@ defmodule Wanda.Execution.ServerTest do
              execution_id: execution_id,
              group_id: group_id,
              targets: targets,
-             checks: [Catalog.get_check("expect_check")],
+             checks: [state[:check]],
              env: env,
              config: [timeout: 99_999]
            ]}
