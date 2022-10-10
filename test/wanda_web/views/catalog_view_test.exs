@@ -9,7 +9,7 @@ defmodule WandaWeb.CatalogViewTest do
       checks = build_list(3, :check)
 
       assert %{
-               data: ^checks
+               items: ^checks
              } = render(WandaWeb.CatalogView, "list_catalog.json", catalog: checks)
     end
   end

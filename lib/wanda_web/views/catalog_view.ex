@@ -4,7 +4,7 @@ defmodule WandaWeb.CatalogView do
   alias Wanda.Catalog.Check
 
   def render("list_catalog.json", %{catalog: catalog}) do
-    %{data: render_many(catalog, WandaWeb.CatalogView, "check.json", as: :check)}
+    %{items: render_many(catalog, WandaWeb.CatalogView, "check.json", as: :check)}
   end
 
   def render("check.json", %{check: %Check{} = check}), do: check
