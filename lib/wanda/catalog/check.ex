@@ -5,6 +5,7 @@ defmodule Wanda.Catalog.Check do
 
   alias Wanda.Catalog.{Expectation, Fact, Value}
 
+  @derive Jason.Encoder
   defstruct [
     :id,
     :name,
