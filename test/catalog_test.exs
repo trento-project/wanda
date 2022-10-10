@@ -12,9 +12,30 @@ defmodule Wanda.CatalogTest do
   }
 
   describe "checks catalog" do
+    test "should return the whole catalog" do
+      catalog_path = Application.fetch_env!(:wanda, Wanda.Catalog)[:catalog_path]
+
+      files =
+        catalog_path
+        |> File.ls!()
+        |> Enum.sort()
+
+      catalog = Catalog.get_catalog()
+      assert length(files) == length(catalog)
+
+      Enum.with_index(catalog, fn check, index ->
+        file_name =
+          files
+          |> Enum.at(index)
+          |> Path.basename(".yaml")
+
+        assert %Check{id: ^file_name} = check
+      end)
+    end
+
     test "should load a check from a yaml file properly" do
       assert %Check{
-               id: "test_check",
+               id: "expect_check",
                name: "Test check",
                group: "Test",
                description: "Just a check\n",

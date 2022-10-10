@@ -14,8 +14,21 @@ defmodule Wanda.Catalog do
   @default_severity :critical
 
   @doc """
+  Get the checks catalog with all checks
+  """
+  @spec get_catalog() :: [Check.t()]
+  def get_catalog do
+    get_catalog_path()
+    |> Path.join("/*")
+    |> Path.wildcard()
+    |> Enum.map(&Path.basename(&1, ".yaml"))
+    |> Enum.map(&get_check(&1))
+  end
+
+  @doc """
   Get a check from the catalog.
   """
+  @spec get_check(String.t()) :: Check.t()
   def get_check(check_id) do
     get_catalog_path()
     |> Path.join("#{check_id}.yaml")

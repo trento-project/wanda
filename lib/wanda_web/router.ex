@@ -9,6 +9,7 @@ defmodule WandaWeb.Router do
   scope "/api", WandaWeb do
     pipe_through :api
     get "/checks/results", ResultController, :list_results
+    get "/checks/catalog", CatalogController, :list_catalog
   end
 
   scope "/api" do
