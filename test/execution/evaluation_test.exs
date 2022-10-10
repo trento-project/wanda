@@ -1,6 +1,8 @@
 defmodule Wanda.Execution.EvaluationTest do
   use ExUnit.Case
 
+  import Wanda.Factory
+
   alias Wanda.Catalog
 
   alias Wanda.Execution.{
@@ -11,27 +13,36 @@ defmodule Wanda.Execution.EvaluationTest do
     ExpectationEvaluation,
     ExpectationEvaluationError,
     ExpectationResult,
-    Fact,
-    FactError,
     Result
   }
 
   describe "evaluation of an execution" do
     test "should return a passing result when all the agents fullfill the expectations with an expect condition" do
-      gathered_facts = %{
-        "expect_check" => %{
-          "agent_1" => [
-            %Fact{name: "corosync_token_timeout", check_id: "expect_check", value: 30_000}
-          ],
-          "agent_2" => [
-            %Fact{name: "corosync_token_timeout", check_id: "expect_check", value: 30_000}
-          ]
-        }
-      }
-
       execution_id = UUID.uuid4()
       group_id = UUID.uuid4()
-      checks = [Catalog.get_check("expect_check")]
+      fact_value = Enum.random(1..10)
+
+      [%Catalog.Fact{name: fact_name}] = catalog_facts = build_list(1, :catalog_fact)
+
+      [%Catalog.Expectation{name: expectation_name}] =
+        expectations =
+        build_list(1, :catalog_expectation,
+          type: :expect,
+          expression: "#{fact_name} == #{fact_value}"
+        )
+
+      [%Catalog.Check{id: check_id}] =
+        checks =
+        build_list(1, :check, facts: catalog_facts, values: [], expectations: expectations)
+
+      facts = build_list(1, :fact, name: fact_name, check_id: check_id, value: fact_value)
+
+      gathered_facts = %{
+        check_id => %{
+          "agent_1" => facts,
+          "agent_2" => facts
+        }
+      }
 
       assert %Result{
                execution_id: ^execution_id,
@@ -43,41 +54,29 @@ defmodule Wanda.Execution.EvaluationTest do
                        agent_id: "agent_1",
                        expectation_evaluations: [
                          %ExpectationEvaluation{
-                           name: "timeout",
+                           name: ^expectation_name,
                            return_value: true,
                            type: :expect
                          }
                        ],
-                       facts: [
-                         %Fact{
-                           check_id: "expect_check",
-                           name: "corosync_token_timeout",
-                           value: 30_000
-                         }
-                       ]
+                       facts: ^facts
                      },
                      %AgentCheckResult{
                        agent_id: "agent_2",
                        expectation_evaluations: [
                          %ExpectationEvaluation{
-                           name: "timeout",
+                           name: ^expectation_name,
                            return_value: true,
                            type: :expect
                          }
                        ],
-                       facts: [
-                         %Fact{
-                           check_id: "expect_check",
-                           name: "corosync_token_timeout",
-                           value: 30_000
-                         }
-                       ]
+                       facts: ^facts
                      }
                    ],
-                   check_id: "expect_check",
+                   check_id: ^check_id,
                    expectation_results: [
                      %ExpectationResult{
-                       name: "timeout",
+                       name: ^expectation_name,
                        result: true,
                        type: :expect
                      }
@@ -90,20 +89,42 @@ defmodule Wanda.Execution.EvaluationTest do
     end
 
     test "should return a critical result when not all the agents fullfill the expectations with an expect condition" do
-      gathered_facts = %{
-        "expect_check" => %{
-          "agent_1" => [
-            %Fact{name: "corosync_token_timeout", check_id: "expect_check", value: 10_000}
-          ],
-          "agent_2" => [
-            %Fact{name: "corosync_token_timeout", check_id: "expect_check", value: 30_000}
-          ]
-        }
-      }
-
       execution_id = UUID.uuid4()
       group_id = UUID.uuid4()
-      checks = [Catalog.get_check("expect_check")]
+      fact_value = Enum.random(1..10)
+      incorrect_fact_value = Enum.random(11..20)
+
+      [%Catalog.Fact{name: fact_name}] = catalog_facts = build_list(1, :catalog_fact)
+
+      [%Catalog.Expectation{name: expectation_name}] =
+        expectations =
+        build_list(1, :catalog_expectation,
+          type: :expect,
+          expression: "#{fact_name} == #{fact_value}"
+        )
+
+      [%Catalog.Check{id: check_id}] =
+        checks =
+        build_list(1, :check,
+          severity: :critical,
+          facts: catalog_facts,
+          values: [],
+          expectations: expectations
+        )
+
+      gathered_facts = %{
+        check_id => %{
+          "agent_1" =>
+            incorrect_facts =
+              build_list(1, :fact,
+                name: fact_name,
+                check_id: check_id,
+                value: incorrect_fact_value
+              ),
+          "agent_2" =>
+            facts = build_list(1, :fact, name: fact_name, check_id: check_id, value: fact_value)
+        }
+      }
 
       assert %Result{
                execution_id: ^execution_id,
@@ -115,41 +136,29 @@ defmodule Wanda.Execution.EvaluationTest do
                        agent_id: "agent_1",
                        expectation_evaluations: [
                          %ExpectationEvaluation{
-                           name: "timeout",
+                           name: ^expectation_name,
                            return_value: false,
                            type: :expect
                          }
                        ],
-                       facts: [
-                         %Fact{
-                           check_id: "expect_check",
-                           name: "corosync_token_timeout",
-                           value: 10_000
-                         }
-                       ]
+                       facts: ^incorrect_facts
                      },
                      %AgentCheckResult{
                        agent_id: "agent_2",
                        expectation_evaluations: [
                          %ExpectationEvaluation{
-                           name: "timeout",
+                           name: ^expectation_name,
                            return_value: true,
                            type: :expect
                          }
                        ],
-                       facts: [
-                         %Fact{
-                           check_id: "expect_check",
-                           name: "corosync_token_timeout",
-                           value: 30_000
-                         }
-                       ]
+                       facts: ^facts
                      }
                    ],
-                   check_id: "expect_check",
+                   check_id: ^check_id,
                    expectation_results: [
                      %ExpectationResult{
-                       name: "timeout",
+                       name: ^expectation_name,
                        result: false,
                        type: :expect
                      }
@@ -162,25 +171,36 @@ defmodule Wanda.Execution.EvaluationTest do
     end
 
     test "should return a critical result when some agent gets fact gathering errors" do
-      gathered_facts = %{
-        "expect_check" => %{
-          "agent_1" => [
-            %Fact{name: "corosync_token_timeout", check_id: "expect_check", value: 10_000}
-          ],
-          "agent_2" => [
-            %FactError{
-              name: "corosync_token_timeout",
-              check_id: "expect_check",
-              type: "some-error",
-              message: "some message"
-            }
-          ]
-        }
-      }
-
       execution_id = UUID.uuid4()
       group_id = UUID.uuid4()
-      checks = [Catalog.get_check("expect_check")]
+      fact_value = Enum.random(1..10)
+
+      [%Catalog.Fact{name: fact_name}] = catalog_facts = build_list(1, :catalog_fact)
+
+      [%Catalog.Expectation{name: expectation_name}] =
+        expectations =
+        build_list(1, :catalog_expectation,
+          type: :expect,
+          expression: "#{fact_name} == #{fact_value}"
+        )
+
+      [%Catalog.Check{id: check_id}] =
+        checks =
+        build_list(1, :check,
+          severity: :critical,
+          facts: catalog_facts,
+          values: [],
+          expectations: expectations
+        )
+
+      gathered_facts = %{
+        check_id => %{
+          "agent_1" =>
+            facts = build_list(1, :fact, name: fact_name, check_id: check_id, value: fact_value),
+          "agent_2" =>
+            facts_with_errors = build_list(1, :fact_error, name: fact_name, check_id: check_id)
+        }
+      }
 
       assert %Result{
                execution_id: ^execution_id,
@@ -192,38 +212,25 @@ defmodule Wanda.Execution.EvaluationTest do
                        agent_id: "agent_1",
                        expectation_evaluations: [
                          %ExpectationEvaluation{
-                           name: "timeout",
-                           return_value: false,
+                           name: ^expectation_name,
+                           return_value: true,
                            type: :expect
                          }
                        ],
-                       facts: [
-                         %Fact{
-                           check_id: "expect_check",
-                           name: "corosync_token_timeout",
-                           value: 10_000
-                         }
-                       ]
+                       facts: ^facts
                      },
                      %AgentCheckError{
                        agent_id: "agent_2",
-                       facts: [
-                         %FactError{
-                           check_id: "expect_check",
-                           name: "corosync_token_timeout",
-                           type: "some-error",
-                           message: "some message"
-                         }
-                       ],
+                       facts: ^facts_with_errors,
                        message: "Fact gathering ocurred during the execution",
                        type: :fact_gathering_error
                      }
                    ],
-                   check_id: "expect_check",
+                   check_id: ^check_id,
                    expectation_results: [
                      %ExpectationResult{
-                       name: "timeout",
-                       result: false,
+                       name: ^expectation_name,
+                       result: true,
                        type: :expect
                      }
                    ],
@@ -235,20 +242,35 @@ defmodule Wanda.Execution.EvaluationTest do
     end
 
     test "should return a passing result when all the agents fullfill the expectations with an expect_same condition" do
-      gathered_facts = %{
-        "expect_same_check" => %{
-          "agent_1" => [
-            %Fact{name: "corosync_token_timeout", check_id: "expect_same_check", value: 30_000}
-          ],
-          "agent_2" => [
-            %Fact{name: "corosync_token_timeout", check_id: "expect_same_check", value: 30_000}
-          ]
-        }
-      }
-
       execution_id = UUID.uuid4()
       group_id = UUID.uuid4()
-      checks = [Catalog.get_check("expect_same_check")]
+      fact_value = Enum.random(1..10)
+
+      [%Catalog.Fact{name: fact_name}] = catalog_facts = build_list(1, :catalog_fact)
+
+      [%Catalog.Expectation{name: expectation_name}] =
+        expectations =
+        build_list(1, :catalog_expectation,
+          type: :expect_same,
+          expression: "#{fact_name} == #{fact_value}"
+        )
+
+      [%Catalog.Check{id: check_id}] =
+        checks =
+        build_list(1, :check,
+          facts: catalog_facts,
+          values: [],
+          expectations: expectations
+        )
+
+      facts = build_list(1, :fact, name: fact_name, check_id: check_id, value: fact_value)
+
+      gathered_facts = %{
+        check_id => %{
+          "agent_1" => facts,
+          "agent_2" => facts
+        }
+      }
 
       assert %Result{
                execution_id: ^execution_id,
@@ -260,41 +282,29 @@ defmodule Wanda.Execution.EvaluationTest do
                        agent_id: "agent_1",
                        expectation_evaluations: [
                          %ExpectationEvaluation{
-                           name: "timeout",
-                           return_value: 30_000,
+                           name: ^expectation_name,
+                           return_value: true,
                            type: :expect_same
                          }
                        ],
-                       facts: [
-                         %Fact{
-                           check_id: "expect_same_check",
-                           name: "corosync_token_timeout",
-                           value: 30_000
-                         }
-                       ]
+                       facts: ^facts
                      },
                      %AgentCheckResult{
                        agent_id: "agent_2",
                        expectation_evaluations: [
                          %ExpectationEvaluation{
-                           name: "timeout",
-                           return_value: 30_000,
+                           name: ^expectation_name,
+                           return_value: true,
                            type: :expect_same
                          }
                        ],
-                       facts: [
-                         %Fact{
-                           check_id: "expect_same_check",
-                           name: "corosync_token_timeout",
-                           value: 30_000
-                         }
-                       ]
+                       facts: ^facts
                      }
                    ],
-                   check_id: "expect_same_check",
+                   check_id: ^check_id,
                    expectation_results: [
                      %ExpectationResult{
-                       name: "timeout",
+                       name: ^expectation_name,
                        result: true,
                        type: :expect_same
                      }
@@ -307,20 +317,42 @@ defmodule Wanda.Execution.EvaluationTest do
     end
 
     test "should return a passing result when not all the agents fullfill the expectations with an expect_same condition" do
-      gathered_facts = %{
-        "expect_same_check" => %{
-          "agent_1" => [
-            %Fact{name: "corosync_token_timeout", check_id: "expect_same_check", value: "abc"}
-          ],
-          "agent_2" => [
-            %Fact{name: "corosync_token_timeout", check_id: "expect_same_check", value: 30_000}
-          ]
-        }
-      }
-
       execution_id = UUID.uuid4()
       group_id = UUID.uuid4()
-      checks = [Catalog.get_check("expect_same_check")]
+      fact_value = Enum.random(1..10)
+      incorrect_fact_value = Enum.random(11..20)
+
+      [%Catalog.Fact{name: fact_name}] = catalog_facts = build_list(1, :catalog_fact)
+
+      [%Catalog.Expectation{name: expectation_name}] =
+        expectations =
+        build_list(1, :catalog_expectation,
+          type: :expect_same,
+          expression: "#{fact_name} == #{fact_value}"
+        )
+
+      [%Catalog.Check{id: check_id}] =
+        checks =
+        build_list(1, :check,
+          severity: :critical,
+          facts: catalog_facts,
+          values: [],
+          expectations: expectations
+        )
+
+      gathered_facts = %{
+        check_id => %{
+          "agent_1" =>
+            facts = build_list(1, :fact, name: fact_name, check_id: check_id, value: fact_value),
+          "agent_2" =>
+            incorrect_facts =
+              build_list(1, :fact,
+                name: fact_name,
+                check_id: check_id,
+                value: incorrect_fact_value
+              )
+        }
+      }
 
       assert %Result{
                execution_id: ^execution_id,
@@ -332,41 +364,29 @@ defmodule Wanda.Execution.EvaluationTest do
                        agent_id: "agent_1",
                        expectation_evaluations: [
                          %ExpectationEvaluation{
-                           name: "timeout",
-                           return_value: "abc",
+                           name: ^expectation_name,
+                           return_value: true,
                            type: :expect_same
                          }
                        ],
-                       facts: [
-                         %Fact{
-                           check_id: "expect_same_check",
-                           name: "corosync_token_timeout",
-                           value: "abc"
-                         }
-                       ]
+                       facts: ^facts
                      },
                      %AgentCheckResult{
                        agent_id: "agent_2",
                        expectation_evaluations: [
                          %ExpectationEvaluation{
-                           name: "timeout",
-                           return_value: 30_000,
+                           name: ^expectation_name,
+                           return_value: false,
                            type: :expect_same
                          }
                        ],
-                       facts: [
-                         %Fact{
-                           check_id: "expect_same_check",
-                           name: "corosync_token_timeout",
-                           value: 30_000
-                         }
-                       ]
+                       facts: ^incorrect_facts
                      }
                    ],
-                   check_id: "expect_same_check",
+                   check_id: ^check_id,
                    expectation_results: [
                      %ExpectationResult{
-                       name: "timeout",
+                       name: ^expectation_name,
                        result: false,
                        type: :expect_same
                      }
@@ -379,34 +399,49 @@ defmodule Wanda.Execution.EvaluationTest do
     end
 
     test "should return a critical result if a fact is missing from the agent fact gathering" do
+      execution_id = UUID.uuid4()
+      group_id = UUID.uuid4()
+      fact_value = Enum.random(1..10)
+
+      [%Catalog.Fact{name: fact_name}] = catalog_facts = build_list(1, :catalog_fact)
+
+      [%Catalog.Expectation{name: expectation_name}] =
+        expectations =
+        build_list(1, :catalog_expectation,
+          type: :expect,
+          expression: "#{fact_name} == #{fact_value}"
+        )
+
+      [%Catalog.Check{id: check_id}] =
+        checks =
+        build_list(1, :check,
+          severity: :critical,
+          facts: catalog_facts,
+          values: [],
+          expectations: expectations
+        )
+
       gathered_facts = %{
-        "with_fact_missing_check" => %{
-          "agent_1" => [
-            %Fact{
-              name: "corosync_token_timeout",
-              check_id: "with_fact_missing_check",
-              value: 30_000
-            }
-          ],
+        check_id => %{
+          "agent_1" =>
+            build_list(1, :fact, name: fact_name, check_id: check_id, value: fact_value),
           "agent_2" => []
         }
       }
-
-      checks = [Catalog.get_check("with_fact_missing_check")]
 
       assert %Result{
                result: :critical,
                check_results: [
                  %CheckResult{
                    result: :critical,
-                   check_id: "with_fact_missing_check",
+                   check_id: ^check_id,
                    agents_check_results: [
                      _,
                      %AgentCheckResult{
                        agent_id: "agent_2",
                        expectation_evaluations: [
                          %ExpectationEvaluationError{
-                           name: "fact_missing",
+                           name: ^expectation_name,
                            type: :fact_missing_error
                          }
                        ],
@@ -415,42 +450,55 @@ defmodule Wanda.Execution.EvaluationTest do
                    ],
                    expectation_results: [
                      %ExpectationResult{
-                       name: "fact_missing",
+                       name: ^expectation_name,
                        result: false,
                        type: :expect
                      }
                    ]
                  }
                ]
-             } = Evaluation.execute(UUID.uuid4(), UUID.uuid4(), checks, gathered_facts)
+             } = Evaluation.execute(execution_id, group_id, checks, gathered_facts)
     end
 
     test "should return a critical result if an illegal expression was specified in a check expectation" do
+      execution_id = UUID.uuid4()
+      group_id = UUID.uuid4()
+
+      [%Catalog.Fact{name: fact_name}] = catalog_facts = build_list(1, :catalog_fact)
+
+      [%Catalog.Expectation{name: expectation_name}] =
+        expectations = build_list(1, :catalog_expectation, type: :expect)
+
+      [%Catalog.Check{id: check_id}] =
+        checks =
+        build_list(1, :check,
+          severity: :critical,
+          facts: catalog_facts,
+          values: [],
+          expectations: expectations
+        )
+
+      facts = build_list(1, :fact, name: fact_name, check_id: check_id)
+
       gathered_facts = %{
-        "with_illegal_expression_check" => %{
-          "agent_1" => [
-            %Fact{name: "jedi", value: Faker.StarWars.character()}
-          ],
-          "agent_2" => [
-            %Fact{name: "jedi", value: Faker.StarWars.character()}
-          ]
+        check_id => %{
+          "agent_1" => facts,
+          "agent_2" => facts
         }
       }
-
-      checks = [Catalog.get_check("with_illegal_expression_check")]
 
       assert %Result{
                result: :critical,
                check_results: [
                  %CheckResult{
                    result: :critical,
-                   check_id: "with_illegal_expression_check",
+                   check_id: ^check_id,
                    agents_check_results: [
                      %AgentCheckResult{
                        agent_id: "agent_1",
                        expectation_evaluations: [
                          %ExpectationEvaluationError{
-                           name: "illegal_expression",
+                           name: ^expectation_name,
                            type: :illegal_expression_error
                          }
                        ]
@@ -459,7 +507,7 @@ defmodule Wanda.Execution.EvaluationTest do
                        agent_id: "agent_2",
                        expectation_evaluations: [
                          %ExpectationEvaluationError{
-                           name: "illegal_expression",
+                           name: ^expectation_name,
                            type: :illegal_expression_error
                          }
                        ]
@@ -467,32 +515,48 @@ defmodule Wanda.Execution.EvaluationTest do
                    ],
                    expectation_results: [
                      %ExpectationResult{
-                       name: "illegal_expression",
+                       name: ^expectation_name,
                        result: false,
                        type: :expect
                      }
                    ]
                  }
                ]
-             } = Evaluation.execute(UUID.uuid4(), UUID.uuid4(), checks, gathered_facts)
+             } = Evaluation.execute(execution_id, group_id, checks, gathered_facts)
     end
 
     test "should return a critical result if an agent times out" do
+      execution_id = UUID.uuid4()
+      group_id = UUID.uuid4()
+      fact_value = Enum.random(1..10)
+
+      [%Catalog.Fact{name: fact_name}] = catalog_facts = build_list(1, :catalog_fact)
+
+      [%Catalog.Expectation{name: expectation_name}] =
+        expectations =
+        build_list(1, :catalog_expectation,
+          type: :expect,
+          expression: "#{fact_name} == #{fact_value}"
+        )
+
+      [%Catalog.Check{id: check_id}] =
+        checks =
+        build_list(1, :check,
+          severity: :critical,
+          facts: catalog_facts,
+          values: [],
+          expectations: expectations
+        )
+
+      facts = build_list(1, :fact, name: fact_name, check_id: check_id, value: fact_value)
+
       gathered_facts = %{
-        "expect_check" => %{
-          "agent_1" => [
-            %Fact{name: "corosync_token_timeout", check_id: "expect_check", value: 30_000}
-          ],
-          "agent_2" => [
-            %Fact{name: "corosync_token_timeout", check_id: "expect_check", value: 30_000}
-          ],
+        check_id => %{
+          "agent_1" => facts,
+          "agent_2" => facts,
           "agent_3" => :timeout
         }
       }
-
-      execution_id = UUID.uuid4()
-      group_id = UUID.uuid4()
-      checks = [Catalog.get_check("expect_check")]
 
       assert %Result{
                execution_id: ^execution_id,
@@ -500,50 +564,18 @@ defmodule Wanda.Execution.EvaluationTest do
                check_results: [
                  %CheckResult{
                    agents_check_results: [
-                     %AgentCheckResult{
-                       agent_id: "agent_1",
-                       expectation_evaluations: [
-                         %ExpectationEvaluation{
-                           name: "timeout",
-                           return_value: true,
-                           type: :expect
-                         }
-                       ],
-                       facts: [
-                         %Fact{
-                           check_id: "expect_check",
-                           name: "corosync_token_timeout",
-                           value: 30_000
-                         }
-                       ]
-                     },
-                     %AgentCheckResult{
-                       agent_id: "agent_2",
-                       expectation_evaluations: [
-                         %ExpectationEvaluation{
-                           name: "timeout",
-                           return_value: true,
-                           type: :expect
-                         }
-                       ],
-                       facts: [
-                         %Fact{
-                           check_id: "expect_check",
-                           name: "corosync_token_timeout",
-                           value: 30_000
-                         }
-                       ]
-                     },
+                     _,
+                     _,
                      %AgentCheckError{
                        agent_id: "agent_3",
                        message: "Agent timed out during the execution",
                        type: :timeout
                      }
                    ],
-                   check_id: "expect_check",
+                   check_id: ^check_id,
                    expectation_results: [
                      %ExpectationResult{
-                       name: "timeout",
+                       name: ^expectation_name,
                        result: true,
                        type: :expect
                      }
@@ -556,78 +588,36 @@ defmodule Wanda.Execution.EvaluationTest do
     end
 
     test "should return warning result if the check severity is specified as warning" do
-      gathered_facts = %{
-        "warning_severity_check" => %{
-          "agent_1" => [
-            %Fact{
-              name: "corosync_token_timeout",
-              check_id: "warning_severity_check",
-              value: 30_000
-            }
-          ],
-          "agent_2" => [
-            %Fact{
-              name: "corosync_token_timeout",
-              check_id: "warning_severity_check",
-              value: 30_001
-            }
-          ]
-        }
-      }
-
       execution_id = UUID.uuid4()
       group_id = UUID.uuid4()
-      checks = [Catalog.get_check("warning_severity_check")]
+
+      [%Catalog.Fact{name: fact_name}] = catalog_facts = build_list(1, :catalog_fact)
+
+      expectations = build_list(1, :catalog_expectation, type: :expect)
+
+      [%Catalog.Check{id: check_id}] =
+        checks =
+        build_list(1, :check,
+          severity: :warning,
+          facts: catalog_facts,
+          values: [],
+          expectations: expectations
+        )
+
+      facts = build_list(1, :fact, name: fact_name, check_id: check_id)
+
+      gathered_facts = %{
+        check_id => %{
+          "agent_1" => facts,
+          "agent_2" => facts
+        }
+      }
 
       assert %Result{
                execution_id: ^execution_id,
                group_id: ^group_id,
                check_results: [
                  %CheckResult{
-                   agents_check_results: [
-                     %AgentCheckResult{
-                       agent_id: "agent_1",
-                       expectation_evaluations: [
-                         %ExpectationEvaluation{
-                           name: "timeout",
-                           return_value: true,
-                           type: :expect
-                         }
-                       ],
-                       facts: [
-                         %Fact{
-                           check_id: "warning_severity_check",
-                           name: "corosync_token_timeout",
-                           value: 30_000
-                         }
-                       ]
-                     },
-                     %AgentCheckResult{
-                       agent_id: "agent_2",
-                       expectation_evaluations: [
-                         %ExpectationEvaluation{
-                           name: "timeout",
-                           return_value: false,
-                           type: :expect
-                         }
-                       ],
-                       facts: [
-                         %Fact{
-                           check_id: "warning_severity_check",
-                           name: "corosync_token_timeout",
-                           value: 30_001
-                         }
-                       ]
-                     }
-                   ],
-                   check_id: "warning_severity_check",
-                   expectation_results: [
-                     %ExpectationResult{
-                       name: "timeout",
-                       result: false,
-                       type: :expect
-                     }
-                   ],
                    result: :warning
                  }
                ],

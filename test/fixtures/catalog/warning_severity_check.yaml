@@ -8,9 +8,9 @@ remediation: |
   Remediation text
 severity: warning
 facts:
-  - name: corosync_token_timeout
-    gatherer: corosync
-    argument: totem.token
+  - name: jedi
+    gatherer: wandalorian
+    argument: -o
 expectations:
-  - name: timeout
-    expect: corosync_token_timeout == 30000
+  - name: some_expectation
+    expect: jedi == "skywalker"

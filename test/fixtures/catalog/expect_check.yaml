@@ -1,4 +1,4 @@
-id: expect_check
+id: test_check
 name: Test check
 group: Test
 description: |
@@ -6,11 +6,25 @@ description: |
 remediation: |
   ## Remediation
   Remediation text
-severity: critical
 facts:
-  - name: corosync_token_timeout
-    gatherer: corosync
-    argument: totem.token
+  - name: jedi
+    gatherer: wandalorian
+    argument: -o
+values:
+  - name: expected_value
+    default: 5
+    conditions:
+      - value: 10
+        when: some_expression
+      - value: 15
+        when: some_other_expression
+  - name: expected_higher_value
+    default: 10
+    conditions:
+      - value: 5
+        when: some_third_expression
 expectations:
-  - name: timeout
-    expect: corosync_token_timeout == 30000
+  - name: some_expectation
+    expect: jedi == values.expected_value
+  - name: some_other_expectation
+    expect: jedi > values.expected_higher_value

@@ -7,9 +7,9 @@ remediation: |
   ## Remediation
   Remediation text
 facts:
-  - name: corosync_token_timeout
-    gatherer: corosync
-    argument: totem.token
+  - name: jedi
+    gatherer: wandalorian
+    argument: -o
 expectations:
-  - name: timeout
-    expect_same: corosync_token_timeout
+  - name: some_expectation
+    expect_same: jedi
