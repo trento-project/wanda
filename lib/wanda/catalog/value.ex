@@ -5,6 +5,7 @@ defmodule Wanda.Catalog.Value do
 
   alias Wanda.Catalog.Condition
 
+  @derive Jason.Encoder
   defstruct [:name, :default, :conditions]
 
   @type t :: %__MODULE__{

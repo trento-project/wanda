@@ -3,6 +3,7 @@ defmodule Wanda.Catalog.Condition do
   Represents a condition.
   """
 
+  @derive Jason.Encoder
   defstruct [:value, :expression]
 
   @type t :: %__MODULE__{

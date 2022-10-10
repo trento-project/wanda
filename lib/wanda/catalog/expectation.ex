@@ -3,6 +3,7 @@ defmodule Wanda.Catalog.Expectation do
   Represents an expectation.
   """
 
+  @derive Jason.Encoder
   defstruct [:name, :type, :expression]
 
   @type t :: %__MODULE__{

@@ -3,6 +3,7 @@ defmodule Wanda.Catalog.Fact do
   Represents a fact.
   """
 
+  @derive Jason.Encoder
   defstruct [:name, :gatherer, :argument]
 
   @type t :: %__MODULE__{
