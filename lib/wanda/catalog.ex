@@ -31,6 +31,9 @@ defmodule Wanda.Catalog do
          %{
            "id" => id,
            "name" => name,
+           "group" => group,
+           "description" => description,
+           "remediation" => remediation,
            "facts" => facts,
            "expectations" => expectations
          } = check
@@ -38,6 +41,9 @@ defmodule Wanda.Catalog do
     %Check{
       id: id,
       name: name,
+      group: group,
+      description: description,
+      remediation: remediation,
       severity: map_severity(check),
       facts: Enum.map(facts, &map_fact/1),
       values: map_values(check),

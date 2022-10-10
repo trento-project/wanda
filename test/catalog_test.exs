@@ -16,6 +16,9 @@ defmodule Wanda.CatalogTest do
       assert %Check{
                id: "test_check",
                name: "Test check",
+               group: "Test",
+               description: "Just a check\n",
+               remediation: "## Remediation\nRemediation text\n",
                severity: :critical,
                facts: [
                  %Fact{
