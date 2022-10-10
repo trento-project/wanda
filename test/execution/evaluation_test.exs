@@ -14,7 +14,6 @@ defmodule Wanda.Execution.EvaluationTest do
     ExpectationEvaluationError,
     ExpectationResult,
     Fact,
-    FactError,
     Result,
     Value
   }
@@ -31,7 +30,7 @@ defmodule Wanda.Execution.EvaluationTest do
         expectations =
         build_list(1, :catalog_expectation,
           type: :expect,
-          expression: "#{fact_name} == #{fact_value}"
+          expression: "facts.#{fact_name} == #{fact_value}"
         )
 
       [%Catalog.Check{id: check_id}] =
@@ -103,7 +102,7 @@ defmodule Wanda.Execution.EvaluationTest do
         expectations =
         build_list(1, :catalog_expectation,
           type: :expect,
-          expression: "#{fact_name} == #{fact_value}"
+          expression: "facts.#{fact_name} == #{fact_value}"
         )
 
       [%Catalog.Check{id: check_id}] =
@@ -184,7 +183,7 @@ defmodule Wanda.Execution.EvaluationTest do
         expectations =
         build_list(1, :catalog_expectation,
           type: :expect,
-          expression: "#{fact_name} == #{fact_value}"
+          expression: "facts.#{fact_name} == #{fact_value}"
         )
 
       [%Catalog.Check{id: check_id}] =
@@ -225,7 +224,7 @@ defmodule Wanda.Execution.EvaluationTest do
                      %AgentCheckError{
                        agent_id: "agent_2",
                        facts: ^facts_with_errors,
-                       message: "Fact gathering ocurred during the execution",
+                       message: "Fact gathering error occurred during the execution",
                        type: :fact_gathering_error
                      }
                    ],
@@ -255,7 +254,7 @@ defmodule Wanda.Execution.EvaluationTest do
         expectations =
         build_list(1, :catalog_expectation,
           type: :expect_same,
-          expression: "#{fact_name} == #{fact_value}"
+          expression: "facts.#{fact_name} == #{fact_value}"
         )
 
       [%Catalog.Check{id: check_id}] =
@@ -331,7 +330,7 @@ defmodule Wanda.Execution.EvaluationTest do
         expectations =
         build_list(1, :catalog_expectation,
           type: :expect_same,
-          expression: "#{fact_name} == #{fact_value}"
+          expression: "facts.#{fact_name} == #{fact_value}"
         )
 
       [%Catalog.Check{id: check_id}] =
@@ -412,7 +411,7 @@ defmodule Wanda.Execution.EvaluationTest do
         expectations =
         build_list(1, :catalog_expectation,
           type: :expect,
-          expression: "#{fact_name} == #{fact_value}"
+          expression: "facts.#{fact_name} == #{fact_value}"
         )
 
       [%Catalog.Check{id: check_id}] =
@@ -539,7 +538,7 @@ defmodule Wanda.Execution.EvaluationTest do
         expectations =
         build_list(1, :catalog_expectation,
           type: :expect,
-          expression: "#{fact_name} == #{fact_value}"
+          expression: "facts.#{fact_name} == #{fact_value}"
         )
 
       [%Catalog.Check{id: check_id}] =
@@ -630,23 +629,62 @@ defmodule Wanda.Execution.EvaluationTest do
   end
 
   describe "environment based check evaluation" do
-    test "should support check 156F64 - Corosync token timeout - on Azure and AWS" do
-      check_id = "156F64"
+    setup do
+      check =
+        build(:check,
+          severity: :critical,
+          facts: [
+            build(:catalog_fact,
+              name: "some_fact",
+              gatherer: "some_gatherer",
+              argument: "some_argument"
+            )
+          ],
+          values: [
+            build(:catalog_value,
+              name: "some_value",
+              default: "a_default_value",
+              conditions: [
+                build(:catalog_condition,
+                  value: "value_on_first_condition",
+                  expression: "env.some_env == \"whoa\" || env.some_env == \"yeah\""
+                ),
+                build(:catalog_condition,
+                  value: "value_on_second_condition",
+                  expression: "env.some_env == \"yay\""
+                )
+              ]
+            )
+          ],
+          expectations: [
+            build(:catalog_expectation,
+              name: "some_expectation",
+              type: :expect,
+              expression: "facts.some_fact == values.some_value"
+            )
+          ]
+        )
+
+      %{checks: [check]}
+    end
+
+    test "should return a passing result based on the first matching environmental condition",
+         context do
+      checks = [%{id: check_id}] = context[:checks]
 
       gathered_facts = %{
         check_id => %{
           "agent_1" => [
-            %Fact{name: "corosync_token_timeout", check_id: check_id, value: 30_000}
+            %Fact{name: "some_fact", check_id: check_id, value: "value_on_first_condition"}
           ],
           "agent_2" => [
-            %Fact{name: "corosync_token_timeout", check_id: check_id, value: 30_000}
+            %Fact{name: "some_fact", check_id: check_id, value: "value_on_first_condition"}
           ]
         }
       }
 
       execution_id = UUID.uuid4()
       group_id = UUID.uuid4()
-      checks = [Catalog.get_check(check_id)]
 
       expected_result = %Result{
         execution_id: execution_id,
@@ -658,7 +696,7 @@ defmodule Wanda.Execution.EvaluationTest do
                 agent_id: "agent_1",
                 expectation_evaluations: [
                   %ExpectationEvaluation{
-                    name: "timeout",
+                    name: "some_expectation",
                     return_value: true,
                     type: :expect
                   }
@@ -666,19 +704,19 @@ defmodule Wanda.Execution.EvaluationTest do
                 facts: [
                   %Fact{
                     check_id: check_id,
-                    name: "corosync_token_timeout",
-                    value: 30_000
+                    name: "some_fact",
+                    value: "value_on_first_condition"
                   }
                 ],
                 values: [
-                  %Value{name: "expected_token_timeout", value: 30_000}
+                  %Value{name: "some_value", value: "value_on_first_condition"}
                 ]
               },
               %AgentCheckResult{
                 agent_id: "agent_2",
                 expectation_evaluations: [
                   %ExpectationEvaluation{
-                    name: "timeout",
+                    name: "some_expectation",
                     return_value: true,
                     type: :expect
                   }
@@ -686,19 +724,19 @@ defmodule Wanda.Execution.EvaluationTest do
                 facts: [
                   %Fact{
                     check_id: check_id,
-                    name: "corosync_token_timeout",
-                    value: 30_000
+                    name: "some_fact",
+                    value: "value_on_first_condition"
                   }
                 ],
                 values: [
-                  %Value{name: "expected_token_timeout", value: 30_000}
+                  %Value{name: "some_value", value: "value_on_first_condition"}
                 ]
               }
             ],
             check_id: check_id,
             expectation_results: [
               %ExpectationResult{
-                name: "timeout",
+                name: "some_expectation",
                 result: true,
                 type: :expect
               }
@@ -712,33 +750,34 @@ defmodule Wanda.Execution.EvaluationTest do
 
       assert ^expected_result =
                Evaluation.execute(execution_id, group_id, checks, gathered_facts, %{
-                 "provider" => "aws"
+                 "some_env" => "whoa"
                })
 
       assert ^expected_result =
                Evaluation.execute(execution_id, group_id, checks, gathered_facts, %{
-                 "provider" => "azure"
+                 "some_env" => "yeah"
                })
     end
 
-    test "should support check 156F64 - Corosync token timeout - on GCP" do
-      check_id = "156F64"
-      env = %{"provider" => "gcp"}
+    test "should return a passing result based on the proper environmental conditions matching",
+         context do
+      checks = [%{id: check_id}] = context[:checks]
+
+      env = %{"some_env" => "yay"}
 
       gathered_facts = %{
         check_id => %{
           "agent_1" => [
-            %Fact{name: "corosync_token_timeout", check_id: check_id, value: 20_000}
+            %Fact{name: "some_fact", check_id: check_id, value: "value_on_second_condition"}
           ],
           "agent_2" => [
-            %Fact{name: "corosync_token_timeout", check_id: check_id, value: 20_000}
+            %Fact{name: "some_fact", check_id: check_id, value: "value_on_second_condition"}
           ]
         }
       }
 
       execution_id = UUID.uuid4()
       group_id = UUID.uuid4()
-      checks = [Catalog.get_check(check_id)]
 
       assert %Result{
                execution_id: ^execution_id,
@@ -750,7 +789,7 @@ defmodule Wanda.Execution.EvaluationTest do
                        agent_id: "agent_1",
                        expectation_evaluations: [
                          %ExpectationEvaluation{
-                           name: "timeout",
+                           name: "some_expectation",
                            return_value: true,
                            type: :expect
                          }
@@ -758,19 +797,19 @@ defmodule Wanda.Execution.EvaluationTest do
                        facts: [
                          %Fact{
                            check_id: ^check_id,
-                           name: "corosync_token_timeout",
-                           value: 20_000
+                           name: "some_fact",
+                           value: "value_on_second_condition"
                          }
                        ],
                        values: [
-                         %Value{name: "expected_token_timeout", value: 20_000}
+                         %Value{name: "some_value", value: "value_on_second_condition"}
                        ]
                      },
                      %AgentCheckResult{
                        agent_id: "agent_2",
                        expectation_evaluations: [
                          %ExpectationEvaluation{
-                           name: "timeout",
+                           name: "some_expectation",
                            return_value: true,
                            type: :expect
                          }
@@ -778,19 +817,19 @@ defmodule Wanda.Execution.EvaluationTest do
                        facts: [
                          %Fact{
                            check_id: ^check_id,
-                           name: "corosync_token_timeout",
-                           value: 20_000
+                           name: "some_fact",
+                           value: "value_on_second_condition"
                          }
                        ],
                        values: [
-                         %Value{name: "expected_token_timeout", value: 20_000}
+                         %Value{name: "some_value", value: "value_on_second_condition"}
                        ]
                      }
                    ],
                    check_id: ^check_id,
                    expectation_results: [
                      %ExpectationResult{
-                       name: "timeout",
+                       name: "some_expectation",
                        result: true,
                        type: :expect
                      }
@@ -798,27 +837,28 @@ defmodule Wanda.Execution.EvaluationTest do
                    result: :passing
                  }
                ],
-               result: :passing
+               result: :passing,
+               timeout: []
              } = Evaluation.execute(execution_id, group_id, checks, gathered_facts, env)
     end
 
-    test "should support check 156F64 - Corosync token timeout - on an unknown or not present provider" do
-      check_id = "156F64"
+    test "should return a passing result based on the default value when environmental condition does not match",
+         context do
+      checks = [%{id: check_id}] = context[:checks]
 
       gathered_facts = %{
         check_id => %{
           "agent_1" => [
-            %Fact{name: "corosync_token_timeout", check_id: check_id, value: 5_000}
+            %Fact{name: "some_fact", check_id: check_id, value: "a_default_value"}
           ],
           "agent_2" => [
-            %Fact{name: "corosync_token_timeout", check_id: check_id, value: 5_000}
+            %Fact{name: "some_fact", check_id: check_id, value: "a_default_value"}
           ]
         }
       }
 
       execution_id = UUID.uuid4()
       group_id = UUID.uuid4()
-      checks = [Catalog.get_check(check_id)]
 
       expected_result = %Result{
         execution_id: execution_id,
@@ -830,7 +870,7 @@ defmodule Wanda.Execution.EvaluationTest do
                 agent_id: "agent_1",
                 expectation_evaluations: [
                   %ExpectationEvaluation{
-                    name: "timeout",
+                    name: "some_expectation",
                     return_value: true,
                     type: :expect
                   }
@@ -838,19 +878,19 @@ defmodule Wanda.Execution.EvaluationTest do
                 facts: [
                   %Fact{
                     check_id: check_id,
-                    name: "corosync_token_timeout",
-                    value: 5_000
+                    name: "some_fact",
+                    value: "a_default_value"
                   }
                 ],
                 values: [
-                  %Value{name: "expected_token_timeout", value: 5_000}
+                  %Value{name: "some_value", value: "a_default_value"}
                 ]
               },
               %AgentCheckResult{
                 agent_id: "agent_2",
                 expectation_evaluations: [
                   %ExpectationEvaluation{
-                    name: "timeout",
+                    name: "some_expectation",
                     return_value: true,
                     type: :expect
                   }
@@ -858,19 +898,19 @@ defmodule Wanda.Execution.EvaluationTest do
                 facts: [
                   %Fact{
                     check_id: check_id,
-                    name: "corosync_token_timeout",
-                    value: 5_000
+                    name: "some_fact",
+                    value: "a_default_value"
                   }
                 ],
                 values: [
-                  %Value{name: "expected_token_timeout", value: 5_000}
+                  %Value{name: "some_value", value: "a_default_value"}
                 ]
               }
             ],
             check_id: check_id,
             expectation_results: [
               %ExpectationResult{
-                name: "timeout",
+                name: "some_expectation",
                 result: true,
                 type: :expect
               }
@@ -884,38 +924,43 @@ defmodule Wanda.Execution.EvaluationTest do
 
       assert ^expected_result =
                Evaluation.execute(execution_id, group_id, checks, gathered_facts, %{
-                 "provider" => "unrecognized_provider"
+                 "some_value" => "unrecognized"
                })
 
       assert ^expected_result =
                Evaluation.execute(execution_id, group_id, checks, gathered_facts, %{
-                 "provider" => nil
+                 "some_value" => nil
                })
 
       assert ^expected_result =
                Evaluation.execute(execution_id, group_id, checks, gathered_facts, %{
-                 "not_a_provider" => "some_value"
+                 "some_value" => ""
+               })
+
+      assert ^expected_result =
+               Evaluation.execute(execution_id, group_id, checks, gathered_facts, %{
+                 "unrecognized_value" => "some"
                })
     end
 
-    test "should support check 156F64 - Corosync token timeout - failing on AWS" do
-      check_id = "156F64"
-      env = %{"provider" => "aws"}
+    test "should return a critical result when expectation does not match expected evaluated value",
+         context do
+      checks = [%{id: check_id}] = context[:checks]
+      env = %{"some_env" => "whoa"}
 
       gathered_facts = %{
         check_id => %{
           "agent_1" => [
-            %Fact{name: "corosync_token_timeout", check_id: check_id, value: 15_000}
+            %Fact{name: "some_fact", check_id: check_id, value: "bad_value"}
           ],
           "agent_2" => [
-            %Fact{name: "corosync_token_timeout", check_id: check_id, value: 30_000}
+            %Fact{name: "some_fact", check_id: check_id, value: "value_on_first_condition"}
           ]
         }
       }
 
       execution_id = UUID.uuid4()
       group_id = UUID.uuid4()
-      checks = [Catalog.get_check(check_id)]
 
       assert %Result{
                execution_id: ^execution_id,
@@ -927,7 +972,7 @@ defmodule Wanda.Execution.EvaluationTest do
                        agent_id: "agent_1",
                        expectation_evaluations: [
                          %ExpectationEvaluation{
-                           name: "timeout",
+                           name: "some_expectation",
                            return_value: false,
                            type: :expect
                          }
@@ -935,19 +980,19 @@ defmodule Wanda.Execution.EvaluationTest do
                        facts: [
                          %Fact{
                            check_id: ^check_id,
-                           name: "corosync_token_timeout",
-                           value: 15_000
+                           name: "some_fact",
+                           value: "bad_value"
                          }
                        ],
                        values: [
-                         %Value{name: "expected_token_timeout", value: 30_000}
+                         %Value{name: "some_value", value: "value_on_first_condition"}
                        ]
                      },
                      %AgentCheckResult{
                        agent_id: "agent_2",
                        expectation_evaluations: [
                          %ExpectationEvaluation{
-                           name: "timeout",
+                           name: "some_expectation",
                            return_value: true,
                            type: :expect
                          }
@@ -955,19 +1000,19 @@ defmodule Wanda.Execution.EvaluationTest do
                        facts: [
                          %Fact{
                            check_id: ^check_id,
-                           name: "corosync_token_timeout",
-                           value: 30_000
+                           name: "some_fact",
+                           value: "value_on_first_condition"
                          }
                        ],
                        values: [
-                         %Value{name: "expected_token_timeout", value: 30_000}
+                         %Value{name: "some_value", value: "value_on_first_condition"}
                        ]
                      }
                    ],
                    check_id: ^check_id,
                    expectation_results: [
                      %ExpectationResult{
-                       name: "timeout",
+                       name: "some_expectation",
                        result: false,
                        type: :expect
                      }

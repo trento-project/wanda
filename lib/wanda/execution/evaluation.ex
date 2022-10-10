@@ -19,7 +19,7 @@ defmodule Wanda.Execution.Evaluation do
   }
 
   # Abacus spec is wrong
-  @dialyzer {:nowarn_function, eval_expectation: 3, find_value: 3}
+  @dialyzer {:nowarn_function, eval_expectation: 2, find_value: 3}
 
   @spec execute(
           String.t(),
@@ -89,17 +89,24 @@ defmodule Wanda.Execution.Evaluation do
         agent_id: agent_id,
         facts: facts,
         type: :fact_gathering_error,
-        message: "Fact gathering ocurred during the execution"
+        message: "Fact gathering error occurred during the execution"
       }
     else
-      evalued_values = Enum.map(values, &eval_value(&1, facts, env))
+      value_evaluation_scope = add_scope(%{"env" => env}, "facts", facts)
+
+      evaluated_values = Enum.map(values, &eval_value(&1, value_evaluation_scope))
+
+      expectation_evaluation_scope =
+        %{}
+        |> add_scope("facts", facts)
+        |> add_scope("values", evaluated_values)
 
       %AgentCheckResult{
         agent_id: agent_id,
         facts: facts,
-        values: evalued_values,
+        values: evaluated_values,
         expectation_evaluations:
-          Enum.map(expectations, &eval_expectation(&1, facts, evalued_values))
+          Enum.map(expectations, &eval_expectation(&1, expectation_evaluation_scope))
       }
     end
   end
@@ -117,11 +124,8 @@ defmodule Wanda.Execution.Evaluation do
            default: default,
            conditions: conditions
          },
-         facts,
-         env
+         evaluation_scope
        ) do
-    evaluation_scope = add_scope(%{"env" => env}, "facts", facts)
-
     %Value{
       name: name,
       value: find_value(conditions, default, evaluation_scope)
@@ -157,14 +161,8 @@ defmodule Wanda.Execution.Evaluation do
 
   defp eval_expectation(
          %Expectation{name: name, type: type, expression: expression},
-         facts,
-         values
+         evaluation_scope
        ) do
-    evaluation_scope =
-      %{}
-      |> add_scope("facts", facts)
-      |> add_scope("values", values)
-
     case Abacus.eval(expression, evaluation_scope) do
       {:ok, return_value} ->
         %ExpectationEvaluation{name: name, type: type, return_value: return_value}
