@@ -67,6 +67,6 @@ if config_env() == :prod do
     catalog_path:
       Application.app_dir(
         :wanda,
-        Application.fetch_env!(:wanda, Wanda.Catalog)[:catalog_path]
+        "priv/catalog"
       )
 end
