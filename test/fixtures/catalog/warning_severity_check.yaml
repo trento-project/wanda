@@ -13,4 +13,4 @@ facts:
     argument: -o
 expectations:
   - name: some_expectation
-    expect: jedi == "skywalker"
+    expect: facts.jedi == "skywalker"

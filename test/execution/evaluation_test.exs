@@ -13,7 +13,9 @@ defmodule Wanda.Execution.EvaluationTest do
     ExpectationEvaluation,
     ExpectationEvaluationError,
     ExpectationResult,
-    Result
+    Fact,
+    Result,
+    Value
   }
 
   describe "evaluation of an execution" do
@@ -28,7 +30,7 @@ defmodule Wanda.Execution.EvaluationTest do
         expectations =
         build_list(1, :catalog_expectation,
           type: :expect,
-          expression: "#{fact_name} == #{fact_value}"
+          expression: "facts.#{fact_name} == #{fact_value}"
         )
 
       [%Catalog.Check{id: check_id}] =
@@ -85,7 +87,7 @@ defmodule Wanda.Execution.EvaluationTest do
                  }
                ],
                result: :passing
-             } = Evaluation.execute(execution_id, group_id, checks, gathered_facts)
+             } = Evaluation.execute(execution_id, group_id, checks, gathered_facts, %{})
     end
 
     test "should return a critical result when not all the agents fullfill the expectations with an expect condition" do
@@ -100,7 +102,7 @@ defmodule Wanda.Execution.EvaluationTest do
         expectations =
         build_list(1, :catalog_expectation,
           type: :expect,
-          expression: "#{fact_name} == #{fact_value}"
+          expression: "facts.#{fact_name} == #{fact_value}"
         )
 
       [%Catalog.Check{id: check_id}] =
@@ -167,7 +169,7 @@ defmodule Wanda.Execution.EvaluationTest do
                  }
                ],
                result: :critical
-             } = Evaluation.execute(execution_id, group_id, checks, gathered_facts)
+             } = Evaluation.execute(execution_id, group_id, checks, gathered_facts, %{})
     end
 
     test "should return a critical result when some agent gets fact gathering errors" do
@@ -181,7 +183,7 @@ defmodule Wanda.Execution.EvaluationTest do
         expectations =
         build_list(1, :catalog_expectation,
           type: :expect,
-          expression: "#{fact_name} == #{fact_value}"
+          expression: "facts.#{fact_name} == #{fact_value}"
         )
 
       [%Catalog.Check{id: check_id}] =
@@ -222,7 +224,7 @@ defmodule Wanda.Execution.EvaluationTest do
                      %AgentCheckError{
                        agent_id: "agent_2",
                        facts: ^facts_with_errors,
-                       message: "Fact gathering ocurred during the execution",
+                       message: "Fact gathering error occurred during the execution",
                        type: :fact_gathering_error
                      }
                    ],
@@ -238,7 +240,7 @@ defmodule Wanda.Execution.EvaluationTest do
                  }
                ],
                result: :critical
-             } = Evaluation.execute(execution_id, group_id, checks, gathered_facts)
+             } = Evaluation.execute(execution_id, group_id, checks, gathered_facts, %{})
     end
 
     test "should return a passing result when all the agents fullfill the expectations with an expect_same condition" do
@@ -252,7 +254,7 @@ defmodule Wanda.Execution.EvaluationTest do
         expectations =
         build_list(1, :catalog_expectation,
           type: :expect_same,
-          expression: "#{fact_name} == #{fact_value}"
+          expression: "facts.#{fact_name} == #{fact_value}"
         )
 
       [%Catalog.Check{id: check_id}] =
@@ -313,7 +315,7 @@ defmodule Wanda.Execution.EvaluationTest do
                  }
                ],
                result: :passing
-             } = Evaluation.execute(execution_id, group_id, checks, gathered_facts)
+             } = Evaluation.execute(execution_id, group_id, checks, gathered_facts, %{})
     end
 
     test "should return a passing result when not all the agents fullfill the expectations with an expect_same condition" do
@@ -328,7 +330,7 @@ defmodule Wanda.Execution.EvaluationTest do
         expectations =
         build_list(1, :catalog_expectation,
           type: :expect_same,
-          expression: "#{fact_name} == #{fact_value}"
+          expression: "facts.#{fact_name} == #{fact_value}"
         )
 
       [%Catalog.Check{id: check_id}] =
@@ -395,7 +397,7 @@ defmodule Wanda.Execution.EvaluationTest do
                  }
                ],
                result: :critical
-             } = Evaluation.execute(execution_id, group_id, checks, gathered_facts)
+             } = Evaluation.execute(execution_id, group_id, checks, gathered_facts, %{})
     end
 
     test "should return a critical result if a fact is missing from the agent fact gathering" do
@@ -409,7 +411,7 @@ defmodule Wanda.Execution.EvaluationTest do
         expectations =
         build_list(1, :catalog_expectation,
           type: :expect,
-          expression: "#{fact_name} == #{fact_value}"
+          expression: "facts.#{fact_name} == #{fact_value}"
         )
 
       [%Catalog.Check{id: check_id}] =
@@ -457,7 +459,7 @@ defmodule Wanda.Execution.EvaluationTest do
                    ]
                  }
                ]
-             } = Evaluation.execute(execution_id, group_id, checks, gathered_facts)
+             } = Evaluation.execute(execution_id, group_id, checks, gathered_facts, %{})
     end
 
     test "should return a critical result if an illegal expression was specified in a check expectation" do
@@ -522,7 +524,7 @@ defmodule Wanda.Execution.EvaluationTest do
                    ]
                  }
                ]
-             } = Evaluation.execute(execution_id, group_id, checks, gathered_facts)
+             } = Evaluation.execute(execution_id, group_id, checks, gathered_facts, %{})
     end
 
     test "should return a critical result if an agent times out" do
@@ -536,7 +538,7 @@ defmodule Wanda.Execution.EvaluationTest do
         expectations =
         build_list(1, :catalog_expectation,
           type: :expect,
-          expression: "#{fact_name} == #{fact_value}"
+          expression: "facts.#{fact_name} == #{fact_value}"
         )
 
       [%Catalog.Check{id: check_id}] =
@@ -584,7 +586,7 @@ defmodule Wanda.Execution.EvaluationTest do
                  }
                ],
                result: :critical
-             } = Evaluation.execute(execution_id, group_id, checks, gathered_facts)
+             } = Evaluation.execute(execution_id, group_id, checks, gathered_facts, %{})
     end
 
     test "should return warning result if the check severity is specified as warning" do
@@ -622,7 +624,404 @@ defmodule Wanda.Execution.EvaluationTest do
                  }
                ],
                result: :warning
-             } = Evaluation.execute(execution_id, group_id, checks, gathered_facts)
+             } = Evaluation.execute(execution_id, group_id, checks, gathered_facts, %{})
+    end
+  end
+
+  describe "environment based check evaluation" do
+    setup do
+      check =
+        build(:check,
+          severity: :critical,
+          facts: [
+            build(:catalog_fact,
+              name: "some_fact",
+              gatherer: "some_gatherer",
+              argument: "some_argument"
+            )
+          ],
+          values: [
+            build(:catalog_value,
+              name: "some_value",
+              default: "a_default_value",
+              conditions: [
+                build(:catalog_condition,
+                  value: "value_on_first_condition",
+                  expression: "env.some_env == \"whoa\" || env.some_env == \"yeah\""
+                ),
+                build(:catalog_condition,
+                  value: "value_on_second_condition",
+                  expression: "env.some_env == \"yay\""
+                )
+              ]
+            )
+          ],
+          expectations: [
+            build(:catalog_expectation,
+              name: "some_expectation",
+              type: :expect,
+              expression: "facts.some_fact == values.some_value"
+            )
+          ]
+        )
+
+      %{checks: [check]}
+    end
+
+    test "should return a passing result based on the first matching environmental condition",
+         context do
+      checks = [%{id: check_id}] = context[:checks]
+
+      gathered_facts = %{
+        check_id => %{
+          "agent_1" => [
+            %Fact{name: "some_fact", check_id: check_id, value: "value_on_first_condition"}
+          ],
+          "agent_2" => [
+            %Fact{name: "some_fact", check_id: check_id, value: "value_on_first_condition"}
+          ]
+        }
+      }
+
+      execution_id = UUID.uuid4()
+      group_id = UUID.uuid4()
+
+      expected_result = %Result{
+        execution_id: execution_id,
+        group_id: group_id,
+        check_results: [
+          %CheckResult{
+            agents_check_results: [
+              %AgentCheckResult{
+                agent_id: "agent_1",
+                expectation_evaluations: [
+                  %ExpectationEvaluation{
+                    name: "some_expectation",
+                    return_value: true,
+                    type: :expect
+                  }
+                ],
+                facts: [
+                  %Fact{
+                    check_id: check_id,
+                    name: "some_fact",
+                    value: "value_on_first_condition"
+                  }
+                ],
+                values: [
+                  %Value{name: "some_value", value: "value_on_first_condition"}
+                ]
+              },
+              %AgentCheckResult{
+                agent_id: "agent_2",
+                expectation_evaluations: [
+                  %ExpectationEvaluation{
+                    name: "some_expectation",
+                    return_value: true,
+                    type: :expect
+                  }
+                ],
+                facts: [
+                  %Fact{
+                    check_id: check_id,
+                    name: "some_fact",
+                    value: "value_on_first_condition"
+                  }
+                ],
+                values: [
+                  %Value{name: "some_value", value: "value_on_first_condition"}
+                ]
+              }
+            ],
+            check_id: check_id,
+            expectation_results: [
+              %ExpectationResult{
+                name: "some_expectation",
+                result: true,
+                type: :expect
+              }
+            ],
+            result: :passing
+          }
+        ],
+        result: :passing,
+        timeout: []
+      }
+
+      assert ^expected_result =
+               Evaluation.execute(execution_id, group_id, checks, gathered_facts, %{
+                 "some_env" => "whoa"
+               })
+
+      assert ^expected_result =
+               Evaluation.execute(execution_id, group_id, checks, gathered_facts, %{
+                 "some_env" => "yeah"
+               })
+    end
+
+    test "should return a passing result based on the proper environmental conditions matching",
+         context do
+      checks = [%{id: check_id}] = context[:checks]
+
+      env = %{"some_env" => "yay"}
+
+      gathered_facts = %{
+        check_id => %{
+          "agent_1" => [
+            %Fact{name: "some_fact", check_id: check_id, value: "value_on_second_condition"}
+          ],
+          "agent_2" => [
+            %Fact{name: "some_fact", check_id: check_id, value: "value_on_second_condition"}
+          ]
+        }
+      }
+
+      execution_id = UUID.uuid4()
+      group_id = UUID.uuid4()
+
+      assert %Result{
+               execution_id: ^execution_id,
+               group_id: ^group_id,
+               check_results: [
+                 %CheckResult{
+                   agents_check_results: [
+                     %AgentCheckResult{
+                       agent_id: "agent_1",
+                       expectation_evaluations: [
+                         %ExpectationEvaluation{
+                           name: "some_expectation",
+                           return_value: true,
+                           type: :expect
+                         }
+                       ],
+                       facts: [
+                         %Fact{
+                           check_id: ^check_id,
+                           name: "some_fact",
+                           value: "value_on_second_condition"
+                         }
+                       ],
+                       values: [
+                         %Value{name: "some_value", value: "value_on_second_condition"}
+                       ]
+                     },
+                     %AgentCheckResult{
+                       agent_id: "agent_2",
+                       expectation_evaluations: [
+                         %ExpectationEvaluation{
+                           name: "some_expectation",
+                           return_value: true,
+                           type: :expect
+                         }
+                       ],
+                       facts: [
+                         %Fact{
+                           check_id: ^check_id,
+                           name: "some_fact",
+                           value: "value_on_second_condition"
+                         }
+                       ],
+                       values: [
+                         %Value{name: "some_value", value: "value_on_second_condition"}
+                       ]
+                     }
+                   ],
+                   check_id: ^check_id,
+                   expectation_results: [
+                     %ExpectationResult{
+                       name: "some_expectation",
+                       result: true,
+                       type: :expect
+                     }
+                   ],
+                   result: :passing
+                 }
+               ],
+               result: :passing,
+               timeout: []
+             } = Evaluation.execute(execution_id, group_id, checks, gathered_facts, env)
+    end
+
+    test "should return a passing result based on the default value when environmental condition does not match",
+         context do
+      checks = [%{id: check_id}] = context[:checks]
+
+      gathered_facts = %{
+        check_id => %{
+          "agent_1" => [
+            %Fact{name: "some_fact", check_id: check_id, value: "a_default_value"}
+          ],
+          "agent_2" => [
+            %Fact{name: "some_fact", check_id: check_id, value: "a_default_value"}
+          ]
+        }
+      }
+
+      execution_id = UUID.uuid4()
+      group_id = UUID.uuid4()
+
+      expected_result = %Result{
+        execution_id: execution_id,
+        group_id: group_id,
+        check_results: [
+          %CheckResult{
+            agents_check_results: [
+              %AgentCheckResult{
+                agent_id: "agent_1",
+                expectation_evaluations: [
+                  %ExpectationEvaluation{
+                    name: "some_expectation",
+                    return_value: true,
+                    type: :expect
+                  }
+                ],
+                facts: [
+                  %Fact{
+                    check_id: check_id,
+                    name: "some_fact",
+                    value: "a_default_value"
+                  }
+                ],
+                values: [
+                  %Value{name: "some_value", value: "a_default_value"}
+                ]
+              },
+              %AgentCheckResult{
+                agent_id: "agent_2",
+                expectation_evaluations: [
+                  %ExpectationEvaluation{
+                    name: "some_expectation",
+                    return_value: true,
+                    type: :expect
+                  }
+                ],
+                facts: [
+                  %Fact{
+                    check_id: check_id,
+                    name: "some_fact",
+                    value: "a_default_value"
+                  }
+                ],
+                values: [
+                  %Value{name: "some_value", value: "a_default_value"}
+                ]
+              }
+            ],
+            check_id: check_id,
+            expectation_results: [
+              %ExpectationResult{
+                name: "some_expectation",
+                result: true,
+                type: :expect
+              }
+            ],
+            result: :passing
+          }
+        ],
+        result: :passing,
+        timeout: []
+      }
+
+      assert ^expected_result =
+               Evaluation.execute(execution_id, group_id, checks, gathered_facts, %{
+                 "some_value" => "unrecognized"
+               })
+
+      assert ^expected_result =
+               Evaluation.execute(execution_id, group_id, checks, gathered_facts, %{
+                 "some_value" => nil
+               })
+
+      assert ^expected_result =
+               Evaluation.execute(execution_id, group_id, checks, gathered_facts, %{
+                 "some_value" => ""
+               })
+
+      assert ^expected_result =
+               Evaluation.execute(execution_id, group_id, checks, gathered_facts, %{
+                 "unrecognized_value" => "some"
+               })
+    end
+
+    test "should return a critical result when expectation does not match expected evaluated value",
+         context do
+      checks = [%{id: check_id}] = context[:checks]
+      env = %{"some_env" => "whoa"}
+
+      gathered_facts = %{
+        check_id => %{
+          "agent_1" => [
+            %Fact{name: "some_fact", check_id: check_id, value: "bad_value"}
+          ],
+          "agent_2" => [
+            %Fact{name: "some_fact", check_id: check_id, value: "value_on_first_condition"}
+          ]
+        }
+      }
+
+      execution_id = UUID.uuid4()
+      group_id = UUID.uuid4()
+
+      assert %Result{
+               execution_id: ^execution_id,
+               group_id: ^group_id,
+               check_results: [
+                 %CheckResult{
+                   agents_check_results: [
+                     %AgentCheckResult{
+                       agent_id: "agent_1",
+                       expectation_evaluations: [
+                         %ExpectationEvaluation{
+                           name: "some_expectation",
+                           return_value: false,
+                           type: :expect
+                         }
+                       ],
+                       facts: [
+                         %Fact{
+                           check_id: ^check_id,
+                           name: "some_fact",
+                           value: "bad_value"
+                         }
+                       ],
+                       values: [
+                         %Value{name: "some_value", value: "value_on_first_condition"}
+                       ]
+                     },
+                     %AgentCheckResult{
+                       agent_id: "agent_2",
+                       expectation_evaluations: [
+                         %ExpectationEvaluation{
+                           name: "some_expectation",
+                           return_value: true,
+                           type: :expect
+                         }
+                       ],
+                       facts: [
+                         %Fact{
+                           check_id: ^check_id,
+                           name: "some_fact",
+                           value: "value_on_first_condition"
+                         }
+                       ],
+                       values: [
+                         %Value{name: "some_value", value: "value_on_first_condition"}
+                       ]
+                     }
+                   ],
+                   check_id: ^check_id,
+                   expectation_results: [
+                     %ExpectationResult{
+                       name: "some_expectation",
+                       result: false,
+                       type: :expect
+                     }
+                   ],
+                   result: :critical
+                 }
+               ],
+               result: :critical
+             } = Evaluation.execute(execution_id, group_id, checks, gathered_facts, env)
     end
   end
 end

@@ -87,6 +87,7 @@ defmodule Wanda.Execution.Server do
           gathered_facts: gathered_facts,
           targets: targets,
           checks: checks,
+          env: env,
           agents_gathered: agents_gathered
         } = state
       ) do
@@ -98,7 +99,9 @@ defmodule Wanda.Execution.Server do
     timedout_agents = Enum.map(targets, & &1.agent_id)
 
     gathered_facts = Gathering.put_gathering_timeouts(gathered_facts, targets)
-    result = Evaluation.execute(execution_id, group_id, checks, gathered_facts, timedout_agents)
+
+    result =
+      Evaluation.execute(execution_id, group_id, checks, gathered_facts, env, timedout_agents)
 
     store_and_publish_execution_result(result)
 
@@ -112,6 +115,7 @@ defmodule Wanda.Execution.Server do
            gathered_facts: gathered_facts,
            targets: targets,
            checks: checks,
+           env: env,
            agents_gathered: agents_gathered
          } = state,
          agent_id,
@@ -123,7 +127,7 @@ defmodule Wanda.Execution.Server do
     state = %State{state | gathered_facts: gathered_facts, agents_gathered: agents_gathered}
 
     if Gathering.all_agents_sent_facts?(agents_gathered, targets) do
-      result = Evaluation.execute(execution_id, group_id, checks, gathered_facts)
+      result = Evaluation.execute(execution_id, group_id, checks, gathered_facts, env)
 
       store_and_publish_execution_result(result)
 

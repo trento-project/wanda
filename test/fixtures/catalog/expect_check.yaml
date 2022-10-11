@@ -25,6 +25,6 @@ values:
         when: some_third_expression
 expectations:
   - name: some_expectation
-    expect: jedi == values.expected_value
+    expect: facts.jedi == values.expected_value
   - name: some_other_expectation
-    expect: jedi > values.expected_higher_value
+    expect: facts.jedi > values.expected_higher_value

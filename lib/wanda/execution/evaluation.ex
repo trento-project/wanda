@@ -3,7 +3,8 @@ defmodule Wanda.Execution.Evaluation do
   Evaluation functional core.
   """
 
-  alias Wanda.Catalog.{Check, Expectation}
+  alias Wanda.Catalog.{Check, Condition, Expectation}
+  alias Wanda.Catalog.Value, as: CatalogValue
 
   alias Wanda.Execution.{
     AgentCheckError,
@@ -12,42 +13,49 @@ defmodule Wanda.Execution.Evaluation do
     ExpectationEvaluation,
     ExpectationEvaluationError,
     ExpectationResult,
-    Fact,
     FactError,
-    Result
+    Result,
+    Value
   }
 
   # Abacus spec is wrong
-  @dialyzer {:nowarn_function, eval_expectation: 2}
+  @dialyzer {:nowarn_function, eval_expectation: 2, find_value: 3}
 
-  @spec execute(String.t(), String.t(), [Check.t()], map()) :: Result.t()
-  def execute(execution_id, group_id, checks, gathered_facts, timeouts \\ []) do
+  @spec execute(
+          String.t(),
+          String.t(),
+          [Check.t()],
+          map(),
+          %{String.t() => boolean() | number() | String.t()},
+          [String.t()]
+        ) :: Result.t()
+  def execute(execution_id, group_id, checks, gathered_facts, env, timeouts \\ []) do
     %Result{
       execution_id: execution_id,
       group_id: group_id,
       timeout: timeouts
     }
-    |> add_checks_result(checks, gathered_facts)
+    |> add_checks_result(checks, gathered_facts, env)
     |> aggregate_execution_result()
   end
 
-  defp add_checks_result(%Result{} = result, checks, gathered_facts) do
+  defp add_checks_result(%Result{} = result, checks, gathered_facts, env) do
     check_results =
       Enum.map(gathered_facts, fn {check_id, agents_facts} ->
-        %Check{severity: severity, expectations: expectations} =
+        %Check{severity: severity, values: values, expectations: expectations} =
           Enum.find(checks, &(&1.id == check_id))
 
-        build_check_result(check_id, severity, expectations, agents_facts)
+        build_check_result(check_id, severity, expectations, agents_facts, env, values)
       end)
 
     %Result{result | check_results: check_results}
   end
 
-  defp build_check_result(check_id, severity, expectations, agents_facts) do
+  defp build_check_result(check_id, severity, expectations, agents_facts, env, values) do
     %CheckResult{
       check_id: check_id
     }
-    |> add_agents_results(expectations, agents_facts)
+    |> add_agents_results(expectations, agents_facts, env, values)
     |> add_expectation_evaluations(expectations)
     |> aggregate_check_result(severity)
   end
@@ -55,7 +63,9 @@ defmodule Wanda.Execution.Evaluation do
   defp add_agents_results(
          %CheckResult{} = check_result,
          expectations,
-         agents_facts
+         agents_facts,
+         env,
+         values
        ) do
     agents_results =
       Enum.map(agents_facts, fn
@@ -67,25 +77,36 @@ defmodule Wanda.Execution.Evaluation do
           }
 
         {agent_id, facts} ->
-          add_agent_check_result_or_error(agent_id, facts, expectations)
+          add_agent_check_result_or_error(agent_id, facts, expectations, env, values)
       end)
 
     %CheckResult{check_result | agents_check_results: agents_results}
   end
 
-  defp add_agent_check_result_or_error(agent_id, facts, expectations) do
+  defp add_agent_check_result_or_error(agent_id, facts, expectations, env, values) do
     if has_some_fact_gathering_error?(facts) do
       %AgentCheckError{
         agent_id: agent_id,
         facts: facts,
         type: :fact_gathering_error,
-        message: "Fact gathering ocurred during the execution"
+        message: "Fact gathering error occurred during the execution"
       }
     else
+      value_evaluation_scope = add_scope(%{"env" => env}, "facts", facts)
+
+      evaluated_values = Enum.map(values, &eval_value(&1, value_evaluation_scope))
+
+      expectation_evaluation_scope =
+        %{}
+        |> add_scope("facts", facts)
+        |> add_scope("values", evaluated_values)
+
       %AgentCheckResult{
         agent_id: agent_id,
         facts: facts,
-        expectation_evaluations: Enum.map(expectations, &eval_expectation(&1, facts))
+        values: evaluated_values,
+        expectation_evaluations:
+          Enum.map(expectations, &eval_expectation(&1, expectation_evaluation_scope))
       }
     end
   end
@@ -97,16 +118,52 @@ defmodule Wanda.Execution.Evaluation do
     end)
   end
 
+  defp eval_value(
+         %CatalogValue{
+           name: name,
+           default: default,
+           conditions: conditions
+         },
+         evaluation_scope
+       ) do
+    %Value{
+      name: name,
+      value: find_value(conditions, default, evaluation_scope)
+    }
+  end
+
+  defp add_scope(scope, namespace, namespaced_scope) do
+    Map.put(
+      scope,
+      namespace,
+      Enum.into(namespaced_scope, %{}, fn %{name: name, value: value} -> {name, value} end)
+    )
+  end
+
+  defp find_value(conditions, default, evaluation_scope) do
+    Enum.find_value(
+      conditions,
+      default,
+      fn %Condition{
+           value: value,
+           expression: expression
+         } ->
+        case Abacus.eval(expression, evaluation_scope) do
+          {:ok, true} ->
+            value
+
+          _ ->
+            false
+        end
+      end
+    )
+  end
+
   defp eval_expectation(
          %Expectation{name: name, type: type, expression: expression},
-         facts
+         evaluation_scope
        ) do
-    scoped_facts =
-      Enum.reduce(facts, %{}, fn %Fact{name: name, value: value}, acc ->
-        put_in(acc, [name], value)
-      end)
-
-    case Abacus.eval(expression, scoped_facts) do
+    case Abacus.eval(expression, evaluation_scope) do
       {:ok, return_value} ->
         %ExpectationEvaluation{name: name, type: type, return_value: return_value}
 
