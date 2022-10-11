@@ -1,0 +1,67 @@
+id: 33403D
+name: Corosync `transport`
+# name: 1.1.6
+group: Corosync
+description: |
+  Corosync `transport` is set to `{{ values.expected_transport }}`
+remediation: |
+  ## Remediation
+  To change the corosync MCAST transport to UCAST edit the /etc/corosync/corosync.conf
+  as in the example
+  ```
+      max_messages: 20
+      interface {
+          ringnumber: 0
+  -       bindnetaddr: 10.162.32.167
+  -       mcastaddr: 239.11.100.41
+          mcastport: 5405
+          ttl: 1
+      }
+  +   transport: udpu
+  ...
+  +nodelist {
+  +       node {
+  +               ring0_addr: 10.162.32.167
+  +               nodeid: 1
+  +       }
+  +
+  +       node {
+  +               ring0_addr: 10.162.32.89
+  +               nodeid: 2
+  +       }
+  +
+  +}
+  ```
+  1. stop the already running cluster by using **systemctl stop pacemaker**
+  2. In the totem section, in the interface subsection remove the
+  keys-value pairs **bindnetaddr** and **mcastaddr**
+  3. In the totem section add key-value pair **transport: udpu**
+  4. Add section nodelist and subsections node for each nodes of the
+  cluster, where the **ring0_addr** is the IP address of the node
+
+  ## References
+  Azure:
+
+    - https://docs.microsoft.com/en-us/azure/virtual-machines/workloads/sap/high-availability-guide-suse-pacemaker
+
+  AWS:
+
+    - https://docs.aws.amazon.com/sap/latest/sap-hana/sap-hana-on-aws-cluster-configuration.html
+
+  GCP:
+
+    - https://cloud.google.com/solutions/sap/docs/sap-hana-ha-config-sles#create_the_corosync_configuration_files
+
+  SUSE / KVM:
+
+    - https://documentation.suse.com/sbp/all/single-html/SLES4SAP-hana-sr-guide-PerfOpt-15/#id-adapting-the-corosync-and-sbd-configuration
+    - https://documentation.suse.com/sbp/all/single-html/SLES4SAP-hana-sr-guide-PerfOpt-15/#id-example-for-etccorosynccorosync-conf
+
+facts:
+  - name: corosync_transport
+    gatherer: corosync.conf
+    argument: totem.transport
+
+expectations:
+  - name: transport
+    expect: facts.corosync_transport == "udpu"

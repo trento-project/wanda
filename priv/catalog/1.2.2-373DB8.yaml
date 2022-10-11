@@ -1,0 +1,85 @@
+id: 373DB8
+name: Fencing timeout
+# name: 1.2.2
+group: Pacemaker
+description: |
+  Cluster fencing timeout is configured correctly
+remediation: |
+  ## Abstract
+  The fencing timeout (`stonith-timeout`) determines the time Pacemaker will wait for fencing to succeed.
+  The recommended values on Azure are `144` seconds for SBD only or `900` seconds when using SBD combined with the Azure Fence agent.
+
+  ## Remediation
+  Execute the following command to adjust the timeout for your usecase:
+  ```crm configure property stonith-timeout=144```
+  or
+  ```crm configure property stonith-timeout=900```
+
+  ## References
+  Azure:
+
+    - https://docs.microsoft.com/en-us/azure/virtual-machines/workloads/sap/high-availability-guide-suse-pacemaker#create-a-stonith-device-on-the-pacemaker-cluster
+
+  AWS:
+
+    - https://docs.aws.amazon.com/sap/latest/sap-hana/sap-hana-on-aws-cluster-resources.html
+
+  GCP:
+
+    - https://cloud.google.com/solutions/sap/docs/sap-hana-ha-config-sles#configure_the_general_cluster_properties
+
+  SUSE / KVM:
+
+    - https://documentation.suse.com/sbp/all/single-html/SLES4SAP-hana-sr-guide-PerfOpt-15/#id-cluster-bootstrap-and-more
+
+facts:
+  # timeout=$(crm_attribute -t crm_config -G -n stonith-timeout --quiet | sed -e 's/s$//')
+  #  #
+  #  # for aws and gcp we might need additional expected vars (name + fence_aws_...)
+  #  #
+  #  if [[cibadmin -Q --xpath "//primitive[@type='fence_azure_arm']/@type" > /dev/null 2>&1 ]]; then
+  #    exit $([[ "${timeout}" -eq {{ expected[name + '.fence_azure_arm'] }} ]])
+  #  else
+  #    exit $([[ "${timeout}" -ge {{ expected[name + '.sbd'] }} ]])
+  #  fi
+  - name: fencing_timeout
+    gatherer: crm_config
+    argument: stonith-timeout
+
+  - name: fence_azure_arm_detected
+    # would it be enough the information about the provider in the environment?
+    gatherer: cibadmin
+    argument: //primitive[@type='fence_azure_arm']/@type
+    
+values:
+  # default
+  # "1.2.2.sbd": "150"
+  # "1.2.2.fence_azure_arm": "" # doesn't apply
+
+  # aws
+  # "1.2.2.sbd": "600"  # doesn't apply for AWS
+
+  # azure
+  # "1.2.2.sbd": "144"
+  # "1.2.2.fence_azure_arm": "900"
+
+  # gcp? nothing found in the legacy check
+
+  - name: expected_fencing_timeout
+    default: 150
+    conditions:
+      - value: 600
+        when: env.provider == "aws"
+      - value: 900
+        when: env.provider == "azure" && facts.fence_azure_arm_detected
+      - value: 144
+        when: env.provider == "azure"
+
+expectations:
+  - name: fencing_timeout_is_correct
+    expect: |
+      facts.fence_azure_arm_detected 
+        ? facts.fencing_timeout == values.expected_fencing_timeout 
+        : facts.fencing_timeout >= values.expected_fencing_timeout
+
+# As a user I want the expectation section of the DSL have access to the env (?) so that we can support more complexr scenarios

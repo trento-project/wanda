@@ -1,0 +1,56 @@
+id: DA114A
+name: Corosync rings
+# name: 1.1.9
+group: Corosync
+description: |
+  Corosync has at least 2 rings configured
+remediation: |
+  ## Abstract
+  It is strongly recommended to add a second ring to the corosync communication.
+
+  ## References
+  Azure:
+
+    - https://docs.microsoft.com/en-us/azure/virtual-machines/workloads/sap/high-availability-guide-suse-pacemaker
+
+  AWS:
+
+    - https://docs.aws.amazon.com/sap/latest/sap-hana/sap-hana-on-aws-cluster-configuration.html
+
+  GCP:
+
+    - https://cloud.google.com/solutions/sap/docs/sap-hana-ha-config-sles
+
+  SUSE / KVM:
+
+   - https://documentation.suse.com/sbp/all/single-html/SLES4SAP-hana-sr-guide-PerfOpt-15/#id-example-for-etccorosynccorosync-conf
+   - section 9.1.3 in https://documentation.suse.com/sbp/all/single-html/SLES4SAP-hana-sr-guide-PerfOpt-15/#id-adapting-the-corosync-and-sbd-configuration
+
+facts:
+  - name: corosync_nodes
+    gatherer: corosync.conf
+    argument: nodelist
+    # argument: nodelist.nodes
+
+values:
+  - name: expected_corosync_nodes
+    default: 2
+  - name: expected_corosync_rings_per_node
+    default: 2
+    conditions:
+      - value: 1
+        when: env.provider == "aws" || env.provider == "gcp"
+
+functions:
+  - name: hasReccomendedRings
+    argument: node
+    expression: len(node.rings) == values.expected_corosync_rings_per_node
+
+expectations:
+  - name: corosync_rings
+    # The current expression evaluation engine, Abacus, does not support any of: len, every (iteration in general), custom functions
+    expect: len(facts.corosync_nodes) == values.expected_corosync_nodes && every(facts.corosync_nodes, hasReccomendedRings)
+    # expect: len(facts.corosync_nodes) == values.expected_corosync_nodes && every(facts.corosync_nodes, "node", "len(node.rings) == values.expected_corosync_rings_per_node")
+
+# As a user I want the DSL expressions to support a function to count the elements of a list
+# As a user I want the DSL to support expressions applied to a list of items

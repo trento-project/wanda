@@ -1,0 +1,49 @@
+id: 205AF7
+name: Fencing is enabled
+# name: 1.2.1
+group: Pacemaker
+description: |
+  Fencing is enabled in the cluster attributes
+remediation: |
+  ## Abstract
+  Fencing is mandatory to guarantee data integrity for your SAP Applications.
+  Running a HA Cluster without fencing is not supported and might cause data loss.
+
+  ## Remediation
+  Execute the following command to enable it:
+  ```
+  crm configure property stonith-enabled=true
+  ```
+
+  ## References
+  AZURE:
+
+    - https://docs.microsoft.com/en-us/azure/virtual-machines/workloads/sap/high-availability-guide-suse-pacemaker#create-a-stonith-device-on-the-pacemaker-cluster
+
+  AWS:
+
+    - https://docs.aws.amazon.com/sap/latest/sap-hana/sap-hana-on-aws-cluster-resources.html
+
+  GCP:
+
+    - https://cloud.google.com/solutions/sap/docs/sap-hana-ha-config-sles#configure_the_general_cluster_properties
+
+  SUSE / KVM:
+
+    - https://documentation.suse.com/sbp/all/single-html/SLES4SAP-hana-sr-guide-PerfOpt-15/#id-cluster-bootstrap-and-more
+    - https://documentation.suse.com/sle-ha/15-SP3/html/SLE-HA-all/cha-ha-fencing.html#sec-ha-fencing-recommend
+
+facts:
+  # crm_attribute -t crm_config -G -n stonith-enabled --quiet
+  - name: fencing_enabled
+    gatherer: crm_config
+    argument: stonith-enabled
+    # alternatively we could have a gatherer without arguments
+    # - name: fencing_enabled
+    #   gatherer: crm_config.stonith-enabled
+    
+expectations:
+  - name: fencing_enabled
+    expect: facts.fencing_enabled == true
+
+# As a user I want a crm_config gatherer, so that I can extract facts about crm_attributes like stonith-enabled, stonith-timeout
