@@ -138,7 +138,7 @@ defmodule Wanda.Execution.Server do
   end
 
   defp store_and_publish_execution_result(%Wanda.Execution.Result{} = result) do
-    Wanda.Results.save_result(result)
+    Wanda.Results.create_execution_result(result)
 
     execution_completed = Messaging.Mapper.to_execution_completed(result)
     :ok = Messaging.publish("results", execution_completed)

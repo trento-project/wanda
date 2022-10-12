@@ -13,7 +13,7 @@ defmodule Wanda.ResultsTest do
       execution_id = UUID.uuid4()
       group_id = UUID.uuid4()
 
-      Results.save_result(
+      Results.create_execution_result(
         build(
           :result,
           execution_id: execution_id,
@@ -42,7 +42,7 @@ defmodule Wanda.ResultsTest do
       execution_id = UUID.uuid4()
       group_id = UUID.uuid4()
 
-      Results.save_result(
+      Results.create_execution_result(
         build(
           :result,
           execution_id: execution_id,
