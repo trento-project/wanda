@@ -148,7 +148,9 @@ defmodule Wanda.Factory do
     %ExecutionResult{
       execution_id: execution_id,
       group_id: group_id,
-      payload: build(:result, execution_id: execution_id, group_id: group_id)
+      payload: build(:result, execution_id: execution_id, group_id: group_id),
+      inserted_at: Map.get(attrs, :inserted_at, DateTime.utc_now()),
+      updated_at: Map.get(attrs, :updated_at, DateTime.utc_now())
     }
   end
 
