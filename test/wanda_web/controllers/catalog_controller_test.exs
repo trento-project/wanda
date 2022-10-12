@@ -8,7 +8,7 @@ defmodule WandaWeb.CatalogControllerTest do
     test "listing the checks catalog produces a CatalogResponse", %{conn: conn} do
       json =
         conn
-        |> get(Routes.catalog_path(conn, :list_catalog))
+        |> get(Routes.catalog_path(conn, :catalog))
         |> json_response(200)
 
       api_spec = ApiSpec.spec()
