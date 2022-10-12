@@ -9,9 +9,9 @@ defmodule Wanda.Execution.Result do
   defstruct [
     :execution_id,
     :group_id,
-    :check_results,
-    :timeout,
-    :result
+    :result,
+    check_results: [],
+    timeout: []
   ]
 
   @type t :: %__MODULE__{

@@ -13,9 +13,9 @@ defmodule Wanda.Execution.AgentCheckResult do
   @derive Jason.Encoder
   defstruct [
     :agent_id,
-    :facts,
-    :values,
-    :expectation_evaluations
+    values: [],
+    facts: [],
+    expectation_evaluations: []
   ]
 
   @type t :: %__MODULE__{
