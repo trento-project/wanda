@@ -6,8 +6,18 @@ defmodule Wanda.Execution.Server do
 
   use GenServer, restart: :transient
 
-  alias Wanda.Execution.{Evaluation, Gathering, State, Target}
-  alias Wanda.Messaging
+  alias Wanda.Execution.{
+    Evaluation,
+    Gathering,
+    Result,
+    State,
+    Target
+  }
+
+  alias Wanda.{
+    Messaging,
+    Results
+  }
 
   require Logger
 
@@ -137,8 +147,8 @@ defmodule Wanda.Execution.Server do
     end
   end
 
-  defp store_and_publish_execution_result(%Wanda.Execution.Result{} = result) do
-    Wanda.Results.create_execution_result(result)
+  defp store_and_publish_execution_result(%Result{} = result) do
+    Results.create_execution_result(result)
 
     execution_completed = Messaging.Mapper.to_execution_completed(result)
     :ok = Messaging.publish("results", execution_completed)
