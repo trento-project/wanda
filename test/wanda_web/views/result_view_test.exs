@@ -41,5 +41,21 @@ defmodule WandaWeb.ListResultsViewTest do
                  total_count: 10
                )
     end
+
+    test "renders show.json" do
+      inserted_at = DateTime.utc_now()
+
+      %ExecutionResult{execution_id: execution_id, group_id: group_id} =
+        execution_result =
+        :execution_result
+        |> build(inserted_at: inserted_at)
+        |> insert(returning: true)
+
+      assert %{
+               "execution_id" => ^execution_id,
+               "group_id" => ^group_id,
+               "inserted_at" => ^inserted_at
+             } = render(WandaWeb.ResultView, "show.json", result: execution_result)
+    end
   end
 end
