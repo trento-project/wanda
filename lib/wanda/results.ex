@@ -28,6 +28,15 @@ defmodule Wanda.Results do
   end
 
   @doc """
+  Get a result by execution_id.
+
+  """
+  @spec get_execution_result!(String.t()) :: ExecutionResult.t()
+  def get_execution_result!(execution_id) do
+    Repo.get!(ExecutionResult, execution_id)
+  end
+
+  @doc """
   Get a paginated list of results.
 
   Can be filtered by group_id.
