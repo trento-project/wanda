@@ -5,13 +5,13 @@ defmodule Wanda.Execution.Result do
 
   alias Wanda.Execution.CheckResult
 
-  @derive {Jason.Encoder, except: [:execution_id, :group_id]}
+  @derive Jason.Encoder
   defstruct [
     :execution_id,
     :group_id,
-    :check_results,
-    :timeout,
-    :result
+    :result,
+    check_results: [],
+    timeout: []
   ]
 
   @type t :: %__MODULE__{

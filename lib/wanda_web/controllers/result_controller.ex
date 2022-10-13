@@ -2,6 +2,8 @@ defmodule WandaWeb.ResultController do
   use WandaWeb, :controller
   use OpenApiSpex.ControllerSpecs
 
+  alias OpenApiSpex.Schema
+
   alias Wanda.Results
   alias WandaWeb.Schemas.ListResultsResponse
 
@@ -13,7 +15,10 @@ defmodule WandaWeb.ResultController do
       group_id: [
         in: :query,
         description: "Filter by group_id",
-        type: :string,
+        type: %Schema{
+          type: :string,
+          format: :uuid
+        },
         example: "00000000-0000-0000-0000-000000000001"
       ],
       page: [in: :query, description: "Page", type: :integer, example: 3],

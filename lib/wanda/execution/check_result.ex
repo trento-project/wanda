@@ -8,9 +8,9 @@ defmodule Wanda.Execution.CheckResult do
   @derive Jason.Encoder
   defstruct [
     :check_id,
-    :expectation_results,
-    :agents_check_results,
-    :result
+    :result,
+    agents_check_results: [],
+    expectation_results: []
   ]
 
   @type t :: %__MODULE__{

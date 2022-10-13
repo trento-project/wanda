@@ -13,6 +13,6 @@ defmodule Wanda.Execution.Fact do
   @type t :: %__MODULE__{
           check_id: String.t(),
           name: String.t(),
-          value: String.t()
+          value: boolean() | number() | String.t()
         }
 end

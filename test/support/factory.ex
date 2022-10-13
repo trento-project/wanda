@@ -101,7 +101,7 @@ defmodule Wanda.Factory do
         %CheckResult{
           agents_check_results: [
             %AgentCheckResult{
-              agent_id: "agent_1",
+              agent_id: UUID.uuid4(),
               expectation_evaluations: [
                 %ExpectationEvaluation{
                   name: "timeout",
@@ -111,7 +111,7 @@ defmodule Wanda.Factory do
               ]
             },
             %AgentCheckResult{
-              agent_id: "agent_2",
+              agent_id: UUID.uuid4(),
               expectation_evaluations: [
                 %ExpectationEvaluation{
                   name: "timeout",
@@ -148,7 +148,9 @@ defmodule Wanda.Factory do
     %ExecutionResult{
       execution_id: execution_id,
       group_id: group_id,
-      payload: build(:result, execution_id: execution_id, group_id: group_id)
+      payload: build(:result, execution_id: execution_id, group_id: group_id),
+      inserted_at: Map.get(attrs, :inserted_at, DateTime.utc_now()),
+      updated_at: Map.get(attrs, :updated_at, DateTime.utc_now())
     }
   end
 
