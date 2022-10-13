@@ -13,8 +13,8 @@ defmodule Wanda.Results do
   @doc """
   Create a new result.
   """
-  @spec create_execution_result(Result.t()) :: ExecutionResult.t()
-  def create_execution_result(
+  @spec create_execution_result!(Result.t()) :: ExecutionResult.t()
+  def create_execution_result!(
         %Result{
           execution_id: execution_id,
           group_id: group_id
