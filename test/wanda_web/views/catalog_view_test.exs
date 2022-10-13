@@ -5,12 +5,12 @@ defmodule WandaWeb.CatalogViewTest do
   import Wanda.Factory
 
   describe "CatalogView" do
-    test "renders list_catalog.json" do
+    test "renders catalog.json" do
       checks = build_list(3, :check)
 
       assert %{
                items: ^checks
-             } = render(WandaWeb.CatalogView, "list_catalog.json", catalog: checks)
+             } = render(WandaWeb.CatalogView, "catalog.json", catalog: checks)
     end
   end
 end

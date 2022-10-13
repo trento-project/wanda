@@ -3,7 +3,7 @@ defmodule WandaWeb.ResultView do
 
   alias Wanda.Results.ExecutionResult
 
-  def render("list_results.json", %{results: results, total_count: total_count}) do
+  def render("index.json", %{results: results, total_count: total_count}) do
     %{
       items: render_many(results, WandaWeb.ResultView, "result.json", as: :result),
       total_count: total_count

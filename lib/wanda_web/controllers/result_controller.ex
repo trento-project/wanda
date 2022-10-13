@@ -9,7 +9,7 @@ defmodule WandaWeb.ResultController do
 
   plug OpenApiSpex.Plug.CastAndValidate, json_render_error_v2: true
 
-  operation :list_results,
+  operation :index,
     summary: "List results",
     parameters: [
       group_id: [
@@ -29,7 +29,7 @@ defmodule WandaWeb.ResultController do
       422 => OpenApiSpex.JsonErrorResponse.response()
     }
 
-  def list_results(conn, params) do
+  def index(conn, params) do
     results = Results.list_execution_results(params)
     total_count = Results.count_execution_results(params)
 

@@ -13,7 +13,7 @@
 execution_id = "00000000-0000-0000-0000-000000000001"
 group_id = "00000000-0000-0000-0000-000000000002"
 
-Wanda.Results.save_result(%Wanda.Execution.Result{
+Wanda.Results.create_execution_result(%Wanda.Execution.Result{
   execution_id: execution_id,
   group_id: group_id,
   check_results: [

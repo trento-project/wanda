@@ -6,10 +6,11 @@ defmodule WandaWeb.Router do
     plug OpenApiSpex.Plug.PutApiSpec, module: WandaWeb.ApiSpec
   end
 
-  scope "/api", WandaWeb do
+  scope "/api/checks", WandaWeb do
     pipe_through :api
-    get "/checks/results", ResultController, :list_results
-    get "/checks/catalog", CatalogController, :list_catalog
+
+    resources "/results", ResultController, only: [:index]
+    get "/catalog", CatalogController, :catalog
   end
 
   scope "/api" do

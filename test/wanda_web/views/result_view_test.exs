@@ -7,7 +7,7 @@ defmodule WandaWeb.ListResultsViewTest do
   alias Wanda.Results.ExecutionResult
 
   describe "ResultView" do
-    test "renders list_results.json" do
+    test "renders index.json" do
       inserted_at = DateTime.utc_now()
 
       [
@@ -36,7 +36,7 @@ defmodule WandaWeb.ListResultsViewTest do
                ],
                total_count: 10
              } =
-               render(WandaWeb.ResultView, "list_results.json",
+               render(WandaWeb.ResultView, "index.json",
                  results: execution_results,
                  total_count: 10
                )
