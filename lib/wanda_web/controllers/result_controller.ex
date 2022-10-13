@@ -5,7 +5,7 @@ defmodule WandaWeb.ResultController do
   alias OpenApiSpex.Schema
 
   alias Wanda.Results
-  alias WandaWeb.Schemas.{ListResultsResponse, Result}
+  alias WandaWeb.Schemas.{ListResultsResponse, ResultResponse}
 
   plug OpenApiSpex.Plug.CastAndValidate, json_render_error_v2: true
 
@@ -43,8 +43,8 @@ defmodule WandaWeb.ResultController do
       ]
     ],
     responses: %{
-      200 => {"Result", "application/json", Result},
-      422 => OpenApiSpex.JsonErrorResponse.response()
+      200 => {"Result", "application/json", ResultResponse},
+      404 => OpenApiSpex.JsonErrorResponse.response()
     }
 
   def index(conn, params) do

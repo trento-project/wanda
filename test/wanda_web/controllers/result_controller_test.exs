@@ -36,7 +36,7 @@ defmodule WandaWeb.ResultControllerTest do
         |> json_response(200)
 
       api_spec = ApiSpec.spec()
-      assert_schema(json, "Result", api_spec)
+      assert_schema(json, "ResultResponse", api_spec)
     end
 
     test "should return a 404", %{conn: conn} do

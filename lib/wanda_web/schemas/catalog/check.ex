@@ -1,4 +1,4 @@
-defmodule WandaWeb.Schemas.CatalogCheck do
+defmodule WandaWeb.Schemas.CatalogResponse.Check do
   @moduledoc """
   Individual check of the catalog response API spec
   """
@@ -8,7 +8,7 @@ defmodule WandaWeb.Schemas.CatalogCheck do
   alias OpenApiSpex.Schema
 
   OpenApiSpex.schema(%{
-    title: "CatalogCheck",
+    title: "Check",
     description: "A single check from the catalog",
     type: :object,
     properties: %{
