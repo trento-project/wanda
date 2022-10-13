@@ -6,7 +6,7 @@ defmodule WandaWeb.Schemas.Result.Value do
   alias OpenApiSpex.Schema
 
   OpenApiSpex.schema(%{
-    title: "Fact",
+    title: "Value",
     description: "A Value used in the expectations evaluation",
     type: :object,
     properties: %{

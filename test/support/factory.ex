@@ -101,7 +101,7 @@ defmodule Wanda.Factory do
         %CheckResult{
           agents_check_results: [
             %AgentCheckResult{
-              agent_id: "agent_1",
+              agent_id: UUID.uuid4(),
               expectation_evaluations: [
                 %ExpectationEvaluation{
                   name: "timeout",
@@ -111,7 +111,7 @@ defmodule Wanda.Factory do
               ]
             },
             %AgentCheckResult{
-              agent_id: "agent_2",
+              agent_id: UUID.uuid4(),
               expectation_evaluations: [
                 %ExpectationEvaluation{
                   name: "timeout",

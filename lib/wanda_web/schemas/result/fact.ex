@@ -7,10 +7,10 @@ defmodule WandaWeb.Schemas.Result.Fact do
 
   OpenApiSpex.schema(%{
     title: "Fact",
-    description: "The result of a check.",
+    description: "The result of a check",
     type: :object,
     properties: %{
-      check_id: %Schema{type: :string, format: :uuid, description: "Check ID"},
+      check_id: %Schema{type: :string, description: "Check ID"},
       name: %Schema{type: :string, description: "Name"},
       value: %Schema{
         oneOf: [%Schema{type: :string}, %Schema{type: :number}, %Schema{type: :boolean}],
