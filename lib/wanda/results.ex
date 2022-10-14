@@ -13,8 +13,8 @@ defmodule Wanda.Results do
   @doc """
   Create a new result.
   """
-  @spec create_execution_result(Result.t()) :: ExecutionResult.t()
-  def create_execution_result(
+  @spec create_execution_result!(Result.t()) :: ExecutionResult.t()
+  def create_execution_result!(
         %Result{
           execution_id: execution_id,
           group_id: group_id
@@ -25,6 +25,15 @@ defmodule Wanda.Results do
       group_id: group_id,
       payload: result
     })
+  end
+
+  @doc """
+  Get a result by execution_id.
+
+  """
+  @spec get_execution_result!(String.t()) :: ExecutionResult.t()
+  def get_execution_result!(execution_id) do
+    Repo.get!(ExecutionResult, execution_id)
   end
 
   @doc """
