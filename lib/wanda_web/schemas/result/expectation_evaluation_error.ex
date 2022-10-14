@@ -1,4 +1,4 @@
-defmodule WandaWeb.Schemas.Result.ExpectationEvaluationError do
+defmodule WandaWeb.Schemas.ResultResponse.ExpectationEvaluationError do
   @moduledoc false
 
   require OpenApiSpex
