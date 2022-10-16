@@ -50,7 +50,7 @@ facts:
     # would it be enough the information about the provider in the environment?
     gatherer: cibadmin
     argument: //primitive[@type='fence_azure_arm']/@type
-    
+
 values:
   # default
   # "1.2.2.sbd": "150"
@@ -69,17 +69,28 @@ values:
     default: 150
     conditions:
       - value: 600
-        when: env.provider == "aws"
+        # when: env.provider == "aws"
+        when: return env.provider == "aws"
       - value: 900
-        when: env.provider == "azure" && facts.fence_azure_arm_detected
+        # when: env.provider == "azure" && facts.fence_azure_arm_detected
+        when: return env.provider == "azure" or facts.fence_azure_arm_detected
       - value: 144
-        when: env.provider == "azure"
+        # when: env.provider == "azure"
+        when: return env.provider == "azure"
 
 expectations:
   - name: fencing_timeout_is_correct
     expect: |
-      facts.fence_azure_arm_detected 
-        ? facts.fencing_timeout == values.expected_fencing_timeout 
-        : facts.fencing_timeout >= values.expected_fencing_timeout
+      return when{
+        condition = facts.fence_azure_arm_detected,
+        matches = facts.fencing_timeout == values.expected_fencing_timeout,
+        otherwise = facts.fencing_timeout >= values.expected_fencing_timeout
+      }
+
+      --if facts.fence_azure_arm_detected then
+      --  return facts.fencing_timeout == values.expected_fencing_timeout
+      --else
+      --  return facts.fencing_timeout >= values.expected_fencing_timeout
+      --end
 
 # As a user I want the expectation section of the DSL have access to the env (?) so that we can support more complexr scenarios

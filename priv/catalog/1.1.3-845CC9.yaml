@@ -36,4 +36,5 @@ facts:
 
 expectations:
   - name: max_messages
-    expect: facts.corosync_max_messages == 20
+    # expect: facts.corosync_max_messages == 20
+    expect: return facts.corosync_max_messages == 20

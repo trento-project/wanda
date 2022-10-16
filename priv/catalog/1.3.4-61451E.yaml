@@ -34,4 +34,5 @@ facts:
 
 expectations:
   - name: sbd_devices_correctly_configured
-    expect: len(facts.sbd_devices) == 3
+    # expect: len(facts.sbd_devices) == 3
+    expect: return len(facts.sbd_devices) == 3

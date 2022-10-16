@@ -32,4 +32,5 @@ facts:
 
 expectations:
   - name: expected_votes
-    expect: facts.corosync_expected_votes == 2
+    # expect: facts.corosync_expected_votes == 2
+    expect: return facts.corosync_expected_votes == 2

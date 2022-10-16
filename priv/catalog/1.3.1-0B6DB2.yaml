@@ -46,7 +46,8 @@ remediation: |
     - https://documentation.suse.com/sle-ha/15-SP3/html/SLE-HA-all/cha-ha-storage-protect.html
     - https://documentation.suse.com/sbp/all/single-html/SLES4SAP-hana-sr-guide-PerfOpt-15/#id-1.11.5.5.4.4
 
-run_when: env.provider != "aws" && env.provider != "gcp"
+# run_when: env.provider != "aws" && env.provider != "gcp"
+run_when: return env.provider != "aws" && env.provider != "gcp"
 
 facts:
   - name: sbd_pacemaker
@@ -55,6 +56,6 @@ facts:
 
 expectations:
   - name: sbd_pacemaker_correctly_configured
-    expect: facts.sbd_pacemaker == "yes"
-
+    # expect: facts.sbd_pacemaker == "yes"
+    expect: return facts.sbd_pacemaker == "yes"
 # As a user I want to be able to define when a check should run, so that I can specify the senarios where the check is supported

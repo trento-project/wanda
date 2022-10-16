@@ -39,18 +39,52 @@ values:
     default: 2
     conditions:
       - value: 1
-        when: env.provider == "aws" || env.provider == "gcp"
-
-functions:
-  - name: hasReccomendedRings
-    argument: node
-    expression: len(node.rings) == values.expected_corosync_rings_per_node
+        # when: env.provider == "aws" || env.provider == "gcp"
+        when: return env.provider == "aws" or env.provider == "gcp"
 
 expectations:
   - name: corosync_rings
     # The current expression evaluation engine, Abacus, does not support any of: len, every (iteration in general), custom functions
-    expect: len(facts.corosync_nodes) == values.expected_corosync_nodes && every(facts.corosync_nodes, hasReccomendedRings)
-    # expect: len(facts.corosync_nodes) == values.expected_corosync_nodes && every(facts.corosync_nodes, "node", "len(node.rings) == values.expected_corosync_rings_per_node")
+    expect: |
+      return
+        length(facts.corosync_nodes) == values.expected_corosync_nodes and
+        all(facts.corosync_nodes, function(node_rings)
+          return values.expected_corosync_rings_per_node == node_rings
+        end)
+
+    # expect: return length(facts.corosync_nodes) == values.expected_corosync_nodes
+    # expect: |
+    #   return all(facts.corosync_nodes, function(node_rings)
+    #     return values.expected_corosync_rings_per_node == node_rings
+    #   end)
 
 # As a user I want the DSL expressions to support a function to count the elements of a list
 # As a user I want the DSL to support expressions applied to a list of items
+
+# expectations:
+#   - name: corosync_rings
+#     expect_length: 
+#       fact: facts.corosync_nodes 
+#       value: values.expected_corosync_nodes
+#   - name: corosync_rings_per_node
+#     expect_each:
+#       item: node 
+#       in: facts.corosync_nodes 
+#       to_satisfy: 
+#         expect_length: 
+#           fact: node.rings 
+#           value: values.expected_corosync_rings_per_node
+  
+#   - name: corosync_rings
+#     # The current expression evaluation engine, Abacus, does not support any of: len, every (iteration in general), custom functions
+#     expect: len(facts.corosync_nodes) == values.expected_corosync_nodes && every(facts.corosync_nodes, hasReccomendedRings)
+#     # expect: len(facts.corosync_nodes) == values.expected_corosync_nodes
+#     # expect: every(facts.corosync_nodes, fn node -> length(node.rings) == values.expected_corosync_rings_per_node end)
+#     # expect: len(facts.corosync_nodes) == values.expected_corosync_nodes && every(facts.corosync_nodes, "node", "len(node.rings) == values.expected_corosync_rings_per_node")
+
+# # As a user I want the DSL expressions to support a function to count the elements of a list
+# # As a user I want the DSL to support expressions applied to a list of items
+
+#   - name: corosync_rings
+#     # The current expression evaluation engine, Abacus, does not support any of: len, every (iteration in general), custom functions
+#     expect: facts.corosync_nodes == values.expected_corosync_nodes && facts.corosync_rings_per_node == values.expected_corosync_rings_per_node

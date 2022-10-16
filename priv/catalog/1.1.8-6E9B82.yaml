@@ -35,4 +35,5 @@ facts:
 
 expectations:
   - name: two_node
-    expect: facts.corosync_two_node == 1
+    # expect: facts.corosync_two_node == 1
+    expect: return facts.corosync_two_node == 1
