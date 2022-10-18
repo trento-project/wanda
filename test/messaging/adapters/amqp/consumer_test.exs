@@ -53,7 +53,11 @@ defmodule Wanda.Messaging.Adapters.AMQP.ConsumerTest do
                  execution_id: UUID.uuid4(),
                  agent_id: UUID.uuid4(),
                  facts_gathered: [
-                   %{check_id: "check_id", name: "name", value: {:text_value, "value"}}
+                   %{
+                     check_id: "check_id",
+                     name: "name",
+                     fact_value: {:value, %{kind: {:string_value, "value"}}}
+                   }
                  ]
                }
                |> FactsGathered.new!()
