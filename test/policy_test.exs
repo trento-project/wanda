@@ -70,7 +70,7 @@ defmodule Wanda.PolicyTest do
                  %{
                    check_id: "check_id",
                    name: "name",
-                   fact_value: {:value, %{kind: {:text_value, "value"}}}
+                   fact_value: {:value, %{kind: {:string_value, "value"}}}
                  }
                ]
              }
