@@ -67,7 +67,11 @@ defmodule Wanda.PolicyTest do
                execution_id: execution_id,
                agent_id: agent_id,
                facts_gathered: [
-                 %{check_id: "check_id", name: "name", value: {:text_value, "value"}}
+                 %{
+                   check_id: "check_id",
+                   name: "name",
+                   fact_value: {:value, %{kind: {:string_value, "value"}}}
+                 }
                ]
              }
              |> FactsGathered.new!()
