@@ -11,19 +11,13 @@ defmodule Wanda.Execution do
 
   @impl true
   def start_execution(execution_id, group_id, targets, env, config \\ []) do
-    checks =
-      targets
-      |> Enum.map(& &1.checks)
-      |> Enum.uniq()
-      |> Enum.map(&Catalog.get_check/1)
-
     case DynamicSupervisor.start_child(
            Supervisor,
            {Server,
             execution_id: execution_id,
             group_id: group_id,
             targets: targets,
-            checks: checks,
+            checks: get_checks_from_targets(targets),
             env: env,
             config: config}
          ) do
@@ -33,6 +27,14 @@ defmodule Wanda.Execution do
       {:error, _} = error ->
         error
     end
+  end
+
+  def get_checks_from_targets(targets) do
+    targets
+    |> Enum.map(& &1.checks)
+    |> Enum.concat()
+    |> Enum.uniq()
+    |> Enum.map(&Catalog.get_check/1)
   end
 
   @impl true
