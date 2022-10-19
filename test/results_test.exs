@@ -13,22 +13,17 @@ defmodule Wanda.ResultsTest do
       execution_id = UUID.uuid4()
       group_id = UUID.uuid4()
 
-      Results.create_execution_result!(
-        build(
-          :result,
-          execution_id: execution_id,
-          group_id: group_id,
-          result: :passing
-        )
-      )
+      # FIXME, semantic might change
+      Results.create_execution!(execution_id, group_id)
 
       assert %ExecutionResult{
                execution_id: ^execution_id,
-               group_id: ^group_id,
-               payload: %{
-                 "result" => "passing",
-                 "check_results" => [_ | _]
-               }
+               group_id: ^group_id
+               # FIXME, semantic might change
+               #  payload: %{
+               #    "result" => "passing",
+               #    "check_results" => [_ | _]
+               #  }
              } = Repo.one!(ExecutionResult)
     end
 
@@ -42,14 +37,8 @@ defmodule Wanda.ResultsTest do
       execution_id = UUID.uuid4()
       group_id = UUID.uuid4()
 
-      Results.create_execution_result!(
-        build(
-          :result,
-          execution_id: execution_id,
-          group_id: group_id,
-          result: :passing
-        )
-      )
+      # FIXME, semantic might change
+      Results.create_execution!(execution_id, group_id)
 
       assert [
                %ExecutionResult{execution_id: ^execution_1, group_id: ^group_1},
@@ -57,11 +46,12 @@ defmodule Wanda.ResultsTest do
                %ExecutionResult{execution_id: ^execution_3, group_id: ^group_3},
                %ExecutionResult{
                  execution_id: ^execution_id,
-                 group_id: ^group_id,
-                 payload: %{
-                   "result" => "passing",
-                   "check_results" => [_ | _]
-                 }
+                 group_id: ^group_id
+                 # FIXME, semantic might change
+                 #  payload: %{
+                 #    "result" => "passing",
+                 #    "check_results" => [_ | _]
+                 #  }
                }
              ] = Repo.all(ExecutionResult)
     end
