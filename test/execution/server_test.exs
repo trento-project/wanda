@@ -53,7 +53,6 @@ defmodule Wanda.Execution.ServerTest do
                )
 
       assert pid == :global.whereis_name({Server, execution_id})
-      assert ExecutionResult |> Repo.all() |> Enum.empty?()
     end
   end
 
@@ -84,8 +83,7 @@ defmodule Wanda.Execution.ServerTest do
 
       assert_receive :wandalorian
 
-      # FIXME, semantic might change
-      assert false == ExecutionResult |> Repo.all() |> Enum.empty?()
+      refute ExecutionResult |> Repo.all() |> Enum.empty?()
     end
 
     test "should exit when all facts are sent by all agents", context do

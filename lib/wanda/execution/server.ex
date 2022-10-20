@@ -65,7 +65,7 @@ defmodule Wanda.Execution.Server do
     facts_gathering_requested =
       Messaging.Mapper.to_facts_gathering_requested(execution_id, group_id, targets, checks)
 
-    Results.create_execution!(execution_id, group_id, targets, checks)
+    Results.create_execution_result!(execution_id, group_id, targets)
 
     :ok = Messaging.publish("agents", facts_gathering_requested)
 
@@ -149,8 +149,8 @@ defmodule Wanda.Execution.Server do
     end
   end
 
-  defp store_and_publish_execution_result(%Result{execution_id: execution_id} = result) do
-    Results.complete_execution!(execution_id, result)
+  defp store_and_publish_execution_result(%Result{} = result) do
+    Results.complete_execution_result!(result)
 
     # What if the following breaks after we stored a completed execution?
     execution_completed = Messaging.Mapper.to_execution_completed(result)
