@@ -20,10 +20,10 @@ defmodule Wanda.Results.ExecutionResult do
 
     field :status, Ecto.Enum, values: [:running, :completed], default: :running
 
-    # embeds_many :targets, Target do
-    #   field :agent_id, Ecto.UUID
-    #   field :checks, {:array, :string}
-    # end
+    embeds_many :targets, Target do
+      field :agent_id, Ecto.UUID
+      field :checks, {:array, :string}
+    end
 
     timestamps(type: :utc_datetime_usec)
 
@@ -31,8 +31,10 @@ defmodule Wanda.Results.ExecutionResult do
   end
 
   @spec changeset(t() | Ecto.Changeset.t(), map) :: Ecto.Changeset.t()
-  def changeset(execution, attrs) do
-    cast(execution, attrs, __MODULE__.__schema__(:fields))
+  def changeset(execution, params) do
+    execution
+    |> cast(params, __MODULE__.__schema__(:fields) -- [:targets])
+    |> cast_embed(:targets, with: &target_changeset/2)
   end
 
   @spec complete(t(), Result.t()) :: Ecto.Changeset.t()
@@ -42,5 +44,9 @@ defmodule Wanda.Results.ExecutionResult do
       status: :completed,
       completed_at: DateTime.utc_now()
     })
+  end
+
+  defp target_changeset(target, params) do
+    cast(target, params, [:agent_id, :checks])
   end
 end

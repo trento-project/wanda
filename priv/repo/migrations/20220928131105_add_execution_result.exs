@@ -7,6 +7,7 @@ defmodule Wanda.Repo.Migrations.AddExecutionResult do
       add :group_id, :uuid, null: false
       add :payload, :map, null: false
       add :status, :string, null: false
+      add :targets, :map, null: false, default: "[]"
 
       timestamps(type: :utc_datetime_usec)
 
