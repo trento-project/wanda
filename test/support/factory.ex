@@ -150,13 +150,29 @@ defmodule Wanda.Factory do
     execution_id = Map.get(attrs, :execution_id, Faker.UUID.v4())
     group_id = Map.get(attrs, :group_id, Faker.UUID.v4())
 
+    payload =
+      Map.get(attrs, :payload, build(:result, execution_id: execution_id, group_id: group_id))
+
     %ExecutionResult{
       execution_id: execution_id,
       group_id: group_id,
-      payload: build(:result, execution_id: execution_id, group_id: group_id),
+      status: Map.get(attrs, :status, :running),
+      # targets: Map.get(attrs, :targets, %{}),
+      payload: payload,
       inserted_at: Map.get(attrs, :inserted_at, DateTime.utc_now()),
-      updated_at: Map.get(attrs, :updated_at, DateTime.utc_now())
+      updated_at: Map.get(attrs, :updated_at, DateTime.utc_now()),
+      completed_at: Map.get(attrs, :completed_at, nil)
     }
+  end
+
+  def running_execution_result_factory(_attrs) do
+    build(:execution_result, status: :running, payload: %{})
+  end
+
+  def completed_execution_result_factory(attrs) do
+    completed_at = Map.get(attrs, :completed_at, DateTime.utc_now())
+
+    build(:execution_result, status: :completed, completed_at: completed_at)
   end
 
   defp random_env_value do

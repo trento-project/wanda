@@ -13,12 +13,13 @@ defmodule Wanda.Results do
   @doc """
   Create a new execution as soon as it starts.
   """
-  @spec create_execution!(String.t(), String.t(), list(), list()) :: ExecutionResult.t()
-  def create_execution!(execution_id, group_id, _targets \\ [], _checks \\ []) do
+  @spec create_execution_result!(String.t(), String.t(), list()) :: ExecutionResult.t()
+  def create_execution_result!(execution_id, group_id, _targets \\ []) do
     Repo.insert!(%ExecutionResult{
       execution_id: execution_id,
       group_id: group_id,
       status: :running
+      # targets: targets |> Enum.map(fn t -> Map.from_struct(t) end)
     })
   end
 
@@ -67,18 +68,21 @@ defmodule Wanda.Results do
   @doc """
   Marks a previously started execution as completed
   """
-  @spec complete_execution!(String.t(), Result.t()) :: ExecutionResult.t()
-  def complete_execution!(execution_id, %Result{group_id: group_id} = result) do
-    %ExecutionResult{
-      execution_id: execution_id,
-      group_id: group_id
-    }
-    |> ExecutionResult.changeset(%{
-      payload: result,
-      status: :completed,
-      completed_at: DateTime.utc_now()
-    })
-    |> Repo.update!()
+  @spec complete_execution_result!(Result.t()) :: ExecutionResult.t()
+  def complete_execution_result!(%Result{execution_id: execution_id} = result) do
+    case get_execution_result!(execution_id) do
+      %ExecutionResult{
+        status: :running
+      } = execution ->
+        execution
+        |> ExecutionResult.complete(result)
+        |> Repo.update!()
+
+      %ExecutionResult{
+        status: :completed
+      } = execution ->
+        execution
+    end
   end
 
   @spec maybe_filter_by_group_id(Ecto.Query.t(), String.t()) :: Ecto.Query.t()

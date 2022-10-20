@@ -7,6 +7,8 @@ defmodule Wanda.Results.ExecutionResult do
 
   import Ecto.Changeset
 
+  alias Wanda.Execution.Result
+
   @type t :: %__MODULE__{}
 
   @derive {Jason.Encoder, [except: [:__meta__]]}
@@ -18,6 +20,11 @@ defmodule Wanda.Results.ExecutionResult do
 
     field :status, Ecto.Enum, values: [:running, :completed], default: :running
 
+    # embeds_many :targets, Target do
+    #   field :agent_id, Ecto.UUID
+    #   field :checks, {:array, :string}
+    # end
+
     timestamps(type: :utc_datetime_usec)
 
     field :completed_at, :utc_datetime_usec
@@ -26,5 +33,14 @@ defmodule Wanda.Results.ExecutionResult do
   @spec changeset(t() | Ecto.Changeset.t(), map) :: Ecto.Changeset.t()
   def changeset(execution, attrs) do
     cast(execution, attrs, __MODULE__.__schema__(:fields))
+  end
+
+  @spec complete(t(), Result.t()) :: Ecto.Changeset.t()
+  def complete(execution, %Result{} = result) do
+    changeset(execution, %{
+      payload: result,
+      status: :completed,
+      completed_at: DateTime.utc_now()
+    })
   end
 end
