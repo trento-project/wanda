@@ -157,7 +157,7 @@ defmodule Wanda.Factory do
       execution_id: execution_id,
       group_id: group_id,
       status: Map.get(attrs, :status, :running),
-      # targets: Map.get(attrs, :targets, %{}),
+      targets: Map.get(attrs, :targets, []),
       payload: payload,
       inserted_at: Map.get(attrs, :inserted_at, DateTime.utc_now()),
       updated_at: Map.get(attrs, :updated_at, DateTime.utc_now()),

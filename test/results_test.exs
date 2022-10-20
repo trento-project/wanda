@@ -4,6 +4,8 @@ defmodule Wanda.ResultsTest do
 
   import Wanda.Factory
 
+  alias Wanda.Execution.Target
+
   alias Wanda.Results
 
   alias Wanda.Results.ExecutionResult
@@ -13,13 +15,26 @@ defmodule Wanda.ResultsTest do
       execution_id = UUID.uuid4()
       group_id = UUID.uuid4()
 
-      Results.create_execution_result!(execution_id, group_id, [])
+      [
+        %Target{
+          agent_id: agent_id,
+          checks: checks
+        }
+      ] = targets = build_list(1, :target)
+
+      Results.create_execution_result!(execution_id, group_id, targets)
 
       assert %ExecutionResult{
                execution_id: ^execution_id,
                group_id: ^group_id,
                status: :running,
-               payload: %{}
+               payload: %{},
+               targets: [
+                 %{
+                   agent_id: ^agent_id,
+                   checks: ^checks
+                 }
+               ]
              } = Repo.one!(ExecutionResult)
     end
 
@@ -33,7 +48,18 @@ defmodule Wanda.ResultsTest do
       execution_id = UUID.uuid4()
       group_id = UUID.uuid4()
 
-      Results.create_execution_result!(execution_id, group_id, [])
+      [
+        %Target{
+          agent_id: agent_id_1,
+          checks: checks_1
+        },
+        %Target{
+          agent_id: agent_id_2,
+          checks: checks_2
+        }
+      ] = targets = build_list(2, :target)
+
+      Results.create_execution_result!(execution_id, group_id, targets)
 
       assert [
                %ExecutionResult{execution_id: ^execution_1, group_id: ^group_1},
@@ -43,7 +69,17 @@ defmodule Wanda.ResultsTest do
                  execution_id: ^execution_id,
                  group_id: ^group_id,
                  status: :running,
-                 payload: %{}
+                 payload: %{},
+                 targets: [
+                   %{
+                     agent_id: ^agent_id_1,
+                     checks: ^checks_1
+                   },
+                   %{
+                     agent_id: ^agent_id_2,
+                     checks: ^checks_2
+                   }
+                 ]
                }
              ] = Repo.all(ExecutionResult)
     end
@@ -55,7 +91,7 @@ defmodule Wanda.ResultsTest do
       ] = insert_list(2, :execution_result)
 
       assert_raise Ecto.ConstraintError, fn ->
-        Results.create_execution_result!(execution_id, group_id, [])
+        Results.create_execution_result!(execution_id, group_id, build_list(2, :target))
       end
 
       assert 2 =

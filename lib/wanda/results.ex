@@ -5,7 +5,7 @@ defmodule Wanda.Results do
 
   alias Wanda.Repo
 
-  alias Wanda.Execution.Result
+  alias Wanda.Execution.{Result, Target}
   alias Wanda.Results.ExecutionResult
 
   import Ecto.Query
@@ -13,13 +13,13 @@ defmodule Wanda.Results do
   @doc """
   Create a new execution as soon as it starts.
   """
-  @spec create_execution_result!(String.t(), String.t(), list()) :: ExecutionResult.t()
-  def create_execution_result!(execution_id, group_id, _targets \\ []) do
+  @spec create_execution_result!(String.t(), String.t(), [Target.t()]) :: ExecutionResult.t()
+  def create_execution_result!(execution_id, group_id, targets) do
     Repo.insert!(%ExecutionResult{
       execution_id: execution_id,
       group_id: group_id,
-      status: :running
-      # targets: targets |> Enum.map(fn t -> Map.from_struct(t) end)
+      status: :running,
+      targets: Enum.map(targets, &Map.from_struct(&1))
     })
   end
 
