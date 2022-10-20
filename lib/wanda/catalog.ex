@@ -36,6 +36,14 @@ defmodule Wanda.Catalog do
     |> map_check()
   end
 
+  @doc """
+  Get specific checks from the catalog.
+  """
+  @spec get_checks([String.t()]) :: [Check.t()]
+  def get_checks(checks_id) do
+    Enum.map(checks_id, &get_check/1)
+  end
+
   defp get_catalog_path do
     Application.fetch_env!(:wanda, Wanda.Catalog)[:catalog_path]
   end

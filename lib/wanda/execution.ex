@@ -7,16 +7,26 @@ defmodule Wanda.Execution do
 
   alias Wanda.Catalog
 
-  alias Wanda.Execution.{Server, Supervisor}
+  alias Wanda.Execution.{Server, Supervisor, Target}
+
+  require Logger
 
   @impl true
   def start_execution(execution_id, group_id, targets, env, config \\ []) do
     checks =
       targets
-      |> Enum.map(& &1.checks)
-      |> Enum.uniq()
-      |> Enum.map(&Catalog.get_check/1)
+      |> Target.get_checks_from_targets()
+      |> Catalog.get_checks()
 
+    maybe_start_execution(execution_id, group_id, targets, checks, env, config)
+  end
+
+  @impl true
+  defdelegate receive_facts(execution_id, agent_id, facts), to: Server
+
+  defp maybe_start_execution(_, _, _, [], _, _), do: {:error, :no_checks_selected}
+
+  defp maybe_start_execution(execution_id, group_id, targets, checks, env, config) do
     case DynamicSupervisor.start_child(
            Supervisor,
            {Server,
@@ -34,7 +44,4 @@ defmodule Wanda.Execution do
         error
     end
   end
-
-  @impl true
-  defdelegate receive_facts(execution_id, agent_id, facts), to: Wanda.Execution.Server
 end

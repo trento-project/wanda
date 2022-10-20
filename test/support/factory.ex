@@ -64,7 +64,12 @@ defmodule Wanda.Factory do
   def target_factory(attrs) do
     %Target{
       agent_id: Map.get(attrs, :agent_id, UUID.uuid4()),
-      checks: Map.get(attrs, :checks, Enum.map(1..10, fn _ -> UUID.uuid4() end))
+      checks:
+        Map.get(
+          attrs,
+          :checks,
+          1..10 |> Enum.map(fn _ -> Faker.StarWars.planet() end) |> Enum.uniq()
+        )
     }
   end
 

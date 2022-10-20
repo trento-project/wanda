@@ -96,5 +96,10 @@ defmodule Wanda.CatalogTest do
     test "should load a warning severity" do
       assert %Check{severity: :warning} = Catalog.get_check("warning_severity_check")
     end
+
+    test "should load multiple checks" do
+      assert [%Check{id: "expect_check"}, %Check{id: "expect_same_check"}] =
+               Catalog.get_checks(["expect_check", "expect_same_check"])
+    end
   end
 end

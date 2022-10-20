@@ -35,8 +35,8 @@ defmodule Wanda.Messaging.Adapters.AMQP.Consumer do
   end
 
   @impl GenRMQ.Consumer
-  def handle_error(message, _reason) do
-    Logger.error("Unable to handle message: #{inspect(message)}")
+  def handle_error(message, reason) do
+    Logger.error("Unable to handle message: #{inspect(message)}. Reason: #{inspect(reason)}")
 
     GenRMQ.Consumer.reject(message)
   end
