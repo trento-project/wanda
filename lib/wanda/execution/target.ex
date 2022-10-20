@@ -13,7 +13,7 @@ defmodule Wanda.Execution.Target do
           checks: [String.t()]
         }
 
-  @spec get_checks_from_targets([__MODULE__.t()]) :: [String.t()]
+  @spec get_checks_from_targets([t()]) :: [String.t()]
   def get_checks_from_targets(targets) do
     targets
     |> Enum.flat_map(& &1.checks)
