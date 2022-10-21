@@ -83,7 +83,8 @@ defmodule Wanda.Execution.ServerTest do
 
       assert_receive :wandalorian
 
-      refute ExecutionResult |> Repo.all() |> Enum.empty?()
+      assert %ExecutionResult{execution_id: ^execution_id, status: :running} =
+               Repo.one!(ExecutionResult)
     end
 
     test "should exit when all facts are sent by all agents", context do

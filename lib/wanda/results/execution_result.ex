@@ -36,8 +36,8 @@ defmodule Wanda.Results.ExecutionResult do
     |> cast_embed(:targets, with: &target_changeset/2)
   end
 
-  @spec complete(t(), Result.t()) :: Ecto.Changeset.t()
-  def complete(execution, %Result{} = result) do
+  @spec complete_changeset(t(), Result.t()) :: Ecto.Changeset.t()
+  def complete_changeset(execution, %Result{} = result) do
     changeset(execution, %{
       payload: result,
       status: :completed,

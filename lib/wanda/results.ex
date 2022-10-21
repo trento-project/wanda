@@ -11,7 +11,7 @@ defmodule Wanda.Results do
   import Ecto.Query
 
   @doc """
-  Create a new execution as soon as it starts.
+  Create a new execution.
   """
   @spec create_execution_result!(String.t(), String.t(), [Target.t()]) :: ExecutionResult.t()
   def create_execution_result!(execution_id, group_id, targets) do
@@ -75,7 +75,7 @@ defmodule Wanda.Results do
         status: :running
       } = execution ->
         execution
-        |> ExecutionResult.complete(result)
+        |> ExecutionResult.complete_changeset(result)
         |> Repo.update!()
 
       %ExecutionResult{
