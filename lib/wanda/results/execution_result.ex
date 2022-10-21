@@ -24,8 +24,7 @@ defmodule Wanda.Results.ExecutionResult do
       field :checks, {:array, :string}
     end
 
-    timestamps(type: :utc_datetime_usec)
-
+    timestamps(type: :utc_datetime_usec, inserted_at: :started_at, updated_at: false)
     field :completed_at, :utc_datetime_usec
   end
 

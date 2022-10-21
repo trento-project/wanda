@@ -146,7 +146,7 @@ defmodule Wanda.ResultsTest do
           timeout: timeout
         },
         completed_at: completed_at,
-        updated_at: updated_at
+        started_at: started_at
       } = insert(:completed_execution_result)
 
       result = Atom.to_string(result)
@@ -171,7 +171,7 @@ defmodule Wanda.ResultsTest do
                  "timeout" => ^timeout
                },
                completed_at: ^completed_at,
-               updated_at: ^updated_at
+               started_at: ^started_at
              } =
                Results.complete_execution_result!(
                  build(:result,

@@ -15,7 +15,7 @@ defmodule WandaWeb.ResultView do
     render_one(result, ResultView, "result.json")
   end
 
-  def render("result.json", %{result: %ExecutionResult{payload: result, inserted_at: inserted_at}}) do
-    Map.put(result, "inserted_at", inserted_at)
+  def render("result.json", %{result: %ExecutionResult{payload: result, started_at: started_at}}) do
+    Map.put(result, "started_at", started_at)
   end
 end

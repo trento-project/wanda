@@ -159,8 +159,7 @@ defmodule Wanda.Factory do
       status: Map.get(attrs, :status, :running),
       targets: Map.get(attrs, :targets, []),
       payload: payload,
-      inserted_at: Map.get(attrs, :inserted_at, DateTime.utc_now()),
-      updated_at: Map.get(attrs, :updated_at, DateTime.utc_now()),
+      started_at: Map.get(attrs, :started_at, DateTime.utc_now()),
       completed_at: Map.get(attrs, :completed_at, nil)
     }
   end
