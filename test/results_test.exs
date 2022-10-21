@@ -11,34 +11,7 @@ defmodule Wanda.ResultsTest do
   alias Wanda.Results.ExecutionResult
 
   describe "Creating an Execution" do
-    test "should correctly create a running execution in an empty system" do
-      execution_id = UUID.uuid4()
-      group_id = UUID.uuid4()
-
-      [
-        %Target{
-          agent_id: agent_id,
-          checks: checks
-        }
-      ] = targets = build_list(1, :target)
-
-      Results.create_execution_result!(execution_id, group_id, targets)
-
-      assert %ExecutionResult{
-               execution_id: ^execution_id,
-               group_id: ^group_id,
-               status: :running,
-               payload: %{},
-               targets: [
-                 %{
-                   agent_id: ^agent_id,
-                   checks: ^checks
-                 }
-               ]
-             } = Repo.one!(ExecutionResult)
-    end
-
-    test "should correctly create a running execution in a non empty system" do
+    test "should correctly create a running execution" do
       [
         %ExecutionResult{execution_id: execution_1, group_id: group_1},
         %ExecutionResult{execution_id: execution_2, group_id: group_2},
