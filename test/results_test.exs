@@ -81,7 +81,10 @@ defmodule Wanda.ResultsTest do
         group_id: group_id,
         status: :running,
         payload: %{}
-      } = insert(:running_execution_result)
+      } =
+        build(:execution_result)
+        |> make_running()
+        |> insert()
 
       assert {:ok,
               %ExecutionResult{
@@ -107,7 +110,10 @@ defmodule Wanda.ResultsTest do
         execution_id: execution_id,
         group_id: group_id,
         status: :completed
-      } = insert(:completed_execution_result)
+      } =
+        build(:execution_result)
+        |> make_completed()
+        |> insert()
 
       assert {:error, :already_completed} =
                Results.complete_execution_result!(
