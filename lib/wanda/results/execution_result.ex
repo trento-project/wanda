@@ -17,8 +17,7 @@ defmodule Wanda.Results.ExecutionResult do
     field :execution_id, Ecto.UUID, primary_key: true
     field :group_id, Ecto.UUID
     field :payload, :map, default: %{}
-
-    field :status, Ecto.Enum, values: [:running, :completed], default: :running
+    field :status, Ecto.Enum, values: [:running, :completed]
 
     embeds_many :targets, Target do
       field :agent_id, Ecto.UUID
