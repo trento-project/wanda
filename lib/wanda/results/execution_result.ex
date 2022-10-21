@@ -46,6 +46,6 @@ defmodule Wanda.Results.ExecutionResult do
   end
 
   defp target_changeset(target, params) do
-    cast(target, params, [:agent_id, :checks])
+    cast(target, Map.from_struct(params), [:agent_id, :checks])
   end
 end

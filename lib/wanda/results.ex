@@ -15,12 +15,14 @@ defmodule Wanda.Results do
   """
   @spec create_execution_result!(String.t(), String.t(), [Target.t()]) :: ExecutionResult.t()
   def create_execution_result!(execution_id, group_id, targets) do
-    Repo.insert!(%ExecutionResult{
+    %ExecutionResult{}
+    |> ExecutionResult.changeset(%{
       execution_id: execution_id,
       group_id: group_id,
       status: :running,
-      targets: Enum.map(targets, &Map.from_struct(&1))
+      targets: targets
     })
+    |> Repo.insert!()
   end
 
   @doc """
