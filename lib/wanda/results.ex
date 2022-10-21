@@ -70,20 +70,24 @@ defmodule Wanda.Results do
   @doc """
   Marks a previously started execution as completed
   """
-  @spec complete_execution_result!(Result.t()) :: ExecutionResult.t()
+  @spec complete_execution_result!(Result.t()) ::
+          {:ok, ExecutionResult.t()} | {:error, :already_completed}
   def complete_execution_result!(%Result{execution_id: execution_id} = result) do
     case get_execution_result!(execution_id) do
       %ExecutionResult{
         status: :running
       } = execution ->
-        execution
-        |> ExecutionResult.complete_changeset(result)
-        |> Repo.update!()
+        completed_execution =
+          execution
+          |> ExecutionResult.complete_changeset(result)
+          |> Repo.update!()
+
+        {:ok, completed_execution}
 
       %ExecutionResult{
         status: :completed
-      } = execution ->
-        execution
+      } ->
+        {:error, :already_completed}
     end
   end
 

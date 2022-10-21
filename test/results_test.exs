@@ -83,14 +83,15 @@ defmodule Wanda.ResultsTest do
         payload: %{}
       } = insert(:running_execution_result)
 
-      assert %ExecutionResult{
-               execution_id: ^execution_id,
-               group_id: ^group_id,
-               status: :completed,
-               payload: %{
-                 result: :passing
-               }
-             } =
+      assert {:ok,
+              %ExecutionResult{
+                execution_id: ^execution_id,
+                group_id: ^group_id,
+                status: :completed,
+                payload: %{
+                  result: :passing
+                }
+              }} =
                Results.complete_execution_result!(
                  build(
                    :result,
@@ -101,51 +102,14 @@ defmodule Wanda.ResultsTest do
                )
     end
 
-    test "should pass through an already completed execution" do
+    test "should return an error when trying to complete an already completed execution" do
       %ExecutionResult{
         execution_id: execution_id,
         group_id: group_id,
-        status: :completed,
-        payload: %Wanda.Execution.Result{
-          check_results: [
-            %Wanda.Execution.CheckResult{
-              agents_check_results: [_ | _],
-              check_id: check_id,
-              expectation_results: [_ | _],
-              result: specific_check_result
-            }
-          ],
-          result: result,
-          timeout: timeout
-        },
-        completed_at: completed_at,
-        started_at: started_at
+        status: :completed
       } = insert(:completed_execution_result)
 
-      result = Atom.to_string(result)
-      specific_check_result = Atom.to_string(specific_check_result)
-
-      assert %ExecutionResult{
-               execution_id: ^execution_id,
-               group_id: ^group_id,
-               status: :completed,
-               payload: %{
-                 "check_results" => [
-                   %{
-                     "agents_check_results" => [_ | _],
-                     "check_id" => ^check_id,
-                     "expectation_results" => [_ | _],
-                     "result" => ^specific_check_result
-                   }
-                 ],
-                 "execution_id" => ^execution_id,
-                 "group_id" => ^group_id,
-                 "result" => ^result,
-                 "timeout" => ^timeout
-               },
-               completed_at: ^completed_at,
-               started_at: ^started_at
-             } =
+      assert {:error, :already_completed} =
                Results.complete_execution_result!(
                  build(:result,
                    execution_id: execution_id,

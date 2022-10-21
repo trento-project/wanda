@@ -149,12 +149,16 @@ defmodule Wanda.Execution.Server do
     end
   end
 
-  defp store_and_publish_execution_result(%Result{} = result) do
-    Results.complete_execution_result!(result)
-
-    # What if the following breaks after we stored a completed execution?
-    execution_completed = Messaging.Mapper.to_execution_completed(result)
-    :ok = Messaging.publish("results", execution_completed)
+  defp store_and_publish_execution_result(%Result{execution_id: execution_id} = result) do
+    with {:ok, _} <- Results.complete_execution_result!(result),
+         execution_completed <- Messaging.Mapper.to_execution_completed(result) do
+      :ok = Messaging.publish("results", execution_completed)
+    else
+      {:error, :already_completed} ->
+        Logger.warn("Trying to complete an already completed execution #{execution_id}",
+          result: inspect(result)
+        )
+    end
   end
 
   defp via_tuple(execution_id),
