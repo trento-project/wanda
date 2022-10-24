@@ -3,9 +3,6 @@ defmodule Wanda.Messaging.Adapters.AMQP.Consumer do
   AMQP consumer.
   """
 
-  alias Trento.Contracts
-  alias Wanda.Policy
-
   @behaviour GenRMQ.Consumer
 
   require Logger
@@ -24,13 +21,10 @@ defmodule Wanda.Messaging.Adapters.AMQP.Consumer do
   def consumer_tag, do: "wanda"
 
   @impl GenRMQ.Consumer
-  def handle_message(%GenRMQ.Message{payload: payload} = message) do
-    with {:ok, event} <- Contracts.from_event(payload),
-         :ok <- Policy.handle_event(event) do
-      GenRMQ.Consumer.ack(message)
-    else
-      {:error, reason} ->
-        handle_error(message, reason)
+  def handle_message(%GenRMQ.Message{payload: _payload} = message) do
+    case processor().process(message) do
+      :ok -> GenRMQ.Consumer.ack(message)
+      {:error, reason} -> handle_error(message, reason)
     end
   end
 
@@ -50,4 +44,7 @@ defmodule Wanda.Messaging.Adapters.AMQP.Consumer do
       shutdown: 500
     }
   end
+
+  defp processor,
+    do: Application.fetch_env!(:wanda, Wanda.Messaging.Adapters.AMQP)[:processor]
 end
