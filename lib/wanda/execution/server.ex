@@ -120,6 +120,11 @@ defmodule Wanda.Execution.Server do
     {:stop, :normal, state}
   end
 
+  @impl true
+  def handle_call(:get_group_id, _from, %State{group_id: group_id} = state) do
+    {:reply, group_id, state}
+  end
+
   defp continue_or_complete_execution(
          %State{
            execution_id: execution_id,

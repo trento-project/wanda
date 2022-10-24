@@ -58,12 +58,14 @@ defmodule Wanda.Execution do
       end
     end)
     |> Enum.any?(fn name ->
-      %{group_id: g} =
+      group_id ==
         name
         |> :global.whereis_name()
-        |> :sys.get_state()
-
-      g == group_id
+        |> get_group_id()
     end)
+  end
+
+  defp get_group_id(name) do
+    GenServer.call(name, :get_group_id)
   end
 end
