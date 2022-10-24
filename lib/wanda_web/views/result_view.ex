@@ -24,6 +24,9 @@ defmodule WandaWeb.ResultView do
           started_at: started_at
         }
       }) do
+    # FIXME: this is just to keep tests passing as of now
+    # we will shortly refactor the API layer to properly consider the execution status running/compelted
+    # and the shaper it can have when in different statuses
     result
     |> Map.put("started_at", started_at)
     |> Map.put("execution_id", execution_id)
@@ -32,7 +35,6 @@ defmodule WandaWeb.ResultView do
     |> Map.put("timeout", extract_timeout(status, result))
   end
 
-  # not really
   defp extract_result(:running, _), do: :passing
   defp extract_result(:completed, %{result: result}), do: result
 

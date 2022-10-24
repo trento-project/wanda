@@ -150,52 +150,23 @@ defmodule Wanda.Factory do
     execution_id = Map.get(attrs, :execution_id, Faker.UUID.v4())
     group_id = Map.get(attrs, :group_id, Faker.UUID.v4())
 
-    execution = %ExecutionResult{
+    payload =
+      case status = Map.get(attrs, :status, :running) do
+        :running ->
+          %{}
+
+        :completed ->
+          Map.get(attrs, :payload, build(:result, execution_id: execution_id, group_id: group_id))
+      end
+
+    %ExecutionResult{
       execution_id: execution_id,
       group_id: group_id,
+      status: status,
+      payload: payload,
       targets: Map.get(attrs, :targets, []),
       started_at: Map.get(attrs, :started_at, DateTime.utc_now()),
       completed_at: Map.get(attrs, :completed_at, nil)
-    }
-
-    case Map.get(attrs, :status, :running) do
-      :running ->
-        make_running(execution)
-
-      :completed ->
-        make_completed(execution, Map.get(attrs, :payload))
-    end
-  end
-
-  def make_running(%ExecutionResult{} = execution) do
-    execution = %ExecutionResult{
-      execution
-      | status: :running
-    }
-
-    with_payload(execution, %{})
-  end
-
-  def make_completed(
-        %ExecutionResult{execution_id: execution_id, group_id: group_id} = execution,
-        attrs \\ []
-      ) do
-    execution = %ExecutionResult{
-      execution
-      | status: :completed,
-        completed_at: Keyword.get(attrs, :completed_at, DateTime.utc_now())
-    }
-
-    with_payload(
-      execution,
-      Keyword.get(attrs, :payload, build(:result, execution_id: execution_id, group_id: group_id))
-    )
-  end
-
-  def with_payload(%ExecutionResult{} = execution, payload) do
-    %ExecutionResult{
-      execution
-      | payload: payload
     }
   end
 
