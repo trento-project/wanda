@@ -78,9 +78,7 @@ defmodule Wanda.ResultsTest do
     test "should correctly complete a running execution" do
       %ExecutionResult{
         execution_id: execution_id,
-        group_id: group_id,
-        status: :running,
-        payload: %{}
+        group_id: group_id
       } =
         build(:execution_result)
         |> make_running()
@@ -108,8 +106,7 @@ defmodule Wanda.ResultsTest do
     test "should return an error when trying to complete an already completed execution" do
       %ExecutionResult{
         execution_id: execution_id,
-        group_id: group_id,
-        status: :completed
+        group_id: group_id
       } =
         build(:execution_result)
         |> make_completed()
