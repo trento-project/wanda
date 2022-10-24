@@ -93,7 +93,7 @@ defmodule Wanda.ResultsTest do
                   result: :passing
                 }
               }} =
-               Results.complete_execution_result!(
+               Results.complete_execution_result(
                  build(
                    :result,
                    execution_id: execution_id,
@@ -113,7 +113,20 @@ defmodule Wanda.ResultsTest do
         |> insert()
 
       assert {:error, :already_completed} =
-               Results.complete_execution_result!(
+               Results.complete_execution_result(
+                 build(:result,
+                   execution_id: execution_id,
+                   group_id: group_id
+                 )
+               )
+    end
+
+    test "should return an error when trying to complete a non existent execution" do
+      execution_id = Faker.UUID.v4()
+      group_id = Faker.UUID.v4()
+
+      assert {:error, :execution_not_available} =
+               Results.complete_execution_result(
                  build(:result,
                    execution_id: execution_id,
                    group_id: group_id
