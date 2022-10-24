@@ -91,6 +91,16 @@ defmodule Wanda.Execution.Server do
   end
 
   @impl true
+  def handle_cast(
+        {:receive_facts, execution_id, _, _},
+        %State{group_id: group_id} = state
+      ) do
+    Logger.error("Execution #{execution_id} does not match for group #{group_id}")
+
+    {:noreply, state}
+  end
+
+  @impl true
   def handle_info(
         :timeout,
         %State{
