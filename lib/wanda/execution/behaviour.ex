@@ -22,6 +22,7 @@ defmodule Wanda.Execution.Behaviour do
 
   @callback receive_facts(
               execution_id :: String.t(),
+              group_id :: String.t(),
               agent_id :: String.t(),
               facts :: [Fact.t() | FactError.t()]
             ) ::

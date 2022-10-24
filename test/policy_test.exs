@@ -48,9 +48,11 @@ defmodule Wanda.PolicyTest do
 
   test "should handle a FactsGathered event" do
     execution_id = UUID.uuid4()
+    group_id = UUID.uuid4()
     agent_id = UUID.uuid4()
 
     expect(Wanda.Execution.Mock, :receive_facts, fn ^execution_id,
+                                                    ^group_id,
                                                     ^agent_id,
                                                     [
                                                       %Fact{
@@ -65,6 +67,7 @@ defmodule Wanda.PolicyTest do
     assert :ok =
              %{
                execution_id: execution_id,
+               group_id: group_id,
                agent_id: agent_id,
                facts_gathered: [
                  %{

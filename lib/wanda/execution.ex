@@ -22,50 +22,29 @@ defmodule Wanda.Execution do
   end
 
   @impl true
-  defdelegate receive_facts(execution_id, agent_id, facts), to: Server
+  defdelegate receive_facts(execution_id, group_id, agent_id, facts), to: Server
 
   defp maybe_start_execution(_, _, _, [], _, _), do: {:error, :no_checks_selected}
 
   defp maybe_start_execution(execution_id, group_id, targets, checks, env, config) do
-    with false <- execution_for_group_id_already_running(group_id),
-         {:ok, _} <-
-           DynamicSupervisor.start_child(
-             Supervisor,
-             {Server,
-              execution_id: execution_id,
-              group_id: group_id,
-              targets: targets,
-              checks: checks,
-              env: env,
-              config: config}
-           ) do
-      :ok
-    else
-      true ->
+    case DynamicSupervisor.start_child(
+           Supervisor,
+           {Server,
+            execution_id: execution_id,
+            group_id: group_id,
+            targets: targets,
+            checks: checks,
+            env: env,
+            config: config}
+         ) do
+      {:ok, _} ->
+        :ok
+
+      {:error, {:already_started, _}} ->
         {:error, :group_already_running}
 
       {:error, _} = error ->
         error
     end
-  end
-
-  defp execution_for_group_id_already_running(group_id) do
-    :global.registered_names()
-    |> Enum.flat_map(fn entry ->
-      case entry do
-        {Server, execution_id} -> [{Server, execution_id}]
-        _ -> []
-      end
-    end)
-    |> Enum.any?(fn name ->
-      group_id ==
-        name
-        |> :global.whereis_name()
-        |> get_group_id()
-    end)
-  end
-
-  defp get_group_id(name) do
-    GenServer.call(name, :get_group_id)
   end
 end

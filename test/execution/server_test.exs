@@ -8,7 +8,7 @@ defmodule Wanda.Execution.ServerTest do
   alias Trento.Checks.V1.FactsGatheringRequested
   alias Wanda.Catalog
 
-  alias Wanda.Execution.{Server, State}
+  alias Wanda.Execution.Server
   alias Wanda.Results.ExecutionResult
 
   setup [:set_mox_from_context, :verify_on_exit!]
@@ -52,7 +52,7 @@ defmodule Wanda.Execution.ServerTest do
                   ]}
                )
 
-      assert pid == :global.whereis_name({Server, execution_id})
+      assert pid == :global.whereis_name({Server, group_id})
     end
   end
 
@@ -122,6 +122,7 @@ defmodule Wanda.Execution.ServerTest do
       Enum.each(targets, fn target ->
         Server.receive_facts(
           execution_id,
+          group_id,
           target.agent_id,
           build_list(1, :fact, check_id: context[:check].id)
         )
@@ -216,13 +217,6 @@ defmodule Wanda.Execution.ServerTest do
              } = Repo.one!(ExecutionResult)
 
       assert timedout_targets == Enum.map(targets, & &1.agent_id)
-    end
-
-    test "should return group_id" do
-      group_id = UUID.uuid4()
-
-      assert {:reply, ^group_id, _} =
-               Server.handle_call(:get_group_id, "", %State{group_id: group_id})
     end
   end
 end

@@ -24,25 +24,25 @@ defmodule Wanda.Execution.Server do
   @default_timeout 5 * 60 * 1_000
 
   def start_link(opts) do
-    execution_id = Keyword.fetch!(opts, :execution_id)
+    group_id = Keyword.fetch!(opts, :group_id)
     config = Keyword.get(opts, :config, [])
 
     GenServer.start_link(
       __MODULE__,
       %State{
-        execution_id: execution_id,
-        group_id: Keyword.fetch!(opts, :group_id),
+        execution_id: Keyword.fetch!(opts, :execution_id),
+        group_id: group_id,
         targets: Keyword.fetch!(opts, :targets),
         checks: Keyword.fetch!(opts, :checks),
         env: Keyword.fetch!(opts, :env),
         timeout: Keyword.get(config, :timeout, @default_timeout)
       },
-      name: via_tuple(execution_id)
+      name: via_tuple(group_id)
     )
   end
 
-  def receive_facts(execution_id, agent_id, facts),
-    do: execution_id |> via_tuple() |> GenServer.cast({:receive_facts, agent_id, facts})
+  def receive_facts(execution_id, group_id, agent_id, facts),
+    do: group_id |> via_tuple() |> GenServer.cast({:receive_facts, execution_id, agent_id, facts})
 
   @impl true
   def init(%State{execution_id: execution_id} = state) do
@@ -76,8 +76,8 @@ defmodule Wanda.Execution.Server do
 
   @impl true
   def handle_cast(
-        {:receive_facts, agent_id, facts},
-        %State{targets: targets} = state
+        {:receive_facts, execution_id, agent_id, facts},
+        %State{execution_id: execution_id, targets: targets} = state
       ) do
     if Gathering.target?(targets, agent_id) do
       continue_or_complete_execution(state, agent_id, facts)
@@ -120,11 +120,6 @@ defmodule Wanda.Execution.Server do
     {:stop, :normal, state}
   end
 
-  @impl true
-  def handle_call(:get_group_id, _from, %State{group_id: group_id} = state) do
-    {:reply, group_id, state}
-  end
-
   defp continue_or_complete_execution(
          %State{
            execution_id: execution_id,
@@ -161,6 +156,6 @@ defmodule Wanda.Execution.Server do
     :ok = Messaging.publish("results", execution_completed)
   end
 
-  defp via_tuple(execution_id),
-    do: {:via, :global, {__MODULE__, execution_id}}
+  defp via_tuple(group_id),
+    do: {:via, :global, {__MODULE__, group_id}}
 end
