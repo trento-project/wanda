@@ -27,7 +27,7 @@ defmodule Wanda.Messaging.Adapters.AMQP.ConsumerTest do
   end
 
   describe "handle_error/1" do
-    test "should reject unknown events and move them to the dead letter queue" do
+    test "should reject unknown messages and move them to the dead letter queue" do
       pid = self()
 
       expect(GenRMQ.Processor.Mock, :process, fn _ ->
