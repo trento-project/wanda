@@ -3,11 +3,6 @@ defmodule Wanda.Messaging.Adapters.AMQP.ConsumerTest do
 
   import Mox
 
-  alias Trento.Checks.V1.{
-    ExecutionRequested,
-    FactsGathered
-  }
-
   alias Wanda.Messaging.Adapters.AMQP.Publisher
 
   setup [:set_mox_from_context, :verify_on_exit!]
@@ -15,62 +10,33 @@ defmodule Wanda.Messaging.Adapters.AMQP.ConsumerTest do
   @moduletag :integration
 
   describe "handle_message/1" do
-    test "should consume ExecutionRequested" do
+    test "should consume any incoming message" do
       pid = self()
+      message = Faker.StarWars.quote()
 
-      expect(Wanda.Execution.Mock, :start_execution, fn _, _, _, _ ->
+      expect(GenRMQ.Processor.Mock, :process, fn %{payload: payload} ->
+        assert ^message = payload
         send(pid, :consumed)
         :ok
       end)
 
-      assert :ok =
-               %{
-                 execution_id: UUID.uuid4(),
-                 group_id: UUID.uuid4(),
-                 targets: [%{agent_id: UUID.uuid4(), checks: ["check_id"]}],
-                 env: %{
-                   "key" => %{kind: {:string_value, "value"}},
-                   "other_key" => %{kind: {:string_value, "other_value"}}
-                 }
-               }
-               |> ExecutionRequested.new!()
-               |> Trento.Contracts.to_event()
-               |> Publisher.publish_message("executions")
-
-      assert_receive :consumed, 1_000
-    end
-
-    test "should consume FactsGathered" do
-      pid = self()
-
-      expect(Wanda.Execution.Mock, :receive_facts, fn _, _, _ ->
-        send(pid, :consumed)
-        :ok
-      end)
-
-      assert :ok =
-               %{
-                 execution_id: UUID.uuid4(),
-                 agent_id: UUID.uuid4(),
-                 facts_gathered: [
-                   %{
-                     check_id: "check_id",
-                     name: "name",
-                     fact_value: {:value, %{kind: {:string_value, "value"}}}
-                   }
-                 ]
-               }
-               |> FactsGathered.new!()
-               |> Trento.Contracts.to_event()
-               |> Publisher.publish_message("executions")
+      assert :ok = Publisher.publish_message(message, "executions")
 
       assert_receive :consumed, 1_000
     end
   end
 
   describe "handle_error/1" do
-    test "should reject unknown events and move them to the dead letter queue" do
+    test "should reject unknown messages and move them to the dead letter queue" do
+      pid = self()
+
+      expect(GenRMQ.Processor.Mock, :process, fn _ ->
+        send(pid, :consumed)
+        {:error, "invalid payload"}
+      end)
+
       config = Application.fetch_env!(:wanda, Wanda.Messaging.Adapters.AMQP)[:consumer]
+
       connection = Keyword.get(config, :connection)
       routing_key = Keyword.get(config, :routing_key)
       deadletter_queue = Keyword.get(config, :queue) <> "_error"
@@ -84,6 +50,8 @@ defmodule Wanda.Messaging.Adapters.AMQP.ConsumerTest do
       assert_receive {:basic_deliver, "bad_payload", _}
 
       :ok = AMQP.Channel.close(chan)
+
+      assert_receive :consumed, 1_000
     end
   end
 end

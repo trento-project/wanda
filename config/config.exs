@@ -18,7 +18,8 @@ config :wanda, Wanda.Messaging.Adapters.AMQP,
   publisher: [
     exchange: "trento.checks",
     connection: "amqp://wanda:wanda@localhost:5672"
-  ]
+  ],
+  processor: Wanda.Messaging.Adapters.AMQP.Processor
 
 config :wanda, Wanda.Catalog, catalog_path: "priv/catalog"
 
