@@ -21,7 +21,7 @@ defmodule Wanda.Messaging.Adapters.AMQP.Consumer do
   def consumer_tag, do: "wanda"
 
   @impl GenRMQ.Consumer
-  def handle_message(%GenRMQ.Message{payload: _payload} = message) do
+  def handle_message(%GenRMQ.Message{} = message) do
     case processor().process(message) do
       :ok -> GenRMQ.Consumer.ack(message)
       {:error, reason} -> handle_error(message, reason)
