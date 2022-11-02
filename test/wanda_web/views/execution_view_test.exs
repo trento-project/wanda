@@ -14,7 +14,7 @@ defmodule WandaWeb.ListExecutionsViewTest do
         %Execution{execution_id: execution_id_1, group_id: group_id_1},
         %Execution{execution_id: execution_id_2, group_id: group_id_2}
       ] =
-        execution_results =
+        executions =
         Enum.map(1..2, fn _ ->
           :execution
           |> build(started_at: started_at)
@@ -24,20 +24,20 @@ defmodule WandaWeb.ListExecutionsViewTest do
       assert %{
                items: [
                  %{
-                   "execution_id" => ^execution_id_1,
-                   "group_id" => ^group_id_1,
-                   "started_at" => ^started_at
+                   execution_id: ^execution_id_1,
+                   group_id: ^group_id_1,
+                   started_at: ^started_at
                  },
                  %{
-                   "execution_id" => ^execution_id_2,
-                   "group_id" => ^group_id_2,
-                   "started_at" => ^started_at
+                   execution_id: ^execution_id_2,
+                   group_id: ^group_id_2,
+                   started_at: ^started_at
                  }
                ],
                total_count: 10
              } =
                render(WandaWeb.ExecutionView, "index.json",
-                 results: execution_results,
+                 executions: executions,
                  total_count: 10
                )
     end
@@ -52,10 +52,10 @@ defmodule WandaWeb.ListExecutionsViewTest do
         |> insert(returning: true)
 
       assert %{
-               "execution_id" => ^execution_id,
-               "group_id" => ^group_id,
-               "started_at" => ^started_at
-             } = render(WandaWeb.ExecutionView, "show.json", result: execution)
+               execution_id: ^execution_id,
+               group_id: ^group_id,
+               started_at: ^started_at
+             } = render(WandaWeb.ExecutionView, "show.json", execution: execution)
     end
   end
 end

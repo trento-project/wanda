@@ -4,15 +4,15 @@ defmodule WandaWeb.ExecutionView do
   alias Wanda.Executions.Execution
   alias WandaWeb.ExecutionView
 
-  def render("index.json", %{results: results, total_count: total_count}) do
+  def render("index.json", %{executions: executions, total_count: total_count}) do
     %{
-      items: render_many(results, ExecutionView, "execution.json"),
+      items: render_many(executions, ExecutionView, "execution.json"),
       total_count: total_count
     }
   end
 
-  def render("show.json", %{result: result}) do
-    render_one(result, ExecutionView, "execution.json")
+  def render("show.json", %{execution: execution}) do
+    render_one(execution, ExecutionView, "execution.json")
   end
 
   def render("execution.json", %{
@@ -25,40 +25,24 @@ defmodule WandaWeb.ExecutionView do
           completed_at: completed_at
         }
       }) do
-    result
-    |> Map.put("check_results", extract_checks_results(status, result))
-    |> Map.put("status", status)
-    |> Map.put("started_at", started_at)
-    |> Map.put("completed_at", completed_at)
-    |> Map.put("execution_id", execution_id)
-    |> Map.put("group_id", group_id)
-    |> Map.put("result", extract_result(status, result))
-    |> Map.put("timeout", extract_timeout(status, result))
+    %{
+      check_results: extract_checks_results(status, result),
+      status: status,
+      started_at: started_at,
+      completed_at: completed_at,
+      execution_id: execution_id,
+      group_id: group_id,
+      result: extract_result(status, result),
+      timeout: extract_timeout(status, result)
+    }
   end
 
   defp extract_result(:running, _), do: :unknown
-
-  defp extract_result(:completed, %{result: result} = execution) when is_struct(execution),
-    do: result
-
-  defp extract_result(:completed, %{"result" => result} = execution) when is_map(execution),
-    do: result
+  defp extract_result(:completed, %{"result" => result}), do: result
 
   defp extract_timeout(:running, _), do: []
-
-  defp extract_timeout(:completed, %{timeout: timeout} = execution) when is_struct(execution),
-    do: timeout
-
-  defp extract_timeout(:completed, %{"timeout" => timeout} = execution) when is_map(execution),
-    do: timeout
+  defp extract_timeout(:completed, %{"timeout" => timeout}), do: timeout
 
   defp extract_checks_results(:running, _), do: []
-
-  defp extract_checks_results(:completed, %{check_results: check_results} = execution)
-       when is_struct(execution),
-       do: check_results
-
-  defp extract_checks_results(:completed, %{"check_results" => check_results} = execution)
-       when is_map(execution),
-       do: check_results
+  defp extract_checks_results(:completed, %{"check_results" => check_results}), do: check_results
 end
