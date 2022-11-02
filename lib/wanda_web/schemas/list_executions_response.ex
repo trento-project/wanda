@@ -1,5 +1,7 @@
 defmodule WandaWeb.Schemas.ListExecutionsResponse do
-  @moduledoc nil
+  @moduledoc """
+  Execution list response API spec
+  """
 
   require OpenApiSpex
 
@@ -9,11 +11,11 @@ defmodule WandaWeb.Schemas.ListExecutionsResponse do
 
   OpenApiSpex.schema(%{
     title: "ListExecutionsResponse",
-    description: "The paginated list of results",
+    description: "The paginated list of executions",
     type: :object,
     properties: %{
       items: %Schema{type: :array, items: ExecutionResponse},
-      total_count: %Schema{type: :integer, description: "Total count of results"}
+      total_count: %Schema{type: :integer, description: "Total count of executions"}
     }
   })
 end
