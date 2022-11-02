@@ -9,7 +9,7 @@ defmodule Wanda.Results.ExecutionResult do
 
   @type t :: %__MODULE__{}
 
-  @fields ~w(execution_id group_id payload status)a
+  @fields ~w(execution_id group_id payload status started_at completed_at)a
   @target_fields ~w(agent_id checks)a
 
   @derive {Jason.Encoder, [except: [:__meta__]]}
