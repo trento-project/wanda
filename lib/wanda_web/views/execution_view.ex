@@ -16,7 +16,7 @@ defmodule WandaWeb.ExecutionView do
   end
 
   def render("execution.json", %{
-        execution: %ExecutionResult{
+        execution: %Execution{
           execution_id: execution_id,
           group_id: group_id,
           status: status,

@@ -4,6 +4,7 @@ defmodule WandaWeb.ExecutionController do
 
   alias OpenApiSpex.Schema
 
+  alias Wanda.Executions
   alias WandaWeb.Schemas.{ExecutionResponse, ListExecutionsResponse}
 
   plug OpenApiSpex.Plug.CastAndValidate, json_render_error_v2: true
