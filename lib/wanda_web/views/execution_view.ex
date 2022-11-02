@@ -21,21 +21,22 @@ defmodule WandaWeb.ExecutionView do
           group_id: group_id,
           status: status,
           payload: result,
-          started_at: started_at
+          started_at: started_at,
+          completed_at: completed_at
         }
       }) do
-    # FIXME: this is just to keep tests passing as of now
-    # we will shortly refactor the API layer to properly consider the execution status running/compelted
-    # and the shaper it can have when in different statuses
     result
+    |> Map.put("check_results", extract_checks_results(status, result))
+    |> Map.put("status", status)
     |> Map.put("started_at", started_at)
+    |> Map.put("completed_at", completed_at)
     |> Map.put("execution_id", execution_id)
     |> Map.put("group_id", group_id)
     |> Map.put("result", extract_result(status, result))
     |> Map.put("timeout", extract_timeout(status, result))
   end
 
-  defp extract_result(:running, _), do: :passing
+  defp extract_result(:running, _), do: :unknown
 
   defp extract_result(:completed, %{result: result} = execution) when is_struct(execution),
     do: result
@@ -50,4 +51,14 @@ defmodule WandaWeb.ExecutionView do
 
   defp extract_timeout(:completed, %{"timeout" => timeout} = execution) when is_map(execution),
     do: timeout
+
+  defp extract_checks_results(:running, _), do: []
+
+  defp extract_checks_results(:completed, %{check_results: check_results} = execution)
+       when is_struct(execution),
+       do: check_results
+
+  defp extract_checks_results(:completed, %{"check_results" => check_results} = execution)
+       when is_map(execution),
+       do: check_results
 end
