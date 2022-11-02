@@ -1,4 +1,4 @@
-defmodule WandaWeb.ResultControllerTest do
+defmodule WandaWeb.ExecutionControllerTest do
   use WandaWeb.ConnCase, async: true
 
   import OpenApiSpex.TestAssertions
@@ -12,7 +12,7 @@ defmodule WandaWeb.ResultControllerTest do
 
       json =
         conn
-        |> get("/api/checks/results")
+        |> get("/api/checks/executions")
         |> json_response(200)
 
       api_spec = ApiSpec.spec()
@@ -20,7 +20,7 @@ defmodule WandaWeb.ResultControllerTest do
     end
 
     test "should return a 422 status code if an invalid paramaters is passed", %{conn: conn} do
-      conn = get(conn, "/api/checks/results?limit=invalid")
+      conn = get(conn, "/api/checks/executions?limit=invalid")
 
       assert 422 == conn.status
     end
@@ -32,7 +32,7 @@ defmodule WandaWeb.ResultControllerTest do
 
       json =
         conn
-        |> get("/api/checks/results/#{execution_id}")
+        |> get("/api/checks/executions/#{execution_id}")
         |> json_response(200)
 
       api_spec = ApiSpec.spec()
@@ -41,7 +41,7 @@ defmodule WandaWeb.ResultControllerTest do
 
     test "should return a 404", %{conn: conn} do
       assert_error_sent 404, fn ->
-        get(conn, "/api/checks/results/#{UUID.uuid4()}")
+        get(conn, "/api/checks/executions/#{UUID.uuid4()}")
       end
     end
   end
