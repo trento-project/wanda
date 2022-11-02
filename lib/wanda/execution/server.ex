@@ -150,15 +150,10 @@ defmodule Wanda.Execution.Server do
   end
 
   defp store_and_publish_execution_result(%Result{execution_id: execution_id} = result) do
-    with {:ok, _} <- Results.complete_execution_result(result),
-         execution_completed <- Messaging.Mapper.to_execution_completed(result) do
-      :ok = Messaging.publish("results", execution_completed)
-    else
-      {:error, reason} ->
-        Logger.warn("Unable to complete execution #{execution_id}. Reason #{reason}",
-          result: inspect(result)
-        )
-    end
+    Results.complete_execution_result!(execution_id, result)
+
+    execution_completed = Messaging.Mapper.to_execution_completed(result)
+    :ok = Messaging.publish("results", execution_completed)
   end
 
   defp via_tuple(execution_id),

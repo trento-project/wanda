@@ -75,55 +75,27 @@ defmodule Wanda.ResultsTest do
   end
 
   describe "Completing an Execution" do
-    test "should correctly complete a running execution" do
+    test "should complete a running execution" do
       %ExecutionResult{
         execution_id: execution_id,
         group_id: group_id
       } = insert(:execution_result, status: :running)
 
-      assert {:ok,
-              %ExecutionResult{
-                execution_id: ^execution_id,
-                group_id: ^group_id,
-                status: :completed,
-                payload: %{
-                  result: :passing
-                }
-              }} =
-               Results.complete_execution_result(
+      assert %ExecutionResult{
+               execution_id: ^execution_id,
+               group_id: ^group_id,
+               status: :completed,
+               payload: %{
+                 result: :passing
+               }
+             } =
+               Results.complete_execution_result!(
+                 execution_id,
                  build(
                    :result,
                    execution_id: execution_id,
                    group_id: group_id,
                    result: :passing
-                 )
-               )
-    end
-
-    test "should return an error when trying to complete an already completed execution" do
-      %ExecutionResult{
-        execution_id: execution_id,
-        group_id: group_id
-      } = insert(:execution_result, status: :completed)
-
-      assert {:error, :already_completed} =
-               Results.complete_execution_result(
-                 build(:result,
-                   execution_id: execution_id,
-                   group_id: group_id
-                 )
-               )
-    end
-
-    test "should return an error when trying to complete a non existent execution" do
-      execution_id = Faker.UUID.v4()
-      group_id = Faker.UUID.v4()
-
-      assert {:error, :execution_not_available} =
-               Results.complete_execution_result(
-                 build(:result,
-                   execution_id: execution_id,
-                   group_id: group_id
                  )
                )
     end
