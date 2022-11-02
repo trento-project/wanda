@@ -1,4 +1,4 @@
-defmodule WandaWeb.ResultController do
+defmodule WandaWeb.ExecutionController do
   use WandaWeb, :controller
   use OpenApiSpex.ControllerSpecs
 
