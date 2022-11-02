@@ -1,6 +1,6 @@
 defmodule Wanda.Executions do
   @moduledoc """
-  This module exposes functionalities to interact with the historycal log of ExecutionResults.
+  This module exposes functionalities to interact with the historycal log of executions.
   """
 
   alias Wanda.Repo
@@ -16,8 +16,8 @@ defmodule Wanda.Executions do
   @doc """
   Create a new execution.
   """
-  @spec create_execution_result!(String.t(), String.t(), [Target.t()]) :: Execution.t()
-  def create_execution_result!(execution_id, group_id, targets) do
+  @spec create_execution!(String.t(), String.t(), [Target.t()]) :: Execution.t()
+  def create_execution!(execution_id, group_id, targets) do
     %Execution{}
     |> Execution.changeset(%{
       execution_id: execution_id,
@@ -37,12 +37,12 @@ defmodule Wanda.Executions do
   end
 
   @doc """
-  Get a paginated list of results.
+  Get a paginated list of executions.
 
   Can be filtered by group_id.
   """
-  @spec list_execution_results(map()) :: [Execution.t()]
-  def list_execution_results(params \\ %{}) do
+  @spec list_executions(map()) :: [Execution.t()]
+  def list_executions(params \\ %{}) do
     page = Map.get(params, :page, 1)
     items_per_page = Map.get(params, :items_per_page, 10)
     group_id = Map.get(params, :group_id)
@@ -57,10 +57,10 @@ defmodule Wanda.Executions do
   end
 
   @doc """
-  Counts execution results in the database.
+  Counts executions in the database.
   """
-  @spec count_execution_results(map()) :: non_neg_integer()
-  def count_execution_results(params) do
+  @spec count_executions(map()) :: non_neg_integer()
+  def count_executions(params) do
     group_id = Map.get(params, :group_id)
 
     from(e in Execution)
@@ -72,9 +72,9 @@ defmodule Wanda.Executions do
   @doc """
   Marks a previously started execution as completed
   """
-  @spec complete_execution_result!(String.t(), Result.t()) ::
+  @spec complete_executions!(String.t(), Result.t()) ::
           Execution.t()
-  def complete_execution_result!(execution_id, %Result{} = result) do
+  def complete_executions!(execution_id, %Result{} = result) do
     Execution
     |> Repo.get!(execution_id)
     |> Execution.changeset(%{
