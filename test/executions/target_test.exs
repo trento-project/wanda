@@ -1,9 +1,9 @@
-defmodule Wanda.Execution.TargetTest do
+defmodule Wanda.Executions.TargetTest do
   use ExUnit.Case
 
   import Wanda.Factory
 
-  alias Wanda.Execution.Target
+  alias Wanda.Executions.Target
 
   describe "target" do
     test "should return checks properly when the targets have the same checks" do

@@ -1,9 +1,9 @@
-defmodule Wanda.Execution.GatheringTest do
+defmodule Wanda.Executions.GatheringTest do
   use ExUnit.Case
 
   import Wanda.Factory
 
-  alias Wanda.Execution.{
+  alias Wanda.Executions.{
     Fact,
     FactError,
     Gathering,

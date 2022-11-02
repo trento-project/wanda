@@ -8,7 +8,7 @@ defmodule WandaWeb.ResultControllerTest do
 
   describe "list results" do
     test "should return a list of results", %{conn: conn} do
-      insert_list(5, :execution_result)
+      insert_list(5, :execution)
 
       json =
         conn
@@ -28,7 +28,7 @@ defmodule WandaWeb.ResultControllerTest do
 
   describe "get result" do
     test "should return a result", %{conn: conn} do
-      %{execution_id: execution_id} = insert(:execution_result)
+      %{execution_id: execution_id} = insert(:execution)
 
       json =
         conn

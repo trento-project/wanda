@@ -4,19 +4,19 @@ defmodule WandaWeb.ListResultsViewTest do
   import Phoenix.View
   import Wanda.Factory
 
-  alias Wanda.Results.ExecutionResult
+  alias Wanda.Executions.Execution
 
   describe "ResultView" do
     test "renders index.json" do
       started_at = DateTime.utc_now()
 
       [
-        %ExecutionResult{execution_id: execution_id_1, group_id: group_id_1},
-        %ExecutionResult{execution_id: execution_id_2, group_id: group_id_2}
+        %Execution{execution_id: execution_id_1, group_id: group_id_1},
+        %Execution{execution_id: execution_id_2, group_id: group_id_2}
       ] =
         execution_results =
         Enum.map(1..2, fn _ ->
-          :execution_result
+          :execution
           |> build(started_at: started_at)
           |> insert(returning: true)
         end)
@@ -45,9 +45,9 @@ defmodule WandaWeb.ListResultsViewTest do
     test "renders show.json" do
       started_at = DateTime.utc_now()
 
-      %ExecutionResult{execution_id: execution_id, group_id: group_id} =
-        execution_result =
-        :execution_result
+      %Execution{execution_id: execution_id, group_id: group_id} =
+        execution =
+        :execution
         |> build(started_at: started_at)
         |> insert(returning: true)
 
@@ -55,7 +55,7 @@ defmodule WandaWeb.ListResultsViewTest do
                "execution_id" => ^execution_id,
                "group_id" => ^group_id,
                "started_at" => ^started_at
-             } = render(WandaWeb.ResultView, "show.json", result: execution_result)
+             } = render(WandaWeb.ResultView, "show.json", result: execution)
     end
   end
 end

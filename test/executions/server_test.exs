@@ -1,4 +1,4 @@
-defmodule Wanda.Execution.ServerTest do
+defmodule Wanda.Executions.ServerTest do
   use Wanda.Support.MessagingCase, async: false
   use Wanda.DataCase
 
@@ -8,8 +8,7 @@ defmodule Wanda.Execution.ServerTest do
   alias Trento.Checks.V1.FactsGatheringRequested
   alias Wanda.Catalog
 
-  alias Wanda.Execution.{Server, State}
-  alias Wanda.Results.ExecutionResult
+  alias Wanda.Executions.{Execution, Server, State}
 
   setup [:set_mox_from_context, :verify_on_exit!]
 
@@ -83,8 +82,31 @@ defmodule Wanda.Execution.ServerTest do
 
       assert_receive :wandalorian
 
-      assert %ExecutionResult{execution_id: ^execution_id, status: :running} =
-               Repo.one!(ExecutionResult)
+      assert %Execution{execution_id: ^execution_id, status: :running} = Repo.one!(Execution)
+    end
+
+    test "should not start an execution if an execution for that specific group_id is running" do
+      group_id = UUID.uuid4()
+      targets = build_list(2, :target, checks: ["expect_check"])
+
+      expect(Wanda.Messaging.Adapters.Mock, :publish, 0, fn _, _ ->
+        :ok
+      end)
+
+      assert {:ok, _} =
+               start_supervised(
+                 {Execution.Server,
+                  [
+                    execution_id: UUID.uuid4(),
+                    group_id: group_id,
+                    targets: targets,
+                    checks: build_list(10, :check),
+                    env: %{}
+                  ]}
+               )
+
+      assert {:error, :already_running} =
+               Execution.start_execution(UUID.uuid4(), group_id, targets, %{})
     end
 
     test "should exit when all facts are sent by all agents", context do
@@ -131,8 +153,7 @@ defmodule Wanda.Execution.ServerTest do
       assert_receive :executed
       assert_receive {:DOWN, ^ref, _, ^pid, :normal}
 
-      assert %ExecutionResult{execution_id: ^execution_id, status: :completed} =
-               Repo.one!(ExecutionResult)
+      assert %Execution{execution_id: ^execution_id, status: :completed} = Repo.one!(Execution)
     end
 
     test "should timeout", context do
@@ -172,11 +193,11 @@ defmodule Wanda.Execution.ServerTest do
 
       assert_receive {:DOWN, ^ref, _, ^pid, :normal}
 
-      assert %ExecutionResult{
+      assert %Execution{
                execution_id: ^execution_id,
                group_id: ^group_id,
                status: :completed
-             } = Repo.one!(ExecutionResult)
+             } = Repo.one!(Execution)
     end
 
     test "should go down when the timeout function gets called", context do
@@ -207,14 +228,14 @@ defmodule Wanda.Execution.ServerTest do
 
       assert_receive {:DOWN, ^ref, _, ^pid, :normal}
 
-      assert %ExecutionResult{
+      assert %Execution{
                execution_id: ^execution_id,
                group_id: ^group_id,
                status: :completed,
-               payload: %{
+               result: %{
                  "timeout" => timedout_targets
                }
-             } = Repo.one!(ExecutionResult)
+             } = Repo.one!(Execution)
 
       assert timedout_targets == Enum.map(targets, & &1.agent_id)
     end
@@ -232,6 +253,15 @@ defmodule Wanda.Execution.ServerTest do
                  {:receive_facts, UUID.uuid4(), UUID.uuid4(), []},
                  state
                )
+    end
+  end
+
+  describe "execution" do
+    test "should skip execution if no checks are selected" do
+      targets = build_list(2, :target, checks: [])
+
+      assert {:error, :no_checks_selected} =
+               Server.start_execution(UUID.uuid4(), UUID.uuid4(), targets, %{})
     end
   end
 end

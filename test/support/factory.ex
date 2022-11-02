@@ -5,7 +5,7 @@ defmodule Wanda.Factory do
 
   alias Wanda.Catalog
 
-  alias Wanda.Execution.{
+  alias Wanda.Executions.{
     AgentCheckResult,
     CheckResult,
     ExpectationEvaluation,
@@ -17,7 +17,7 @@ defmodule Wanda.Factory do
     Target
   }
 
-  alias Wanda.Results.ExecutionResult
+  alias Wanda.Executions.Execution
 
   def check_factory(attrs) do
     %Catalog.Check{
@@ -146,8 +146,8 @@ defmodule Wanda.Factory do
     }
   end
 
-  def execution_result_factory do
-    %ExecutionResult{
+  def execution_factory do
+    %Execution{
       execution_id: Faker.UUID.v4(),
       group_id: Faker.UUID.v4(),
       status: :running,
@@ -157,12 +157,12 @@ defmodule Wanda.Factory do
   end
 
   def with_completed_status(
-        %ExecutionResult{execution_id: execution_id, group_id: group_id} = execution_result
+        %Execution{execution_id: execution_id, group_id: group_id} = execution
       ) do
-    %ExecutionResult{
-      execution_result
+    %Execution{
+      execution
       | status: :completed,
-        payload: build(:result, execution_id: execution_id, group_id: group_id),
+        result: build(:result, execution_id: execution_id, group_id: group_id),
         completed_at: DateTime.utc_now()
     }
   end
