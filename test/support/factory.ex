@@ -146,27 +146,24 @@ defmodule Wanda.Factory do
     }
   end
 
-  def execution_result_factory(attrs) do
-    execution_id = Map.get(attrs, :execution_id, Faker.UUID.v4())
-    group_id = Map.get(attrs, :group_id, Faker.UUID.v4())
-
-    payload =
-      case status = Map.get(attrs, :status, :running) do
-        :running ->
-          %{}
-
-        :completed ->
-          Map.get(attrs, :payload, build(:result, execution_id: execution_id, group_id: group_id))
-      end
-
+  def execution_result_factory do
     %ExecutionResult{
-      execution_id: execution_id,
-      group_id: group_id,
-      status: status,
-      payload: payload,
-      targets: Map.get(attrs, :targets, []),
-      started_at: Map.get(attrs, :started_at, DateTime.utc_now()),
-      completed_at: Map.get(attrs, :completed_at, nil)
+      execution_id: Faker.UUID.v4(),
+      group_id: Faker.UUID.v4(),
+      status: :running,
+      targets: [],
+      started_at: DateTime.utc_now()
+    }
+  end
+
+  def with_completed_status(
+        %ExecutionResult{execution_id: execution_id, group_id: group_id} = execution_result
+      ) do
+    %ExecutionResult{
+      execution_result
+      | status: :completed,
+        payload: build(:result, execution_id: execution_id, group_id: group_id),
+        completed_at: DateTime.utc_now()
     }
   end
 
