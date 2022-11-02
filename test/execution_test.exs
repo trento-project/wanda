@@ -20,7 +20,7 @@ defmodule Wanda.ExecutionTest do
       group_id = UUID.uuid4()
       targets = build_list(2, :target, checks: ["expect_check"])
 
-      expect(Wanda.Messaging.Adapters.Mock, :publish, fn _, _ ->
+      expect(Wanda.Messaging.Adapters.Mock, :publish, 0, fn _, _ ->
         :ok
       end)
 
