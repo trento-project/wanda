@@ -1,4 +1,4 @@
-defmodule Wanda.Execution.ExpectationEvaluationError do
+defmodule Wanda.Executions.ExpectationEvaluationError do
   @moduledoc """
   Represents an error occurred during the evaluation of an expectation.
   """

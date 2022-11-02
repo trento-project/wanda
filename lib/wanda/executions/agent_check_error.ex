@@ -1,9 +1,9 @@
-defmodule Wanda.Execution.AgentCheckError do
+defmodule Wanda.Executions.AgentCheckError do
   @moduledoc """
   Represents the result of a check on a specific agent.
   """
 
-  alias Wanda.Execution.{
+  alias Wanda.Executions.{
     Fact,
     FactError
   }

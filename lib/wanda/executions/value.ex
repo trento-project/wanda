@@ -1,4 +1,4 @@
-defmodule Wanda.Execution.Value do
+defmodule Wanda.Executions.Value do
   @moduledoc """
   Represents a Value used in expectation evaluation.
   This value has been already determined given the conditions in check definition.

@@ -1,4 +1,4 @@
-defmodule Wanda.Execution.FactError do
+defmodule Wanda.Executions.FactError do
   @moduledoc """
   Fact with an error.
   """

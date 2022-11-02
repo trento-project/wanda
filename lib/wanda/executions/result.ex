@@ -1,9 +1,9 @@
-defmodule Wanda.Execution.Result do
+defmodule Wanda.Executions.Result do
   @moduledoc """
   Represents the result of an execution.
   """
 
-  alias Wanda.Execution.CheckResult
+  alias Wanda.Executions.CheckResult
 
   @derive Jason.Encoder
   defstruct [

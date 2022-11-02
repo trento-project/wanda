@@ -1,10 +1,10 @@
-defmodule Wanda.Execution.State do
+defmodule Wanda.Executions.State do
   @moduledoc """
   State of an execution.
   """
 
   alias Wanda.Catalog
-  alias Wanda.Execution.Target
+  alias Wanda.Executions.Target
 
   defstruct [
     :execution_id,
