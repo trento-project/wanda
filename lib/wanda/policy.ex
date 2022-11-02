@@ -61,5 +61,6 @@ defmodule Wanda.Policy do
   defp map_gathered_fact(check_id, name, {:value, %{kind: {_, value}}}),
     do: %Fact{check_id: check_id, name: name, value: value}
 
-  defp execution_server_impl, do: Application.fetch_env!(:wanda, Wanda.Policy)[:execution_server_impl]
+  defp execution_server_impl,
+    do: Application.fetch_env!(:wanda, Wanda.Policy)[:execution_server_impl]
 end

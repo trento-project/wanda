@@ -5,8 +5,11 @@ defmodule Wanda.Executions do
 
   alias Wanda.Repo
 
-  alias Wanda.Executions.{Result, Target}
-  alias Wanda.Executions.Execution
+  alias Wanda.Executions.{
+    Execution,
+    Result,
+    Target
+  }
 
   import Ecto.Query
 

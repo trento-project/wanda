@@ -89,7 +89,7 @@ defmodule Wanda.ExecutionsTest do
                  result: :passing
                }
              } =
-              Executions.complete_execution_result!(
+               Executions.complete_execution_result!(
                  execution_id,
                  build(
                    :result,
