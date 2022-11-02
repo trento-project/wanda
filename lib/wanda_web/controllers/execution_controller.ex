@@ -48,15 +48,15 @@ defmodule WandaWeb.ExecutionController do
     }
 
   def index(conn, params) do
-    results = Results.list_execution_results(params)
+    executions = Results.list_execution_results(params)
     total_count = Results.count_execution_results(params)
 
-    render(conn, results: results, total_count: total_count)
+    render(conn, executions: executions, total_count: total_count)
   end
 
   def show(conn, %{id: execution_id}) do
-    result = Results.get_execution_result!(execution_id)
+    execution = Results.get_execution_result!(execution_id)
 
-    render(conn, result: result)
+    render(conn, execution: execution)
   end
 end
