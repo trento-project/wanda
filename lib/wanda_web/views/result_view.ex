@@ -6,16 +6,16 @@ defmodule WandaWeb.ResultView do
 
   def render("index.json", %{results: results, total_count: total_count}) do
     %{
-      items: render_many(results, ResultView, "result.json"),
+      items: render_many(results, ResultView, "execution.json"),
       total_count: total_count
     }
   end
 
   def render("show.json", %{result: result}) do
-    render_one(result, ResultView, "result.json")
+    render_one(result, ResultView, "execution.json")
   end
 
-  def render("result.json", %{
+  def render("execution.json", %{
         result: %Execution{
           execution_id: execution_id,
           group_id: group_id,
