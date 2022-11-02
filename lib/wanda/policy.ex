@@ -8,7 +8,7 @@ defmodule Wanda.Policy do
     FactsGathered
   }
 
-  alias Wanda.Execution.{
+  alias Wanda.Executions.{
     Fact,
     FactError,
     Target
@@ -29,7 +29,7 @@ defmodule Wanda.Policy do
          targets: targets,
          env: env
        }) do
-    execution_impl().start_execution(
+    execution_server_impl().start_execution(
       execution_id,
       agent_id,
       Enum.map(targets, fn %{agent_id: agent_id, checks: checks} ->
@@ -45,7 +45,7 @@ defmodule Wanda.Policy do
          agent_id: agent_id,
          facts_gathered: facts_gathered
        }) do
-    execution_impl().receive_facts(
+    execution_server_impl().receive_facts(
       execution_id,
       group_id,
       agent_id,
@@ -61,5 +61,5 @@ defmodule Wanda.Policy do
   defp map_gathered_fact(check_id, name, {:value, %{kind: {_, value}}}),
     do: %Fact{check_id: check_id, name: name, value: value}
 
-  defp execution_impl, do: Application.fetch_env!(:wanda, Wanda.Policy)[:execution_impl]
+  defp execution_server_impl, do: Application.fetch_env!(:wanda, Wanda.Policy)[:execution_server_impl]
 end
