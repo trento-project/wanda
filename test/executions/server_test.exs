@@ -93,20 +93,19 @@ defmodule Wanda.Executions.ServerTest do
         :ok
       end)
 
-      assert {:ok, _} =
-               start_supervised(
-                 {Execution.Server,
-                  [
-                    execution_id: UUID.uuid4(),
-                    group_id: group_id,
-                    targets: targets,
-                    checks: build_list(10, :check),
-                    env: %{}
-                  ]}
-               )
+      start_supervised!(
+        {Server,
+         [
+           execution_id: UUID.uuid4(),
+           group_id: group_id,
+           targets: targets,
+           checks: build_list(10, :check),
+           env: %{}
+         ]}
+      )
 
       assert {:error, :already_running} =
-               Execution.start_execution(UUID.uuid4(), group_id, targets, %{})
+               Server.start_execution(UUID.uuid4(), group_id, targets, %{})
     end
 
     test "should exit when all facts are sent by all agents", context do

@@ -31,8 +31,8 @@ defmodule Wanda.Executions do
   @doc """
   Get a result by execution_id.
   """
-  @spec get_execution_result!(String.t()) :: Execution.t()
-  def get_execution_result!(execution_id) do
+  @spec get_execution!(String.t()) :: Execution.t()
+  def get_execution!(execution_id) do
     Repo.get!(Execution, execution_id)
   end
 
@@ -72,9 +72,9 @@ defmodule Wanda.Executions do
   @doc """
   Marks a previously started execution as completed
   """
-  @spec complete_executions!(String.t(), Result.t()) ::
+  @spec complete_execution!(String.t(), Result.t()) ::
           Execution.t()
-  def complete_executions!(execution_id, %Result{} = result) do
+  def complete_execution!(execution_id, %Result{} = result) do
     Execution
     |> Repo.get!(execution_id)
     |> Execution.changeset(%{

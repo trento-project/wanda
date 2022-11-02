@@ -32,7 +32,7 @@ defmodule Wanda.ExecutionsTest do
         }
       ] = targets = build_list(2, :target)
 
-      Executions.create_execution_result!(execution_id, group_id, targets)
+      Executions.create_execution!(execution_id, group_id, targets)
 
       assert [
                %Execution{execution_id: ^execution_1, group_id: ^group_1},
@@ -64,7 +64,7 @@ defmodule Wanda.ExecutionsTest do
       ] = insert_list(2, :execution)
 
       assert_raise Ecto.ConstraintError, fn ->
-        Executions.create_execution_result!(execution_id, group_id, build_list(2, :target))
+        Executions.create_execution!(execution_id, group_id, build_list(2, :target))
       end
 
       assert 2 =
@@ -89,7 +89,7 @@ defmodule Wanda.ExecutionsTest do
                  result: :passing
                }
              } =
-               Executions.complete_execution_result!(
+               Executions.complete_execution!(
                  execution_id,
                  build(
                    :result,
@@ -113,7 +113,7 @@ defmodule Wanda.ExecutionsTest do
                %Execution{execution_id: ^execution_1, group_id: ^group_1},
                %Execution{execution_id: ^execution_2, group_id: ^group_2},
                %Execution{execution_id: ^execution_3, group_id: ^group_3}
-             ] = Executions.list_execution_results(%{page: 1})
+             ] = Executions.list_executions(%{page: 1})
     end
 
     test "apply filtering by group id" do
@@ -125,7 +125,7 @@ defmodule Wanda.ExecutionsTest do
 
       assert [
                %Execution{execution_id: ^execution_1, group_id: ^group_1}
-             ] = Executions.list_execution_results(%{group_id: group_1, page: 1})
+             ] = Executions.list_executions(%{group_id: group_1, page: 1})
     end
 
     test "apply pagination" do
@@ -140,7 +140,7 @@ defmodule Wanda.ExecutionsTest do
       assert [
                %Execution{execution_id: ^execution_4, group_id: ^group_4},
                %Execution{execution_id: ^execution_5, group_id: ^group_5}
-             ] = Executions.list_execution_results(%{page: 2, items_per_page: 3})
+             ] = Executions.list_executions(%{page: 2, items_per_page: 3})
     end
   end
 end

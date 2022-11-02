@@ -13,6 +13,7 @@ defmodule Wanda.Executions.Server do
     Gathering,
     Result,
     State,
+    Supervisor,
     Target
   }
 
@@ -38,7 +39,7 @@ defmodule Wanda.Executions.Server do
 
   @impl true
   def receive_facts(execution_id, group_id, agent_id, facts),
-    do: execution_id |> via_tuple() |> GenServer.cast({:receive_facts, agent_id, facts})
+    do: group_id |> via_tuple() |> GenServer.cast({:receive_facts, execution_id, agent_id, facts})
 
   def start_link(opts) do
     group_id = Keyword.fetch!(opts, :group_id)
@@ -79,7 +80,7 @@ defmodule Wanda.Executions.Server do
     facts_gathering_requested =
       Messaging.Mapper.to_facts_gathering_requested(execution_id, group_id, targets, checks)
 
-    Executions.create_execution_result!(execution_id, group_id, targets)
+    Executions.create_execution!(execution_id, group_id, targets)
 
     :ok = Messaging.publish("agents", facts_gathering_requested)
 
@@ -174,13 +175,13 @@ defmodule Wanda.Executions.Server do
   end
 
   defp store_and_publish_execution_result(%Result{execution_id: execution_id} = result) do
-    Executions.complete_execution_result!(execution_id, result)
+    Executions.complete_execution!(execution_id, result)
 
     execution_completed = Messaging.Mapper.to_execution_completed(result)
     :ok = Messaging.publish("results", execution_completed)
   end
 
-  defp via_tuple(execution_id),
+  defp via_tuple(group_id),
     do: {:via, :global, {__MODULE__, group_id}}
 
   defp maybe_start_execution(_, _, _, [], _, _), do: {:error, :no_checks_selected}
@@ -188,7 +189,7 @@ defmodule Wanda.Executions.Server do
   defp maybe_start_execution(execution_id, group_id, targets, checks, env, config) do
     case DynamicSupervisor.start_child(
            Supervisor,
-           {Server,
+           {__MODULE__,
             execution_id: execution_id,
             group_id: group_id,
             targets: targets,
@@ -199,7 +200,10 @@ defmodule Wanda.Executions.Server do
       {:ok, _} ->
         :ok
 
-      {:error, _} = error ->
+      {:error, {:already_started, _}} ->
+        {:error, :already_running}
+
+      error ->
         error
     end
   end

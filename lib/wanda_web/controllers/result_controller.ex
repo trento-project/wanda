@@ -48,14 +48,14 @@ defmodule WandaWeb.ResultController do
     }
 
   def index(conn, params) do
-    results = Executions.list_execution_results(params)
-    total_count = Executions.count_execution_results(params)
+    results = Executions.list_executions(params)
+    total_count = Executions.count_executions(params)
 
     render(conn, results: results, total_count: total_count)
   end
 
   def show(conn, %{id: execution_id}) do
-    result = Executions.get_execution_result!(execution_id)
+    result = Executions.get_execution!(execution_id)
 
     render(conn, result: result)
   end
