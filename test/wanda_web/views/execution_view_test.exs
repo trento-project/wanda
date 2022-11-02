@@ -1,4 +1,4 @@
-defmodule WandaWeb.ListResultsViewTest do
+defmodule WandaWeb.ListExecutionsViewTest do
   use WandaWeb.ConnCase, async: true
 
   import Phoenix.View
@@ -6,7 +6,7 @@ defmodule WandaWeb.ListResultsViewTest do
 
   alias Wanda.Results.ExecutionResult
 
-  describe "ResultView" do
+  describe "ExecutionView" do
     test "renders index.json" do
       started_at = DateTime.utc_now()
 
@@ -36,7 +36,7 @@ defmodule WandaWeb.ListResultsViewTest do
                ],
                total_count: 10
              } =
-               render(WandaWeb.ResultView, "index.json",
+               render(WandaWeb.ExecutionView, "index.json",
                  results: execution_results,
                  total_count: 10
                )
@@ -55,7 +55,7 @@ defmodule WandaWeb.ListResultsViewTest do
                "execution_id" => ^execution_id,
                "group_id" => ^group_id,
                "started_at" => ^started_at
-             } = render(WandaWeb.ResultView, "show.json", result: execution_result)
+             } = render(WandaWeb.ExecutionView, "show.json", result: execution_result)
     end
   end
 end
