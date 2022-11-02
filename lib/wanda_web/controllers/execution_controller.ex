@@ -4,13 +4,12 @@ defmodule WandaWeb.ExecutionController do
 
   alias OpenApiSpex.Schema
 
-  alias Wanda.Executions
-  alias WandaWeb.Schemas.{ListResultsResponse, ResultResponse}
+  alias WandaWeb.Schemas.{ExecutionResponse, ListExecutionsResponse}
 
   plug OpenApiSpex.Plug.CastAndValidate, json_render_error_v2: true
 
   operation :index,
-    summary: "List results",
+    summary: "List executions",
     parameters: [
       group_id: [
         in: :query,
@@ -25,12 +24,12 @@ defmodule WandaWeb.ExecutionController do
       items_per_page: [in: :query, description: "Items per page", type: :integer, example: 20]
     ],
     responses: %{
-      200 => {"List results response", "application/json", ListResultsResponse},
+      200 => {"List executions response", "application/json", ListExecutionsResponse},
       422 => OpenApiSpex.JsonErrorResponse.response()
     }
 
   operation :show,
-    summary: "Get a result by execution ID",
+    summary: "Get an execution by ID",
     parameters: [
       id: [
         in: :path,
@@ -43,7 +42,7 @@ defmodule WandaWeb.ExecutionController do
       ]
     ],
     responses: %{
-      200 => {"Result", "application/json", ResultResponse},
+      200 => {"Execution", "application/json", ExecutionResponse},
       404 => OpenApiSpex.JsonErrorResponse.response()
     }
 
