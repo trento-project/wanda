@@ -22,7 +22,7 @@ defmodule Wanda.Execution do
   end
 
   @impl true
-  defdelegate receive_facts(execution_id, agent_id, facts), to: Server
+  defdelegate receive_facts(execution_id, group_id, agent_id, facts), to: Server
 
   defp maybe_start_execution(_, _, _, [], _, _), do: {:error, :no_checks_selected}
 
@@ -39,6 +39,9 @@ defmodule Wanda.Execution do
          ) do
       {:ok, _} ->
         :ok
+
+      {:error, {:already_started, _}} ->
+        {:error, :already_running}
 
       {:error, _} = error ->
         error

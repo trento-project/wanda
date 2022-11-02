@@ -41,11 +41,13 @@ defmodule Wanda.Policy do
 
   defp handle(%FactsGathered{
          execution_id: execution_id,
+         group_id: group_id,
          agent_id: agent_id,
          facts_gathered: facts_gathered
        }) do
     execution_impl().receive_facts(
       execution_id,
+      group_id,
       agent_id,
       Enum.map(facts_gathered, fn %{check_id: check_id, name: name, fact_value: fact_value} ->
         map_gathered_fact(check_id, name, fact_value)
