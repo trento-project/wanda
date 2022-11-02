@@ -1,14 +1,14 @@
-defmodule WandaWeb.Schemas.ResultResponse do
+defmodule WandaWeb.Schemas.ExecutionResponse do
   @moduledoc nil
 
   require OpenApiSpex
 
   alias OpenApiSpex.Schema
 
-  alias WandaWeb.Schemas.ResultResponse.CheckResult
+  alias WandaWeb.Schemas.ExecutionResponse.CheckResult
 
   OpenApiSpex.schema(%{
-    title: "ResultResponse",
+    title: "ExecutionResponse",
     description: "The result of an execution",
     type: :object,
     properties: %{
