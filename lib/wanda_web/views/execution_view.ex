@@ -1,22 +1,22 @@
-defmodule WandaWeb.ResultView do
+defmodule WandaWeb.ExecutionView do
   use WandaWeb, :view
 
   alias Wanda.Executions.Execution
-  alias WandaWeb.ResultView
+  alias WandaWeb.ExecutionView
 
   def render("index.json", %{results: results, total_count: total_count}) do
     %{
-      items: render_many(results, ResultView, "execution.json"),
+      items: render_many(results, ExecutionView, "execution.json"),
       total_count: total_count
     }
   end
 
   def render("show.json", %{result: result}) do
-    render_one(result, ResultView, "execution.json")
+    render_one(result, ExecutionView, "execution.json")
   end
 
   def render("execution.json", %{
-        result: %Execution{
+        execution: %ExecutionResult{
           execution_id: execution_id,
           group_id: group_id,
           status: status,
@@ -36,8 +36,18 @@ defmodule WandaWeb.ResultView do
   end
 
   defp extract_result(:running, _), do: :passing
-  defp extract_result(:completed, %{result: result}), do: result
+
+  defp extract_result(:completed, %{result: result} = execution) when is_struct(execution),
+    do: result
+
+  defp extract_result(:completed, %{"result" => result} = execution) when is_map(execution),
+    do: result
 
   defp extract_timeout(:running, _), do: []
-  defp extract_timeout(:completed, %{timeout: timeout}), do: timeout
+
+  defp extract_timeout(:completed, %{timeout: timeout} = execution) when is_struct(execution),
+    do: timeout
+
+  defp extract_timeout(:completed, %{"timeout" => timeout} = execution) when is_map(execution),
+    do: timeout
 end
