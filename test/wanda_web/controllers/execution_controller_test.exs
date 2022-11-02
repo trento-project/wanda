@@ -16,7 +16,7 @@ defmodule WandaWeb.ExecutionControllerTest do
         |> json_response(200)
 
       api_spec = ApiSpec.spec()
-      assert_schema(json, "ListResultsResponse", api_spec)
+      assert_schema(json, "ListExecutionsResponse", api_spec)
     end
 
     test "should return a 422 status code if an invalid paramaters is passed", %{conn: conn} do
@@ -36,7 +36,7 @@ defmodule WandaWeb.ExecutionControllerTest do
         |> json_response(200)
 
       api_spec = ApiSpec.spec()
-      assert_schema(json, "ResultResponse", api_spec)
+      assert_schema(json, "ExecutionResponse", api_spec)
     end
 
     test "should return a 404", %{conn: conn} do
