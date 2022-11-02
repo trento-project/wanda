@@ -41,7 +41,7 @@ defmodule Wanda.Execution do
         :ok
 
       {:error, {:already_started, _}} ->
-        {:error, :group_already_running}
+        {:error, :already_running}
 
       {:error, _} = error ->
         error

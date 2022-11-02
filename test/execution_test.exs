@@ -36,7 +36,7 @@ defmodule Wanda.ExecutionTest do
                   ]}
                )
 
-      assert {:error, :group_already_running} =
+      assert {:error, :already_running} =
                Execution.start_execution(UUID.uuid4(), group_id, targets, %{})
     end
   end
