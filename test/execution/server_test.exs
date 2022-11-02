@@ -53,7 +53,6 @@ defmodule Wanda.Execution.ServerTest do
                )
 
       assert pid == :global.whereis_name({Server, execution_id})
-      assert ExecutionResult |> Repo.all() |> Enum.empty?()
     end
   end
 
@@ -83,7 +82,9 @@ defmodule Wanda.Execution.ServerTest do
       )
 
       assert_receive :wandalorian
-      assert ExecutionResult |> Repo.all() |> Enum.empty?()
+
+      assert %ExecutionResult{execution_id: ^execution_id, status: :running} =
+               Repo.one!(ExecutionResult)
     end
 
     test "should exit when all facts are sent by all agents", context do
@@ -129,7 +130,8 @@ defmodule Wanda.Execution.ServerTest do
       assert_receive :executed
       assert_receive {:DOWN, ^ref, _, ^pid, :normal}
 
-      assert %ExecutionResult{execution_id: ^execution_id} = Repo.one!(ExecutionResult)
+      assert %ExecutionResult{execution_id: ^execution_id, status: :completed} =
+               Repo.one!(ExecutionResult)
     end
 
     test "should timeout", context do
@@ -169,8 +171,11 @@ defmodule Wanda.Execution.ServerTest do
 
       assert_receive {:DOWN, ^ref, _, ^pid, :normal}
 
-      assert %ExecutionResult{execution_id: ^execution_id, group_id: ^group_id} =
-               Repo.one!(ExecutionResult)
+      assert %ExecutionResult{
+               execution_id: ^execution_id,
+               group_id: ^group_id,
+               status: :completed
+             } = Repo.one!(ExecutionResult)
     end
 
     test "should go down when the timeout function gets called", context do
@@ -204,6 +209,7 @@ defmodule Wanda.Execution.ServerTest do
       assert %ExecutionResult{
                execution_id: ^execution_id,
                group_id: ^group_id,
+               status: :completed,
                payload: %{
                  "timeout" => timedout_targets
                }

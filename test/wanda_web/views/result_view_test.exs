@@ -8,7 +8,7 @@ defmodule WandaWeb.ListResultsViewTest do
 
   describe "ResultView" do
     test "renders index.json" do
-      inserted_at = DateTime.utc_now()
+      started_at = DateTime.utc_now()
 
       [
         %ExecutionResult{execution_id: execution_id_1, group_id: group_id_1},
@@ -17,7 +17,7 @@ defmodule WandaWeb.ListResultsViewTest do
         execution_results =
         Enum.map(1..2, fn _ ->
           :execution_result
-          |> build(inserted_at: inserted_at)
+          |> build(started_at: started_at)
           |> insert(returning: true)
         end)
 
@@ -26,12 +26,12 @@ defmodule WandaWeb.ListResultsViewTest do
                  %{
                    "execution_id" => ^execution_id_1,
                    "group_id" => ^group_id_1,
-                   "inserted_at" => ^inserted_at
+                   "started_at" => ^started_at
                  },
                  %{
                    "execution_id" => ^execution_id_2,
                    "group_id" => ^group_id_2,
-                   "inserted_at" => ^inserted_at
+                   "started_at" => ^started_at
                  }
                ],
                total_count: 10
@@ -43,18 +43,18 @@ defmodule WandaWeb.ListResultsViewTest do
     end
 
     test "renders show.json" do
-      inserted_at = DateTime.utc_now()
+      started_at = DateTime.utc_now()
 
       %ExecutionResult{execution_id: execution_id, group_id: group_id} =
         execution_result =
         :execution_result
-        |> build(inserted_at: inserted_at)
+        |> build(started_at: started_at)
         |> insert(returning: true)
 
       assert %{
                "execution_id" => ^execution_id,
                "group_id" => ^group_id,
-               "inserted_at" => ^inserted_at
+               "started_at" => ^started_at
              } = render(WandaWeb.ResultView, "show.json", result: execution_result)
     end
   end

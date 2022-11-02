@@ -6,8 +6,10 @@ defmodule Wanda.Repo.Migrations.AddExecutionResult do
       add :execution_id, :uuid, primary_key: true
       add :group_id, :uuid, null: false
       add :payload, :map, null: false
-
-      timestamps(type: :utc_datetime_usec)
+      add :status, :string, null: false
+      add :targets, :map, null: false, default: "[]"
+      timestamps(type: :utc_datetime_usec, inserted_at: :started_at, updated_at: false)
+      add :completed_at, :utc_datetime_usec
     end
 
     create index(:execution_results, [:group_id])

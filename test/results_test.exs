@@ -4,35 +4,14 @@ defmodule Wanda.ResultsTest do
 
   import Wanda.Factory
 
+  alias Wanda.Execution.Target
+
   alias Wanda.Results
 
   alias Wanda.Results.ExecutionResult
 
-  describe "Appending Execution Results to the history log" do
-    test "should correctly add an item to an empty log" do
-      execution_id = UUID.uuid4()
-      group_id = UUID.uuid4()
-
-      Results.create_execution_result!(
-        build(
-          :result,
-          execution_id: execution_id,
-          group_id: group_id,
-          result: :passing
-        )
-      )
-
-      assert %ExecutionResult{
-               execution_id: ^execution_id,
-               group_id: ^group_id,
-               payload: %{
-                 "result" => "passing",
-                 "check_results" => [_ | _]
-               }
-             } = Repo.one!(ExecutionResult)
-    end
-
-    test "should correctly add an item to a non empty log" do
+  describe "Creating an Execution" do
+    test "should correctly create a running execution" do
       [
         %ExecutionResult{execution_id: execution_1, group_id: group_1},
         %ExecutionResult{execution_id: execution_2, group_id: group_2},
@@ -42,14 +21,18 @@ defmodule Wanda.ResultsTest do
       execution_id = UUID.uuid4()
       group_id = UUID.uuid4()
 
-      Results.create_execution_result!(
-        build(
-          :result,
-          execution_id: execution_id,
-          group_id: group_id,
-          result: :passing
-        )
-      )
+      [
+        %Target{
+          agent_id: agent_id_1,
+          checks: checks_1
+        },
+        %Target{
+          agent_id: agent_id_2,
+          checks: checks_2
+        }
+      ] = targets = build_list(2, :target)
+
+      Results.create_execution_result!(execution_id, group_id, targets)
 
       assert [
                %ExecutionResult{execution_id: ^execution_1, group_id: ^group_1},
@@ -58,12 +41,63 @@ defmodule Wanda.ResultsTest do
                %ExecutionResult{
                  execution_id: ^execution_id,
                  group_id: ^group_id,
-                 payload: %{
-                   "result" => "passing",
-                   "check_results" => [_ | _]
-                 }
+                 status: :running,
+                 payload: %{},
+                 targets: [
+                   %{
+                     agent_id: ^agent_id_1,
+                     checks: ^checks_1
+                   },
+                   %{
+                     agent_id: ^agent_id_2,
+                     checks: ^checks_2
+                   }
+                 ]
                }
              ] = Repo.all(ExecutionResult)
+    end
+
+    test "should raise an error when trying to create an already existing execution" do
+      [
+        %ExecutionResult{execution_id: execution_id, group_id: group_id},
+        %ExecutionResult{}
+      ] = insert_list(2, :execution_result)
+
+      assert_raise Ecto.ConstraintError, fn ->
+        Results.create_execution_result!(execution_id, group_id, build_list(2, :target))
+      end
+
+      assert 2 =
+               ExecutionResult
+               |> Repo.all()
+               |> length()
+    end
+  end
+
+  describe "Completing an Execution" do
+    test "should complete a running execution" do
+      %ExecutionResult{
+        execution_id: execution_id,
+        group_id: group_id
+      } = insert(:execution_result, status: :running)
+
+      assert %ExecutionResult{
+               execution_id: ^execution_id,
+               group_id: ^group_id,
+               status: :completed,
+               payload: %{
+                 result: :passing
+               }
+             } =
+               Results.complete_execution_result!(
+                 execution_id,
+                 build(
+                   :result,
+                   execution_id: execution_id,
+                   group_id: group_id,
+                   result: :passing
+                 )
+               )
     end
   end
 

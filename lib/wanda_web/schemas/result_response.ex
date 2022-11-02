@@ -14,7 +14,7 @@ defmodule WandaWeb.Schemas.ResultResponse do
     properties: %{
       execution_id: %Schema{type: :string, format: :uuid, description: "Execution ID"},
       group_id: %Schema{type: :string, format: :uuid, description: "Group ID"},
-      inserted_at: %Schema{type: :string, format: :"date-time", description: "Inserted at"},
+      started_at: %Schema{type: :string, format: :"date-time", description: "Inserted at"},
       result: %Schema{
         type: :string,
         enum: ["passing", "warning", "critical"],
@@ -27,6 +27,6 @@ defmodule WandaWeb.Schemas.ResultResponse do
       },
       check_results: %Schema{type: :array, items: CheckResult}
     },
-    required: [:execution_id, :group_id, :inserted_at, :result, :timeout]
+    required: [:execution_id, :group_id, :started_at, :result, :timeout]
   })
 end
