@@ -37,7 +37,7 @@ defmodule Wanda.Executions.Server do
   end
 
   @impl true
-  def receive_facts(execution_id, agent_id, facts),
+  def receive_facts(execution_id, group_id, agent_id, facts),
     do: execution_id |> via_tuple() |> GenServer.cast({:receive_facts, agent_id, facts})
 
   def start_link(opts) do
