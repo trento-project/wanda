@@ -9,6 +9,9 @@ defmodule Wanda.Results.ExecutionResult do
 
   @type t :: %__MODULE__{}
 
+  @fields ~w(execution_id group_id payload status)a
+  @target_fields ~w(agent_id checks)a
+
   @derive {Jason.Encoder, [except: [:__meta__]]}
   @primary_key false
   schema "execution_results" do
@@ -25,9 +28,6 @@ defmodule Wanda.Results.ExecutionResult do
     timestamps(type: :utc_datetime_usec, inserted_at: :started_at, updated_at: false)
     field :completed_at, :utc_datetime_usec
   end
-
-  @fields ~w(execution_id group_id payload status)a
-  @target_fields ~w(agent_id checks)a
 
   @spec changeset(t() | Ecto.Changeset.t(), map) :: Ecto.Changeset.t()
   def changeset(execution, params) do
