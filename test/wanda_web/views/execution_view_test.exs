@@ -1,4 +1,4 @@
-defmodule WandaWeb.ListExecutionsViewTest do
+defmodule WandaWeb.ExecutionViewTest do
   use WandaWeb.ConnCase, async: true
 
   import Phoenix.View

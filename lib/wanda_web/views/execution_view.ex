@@ -26,23 +26,23 @@ defmodule WandaWeb.ExecutionView do
         }
       }) do
     %{
-      check_results: extract_checks_results(status, result),
+      check_results: map_checks_results(status, result),
       status: status,
       started_at: started_at,
       completed_at: completed_at,
       execution_id: execution_id,
       group_id: group_id,
-      result: extract_result(status, result),
-      timeout: extract_timeout(status, result)
+      result: map_result(status, result),
+      timeout: map_timeout(status, result)
     }
   end
 
-  defp extract_result(:running, _), do: :unknown
-  defp extract_result(:completed, %{"result" => result}), do: result
+  defp map_result(:running, _), do: nil
+  defp map_result(:completed, %{"result" => result}), do: result
 
-  defp extract_timeout(:running, _), do: []
-  defp extract_timeout(:completed, %{"timeout" => timeout}), do: timeout
+  defp map_timeout(:running, _), do: nil
+  defp map_timeout(:completed, %{"timeout" => timeout}), do: timeout
 
-  defp extract_checks_results(:running, _), do: []
-  defp extract_checks_results(:completed, %{"check_results" => check_results}), do: check_results
+  defp map_checks_results(:running, _), do: nil
+  defp map_checks_results(:completed, %{"check_results" => check_results}), do: check_results
 end

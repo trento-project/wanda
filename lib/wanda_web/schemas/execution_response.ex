@@ -34,15 +34,17 @@ defmodule WandaWeb.Schemas.ExecutionResponse do
       },
       result: %Schema{
         type: :string,
-        enum: ["passing", "warning", "critical", "unknown"],
+        nullable: true,
+        enum: ["passing", "warning", "critical"],
         description: "Aggregated result of the execution, unknown for running ones"
       },
       timeout: %Schema{
         type: :array,
+        nullable: true,
         items: %Schema{type: :string, format: :uuid, description: "Agent ID"},
         description: "Timed out agents"
       },
-      check_results: %Schema{type: :array, items: CheckResult}
+      check_results: %Schema{type: :array, nullable: true, items: CheckResult}
     },
     required: [
       :execution_id,
