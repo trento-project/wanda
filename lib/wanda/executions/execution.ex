@@ -1,6 +1,6 @@
-defmodule Wanda.Results.ExecutionResult do
+defmodule Wanda.Executions.Execution do
   @moduledoc """
-  Represents a storable ExecutionResult, available after check evaluation
+  Schema of a persisted execution.
   """
 
   use Ecto.Schema
@@ -9,15 +9,15 @@ defmodule Wanda.Results.ExecutionResult do
 
   @type t :: %__MODULE__{}
 
-  @fields ~w(execution_id group_id payload status started_at completed_at)a
+  @fields ~w(execution_id group_id result status started_at completed_at)a
   @target_fields ~w(agent_id checks)a
 
   @derive {Jason.Encoder, [except: [:__meta__]]}
   @primary_key false
-  schema "execution_results" do
+  schema "executions" do
     field :execution_id, Ecto.UUID, primary_key: true
     field :group_id, Ecto.UUID
-    field :payload, :map, default: %{}
+    field :result, :map, default: %{}
     field :status, Ecto.Enum, values: [:running, :completed]
 
     embeds_many :targets, Target do

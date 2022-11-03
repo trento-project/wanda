@@ -4,19 +4,19 @@ defmodule WandaWeb.ExecutionViewTest do
   import Phoenix.View
   import Wanda.Factory
 
-  alias Wanda.Results.ExecutionResult
+  alias Wanda.Executions.Execution
 
   describe "ExecutionView" do
     test "renders index.json" do
       started_at = DateTime.utc_now()
 
       [
-        %ExecutionResult{execution_id: execution_id_1, group_id: group_id_1},
-        %ExecutionResult{execution_id: execution_id_2, group_id: group_id_2}
+        %Execution{execution_id: execution_id_1, group_id: group_id_1},
+        %Execution{execution_id: execution_id_2, group_id: group_id_2}
       ] =
         executions =
         Enum.map(1..2, fn _ ->
-          :execution_result
+          :execution
           |> build(started_at: started_at)
           |> insert(returning: true)
         end)
@@ -45,9 +45,9 @@ defmodule WandaWeb.ExecutionViewTest do
     test "renders show.json for a running execution" do
       started_at = DateTime.utc_now()
 
-      %ExecutionResult{execution_id: execution_id, group_id: group_id} =
+      %Execution{execution_id: execution_id, group_id: group_id} =
         execution =
-        :execution_result
+        :execution
         |> build(started_at: started_at)
         |> insert(returning: true)
 
@@ -65,17 +65,17 @@ defmodule WandaWeb.ExecutionViewTest do
     test "renders show.json for a completed execution" do
       started_at = DateTime.utc_now()
 
-      %ExecutionResult{
+      %Execution{
         execution_id: execution_id,
         group_id: group_id,
         completed_at: completed_at,
-        payload: %{
+        result: %{
           "timeout" => timeout,
           "check_results" => check_results
         }
       } =
         execution =
-        :execution_result
+        :execution
         |> build(started_at: started_at)
         |> with_completed_status()
         |> insert(returning: true)

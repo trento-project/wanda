@@ -23,7 +23,7 @@ config :wanda, Wanda.Messaging.Adapters.AMQP,
 
 config :wanda, Wanda.Catalog, catalog_path: "priv/catalog"
 
-config :wanda, Wanda.Policy, execution_impl: Wanda.Execution
+config :wanda, Wanda.Policy, execution_server_impl: Wanda.Executions.Server
 
 # Phoenix configuration
 

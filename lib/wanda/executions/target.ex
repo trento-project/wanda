@@ -1,4 +1,4 @@
-defmodule Wanda.Execution.Target do
+defmodule Wanda.Executions.Target do
   @moduledoc """
   Execution targets.
   """

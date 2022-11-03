@@ -5,7 +5,7 @@ defmodule Wanda.Messaging.Mapper do
 
   alias Wanda.Catalog.{Check, Fact}
 
-  alias Wanda.Execution.{
+  alias Wanda.Executions.{
     Result,
     Target
   }

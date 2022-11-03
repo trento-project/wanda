@@ -8,7 +8,7 @@ defmodule Wanda.Messaging.MapperTest do
   alias Wanda.Messaging.Mapper
 
   alias Wanda.Catalog.{Check, Fact}
-  alias Wanda.Execution.Target
+  alias Wanda.Executions.Target
 
   alias Trento.Checks.V1.{
     ExecutionCompleted,
@@ -91,7 +91,7 @@ defmodule Wanda.Messaging.MapperTest do
     result_map = %{passing: :PASSING, warning: :WARNING, critical: :CRITICAL}
 
     Enum.each(result_map, fn {domain_result, event_result} ->
-      execution_result =
+      execution =
         build(:result,
           execution_id: execution_id,
           group_id: group_id,
@@ -102,7 +102,7 @@ defmodule Wanda.Messaging.MapperTest do
                execution_id: ^execution_id,
                group_id: ^group_id,
                result: ^event_result
-             } = Mapper.to_execution_completed(execution_result)
+             } = Mapper.to_execution_completed(execution)
     end)
   end
 end
