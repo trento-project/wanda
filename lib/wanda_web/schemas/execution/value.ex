@@ -1,4 +1,4 @@
-defmodule WandaWeb.Schemas.ResultResponse.Fact do
+defmodule WandaWeb.Schemas.ExecutionResponse.Value do
   @moduledoc false
 
   require OpenApiSpex
@@ -6,11 +6,10 @@ defmodule WandaWeb.Schemas.ResultResponse.Fact do
   alias OpenApiSpex.Schema
 
   OpenApiSpex.schema(%{
-    title: "Fact",
-    description: "The result of a check",
+    title: "Value",
+    description: "A Value used in the expectations evaluation",
     type: :object,
     properties: %{
-      check_id: %Schema{type: :string, description: "Check ID"},
       name: %Schema{type: :string, description: "Name"},
       value: %Schema{
         oneOf: [%Schema{type: :string}, %Schema{type: :number}, %Schema{type: :boolean}],

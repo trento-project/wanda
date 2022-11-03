@@ -85,6 +85,7 @@ defmodule Wanda.ResultsTest do
                execution_id: ^execution_id,
                group_id: ^group_id,
                status: :completed,
+               completed_at: completed_at,
                payload: %{
                  result: :passing
                }
@@ -98,6 +99,8 @@ defmodule Wanda.ResultsTest do
                    result: :passing
                  )
                )
+
+      assert nil !== completed_at
     end
   end
 

@@ -1,11 +1,11 @@
-defmodule WandaWeb.Schemas.ResultResponse.AgentCheckError do
+defmodule WandaWeb.Schemas.ExecutionResponse.AgentCheckError do
   @moduledoc false
 
   require OpenApiSpex
 
   alias OpenApiSpex.Schema
 
-  alias WandaWeb.Schemas.ResultResponse.{ExpectationEvaluation, Fact}
+  alias WandaWeb.Schemas.ExecutionResponse.{ExpectationEvaluation, Fact}
 
   OpenApiSpex.schema(%{
     title: "AgentCheckError",
