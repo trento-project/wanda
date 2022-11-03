@@ -6,9 +6,9 @@ defmodule WandaWeb.ExecutionControllerTest do
 
   alias WandaWeb.ApiSpec
 
-  describe "list results" do
+  describe "list executions" do
     test "should return a list of executions", %{conn: conn} do
-      insert_list(5, :execution_result)
+      insert_list(5, :execution)
 
       json =
         conn
@@ -26,9 +26,9 @@ defmodule WandaWeb.ExecutionControllerTest do
     end
   end
 
-  describe "get result" do
+  describe "get execution" do
     test "should return a running execution", %{conn: conn} do
-      %{execution_id: execution_id} = insert(:execution_result)
+      %{execution_id: execution_id} = insert(:execution)
 
       json =
         conn
@@ -41,7 +41,7 @@ defmodule WandaWeb.ExecutionControllerTest do
 
     test "should return a completed execution", %{conn: conn} do
       %{execution_id: execution_id} =
-        :execution_result
+        :execution
         |> build()
         |> with_completed_status()
         |> insert()

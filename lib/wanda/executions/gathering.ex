@@ -1,9 +1,9 @@
-defmodule Wanda.Execution.Gathering do
+defmodule Wanda.Executions.Gathering do
   @moduledoc """
   Facts gathering functional core.
   """
 
-  alias Wanda.Execution.{Fact, FactError, Target}
+  alias Wanda.Executions.{Fact, FactError, Target}
 
   @doc """
   Adds gathered facts of an agent.

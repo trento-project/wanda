@@ -1,4 +1,4 @@
-defmodule Wanda.Execution.Evaluation do
+defmodule Wanda.Executions.Evaluation do
   @moduledoc """
   Evaluation functional core.
   """
@@ -6,7 +6,7 @@ defmodule Wanda.Execution.Evaluation do
   alias Wanda.Catalog.{Check, Condition, Expectation}
   alias Wanda.Catalog.Value, as: CatalogValue
 
-  alias Wanda.Execution.{
+  alias Wanda.Executions.{
     AgentCheckError,
     AgentCheckResult,
     CheckResult,
@@ -258,7 +258,7 @@ defmodule Wanda.Execution.Evaluation do
     %CheckResult{check_result | result: result}
   end
 
-  defp aggregate_execution_result(%Result{check_results: check_results} = execution_result) do
+  defp aggregate_execution_result(%Result{check_results: check_results} = execution) do
     result =
       check_results
       |> Enum.map(& &1.result)
@@ -266,7 +266,7 @@ defmodule Wanda.Execution.Evaluation do
       |> Enum.max_by(fn {_, weight} -> weight end)
       |> elem(0)
 
-    %Result{execution_result | result: result}
+    %Result{execution | result: result}
   end
 
   defp errors?(agents_check_results),

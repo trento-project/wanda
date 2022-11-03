@@ -1,27 +1,45 @@
-defmodule Wanda.Execution.Server do
+defmodule Wanda.Executions.Server do
   @moduledoc """
   Represents the execution of the CheckSelection(s) on the target nodes/agents of a cluster
   Orchestrates facts gathering on the targets - issuing execution and receiving back facts - and following check evaluations.
   """
 
+  @behaviour Wanda.Executions.ServerBehaviour
+
   use GenServer, restart: :transient
 
-  alias Wanda.Execution.{
+  alias Wanda.Executions.{
     Evaluation,
     Gathering,
     Result,
     State,
+    Supervisor,
     Target
   }
 
   alias Wanda.{
-    Messaging,
-    Results
+    Catalog,
+    Executions,
+    Messaging
   }
 
   require Logger
 
   @default_timeout 5 * 60 * 1_000
+
+  @impl true
+  def start_execution(execution_id, group_id, targets, env, config \\ []) do
+    checks =
+      targets
+      |> Target.get_checks_from_targets()
+      |> Catalog.get_checks()
+
+    maybe_start_execution(execution_id, group_id, targets, checks, env, config)
+  end
+
+  @impl true
+  def receive_facts(execution_id, group_id, agent_id, facts),
+    do: group_id |> via_tuple() |> GenServer.cast({:receive_facts, execution_id, agent_id, facts})
 
   def start_link(opts) do
     group_id = Keyword.fetch!(opts, :group_id)
@@ -40,9 +58,6 @@ defmodule Wanda.Execution.Server do
       name: via_tuple(group_id)
     )
   end
-
-  def receive_facts(execution_id, group_id, agent_id, facts),
-    do: group_id |> via_tuple() |> GenServer.cast({:receive_facts, execution_id, agent_id, facts})
 
   @impl true
   def init(%State{execution_id: execution_id} = state) do
@@ -65,7 +80,7 @@ defmodule Wanda.Execution.Server do
     facts_gathering_requested =
       Messaging.Mapper.to_facts_gathering_requested(execution_id, group_id, targets, checks)
 
-    Results.create_execution_result!(execution_id, group_id, targets)
+    Executions.create_execution!(execution_id, group_id, targets)
 
     :ok = Messaging.publish("agents", facts_gathering_requested)
 
@@ -160,7 +175,7 @@ defmodule Wanda.Execution.Server do
   end
 
   defp store_and_publish_execution_result(%Result{execution_id: execution_id} = result) do
-    Results.complete_execution_result!(execution_id, result)
+    Executions.complete_execution!(execution_id, result)
 
     execution_completed = Messaging.Mapper.to_execution_completed(result)
     :ok = Messaging.publish("results", execution_completed)
@@ -168,4 +183,28 @@ defmodule Wanda.Execution.Server do
 
   defp via_tuple(group_id),
     do: {:via, :global, {__MODULE__, group_id}}
+
+  defp maybe_start_execution(_, _, _, [], _, _), do: {:error, :no_checks_selected}
+
+  defp maybe_start_execution(execution_id, group_id, targets, checks, env, config) do
+    case DynamicSupervisor.start_child(
+           Supervisor,
+           {__MODULE__,
+            execution_id: execution_id,
+            group_id: group_id,
+            targets: targets,
+            checks: checks,
+            env: env,
+            config: config}
+         ) do
+      {:ok, _} ->
+        :ok
+
+      {:error, {:already_started, _}} ->
+        {:error, :already_running}
+
+      error ->
+        error
+    end
+  end
 end

@@ -1,11 +1,11 @@
-defmodule Wanda.Execution.EvaluationTest do
+defmodule Wanda.Executions.EvaluationTest do
   use ExUnit.Case
 
   import Wanda.Factory
 
   alias Wanda.Catalog
 
-  alias Wanda.Execution.{
+  alias Wanda.Executions.{
     AgentCheckError,
     AgentCheckResult,
     CheckResult,

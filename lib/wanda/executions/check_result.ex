@@ -1,9 +1,9 @@
-defmodule Wanda.Execution.CheckResult do
+defmodule Wanda.Executions.CheckResult do
   @moduledoc """
   Represents the result of a check.
   """
 
-  alias Wanda.Execution.{AgentCheckError, AgentCheckResult, ExpectationResult}
+  alias Wanda.Executions.{AgentCheckError, AgentCheckResult, ExpectationResult}
 
   @derive Jason.Encoder
   defstruct [

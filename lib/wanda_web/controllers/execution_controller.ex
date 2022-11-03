@@ -4,7 +4,7 @@ defmodule WandaWeb.ExecutionController do
 
   alias OpenApiSpex.Schema
 
-  alias Wanda.Results
+  alias Wanda.Executions
   alias WandaWeb.Schemas.{ExecutionResponse, ListExecutionsResponse}
 
   plug OpenApiSpex.Plug.CastAndValidate, json_render_error_v2: true
@@ -48,14 +48,14 @@ defmodule WandaWeb.ExecutionController do
     }
 
   def index(conn, params) do
-    executions = Results.list_execution_results(params)
-    total_count = Results.count_execution_results(params)
+    executions = Executions.list_executions(params)
+    total_count = Executions.count_executions(params)
 
     render(conn, executions: executions, total_count: total_count)
   end
 
   def show(conn, %{id: execution_id}) do
-    execution = Results.get_execution_result!(execution_id)
+    execution = Executions.get_execution!(execution_id)
 
     render(conn, execution: execution)
   end

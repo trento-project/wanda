@@ -1,9 +1,9 @@
-defmodule Wanda.Execution.AgentCheckResult do
+defmodule Wanda.Executions.AgentCheckResult do
   @moduledoc """
   Represents the result of a check on a specific agent.
   """
 
-  alias Wanda.Execution.{
+  alias Wanda.Executions.{
     ExpectationEvaluation,
     ExpectationEvaluationError,
     Fact,

@@ -1,18 +1,18 @@
-defmodule Wanda.Execution.ExpectationResult do
+defmodule Wanda.Executions.ExpectationEvaluation do
   @moduledoc """
-  Represents the result of an expectation.
+  Represents the evaluation of an expectation.
   """
 
   @derive Jason.Encoder
   defstruct [
     :name,
-    :result,
+    :return_value,
     :type
   ]
 
   @type t :: %__MODULE__{
           name: String.t(),
-          result: boolean(),
+          return_value: number() | boolean() | String.t(),
           type: :expect | :expect_same
         }
 end

@@ -1,8 +1,9 @@
 defmodule WandaWeb.ExecutionView do
   use WandaWeb, :view
 
-  alias Wanda.Results.ExecutionResult
   alias WandaWeb.ExecutionView
+
+  alias Wanda.Executions.Execution
 
   def render("index.json", %{executions: executions, total_count: total_count}) do
     %{
@@ -16,11 +17,11 @@ defmodule WandaWeb.ExecutionView do
   end
 
   def render("execution.json", %{
-        execution: %ExecutionResult{
+        execution: %Execution{
           execution_id: execution_id,
           group_id: group_id,
           status: status,
-          payload: result,
+          result: result,
           started_at: started_at,
           completed_at: completed_at
         }

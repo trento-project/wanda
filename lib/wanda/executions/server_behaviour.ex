@@ -1,9 +1,9 @@
-defmodule Wanda.Execution.Behaviour do
+defmodule Wanda.Executions.ServerBehaviour do
   @moduledoc """
-  Execution API behaviour.
+  Execution server API behaviour.
   """
 
-  alias Wanda.Execution.{Fact, FactError, Target}
+  alias Wanda.Executions.{Fact, FactError, Target}
 
   @callback start_execution(
               execution_id :: String.t(),

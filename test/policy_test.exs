@@ -8,7 +8,7 @@ defmodule Wanda.PolicyTest do
     FactsGathered
   }
 
-  alias Wanda.Execution.{Fact, Target}
+  alias Wanda.Executions.{Fact, Target}
 
   setup :verify_on_exit!
 
@@ -17,18 +17,18 @@ defmodule Wanda.PolicyTest do
     group_id = UUID.uuid4()
     agent_id = UUID.uuid4()
 
-    expect(Wanda.Execution.Mock, :start_execution, fn ^execution_id,
-                                                      ^group_id,
-                                                      [
-                                                        %Target{
-                                                          agent_id: ^agent_id,
-                                                          checks: ["check_id"]
-                                                        }
-                                                      ],
-                                                      %{
-                                                        "key" => "value",
-                                                        "other_key" => "other_value"
-                                                      } ->
+    expect(Wanda.Executions.ServerMock, :start_execution, fn ^execution_id,
+                                                             ^group_id,
+                                                             [
+                                                               %Target{
+                                                                 agent_id: ^agent_id,
+                                                                 checks: ["check_id"]
+                                                               }
+                                                             ],
+                                                             %{
+                                                               "key" => "value",
+                                                               "other_key" => "other_value"
+                                                             } ->
       :ok
     end)
 
@@ -51,16 +51,16 @@ defmodule Wanda.PolicyTest do
     group_id = UUID.uuid4()
     agent_id = UUID.uuid4()
 
-    expect(Wanda.Execution.Mock, :receive_facts, fn ^execution_id,
-                                                    ^group_id,
-                                                    ^agent_id,
-                                                    [
-                                                      %Fact{
-                                                        check_id: "check_id",
-                                                        name: "name",
-                                                        value: "value"
-                                                      }
-                                                    ] ->
+    expect(Wanda.Executions.ServerMock, :receive_facts, fn ^execution_id,
+                                                           ^group_id,
+                                                           ^agent_id,
+                                                           [
+                                                             %Fact{
+                                                               check_id: "check_id",
+                                                               name: "name",
+                                                               value: "value"
+                                                             }
+                                                           ] ->
       :ok
     end)
 
