@@ -14,7 +14,6 @@ defmodule WandaWeb.Schemas.ExecutionResponse.ExpectationEvaluationError do
       message: %Schema{type: :string, description: "Error message"},
       type: %Schema{
         type: :string,
-        enum: ["fact_missing_error", "illegal_expression_error"],
         description: "Error type"
       }
     },
