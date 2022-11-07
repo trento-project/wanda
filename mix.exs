@@ -56,7 +56,7 @@ defmodule Wanda.MixProject do
       {:telemetry_poller, "~> 1.0"},
       {:plug_cowboy, "~> 2.5"},
       {:open_api_spex, "~> 3.13"},
-      {:cors_plug, "~> 3.0", only: :dev}
+      {:cors_plug, "~> 3.0"}
     ]
   end
 
