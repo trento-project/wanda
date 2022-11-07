@@ -29,10 +29,6 @@ defmodule WandaWeb.Endpoint do
     plug Phoenix.Ecto.CheckRepoStatus, otp_app: :wanda
   end
 
-  if Mix.env() == :dev do
-    plug CORSPlug
-  end
-
   plug Plug.RequestId
   plug Plug.Telemetry, event_prefix: [:phoenix, :endpoint]
 

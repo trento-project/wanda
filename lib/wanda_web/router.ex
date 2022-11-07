@@ -4,6 +4,10 @@ defmodule WandaWeb.Router do
   pipeline :api do
     plug :accepts, ["json"]
     plug OpenApiSpex.Plug.PutApiSpec, module: WandaWeb.ApiSpec
+
+    if Mix.env() == :dev do
+      plug CORSPlug
+    end
   end
 
   scope "/api/checks", WandaWeb do
