@@ -41,4 +41,4 @@ values:
 
 expectations:
   - name: sbd_watchdog_timeout_correctly_set
-    expect: allEqualTo(sbd_watchdog_timeouts, values.expected_sbd_watchdog_timeout)
+    expect: sbd_watchdog_timeouts.all(|timeout| timeout == values.expected_sbd_watchdog_timeout)

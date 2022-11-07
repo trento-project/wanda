@@ -30,18 +30,13 @@ remediation: |
 
     - https://documentation.suse.com/sle-ha/15-SP3/html/SLE-HA-all/cha-ha-storage-protect.html#pro-ha-storage-protect-sbd-services
 
-# run_when: env.provider != "aws" && env.provider != "gcp"
-run_when: return env.provider != "aws" && env.provider != "gcp"
+run_when: env.provider != "aws" && env.provider != "gcp"
 
 facts:
   - name: sbd_service_status
     gatherer: systemd
     argument: sbd
-  # - name: sbd_service_enabled
-  #   gatherer: systemd_enabled
-  #   argument: sbd
 
 expectations:
   - name: sbd_service_is_enabled
-    # expect: facts.sbd_service_status == "active"
-    expect: return facts.sbd_service_status == "active"
+    expect: facts.sbd_service_status == "active"

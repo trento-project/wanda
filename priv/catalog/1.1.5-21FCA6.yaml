@@ -35,10 +35,8 @@ values:
     default: 10
     conditions:
       - value: 6
-        # when: env.provider == "aws"
-        when: return env.provider == "aws"
+        when: env.provider == "aws"
 
 expectations:
   - name: token_retransmits_before_loss_const
-    # expect: facts.corosync_token_retransmits_before_loss_const == values.expected_token_retransmits_before_loss_const
-    expect: return facts.corosync_token_retransmits_before_loss_const == values.expected_token_retransmits_before_loss_const
+    expect: facts.corosync_token_retransmits_before_loss_const == values.expected_token_retransmits_before_loss_const

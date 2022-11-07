@@ -44,8 +44,7 @@ remediation: |
     - https://documentation.suse.com/sbp/all/single-html/SLES4SAP-hana-sr-guide-PerfOpt-15/#id-1.11.5.5.4.4
     - https://documentation.suse.com/sle-ha/15-SP3/html/SLE-HA-all/cha-ha-storage-protect.html
 
-# run_when: env.provider != "aws" && env.provider != "gcp"
-run_when: return env.provider != "aws" && env.provider != "gcp"
+run_when: env.provider != "aws" && env.provider != "gcp"
 
 facts:
   - name: sbd_startmode
@@ -57,10 +56,8 @@ values:
     default: "clean"
     conditions:
       - value: "always"
-        # when: env.provider == "azure"
-        when: return env.provider == "azure"
+        when: env.provider == "azure"
 
 expectations:
   - name: sbd_startmode_correctly_configured
-    # expect: facts.sbd_startmode == values.expected_sbd_startmode
-    expect: return facts.sbd_startmode == values.expected_sbd_startmode
+    expect: facts.sbd_startmode == values.expected_sbd_startmode

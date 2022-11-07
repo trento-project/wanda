@@ -1,11 +1,9 @@
 id: 156F64
-name: orosync `token` timeout
+name: Corosync `token` timeout
 # name: 1.1.1
 group: Corosync
 description: |
   Corosync `token` timeout is set to `{{ values.expected_token_timeout }}`
-# As a user I want the dsl to support interpolation of values/env in the description section
-# As a user I want the dsl to support interpolation of values/env in the remediation section
 remediation: |
   ## Abstract
   The value of the Corosync `token` timeout is not set as recommended.
@@ -52,13 +50,10 @@ values:
     default: 5000
     conditions:
       - value: 30000
-        # when: env.provider == "azure" || env.provider == "aws"
-        when: return env.provider == "azure" or env.provider == "aws"
+        when: env.provider == "azure" || env.provider == "aws"
       - value: 20000
-        # when: env.provider == "gcp"
-        when: return env.provider == "gcp"
+        when: env.provider == "gcp"
 
 expectations:
   - name: token_timeout
-    # expect: facts.corosync_token_timeout == values.expected_token_timeout
-    expect: return facts.corosync_token_timeout == values.expected_token_timeout
+    expect: facts.corosync_token_timeout == values.expected_token_timeout

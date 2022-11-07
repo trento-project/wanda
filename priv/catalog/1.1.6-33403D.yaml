@@ -64,5 +64,4 @@ facts:
 
 expectations:
   - name: transport
-    # expect: facts.corosync_transport == "udpu"
-    expect: return facts.corosync_transport == "udpu"
+    expect: facts.corosync_transport == "udpu"

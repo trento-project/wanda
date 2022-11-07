@@ -30,11 +30,6 @@ facts:
     gatherer: corosync.conf
     argument: totem.max_messages
 
-# As a user I want the DSL to support checks without values section
-# so that I can reduce the boiler code in the DSL itself
-# and simply use a hardcoded value that is environment independent
-
 expectations:
   - name: max_messages
-    # expect: facts.corosync_max_messages == 20
-    expect: return facts.corosync_max_messages == 20
+    expect: facts.corosync_max_messages == 20

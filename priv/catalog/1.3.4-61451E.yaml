@@ -27,18 +27,10 @@ remediation: |
 
 run_when: env.provider != "aws" && env.provider != "gcp"
 
-# CFSA-876
 facts:
   - name: sbd_devices
     gatherer: sbd_devices
 
-    # to avoid the need for a `len|length` function we could have a gatherer that returns the number of the sbd devices instead of a list/map/struct
-    # - name: sbd_devices
-    #   gatherer: sbd_devices_count|sbd_devices.count
-    #   # argument: ?? # would such a gatherer need any
-
 expectations:
   - name: sbd_devices_correctly_configured
-    # expect: len(facts.sbd_devices) == 3
-    expect: return len(facts.sbd_devices) == 3
-    # expect: facts.sbd_devices == 3
+    expect: facts.sbd_devices.len() == 3

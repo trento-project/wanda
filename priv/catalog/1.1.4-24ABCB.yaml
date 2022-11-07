@@ -32,5 +32,4 @@ facts:
 
 expectations:
   - name: join
-    # expect: facts.corosync_join == 60
-    expect: return facts.corosync_join == 60
+    expect: facts.corosync_join == 60

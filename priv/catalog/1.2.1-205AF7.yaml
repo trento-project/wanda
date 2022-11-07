@@ -44,6 +44,4 @@ facts:
 
 expectations:
   - name: fencing_enabled
-    # expect: facts.fencing_enabled == true
-    expect: return facts.fencing_enabled == true
-# As a user I want a crm_config gatherer, so that I can extract facts about crm_attributes like stonith-enabled, stonith-timeout
+    expect: facts.fencing_enabled == true
