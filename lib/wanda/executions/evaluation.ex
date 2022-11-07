@@ -148,7 +148,7 @@ defmodule Wanda.Executions.Evaluation do
            value: value,
            expression: expression
          } ->
-        case Abacus.eval(expression, evaluation_scope) do
+        case Rhai.eval(expression, evaluation_scope) do
           {:ok, true} ->
             value
 
@@ -163,22 +163,15 @@ defmodule Wanda.Executions.Evaluation do
          %Expectation{name: name, type: type, expression: expression},
          evaluation_scope
        ) do
-    case Abacus.eval(expression, evaluation_scope) do
+    case Rhai.eval(expression, evaluation_scope) do
       {:ok, return_value} ->
         %ExpectationEvaluation{name: name, type: type, return_value: return_value}
 
-      {:error, :einkey} ->
+      {:error, {error_type, message}} ->
         %ExpectationEvaluationError{
           name: name,
-          message: "Fact is not present.",
-          type: :fact_missing_error
-        }
-
-      _ ->
-        %ExpectationEvaluationError{
-          name: name,
-          message: "Illegal expression provided, check expression syntax.",
-          type: :illegal_expression_error
+          message: message,
+          type: error_type
         }
     end
   end

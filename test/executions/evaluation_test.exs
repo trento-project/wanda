@@ -444,7 +444,7 @@ defmodule Wanda.Executions.EvaluationTest do
                        expectation_evaluations: [
                          %ExpectationEvaluationError{
                            name: ^expectation_name,
-                           type: :fact_missing_error
+                           type: :property_not_found
                          }
                        ],
                        facts: []
@@ -501,7 +501,7 @@ defmodule Wanda.Executions.EvaluationTest do
                        expectation_evaluations: [
                          %ExpectationEvaluationError{
                            name: ^expectation_name,
-                           type: :illegal_expression_error
+                           type: :parsing
                          }
                        ]
                      },
@@ -510,7 +510,7 @@ defmodule Wanda.Executions.EvaluationTest do
                        expectation_evaluations: [
                          %ExpectationEvaluationError{
                            name: ^expectation_name,
-                           type: :illegal_expression_error
+                           type: :parsing
                          }
                        ]
                      }
