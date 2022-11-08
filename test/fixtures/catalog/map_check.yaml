@@ -1,0 +1,15 @@
+id: map_check
+name: Test check
+group: Test
+description: |
+  Just a check with a map
+remediation: |
+  ## Remediation
+  Remediation text
+facts:
+  - name: jedi
+    gatherer: wandalorian
+    argument: -o
+expectations:
+  - name: property_expectation
+    expect: facts.jedi.luke == "skywalker"

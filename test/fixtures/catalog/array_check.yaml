@@ -1,0 +1,17 @@
+id: array_check
+name: Test check
+group: Test
+description: |
+  Just a check with arrays
+remediation: |
+  ## Remediation
+  Remediation text
+facts:
+  - name: jedi
+    gatherer: wandalorian
+    argument: -o
+expectations:
+  - name: some_expectation
+    expect: facts.jedi.some(|j| j == "skywalker" )
+  - name: filter_expectation
+    expect_same: facts.jedi.filter(|j| j == "skywalker")

@@ -628,6 +628,98 @@ defmodule Wanda.Executions.EvaluationTest do
     end
   end
 
+  describe "expressions with arrays" do
+    test "should return a passing result" do
+      check = Catalog.get_check("array_check")
+
+      gathered_facts = %{
+        "array_check" => %{
+          "agent" => [
+            %Fact{
+              name: "jedi",
+              value: ["skywalker", "yoda", "windu", "kenobi"]
+            }
+          ]
+        }
+      }
+
+      assert %Result{
+               result: :passing,
+               check_results: [
+                 %CheckResult{
+                   result: :passing,
+                   check_id: "array_check",
+                   agents_check_results: [
+                     %AgentCheckResult{
+                       expectation_evaluations: [
+                         %ExpectationEvaluation{
+                           name: "some_expectation",
+                           return_value: true,
+                           type: :expect
+                         },
+                         %ExpectationEvaluation{
+                           name: "filter_expectation",
+                           return_value: ["skywalker"],
+                           type: :expect_same
+                         }
+                       ]
+                     }
+                   ],
+                   expectation_results: [
+                     %ExpectationResult{
+                       name: "filter_expectation",
+                       result: true,
+                       type: :expect_same
+                     },
+                     %ExpectationResult{
+                       name: "some_expectation",
+                       result: true,
+                       type: :expect
+                     }
+                   ]
+                 }
+               ]
+             } = Evaluation.execute(UUID.uuid4(), UUID.uuid4(), [check], gathered_facts, %{})
+    end
+  end
+
+  describe "expression with maps" do
+    test "should return a passing result" do
+      check = Catalog.get_check("map_check")
+
+      gathered_facts = %{
+        "map_check" => %{
+          "agent" => [
+            %Fact{
+              name: "jedi",
+              value: %{
+                "luke" => "skywalker",
+                "obi-wan" => "kenobi"
+              }
+            }
+          ]
+        }
+      }
+
+      assert %Result{
+               result: :passing,
+               check_results: [
+                 %CheckResult{
+                   result: :passing,
+                   check_id: "map_check",
+                   expectation_results: [
+                     %ExpectationResult{
+                       name: "property_expectation",
+                       result: true,
+                       type: :expect
+                     }
+                   ]
+                 }
+               ]
+             } = Evaluation.execute(UUID.uuid4(), UUID.uuid4(), [check], gathered_facts, %{})
+    end
+  end
+
   describe "environment based check evaluation" do
     setup do
       check =
