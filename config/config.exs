@@ -36,6 +36,9 @@ config :wanda, WandaWeb.Endpoint,
   render_errors: [view: WandaWeb.ErrorView, accepts: ~w(json), layout: false],
   live_view: [signing_salt: "j6kcshS4"]
 
+config :cors_plug,
+  origin: [System.get_env("CORS_ORIGIN", "http://localhost:4000")]
+
 # Configures Elixir's Logger
 config :logger, :console,
   format: "$time $metadata[$level] $message\n",

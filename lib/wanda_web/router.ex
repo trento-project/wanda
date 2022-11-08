@@ -4,6 +4,8 @@ defmodule WandaWeb.Router do
   pipeline :api do
     plug :accepts, ["json"]
     plug OpenApiSpex.Plug.PutApiSpec, module: WandaWeb.ApiSpec
+
+    plug CORSPlug
   end
 
   scope "/api/checks", WandaWeb do

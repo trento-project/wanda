@@ -62,6 +62,16 @@ if config_env() == :prod do
       connection: amqp_url
     ]
 
+  cors_origin =
+    System.get_env("CORS_ORIGIN") ||
+      raise """
+      environment variable CORS_ORIGIN is missing.
+      For example: http://your-domain.com
+      """
+
+  config :cors_plug,
+    origin: [cors_origin]
+
   # Update catalog path to the current application dir during runtime
   config :wanda, Wanda.Catalog,
     catalog_path:
