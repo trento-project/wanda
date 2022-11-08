@@ -42,6 +42,7 @@ defmodule Wanda.MixProject do
       {:yaml_elixir, "~> 2.9"},
       {:trento_contracts, github: "trento-project/contracts", ref: "01db6a7", sparse: "elixir"},
       # test deps
+      {:ex_doc, "~> 0.29", only: [:dev, :test], runtime: false},
       {:credo, "~> 1.6", only: [:dev, :test], runtime: false},
       {:dialyxir, "~> 1.0", only: [:dev, :test], runtime: false},
       {:mox, "~> 1.0", only: :test},
