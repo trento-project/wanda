@@ -630,16 +630,33 @@ defmodule Wanda.Executions.EvaluationTest do
 
   describe "expressions with arrays" do
     test "should return a passing result" do
-      check = Catalog.get_check("array_check")
+      [value | _] =
+        array = 1..10 |> Enum.random() |> Faker.Util.list(fn _ -> Faker.StarWars.character() end)
+
+      [%Catalog.Fact{name: fact_name}] = catalog_facts = build_list(1, :catalog_fact)
+
+      expectations = [
+        build(:catalog_expectation,
+          name: "some_expectation",
+          type: :expect,
+          expression: "facts.#{fact_name}.some(|v| v == \"#{value}\")"
+        ),
+        build(:catalog_expectation,
+          name: "filter_expectation",
+          type: :expect_same,
+          expression: "facts.#{fact_name}.filter(|v| v == \"#{value}\")"
+        )
+      ]
+
+      [%Catalog.Check{id: check_id}] =
+        checks =
+        build_list(1, :check, facts: catalog_facts, values: [], expectations: expectations)
+
+      facts = build_list(1, :fact, name: fact_name, check_id: check_id, value: array)
 
       gathered_facts = %{
-        "array_check" => %{
-          "agent" => [
-            %Fact{
-              name: "jedi",
-              value: ["skywalker", "yoda", "windu", "kenobi"]
-            }
-          ]
+        check_id => %{
+          "agent" => facts
         }
       }
 
@@ -648,7 +665,6 @@ defmodule Wanda.Executions.EvaluationTest do
                check_results: [
                  %CheckResult{
                    result: :passing,
-                   check_id: "array_check",
                    agents_check_results: [
                      %AgentCheckResult{
                        expectation_evaluations: [
@@ -659,7 +675,7 @@ defmodule Wanda.Executions.EvaluationTest do
                          },
                          %ExpectationEvaluation{
                            name: "filter_expectation",
-                           return_value: ["skywalker"],
+                           return_value: [^value],
                            type: :expect_same
                          }
                        ]
@@ -679,25 +695,39 @@ defmodule Wanda.Executions.EvaluationTest do
                    ]
                  }
                ]
-             } = Evaluation.execute(UUID.uuid4(), UUID.uuid4(), [check], gathered_facts, %{})
+             } = Evaluation.execute(UUID.uuid4(), UUID.uuid4(), checks, gathered_facts, %{})
     end
   end
 
   describe "expression with maps" do
     test "should return a passing result" do
-      check = Catalog.get_check("map_check")
+      map =
+        1..10
+        |> Enum.random()
+        |> Faker.Util.list(fn index -> {"key_#{index}", Faker.StarWars.character()} end)
+        |> Enum.into(%{})
+
+      value = Map.get(map, "key_0")
+
+      [%Catalog.Fact{name: fact_name}] = catalog_facts = build_list(1, :catalog_fact)
+
+      expectations = [
+        build(:catalog_expectation,
+          name: "property_expectation",
+          type: :expect,
+          expression: "facts.#{fact_name}.key_0 == \"#{value}\""
+        )
+      ]
+
+      [%Catalog.Check{id: check_id}] =
+        checks =
+        build_list(1, :check, facts: catalog_facts, values: [], expectations: expectations)
+
+      facts = build_list(1, :fact, name: fact_name, check_id: check_id, value: map)
 
       gathered_facts = %{
-        "map_check" => %{
-          "agent" => [
-            %Fact{
-              name: "jedi",
-              value: %{
-                "luke" => "skywalker",
-                "obi-wan" => "kenobi"
-              }
-            }
-          ]
+        check_id => %{
+          "agent" => facts
         }
       }
 
@@ -706,7 +736,6 @@ defmodule Wanda.Executions.EvaluationTest do
                check_results: [
                  %CheckResult{
                    result: :passing,
-                   check_id: "map_check",
                    expectation_results: [
                      %ExpectationResult{
                        name: "property_expectation",
@@ -716,7 +745,7 @@ defmodule Wanda.Executions.EvaluationTest do
                    ]
                  }
                ]
-             } = Evaluation.execute(UUID.uuid4(), UUID.uuid4(), [check], gathered_facts, %{})
+             } = Evaluation.execute(UUID.uuid4(), UUID.uuid4(), checks, gathered_facts, %{})
     end
   end
 
