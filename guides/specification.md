@@ -257,7 +257,39 @@ Finally, gathered facts, will be used in Check's [Expectations](#expectations) t
 
 ## Values
 
-Values are basically named variables that may evaluate differently based on the execution context and are used with Facts in [Expectations](#expectations) Evaluation.
+Values are basically named variables that may evaluate differently based on the execution context and are used with Facts for _Contextual_ [Expectations](#expectations) Evaluation.
+
+> When contextual expectations is not needed, there's the following options available:
+> - use [**hardcoded**](#hardcoded-values) values
+> - define `values` as [**constants**](#constant-values)
+> 
+> Scenario:
+> 
+> No matter what the context is, the fact `awesome_fact` MUST always be `wanda`
+
+### Hardcoded Values
+
+Direct usage of a simple hadrcoded value
+```yaml
+expectations:
+  - name: awesome_expectation
+    expect: facts.awesome_fact == "wanda"
+```
+
+### Constant Values
+
+Define a Value with only the `default` specified (**omitting** `conditions`) for **constants** regardless of the context.
+```yaml
+values:
+  - name: awesome_constant_value
+    default: "wanda"
+
+expectations:
+  - name: awesome_expectation
+    expect: facts.awesome_fact == values.awesome_constant_value
+```
+
+### Contextual Values
 
 This is needed because the same check might expect facts to be treated differently based on the context.
 
@@ -279,7 +311,7 @@ In a nutshell, Values provide a way to decouple concepts, usually expeced values
 A Value declaration contains:
 - the value name
 - the default value
-- a list of conditions that determine the value given the context
+- a list of conditions that determine the value given the context (optional, see [constant values](#constant-values))
 
 ```yaml
 values:
@@ -325,41 +357,11 @@ expectations:
 
 Note that `conditions` is a cascading chain of contextual inspection to determine which is the resolved value.
 
-- there may be 0 [(Empty)](#empty-conditions) to N conditions
+- there may be many conditions
 - first condition that passes determines the value, following are not evaluated
 - `when` entry [Expression](#expression-language) has [access](#evaluation-scope) to gathered [facts](#facts-1) and [env](#env) evaluation scopes
 
 All the _resolved_ declared values would be registered in the [`values`](#values-1) namespaced evaluation scope.
-
-### Empty conditions
-
-Providing an empty list of conditions or omitting it completely should work, yet if some or all of the values end up in being only defaults, consider [omitting the value](#omitting-values)
-
-```yaml
-values:
-  - name: expected_corosync_max_messages
-    default: 20
-    # conditions: []
-
-expectations:
-  - name: corosync_max_messages_is_correct
-    expect: facts.corosync_max_messages == values.expected_corosync_max_messages
-```
-
-### Omitting Values
-
-Values provide a powerful way to deal with contextual expectations, yet in some cases this contextuality might not be needed at all.
-
-In that case it is suggested to use hardcoded constant values.
-
-the `value` can be omitted and even the whole `values` section in the Check Definition can be mitted.
-
-example:
-> No matter what the context is, the fact `awesome_fact` MUST always be `wanda`
->
-> expectation simply looks like this 
->
-> `expect: facts.awesome_fact == "wanda"`
 
 ## Expectations
 
@@ -404,7 +406,7 @@ facts.awesome_fact == values.awesome_expected_value
 ```
 ### Expect
 
-This type of expectation is satisfied when, after facts gathering, the expression is true for all the targets involved in the current execution.
+This type of expectation is satisfied when, after facts gathering, the expression is `true` for all the targets involved in the current execution.
 
 > Execution Scenario:
 > 
@@ -451,7 +453,7 @@ Considering the previous scenario what happens is that:
 
 ## Expression Language
 
-Different parts of the Check declaration are places where a computation is needed in order to do the right thing.
+Different parts of the Check declaration are places where a computation is needed.
 
 > Provide a contextual [Description](#description)/[Remediation](#remediation) text, based on the execution context
 > 
