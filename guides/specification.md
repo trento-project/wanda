@@ -6,17 +6,17 @@ A language allowing to declare best practices to be adhered on target SAP Infras
 
 - [Introduction](#introduction)
 - [Anatomy of a Check](#anatomy-of-a-check)
-    - [Structure](#structure)
-    - [Metadata](#metadata)
-      - [id](#id)
-      - [name](#name)
-      - [group](#group)
-      - [description](#description)
-      - [remediation](#remediation)
-      - [severity](#severity)
-    - [Filename Convention](#filename-convention)
-- [Values](#values)
+  - [Filename Convention](#filename-convention)
+  - [Structure](#structure)
+    - [id](#id)
+    - [name](#name)
+    - [group](#group)
+    - [description](#description)
+    - [remediation](#remediation)
+    - [severity](#severity)
+    - [Facts, Values, Expectations](#facts-values-expectations)
 - [Facts](#facts)
+- [Values](#values)
 - [Expectations](#expectations)
 - [Expression Language](#expression-language)
     - [Evaluation Scope](#evaluation-scope)
@@ -29,7 +29,7 @@ Checks are, in Trento's domain, the crystallization of SUSE's best practices whe
 
 We get several benefits from this approach:
 
-- Humans can formalize best practices with no space for ambiguity;
+- Users can formalize best practices with no space for ambiguity;
 - Machines can assert systems' state, automatically, with no space for ambiguity;
 - The development of new best practices gets streamlined through a common definition that allows to firestart shared efforts.
 
@@ -92,11 +92,7 @@ Following are listed the top level properties of a Check definition yaml.
 
 ---
 
-## Metadata
-
-Consider as Metadata the subset of basic information that build up a Check, not strictly involved in the actual execution (except for the **id**).
-
-### id
+#### id
 
 Uniquely identifies a Check in the Catalog
 
@@ -107,7 +103,7 @@ id: 845CC9
 id: B089BE
 ```
 
-### name
+#### name
 
 A, preferably one-line, string representing the name for the Check being declared.
 
@@ -125,7 +121,7 @@ name: SBD Startmode
 - should it be considered a markdown content?
 - will it be displayed somewhere in the dashboard?
 
-### group
+#### group
 
 A, preferably one-line, string representing the group where the Check being declared belongs.
 
@@ -136,7 +132,7 @@ group: Pacemaker
 group: SBD
 ```
 
-### description
+#### description
 
 A text providing a description for the Check being declared.
 
@@ -172,7 +168,7 @@ description: |
   Corosync `token` timeout is set to `{{ values.expected_token_timeout }}`
 ```
 
-### remediation
+#### remediation
 
 A text providing an comprehensive description about the remediation to apply for the Check being declared.
 
@@ -195,7 +191,7 @@ remediation: |
 
 ```
 
-### Severity
+#### Severity
 
 A string determining the severity of the Check being declared, in case the check is not passing, so that the appropriate result is reported.
 
@@ -214,6 +210,10 @@ Reports a `critical` When the Check expectations do not pass
 ```yaml
 severity: critical
 ```
+
+#### Facts, Values, Expectations
+
+See main sections [Facts](#facts), [Values](#values), [Expectations](#expectations)
 
 ## Facts
 
