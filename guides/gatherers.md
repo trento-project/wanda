@@ -2,7 +2,7 @@
 
 - [Introduction](#introduction)
 - [Available Gatherers](#available-gatherers)
-    - [Corosync](#corosync)
+    - [corosync.conf](#corosyncconf)
 
 ## Introduction
 
@@ -22,9 +22,9 @@ Here's a collection of build-in gatherers, with information about how to use the
 
 | name                          | implementation          
 | ----------------------------- | ------------------------------------------
-| [`corosync.conf`](#corosync)  | [trento-project/agent/../gatherers/corosyncconf.go](https://github.com/trento-project/agent/blob/main/internal/factsengine/gatherers/corosyncconf.go)
+| [`corosync.conf`](#corosyncconf)  | [trento-project/agent/../gatherers/corosyncconf.go](https://github.com/trento-project/agent/blob/main/internal/factsengine/gatherers/corosyncconf.go)
 
-### Corosync
+### corosync.conf
 
 **Name:** `corosync.conf`
 
@@ -34,7 +34,7 @@ This gatherer allows accessing information contained in `/etc/corosync/corosync.
 corosync_related_fact = corosync.conf(some.argument)
 ```
 
-Accepted arguments
+Sample arguments
 | name                                 | Return value          
 | ------------------------------------ | ------------------------------------------
 | `totem.token`                        | extracted value from the config

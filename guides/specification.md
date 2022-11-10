@@ -23,11 +23,11 @@ A language allowing to declare best practices to be adhered on target SAP Infras
 
 ## Introduction
 
-The need this DSL aims to fulfill is to provide users a simple way to declare what we (the Trento Core Team) often refer to as "Checks". 
+The need this DSL aims to fulfill is to provide users a simple way to declare what we (the Trento Team) often refer to as "Checks". 
 
-Checks are, in Trento's domain, the crystallization of SUSE's best practices when it comes to SAP workloads in a form that both a man and a machine can read.
+Checks are, in Trento's domain, the crystallization of SUSE's best practices when it comes to SAP workloads in a form that both a user and a machine can read.
 
-We get several benefits from this approach:
+This approach provides several benefits:
 
 - Users can formalize best practices with no space for ambiguity;
 - Machines can assert systems' state, automatically, with no space for ambiguity;
@@ -42,8 +42,7 @@ Here's an example:
 id: 156F64
 name: Corosync `token` timeout
 group: Corosync
-description: |
-  Corosync `token` timeout is set to `{{ values.expected_token_timeout }}`
+description: Corosync `token` timeout is set to the correct value
 remediation: |
   ## Abstract
   The value of the Corosync `token` timeout is not set as recommended.
@@ -114,13 +113,6 @@ name: Corosync `consensus` timeout
 name: SBD Startmode
 ```
 
-**NOTES:** 
-- in the current ansible implementation the name is set to something like `1.1.1`, `1.1.2`, ...
-- in the current wanda implementation we are not really using this
-- put into discussion, is it useful?
-- should it be considered a markdown content?
-- will it be displayed somewhere in the dashboard?
-
 #### group
 
 A, preferably one-line, string representing the group where the Check being declared belongs.
@@ -155,19 +147,6 @@ description: |
   A `description` is a **markdown**
 ```
 
-has access to [`env`](#env) and [`values`](#values-1) evaluation scopes (not yet true, and not yet defined if needed)
-
-Note: if we want to have access to resolved `values` we would also need `env` (and `facts` maybe, but we could consider a scenario where we do not have facts?)
-
-```yaml
-description: |
-  `values.some_value` is `{{ values.some_value }}`
-  `env.some_env` is `{{ env.some_env }}`
-
-description: |
-  Corosync `token` timeout is set to `{{ values.expected_token_timeout }}`
-```
-
 #### remediation
 
 A text providing an comprehensive description about the remediation to apply for the Check being declared.
@@ -176,7 +155,6 @@ It has the same properties of the `description`
 - can be a one-liner (it usually is not)
 - can be a multiline (it usually is)
 - format is **markdown**
-- has access to [`env`](#env) and [`values`](#values-1) evaluation scopes (not yet true, and not yet defined if needed)
 
 Example:
 ```yaml
@@ -191,7 +169,7 @@ remediation: |
 
 ```
 
-#### Severity
+#### severity
 
 A string determining the severity of the Check being declared, in case the check is not passing, so that the appropriate result is reported.
 
@@ -218,7 +196,7 @@ See main sections [Facts](#facts), [Values](#values), [Expectations](#expectatio
 ## Facts
 
 Facts are various types of information that the engine can discover on the target infrastructure.
-Examples include (but are not limited to) installed packages, open ports, and configuration files' content.
+Examples include (but are not limited to) installed packages, cluster state, and configuration files' content.
 
 The process of determining the value of a declared fact during Check execution is refered to as _Facts Gathering_ and it is the job of the [_Gatherers_](./gatherers.md).
 Think of gatherers as being functions that have a name and accept argument(s).
@@ -253,7 +231,7 @@ facts:
   # other facts maybe
 ```
 
-Finally, gathered facts, will be used in Check's [Expectations](#expectations) to determine whether expected conditions are met for the best practice to be adhered.
+Finally, gathered facts, are used in Check's [Expectations](#expectations) to determine whether expected conditions are met for the best practice to be adhered.
 
 ## Values
 
@@ -365,7 +343,7 @@ All the _resolved_ declared values would be registered in the [`values`](#values
 
 ## Expectations
 
-Expectations section is where the assumptions about the state of a target infra for a given scenario are formalized in expressions determining whether a check passes or not.
+Expectations section is where the assumptions about the state of a target infrastructure for a given scenario are formalized in expressions determining whether a check passes or not.
 
 An Expectation declaration contains:
 - the expectation name
@@ -385,7 +363,7 @@ expectations:
 
 Extra considerations:
 - there can be many expectations for a single Check
-- an expectation can be one of two types [`expect`](#expect) or [`expect_same`](#expect-same)
+- an expectation can be one of two types [`expect`](#expect) or [`expect_same`](#expect_same)
 - a Check passes when all the expectations are satisfied 
 
 Example
@@ -404,7 +382,7 @@ facts.corosync_token_timeout == values.expected_token_timeout
 AND
 facts.awesome_fact == values.awesome_expected_value
 ```
-### Expect
+### expect
 
 This type of expectation is satisfied when, after facts gathering, the expression is `true` for all the targets involved in the current execution.
 
@@ -435,7 +413,7 @@ Considering the previous scenario what happens is that:
   - `targetB.corosync_token_timeout == values.expected_token_timeout`
 - every evaluation has to be `true`
 
-### Expect Same
+### expect_same
 
 This type of expectation is satisfied when, after facts gathering, the expression's return value is the same for all the targets involved in the current execution, regardless of the value itself.
 
@@ -477,15 +455,7 @@ Considering the previous scenario what happens is that:
 
 ## Expression Language
 
-Different parts of the Check declaration are places where a computation is needed.
-
-> Provide a contextual [Description](#description)/[Remediation](#remediation) text, based on the execution context
-> 
-> interpolation of `{{ <expression> }}`
-```yaml
-description: |
-  Corosync `token` timeout is set to `{{ values.expected_token_timeout }}`
-``` 
+Different parts of the Check declaration are places where an evaluation is needed.
 
 > Determine to what a [value](#values) resolves during execution
 > 
@@ -524,7 +494,7 @@ Scopes are namespaced and access to items in the scope is name based.
 
 `env` is a map of information about the context of the running execution, it is set by the system on each execution/check compilation.
 
-Available entries in scope
+Examples of entries in the scope. What is actually available during the execution depends on the scenario.
 | name                          | Type                                                              
 | ----------------------------- | ------------------------------------------------------- 
 | `env.provider`                | one of `azure`, `aws`, `gcp`,`kvm`,`nutanix`, `unknown`  
