@@ -488,7 +488,7 @@ expectations:
     expect: facts.corosync_token_timeout == values.expected_token_timeout
 ```
 
-All Expressions are based on an embedded scripting language and evaluation engine, [Rhai](https://rhai.rs/book/ref/index.html).
+See [reference for the Expression Language](./expression_language.md).
 
 ### Evaluation Scope
 
