@@ -415,8 +415,16 @@ This type of expectation is satisfied when, after facts gathering, the expressio
 > - some environment (context)
 > 
 > ```yaml
+> facts:
+>   - name: corosync_token_timeout
+>     gatherer: corosync.conf
+>     argument: totem.token
+> 
+> values:
+>   ...
+> 
 > expectations:
->   - name: token_timeout
+>   - name: corosync_token_timeout_is_correct
 >     expect: facts.corosync_token_timeout == values.expected_token_timeout
 > ```
 
@@ -429,11 +437,11 @@ Considering the previous scenario what happens is that:
 
 ### Expect Same
 
-This type of expectation is satisfied when, after facts gathering, the expression's return value is the same for all the targets involved in the current execution.
+This type of expectation is satisfied when, after facts gathering, the expression's return value is the same for all the targets involved in the current execution, regardless of the value itself.
 
 > Execution Scenario:
 > 
-> - 2 targets [`A`, `B`]
+> - 2 targets [`A`, `B`, `C`]
 > - selected Checks [`some_check`]
 > - some environment (context)
 > 
@@ -444,12 +452,28 @@ This type of expectation is satisfied when, after facts gathering, the expressio
 > ```
 
 Considering the previous scenario what happens is that:
-- the fact `awesome_fact` is gathered on all targets (`A` and `B` in this case)
+- the fact `awesome_fact` is gathered on all targets (`A`, `B` and `C` in this case)
 - the expectation expression gets executed for every target involved.
   - `targetA.facts.awesome_fact`
   - `targetB.facts.awesome_fact`
+  - `targetC.facts.awesome_fact`
 - the expressions results has to be the same for every target
-  - `targetA.facts.awesome_fact == targetB.facts.awesome_fact`
+  - `targetA.facts.awesome_fact == targetB.facts.awesome_fact == targetC.facts.awesome_fact`
+
+> Example:
+> 
+> RPM version must be the same on all the targets, regardless of what version it is
+> 
+> ```yaml
+> facts:
+>   - name: installed_rpm_version
+>     gatherer: package_version
+>     argument: rpm
+>
+> expectations:
+>   - name: installed_rpm_version_must_be_the_same_on_all_targets
+>     expect_same: facts.installed_rpm_version
+> ```
 
 ## Expression Language
 
