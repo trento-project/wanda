@@ -100,18 +100,18 @@ jobs:
     runs-on: ubuntu-20.04
     services:
       postgres:
-          image: postgres
-          env:
-            POSTGRES_PASSWORD: postgres
-            POSTGRES_DB: wanda_test
-          ports:
-            - 5434:5432
-          # Set health checks to wait until postgres has started
-          options: >-
-            --health-cmd pg_isready
-            --health-interval 10s
-            --health-timeout 5s
-            --health-retries 5
+        image: postgres
+        env:
+          POSTGRES_PASSWORD: postgres
+          POSTGRES_DB: wanda_test
+        ports:
+          - 5434:5432
+        # Set health checks to wait until postgres has started
+        options: >-
+          --health-cmd pg_isready
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
       rabbitmq:
         image: rabbitmq
         env:
@@ -182,3 +182,31 @@ jobs:
           labels: ${{ steps.meta.outputs.labels }}
           cache-from: type=gha
           cache-to: type=gha,mode=max
+
+  generate-docs:
+    name: Generate project documentation
+    runs-on: ubuntu-latest
+    if: github.event_name == 'push' && github.ref_name == 'main'
+    steps:
+      - uses: actions/checkout@v2
+      - name: Set up Elixir
+        uses: erlef/setup-beam@v1
+        with:
+          elixir-version: ${{ env.ELIXIR_VERSION }}
+          otp-version: ${{ env.OTP_VERSION }}
+      - name: Retrieve Cached Dependencies
+        uses: actions/cache@v3
+        id: mix-cache
+        with:
+          path: |
+            deps
+            _build/test
+            priv/plts
+          key: ${{ runner.os }}-${{ env.OTP_VERSION }}-${{ env.ELIXIR_VERSION }}-${{ hashFiles('mix.lock') }}
+      - name: Build docs
+        uses: lee-dohm/generate-elixir-docs@v1
+      - name: Publish to Pages
+        uses: peaceiris/actions-gh-pages@v3
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: ./doc
