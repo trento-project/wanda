@@ -32,9 +32,7 @@ defmodule Wanda.Policy do
     execution_server_impl().start_execution(
       execution_id,
       agent_id,
-      Enum.map(targets, fn %{agent_id: agent_id, checks: checks} ->
-        %Target{agent_id: agent_id, checks: checks}
-      end),
+      Target.from_list(targets),
       Map.new(env, fn {key, %{kind: {_, value}}} -> {key, value} end)
     )
   end

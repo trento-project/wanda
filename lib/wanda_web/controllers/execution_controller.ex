@@ -5,7 +5,14 @@ defmodule WandaWeb.ExecutionController do
   alias OpenApiSpex.Schema
 
   alias Wanda.Executions
-  alias WandaWeb.Schemas.{ExecutionResponse, ListExecutionsResponse}
+  alias Wanda.Executions.{Server, Target}
+
+  alias WandaWeb.Schemas.{
+    AcceptedExecutionResponse,
+    ExecutionResponse,
+    ListExecutionsResponse,
+    StartExecutionRequest
+  }
 
   plug OpenApiSpex.Plug.CastAndValidate, json_render_error_v2: true
 
@@ -47,6 +54,15 @@ defmodule WandaWeb.ExecutionController do
       404 => OpenApiSpex.JsonErrorResponse.response()
     }
 
+  operation :start,
+    summary: "Start a Checks Execution",
+    description: "Trigger a Checks Execution on the target infrastructure",
+    request_body: {"Execution Context", "application/json", StartExecutionRequest},
+    responses: %{
+      202 => {"AcceptedExecution", "application/json", AcceptedExecutionResponse},
+      422 => OpenApiSpex.JsonErrorResponse.response()
+    }
+
   def index(conn, params) do
     executions = Executions.list_executions(params)
     total_count = Executions.count_executions(params)
@@ -58,5 +74,32 @@ defmodule WandaWeb.ExecutionController do
     execution = Executions.get_execution!(execution_id)
 
     render(conn, execution: execution)
+  end
+
+  def start(
+        conn,
+        _params
+      ) do
+    %{
+      execution_id: execution_id,
+      group_id: group_id,
+      targets: targets,
+      env: env
+    } = Map.get(conn, :body_params)
+
+    case Server.start_execution(execution_id, group_id, Target.from_list(targets), env) do
+      :ok ->
+        conn
+        |> put_status(:accepted)
+        |> json(%{
+          execution_id: execution_id,
+          group_id: group_id
+        })
+
+      {:error, reason} ->
+        conn
+        |> put_status(:unprocessable_entity)
+        |> json(%{error: reason})
+    end
   end
 end
