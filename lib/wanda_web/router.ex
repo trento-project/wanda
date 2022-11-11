@@ -12,6 +12,7 @@ defmodule WandaWeb.Router do
     pipe_through :api
 
     resources "/executions", ExecutionController, only: [:index, :show]
+    post "/executions/start", ExecutionController, :start
     get "/catalog", CatalogController, :catalog
   end
 
