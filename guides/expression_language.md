@@ -9,7 +9,7 @@ A small, fast, easy-to-use scripting language and evaluation engine
 - [Variables](#variables)
 - [Logic Operators](#logic-operators)
 - [If Statement](#logic-operators)
-
+- [Rhai]
 ## Introduction
 
 [NameToBeDefined] is an embedded scripting language and evaluation engine for Trento Checks Expressions that gives a safe and easy way to script specific steps during Checks Execution.
@@ -165,3 +165,7 @@ x == 22;
 let x = if decision { 42 }; // no else branch defaults to '()'
 x == ();
 ```
+
+### Rhai
+
+For extra information about the underlying scripting language see [Rhai](https://rhai.rs/book/language/).
