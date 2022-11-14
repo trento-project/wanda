@@ -15,6 +15,8 @@ defmodule Wanda.Executions do
 
   @doc """
   Create a new execution.
+
+  If the execution already exists, it will be returned.
   """
   @spec create_execution!(String.t(), String.t(), [Target.t()]) :: Execution.t()
   def create_execution!(execution_id, group_id, targets) do
@@ -25,7 +27,7 @@ defmodule Wanda.Executions do
       status: :running,
       targets: Enum.map(targets, &Map.from_struct/1)
     })
-    |> Repo.insert!()
+    |> Repo.insert!(on_conflict: :nothing)
   end
 
   @doc """

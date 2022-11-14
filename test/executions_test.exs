@@ -53,22 +53,6 @@ defmodule Wanda.ExecutionsTest do
                }
              ] = Repo.all(Execution)
     end
-
-    test "should raise an error when trying to create an already existing execution" do
-      [
-        %Execution{execution_id: execution_id, group_id: group_id},
-        %Execution{}
-      ] = insert_list(2, :execution)
-
-      assert_raise Ecto.ConstraintError, fn ->
-        Executions.create_execution!(execution_id, group_id, build_list(2, :target))
-      end
-
-      assert 2 =
-               Execution
-               |> Repo.all()
-               |> length()
-    end
   end
 
   describe "Completing an Execution" do
