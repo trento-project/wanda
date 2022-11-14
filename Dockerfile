@@ -4,7 +4,7 @@ ENV LANGUAGE en_US:en
 ENV LC_ALL en_US.UTF-8
 RUN zypper -n addrepo https://download.opensuse.org/repositories/devel:/languages:/erlang/SLE_15_SP3/devel:languages:erlang.repo
 RUN zypper -n --gpg-auto-import-keys ref -s
-RUN zypper -n in elixir
+RUN zypper -n in elixir rust cargo
 COPY . /build
 WORKDIR /build
 ARG MIX_ENV=prod
@@ -18,7 +18,7 @@ COPY --from=elixir-build /build /build
 WORKDIR /build
 ARG MIX_ENV=prod
 ENV MIX_ENV=$MIX_ENV
-RUN mix phx.digest
+RUN RHAI_RUSTLER_FORCE_BUILD=true mix phx.digest
 RUN mix release
 
 FROM registry.suse.com/bci/bci-base:15.3 AS wanda
