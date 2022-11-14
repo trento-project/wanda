@@ -42,7 +42,7 @@ Sample arguments
 | `nodelist.node.<node_index>.nodeid`  | extracted value from the config
 | `nodelist.node`                      | list of objects representing the nodes
 
-DSL examples:
+Specification examples:
 ```yaml
 facts:
   - name: corosync_token_timeout

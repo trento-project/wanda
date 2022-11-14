@@ -1,10 +1,15 @@
-# Trento Checks DSL Specification
+# Trento Checks Specification
 
 A language allowing to declare best practices to be adhered on target SAP Infrastructures.
 
 # Table of contents
 
 - [Introduction](#introduction)
+- [Checks Execution](#checks-execution)
+  - [Requesting an Execution](#requesting-an-execution)
+  - [Facts Gathering](#facts-gathering)
+  - [Expectations Evaluation](#expectation-evaluation)
+  - [Checks Results](#checks-results)
 - [Anatomy of a Check](#anatomy-of-a-check)
   - [Filename Convention](#filename-convention)
   - [Structure](#structure)
@@ -23,15 +28,51 @@ A language allowing to declare best practices to be adhered on target SAP Infras
 
 ## Introduction
 
-The need this DSL aims to fulfill is to provide users a simple way to declare what we (the Trento Team) often refer to as "Checks". 
+The need this Specification aims to fulfill is to provide users a simple way to declare what we (the Trento Team) often refer to as "Checks". 
 
-Checks are, in Trento's domain, the crystallization of SUSE's best practices when it comes to SAP workloads in a form that both a user and a machine can read.
+Checks are, in Trento's domain, the crystallization of SUSE's best practices when it comes to SAP workloads in a form that both a user ([Spec](#anatomy-of-a-check)) and a machine ([Execution](#checks-execution)) can read.
 
-This approach provides several benefits:
+## Checks Execution
 
-- Users can formalize best practices with no space for ambiguity;
-- Machines can assert systems' state, automatically, with no space for ambiguity;
-- The development of new best practices gets streamlined through a common definition that allows to firestart shared efforts.
+Checks Execution is the process that determines whether the best practices defined in the [Checks Specifications](#anatomy-of-a-check) are being followed on a target infrastructure.
+
+> [Requesting an Execution](#requesting-an-execution) -> [Facts Gathering](#facts-gathering) -> [Expectation Evaluation](#expectation-evaluation)
+
+### Requesting an Execution
+
+An Execution can be requested to start by providing Wanda the Following information:
+- an execution identifier
+- an execution Group identifier
+- the Checks Selection for the targets (a list of checks to be executed on the targets)
+
+When the Execution starts running, its current state is stored in the Database and the targets are notified - via the message broker - about Facts to be gathered.
+
+Then the Execution waits for the [Facts Gathering](#facts-gathering) to complete.
+
+### Facts Gathering
+
+After an _Execution Request_ the targets are notified about the facts they need to [gather](./gatherers.md).
+
+Whenever a target has gathered all the needed facts for an Execution, it notifies Wanda - via the message broker - about the **Gathered Facts**.
+
+### Expectation Evaluation
+
+When Wanda receives the Gathered Facts **from all the targets** of an Execution, then [Expectations](#expectations) are [evaluated](#expression-language) and the result of a Check is determined.
+
+After the result has been determined, the currently `running` Execution transitions to `completed` and its new state is tracked on the Database.
+
+At this point the Execution is considered **Completed** and interested parites are notified about the Execution Completion.
+
+### Checks Results
+
+Check Result tells whether the specified best practice was adhered on a target infrastructure.
+
+It can be:
+- `passing`, everything ok
+- `warning`, best practice not followed, should fix
+- `critical`, best practice not followed, must fix
+
+See also [Check Severity](#severity).
 
 ## Anatomy of a Check
 
