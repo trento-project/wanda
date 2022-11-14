@@ -113,7 +113,7 @@ defmodule WandaWeb.ExecutionControllerTest do
         Server.start_execution(
           execution_id,
           group_id,
-          Target.from_list(targets),
+          Target.map_targets(targets),
           env
         )
 

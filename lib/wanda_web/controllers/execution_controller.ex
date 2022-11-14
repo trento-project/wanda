@@ -87,7 +87,7 @@ defmodule WandaWeb.ExecutionController do
       env: env
     } = Map.get(conn, :body_params)
 
-    case Server.start_execution(execution_id, group_id, Target.from_list(targets), env) do
+    case Server.start_execution(execution_id, group_id, Target.map_targets(targets), env) do
       :ok ->
         conn
         |> put_status(:accepted)

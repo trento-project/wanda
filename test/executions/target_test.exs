@@ -30,5 +30,39 @@ defmodule Wanda.Executions.TargetTest do
       targets = build_list(2, :target, checks: [])
       assert [] = Target.get_checks_from_targets(targets)
     end
+
+    test "should map plain structs to the Wanda.Executions.Target" do
+      targets = [
+        %{
+          agent_id: agent_1 = Faker.UUID.v4(),
+          checks: [
+            check_1 = "SOME_CHECK",
+            check_2 = "ANOTHER_CHECK"
+          ]
+        },
+        %{
+          agent_id: agent_2 = Faker.UUID.v4(),
+          checks: [
+            check_3 = "YET_ANOTHER_CHECK"
+          ]
+        }
+      ]
+
+      assert [
+               %{
+                 agent_id: ^agent_1,
+                 checks: [
+                   ^check_1,
+                   ^check_2
+                 ]
+               },
+               %{
+                 agent_id: ^agent_2,
+                 checks: [
+                   ^check_3
+                 ]
+               }
+             ] = Target.map_targets(targets)
+    end
   end
 end

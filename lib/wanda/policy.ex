@@ -32,7 +32,7 @@ defmodule Wanda.Policy do
     execution_server_impl().start_execution(
       execution_id,
       agent_id,
-      Target.from_list(targets),
+      Target.map_targets(targets),
       Map.new(env, fn {key, %{kind: {_, value}}} -> {key, value} end)
     )
   end
