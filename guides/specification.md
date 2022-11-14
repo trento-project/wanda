@@ -235,7 +235,7 @@ Finally, gathered facts, are used in Check's [Expectations](#expectations) to de
 
 ## Values
 
-Values are basically named variables that may evaluate differently based on the execution context and are used with Facts for _Contextual_ [Expectations](#expectations) Evaluation.
+Values are named variables that may evaluate differently based on the execution context and are used with Facts for _Contextual_ [Expectations](#expectations) Evaluation.
 
 > When contextual expectations is not needed, there's the following options available:
 > - use [**hardcoded**](#hardcoded-values) values
@@ -283,8 +283,6 @@ This is needed because the same check might expect facts to be treated different
 > allowing us to have an expectation like this 
 >
 > `expect: facts.awesome_fact == values.expected_token_timeout`
-
-In a nutshell, Values provide a way to decouple concepts, usually expeced values for facts, from their actual concretization during execution in certain scenarios.
 
 A Value declaration contains:
 - the value name
@@ -343,7 +341,7 @@ All the _resolved_ declared values would be registered in the [`values`](#values
 
 ## Expectations
 
-Expectations section is where the assumptions about the state of a target infrastructure for a given scenario are formalized in expressions determining whether a check passes or not.
+Expectations are assertions on the state of a target infrastructure for a given scenario. By using fact and values they are able to determine if a check passes or not.
 
 An Expectation declaration contains:
 - the expectation name
