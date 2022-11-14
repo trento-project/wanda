@@ -1,32 +1,33 @@
 # Trento Checks Expression Language Reference
 
-A small, fast, easy-to-use scripting language and evaluation engine
+A small, fast, easy-to-use scripting language and evaluation engine.
 
 - [Introduction](#introduction)
-- [Types](#corosync)
-- [Keywords](#keywords)
-- [Statements](#statements)
-- [Variables](#variables)
-- [Logic Operators](#logic-operators)
-- [If Statement](#logic-operators)
-- [Rhai]
+- [Types](#types)
+- [Logic Operators and Boolean](#logic-operators-and-boolean)
+- [If Statement](#if-statement)
+    - [If Expression](#if-expression)
+- [Arrays](#arrays)
+- [Maps](#maps)
+- [Rhai](#rhai)
+
 ## Introduction
 
-[NameToBeDefined] is an embedded scripting language and evaluation engine for Trento Checks Expressions that gives a safe and easy way to script specific steps during Checks Execution.
+An embedded scripting language and evaluation engine for Trento Checks Expressions that gives a safe and easy way to script specific steps during Checks Execution.
 
 ## Types
-TBD
 
-## Keywords
-TBD
+| Type          | Example                          |
+| ------------- | -------------------------------- |
+| **Nothing/void/nil/null/Unit**    | `()`         |
+| **Integer**   | `42`, `123`                      |
+| **Float**     | `123.4567`                       |
+| **Boolean**   | `true` or `false`                |
+| **String**    | `"hello"`                        |
+| **Array**     | `[ 1, 2, 3, "foobar" ]`          |
+| **Map**       | `#{ "a": 1, "b": true }`         |
 
-## Statements
-TBD
-
-## Variables
-TBD
-
-## Logic Operators
+## Logic Operators and Boolean
 
 | Operator | Description<br/>(`x` _operator_ `y`) | `x`, `y` same type or are numeric | `x`, `y` different types |
 | :------: | ------------------------------------ | :-------------------------------: | :----------------------: |
@@ -37,34 +38,6 @@ TBD
 |   `<`    | `x` is less than `y`                 |       error if not defined        |  `false` if not defined  |
 |   `<=`   | `x` is less than or equals to `y`    |       error if not defined        |  `false` if not defined  |
 
-Comparison operators between most values of the same type are built in for all [standard types].
-
-Others are defined in the [`LogicPackage`][built-in packages] but excluded if using a [raw `Engine`].
-
-
-### Floating-point numbers interoperate with integers
-
-Comparing a floating-point number (`FLOAT`) with an integer is also supported.
-
-```rust
-42 == 42.0;         // true
-42.0 == 42;         // true
-42.0 > 42;          // false
-42 >= 42.0;         // true
-42.0 < 42;          // false
-```
-
-### Strings interoperate with characters
-
-Comparing a [string] with a [character] is also supported, with the character first turned into a
-[string] before performing the comparison.
-
-```rust
-'x' == "x";         // true
-"" < 'a';           // true
-'x' > "hello";      // false
-```
-
 ### Comparing different types defaults to `false`
 
 Comparing two values of _different_ data types defaults to `false`.
@@ -74,10 +47,8 @@ The exception is `!=` (not equals) which defaults to `true`. This is in line wit
 ```rust
 42 > "42";          // false: i64 cannot be compared with string
 42 <= "42";         // false: i64 cannot be compared with string
-let ts = new_ts();  // custom type
 ts == 42;           // false: different types cannot be compared
 ts != 42;           // true: different types cannot be compared
-ts == ts;           // error: '==' not defined for the custom type
 ```
 
 ### Boolean Operators
@@ -102,25 +73,6 @@ a() | b();          // both a() and b() are evaluated
 a() & b();          // both a() and b() are evaluated
 ```
 
-
-Null-Coalescing Operator
-------------------------
-
-| Operator |  Description  | Arity  | Short-circuits? |
-| :------: | :-----------: | :----: | :-------------: |
-|   `??`   | Null-coalesce | binary |       yes       |
-
-The null-coalescing operator (`??`) returns the first operand if it is not [`()`], or the second
-operand if the first operand is [`()`].
-
-It _short-circuits_  &ndash; meaning that the second operand will not be evaluated if the first
-operand is not [`()`].
-
-```rust
-a ?? b              // returns 'a' if it is not (), otherwise 'b'
-a() ?? b();         // b() is only evaluated if a() is ()
-```
-
 ## If Statement
 
 `if` statements follow C syntax.
@@ -139,7 +91,6 @@ if foo(x) {
 }
 ```
 
-
 > Unlike C, the condition expression does _not_ need to be enclosed in parentheses `(`...`)`, but all
 > branches of the `if` statement must be enclosed within braces `{`...`}`, even when there is only
 > one statement inside the branch.
@@ -150,8 +101,6 @@ if foo(x) {
 > if (decision) print(42);
 > //            ^ syntax error, expecting '{'
 > ```
-
-
 
 ### If Expression
 
@@ -166,6 +115,158 @@ let x = if decision { 42 }; // no else branch defaults to '()'
 x == ();
 ```
 
-### Rhai
+## Arrays
+
+All elements stored in an array are dynamic, and the array can freely grow or shrink with elements
+added or removed.
+
+Array literals are built within square brackets `[` ... `]` and separated by commas `,`:
+
+> `[` _value_`,` _value_`,` ... `,` _value_ `]`
+>
+> `[` _value_`,` _value_`,` ... `,` _value_ `,` `]`     `// trailing comma is OK`
+
+```rust
+let some_list = [1, 2, 3];
+
+let another_list = ["foo", "bar", 42];
+```
+
+### Access Element From beginning
+
+Like C, arrays are accessed with zero-based, non-negative integer indices:
+
+> _array_ `[` _index position from 0 to length−1_ `]`
+
+```rust
+let some_list = ["foo", "bar", 42];
+
+let second_element = some_list[1];
+
+// second_element is "bar"
+```
+
+### Access Element From end
+
+A _negative_ position accesses an element in the array counting from the _end_, with −1 being the
+_last_ element.
+
+> _array_ `[` _index position from −1 to −length_ `]`
+
+```rust
+let some_list = ["foo", "bar", 42];
+
+let second_element = some_list[-2];
+let last_element = some_list[-1];
+
+// second_element is "bar"
+// last_element is 42
+```
+
+| Function | Parameter(s)                       | Description |
+| -------- | ------------                       | ----------- |
+| `get`    | position, counting from end if < 0 | gets a copy of the element at a certain position (`()` if the position is not valid) |
+| `len`    | _none_                             | returns the number of elements |
+| `filter` | predicate (usually a closure) | constructs a new array with all items that return `true` when called with the predicate function taking the following parameters:<ol><li>array item</li><li>_(optional)_ offset position</li></ol> |
+| `all`    | predicate (usually a closure) | returns `true` if all items return `true` when called with the predicate function taking the following parameters:<ol><li>array item</li><li>_(optional)_ offset position</li></ol>  |
+
+Examples
+```rust
+let some_list = [1, 2, 3, 4, "foo", "bar"];
+
+let foo = some_list.get(4); // "foo"
+
+let items_count = some_list.len(); // 6
+
+let only_foo_and_bar = some_list.filter(|item| item == "foo" || item == "bar"); // ["foo", "bar"]
+// let only_foo_and_bar = some_list.filter(|item, idex_in_array| item == "foo" || item == "bar");
+
+let another_list = [3, 5, 7, 9, 10, 20, 30];
+
+let all_greater_than_2 = another_list.all(|item| item > 2); // true
+let all_greater_than_10 = another_list.all(|item| item > 10); // false
+// let all_greater_than_10 = another_list.all(|item, idex_in_array| item > 10); 
+```
+
+
+## Maps
+
+Maps are hash dictionaries. Properties are all dynamic values and can be freely added and retrieved.
+
+Map literals are built within braces `#{` ... `}` with _name_`:`_value_ pairs separated by
+commas `,`:
+
+> `#{` _property_ `:` _value_`,` ... `,` _property_ `:` _value_ `}`
+>
+> `#{` _property_ `:` _value_`,` ... `,` _property_ `:` _value_ `,` `}`     `// trailing comma is OK`
+
+```rust
+let some_map = #{              // map literal with 2 properties
+    foo: 42,
+    bar: "hello",
+};
+```
+### Dot notation
+
+The _dot notation_ allows to access properties by name.
+
+> _object_ `.` _property_
+
+```rust
+let some_map = #{              // map literal with 2 properties
+    foo: 42,
+    bar: "hello",
+};
+
+some_map.foo // 42
+some_map.bar // "hello"
+
+```
+
+### Non-existing property
+
+Trying to read a non-existing property returns `()` instead of causing an error.
+
+```rust
+let some_map = #{              // map literal with 2 properties
+    foo: 42,
+    bar: "hello",
+};
+
+some_map.another_property      // returns ()
+```
+
+### A more complex example
+
+```rust
+let some_map = #{              // map literal with 2 properties
+    foo: 42,
+    bar: "hello",
+    rabbits: [
+        #{
+            name: "wanda",
+            power: 9001
+        },
+        #{
+            name: "tonio",
+            power: 9002
+        },
+        #{
+            name: "weak_rabbit",
+            power: 8999
+        }
+    ]
+};
+
+// Tell me how many strong rabbits are there
+let strong_rabbits = some_map.rabbits.filter(|rabbit| rabbit.power > 9000).len() // 2
+
+let rabbits = some_map.rabbits
+
+let all_rabbits_are_strong = rabbits.all(|rabbit| rabbit.power > 9000) // false, unfortunately
+
+```
+
+## Rhai
 
 For extra information about the underlying scripting language see [Rhai](https://rhai.rs/book/language/).
