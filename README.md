@@ -40,14 +40,7 @@ Start the required infrastructure (see [docker-compose.checks.yaml](./docker-com
 $ docker-compose -f docker-compose.checks.yaml up -d
 ```
 
-This starts:
-- wanda, the engine
-- a database where execution informations are stored
-- a message broker for infromation exchange between the targets and wanda
-
 Wanda is exposed on port `4000` and the API documentation is available at http://localhost:4000/swaggerui
-
-![OpenAPI Spec](./guides/img/api_spec.png)
 
 **Note** that the [message broker](https://www.rabbitmq.com/) **must** be reachable by wanda and all the targets.
 
@@ -55,8 +48,8 @@ Wanda is exposed on port `4000` and the API documentation is available at http:/
 
 With a runnig setup it is possible to easily test Checks and their Execution by:
 - consulting the catalog
-- triggering a Checks Execution
-- checking up the state of the triggered execution
+- starting a Checks Execution
+- checking up the state of the started execution
 
 #### **Consulting the catalog**
 
@@ -67,12 +60,12 @@ curl -X 'GET' \
   -H 'accept: application/json'
 ```
 
-#### **Triggering a Checks Execution**
+#### **Starting a Checks Execution**
 
-A Checks Execution can be triggered by calling the Start Execution endpoint, as follows
+A Checks Execution can be started by calling the Start Execution endpoint, as follows
 
 ```bash
-curl--request POST 'http://localhost:4000/api/checks/executions/start' \
+curl --request POST 'http://localhost:4000/api/checks/executions/start' \
 --header 'accept: application/json' \
 --header 'Content-Type: application/json' \
 --data-raw '{
@@ -87,10 +80,18 @@ curl--request POST 'http://localhost:4000/api/checks/executions/start' \
       "checks": [
         "156F64"
       ]
+    },
+    {
+      "agent_id": "02d99b2f-0efd-443c-ac9c-32710323f620",
+      "checks": [
+        "OTH3R1"
+      ]
     }
   ]
 }'
 ```
+
+> **execution_id** is a unique uuid provided by the consumer when starting the execution.
 
 In order to get the detailed information for an execution see [Getting Execution details](#getting-execution-details).
 
@@ -106,7 +107,7 @@ curl --request GET 'http://localhost:4000/api/checks/executions/205e326d-0c25-4f
 --header 'Content-Type: application/json'
 ```
 
-> **Note** that calling the execution detail API right after [triggering an execution](#triggering-a-checks-execution) might result in a `404 not found`, because the execution, as mentioned, is _eventually started_.
+> **Note** that calling the execution detail API right after [starting an execution](#starting-a-checks-execution) might result in a `404 not found`, because the execution, as mentioned, is _eventually started_.
 > 
 > In this case retry getting the detail of the execution.
 
