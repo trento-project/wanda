@@ -88,7 +88,7 @@ defmodule WandaWeb.ExecutionControllerTest do
         |> json_response(202)
 
       api_spec = ApiSpec.spec()
-      assert_schema(json, "AcceptedExecution", api_spec)
+      assert_schema(json, "AcceptedExecutionResponse", api_spec)
     end
 
     test "should return an error when attempting to start an already running execution", %{
@@ -108,14 +108,21 @@ defmodule WandaWeb.ExecutionControllerTest do
         "provider" => "azure"
       }
 
-      # ?? start_supervised!
-      :ok =
-        Server.start_execution(
-          execution_id,
-          group_id,
-          Target.map_targets(targets),
-          env
-        )
+      checks =
+        targets
+        |> Target.get_checks_from_targets()
+        |> Wanda.Catalog.get_checks()
+
+      start_supervised!(
+        {Server,
+         [
+           execution_id: execution_id,
+           group_id: group_id,
+           targets: Target.map_targets(targets),
+           checks: checks,
+           env: env
+         ]}
+      )
 
       json =
         conn

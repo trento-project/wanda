@@ -56,10 +56,10 @@ defmodule WandaWeb.ExecutionController do
 
   operation :start,
     summary: "Start a Checks Execution",
-    description: "Trigger a Checks Execution on the target infrastructure",
+    description: "Start a Checks Execution on the target infrastructure",
     request_body: {"Execution Context", "application/json", StartExecutionRequest},
     responses: %{
-      202 => {"AcceptedExecution", "application/json", AcceptedExecutionResponse},
+      202 => {"Accepted Execution Response", "application/json", AcceptedExecutionResponse},
       422 => OpenApiSpex.JsonErrorResponse.response()
     }
 
