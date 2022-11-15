@@ -118,6 +118,6 @@ Refer to the [API doc](http://localhost:4000/swaggerui) for more information abo
 Built-in Checks can be found in the Catalog directory at `./priv/catalog/`
 
 In order to implement new checks and test them:
-- write a new [Check Specification](#link-to-specification-doc) file
+- write a new [Check Specification](./guides/specification.md) file
 - locate the newly created Check in the Catalog directory `./priv/catalog/`
 - test the execution as [previously described](#testing-executions)
