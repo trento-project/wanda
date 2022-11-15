@@ -104,7 +104,14 @@
         "additionalProperties": false,
         "properties": {
           "value": {
-            "type": "integer"
+            "anyOf": [
+              {
+                "type": "integer"
+              },
+              {
+                "type": "string"
+              }
+            ]
           },
           "when": {
             "type": "string"
