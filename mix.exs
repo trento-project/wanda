@@ -1,15 +1,20 @@
 defmodule Wanda.MixProject do
   use Mix.Project
 
+  @version "0.1.0"
+  @source_url "https://github.com/trento-project/wanda"
+
   def project do
     [
       app: :wanda,
-      version: "0.1.0",
+      version: @version,
       elixir: "~> 1.13",
       elixirc_paths: elixirc_paths(Mix.env()),
       start_permanent: Mix.env() == :prod,
       aliases: aliases(),
       deps: deps(),
+      name: "Wanda",
+      docs: docs(),
       dialyzer: [plt_add_apps: [:ex_unit]]
     ]
   end
@@ -20,6 +25,55 @@ defmodule Wanda.MixProject do
       extra_applications: [:logger],
       mod: {Wanda.Application, []}
     ]
+  end
+
+  defp docs do
+    [
+      main: "readme",
+      logo: "priv/static/images/trento.svg",
+      extra_section: "GUIDES",
+      source_url: @source_url,
+      assets: "guides/assets/",
+      extras: extras(),
+      groups_for_extras: groups_for_extras(),
+      groups_for_modules: [
+        Domain: [~r/Trento.Domain.*/],
+        "Event handlers": [~r/Trento.*EventHandler$/],
+        Integration: [~r/Trento.Integration.*/],
+        Messaging: [~r/Trento.Messaging.*/],
+        "Read models": [~r/Trento.*ReadModel$/],
+        Projectors: [~r/Trento.*Projector$/],
+        Support: [~r/Trento.Support.*/],
+        Web: [~r/TrentoWeb.*/]
+      ],
+      nest_modules_by_prefix: [
+        Wanda.Catalog,
+        Wanda.Executions,
+        Wanda.Messaging,
+        WandaWeb
+      ]
+    ]
+  end
+
+  defp extras() do
+    [
+      "README.md",
+      "CHANGELOG.md",
+      "CONTRIBUTING.md",
+      "guides/specification.md",
+      "guides/expression_language.md",
+      "guides/gatherers.md"
+    ]
+  end
+
+  defp groups_for_extras do
+    %{
+      "Checks development" => [
+        "guides/specification.md",
+        "guides/expression_language.md",
+        "guides/gatherers.md"
+      ]
+    }
   end
 
   # Specifies which paths to compile per environment.

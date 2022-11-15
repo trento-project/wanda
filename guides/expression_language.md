@@ -1,15 +1,23 @@
-# Trento Checks Expression Language Reference
+# Expression Language
 
 A small, fast, easy-to-use scripting language and evaluation engine.
 
-- [Introduction](#introduction)
-- [Types](#types)
-- [Logic Operators and Boolean](#logic-operators-and-boolean)
-- [If Statement](#if-statement)
+- [Expression Language](#expression-language)
+  - [Introduction](#introduction)
+  - [Types](#types)
+  - [Logic Operators and Boolean](#logic-operators-and-boolean)
+    - [Comparing different types defaults to `false`](#comparing-different-types-defaults-to-false)
+    - [Boolean Operators](#boolean-operators)
+  - [If Statement](#if-statement)
     - [If Expression](#if-expression)
-- [Arrays](#arrays)
-- [Maps](#maps)
-- [Rhai](#rhai)
+  - [Arrays](#arrays)
+    - [Access Element From beginning](#access-element-from-beginning)
+    - [Access Element From end](#access-element-from-end)
+  - [Maps](#maps)
+    - [Dot notation](#dot-notation)
+    - [Non-existing property](#non-existing-property)
+    - [A more complex example](#a-more-complex-example)
+  - [Rhai](#rhai)
 
 ## Introduction
 
@@ -17,15 +25,15 @@ An embedded scripting language and evaluation engine for Trento Checks Expressio
 
 ## Types
 
-| Type          | Example                          |
-| ------------- | -------------------------------- |
-| **Nothing/void/nil/null/Unit**    | `()`         |
-| **Integer**   | `42`, `123`                      |
-| **Float**     | `123.4567`                       |
-| **Boolean**   | `true` or `false`                |
-| **String**    | `"hello"`                        |
-| **Array**     | `[ 1, 2, 3, "foobar" ]`          |
-| **Map**       | `#{ "a": 1, "b": true }`         |
+| Type                           | Example                  |
+| ------------------------------ | ------------------------ |
+| **Nothing/void/nil/null/Unit** | `()`                     |
+| **Integer**                    | `42`, `123`              |
+| **Float**                      | `123.4567`               |
+| **Boolean**                    | `true` or `false`        |
+| **String**                     | `"hello"`                |
+| **Array**                      | `[ 1, 2, 3, "foobar" ]`  |
+| **Map**                        | `#{ "a": 1, "b": true }` |
 
 ## Logic Operators and Boolean
 
@@ -95,7 +103,7 @@ if foo(x) {
 > branches of the `if` statement must be enclosed within braces `{`...`}`, even when there is only
 > one statement inside the branch.
 > Like Rust, there is no ambiguity regarding which `if` clause a branch belongs to.
-> 
+>
 > ```rust
 > // not C!
 > if (decision) print(42);
@@ -124,7 +132,7 @@ Array literals are built within square brackets `[` ... `]` and separated by com
 
 > `[` _value_`,` _value_`,` ... `,` _value_ `]`
 >
-> `[` _value_`,` _value_`,` ... `,` _value_ `,` `]`     `// trailing comma is OK`
+> `[` _value_`,` _value_`,` ... `,` _value_ `,` `]` `// trailing comma is OK`
 
 ```rust
 let some_list = [1, 2, 3];
@@ -163,14 +171,15 @@ let last_element = some_list[-1];
 // last_element is 42
 ```
 
-| Function | Parameter(s)                       | Description |
-| -------- | ------------                       | ----------- |
-| `get`    | position, counting from end if < 0 | gets a copy of the element at a certain position (`()` if the position is not valid) |
-| `len`    | _none_                             | returns the number of elements |
-| `filter` | predicate (usually a closure) | constructs a new array with all items that return `true` when called with the predicate function taking the following parameters:<ol><li>array item</li><li>_(optional)_ offset position</li></ol> |
-| `all`    | predicate (usually a closure) | returns `true` if all items return `true` when called with the predicate function taking the following parameters:<ol><li>array item</li><li>_(optional)_ offset position</li></ol>  |
+| Function | Parameter(s)                       | Description                                                                                                                                                                                        |
+| -------- | ---------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `get`    | position, counting from end if < 0 | gets a copy of the element at a certain position (`()` if the position is not valid)                                                                                                               |
+| `len`    | _none_                             | returns the number of elements                                                                                                                                                                     |
+| `filter` | predicate (usually a closure)      | constructs a new array with all items that return `true` when called with the predicate function taking the following parameters:<ol><li>array item</li><li>_(optional)_ offset position</li></ol> |
+| `all`    | predicate (usually a closure)      | returns `true` if all items return `true` when called with the predicate function taking the following parameters:<ol><li>array item</li><li>_(optional)_ offset position</li></ol>                |
 
 Examples
+
 ```rust
 let some_list = [1, 2, 3, 4, "foo", "bar"];
 
@@ -185,9 +194,8 @@ let another_list = [3, 5, 7, 9, 10, 20, 30];
 
 let all_greater_than_2 = another_list.all(|item| item > 2); // true
 let all_greater_than_10 = another_list.all(|item| item > 10); // false
-// let all_greater_than_10 = another_list.all(|item, idex_in_array| item > 10); 
+// let all_greater_than_10 = another_list.all(|item, idex_in_array| item > 10);
 ```
-
 
 ## Maps
 
@@ -198,7 +206,7 @@ commas `,`:
 
 > `#{` _property_ `:` _value_`,` ... `,` _property_ `:` _value_ `}`
 >
-> `#{` _property_ `:` _value_`,` ... `,` _property_ `:` _value_ `,` `}`     `// trailing comma is OK`
+> `#{` _property_ `:` _value_`,` ... `,` _property_ `:` _value_ `,` `}` `// trailing comma is OK`
 
 ```rust
 let some_map = #{              // map literal with 2 properties
@@ -206,6 +214,7 @@ let some_map = #{              // map literal with 2 properties
     bar: "hello",
 };
 ```
+
 ### Dot notation
 
 The _dot notation_ allows to access properties by name.
