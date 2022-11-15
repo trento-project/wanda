@@ -43,7 +43,8 @@ defmodule WandaWeb.Schemas.StartExecutionRequest do
         additionalProperties: %Schema{
           oneOf: [
             %Schema{type: :string},
-            %Schema{type: :int}
+            %Schema{type: :integer},
+            %Schema{type: :boolean}
           ]
         }
       },

@@ -79,9 +79,7 @@ defmodule WandaWeb.ExecutionControllerTest do
         }
       ]
 
-      env = %{
-        "provider" => "azure"
-      }
+      env = build(:env)
 
       expect(Wanda.Executions.ServerMock, :start_execution, fn ^execution_id,
                                                                ^group_id,
@@ -123,9 +121,7 @@ defmodule WandaWeb.ExecutionControllerTest do
         }
       ]
 
-      env = %{
-        "provider" => "azure"
-      }
+      env = build(:env)
 
       expect(Wanda.Executions.ServerMock, :start_execution, fn ^execution_id,
                                                                ^group_id,
