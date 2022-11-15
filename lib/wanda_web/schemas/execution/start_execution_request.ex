@@ -3,9 +3,9 @@ defmodule WandaWeb.Schemas.StartExecutionRequest do
   The request to be sent to start an execution
   """
 
-  require OpenApiSpex
-
   alias OpenApiSpex.Schema
+
+  require OpenApiSpex
 
   defmodule Target do
     @moduledoc false

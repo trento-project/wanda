@@ -6,9 +6,9 @@ defmodule WandaWeb.Schemas.AcceptedExecutionResponse do
   These identifiers may be used to query the APIs about the state of an execution.
   """
 
-  require OpenApiSpex
-
   alias OpenApiSpex.Schema
+
+  require OpenApiSpex
 
   OpenApiSpex.schema(%{
     title: "AcceptedExecutionResponse",
