@@ -1,9 +1,9 @@
 defmodule WandaWeb.Schemas.ExecutionResponse.ExpectationResult do
   @moduledoc false
 
-  require OpenApiSpex
-
   alias OpenApiSpex.Schema
+
+  require OpenApiSpex
 
   OpenApiSpex.schema(%{
     title: "ExpectationResult",

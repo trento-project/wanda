@@ -5,10 +5,10 @@ defmodule Wanda.Messaging.Adapters.AMQP.Processor do
 
   @behaviour GenRMQ.Processor
 
-  require Logger
-
   alias Trento.Contracts
   alias Wanda.Policy
+
+  require Logger
 
   def process(%GenRMQ.Message{payload: payload} = message) do
     Logger.debug("Received message: #{inspect(message)}")
