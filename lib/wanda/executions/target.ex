@@ -19,4 +19,10 @@ defmodule Wanda.Executions.Target do
     |> Enum.flat_map(& &1.checks)
     |> Enum.uniq()
   end
+
+  def map_targets(map_list) do
+    Enum.map(map_list, fn %{agent_id: agent_id, checks: checks} ->
+      %__MODULE__{agent_id: agent_id, checks: checks}
+    end)
+  end
 end

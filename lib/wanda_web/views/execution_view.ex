@@ -38,6 +38,18 @@ defmodule WandaWeb.ExecutionView do
     }
   end
 
+  def render("start.json", %{
+        accepted_execution: %{
+          execution_id: execution_id,
+          group_id: group_id
+        }
+      }) do
+    %{
+      execution_id: execution_id,
+      group_id: group_id
+    }
+  end
+
   defp map_result(:running, _), do: nil
   defp map_result(:completed, %{"result" => result}), do: result
 

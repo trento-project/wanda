@@ -75,8 +75,11 @@ if config_env() == :prod do
   # Update catalog path to the current application dir during runtime
   config :wanda, Wanda.Catalog,
     catalog_path:
-      Application.app_dir(
-        :wanda,
-        "priv/catalog"
+      System.get_env(
+        "CATALOG_PATH",
+        Application.app_dir(
+          :wanda,
+          "priv/catalog"
+        )
       )
 end

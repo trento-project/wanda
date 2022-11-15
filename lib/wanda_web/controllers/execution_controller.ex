@@ -5,7 +5,14 @@ defmodule WandaWeb.ExecutionController do
   alias OpenApiSpex.Schema
 
   alias Wanda.Executions
-  alias WandaWeb.Schemas.{ExecutionResponse, ListExecutionsResponse}
+  alias Wanda.Executions.Target
+
+  alias WandaWeb.Schemas.{
+    AcceptedExecutionResponse,
+    ExecutionResponse,
+    ListExecutionsResponse,
+    StartExecutionRequest
+  }
 
   plug OpenApiSpex.Plug.CastAndValidate, json_render_error_v2: true
 
@@ -47,6 +54,15 @@ defmodule WandaWeb.ExecutionController do
       404 => OpenApiSpex.JsonErrorResponse.response()
     }
 
+  operation :start,
+    summary: "Start a Checks Execution",
+    description: "Start a Checks Execution on the target infrastructure",
+    request_body: {"Execution Context", "application/json", StartExecutionRequest},
+    responses: %{
+      202 => {"Accepted Execution Response", "application/json", AcceptedExecutionResponse},
+      422 => OpenApiSpex.JsonErrorResponse.response()
+    }
+
   def index(conn, params) do
     executions = Executions.list_executions(params)
     total_count = Executions.count_executions(params)
@@ -59,4 +75,42 @@ defmodule WandaWeb.ExecutionController do
 
     render(conn, execution: execution)
   end
+
+  def start(
+        conn,
+        _params
+      ) do
+    %{
+      execution_id: execution_id,
+      group_id: group_id,
+      targets: targets,
+      env: env
+    } = Map.get(conn, :body_params)
+
+    case execution_server_impl().start_execution(
+           execution_id,
+           group_id,
+           Target.map_targets(targets),
+           env
+         ) do
+      :ok ->
+        conn
+        |> put_status(:accepted)
+        |> render(
+          accepted_execution: %{
+            execution_id: execution_id,
+            group_id: group_id
+          }
+        )
+
+      {:error, reason} ->
+        conn
+        |> put_status(:unprocessable_entity)
+        |> put_view(WandaWeb.ErrorView)
+        |> render("422.json", error: reason)
+    end
+  end
+
+  defp execution_server_impl,
+    do: Application.fetch_env!(:wanda, Wanda.Policy)[:execution_server_impl]
 end
