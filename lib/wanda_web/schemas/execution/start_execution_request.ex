@@ -35,17 +35,20 @@ defmodule WandaWeb.Schemas.StartExecutionRequest do
   defmodule Env do
     @moduledoc false
 
-    OpenApiSpex.schema(%{
-      title: "ExecutionEnv",
-      description: "Contextual Environment for the current execution",
-      type: :object,
-      additionalProperties: %Schema{
-        oneOf: [
-          %Schema{type: :string},
-          %Schema{type: :int}
-        ]
-      }
-    })
+    OpenApiSpex.schema(
+      %{
+        title: "ExecutionEnv",
+        description: "Contextual Environment for the current execution",
+        type: :object,
+        additionalProperties: %Schema{
+          oneOf: [
+            %Schema{type: :string},
+            %Schema{type: :int}
+          ]
+        }
+      },
+      struct?: false
+    )
   end
 
   OpenApiSpex.schema(%{
