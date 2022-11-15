@@ -1,11 +1,12 @@
 defmodule WandaWeb.ApiSpec do
   @moduledoc false
 
+  @behaviour OpenApiSpex.OpenApi
+
   alias OpenApiSpex.{Info, OpenApi, Paths, Server}
   alias WandaWeb.{Endpoint, Router}
-  @behaviour OpenApi
 
-  @impl OpenApi
+  @impl true
   def spec do
     # Discover request/response schemas from path specs
     OpenApiSpex.resolve_schema_modules(%OpenApi{

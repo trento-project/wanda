@@ -3,11 +3,11 @@ defmodule WandaWeb.Schemas.ExecutionResponse do
   Execution item response API spec
   """
 
-  require OpenApiSpex
-
   alias OpenApiSpex.Schema
 
   alias WandaWeb.Schemas.ExecutionResponse.CheckResult
+
+  require OpenApiSpex
 
   OpenApiSpex.schema(%{
     title: "ExecutionResponse",

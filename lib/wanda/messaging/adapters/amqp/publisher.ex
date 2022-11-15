@@ -3,9 +3,9 @@ defmodule Wanda.Messaging.Adapters.AMQP.Publisher do
   AMQP publisher.
   """
 
-  alias Trento.Contracts
-
   @behaviour GenRMQ.Publisher
+
+  alias Trento.Contracts
 
   require Logger
 

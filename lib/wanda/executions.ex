@@ -3,6 +3,8 @@ defmodule Wanda.Executions do
   This module exposes functionalities to interact with the historycal log of executions.
   """
 
+  import Ecto.Query
+
   alias Wanda.Repo
 
   alias Wanda.Executions.{
@@ -10,8 +12,6 @@ defmodule Wanda.Executions do
     Result,
     Target
   }
-
-  import Ecto.Query
 
   @doc """
   Create a new execution.

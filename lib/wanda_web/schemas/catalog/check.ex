@@ -3,9 +3,9 @@ defmodule WandaWeb.Schemas.CatalogResponse.Check do
   Individual check of the catalog response API spec
   """
 
-  require OpenApiSpex
-
   alias OpenApiSpex.Schema
+
+  require OpenApiSpex
 
   OpenApiSpex.schema(%{
     title: "Check",

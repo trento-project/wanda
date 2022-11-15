@@ -3,10 +3,10 @@ defmodule WandaWeb.Schemas.CatalogResponse do
   Checks catalog response API spec
   """
 
-  require OpenApiSpex
-
   alias OpenApiSpex.Schema
   alias WandaWeb.Schemas.CatalogResponse.Check
+
+  require OpenApiSpex
 
   OpenApiSpex.schema(%{
     title: "CatalogResponse",
