@@ -1,12 +1,15 @@
 defmodule WandaWeb.ExecutionControllerTest do
   use WandaWeb.ConnCase, async: true
 
+  import Mox
   import OpenApiSpex.TestAssertions
   import Wanda.Factory
 
   alias WandaWeb.ApiSpec
 
-  alias Wanda.Executions.{Server, Target}
+  alias Wanda.Executions.Target
+
+  setup :verify_on_exit!
 
   describe "list executions" do
     test "should return a list of executions", %{conn: conn} do
@@ -69,21 +72,37 @@ defmodule WandaWeb.ExecutionControllerTest do
       execution_id = UUID.uuid4()
       group_id = UUID.uuid4()
 
+      targets = [
+        %{
+          "agent_id" => agent_id = UUID.uuid4(),
+          "checks" => checks = ["expect_check"]
+        }
+      ]
+
+      env = %{
+        "provider" => "azure"
+      }
+
+      expect(Wanda.Executions.ServerMock, :start_execution, fn ^execution_id,
+                                                               ^group_id,
+                                                               [
+                                                                 %Target{
+                                                                   agent_id: ^agent_id,
+                                                                   checks: ^checks
+                                                                 }
+                                                               ],
+                                                               ^env ->
+        :ok
+      end)
+
       json =
         conn
         |> put_req_header("content-type", "application/json")
         |> post("/api/checks/executions/start", %{
           "execution_id" => execution_id,
           "group_id" => group_id,
-          "targets" => [
-            %{
-              "agent_id" => UUID.uuid4(),
-              "checks" => ["expect_check"]
-            }
-          ],
-          "env" => %{
-            "provider" => "azure"
-          }
+          "targets" => targets,
+          "env" => env
         })
         |> json_response(202)
 
@@ -99,8 +118,8 @@ defmodule WandaWeb.ExecutionControllerTest do
 
       targets = [
         %{
-          agent_id: UUID.uuid4(),
-          checks: ["expect_check"]
+          agent_id: agent_id = UUID.uuid4(),
+          checks: checks = ["expect_check"]
         }
       ]
 
@@ -108,21 +127,17 @@ defmodule WandaWeb.ExecutionControllerTest do
         "provider" => "azure"
       }
 
-      checks =
-        targets
-        |> Target.get_checks_from_targets()
-        |> Wanda.Catalog.get_checks()
-
-      start_supervised!(
-        {Server,
-         [
-           execution_id: execution_id,
-           group_id: group_id,
-           targets: Target.map_targets(targets),
-           checks: checks,
-           env: env
-         ]}
-      )
+      expect(Wanda.Executions.ServerMock, :start_execution, fn ^execution_id,
+                                                               ^group_id,
+                                                               [
+                                                                 %Target{
+                                                                   agent_id: ^agent_id,
+                                                                   checks: ^checks
+                                                                 }
+                                                               ],
+                                                               ^env ->
+        {:error, :already_running}
+      end)
 
       json =
         conn
@@ -135,7 +150,7 @@ defmodule WandaWeb.ExecutionControllerTest do
         })
         |> json_response(422)
 
-      assert %{"error" => "already_running"} = json
+      assert %{"error" => %{"detail" => "already_running"}} = json
     end
 
     test "should return an error on validation failure", %{conn: conn} do

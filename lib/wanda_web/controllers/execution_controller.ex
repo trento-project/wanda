@@ -5,7 +5,7 @@ defmodule WandaWeb.ExecutionController do
   alias OpenApiSpex.Schema
 
   alias Wanda.Executions
-  alias Wanda.Executions.{Server, Target}
+  alias Wanda.Executions.Target
 
   alias WandaWeb.Schemas.{
     AcceptedExecutionResponse,
@@ -87,19 +87,30 @@ defmodule WandaWeb.ExecutionController do
       env: env
     } = Map.get(conn, :body_params)
 
-    case Server.start_execution(execution_id, group_id, Target.map_targets(targets), env) do
+    case execution_server_impl().start_execution(
+           execution_id,
+           group_id,
+           Target.map_targets(targets),
+           env
+         ) do
       :ok ->
         conn
         |> put_status(:accepted)
-        |> json(%{
-          execution_id: execution_id,
-          group_id: group_id
-        })
+        |> render(
+          accepted_execution: %{
+            execution_id: execution_id,
+            group_id: group_id
+          }
+        )
 
       {:error, reason} ->
         conn
         |> put_status(:unprocessable_entity)
-        |> json(%{error: reason})
+        |> put_view(WandaWeb.ErrorView)
+        |> render("422.json", error: reason)
     end
   end
+
+  defp execution_server_impl,
+    do: Application.fetch_env!(:wanda, Wanda.Policy)[:execution_server_impl]
 end
