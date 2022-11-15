@@ -239,7 +239,7 @@ See main sections [Facts](#facts), [Values](#values), [Expectations](#expectatio
 Facts are various types of information that the engine can discover on the target infrastructure.
 Examples include (but are not limited to) installed packages, cluster state, and configuration files' content.
 
-The process of determining the value of a declared fact during Check execution is refered to as _Facts Gathering_ and it is the job of the [_Gatherers_](./gatherers.md).
+The process of determining the value of a declared fact during Check execution is referred to as _Facts Gathering_ and it is the job of the [_Gatherers_](./gatherers.md).
 Think of gatherers as being functions that have a name and accept argument(s).
 
 That said, a fact declaration contains:
@@ -288,7 +288,7 @@ Values are named variables that may evaluate differently based on the execution 
 
 ### Hardcoded Values
 
-Direct usage of a simple hadrcoded value
+Direct usage of a simple hardcoded value
 ```yaml
 expectations:
   - name: awesome_expectation
