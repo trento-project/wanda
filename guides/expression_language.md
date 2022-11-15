@@ -225,7 +225,7 @@ some_map.bar // "hello"
 
 ### Non-existing property
 
-Trying to read a non-existing property returns `()` instead of causing an error.
+Trying to read a non-existing property returns an error.
 
 ```rust
 let some_map = #{              // map literal with 2 properties
@@ -233,7 +233,7 @@ let some_map = #{              // map literal with 2 properties
     bar: "hello",
 };
 
-some_map.another_property      // returns ()
+some_map.another_property      // returns "Property not found: another_property (line X, position Y)"
 ```
 
 ### A more complex example
