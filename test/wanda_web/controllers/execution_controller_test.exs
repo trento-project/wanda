@@ -108,7 +108,7 @@ defmodule WandaWeb.ExecutionControllerTest do
       assert_schema(json, "AcceptedExecutionResponse", api_spec)
     end
 
-    test "should return an error when attempting to start an already running execution", %{
+    test "should return an error when the start execution operation fails", %{
       conn: conn
     } do
       execution_id = UUID.uuid4()

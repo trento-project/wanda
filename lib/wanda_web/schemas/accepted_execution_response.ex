@@ -12,8 +12,7 @@ defmodule WandaWeb.Schemas.AcceptedExecutionResponse do
 
   OpenApiSpex.schema(%{
     title: "AcceptedExecutionResponse",
-    description:
-      "Identifiers of the Accepted Execution, status needs to be checks at appropriate API",
+    description: "Identifiers of the recently accepted execution",
     type: :object,
     properties: %{
       execution_id: %Schema{type: :string, format: :uuid},

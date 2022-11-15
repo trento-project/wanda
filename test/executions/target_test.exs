@@ -36,27 +36,27 @@ defmodule Wanda.Executions.TargetTest do
         %{
           agent_id: agent_1 = Faker.UUID.v4(),
           checks: [
-            check_1 = "SOME_CHECK",
-            check_2 = "ANOTHER_CHECK"
+            check_1 = Faker.Airports.iata(),
+            check_2 = Faker.Cannabis.brand()
           ]
         },
         %{
           agent_id: agent_2 = Faker.UUID.v4(),
           checks: [
-            check_3 = "YET_ANOTHER_CHECK"
+            check_3 = Faker.Color.name()
           ]
         }
       ]
 
       assert [
-               %{
+               %Target{
                  agent_id: ^agent_1,
                  checks: [
                    ^check_1,
                    ^check_2
                  ]
                },
-               %{
+               %Target{
                  agent_id: ^agent_2,
                  checks: [
                    ^check_3

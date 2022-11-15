@@ -3,8 +3,6 @@ defmodule Wanda.Executions.Target do
   Execution targets.
   """
 
-  alias Wanda.Executions.Target
-
   defstruct [
     :agent_id,
     checks: []
@@ -24,7 +22,7 @@ defmodule Wanda.Executions.Target do
 
   def map_targets(map_list) do
     Enum.map(map_list, fn %{agent_id: agent_id, checks: checks} ->
-      %Target{agent_id: agent_id, checks: checks}
+      %__MODULE__{agent_id: agent_id, checks: checks}
     end)
   end
 end

@@ -91,7 +91,7 @@ curl --request POST 'http://localhost:4000/api/checks/executions/start' \
 }'
 ```
 
-> **execution_id** is a unique uuid provided by the consumer when starting the execution.
+> **execution_id** must be new and unique for every new execution. If an already used **execution_id** is provided, starting the execution fails.
 
 In order to get the detailed information for an execution see [Getting Execution details](#getting-execution-details).
 
