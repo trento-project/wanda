@@ -66,6 +66,6 @@ defmodule WandaWeb.Schemas.StartExecutionRequest do
       },
       env: Env
     },
-    required: [:execution_id, :group_id, :targets, :env]
+    required: [:execution_id, :group_id, :targets]
   })
 end
