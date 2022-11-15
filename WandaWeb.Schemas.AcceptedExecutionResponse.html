@@ -7,7 +7,7 @@
     <meta name="generator" content="ExDoc v0.29.0">
     <meta name="project" content="wanda v0.1.0">
 
-    <title>Wanda.Executions.Value — wanda v0.1.0</title>
+    <title>WandaWeb.Schemas.AcceptedExecutionResponse — wanda v0.1.0</title>
     <link rel="stylesheet" href="dist/html-elixir-2YOS5DIE.css" />
 
     <script src="dist/handlebars.runtime-NWIB6V2M.js"></script>
@@ -95,15 +95,15 @@ wanda
 </button>
 
 
-  <span translate="no">Wanda.Executions.Value</span> 
+  <span translate="no">WandaWeb.Schemas.AcceptedExecutionResponse</span> 
   <small class="app-vsn" translate="no">(wanda v0.1.0)</small>
 
 </h1>
 
 
   <section id="moduledoc">
-<p>Represents a Value used in expectation evaluation.
-This value has been already determined given the conditions in check definition.</p>
+<p>Minimal information about an Execution accepted by the system,
+it carries the same identifiers provided by the consumer that requested the execution to start.</p><p>These identifiers may be used to query the APIs about the state of an execution.</p>
   </section>
 
 
@@ -126,6 +126,23 @@ This value has been already determined given the conditions in check definition.
           <a href="#t:t/0" translate="no">t()</a>
 
         </div>
+
+      </div>
+
+  </div>
+
+  <div class="summary-functions summary">
+    <h2>
+      <a href="#functions">Functions</a>
+    </h2>
+
+      <div class="summary-row">
+        <div class="summary-signature">
+          <a href="#schema/0" translate="no">schema()</a>
+
+        </div>
+
+          <div class="summary-synopsis"><p>Callback implementation for <a href="https://hexdocs.pm/open_api_spex/3.13.0/OpenApiSpex.Schema.html#c:schema/0"><code class="inline">OpenApiSpex.Schema.schema/0</code></a>.</p></div>
 
       </div>
 
@@ -159,14 +176,44 @@ Types
 
       <div class="specs">
 
-          <pre translate="no"><span class="attribute">@type</span> t() :: %Wanda.Executions.Value{
-  name: <a href="https://hexdocs.pm/elixir/String.html#t:t/0">String.t</a>(),
-  value: <a href="https://hexdocs.pm/elixir/typespecs.html#built-in-types">boolean</a>() | <a href="https://hexdocs.pm/elixir/typespecs.html#built-in-types">number</a>() | <a href="https://hexdocs.pm/elixir/String.html#t:t/0">String.t</a>()
+          <pre translate="no"><span class="attribute">@type</span> t() :: %WandaWeb.Schemas.AcceptedExecutionResponse{
+  execution_id: <a href="https://hexdocs.pm/elixir/typespecs.html#built-in-types">term</a>(),
+  group_id: <a href="https://hexdocs.pm/elixir/typespecs.html#built-in-types">term</a>()
 }</pre>
 
       </div>
 
 
+  </section>
+</section>
+
+    </div>
+  </section>
+
+  <section id="functions" class="details-list">
+    <h1 class="section-heading">
+      <a class="hover-link" href="#functions">
+        <i class="ri-link-m" aria-hidden="true"></i>
+        <span class="sr-only">Link to this section</span>
+      </a>
+Functions
+    </h1>
+    <div class="functions-list">
+<section class="detail" id="schema/0">
+
+  <div class="detail-header">
+    <a href="#schema/0" class="detail-link" title="Link to this function">
+      <i class="ri-link-m" aria-hidden="true"></i>
+      <span class="sr-only">Link to this function</span>
+    </a>
+    <h1 class="signature" translate="no">schema()</h1>
+
+
+  </div>
+
+  <section class="docstring">
+
+<p>Callback implementation for <a href="https://hexdocs.pm/open_api_spex/3.13.0/OpenApiSpex.Schema.html#c:schema/0"><code class="inline">OpenApiSpex.Schema.schema/0</code></a>.</p>
   </section>
 </section>
 

@@ -44,10 +44,12 @@ WandaWeb.ExecutionController.html
 WandaWeb.ExecutionView.html
 WandaWeb.Router.Helpers.html
 WandaWeb.Router.html
+WandaWeb.Schemas.AcceptedExecutionResponse.html
 WandaWeb.Schemas.CatalogResponse.Check.html
 WandaWeb.Schemas.CatalogResponse.html
 WandaWeb.Schemas.ExecutionResponse.html
 WandaWeb.Schemas.ListExecutionsResponse.html
+WandaWeb.Schemas.StartExecutionRequest.html
 WandaWeb.html
 api-reference.html
 dist/handlebars.runtime-NWIB6V2M.js
@@ -75,7 +77,7 @@ dist/merriweather-latin-ext-300-normal-K6L27CZ5.woff2
 dist/merriweather-vietnamese-300-italic-EHHNZPUO.woff2
 dist/merriweather-vietnamese-300-normal-U376L4Z4.woff2
 dist/remixicon-E5UFLALU.woff2
-dist/search_items-01E1B6FF.js
-dist/sidebar_items-B9ED6728.js
+dist/search_items-A3A402FA.js
+dist/sidebar_items-40E703C5.js
 index.html
 search.html
