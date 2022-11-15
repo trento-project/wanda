@@ -2,23 +2,6 @@
 
 A small, fast, easy-to-use scripting language and evaluation engine.
 
-- [Expression Language](#expression-language)
-  - [Introduction](#introduction)
-  - [Types](#types)
-  - [Logic Operators and Boolean](#logic-operators-and-boolean)
-    - [Comparing different types defaults to `false`](#comparing-different-types-defaults-to-false)
-    - [Boolean Operators](#boolean-operators)
-  - [If Statement](#if-statement)
-    - [If Expression](#if-expression)
-  - [Arrays](#arrays)
-    - [Access Element From beginning](#access-element-from-beginning)
-    - [Access Element From end](#access-element-from-end)
-  - [Maps](#maps)
-    - [Dot notation](#dot-notation)
-    - [Non-existing property](#non-existing-property)
-    - [A more complex example](#a-more-complex-example)
-  - [Rhai](#rhai)
-
 ## Introduction
 
 An embedded scripting language and evaluation engine for Trento Checks Expressions that gives a safe and easy way to script specific steps during Checks Execution.
