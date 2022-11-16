@@ -18,13 +18,13 @@ Checks are, in Trento's domain, the crystallization of SUSE's best practices whe
 
 ### Requesting an Execution
 
-An Execution can be requested to start by providing Wanda the Following information:
+An Execution can be requested to start by providing Wanda the following information:
 
 - an execution identifier
 - an execution Group identifier
 - the Checks Selection for the targets (a list of checks to be executed on the targets)
 
-Once the *Execution* starts, its current state is stored in the Database and the targets are notified - via the message broker - about the Facts to be gathered.
+When the Execution starts running, its current state is stored in the Database and the targets are notified - via the message broker - about Facts to be gathered.
 
 Then the *Execution* waits for the [Facts Gathering](#facts-gathering) to complete.
 
@@ -32,7 +32,7 @@ Then the *Execution* waits for the [Facts Gathering](#facts-gathering) to comple
 
 After an _Execution Request_ the targets are notified about the facts they need to [gather](./gatherers.md).
 
-Whenever a target [agent](https://github.com/trento-project/agent) has gathered all the needed facts for an *Execution*, it notifies Wanda - via the message broker - about the *Gathered Facts*.
+Whenever a target has gathered all the needed facts for an *Execution*, it notifies Wanda - via the message broker - about the *Gathered Facts*.
 
 ### Expectation Evaluation
 
@@ -230,7 +230,7 @@ See main sections [Facts](#facts), [Values](#values), [Expectations](#expectatio
 Facts are the core data on which the engine evaluates the state of the target infrastructure.
 Examples include (but are not limited to) installed packages, cluster state, and configuration files content.
 
-The process of determining the value of a declared fact during Check execution is refered to as _Facts Gathering_ and it is the responsability of the [_Gatherers_](./gatherers.md).
+The process of determining the value of a declared fact during Check execution is referred to as _Facts Gathering_ and it is the responsibility of the [_Gatherers_](./gatherers.md).
 Gatherers could be seen as functions that have a name and accept argument(s).
 
 That said, a fact declaration contains:
