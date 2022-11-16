@@ -1,0 +1,16 @@
+id: argumentless_gatherer
+name: Test check
+group: Test
+description: |
+  Just a check
+remediation: |
+  ## Remediation
+  Remediation text
+
+facts:
+  - name: jedi
+    gatherer: wandalorian
+
+expectations:
+  - name: some_expectation
+    expect: facts.jedi == "yoda"

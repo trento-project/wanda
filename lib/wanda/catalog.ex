@@ -100,6 +100,14 @@ defmodule Wanda.Catalog do
     }
   end
 
+  defp map_fact(%{"name" => name, "gatherer" => gatherer}) do
+    %Fact{
+      name: name,
+      gatherer: gatherer,
+      argument: nil
+    }
+  end
+
   defp map_values(%{"values" => values}) do
     Enum.map(values, &map_value/1)
   end
