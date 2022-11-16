@@ -1,12 +1,8 @@
 # Wanda
 
-A service responsible to orchestrate Checks executions on a target infrastructure.
+[![Coverage Status](https://coveralls.io/repos/github/trento-project/wanda/badge.svg?branch=main)](https://coveralls.io/github/trento-project/wanda?branch=main)
 
-- [Installation](#installation)
-- [Developing Checks](#developing-checks)
-  - [Infrastructure](#infrastructure)
-  - [Testing Executions](#testing-executions)
-  - [Adding new Checks](#adding-new-checks)
+A service responsible to orchestrate Checks executions on a target infrastructure.
 
 ## Installation
 
@@ -27,13 +23,14 @@ be found at <https://hexdocs.pm/wanda>.
 
 ## Developing Checks
 
-Wanda architecture aims to simplify [testing Checks Executions](#testing-executions) and [adding new ones](#adding-new-checks). 
+Wanda architecture aims to simplify [testing Checks Executions](#testing-executions) and [adding new ones](#adding-new-checks).
 
 ### Infrastructure
 
 A docker-compose setup is provided to enable seamless experience with the system.
 
 #### Starting a local environment
+
 Start the required infrastructure (see [docker-compose.checks.yaml](./docker-compose.checks.yaml))
 
 ```bash
@@ -47,6 +44,7 @@ Wanda is exposed on port `4000` and the API documentation is available at http:/
 ### Testing Executions
 
 With a runnig setup it is possible to easily test Checks and their Execution by:
+
 - consulting the catalog
 - starting a Checks Execution
 - checking up the state of the started execution
@@ -54,6 +52,7 @@ With a runnig setup it is possible to easily test Checks and their Execution by:
 #### **Consulting the catalog**
 
 Available Checks are part of the **Catalog**, and they can be retrieved by accessing the dedicated API
+
 ```bash
 curl -X 'GET' \
   'http://localhost:4000/api/checks/catalog' \
@@ -108,7 +107,7 @@ curl --request GET 'http://localhost:4000/api/checks/executions/205e326d-0c25-4f
 ```
 
 > **Note** that calling the execution detail API right after [starting an execution](#starting-a-checks-execution) might result in a `404 not found`, because the execution, as mentioned, is _eventually started_.
-> 
+>
 > In this case retry getting the detail of the execution.
 
 Refer to the [API doc](http://localhost:4000/swaggerui) for more information about requests and responses.
@@ -118,6 +117,7 @@ Refer to the [API doc](http://localhost:4000/swaggerui) for more information abo
 Built-in Checks can be found in the Catalog directory at `./priv/catalog/`
 
 In order to implement new checks and test them:
+
 - write a new [Check Specification](./guides/specification.md) file
 - locate the newly created Check in the Catalog directory `./priv/catalog/`
 - test the execution as [previously described](#testing-executions)
