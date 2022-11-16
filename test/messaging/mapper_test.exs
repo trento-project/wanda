@@ -15,73 +15,111 @@ defmodule Wanda.Messaging.MapperTest do
     FactsGatheringRequested
   }
 
-  test "should map to a FactGatheringRequested event" do
-    execution_id = UUID.uuid4()
-    group_id = UUID.uuid4()
+  describe "map to a FactGatheringRequested event" do
+    test "should map to a FactGatheringRequested event" do
+      execution_id = UUID.uuid4()
+      group_id = UUID.uuid4()
 
-    targets = [
-      %Target{agent_id: "agent_1", checks: ["check_1", "check_2"]},
-      %Target{agent_id: "agent_2", checks: ["check_3"]}
-    ]
+      targets = [
+        %Target{agent_id: "agent_1", checks: ["check_1", "check_2"]},
+        %Target{agent_id: "agent_2", checks: ["check_3"]}
+      ]
 
-    checks = [
-      %Check{
-        id: "check_1",
-        facts: [
-          %Fact{name: "fact_1", gatherer: "gatherer_1", argument: "argument_1"},
-          %Fact{name: "fact_2", gatherer: "gatherer_2", argument: "argument_2"}
-        ]
-      },
-      %Check{
-        id: "check_2",
-        facts: [%Fact{name: "fact_2", gatherer: "gatherer_2", argument: "argument_2"}]
-      },
-      %Check{
-        id: "check_3",
-        facts: [%Fact{name: "fact_3", gatherer: "gatherer_3", argument: "argument_3"}]
-      }
-    ]
+      checks = [
+        %Check{
+          id: "check_1",
+          facts: [
+            %Fact{name: "fact_1", gatherer: "gatherer_1", argument: "argument_1"},
+            %Fact{name: "fact_2", gatherer: "gatherer_2", argument: "argument_2"}
+          ]
+        },
+        %Check{
+          id: "check_2",
+          facts: [%Fact{name: "fact_2", gatherer: "gatherer_2", argument: "argument_2"}]
+        },
+        %Check{
+          id: "check_3",
+          facts: [%Fact{name: "fact_3", gatherer: "gatherer_3", argument: "argument_3"}]
+        }
+      ]
 
-    assert %FactsGatheringRequested{
-             execution_id: ^execution_id,
-             group_id: ^group_id,
-             targets: [
-               %{
-                 agent_id: "agent_1",
-                 fact_requests: [
-                   %{
-                     argument: "argument_1",
-                     check_id: "check_1",
-                     gatherer: "gatherer_1",
-                     name: "fact_1"
-                   },
-                   %{
-                     argument: "argument_2",
-                     check_id: "check_1",
-                     gatherer: "gatherer_2",
-                     name: "fact_2"
-                   },
-                   %{
-                     argument: "argument_2",
-                     check_id: "check_2",
-                     gatherer: "gatherer_2",
-                     name: "fact_2"
-                   }
-                 ]
-               },
-               %{
-                 agent_id: "agent_2",
-                 fact_requests: [
-                   %{
-                     argument: "argument_3",
-                     check_id: "check_3",
-                     gatherer: "gatherer_3",
-                     name: "fact_3"
-                   }
-                 ]
-               }
-             ]
-           } = Mapper.to_facts_gathering_requested(execution_id, group_id, targets, checks)
+      assert %FactsGatheringRequested{
+               execution_id: ^execution_id,
+               group_id: ^group_id,
+               targets: [
+                 %{
+                   agent_id: "agent_1",
+                   fact_requests: [
+                     %{
+                       argument: "argument_1",
+                       check_id: "check_1",
+                       gatherer: "gatherer_1",
+                       name: "fact_1"
+                     },
+                     %{
+                       argument: "argument_2",
+                       check_id: "check_1",
+                       gatherer: "gatherer_2",
+                       name: "fact_2"
+                     },
+                     %{
+                       argument: "argument_2",
+                       check_id: "check_2",
+                       gatherer: "gatherer_2",
+                       name: "fact_2"
+                     }
+                   ]
+                 },
+                 %{
+                   agent_id: "agent_2",
+                   fact_requests: [
+                     %{
+                       argument: "argument_3",
+                       check_id: "check_3",
+                       gatherer: "gatherer_3",
+                       name: "fact_3"
+                     }
+                   ]
+                 }
+               ]
+             } = Mapper.to_facts_gathering_requested(execution_id, group_id, targets, checks)
+    end
+
+    test "should map to a FactGatheringRequested event, with argument-less gatherers" do
+      execution_id = UUID.uuid4()
+      group_id = UUID.uuid4()
+
+      targets = [
+        %Target{agent_id: "some_agent", checks: ["some_check"]}
+      ]
+
+      checks = [
+        %Check{
+          id: "some_check",
+          facts: [
+            %Fact{name: "fact_1", gatherer: "argumentless_gathrer"}
+          ]
+        }
+      ]
+
+      assert %FactsGatheringRequested{
+               execution_id: ^execution_id,
+               group_id: ^group_id,
+               targets: [
+                 %{
+                   agent_id: "some_agent",
+                   fact_requests: [
+                     %{
+                       argument: nil,
+                       check_id: "some_check",
+                       gatherer: "argumentless_gathrer",
+                       name: "fact_1"
+                     }
+                   ]
+                 }
+               ]
+             } = Mapper.to_facts_gathering_requested(execution_id, group_id, targets, checks)
+    end
   end
 
   test "should map to an ExecutionCompletedV1 event" do
