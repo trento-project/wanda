@@ -58,13 +58,13 @@ defmodule Wanda.MixProject do
   end
 
   defp groups_for_extras do
-    %{
-      "Checks development" => [
+    [
+      "Checks development": [
         "guides/specification.md",
         "guides/expression_language.md",
         "guides/gatherers.md"
       ]
-    }
+    ]
   end
 
   defp groups_for_modules do
