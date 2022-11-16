@@ -26,7 +26,11 @@ defmodule WandaWeb.Schemas.CatalogResponse.Check do
           properties: %{
             name: %Schema{type: :string, description: "Fact name"},
             gatherer: %Schema{type: :string, description: "Used gatherer"},
-            argument: %Schema{type: :string, description: "Argument for the gatherer"}
+            argument: %Schema{
+              type: :string,
+              nullable: true,
+              description: "Argument for the gatherer"
+            }
           },
           required: [:name, :gatherer, :argument]
         }
