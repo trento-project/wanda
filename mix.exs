@@ -36,22 +36,7 @@ defmodule Wanda.MixProject do
       assets: "guides/assets/",
       extras: extras(),
       groups_for_extras: groups_for_extras(),
-      groups_for_modules: [
-        Domain: [~r/Trento.Domain.*/],
-        "Event handlers": [~r/Trento.*EventHandler$/],
-        Integration: [~r/Trento.Integration.*/],
-        Messaging: [~r/Trento.Messaging.*/],
-        "Read models": [~r/Trento.*ReadModel$/],
-        Projectors: [~r/Trento.*Projector$/],
-        Support: [~r/Trento.Support.*/],
-        Web: [~r/TrentoWeb.*/]
-      ],
-      nest_modules_by_prefix: [
-        Wanda.Catalog,
-        Wanda.Executions,
-        Wanda.Messaging,
-        WandaWeb
-      ]
+      groups_for_modules: groups_for_modules()
     ]
   end
 
@@ -74,6 +59,23 @@ defmodule Wanda.MixProject do
         "guides/gatherers.md"
       ]
     }
+  end
+
+  defp groups_for_modules do
+    [
+      Executions: [
+        ~r/Wanda.Executions*/
+      ],
+      Catalog: [
+        ~r/Wanda.Catalog*/
+      ],
+      Messaging: [
+        ~r/Wanda.Messaging*/
+      ],
+      Web: [
+        ~r/WandaWeb*/
+      ],
+    ]
   end
 
   # Specifies which paths to compile per environment.
