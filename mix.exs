@@ -74,7 +74,7 @@ defmodule Wanda.MixProject do
       ],
       Web: [
         ~r/WandaWeb*/
-      ],
+      ]
     ]
   end
 
