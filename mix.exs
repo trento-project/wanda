@@ -36,7 +36,13 @@ defmodule Wanda.MixProject do
       assets: "guides/assets/",
       extras: extras(),
       groups_for_extras: groups_for_extras(),
-      groups_for_modules: groups_for_modules()
+      groups_for_modules: groups_for_modules(),
+      nest_modules_by_prefix: [
+        Wanda.Catalog,
+        Wanda.Executions,
+        Wanda.Messaging,
+        WandaWeb
+      ]
     ]
   end
 

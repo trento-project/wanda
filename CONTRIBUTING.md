@@ -10,7 +10,7 @@ common mistakes and improve the quality of all contributions.
 
 Before creating a new issue make sure you use the search functionality to confirm
 that a similar issue doesn't already exist. Next, make sure you properly label
-the issue as per our [labels](https://github.com/trento-project/web/labels)
+the issue as per our [labels](https://github.com/trento-project/wanda/labels)
 
 If you are reporting a `bug`, please share a file generated using the
 `trento-support.sh` script with the following params:
