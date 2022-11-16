@@ -1,6 +1,6 @@
 # Wanda
 
-[![CI](https://github.com/trento-project/wanda/actions/workflows/ci.yaml/badge.svg)](https://github.com/fabriziosestito/rhai_rustler/actions/workflows/main.yaml)
+[![CI](https://github.com/trento-project/wanda/actions/workflows/ci.yaml/badge.svg)](https://github.com/trento-project/wanda/actions/workflows/ci.yaml/badge.svg)
 [![Coverage Status](https://coveralls.io/repos/github/trento-project/wanda/badge.svg?branch=main)](https://coveralls.io/github/trento-project/wanda?branch=main)
 [![Documentation](https://img.shields.io/badge/documentation-grey.svg)](https://trento-project.io/wanda/)
 
