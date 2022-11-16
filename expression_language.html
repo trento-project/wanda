@@ -1,0 +1,339 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="x-ua-compatible" content="ie=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="generator" content="ExDoc v0.29.0">
+    <meta name="project" content="Wanda v0.1.0">
+
+    <title>Expression Language — Wanda v0.1.0</title>
+    <link rel="stylesheet" href="dist/html-elixir-2YOS5DIE.css" />
+
+    <script src="dist/handlebars.runtime-NWIB6V2M.js"></script>
+    <script src="dist/handlebars.templates-X7YVL3G2.js"></script>
+    <script src="dist/sidebar_items-B433C57D.js"></script>
+
+      <script src="docs_config.js"></script>
+
+    <script async src="dist/html-XN2TSG4M.js"></script>
+
+
+  </head>
+  <body data-type="extras" class="page-extra">
+    <script>
+
+      try {
+        var settings = JSON.parse(localStorage.getItem('ex_doc:settings') || '{}');
+
+        if (settings.theme === 'dark' ||
+           ((settings.theme === 'system' || settings.theme == null) &&
+             window.matchMedia('(prefers-color-scheme: dark)').matches)
+           ) {
+          document.body.classList.add('dark')
+        }
+      } catch (error) { }
+    </script>
+
+<div class="main">
+
+<button class="sidebar-button sidebar-toggle" aria-label="toggle sidebar">
+  <i class="ri-menu-line ri-lg" title="Collapse/expand sidebar"></i>
+</button>
+
+<section class="sidebar">
+  <form class="sidebar-search" action="search.html">
+    <button type="submit" class="search-button" aria-label="Submit Search">
+      <i class="ri-search-2-line" aria-hidden="true" title="Submit search"></i>
+    </button>
+    <button type="button" tabindex="-1" class="search-close-button" aria-label="Cancel Search">
+      <i class="ri-close-line ri-lg" aria-hidden="true" title="Cancel search"></i>
+    </button>
+    <label class="search-label">
+      <p class="sr-only">Search</p>
+      <input name="q" type="text" class="search-input" placeholder="Search..." aria-label="Input your search terms" autocomplete="off" />
+    </label>
+  </form>
+
+  <div class="autocomplete">
+    <div class="autocomplete-results">
+    </div>
+  </div>
+
+  <div class="sidebar-header">
+
+      <a href="readme.html">
+        <img src="assets/logo.svg" alt="Wanda" class="sidebar-projectImage">
+      </a>
+
+    <div class="sidebar-projectDetails">
+      <a href="readme.html" class="sidebar-projectName" translate="no">
+Wanda
+      </a>
+      <strong class="sidebar-projectVersion" translate="no">
+        v0.1.0
+      </strong>
+    </div>
+    <ul class="sidebar-listNav">
+      <li><a id="extras-list-link" href="#full-list">GUIDES</a></li>
+
+        <li><a id="modules-list-link" href="#full-list">Modules</a></li>
+
+
+    </ul>
+  </div>
+
+  <div class="gradient"></div>
+  <ul id="full-list" class="sidebar-fullList"></ul>
+</section>
+
+<section class="content">
+  <output role="status" id="toast"></output>
+  <div class="content-outer">
+    <div id="content" class="content-inner">
+
+<h1>
+<button class="settings display-settings">
+  <i class="ri-settings-3-line"></i>
+  <span class="sr-only">Settings</span>
+</button>
+
+
+    <a href="https://github.com/trento-project/wanda/blob/main/guides/expression_language.md#L1" title="View Source" class="view-source" rel="help">
+      <i class="ri-code-s-slash-line" aria-hidden="true"></i>
+      <span class="sr-only">View Source</span>
+    </a>
+
+  <span>Expression Language</span>
+</h1>
+
+<p>A small, fast, easy-to-use scripting language and evaluation engine.</p><h2 id="introduction" class="section-heading">
+  <a href="#introduction" class="hover-link"><i class="ri-link-m" aria-hidden="true"></i>
+  <p class="sr-only">introduction</p>
+  </a>
+  Introduction
+</h2>
+<p>An embedded scripting language and evaluation engine for Trento Checks Expressions that gives a safe and easy way to script specific steps during Checks Execution.</p><h2 id="types" class="section-heading">
+  <a href="#types" class="hover-link"><i class="ri-link-m" aria-hidden="true"></i>
+  <p class="sr-only">types</p>
+  </a>
+  Types
+</h2>
+<table><thead><tr><th style="text-align: left;">Type</th><th style="text-align: left;">Example</th></tr></thead><tbody><tr><td style="text-align: left;"><strong>Nothing/void/nil/null/Unit</strong></td><td style="text-align: left;"><code class="inline">()</code></td></tr><tr><td style="text-align: left;"><strong>Integer</strong></td><td style="text-align: left;"><code class="inline">42</code>, <code class="inline">123</code></td></tr><tr><td style="text-align: left;"><strong>Float</strong></td><td style="text-align: left;"><code class="inline">123.4567</code></td></tr><tr><td style="text-align: left;"><strong>Boolean</strong></td><td style="text-align: left;"><code class="inline">true</code> or <code class="inline">false</code></td></tr><tr><td style="text-align: left;"><strong>String</strong></td><td style="text-align: left;"><code class="inline">&quot;hello&quot;</code></td></tr><tr><td style="text-align: left;"><strong>Array</strong></td><td style="text-align: left;"><code class="inline">[ 1, 2, 3, &quot;foobar&quot; ]</code></td></tr><tr><td style="text-align: left;"><strong>Map</strong></td><td style="text-align: left;"><code class="inline">#{ &quot;a&quot;: 1, &quot;b&quot;: true }</code></td></tr></tbody></table><h2 id="logic-operators-and-boolean" class="section-heading">
+  <a href="#logic-operators-and-boolean" class="hover-link"><i class="ri-link-m" aria-hidden="true"></i>
+  <p class="sr-only">logic-operators-and-boolean</p>
+  </a>
+  Logic Operators and Boolean
+</h2>
+<table><thead><tr><th style="text-align: center;">Operator</th><th style="text-align: left;">Description&lt;br/&gt;(<code class="inline">x</code> <em>operator</em> <code class="inline">y</code>)</th><th style="text-align: center;"><code class="inline">x</code>, <code class="inline">y</code> same type or are numeric</th><th style="text-align: center;"><code class="inline">x</code>, <code class="inline">y</code> different types</th></tr></thead><tbody><tr><td style="text-align: center;"><code class="inline">==</code></td><td style="text-align: left;"><code class="inline">x</code> is equals to <code class="inline">y</code></td><td style="text-align: center;">error if not defined</td><td style="text-align: center;"><code class="inline">false</code> if not defined</td></tr><tr><td style="text-align: center;"><code class="inline">!=</code></td><td style="text-align: left;"><code class="inline">x</code> is not equals to <code class="inline">y</code></td><td style="text-align: center;">error if not defined</td><td style="text-align: center;"><code class="inline">true</code> if not defined</td></tr><tr><td style="text-align: center;"><code class="inline">&gt;</code></td><td style="text-align: left;"><code class="inline">x</code> is greater than <code class="inline">y</code></td><td style="text-align: center;">error if not defined</td><td style="text-align: center;"><code class="inline">false</code> if not defined</td></tr><tr><td style="text-align: center;"><code class="inline">&gt;=</code></td><td style="text-align: left;"><code class="inline">x</code> is greater than or equals to <code class="inline">y</code></td><td style="text-align: center;">error if not defined</td><td style="text-align: center;"><code class="inline">false</code> if not defined</td></tr><tr><td style="text-align: center;"><code class="inline">&lt;</code></td><td style="text-align: left;"><code class="inline">x</code> is less than <code class="inline">y</code></td><td style="text-align: center;">error if not defined</td><td style="text-align: center;"><code class="inline">false</code> if not defined</td></tr><tr><td style="text-align: center;"><code class="inline">&lt;=</code></td><td style="text-align: left;"><code class="inline">x</code> is less than or equals to <code class="inline">y</code></td><td style="text-align: center;">error if not defined</td><td style="text-align: center;"><code class="inline">false</code> if not defined</td></tr></tbody></table><h3 id="comparing-different-types-defaults-to-false" class="section-heading">
+  <a href="#comparing-different-types-defaults-to-false" class="hover-link"><i class="ri-link-m" aria-hidden="true"></i>
+  <p class="sr-only">comparing-different-types-defaults-to-false</p>
+  </a>
+  Comparing different types defaults to <code class="inline">false</code>
+</h3>
+<p>Comparing two values of <em>different</em> data types defaults to <code class="inline">false</code>.</p><p>The exception is <code class="inline">!=</code> (not equals) which defaults to <code class="inline">true</code>. This is in line with intuition.</p><pre><code class="rust">42 &gt; &quot;42&quot;;          // false: i64 cannot be compared with string
+42 &lt;= &quot;42&quot;;         // false: i64 cannot be compared with string
+ts == 42;           // false: different types cannot be compared
+ts != 42;           // true: different types cannot be compared</code></pre><h3 id="boolean-operators" class="section-heading">
+  <a href="#boolean-operators" class="hover-link"><i class="ri-link-m" aria-hidden="true"></i>
+  <p class="sr-only">boolean-operators</p>
+  </a>
+  Boolean Operators
+</h3>
+<table><thead><tr><th style="text-align: center;">Operator</th><th style="text-align: center;">Description</th><th style="text-align: center;">Arity</th><th style="text-align: center;">Short-circuits?</th></tr></thead><tbody><tr><td style="text-align: center;"><code class="inline">!</code> <em>(prefix)</em></td><td style="text-align: center;"><em>NOT</em></td><td style="text-align: center;">unary</td><td style="text-align: center;">no</td></tr><tr><td style="text-align: center;"><code class="inline">&amp;&amp;</code></td><td style="text-align: center;"><em>AND</em></td><td style="text-align: center;">binary</td><td style="text-align: center;">yes</td></tr><tr><td style="text-align: center;"><code class="inline">&amp;</code></td><td style="text-align: center;"><em>AND</em></td><td style="text-align: center;">binary</td><td style="text-align: center;">no</td></tr><tr><td style="text-align: center;">&lt;code&gt;||&lt;/code&gt;</td><td style="text-align: center;"><em>OR</em></td><td style="text-align: center;">binary</td><td style="text-align: center;">yes</td></tr><tr><td style="text-align: center;">&lt;code&gt;|&lt;/code&gt;</td><td style="text-align: center;"><em>OR</em></td><td style="text-align: center;">binary</td><td style="text-align: center;">no</td></tr></tbody></table><p>Double boolean operators <code class="inline">&amp;&amp;</code> and <code class="inline">||</code> <em>short-circuit</em> &amp;ndash; meaning that the second operand will not be evaluated
+if the first one already proves the condition wrong.</p><p>Single boolean operators <code class="inline">&amp;</code> and <code class="inline">|</code> always evaluate both operands.</p><pre><code class="rust">a() || b();         // b() is not evaluated if a() is true
+a() &amp;&amp; b();         // b() is not evaluated if a() is false
+a() | b();          // both a() and b() are evaluated
+a() &amp; b();          // both a() and b() are evaluated</code></pre><h2 id="if-statement" class="section-heading">
+  <a href="#if-statement" class="hover-link"><i class="ri-link-m" aria-hidden="true"></i>
+  <p class="sr-only">if-statement</p>
+  </a>
+  If Statement
+</h2>
+<p><code class="inline">if</code> statements follow C syntax.</p><pre><code class="rust">if foo(x) {
+    print(&quot;It's true!&quot;);
+} else if bar == baz {
+    print(&quot;It's true again!&quot;);
+} else if baz.is_foo() {
+    print(&quot;Yet again true.&quot;);
+} else if foo(bar - baz) {
+    print(&quot;True again... this is getting boring.&quot;);
+} else {
+    print(&quot;It's finally false!&quot;);
+}</code></pre><blockquote><p>Unlike C, the condition expression does <em>not</em> need to be enclosed in parentheses <code class="inline">(</code>...<code class="inline">)</code>, but all
+branches of the <code class="inline">if</code> statement must be enclosed within braces <code class="inline">{</code>...<code class="inline">}</code>, even when there is only
+one statement inside the branch.
+Like Rust, there is no ambiguity regarding which <code class="inline">if</code> clause a branch belongs to.</p><pre><code class="rust">// not C!
+if (decision) print(42);
+//            ^ syntax error, expecting '{'</code></pre></blockquote><h3 id="if-expression" class="section-heading">
+  <a href="#if-expression" class="hover-link"><i class="ri-link-m" aria-hidden="true"></i>
+  <p class="sr-only">if-expression</p>
+  </a>
+  If Expression
+</h3>
+<p><code class="inline">if</code> statements can also be used as <em>expressions</em>, replacing the <code class="inline">? :</code> conditional
+operators in other C-like languages.</p><pre><code class="rust">// The following is equivalent to C: int x = 1 + (decision ? 42 : 123) / 2;
+let x = 1 + if decision { 42 } else { 123 } / 2;
+x == 22;
+let x = if decision { 42 }; // no else branch defaults to '()'
+x == ();</code></pre><h2 id="arrays" class="section-heading">
+  <a href="#arrays" class="hover-link"><i class="ri-link-m" aria-hidden="true"></i>
+  <p class="sr-only">arrays</p>
+  </a>
+  Arrays
+</h2>
+<p>All elements stored in an array are dynamic, and the array can freely grow or shrink with elements
+added or removed.</p><p>Array literals are built within square brackets <code class="inline">[</code> ... <code class="inline">]</code> and separated by commas <code class="inline">,</code>:</p><blockquote><p><code class="inline">[</code> <em>value</em><code class="inline">,</code> <em>value</em><code class="inline">,</code> ... <code class="inline">,</code> <em>value</em> <code class="inline">]</code></p><p><code class="inline">[</code> <em>value</em><code class="inline">,</code> <em>value</em><code class="inline">,</code> ... <code class="inline">,</code> <em>value</em> <code class="inline">,</code> <code class="inline">]</code> <code class="inline">// trailing comma is OK</code></p></blockquote><pre><code class="rust">let some_list = [1, 2, 3];
+
+let another_list = [&quot;foo&quot;, &quot;bar&quot;, 42];</code></pre><h3 id="access-element-from-beginning" class="section-heading">
+  <a href="#access-element-from-beginning" class="hover-link"><i class="ri-link-m" aria-hidden="true"></i>
+  <p class="sr-only">access-element-from-beginning</p>
+  </a>
+  Access Element From beginning
+</h3>
+<p>Like C, arrays are accessed with zero-based, non-negative integer indices:</p><blockquote><p><em>array</em> <code class="inline">[</code> <em>index position from 0 to length−1</em> <code class="inline">]</code></p></blockquote><pre><code class="rust">let some_list = [&quot;foo&quot;, &quot;bar&quot;, 42];
+
+let second_element = some_list[1];
+
+// second_element is &quot;bar&quot;</code></pre><h3 id="access-element-from-end" class="section-heading">
+  <a href="#access-element-from-end" class="hover-link"><i class="ri-link-m" aria-hidden="true"></i>
+  <p class="sr-only">access-element-from-end</p>
+  </a>
+  Access Element From end
+</h3>
+<p>A <em>negative</em> position accesses an element in the array counting from the <em>end</em>, with −1 being the
+<em>last</em> element.</p><blockquote><p><em>array</em> <code class="inline">[</code> <em>index position from −1 to −length</em> <code class="inline">]</code></p></blockquote><pre><code class="rust">let some_list = [&quot;foo&quot;, &quot;bar&quot;, 42];
+
+let second_element = some_list[-2];
+let last_element = some_list[-1];
+
+// second_element is &quot;bar&quot;
+// last_element is 42</code></pre><table><thead><tr><th style="text-align: left;">Function</th><th style="text-align: left;">Parameter(s)</th><th style="text-align: left;">Description</th></tr></thead><tbody><tr><td style="text-align: left;"><code class="inline">get</code></td><td style="text-align: left;">position, counting from end if &lt; 0</td><td style="text-align: left;">gets a copy of the element at a certain position (<code class="inline">()</code> if the position is not valid)</td></tr><tr><td style="text-align: left;"><code class="inline">len</code></td><td style="text-align: left;"><em>none</em></td><td style="text-align: left;">returns the number of elements</td></tr><tr><td style="text-align: left;"><code class="inline">filter</code></td><td style="text-align: left;">predicate (usually a closure)</td><td style="text-align: left;">constructs a new array with all items that return <code class="inline">true</code> when called with the predicate function taking the following parameters:&lt;ol&gt;&lt;li&gt;array item&lt;/li&gt;&lt;li&gt;<em>(optional)</em> offset position&lt;/li&gt;&lt;/ol&gt;</td></tr><tr><td style="text-align: left;"><code class="inline">all</code></td><td style="text-align: left;">predicate (usually a closure)</td><td style="text-align: left;">returns <code class="inline">true</code> if all items return <code class="inline">true</code> when called with the predicate function taking the following parameters:&lt;ol&gt;&lt;li&gt;array item&lt;/li&gt;&lt;li&gt;<em>(optional)</em> offset position&lt;/li&gt;&lt;/ol&gt;</td></tr></tbody></table><p>Examples</p><pre><code class="rust">let some_list = [1, 2, 3, 4, &quot;foo&quot;, &quot;bar&quot;];
+
+let foo = some_list.get(4); // &quot;foo&quot;
+
+let items_count = some_list.len(); // 6
+
+let only_foo_and_bar = some_list.filter(|item| item == &quot;foo&quot; || item == &quot;bar&quot;); // [&quot;foo&quot;, &quot;bar&quot;]
+// let only_foo_and_bar = some_list.filter(|item, idex_in_array| item == &quot;foo&quot; || item == &quot;bar&quot;);
+
+let another_list = [3, 5, 7, 9, 10, 20, 30];
+
+let all_greater_than_2 = another_list.all(|item| item &gt; 2); // true
+let all_greater_than_10 = another_list.all(|item| item &gt; 10); // false
+// let all_greater_than_10 = another_list.all(|item, idex_in_array| item &gt; 10);</code></pre><h2 id="maps" class="section-heading">
+  <a href="#maps" class="hover-link"><i class="ri-link-m" aria-hidden="true"></i>
+  <p class="sr-only">maps</p>
+  </a>
+  Maps
+</h2>
+<p>Maps are hash dictionaries. Properties are all dynamic values and can be freely added and retrieved.</p><p>Map literals are built within braces <code class="inline">#{</code> ... <code class="inline">}</code> with <em>name</em><code class="inline">:</code><em>value</em> pairs separated by
+commas <code class="inline">,</code>:</p><blockquote><p><code class="inline">#{</code> <em>property</em> <code class="inline">:</code> <em>value</em><code class="inline">,</code> ... <code class="inline">,</code> <em>property</em> <code class="inline">:</code> <em>value</em> <code class="inline">}</code></p><p><code class="inline">#{</code> <em>property</em> <code class="inline">:</code> <em>value</em><code class="inline">,</code> ... <code class="inline">,</code> <em>property</em> <code class="inline">:</code> <em>value</em> <code class="inline">,</code> <code class="inline">}</code> <code class="inline">// trailing comma is OK</code></p></blockquote><pre><code class="rust">let some_map = #{              // map literal with 2 properties
+    foo: 42,
+    bar: &quot;hello&quot;,
+};</code></pre><h3 id="dot-notation" class="section-heading">
+  <a href="#dot-notation" class="hover-link"><i class="ri-link-m" aria-hidden="true"></i>
+  <p class="sr-only">dot-notation</p>
+  </a>
+  Dot notation
+</h3>
+<p>The <em>dot notation</em> allows to access properties by name.</p><blockquote><p><em>object</em> <code class="inline">.</code> <em>property</em></p></blockquote><pre><code class="rust">let some_map = #{              // map literal with 2 properties
+    foo: 42,
+    bar: &quot;hello&quot;,
+};
+
+some_map.foo // 42
+some_map.bar // &quot;hello&quot;
+</code></pre><h3 id="non-existing-property" class="section-heading">
+  <a href="#non-existing-property" class="hover-link"><i class="ri-link-m" aria-hidden="true"></i>
+  <p class="sr-only">non-existing-property</p>
+  </a>
+  Non-existing property
+</h3>
+<p>Trying to read a non-existing property returns an error.</p><pre><code class="rust">let some_map = #{              // map literal with 2 properties
+    foo: 42,
+    bar: &quot;hello&quot;,
+};
+
+some_map.another_property      // returns &quot;Property not found: another_property (line X, position Y)&quot;</code></pre><h3 id="a-more-complex-example" class="section-heading">
+  <a href="#a-more-complex-example" class="hover-link"><i class="ri-link-m" aria-hidden="true"></i>
+  <p class="sr-only">a-more-complex-example</p>
+  </a>
+  A more complex example
+</h3>
+<pre><code class="rust">let some_map = #{              // map literal with 2 properties
+    foo: 42,
+    bar: &quot;hello&quot;,
+    rabbits: [
+        #{
+            name: &quot;wanda&quot;,
+            power: 9001
+        },
+        #{
+            name: &quot;tonio&quot;,
+            power: 9002
+        },
+        #{
+            name: &quot;weak_rabbit&quot;,
+            power: 8999
+        }
+    ]
+};
+
+// Tell me how many strong rabbits are there
+let strong_rabbits = some_map.rabbits.filter(|rabbit| rabbit.power &gt; 9000).len() // 2
+
+let rabbits = some_map.rabbits
+
+let all_rabbits_are_strong = rabbits.all(|rabbit| rabbit.power &gt; 9000) // false, unfortunately
+</code></pre><h2 id="rhai" class="section-heading">
+  <a href="#rhai" class="hover-link"><i class="ri-link-m" aria-hidden="true"></i>
+  <p class="sr-only">rhai</p>
+  </a>
+  Rhai
+</h2>
+<p>For extra information about the underlying scripting language see <a href="https://rhai.rs/book/language/">Rhai</a>.</p>
+<div class="bottom-actions">
+  <div class="bottom-actions-item">
+
+      <a href="specification.html" class="bottom-actions-button" rel="prev">
+        <span class="subheader">
+          ← Previous Page
+        </span>
+        <span class="title">
+Checks Specification
+        </span>
+      </a>
+
+  </div>
+  <div class="bottom-actions-item">
+
+      <a href="gatherers.html" class="bottom-actions-button" rel="next">
+        <span class="subheader">
+          Next Page →
+        </span>
+        <span class="title">
+Gatherers
+        </span>
+      </a>
+
+  </div>
+</div>
+      <footer class="footer">
+
+        <p>
+          Built using
+          <a href="https://github.com/elixir-lang/ex_doc" title="ExDoc" target="_blank" rel="help noopener" translate="no">ExDoc</a> (v0.29.0) for the
+
+            <a href="https://elixir-lang.org" title="Elixir" target="_blank" translate="no">Elixir programming language</a>
+
+        </p>
+      </footer>
+    </div>
+  </div>
+</section>
+</div>
+
+
+  </body>
+</html>

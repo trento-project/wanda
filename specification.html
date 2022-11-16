@@ -1,0 +1,420 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="x-ua-compatible" content="ie=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="generator" content="ExDoc v0.29.0">
+    <meta name="project" content="Wanda v0.1.0">
+
+    <title>Checks Specification — Wanda v0.1.0</title>
+    <link rel="stylesheet" href="dist/html-elixir-2YOS5DIE.css" />
+
+    <script src="dist/handlebars.runtime-NWIB6V2M.js"></script>
+    <script src="dist/handlebars.templates-X7YVL3G2.js"></script>
+    <script src="dist/sidebar_items-B433C57D.js"></script>
+
+      <script src="docs_config.js"></script>
+
+    <script async src="dist/html-XN2TSG4M.js"></script>
+
+
+  </head>
+  <body data-type="extras" class="page-extra">
+    <script>
+
+      try {
+        var settings = JSON.parse(localStorage.getItem('ex_doc:settings') || '{}');
+
+        if (settings.theme === 'dark' ||
+           ((settings.theme === 'system' || settings.theme == null) &&
+             window.matchMedia('(prefers-color-scheme: dark)').matches)
+           ) {
+          document.body.classList.add('dark')
+        }
+      } catch (error) { }
+    </script>
+
+<div class="main">
+
+<button class="sidebar-button sidebar-toggle" aria-label="toggle sidebar">
+  <i class="ri-menu-line ri-lg" title="Collapse/expand sidebar"></i>
+</button>
+
+<section class="sidebar">
+  <form class="sidebar-search" action="search.html">
+    <button type="submit" class="search-button" aria-label="Submit Search">
+      <i class="ri-search-2-line" aria-hidden="true" title="Submit search"></i>
+    </button>
+    <button type="button" tabindex="-1" class="search-close-button" aria-label="Cancel Search">
+      <i class="ri-close-line ri-lg" aria-hidden="true" title="Cancel search"></i>
+    </button>
+    <label class="search-label">
+      <p class="sr-only">Search</p>
+      <input name="q" type="text" class="search-input" placeholder="Search..." aria-label="Input your search terms" autocomplete="off" />
+    </label>
+  </form>
+
+  <div class="autocomplete">
+    <div class="autocomplete-results">
+    </div>
+  </div>
+
+  <div class="sidebar-header">
+
+      <a href="readme.html">
+        <img src="assets/logo.svg" alt="Wanda" class="sidebar-projectImage">
+      </a>
+
+    <div class="sidebar-projectDetails">
+      <a href="readme.html" class="sidebar-projectName" translate="no">
+Wanda
+      </a>
+      <strong class="sidebar-projectVersion" translate="no">
+        v0.1.0
+      </strong>
+    </div>
+    <ul class="sidebar-listNav">
+      <li><a id="extras-list-link" href="#full-list">GUIDES</a></li>
+
+        <li><a id="modules-list-link" href="#full-list">Modules</a></li>
+
+
+    </ul>
+  </div>
+
+  <div class="gradient"></div>
+  <ul id="full-list" class="sidebar-fullList"></ul>
+</section>
+
+<section class="content">
+  <output role="status" id="toast"></output>
+  <div class="content-outer">
+    <div id="content" class="content-inner">
+
+<h1>
+<button class="settings display-settings">
+  <i class="ri-settings-3-line"></i>
+  <span class="sr-only">Settings</span>
+</button>
+
+
+    <a href="https://github.com/trento-project/wanda/blob/main/guides/specification.md#L1" title="View Source" class="view-source" rel="help">
+      <i class="ri-code-s-slash-line" aria-hidden="true"></i>
+      <span class="sr-only">View Source</span>
+    </a>
+
+  <span>Checks Specification</span>
+</h1>
+
+<p>A language allowing to declare best practices to be adhered on target SAP Infrastructures.</p><h2 id="introduction" class="section-heading">
+  <a href="#introduction" class="hover-link"><i class="ri-link-m" aria-hidden="true"></i>
+  <p class="sr-only">introduction</p>
+  </a>
+  Introduction
+</h2>
+<p>The need this Specification aims to fulfill is to provide users a simple way to declare what we (the Trento Team) often refer to as &quot;Checks&quot;.</p><p>Checks are, in Trento's domain, the crystallization of SUSE's best practices when it comes to SAP workloads in a form that both a user (<a href="#anatomy-of-a-check">Spec</a>) and a machine (<a href="#checks-execution">Execution</a>) can read.</p><h2 id="checks-execution" class="section-heading">
+  <a href="#checks-execution" class="hover-link"><i class="ri-link-m" aria-hidden="true"></i>
+  <p class="sr-only">checks-execution</p>
+  </a>
+  Checks Execution
+</h2>
+<p>Checks Execution is the process that determines whether the best practices defined in the <a href="#anatomy-of-a-check">Checks Specifications</a> are being followed on a target infrastructure.</p><blockquote><p><a href="#requesting-an-execution">Requesting an Execution</a> -&gt; <a href="#facts-gathering">Facts Gathering</a> -&gt; <a href="#expectation-evaluation">Expectation Evaluation</a></p></blockquote><h3 id="requesting-an-execution" class="section-heading">
+  <a href="#requesting-an-execution" class="hover-link"><i class="ri-link-m" aria-hidden="true"></i>
+  <p class="sr-only">requesting-an-execution</p>
+  </a>
+  Requesting an Execution
+</h3>
+<p>An Execution can be requested to start by providing Wanda the Following information:</p><ul><li>an execution identifier</li><li>an execution Group identifier</li><li>the Checks Selection for the targets (a list of checks to be executed on the targets)</li></ul><p>When the Execution starts running, its current state is stored in the Database and the targets are notified - via the message broker - about Facts to be gathered.</p><p>Then the Execution waits for the <a href="#facts-gathering">Facts Gathering</a> to complete.</p><h3 id="facts-gathering" class="section-heading">
+  <a href="#facts-gathering" class="hover-link"><i class="ri-link-m" aria-hidden="true"></i>
+  <p class="sr-only">facts-gathering</p>
+  </a>
+  Facts Gathering
+</h3>
+<p>After an <em>Execution Request</em> the targets are notified about the facts they need to <a href="gatherers.html">gather</a>.</p><p>Whenever a target has gathered all the needed facts for an Execution, it notifies Wanda - via the message broker - about the <strong>Gathered Facts</strong>.</p><h3 id="expectation-evaluation" class="section-heading">
+  <a href="#expectation-evaluation" class="hover-link"><i class="ri-link-m" aria-hidden="true"></i>
+  <p class="sr-only">expectation-evaluation</p>
+  </a>
+  Expectation Evaluation
+</h3>
+<p>When Wanda receives the Gathered Facts <strong>from all the targets</strong> of an Execution, then <a href="#expectations">Expectations</a> are <a href="#expression-language">evaluated</a> and the result of a Check is determined.</p><p>After the result has been determined, the currently <code class="inline">running</code> Execution transitions to <code class="inline">completed</code> and its new state is tracked on the Database.</p><p>At this point the Execution is considered <strong>Completed</strong> and interested parites are notified about the Execution Completion.</p><h3 id="checks-results" class="section-heading">
+  <a href="#checks-results" class="hover-link"><i class="ri-link-m" aria-hidden="true"></i>
+  <p class="sr-only">checks-results</p>
+  </a>
+  Checks Results
+</h3>
+<p>Check Result tells whether the specified best practice was adhered on a target infrastructure.</p><p>It can be:</p><ul><li><code class="inline">passing</code>, everything ok</li><li><code class="inline">warning</code>, best practice not followed, should fix</li><li><code class="inline">critical</code>, best practice not followed, must fix</li></ul><p>See also <a href="#severity">Check Severity</a>.</p><h2 id="anatomy-of-a-check" class="section-heading">
+  <a href="#anatomy-of-a-check" class="hover-link"><i class="ri-link-m" aria-hidden="true"></i>
+  <p class="sr-only">anatomy-of-a-check</p>
+  </a>
+  Anatomy of a Check
+</h2>
+<p>A Check declaration comes in the form of a <code class="inline">yaml</code> file and all the Checks together build up the <strong>Checks Catalog</strong></p><p>Here's an example:</p><pre><code class="yaml">id: 156F64
+name: Corosync `token` timeout
+group: Corosync
+description: Corosync `token` timeout is set to the correct value
+remediation: |
+  ## Abstract
+  The value of the Corosync `token` timeout is not set as recommended.
+  ## Remediation
+  Adjust the corosync `token` timeout as recommended...
+
+facts:
+  - name: corosync_token_timeout
+    gatherer: corosync.conf
+    argument: totem.token
+
+values:
+  - name: expected_token_timeout
+    default: 5000
+    conditions:
+      - value: 30000
+        when: env.provider == &quot;azure&quot; || env.provider == &quot;aws&quot;
+      - value: 20000
+        when: env.provider == &quot;gcp&quot;
+
+expectations:
+  - name: token_timeout
+    expect: facts.corosync_token_timeout == values.expected_token_timeout</code></pre><h3 id="filename-convention" class="section-heading">
+  <a href="#filename-convention" class="hover-link"><i class="ri-link-m" aria-hidden="true"></i>
+  <p class="sr-only">filename-convention</p>
+  </a>
+  Filename Convention
+</h3>
+<p><strong>Note</strong> that a Check's filename <strong>MUST</strong> be in the form <code class="inline">&lt;check_id&gt;.yaml</code> (ie: <code class="inline">156F64.yaml</code>)</p><h3 id="structure" class="section-heading">
+  <a href="#structure" class="hover-link"><i class="ri-link-m" aria-hidden="true"></i>
+  <p class="sr-only">structure</p>
+  </a>
+  Structure
+</h3>
+<p>Following are listed the top level properties of a Check definition yaml.</p><table><thead><tr><th style="text-align: left;">Key</th><th style="text-align: left;">Required/Not Required</th><th style="text-align: left;">Details</th></tr></thead><tbody><tr><td style="text-align: left;"><code class="inline">id</code></td><td style="text-align: left;">required</td><td style="text-align: left;">Check's id <a href="#id">see more</a></td></tr><tr><td style="text-align: left;"><code class="inline">name</code></td><td style="text-align: left;">required</td><td style="text-align: left;">Check's name <a href="#name">see more</a></td></tr><tr><td style="text-align: left;"><code class="inline">group</code></td><td style="text-align: left;">required</td><td style="text-align: left;">Check's group <a href="#group">see more</a></td></tr><tr><td style="text-align: left;"><code class="inline">description</code></td><td style="text-align: left;">required</td><td style="text-align: left;">Check's description <a href="#description">see more</a></td></tr><tr><td style="text-align: left;"><code class="inline">remediation</code></td><td style="text-align: left;">required</td><td style="text-align: left;">Check's remediation <a href="#remediation">see more</a></td></tr><tr><td style="text-align: left;"><code class="inline">severity</code></td><td style="text-align: left;">not required</td><td style="text-align: left;">Check's severity <a href="#severity">see more</a></td></tr><tr><td style="text-align: left;"><code class="inline">facts</code></td><td style="text-align: left;">required</td><td style="text-align: left;">Check's facts <a href="#facts">see more</a></td></tr><tr><td style="text-align: left;"><code class="inline">values</code></td><td style="text-align: left;">not required</td><td style="text-align: left;">Check's values <a href="#values">see more</a></td></tr><tr><td style="text-align: left;"><code class="inline">expectations</code></td><td style="text-align: left;">required</td><td style="text-align: left;">Check's expectations <a href="#expectations">see more</a></td></tr></tbody></table><hr class="thin"/><h4>id</h4><p>Uniquely identifies a Check in the Catalog</p><p>ie:</p><pre><code class="yaml">id: 156F64
+id: 845CC9
+id: B089BE</code></pre><h4>name</h4><p>A, preferably one-line, string representing the name for the Check being declared.</p><p>ie:</p><pre><code class="yaml">name: Corosync `token` timeout
+name: Corosync `consensus` timeout
+name: SBD Startmode</code></pre><h4>group</h4><p>A, preferably one-line, string representing the group where the Check being declared belongs.</p><p>Example:</p><pre><code class="yaml">group: Corosync
+group: Pacemaker
+group: SBD</code></pre><h4>description</h4><p>A text providing a description for the Check being declared.</p><p>can be a one-liner</p><pre><code class="yaml">description: Some plain description</code></pre><p>can be a multiline text</p><pre><code class="yaml">description: |
+  Some plain multiline
+  description that carries a lot
+  of information</code></pre><p>format is <strong>markdown</strong></p><pre><code class="yaml">description: |
+  A `description` is a **markdown**</code></pre><h4>remediation</h4><p>A text providing an comprehensive description about the remediation to apply for the Check being declared.</p><p>It has the same properties of the <code class="inline">description</code></p><ul><li>can be a one-liner (it usually is not)</li><li>can be a multiline (it usually is)</li><li>format is <strong>markdown</strong></li></ul><p>Example:</p><pre><code class="yaml">remediation: |
+  ## Abstract
+  The value of the Corosync `token` timeout is not set as recommended.
+  ## Remediation
+  Adjust the corosync `token` timeout as recommended on the best 
+  ...
+  2. Reload the corosync configuration:
+  ...</code></pre><h4>severity</h4><p>A string determining the severity of the Check being declared, in case the check is not passing, so that the appropriate result is reported.</p><p>Allowed values: <code class="inline">warning</code>, <code class="inline">critical</code></p><p><strong>Default:</strong> if no severity is provided, the system would default to <code class="inline">critical</code></p><p>Example:</p><p>Reports a <code class="inline">warning</code> When the Check expectations do not pass</p><pre><code class="yaml">severity: warning</code></pre><p>Reports a <code class="inline">critical</code> When the Check expectations do not pass</p><pre><code class="yaml">severity: critical</code></pre><h4>Facts, Values, Expectations</h4><p>See main sections <a href="#facts">Facts</a>, <a href="#values">Values</a>, <a href="#expectations">Expectations</a></p><h2 id="facts" class="section-heading">
+  <a href="#facts" class="hover-link"><i class="ri-link-m" aria-hidden="true"></i>
+  <p class="sr-only">facts</p>
+  </a>
+  Facts
+</h2>
+<p>Facts are various types of information that the engine can discover on the target infrastructure.
+Examples include (but are not limited to) installed packages, cluster state, and configuration files' content.</p><p>The process of determining the value of a declared fact during Check execution is referred to as <em>Facts Gathering</em> and it is the job of the <a href="gatherers.html"><em>Gatherers</em></a>.
+Think of gatherers as being functions that have a name and accept argument(s).</p><p>That said, a fact declaration contains:</p><ul><li>the fact name</li><li>the gatherer used to retrieve the fact</li><li>the argument(s) to be provided to the gatherer</li></ul><p><strong>Note:</strong></p><ul><li>many facts can be declared</li><li>all the declared facts would be registered in the <a href="#facts-1"><code class="inline">facts</code></a> namespaced evaluation scope.</li></ul><pre><code class="yaml">facts:
+  - name: &lt;fact_name&gt;
+    gatherer: &lt;gatherer_name&gt;
+    argument: &lt;gatherer_argument&gt;
+
+  - name: &lt;another_fact_name&gt;
+    gatherer: &lt;another_gatherer_name&gt;
+    argument: &lt;another_gatherer_argument&gt;</code></pre><p>The following example declares a <strong>fact</strong> named <code class="inline">corosync_token_timeout</code>, retrievable via the built-in <code class="inline">corosync.conf</code> <strong>gatherer</strong> to which will be provided the <strong>argument</strong> <code class="inline">totem.token</code></p><pre><code class="yaml">facts:
+  - name: corosync_token_timeout
+    gatherer: corosync.conf
+    argument: totem.token
+
+  # other facts maybe</code></pre><p>Finally, gathered facts, are used in Check's <a href="#expectations">Expectations</a> to determine whether expected conditions are met for the best practice to be adhered.</p><h2 id="values" class="section-heading">
+  <a href="#values" class="hover-link"><i class="ri-link-m" aria-hidden="true"></i>
+  <p class="sr-only">values</p>
+  </a>
+  Values
+</h2>
+<p>Values are named variables that may evaluate differently based on the execution context and are used with Facts for <em>Contextual</em> <a href="#expectations">Expectations</a> Evaluation.</p><blockquote><p>When contextual expectations is not needed, there's the following options available:</p><ul><li>use <a href="#hardcoded-values"><strong>hardcoded</strong></a> values</li><li>define <code class="inline">values</code> as <a href="#constant-values"><strong>constants</strong></a></li></ul><p>Scenario:</p><p>No matter what the context is, the fact <code class="inline">awesome_fact</code> MUST always be <code class="inline">wanda</code></p></blockquote><h3 id="hardcoded-values" class="section-heading">
+  <a href="#hardcoded-values" class="hover-link"><i class="ri-link-m" aria-hidden="true"></i>
+  <p class="sr-only">hardcoded-values</p>
+  </a>
+  Hardcoded Values
+</h3>
+<p>Direct usage of a simple hardcoded value</p><pre><code class="yaml">expectations:
+  - name: awesome_expectation
+    expect: facts.awesome_fact == &quot;wanda&quot;</code></pre><h3 id="constant-values" class="section-heading">
+  <a href="#constant-values" class="hover-link"><i class="ri-link-m" aria-hidden="true"></i>
+  <p class="sr-only">constant-values</p>
+  </a>
+  Constant Values
+</h3>
+<p>Define a Value with only the <code class="inline">default</code> specified (<strong>omitting</strong> <code class="inline">conditions</code>) for <strong>constants</strong> regardless of the context.</p><pre><code class="yaml">values:
+  - name: awesome_constant_value
+    default: &quot;wanda&quot;
+
+expectations:
+  - name: awesome_expectation
+    expect: facts.awesome_fact == values.awesome_constant_value</code></pre><h3 id="contextual-values" class="section-heading">
+  <a href="#contextual-values" class="hover-link"><i class="ri-link-m" aria-hidden="true"></i>
+  <p class="sr-only">contextual-values</p>
+  </a>
+  Contextual Values
+</h3>
+<p>This is needed because the same check might expect facts to be treated differently based on the context.</p><blockquote><p>Let's clarify with an example:</p><p>A Check might define a fact named <code class="inline">awesome_fact</code> which is expected to be different given the <em>color</em> of the execution.</p><ul><li>it has to be <code class="inline">cat</code> when the <code class="inline">color</code> in the execution context is <code class="inline">red</code></li><li>it has to be <code class="inline">dog</code> when the <code class="inline">color</code> in the execution context is <code class="inline">blue</code></li><li>it has to be <code class="inline">rabbit</code> in all other cases, regardless of the execution context</li></ul><p>so we define a named variable <code class="inline">awesome_expectation</code> that resolves to <code class="inline">cat|dog|rabbit</code> when proper conditions are met</p><p>allowing us to have an expectation like this</p><p><code class="inline">expect: facts.awesome_fact == values.expected_token_timeout</code></p></blockquote><p>A Value declaration contains:</p><ul><li>the value name</li><li>the default value</li><li>a list of conditions that determine the value given the context (optional, see <a href="#constant-values">constant values</a>)</li></ul><pre><code class="yaml">values:
+  - name: &lt;value_name&gt;
+    default: &lt;default_value&gt;
+    conditions:
+      - value: &lt;value_on_condition_a&gt;
+        when: &lt;expression_a&gt;
+      - value: &lt;value_on_condition_b&gt;
+        when: &lt;expression_b&gt;</code></pre><p>It could read as:</p><p>the value named <code class="inline">&lt;value_name&gt;</code> resolves to</p><ul><li><code class="inline">&lt;value_on_condition_a&gt;</code> when <code class="inline">&lt;expression_a&gt;</code> is true</li><li><code class="inline">&lt;value_on_condition_b&gt;</code> when <code class="inline">&lt;expression_b&gt;</code> is true</li><li><code class="inline">&lt;default_value&gt;</code> in all other cases</li></ul><p>Example:</p><blockquote><p>Check <code class="inline">156F64 Corosync token timeout is set to expected value</code> defines a fact <code class="inline">corosync_token_timeout</code> which is expected to be different given the platform (aws/azure/gcp), so we define a named variable <code class="inline">expected_token_timeout</code> resolving to the appropriate value.</p><p><code class="inline">expected_token_timeout</code> resolves to:</p><ul><li><code class="inline">30000</code> when <code class="inline">azure</code>/<code class="inline">aws</code> are detected</li><li><code class="inline">20000</code> on <code class="inline">gcp</code></li><li><code class="inline">5000</code> in all other cases (ie: bare metal, VMs...)</li></ul></blockquote><pre><code class="yaml">values:
+  - name: expected_token_timeout
+    default: 5000
+    conditions:
+      - value: 30000
+        when: env.provider == &quot;azure&quot; || env.provider == &quot;aws&quot;
+      - value: 20000
+        when: env.provider == &quot;gcp&quot;
+
+expectations:
+  - name: corosync_token_timeout_is_correct
+    expect: facts.corosync_token_timeout == values.expected_token_timeout</code></pre><p>Note that <code class="inline">conditions</code> is a cascading chain of contextual inspection to determine which is the resolved value.</p><ul><li>there may be many conditions</li><li>first condition that passes determines the value, following are not evaluated</li><li><code class="inline">when</code> entry <a href="#expression-language">Expression</a> has <a href="#evaluation-scope">access</a> to gathered <a href="#facts-1">facts</a> and <a href="#env">env</a> evaluation scopes</li></ul><p>All the <em>resolved</em> declared values would be registered in the <a href="#values-1"><code class="inline">values</code></a> namespaced evaluation scope.</p><h2 id="expectations" class="section-heading">
+  <a href="#expectations" class="hover-link"><i class="ri-link-m" aria-hidden="true"></i>
+  <p class="sr-only">expectations</p>
+  </a>
+  Expectations
+</h2>
+<p>Expectations are assertions on the state of a target infrastructure for a given scenario. By using fact and values they are able to determine if a check passes or not.</p><p>An Expectation declaration contains:</p><ul><li>the expectation name</li><li>the expectation expression itself with <a href="#evaluation-scope">access</a> to gathered <a href="#facts-1">facts</a>, <a href="#values-1">resolved values</a> and the <a href="#env">environment</a></li></ul><pre><code class="yaml">expectations:
+  - name: &lt;expectation_name&gt;
+    expect: &lt;expectation_expression&gt;
+
+  - name: &lt;another_expectation_name&gt;
+    expect: &lt;another_expectation_expression&gt;
+
+  - name: &lt;yet_another_expectation_name&gt;
+    expect_same: &lt;yet_another_expectation_expression&gt;</code></pre><p>Extra considerations:</p><ul><li>there can be many expectations for a single Check</li><li>an expectation can be one of two types <a href="#expect"><code class="inline">expect</code></a> or <a href="#expect_same"><code class="inline">expect_same</code></a></li><li>a Check passes when all the expectations are satisfied</li></ul><p>Example</p><pre><code class="yaml">expectations:
+  - name: token_timeout
+    expect: facts.corosync_token_timeout == values.expected_token_timeout
+
+  - name: awesome_expectation
+    expect: facts.awesome_fact == values.awesome_expected_value</code></pre><p>In the previous example a Checks passes (is successful) if all expectations are met, meaning that</p><pre><code class="makeup elixir" translate="no"><span class="n">facts</span><span class="o">.</span><span class="n">corosync_token_timeout</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="n">values</span><span class="o">.</span><span class="n">expected_token_timeout</span><span class="w">
+</span><span class="nc">AND</span><span class="w">
+</span><span class="n">facts</span><span class="o">.</span><span class="n">awesome_fact</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="n">values</span><span class="o">.</span><span class="n">awesome_expected_value</span></code></pre><h3 id="expect" class="section-heading">
+  <a href="#expect" class="hover-link"><i class="ri-link-m" aria-hidden="true"></i>
+  <p class="sr-only">expect</p>
+  </a>
+  expect
+</h3>
+<p>This type of expectation is satisfied when, after facts gathering, the expression is <code class="inline">true</code> for all the targets involved in the current execution.</p><blockquote><p>Execution Scenario:</p><ul><li>2 targets [<code class="inline">A</code>, <code class="inline">B</code>]</li><li>selected Checks [<code class="inline">corosync_check</code>]</li><li>some environment (context)</li></ul><pre><code class="yaml">facts:
+  - name: corosync_token_timeout
+    gatherer: corosync.conf
+    argument: totem.token
+
+values: ...
+
+expectations:
+  - name: corosync_token_timeout_is_correct
+    expect: facts.corosync_token_timeout == values.expected_token_timeout</code></pre></blockquote><p>Considering the previous scenario what happens is that:</p><ul><li>the fact <code class="inline">corosync_token_timeout</code> is gathered on all targets (<code class="inline">A</code> and <code class="inline">B</code> in this case)</li><li>the expectation expression gets executed against the <code class="inline">corosync_token_timeout</code> fact gathered on every targets.<ul><li><code class="inline">targetA.corosync_token_timeout == values.expected_token_timeout</code></li><li><code class="inline">targetB.corosync_token_timeout == values.expected_token_timeout</code></li></ul></li><li>every evaluation has to be <code class="inline">true</code></li></ul><h3 id="expect_same" class="section-heading">
+  <a href="#expect_same" class="hover-link"><i class="ri-link-m" aria-hidden="true"></i>
+  <p class="sr-only">expect_same</p>
+  </a>
+  expect_same
+</h3>
+<p>This type of expectation is satisfied when, after facts gathering, the expression's return value is the same for all the targets involved in the current execution, regardless of the value itself.</p><blockquote><p>Execution Scenario:</p><ul><li>2 targets [<code class="inline">A</code>, <code class="inline">B</code>, <code class="inline">C</code>]</li><li>selected Checks [<code class="inline">some_check</code>]</li><li>some environment (context)</li></ul><pre><code class="yaml">expectations:
+  - name: awesome_expectation
+    expect_same: facts.awesome_fact</code></pre></blockquote><p>Considering the previous scenario what happens is that:</p><ul><li>the fact <code class="inline">awesome_fact</code> is gathered on all targets (<code class="inline">A</code>, <code class="inline">B</code> and <code class="inline">C</code> in this case)</li><li>the expectation expression gets executed for every target involved.<ul><li><code class="inline">targetA.facts.awesome_fact</code></li><li><code class="inline">targetB.facts.awesome_fact</code></li><li><code class="inline">targetC.facts.awesome_fact</code></li></ul></li><li>the expressions results has to be the same for every target<ul><li><code class="inline">targetA.facts.awesome_fact == targetB.facts.awesome_fact == targetC.facts.awesome_fact</code></li></ul></li></ul><blockquote><p>Example:</p><p>RPM version must be the same on all the targets, regardless of what version it is</p><pre><code class="yaml">facts:
+  - name: installed_rpm_version
+    gatherer: package_version
+    argument: rpm
+
+expectations:
+  - name: installed_rpm_version_must_be_the_same_on_all_targets
+    expect_same: facts.installed_rpm_version</code></pre></blockquote><h2 id="expression-language" class="section-heading">
+  <a href="#expression-language" class="hover-link"><i class="ri-link-m" aria-hidden="true"></i>
+  <p class="sr-only">expression-language</p>
+  </a>
+  Expression Language
+</h2>
+<p>Different parts of the Check declaration are places where an evaluation is needed.</p><blockquote><p>Determine to what a <a href="#values">value</a> resolves during execution</p><p><code class="inline">when: &lt;expression&gt;</code> part of a Value's condition</p></blockquote><pre><code class="yaml">values:
+  - name: expected_token_timeout
+    default: 5000
+    conditions:
+      - value: 30000
+        when: env.provider == &quot;azure&quot; || env.provider == &quot;aws&quot;
+      - value: 20000
+        when: env.provider == &quot;gcp&quot;</code></pre><blockquote><p>Defining the <a href="#expectations">Expectation</a> of a Check</p><p><code class="inline">expect|expect_same: &lt;expression&gt;</code></p></blockquote><pre><code class="yaml">expectations:
+  - name: token_timeout
+    expect: facts.corosync_token_timeout == values.expected_token_timeout</code></pre><p>See <a href="expression_language.html">reference for the Expression Language</a>.</p><h3 id="evaluation-scope" class="section-heading">
+  <a href="#evaluation-scope" class="hover-link"><i class="ri-link-m" aria-hidden="true"></i>
+  <p class="sr-only">evaluation-scope</p>
+  </a>
+  Evaluation Scope
+</h3>
+<p>Every expression has access to an evaluation scope, allowing to access relevant piece of information to run the expression.</p><p>Scopes are namespaced and access to items in the scope is name based.</p><h4><strong>env</strong></h4><p><code class="inline">env</code> is a map of information about the context of the running execution, it is set by the system on each execution/check compilation.</p><p>Examples of entries in the scope. What is actually available during the execution depends on the scenario.
+| name | Type<br/>| ----------------------------- | -------------------------------------------------------
+| <code class="inline">env.provider</code> | one of <code class="inline">azure</code>, <code class="inline">aws</code>, <code class="inline">gcp</code>,<code class="inline">kvm</code>,<code class="inline">nutanix</code>, <code class="inline">unknown</code></p><h4><strong>facts</strong></h4><p><code class="inline">facts</code> is the map of the gathered facts, thus the scope varies based on which facts have been declared in the <a href="#facts">relative section</a>, and are accessible in other sections by fact name.</p><pre><code class="yaml">facts:
+  - name: an_interesting_fact
+    gatherer: &lt;some_gatherer&gt;
+    argument: &lt;some_argument&gt;
+
+  - name: another_interesting_fact
+    gatherer: &lt;another_gatherer_name&gt;
+    argument: &lt;another_gatherer_argument&gt;</code></pre><p>Available entries in scope, the value is what has been gathered on the targets
+| name<br/>| -----------------------------
+| <code class="inline">facts.an_interesting_fact</code><br/>| <code class="inline">facts.another_interesting_fact</code></p><h4><strong>values</strong></h4><p><code class="inline">values</code> is the map of resolved variable names defined in the <a href="#values">relative section</a></p><pre><code class="yaml">values:
+  - name: expected_token_timeout
+    default: 5000
+    conditions:
+      - value: 30000
+        when: env.provider == &quot;azure&quot; || env.provider == &quot;aws&quot;
+      - value: 20000
+        when: env.provider == &quot;gcp&quot;
+
+  - name: another_variable_value
+    default: &quot;blue&quot;
+    conditions:
+      - value: &quot;red&quot;
+        when: env.should_be_red == true</code></pre><p>Available entries in scope
+| name | Resolved to<br/>| ------------------------------- | -------------------------------------------------------
+| <code class="inline">values.expected_token_timeout</code> | <code class="inline">5000</code>, <code class="inline">30000</code>, <code class="inline">20000</code> based on the conditions
+| <code class="inline">values.another_variable_value</code> | <code class="inline">blue</code>, <code class="inline">red</code> based on the conditions</p>
+<div class="bottom-actions">
+  <div class="bottom-actions-item">
+
+      <a href="contributing.html" class="bottom-actions-button" rel="prev">
+        <span class="subheader">
+          ← Previous Page
+        </span>
+        <span class="title">
+How to contribute
+        </span>
+      </a>
+
+  </div>
+  <div class="bottom-actions-item">
+
+      <a href="expression_language.html" class="bottom-actions-button" rel="next">
+        <span class="subheader">
+          Next Page →
+        </span>
+        <span class="title">
+Expression Language
+        </span>
+      </a>
+
+  </div>
+</div>
+      <footer class="footer">
+
+        <p>
+          Built using
+          <a href="https://github.com/elixir-lang/ex_doc" title="ExDoc" target="_blank" rel="help noopener" translate="no">ExDoc</a> (v0.29.0) for the
+
+            <a href="https://elixir-lang.org" title="Elixir" target="_blank" translate="no">Elixir programming language</a>
+
+        </p>
+      </footer>
+    </div>
+  </div>
+</section>
+</div>
+
+
+  </body>
+</html>

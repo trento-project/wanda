@@ -1,0 +1,222 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="x-ua-compatible" content="ie=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="generator" content="ExDoc v0.29.0">
+    <meta name="project" content="Wanda v0.1.0">
+
+    <title>Wanda — Wanda v0.1.0</title>
+    <link rel="stylesheet" href="dist/html-elixir-2YOS5DIE.css" />
+
+    <script src="dist/handlebars.runtime-NWIB6V2M.js"></script>
+    <script src="dist/handlebars.templates-X7YVL3G2.js"></script>
+    <script src="dist/sidebar_items-B433C57D.js"></script>
+
+      <script src="docs_config.js"></script>
+
+    <script async src="dist/html-XN2TSG4M.js"></script>
+
+
+  </head>
+  <body data-type="extras" class="page-extra">
+    <script>
+
+      try {
+        var settings = JSON.parse(localStorage.getItem('ex_doc:settings') || '{}');
+
+        if (settings.theme === 'dark' ||
+           ((settings.theme === 'system' || settings.theme == null) &&
+             window.matchMedia('(prefers-color-scheme: dark)').matches)
+           ) {
+          document.body.classList.add('dark')
+        }
+      } catch (error) { }
+    </script>
+
+<div class="main">
+
+<button class="sidebar-button sidebar-toggle" aria-label="toggle sidebar">
+  <i class="ri-menu-line ri-lg" title="Collapse/expand sidebar"></i>
+</button>
+
+<section class="sidebar">
+  <form class="sidebar-search" action="search.html">
+    <button type="submit" class="search-button" aria-label="Submit Search">
+      <i class="ri-search-2-line" aria-hidden="true" title="Submit search"></i>
+    </button>
+    <button type="button" tabindex="-1" class="search-close-button" aria-label="Cancel Search">
+      <i class="ri-close-line ri-lg" aria-hidden="true" title="Cancel search"></i>
+    </button>
+    <label class="search-label">
+      <p class="sr-only">Search</p>
+      <input name="q" type="text" class="search-input" placeholder="Search..." aria-label="Input your search terms" autocomplete="off" />
+    </label>
+  </form>
+
+  <div class="autocomplete">
+    <div class="autocomplete-results">
+    </div>
+  </div>
+
+  <div class="sidebar-header">
+
+      <a href="readme.html">
+        <img src="assets/logo.svg" alt="Wanda" class="sidebar-projectImage">
+      </a>
+
+    <div class="sidebar-projectDetails">
+      <a href="readme.html" class="sidebar-projectName" translate="no">
+Wanda
+      </a>
+      <strong class="sidebar-projectVersion" translate="no">
+        v0.1.0
+      </strong>
+    </div>
+    <ul class="sidebar-listNav">
+      <li><a id="extras-list-link" href="#full-list">GUIDES</a></li>
+
+        <li><a id="modules-list-link" href="#full-list">Modules</a></li>
+
+
+    </ul>
+  </div>
+
+  <div class="gradient"></div>
+  <ul id="full-list" class="sidebar-fullList"></ul>
+</section>
+
+<section class="content">
+  <output role="status" id="toast"></output>
+  <div class="content-outer">
+    <div id="content" class="content-inner">
+
+<h1>
+<button class="settings display-settings">
+  <i class="ri-settings-3-line"></i>
+  <span class="sr-only">Settings</span>
+</button>
+
+
+    <a href="https://github.com/trento-project/wanda/blob/main/README.md#L1" title="View Source" class="view-source" rel="help">
+      <i class="ri-code-s-slash-line" aria-hidden="true"></i>
+      <span class="sr-only">View Source</span>
+    </a>
+
+  <span>Wanda</span>
+</h1>
+
+<p>A service responsible to orchestrate Checks executions on a target infrastructure.</p><ul><li><a href="#installation">Installation</a></li><li><a href="#developing-checks">Developing Checks</a><ul><li><a href="#infrastructure">Infrastructure</a></li><li><a href="#testing-executions">Testing Executions</a></li><li><a href="#adding-new-checks">Adding new Checks</a></li></ul></li></ul><h2 id="installation" class="section-heading">
+  <a href="#installation" class="hover-link"><i class="ri-link-m" aria-hidden="true"></i>
+  <p class="sr-only">installation</p>
+  </a>
+  Installation
+</h2>
+<p>If <a href="https://hex.pm/docs/publish">available in Hex</a>, the package can be installed
+by adding <code class="inline">wanda</code> to your list of dependencies in <code class="inline">mix.exs</code>:</p><pre><code class="makeup elixir" translate="no"><span class="kd">def</span><span class="w"> </span><span class="nf">deps</span><span class="w"> </span><span class="k" data-group-id="0062800064-1">do</span><span class="w">
+  </span><span class="p" data-group-id="0062800064-2">[</span><span class="w">
+    </span><span class="p" data-group-id="0062800064-3">{</span><span class="ss">:wanda</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;~&gt; 0.1.0&quot;</span><span class="p" data-group-id="0062800064-3">}</span><span class="w">
+  </span><span class="p" data-group-id="0062800064-2">]</span><span class="w">
+</span><span class="k" data-group-id="0062800064-1">end</span></code></pre><p>Documentation can be generated with <a href="https://github.com/elixir-lang/ex_doc">ExDoc</a>
+and published on <a href="https://hexdocs.pm">HexDocs</a>. Once published, the docs can
+be found at <a href="https://hexdocs.pm/wanda">https://hexdocs.pm/wanda</a>.</p><h2 id="developing-checks" class="section-heading">
+  <a href="#developing-checks" class="hover-link"><i class="ri-link-m" aria-hidden="true"></i>
+  <p class="sr-only">developing-checks</p>
+  </a>
+  Developing Checks
+</h2>
+<p>Wanda architecture aims to simplify <a href="#testing-executions">testing Checks Executions</a> and <a href="#adding-new-checks">adding new ones</a>. </p><h3 id="infrastructure" class="section-heading">
+  <a href="#infrastructure" class="hover-link"><i class="ri-link-m" aria-hidden="true"></i>
+  <p class="sr-only">infrastructure</p>
+  </a>
+  Infrastructure
+</h3>
+<p>A docker-compose setup is provided to enable seamless experience with the system.</p><h4>Starting a local environment</h4><p>Start the required infrastructure (see <a href="./docker-compose.checks.yaml">docker-compose.checks.yaml</a>)</p><pre><code class="makeup bash" translate="no"><span class="gp unselectable">$ </span><span class="">docker-compose -f docker-compose.checks.yaml up -d
+</span></code></pre><p>Wanda is exposed on port <code class="inline">4000</code> and the API documentation is available at <a href="http://localhost:4000/swaggerui">http://localhost:4000/swaggerui</a></p><p><strong>Note</strong> that the <a href="https://www.rabbitmq.com/">message broker</a> <strong>must</strong> be reachable by wanda and all the targets.</p><h3 id="testing-executions" class="section-heading">
+  <a href="#testing-executions" class="hover-link"><i class="ri-link-m" aria-hidden="true"></i>
+  <p class="sr-only">testing-executions</p>
+  </a>
+  Testing Executions
+</h3>
+<p>With a runnig setup it is possible to easily test Checks and their Execution by:</p><ul><li>consulting the catalog</li><li>starting a Checks Execution</li><li>checking up the state of the started execution</li></ul><h4><strong>Consulting the catalog</strong></h4><p>Available Checks are part of the <strong>Catalog</strong>, and they can be retrieved by accessing the dedicated API</p><pre><code class="makeup bash" translate="no"><span class="">curl -X &#39;GET&#39; \
+</span><span class="">  &#39;http://localhost:4000/api/checks/catalog&#39; \
+</span><span class="">  -H &#39;accept: application/json&#39;
+</span></code></pre><h4><strong>Starting a Checks Execution</strong></h4><p>A Checks Execution can be started by calling the Start Execution endpoint, as follows</p><pre><code class="makeup bash" translate="no"><span class="">curl --request POST &#39;http://localhost:4000/api/checks/executions/start&#39; \
+</span><span class="">--header &#39;accept: application/json&#39; \
+</span><span class="">--header &#39;Content-Type: application/json&#39; \
+</span><span class="">--data-raw &#39;{
+</span><span class="">  &quot;env&quot;: {
+</span><span class="">    &quot;provider&quot;: &quot;azure&quot;
+</span><span class="">  },
+</span><span class="">  &quot;execution_id&quot;: &quot;205e326d-0c25-4f4b-9976-43f9ba1c86d3&quot;,
+</span><span class="">  &quot;group_id&quot;: &quot;3dff9d03-4adf-453e-9513-8533e221bb12&quot;,
+</span><span class="">  &quot;targets&quot;: [
+</span><span class="">    {
+</span><span class="">      &quot;agent_id&quot;: &quot;a644919a-d953-43d4-bd57-7e0bb96ee894&quot;,
+</span><span class="">      &quot;checks&quot;: [
+</span><span class="">        &quot;156F64&quot;
+</span><span class="">      ]
+</span><span class="">    },
+</span><span class="">    {
+</span><span class="">      &quot;agent_id&quot;: &quot;02d99b2f-0efd-443c-ac9c-32710323f620&quot;,
+</span><span class="">      &quot;checks&quot;: [
+</span><span class="">        &quot;OTH3R1&quot;
+</span><span class="">      ]
+</span><span class="">    }
+</span><span class="">  ]
+</span><span class="">}&#39;
+</span></code></pre><blockquote><p><strong>execution_id</strong> must be new and unique for every new execution. If an already used <strong>execution_id</strong> is provided, starting the execution fails.</p></blockquote><p>In order to get the detailed information for an execution see <a href="#getting-execution-details">Getting Execution details</a>.</p><blockquote><p>Please note that execution is <em>eventually started</em>, meaning that a successful response to the previous API call does not guarantee that the execution is running, but that it has been accepted by the system to start.</p></blockquote><h4><strong>Getting Execution details</strong></h4><p>To get detailed information about the execution, the following API can be used.</p><pre><code class="makeup bash" translate="no"><span class="">curl --request GET &#39;http://localhost:4000/api/checks/executions/205e326d-0c25-4f4b-9976-43f9ba1c86d3&#39; \
+</span><span class="">--header &#39;accept: application/json&#39; \
+</span><span class="">--header &#39;Content-Type: application/json&#39;
+</span></code></pre><blockquote><p><strong>Note</strong> that calling the execution detail API right after <a href="#starting-a-checks-execution">starting an execution</a> might result in a <code class="inline">404 not found</code>, because the execution, as mentioned, is <em>eventually started</em>.</p><p>In this case retry getting the detail of the execution.</p></blockquote><p>Refer to the <a href="http://localhost:4000/swaggerui">API doc</a> for more information about requests and responses.</p><h3 id="adding-new-checks" class="section-heading">
+  <a href="#adding-new-checks" class="hover-link"><i class="ri-link-m" aria-hidden="true"></i>
+  <p class="sr-only">adding-new-checks</p>
+  </a>
+  Adding new Checks
+</h3>
+<p>Built-in Checks can be found in the Catalog directory at <code class="inline">./priv/catalog/</code></p><p>In order to implement new checks and test them:</p><ul><li>write a new <a href="specification.html">Check Specification</a> file</li><li>locate the newly created Check in the Catalog directory <code class="inline">./priv/catalog/</code></li><li>test the execution as <a href="#testing-executions">previously described</a></li></ul>
+<div class="bottom-actions">
+  <div class="bottom-actions-item">
+
+      <a href="api-reference.html" class="bottom-actions-button" rel="prev">
+        <span class="subheader">
+          ← Previous Page
+        </span>
+        <span class="title">
+API Reference
+        </span>
+      </a>
+
+  </div>
+  <div class="bottom-actions-item">
+
+      <a href="changelog.html" class="bottom-actions-button" rel="next">
+        <span class="subheader">
+          Next Page →
+        </span>
+        <span class="title">
+CHANGELOG
+        </span>
+      </a>
+
+  </div>
+</div>
+      <footer class="footer">
+
+        <p>
+          Built using
+          <a href="https://github.com/elixir-lang/ex_doc" title="ExDoc" target="_blank" rel="help noopener" translate="no">ExDoc</a> (v0.29.0) for the
+
+            <a href="https://elixir-lang.org" title="Elixir" target="_blank" translate="no">Elixir programming language</a>
+
+        </p>
+      </footer>
+    </div>
+  </div>
+</section>
+</div>
+
+
+  </body>
+</html>
