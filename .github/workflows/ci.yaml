@@ -24,7 +24,6 @@ jobs:
         uses: actions/checkout@v3
         with:
           fetch-depth: 0
-
       - name: Setup
         uses: erlef/setup-beam@v1
         with:
@@ -32,7 +31,6 @@ jobs:
           otp-version: ${{ env.OTP_VERSION }}
         env:
           ImageOS: ubuntu20
-
       - name: Retrieve Cached Dependencies
         uses: actions/cache@v3
         id: mix-cache
@@ -42,7 +40,6 @@ jobs:
             _build/test
             priv/plts
           key: ${{ runner.os }}-${{ env.OTP_VERSION }}-${{ env.ELIXIR_VERSION }}-${{ hashFiles('mix.lock') }}
-
       - name: Install Dependencies
         if: steps.mix-cache.outputs.cache-hit != 'true'
         run: |
@@ -57,13 +54,11 @@ jobs:
     name: Static Code Analysis
     needs: elixir-deps
     runs-on: ubuntu-20.04
-
     steps:
       - name: Checkout
         uses: actions/checkout@v3
         with:
           fetch-depth: 0
-
       - name: Setup
         uses: erlef/setup-beam@v1
         with:
@@ -81,16 +76,12 @@ jobs:
             _build/test
             priv/plts
           key: ${{ runner.os }}-${{ env.OTP_VERSION }}-${{ env.ELIXIR_VERSION }}-${{ hashFiles('mix.lock') }}
-
       - name: Check for Unused Dependencies
         run: mix deps.unlock --check-unused
-
       - name: Check Code Format
         run: mix format --check-formatted
-
       - name: Run Credo
         run: mix credo --strict
-
       - name: Run Dialyzer
         run: mix dialyzer
 
@@ -119,19 +110,16 @@ jobs:
           RABBITMQ_DEFAULT_PASS: wanda
         ports:
           - 5672:5672
-
     steps:
       - name: Checkout
         uses: actions/checkout@v3
         with:
           fetch-depth: 0
-
       - name: Setup
         uses: erlef/setup-beam@v1
         with:
           elixir-version: ${{ env.ELIXIR_VERSION }}
           otp-version: ${{ env.OTP_VERSION }}
-
       - name: Retrieve Cached Dependencies
         uses: actions/cache@v3
         id: mix-cache
@@ -141,9 +129,10 @@ jobs:
             _build/test
             priv/plts
           key: ${{ runner.os }}-${{ env.OTP_VERSION }}-${{ env.ELIXIR_VERSION }}-${{ hashFiles('mix.lock') }}
-
       - name: Run test
-        run: mix test --color --trace --slowest 10
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: mix coveralls.github --color --trace
 
   build-and-push-container-images:
     name: Build and push container images

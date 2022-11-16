@@ -15,6 +15,11 @@ defmodule Wanda.MixProject do
       deps: deps(),
       name: "Wanda",
       docs: docs(),
+      test_coverage: [tool: ExCoveralls],
+      preferred_cli_env: [
+        coveralls: :test,
+        "coveralls.github": :test
+      ],
       dialyzer: [plt_add_apps: [:ex_unit]]
     ]
   end
@@ -110,6 +115,7 @@ defmodule Wanda.MixProject do
       {:mox, "~> 1.0", only: :test},
       {:ex_machina, "~> 2.7.0", only: :test},
       {:faker, "~> 0.17", only: :test},
+      {:excoveralls, "~> 0.10", only: :test},
       # phoenix deps
       {:phoenix, "~> 1.6.12"},
       {:phoenix_ecto, "~> 4.4"},
@@ -134,7 +140,8 @@ defmodule Wanda.MixProject do
       setup: ["deps.get", "ecto.setup"],
       "ecto.setup": ["ecto.create", "ecto.migrate", "run priv/repo/seeds.exs"],
       "ecto.reset": ["ecto.drop", "ecto.setup"],
-      test: ["ecto.create --quiet", "ecto.migrate --quiet", "test"]
+      test: ["ecto.create --quiet", "ecto.migrate --quiet", "test"],
+      "coveralls.github": ["ecto.create --quiet", "ecto.migrate --quiet", "coveralls.github"]
     ]
   end
 end
