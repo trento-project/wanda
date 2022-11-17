@@ -21,10 +21,9 @@ Here's a collection of build-in gatherers, with information about how to use the
 | name                             | implementation                                                                                                                                        |
 | -------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------- |
 | [`corosync.conf`](#corosyncconf) | [trento-project/agent/../gatherers/corosyncconf.go](https://github.com/trento-project/agent/blob/main/internal/factsengine/gatherers/corosyncconf.go) |
+| [`systemd`](#systemd) | [trento-project/agent/../gatherers/systemd.go](https://github.com/trento-project/agent/blob/main/internal/factsengine/gatherers/systemd.go) |
 
 ### corosync.conf
-
-**Name:** `corosync.conf`
 
 This gatherer allows accessing information contained in `/etc/corosync/corosync.conf`
 
@@ -66,3 +65,22 @@ facts:
 ```
 
 For extra information refer to [trento-project/agent/../gatherers/corosyncconf_test.go](https://github.com/trento-project/agent/blob/main/internal/factsengine/gatherers/corosyncconf_test.go)
+
+### systemd
+
+Gather systemd daemons state. It returns an `active/inactive` string. If the daemon is disabled or does not even exist, `inactive` is returned.
+
+Specification examples:
+
+```yaml
+facts:
+  - name: sbd_state
+    gatherer: systemd
+    argument: sbd
+
+  - name: corosync_state
+    gatherer: systemd
+    argument: corosync
+```
+
+For extra information refer to [trento-project/agent/../gatherers/systemd_test.go](https://github.com/trento-project/agent/blob/main/internal/factsengine/gatherers/systemd_test.go)
