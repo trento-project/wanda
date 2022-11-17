@@ -21,7 +21,9 @@ Here's a collection of build-in gatherers, with information about how to use the
 | name                             | implementation                                                                                                                                        |
 | -------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------- |
 | [`corosync.conf`](#corosyncconf) | [trento-project/agent/../gatherers/corosyncconf.go](https://github.com/trento-project/agent/blob/main/internal/factsengine/gatherers/corosyncconf.go) |
-| [`systemd`](#systemd) | [trento-project/agent/../gatherers/systemd.go](https://github.com/trento-project/agent/blob/main/internal/factsengine/gatherers/systemd.go) |
+| [`sbd_config`](#sbd_config)      | [trento-project/agent/../gatherers/sbd.go](https://github.com/trento-project/agent/blob/main/internal/factsengine/gatherers/sbd.go)                   |
+| [`systemd`](#systemd)            | [trento-project/agent/../gatherers/systemd.go](https://github.com/trento-project/agent/blob/main/internal/factsengine/gatherers/systemd.go) |
+
 
 ### corosync.conf
 
@@ -65,6 +67,34 @@ facts:
 ```
 
 For extra information refer to [trento-project/agent/../gatherers/corosyncconf_test.go](https://github.com/trento-project/agent/blob/main/internal/factsengine/gatherers/corosyncconf_test.go)
+
+### sbd_config
+
+This gatherer allows accessing information contained in `/etc/sysconfig/sbd`
+
+Sample arguments
+| Name | Return value  
+| ------------------------------------ | ------------------------------------------
+| `SBD_PACEMAKER` | extracted value from the config (e.g. `yes`)
+| `SBD_STARTMODE` | extracted value from the config (e.g. `always`)
+| `SBD_DEVICE`    | extracted value from the config (e.g. `/dev/vdc;/dev/vdb`)
+
+Specification examples:
+```yaml
+  - name: sbd_pacemaker
+    gatherer: sbd_config
+    argument: SBD_PACEMAKER
+
+  - name: sbd_startmode
+    gatherer: sbd_config
+    argument: SBD_STARTMODE
+
+  - name: sbd_device
+    gatherer: sbd_config
+    argument: SBD_DEVICE
+```
+
+For extra information refer to [trento-project/agent/../gatherers/sbd_test.go](https://github.com/trento-project/agent/blob/main/internal/factsengine/gatherers/sbd_test.go)
 
 ### systemd
 
