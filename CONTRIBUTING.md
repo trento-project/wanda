@@ -2,8 +2,8 @@
 
 Thanks for showing interest and sharing your time to contribute to this project!
 
-This guide is meant to be used as general guideline creating issues or
-pull requests. We encourage all first contributors to give this a read to avoid
+This guide is meant to be used as a general guideline for creating issues or
+pull requests. We encourage all first-time contributors to give this a read to avoid
 common mistakes and improve the quality of all contributions.
 
 ## Opening issues
@@ -19,21 +19,21 @@ If you are reporting a `bug`, please share a file generated using the
 # trento-support.sh --collect all --output file-tgz
 ```
 
-and include the output to your issue. The script should remove sensitive data
-automatically but please make sure you are not sharing anything sensible yourself.
+and include the output in your issue. The script should remove sensitive data
+automatically but please make sure you are not sharing any sensitive data of your own.
 
 ## Submitting changes
 
+Always refer to the [docs repository](https://github.com/trento-project/docs) for coding standards and general guidelines.
+
 ### Pull Requests guideline
 
-Reviews are hard. This few points will help reduce the effort and allow us to
-merge your changes faster.
+Reviews are hard. These few points will help us to reduce the time and effort required and allow us to merge your changes faster.
 
 1. Only touch relevant files.
 2. We have a PR template to aid you in completing the required details. Be
    sure to complete it and remove the non-relevant parts.
-3. Keep PRs as small as possible. When the PR gets too big, consider splitting
-   it in multiple parts. An PR should ideally be between 100 and 500 additions.
+3. Keep PRs as small as possible. When the PR gets too big, consider splitting it into multiple parts. A PR should ideally be between 100 and 500 additions.
 4. Check that the tests are passing.
 5. Check that your code is not generating new warnings.
 6. Check that any dependent changes have been merged and published in downstream modules
@@ -58,7 +58,7 @@ merge your changes faster.
 ### Reviewers guideline
 
 1. Opinionated comments are welcome but don't expect them always to be
-   addressed. Be ready for discussion but also open to concede.
-2. In order to avoid scope creeping, consider to propose subsequent PRs
+   addressed. Be ready for discussion but also open to conceding.
+   To avoid scope creep, consider proposing subsequent PRs
    rather than requesting changes for the current PR you are reviewing.
-3. Short, concise comments with examples are the most valuable.
+2. Short, concise comments with examples are the most valuable.
