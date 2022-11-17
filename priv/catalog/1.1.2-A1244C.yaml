@@ -6,7 +6,7 @@ description: |
   Corosync `consensus` timeout is set to `{{ values.expected_consensus_timeout }}`
 remediation: |
   ## Remediation
-  Adjust the Corosync `consensus` timeout as recommended by the Azure best practices.
+  Adjust the Corosync `consensus` timeout as recommended on the best practices.
 
   ## References
   Azure:

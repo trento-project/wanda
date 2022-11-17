@@ -6,7 +6,7 @@ description: |
   Corosync `max_messages` is set to `{{ values.expected_max_messages }}`
 remediation: |
   ## Remediation
-  Adjust the Corosync `max_messages` parameter as recommended by the Azure best practices.
+  Adjust the Corosync `max_messages` parameter as recommended on the best practices.
 
   ## References
   AZURE:

@@ -6,7 +6,7 @@ description: |
   Corosync `join` is set to `{{ values.expected_join }}`
 remediation: |
   ## Remediation
-  Adjust the Corosync `join` parameter as recommended by the Azure best practices.
+  Adjust the Corosync `join` parameter as recommended on the best practices.
 
   ## References
   AZURE:
