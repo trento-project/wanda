@@ -29,7 +29,8 @@ defmodule Wanda.Messaging.MapperTest do
         id: "check_1",
         facts: [
           %Fact{name: "fact_1", gatherer: "gatherer_1", argument: "argument_1"},
-          %Fact{name: "fact_2", gatherer: "gatherer_2", argument: "argument_2"}
+          %Fact{name: "fact_2", gatherer: "gatherer_2", argument: "argument_2"},
+          %Fact{name: "fact_3", gatherer: "no_args_gatherer", argument: ""}
         ]
       },
       %Check{
@@ -60,6 +61,12 @@ defmodule Wanda.Messaging.MapperTest do
                      check_id: "check_1",
                      gatherer: "gatherer_2",
                      name: "fact_2"
+                   },
+                   %{
+                     argument: "",
+                     check_id: "check_1",
+                     gatherer: "no_args_gatherer",
+                     name: "fact_3"
                    },
                    %{
                      argument: "argument_2",

@@ -10,6 +10,8 @@ facts:
   - name: jedi
     gatherer: wandalorian
     argument: -o
+  - name: other_fact
+    gatherer: no_args_gatherer
 values:
   - name: expected_value
     default: 5

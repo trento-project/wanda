@@ -46,6 +46,11 @@ defmodule Wanda.CatalogTest do
                    name: "jedi",
                    gatherer: "wandalorian",
                    argument: "-o"
+                 },
+                 %Fact{
+                   name: "other_fact",
+                   gatherer: "no_args_gatherer",
+                   argument: ""
                  }
                ],
                values: [

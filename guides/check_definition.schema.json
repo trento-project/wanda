@@ -63,7 +63,6 @@
           }
         },
         "required": [
-          "argument",
           "gatherer",
           "name"
         ]
