@@ -73,7 +73,9 @@ For extra information refer to [trento-project/agent/../gatherers/corosyncconf_t
 This gatherer allows accessing the hostnames that are resolvable through `/etc/hosts`. It
 does **not** use domain resolution in any way but instead directly parses the file.
 
-It accepts only one parameter which is the hostname to attempt to resolve.
+It allows one argument to be specified or none at all:
+ - When a hostname is provided as an argument, the gatherer will return an array of IPv4 and/or IPv6 addresses.
+ - When no argument is provided, the gatherer will return a map with hostname as keys and arrays with IPv4 and/or IPv6 addresses.
 
 ```
 hosts_related_fact = hosts(example.com)
@@ -82,9 +84,9 @@ hosts_related_fact = hosts(example.com)
 Sample arguments
 | name                                 | Return value          
 | ------------------------------------ | --------------------------------------------------------
-| `localhost`                          | list of IPs resolving `localhost` e.g. ["127.0.0.1", "::1"]
-| `node1`                              | list of IPs resolving `node1` e.g. ["172.22.0.1"]
-| `...`                                | `...`
+| `localhost`                          | list of IPs resolving `localhost` e.g. `["127.0.0.1", "::1"]`
+| `node1`                              | list of IPs resolving `node1` e.g. `["172.22.0.1"]`
+| `nil` or `""`                        | map with hostnames and IP addresses e.g. `{"localhost": ["127.0.0.1", "::1"], "node1": ["172.22.0.1"]}`
 
 Specification examples:
 ```yaml
@@ -96,6 +98,9 @@ facts:
   - name: hosts_node2
     gatherer: hosts
     argument: node2
+
+  - name: hsots_all
+    gatherer: hosts
 
 ```
 
