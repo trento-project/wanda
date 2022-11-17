@@ -46,6 +46,11 @@ defmodule Wanda.CatalogTest do
                    name: "jedi",
                    gatherer: "wandalorian",
                    argument: "-o"
+                 },
+                 %Fact{
+                   name: "other_fact",
+                   gatherer: "no_args_gatherer",
+                   argument: ""
                  }
                ],
                values: [
@@ -100,18 +105,6 @@ defmodule Wanda.CatalogTest do
     test "should load multiple checks" do
       assert [%Check{id: "expect_check"}, %Check{id: "expect_same_check"}] =
                Catalog.get_checks(["expect_check", "expect_same_check"])
-    end
-
-    test "should load a check with an argument-less gatherer" do
-      assert %Check{
-               facts: [
-                 %Fact{
-                   name: "jedi",
-                   gatherer: "wandalorian",
-                   argument: nil
-                 }
-               ]
-             } = Catalog.get_check("argumentless_gatherer")
     end
   end
 end

@@ -92,19 +92,11 @@ defmodule Wanda.Catalog do
     }
   end
 
-  defp map_fact(%{"name" => name, "gatherer" => gatherer, "argument" => argument}) do
+  defp map_fact(%{"name" => name, "gatherer" => gatherer} = fact) do
     %Fact{
       name: name,
       gatherer: gatherer,
-      argument: argument
-    }
-  end
-
-  defp map_fact(%{"name" => name, "gatherer" => gatherer}) do
-    %Fact{
-      name: name,
-      gatherer: gatherer,
-      argument: nil
+      argument: Map.get(fact, "argument", "")
     }
   end
 
