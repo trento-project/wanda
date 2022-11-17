@@ -82,7 +82,7 @@ Sample arguments
 | ------------------------------------ | --------------------------------------------------------
 | `localhost`                          | list of IPs resolving `localhost` e.g. `["127.0.0.1", "::1"]`
 | `node1`                              | list of IPs resolving `node1` e.g. `["172.22.0.1"]`
-| `nil` or `""`                        | map with hostnames and IP addresses e.g. `{"localhost": ["127.0.0.1", "::1"], "node1": ["172.22.0.1"]}`
+| `no argument provided`               | map with hostnames and IP addresses e.g. `{"localhost": ["127.0.0.1", "::1"], "node1": ["172.22.0.1"]}`
 
 Specification examples:
 ```yaml
