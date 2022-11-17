@@ -77,10 +77,6 @@ It allows one argument to be specified or none at all:
  - When a hostname is provided as an argument, the gatherer will return an array of IPv4 and/or IPv6 addresses.
  - When no argument is provided, the gatherer will return a map with hostname as keys and arrays with IPv4 and/or IPv6 addresses.
 
-```
-hosts_related_fact = hosts(example.com)
-```
-
 Sample arguments
 | name                                 | Return value          
 | ------------------------------------ | --------------------------------------------------------
