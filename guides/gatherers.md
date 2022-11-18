@@ -18,12 +18,13 @@ fact = gatherer(argument)
 
 Here's a collection of build-in gatherers, with information about how to use them.
 
-| name                             | implementation                                                                                                                                        |
-| -------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------- |
-| [`corosync.conf`](#corosyncconf) | [trento-project/agent/../gatherers/corosyncconf.go](https://github.com/trento-project/agent/blob/main/internal/factsengine/gatherers/corosyncconf.go) |
-| [`hosts`](#hosts-etchosts)       | [trento-project/agent/../gatherers/hostsfile.go](https://github.com/trento-project/agent/blob/main/internal/factsengine/gatherers/hostsfile.go)       |
-| [`sbd_config`](#sbd_config)      | [trento-project/agent/../gatherers/sbd.go](https://github.com/trento-project/agent/blob/main/internal/factsengine/gatherers/sbd.go)                   |
-| [`systemd`](#systemd)            | [trento-project/agent/../gatherers/systemd.go](https://github.com/trento-project/agent/blob/main/internal/factsengine/gatherers/systemd.go)           |
+| name                             | implementation                                                                                                                                                 |
+| -------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| [`corosync.conf`](#corosyncconf) | [trento-project/agent/../gatherers/corosyncconf.go](https://github.com/trento-project/agent/blob/main/internal/factsengine/gatherers/corosyncconf.go)          |
+| [`hosts`](#hosts-etchosts)       | [trento-project/agent/../gatherers/hostsfile.go](https://github.com/trento-project/agent/blob/main/internal/factsengine/gatherers/hostsfile.go)                |
+| [`package_version`](#package_version) | [trento-project/agent/../gatherers/packageversion.go](https://github.com/trento-project/agent/blob/main/internal/factsengine/gatherers/packageversion.go) |
+| [`sbd_config`](#sbd_config)      | [trento-project/agent/../gatherers/sbd.go](https://github.com/trento-project/agent/blob/main/internal/factsengine/gatherers/sbd.go)                            |
+| [`systemd`](#systemd)            | [trento-project/agent/../gatherers/systemd.go](https://github.com/trento-project/agent/blob/main/internal/factsengine/gatherers/systemd.go)                    |
 
 ### corosync.conf
 
@@ -34,12 +35,12 @@ corosync_related_fact = corosync.conf(some.argument)
 ```
 
 Sample arguments
-| name | Return value  
-| ------------------------------------ | ------------------------------------------
-| `totem.token` | extracted value from the config
-| `totem.join` | extracted value from the config
-| `nodelist.node.<node_index>.nodeid` | extracted value from the config
-| `nodelist.node` | list of objects representing the nodes
+| Name                                 | Return value  
+| ------------------------------------ | --------------------------------------
+| `totem.token`                        | extracted value from the config
+| `totem.join`                         | extracted value from the config
+| `nodelist.node.<node_index>.nodeid`  | extracted value from the config
+| `nodelist.node`                      | list of objects representing the nodes
 
 Specification examples:
 
@@ -102,6 +103,32 @@ facts:
 
 For more information refer to [trento-project/agent/../gatherers/hostsfile_test.go](https://github.com/trento-project/agent/blob/main/internal/factsengine/gatherers/hostsfile_test.go)
 
+### package_version
+
+This gatherer returns the version as a string of the specified package
+
+Sample arguments
+| Name                   | Return value  
+| ---------------------- | -------------------------------------------------------------------------------------
+| `corosync`             | a string containing the installed version for the package `package_name`, e.g "2.4.5"
+
+Specification examples:
+
+```yaml
+facts:
+  - name: corosync_version
+    gatherer: package_version
+    argument: corosync
+
+  - name: pacemaker_version
+    gatherer: package_version
+    argument: pacemaker
+
+  ...
+```
+
+For extra information refer to [trento-project/agent/../gatherers/packageversion_test.go](https://github.com/trento-project/agent/blob/main/internal/factsengine/gatherers/packageversion_test.go)
+
 ### sbd_config
 
 This gatherer allows accessing information contained in `/etc/sysconfig/sbd`
@@ -134,10 +161,7 @@ For extra information refer to [trento-project/agent/../gatherers/sbd_test.go](h
 
 Gather systemd daemons state. It returns an `active/inactive` string. If the daemon is disabled or does not even exist, `inactive` is returned.
 
-Specification examples:
-
 ```yaml
-facts:
   - name: sbd_state
     gatherer: systemd
     argument: sbd
@@ -148,4 +172,3 @@ facts:
 ```
 
 For extra information refer to [trento-project/agent/../gatherers/systemd_test.go](https://github.com/trento-project/agent/blob/main/internal/factsengine/gatherers/systemd_test.go)
-
