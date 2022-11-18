@@ -110,17 +110,17 @@ This gatherer returns the version as a string of the specified package
 Sample arguments
 | Name                   | Return value  
 | ---------------------- | -------------------------------------------------------------------------------------
-| `package_name`         | a string containing the installed version for the package `package_name`, e.g "2.4.5"
+| `corosync`             | a string containing the installed version for the package `package_name`, e.g "2.4.5"
 
 Specification examples:
 
 ```yaml
 facts:
-  - name: package_version-corosync
+  - name: corosync_version
     gatherer: package_version
     argument: corosync
 
-  - name: package_version-pacemaker
+  - name: pacemaker_version
     gatherer: package_version
     argument: pacemaker
 
