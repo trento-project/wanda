@@ -50,6 +50,21 @@ jobs:
           mix deps.compile --warnings-as-errors
           mix dialyzer --plt
 
+  tlint:
+    name: Run TLint over checks
+    runs-on: ubuntu-20.04
+    container:
+      image: ghcr.io/trento-project/tlint:latest
+      volumes:
+        - ${{ github.workspace }}:/data
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
+      - name: Run TLint
+        run: "/home/tlint/tlint lint -f /data/priv/catalog"
+
   static-code-analysis:
     name: Static Code Analysis
     needs: elixir-deps
