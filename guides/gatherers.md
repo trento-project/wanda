@@ -105,7 +105,7 @@ For more information refer to [trento-project/agent/../gatherers/hostsfile_test.
 
 ### package_version
 
-This gatherer allows checking the installation of a certain package in the system
+This gatherer returns the version as a string of the specified package
 
 Sample arguments
 | Name                   | Return value  
