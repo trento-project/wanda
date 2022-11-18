@@ -94,9 +94,9 @@ defmodule Wanda.ExecutionsTest do
       ] = insert_list(3, :execution)
 
       assert [
-               %Execution{execution_id: ^execution_1, group_id: ^group_1},
+               %Execution{execution_id: ^execution_3, group_id: ^group_3},
                %Execution{execution_id: ^execution_2, group_id: ^group_2},
-               %Execution{execution_id: ^execution_3, group_id: ^group_3}
+               %Execution{execution_id: ^execution_1, group_id: ^group_1}
              ] = Executions.list_executions(%{page: 1})
     end
 
@@ -114,16 +114,16 @@ defmodule Wanda.ExecutionsTest do
 
     test "apply pagination" do
       [
+        %Execution{execution_id: execution_1, group_id: group_1},
+        %Execution{execution_id: execution_2, group_id: group_2},
         %Execution{},
         %Execution{},
-        %Execution{},
-        %Execution{execution_id: execution_4, group_id: group_4},
-        %Execution{execution_id: execution_5, group_id: group_5}
+        %Execution{}
       ] = insert_list(5, :execution)
 
       assert [
-               %Execution{execution_id: ^execution_4, group_id: ^group_4},
-               %Execution{execution_id: ^execution_5, group_id: ^group_5}
+               %Execution{execution_id: ^execution_2, group_id: ^group_2},
+               %Execution{execution_id: ^execution_1, group_id: ^group_1}
              ] = Executions.list_executions(%{page: 2, items_per_page: 3})
     end
   end
