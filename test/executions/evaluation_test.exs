@@ -631,7 +631,11 @@ defmodule Wanda.Executions.EvaluationTest do
   describe "expressions with arrays" do
     test "should return a passing result" do
       [value | _] =
-        array = 1..10 |> Enum.random() |> Faker.Util.list(fn _ -> Faker.StarWars.character() end)
+        array =
+        1..10
+        |> Enum.random()
+        |> Faker.Util.list(fn _ -> Faker.StarWars.character() end)
+        |> Enum.uniq()
 
       [%Catalog.Fact{name: fact_name}] = catalog_facts = build_list(1, :catalog_fact)
 
