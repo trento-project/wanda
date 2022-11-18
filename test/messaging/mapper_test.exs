@@ -240,6 +240,11 @@ defmodule Wanda.Messaging.MapperTest do
                       }
                     }}
                }}
+          },
+          %{
+            check_id: "check6",
+            name: "fact_error",
+            fact_value: {:error_value, %{type: "error_type", message: "Error!"}}
           }
         ]
       )
@@ -257,6 +262,12 @@ defmodule Wanda.Messaging.MapperTest do
                  check_id: "check5",
                  name: "struct_value",
                  value: %{some_key: %{other_key: 10, third_key: 15}}
+               },
+               %Executions.FactError{
+                 check_id: "check6",
+                 name: "fact_error",
+                 type: "error_type",
+                 message: "Error!"
                }
              ]
            } = Mapper.from_facts_gathererd(facts)
