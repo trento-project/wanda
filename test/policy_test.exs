@@ -8,7 +8,7 @@ defmodule Wanda.PolicyTest do
     FactsGathered
   }
 
-  alias Wanda.Executions.{Fact, Target}
+  alias Wanda.Executions.{Fact, FactError, Target}
 
   setup :verify_on_exit!
 
@@ -59,6 +59,12 @@ defmodule Wanda.PolicyTest do
                                                                check_id: "check_id",
                                                                name: "name",
                                                                value: "value"
+                                                             },
+                                                             %FactError{
+                                                               check_id: "check_id_error",
+                                                               name: "name_error",
+                                                               type: "error_type",
+                                                               message: "Error!"
                                                              }
                                                            ] ->
       :ok
@@ -74,6 +80,11 @@ defmodule Wanda.PolicyTest do
                    check_id: "check_id",
                    name: "name",
                    fact_value: {:value, %{kind: {:string_value, "value"}}}
+                 },
+                 %{
+                   check_id: "check_id_error",
+                   name: "name_error",
+                   fact_value: {:error_value, %{type: "error_type", message: "Error!"}}
                  }
                ]
              }
