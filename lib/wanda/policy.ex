@@ -8,11 +8,7 @@ defmodule Wanda.Policy do
     FactsGathered
   }
 
-  alias Wanda.Executions.{
-    Fact,
-    FactError,
-    Target
-  }
+  alias Wanda.Messaging.Mapper
 
   require Logger
 
@@ -23,41 +19,33 @@ defmodule Wanda.Policy do
     handle(event)
   end
 
-  defp handle(%ExecutionRequested{
-         execution_id: execution_id,
-         group_id: agent_id,
-         targets: targets,
-         env: env
-       }) do
+  defp handle(%ExecutionRequested{} = message) do
+    %{execution_id: execution_id, group_id: group_id, targets: targets, env: env} =
+      Mapper.from_execution_requested(message)
+
     execution_server_impl().start_execution(
       execution_id,
-      agent_id,
-      Target.map_targets(targets),
-      Map.new(env, fn {key, %{kind: {_, value}}} -> {key, value} end)
+      group_id,
+      targets,
+      env
     )
   end
 
-  defp handle(%FactsGathered{
-         execution_id: execution_id,
-         group_id: group_id,
-         agent_id: agent_id,
-         facts_gathered: facts_gathered
-       }) do
+  defp handle(%FactsGathered{} = message) do
+    %{
+      execution_id: execution_id,
+      group_id: group_id,
+      agent_id: agent_id,
+      facts_gathered: facts_gathered
+    } = Mapper.from_facts_gathererd(message)
+
     execution_server_impl().receive_facts(
       execution_id,
       group_id,
       agent_id,
-      Enum.map(facts_gathered, fn %{check_id: check_id, name: name, fact_value: fact_value} ->
-        map_gathered_fact(check_id, name, fact_value)
-      end)
+      facts_gathered
     )
   end
-
-  defp map_gathered_fact(check_id, name, {:error_value, %{type: type, message: message}}),
-    do: %FactError{check_id: check_id, name: name, type: type, message: message}
-
-  defp map_gathered_fact(check_id, name, {:value, %{kind: {_, value}}}),
-    do: %Fact{check_id: check_id, name: name, value: value}
 
   defp execution_server_impl,
     do: Application.fetch_env!(:wanda, Wanda.Policy)[:execution_server_impl]
