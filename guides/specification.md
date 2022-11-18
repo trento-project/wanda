@@ -8,15 +8,17 @@ The need this Specification aims to fulfill is to provide users a simple way to 
 
 Checks are, in Trento's domain, the crystallization of SUSE's best practices when it comes to SAP workloads in a form that both a user ([Spec](#anatomy-of-a-check)) and a machine ([Execution](#checks-execution)) can read.
 
+[^1]: The Trento Team from now on.
+
 ## Checks Execution
 
-Checks Execution is the process that determines whether the best practices defined in the [Checks Specifications](#anatomy-of-a-check) are being followed on a target infrastructure.
+*Checks Execution* is the process that determines whether the best practices defined in the [Checks Specifications](#anatomy-of-a-check) are being followed on a target infrastructure.
 
 > [Requesting an Execution](#requesting-an-execution) -> [Facts Gathering](#facts-gathering) -> [Expectation Evaluation](#expectation-evaluation)
 
 ### Requesting an Execution
 
-An Execution can be requested to start by providing Wanda the Following information:
+An Execution can be requested to start by providing Wanda the following information:
 
 - an execution identifier
 - an execution Group identifier
@@ -24,28 +26,30 @@ An Execution can be requested to start by providing Wanda the Following informat
 
 When the Execution starts running, its current state is stored in the Database and the targets are notified - via the message broker - about Facts to be gathered.
 
-Then the Execution waits for the [Facts Gathering](#facts-gathering) to complete.
+Then the *Execution* waits for the [Facts Gathering](#facts-gathering) to complete.
 
 ### Facts Gathering
 
 After an _Execution Request_ the targets are notified about the facts they need to [gather](./gatherers.md).
 
-Whenever a target has gathered all the needed facts for an Execution, it notifies Wanda - via the message broker - about the **Gathered Facts**.
+Whenever a target has gathered all the needed facts for an *Execution*, it notifies Wanda - via the message broker - about the *Gathered Facts*.
 
 ### Expectation Evaluation
 
-When Wanda receives the Gathered Facts **from all the targets** of an Execution, then [Expectations](#expectations) are [evaluated](#expression-language) and the result of a Check is determined.
+*Expectation Evaluation* is the process of [evaluating](#expression-language) the [Expectations](#expectations)
+using the received *Gathered Facts* to obtain the result of a check.
+
+This will only happen once *Gathered Facts* are received **from all the targets**.
 
 After the result has been determined, the currently `running` Execution transitions to `completed` and its new state is tracked on the Database.
 
-At this point the Execution is considered **Completed** and interested parites are notified about the Execution Completion.
+At this point the Execution is considered **Completed** and interested parties are notified about the Execution Completion.
 
 ### Checks Results
 
-Check Result tells whether the specified best practice was adhered on a target infrastructure.
+Once an execution is completed, a checks result should give feedback on what aspects of a target infrastructure adhere to the best practices and which don't.
 
-It can be:
-
+Possible results:
 - `passing`, everything ok
 - `warning`, best practice not followed, should fix
 - `critical`, best practice not followed, must fix
@@ -96,17 +100,17 @@ expectations:
 
 Following are listed the top level properties of a Check definition yaml.
 
-| Key            | Required/Not Required | Details                                        |
-| -------------- | --------------------- | ---------------------------------------------- |
-| `id`           | required              | Check's id [see more](#id)                     |
-| `name`         | required              | Check's name [see more](#name)                 |
-| `group`        | required              | Check's group [see more](#group)               |
-| `description`  | required              | Check's description [see more](#description)   |
-| `remediation`  | required              | Check's remediation [see more](#remediation)   |
-| `severity`     | not required          | Check's severity [see more](#severity)         |
-| `facts`        | required              | Check's facts [see more](#facts)               |
-| `values`       | not required          | Check's values [see more](#values)             |
-| `expectations` | required              | Check's expectations [see more](#expectations) |
+| Key                           | Required/Not Required | Details          
+| ----------------------------- | --------------------- | ------------------------------------------
+| `id`                          | required              | [see more](#id)
+| `name`                        | required              | [see more](#name)
+| `group`                       | required              | [see more](#group)
+| `description`                 | required              | [see more](#description)
+| `remediation`                 | required              | [see more](#remediation)
+| `severity`                    | not required          | [see more](#severity)
+| `facts`                       | required              | [see more](#facts)
+| `values`                      | not required          | [see more](#values)
+| `expectations`                | required              | [see more](#expectations)
 
 ---
 
@@ -223,11 +227,11 @@ See main sections [Facts](#facts), [Values](#values), [Expectations](#expectatio
 
 ## Facts
 
-Facts are various types of information that the engine can discover on the target infrastructure.
-Examples include (but are not limited to) installed packages, cluster state, and configuration files' content.
+Facts are the core data on which the engine evaluates the state of the target infrastructure.
+Examples include (but are not limited to) installed packages, cluster state, and configuration files content.
 
-The process of determining the value of a declared fact during Check execution is referred to as _Facts Gathering_ and it is the job of the [_Gatherers_](./gatherers.md).
-Think of gatherers as being functions that have a name and accept argument(s).
+The process of determining the value of a declared fact during Check execution is referred to as _Facts Gathering_ and it is the responsibility of the [_Gatherers_](./gatherers.md).
+Gatherers could be seen as functions that have a name and accept argument(s).
 
 That said, a fact declaration contains:
 
@@ -317,7 +321,7 @@ This is needed because the same check might expect facts to be treated different
 >
 > allowing us to have an expectation like this
 >
-> `expect: facts.awesome_fact == values.expected_token_timeout`
+> `expect: facts.awesome_fact == values.awesome_expectation`
 
 A Value declaration contains:
 
