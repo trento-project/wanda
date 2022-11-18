@@ -113,19 +113,19 @@ Wanda
   </a>
   Introduction
 </h2>
-<p>Gatherers can be thought of as functions:</p><ul><li>they have a name</li><li>they accept argument(s)</li><li>they return a value, the gathered <a href="specification.html#facts">Fact</a></li></ul><p>Facts Gathering process in a nutshell</p><pre><code class="makeup elixir" translate="no"><span class="n">fact</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">gatherer</span><span class="p" data-group-id="9431271075-1">(</span><span class="n">argument</span><span class="p" data-group-id="9431271075-1">)</span></code></pre><h2 id="available-gatherers" class="section-heading">
+<p>Gatherers can be thought of as functions:</p><ul><li>they have a name</li><li>they accept argument(s)</li><li>they return a value, the gathered <a href="specification.html#facts">Fact</a></li></ul><p>Facts Gathering process in a nutshell</p><pre><code class="makeup elixir" translate="no"><span class="n">fact</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">gatherer</span><span class="p" data-group-id="2887612590-1">(</span><span class="n">argument</span><span class="p" data-group-id="2887612590-1">)</span></code></pre><h2 id="available-gatherers" class="section-heading">
   <a href="#available-gatherers" class="hover-link"><i class="ri-link-m" aria-hidden="true"></i>
   <p class="sr-only">available-gatherers</p>
   </a>
   Available Gatherers
 </h2>
-<p>Here's a collection of build-in gatherers, with information about how to use them.</p><table><thead><tr><th style="text-align: left;">name</th><th style="text-align: left;">implementation</th></tr></thead><tbody><tr><td style="text-align: left;"><a href="#corosyncconf"><code class="inline">corosync.conf</code></a></td><td style="text-align: left;"><a href="https://github.com/trento-project/agent/blob/main/internal/factsengine/gatherers/corosyncconf.go">trento-project/agent/../gatherers/corosyncconf.go</a></td></tr></tbody></table><h3 id="corosync-conf" class="section-heading">
+<p>Here's a collection of build-in gatherers, with information about how to use them.</p><table><thead><tr><th style="text-align: left;">name</th><th style="text-align: left;">implementation</th></tr></thead><tbody><tr><td style="text-align: left;"><a href="#corosyncconf"><code class="inline">corosync.conf</code></a></td><td style="text-align: left;"><a href="https://github.com/trento-project/agent/blob/main/internal/factsengine/gatherers/corosyncconf.go">trento-project/agent/../gatherers/corosyncconf.go</a></td></tr><tr><td style="text-align: left;"><a href="#systemd"><code class="inline">systemd</code></a></td><td style="text-align: left;"><a href="https://github.com/trento-project/agent/blob/main/internal/factsengine/gatherers/systemd.go">trento-project/agent/../gatherers/systemd.go</a></td></tr></tbody></table><h3 id="corosync-conf" class="section-heading">
   <a href="#corosync-conf" class="hover-link"><i class="ri-link-m" aria-hidden="true"></i>
   <p class="sr-only">corosync-conf</p>
   </a>
   corosync.conf
 </h3>
-<p><strong>Name:</strong> <code class="inline">corosync.conf</code></p><p>This gatherer allows accessing information contained in <code class="inline">/etc/corosync/corosync.conf</code></p><pre><code class="makeup elixir" translate="no"><span class="n">corosync_related_fact</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">corosync</span><span class="o">.</span><span class="n">conf</span><span class="p" data-group-id="3422281842-1">(</span><span class="n">some</span><span class="o">.</span><span class="n">argument</span><span class="p" data-group-id="3422281842-1">)</span></code></pre><p>Sample arguments
+<p>This gatherer allows accessing information contained in <code class="inline">/etc/corosync/corosync.conf</code></p><pre><code class="makeup elixir" translate="no"><span class="n">corosync_related_fact</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">corosync</span><span class="o">.</span><span class="n">conf</span><span class="p" data-group-id="5047162650-1">(</span><span class="n">some</span><span class="o">.</span><span class="n">argument</span><span class="p" data-group-id="5047162650-1">)</span></code></pre><p>Sample arguments
 | name | Return value<br/>| ------------------------------------ | ------------------------------------------
 | <code class="inline">totem.token</code> | extracted value from the config
 | <code class="inline">totem.join</code> | extracted value from the config
@@ -149,7 +149,20 @@ Wanda
 
   - name: corosync_nodes
     gatherer: corosync.conf
-    argument: nodelist.node</code></pre><p>For extra information refer to <a href="https://github.com/trento-project/agent/blob/main/internal/factsengine/gatherers/corosyncconf_test.go">trento-project/agent/../gatherers/corosyncconf_test.go</a></p>
+    argument: nodelist.node</code></pre><p>For extra information refer to <a href="https://github.com/trento-project/agent/blob/main/internal/factsengine/gatherers/corosyncconf_test.go">trento-project/agent/../gatherers/corosyncconf_test.go</a></p><h3 id="systemd" class="section-heading">
+  <a href="#systemd" class="hover-link"><i class="ri-link-m" aria-hidden="true"></i>
+  <p class="sr-only">systemd</p>
+  </a>
+  systemd
+</h3>
+<p>Gather systemd daemons state. It returns an <code class="inline">active/inactive</code> string. If the daemon is disabled or does not even exist, <code class="inline">inactive</code> is returned.</p><p>Specification examples:</p><pre><code class="yaml">facts:
+  - name: sbd_state
+    gatherer: systemd
+    argument: sbd
+
+  - name: corosync_state
+    gatherer: systemd
+    argument: corosync</code></pre><p>For extra information refer to <a href="https://github.com/trento-project/agent/blob/main/internal/factsengine/gatherers/systemd_test.go">trento-project/agent/../gatherers/systemd_test.go</a></p>
 <div class="bottom-actions">
   <div class="bottom-actions-item">
 
