@@ -41,6 +41,12 @@ defmodule Wanda.Messaging.Mapper do
     )
   end
 
+  @spec from_execution_requested(ExecutionRequested.t()) :: %{
+          execution_id: String.t(),
+          group_id: String.t(),
+          targets: [Target.t()],
+          env: %{String.t() => boolean() | number() | String.t()}
+        }
   def from_execution_requested(%ExecutionRequested{
         execution_id: execution_id,
         group_id: group_id,
@@ -55,6 +61,12 @@ defmodule Wanda.Messaging.Mapper do
     }
   end
 
+  @spec from_facts_gathererd(FactsGathered.t()) :: %{
+          execution_id: String.t(),
+          group_id: String.t(),
+          agent_id: String.t(),
+          facts_gathered: [Fact.t() | FactError.t()]
+        }
   def from_facts_gathererd(%FactsGathered{
         execution_id: execution_id,
         group_id: group_id,
