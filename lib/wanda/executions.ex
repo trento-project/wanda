@@ -55,6 +55,7 @@ defmodule Wanda.Executions do
     |> maybe_filter_by_group_id(group_id)
     |> limit([_], ^items_per_page)
     |> offset([_], ^offset)
+    |> order_by(desc: :started_at)
     |> Repo.all()
   end
 
