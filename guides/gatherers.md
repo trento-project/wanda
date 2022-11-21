@@ -142,6 +142,7 @@ Sample arguments
 
 Specification examples:
 ```yaml
+facts:
   - name: sbd_pacemaker
     gatherer: sbd_config
     argument: SBD_PACEMAKER
@@ -161,7 +162,9 @@ For extra information refer to [trento-project/agent/../gatherers/sbd_test.go](h
 
 Gather systemd daemons state. It returns an `active/inactive` string. If the daemon is disabled or does not even exist, `inactive` is returned.
 
+Specification examples:
 ```yaml
+facts:
   - name: sbd_state
     gatherer: systemd
     argument: sbd
