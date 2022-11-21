@@ -30,7 +30,7 @@ defmodule WandaWeb.ApiSpec do
       # If the endpoint is not running, use a placeholder
       # this happens when generarting openapi.json with --start-app=false
       # e.g. mix openapi.spec.json --start-app=false --spec WandaWeb.ApiSpec
-      %OpenApiSpex.Server{url: "https://trento-project.io/wanda"}
+      %OpenApiSpex.Server{url: "https://demo.trento-project.io"}
     end
   end
 end

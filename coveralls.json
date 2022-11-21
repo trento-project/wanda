@@ -8,6 +8,7 @@
     "lib/wanda_web.ex",
     "lib/wanda_web/endpoint.ex",
     "lib/wanda_web/router.ex",
+    "lib/wanda_web/api_spec.ex",
     "lib/wanda_web/telemetry.ex",
     "lib/wanda_web/error_helpers.ex"
   ],
