@@ -109,7 +109,8 @@ Wanda
 
 <p><a href="https://github.com/trento-project/wanda/actions/workflows/ci.yaml"><img src="https://github.com/trento-project/wanda/actions/workflows/ci.yaml/badge.svg" alt="CI"/></a>
 <a href="https://coveralls.io/github/trento-project/wanda?branch=main"><img src="https://coveralls.io/repos/github/trento-project/wanda/badge.svg?branch=main" alt="Coverage Status"/></a>
-<a href="https://trento-project.io/wanda/"><img src="https://img.shields.io/badge/documentation-grey.svg" alt="Documentation"/></a></p><p>A service responsible to orchestrate Checks executions on a target infrastructure.</p><h2 id="developing-checks" class="section-heading">
+<a href="https://trento-project.io/wanda/"><img src="https://img.shields.io/badge/documentation-grey.svg" alt="Documentation"/></a></p><p>A service responsible to orchestrate Checks executions on a target infrastructure.</p><h1>Documentation</h1><p>The documentation is available at <a href="https://trento-project.io/wanda/">trento-project.io/wanda</a>.
+Swagger UI is available at <a href="https://trento-project.io/wanda/swaggerui">trento-project.io/wanda/swagger</a>.</p><h2 id="developing-checks" class="section-heading">
   <a href="#developing-checks" class="hover-link"><i class="ri-link-m" aria-hidden="true"></i>
   <p class="sr-only">developing-checks</p>
   </a>
@@ -121,14 +122,15 @@ Wanda
   </a>
   Infrastructure
 </h3>
-<p>A docker-compose setup is provided to enable seamless experience with the system.</p><h4>Starting a local environment</h4><p>Start the required infrastructure (see <a href="./docker-compose.checks.yaml">docker-compose.checks.yaml</a>)</p><pre><code class="makeup bash" translate="no"><span class="gp unselectable">$ </span><span class="">docker-compose -f docker-compose.checks.yaml up -d
-</span></code></pre><p>Wanda is exposed on port <code class="inline">4000</code> and the API documentation is available at <a href="http://localhost:4000/swaggerui">http://localhost:4000/swaggerui</a></p><p><strong>Note</strong> that the <a href="https://www.rabbitmq.com/">message broker</a> <strong>must</strong> be reachable by wanda and all the targets.</p><h3 id="testing-executions" class="section-heading">
+<p>For development purposes, a <a href="./docker-compose.yaml">docker-compose file</a> is provided.
+The <a href="./docker-compose.checks.yaml">docker-compose.checks.yaml</a> provides additional configuration to start an environment for Checks development.</p><h4>Starting a local environment</h4><p>Start the environment with:</p><pre><code class="makeup bash" translate="no"><span class="gp unselectable">$ </span><span class="">docker-compose -f docker-compose.checks.yaml up -d
+</span></code></pre><p>Wanda is exposed on port <code class="inline">4000</code> and the API documentation is available at <a href="http://localhost:4000/swaggerui">http://localhost:4000/swaggerui</a></p><p><strong>Note</strong> that the <a href="https://www.rabbitmq.com/">message broker</a> <strong>must</strong> be reachable by Wanda and all the targets.</p><h3 id="testing-executions" class="section-heading">
   <a href="#testing-executions" class="hover-link"><i class="ri-link-m" aria-hidden="true"></i>
   <p class="sr-only">testing-executions</p>
   </a>
   Testing Executions
 </h3>
-<p>With a runnig setup it is possible to easily test Checks and their Execution by:</p><ul><li>consulting the catalog</li><li>starting a Checks Execution</li><li>checking up the state of the started execution</li></ul><h4><strong>Consulting the catalog</strong></h4><p>Available Checks are part of the <strong>Catalog</strong>, and they can be retrieved by accessing the dedicated API</p><pre><code class="makeup bash" translate="no"><span class="">curl -X &#39;GET&#39; \
+<p>With a running setup, it is possible to easily test Checks and their Execution by:</p><ul><li>consulting the catalog</li><li>starting a Checks Execution</li><li>checking the state of an execution</li></ul><h4><strong>Consulting the catalog</strong></h4><p>Available Checks are part of the <strong>Catalog</strong>, and they can be retrieved by accessing the dedicated API</p><pre><code class="makeup bash" translate="no"><span class="">curl -X &#39;GET&#39; \
 </span><span class="">  &#39;http://localhost:4000/api/checks/catalog&#39; \
 </span><span class="">  -H &#39;accept: application/json&#39;
 </span></code></pre><h4><strong>Starting a Checks Execution</strong></h4><p>A Checks Execution can be started by calling the Start Execution endpoint, as follows</p><pre><code class="makeup bash" translate="no"><span class="">curl --request POST &#39;http://localhost:4000/api/checks/executions/start&#39; \
@@ -155,7 +157,7 @@ Wanda
 </span><span class="">    }
 </span><span class="">  ]
 </span><span class="">}&#39;
-</span></code></pre><blockquote><p><strong>execution_id</strong> must be new and unique for every new execution. If an already used <strong>execution_id</strong> is provided, starting the execution fails.</p></blockquote><p>In order to get the detailed information for an execution see <a href="#getting-execution-details">Getting Execution details</a>.</p><blockquote><p>Please note that execution is <em>eventually started</em>, meaning that a successful response to the previous API call does not guarantee that the execution is running, but that it has been accepted by the system to start.</p></blockquote><h4><strong>Getting Execution details</strong></h4><p>To get detailed information about the execution, the following API can be used.</p><pre><code class="makeup bash" translate="no"><span class="">curl --request GET &#39;http://localhost:4000/api/checks/executions/205e326d-0c25-4f4b-9976-43f9ba1c86d3&#39; \
+</span></code></pre><blockquote><p><strong>execution_id</strong> must be new and unique for every new execution. If an already used <strong>execution_id</strong> is provided, starting the execution fails.</p></blockquote><p>In order to get detailed information for an execution, see <a href="#getting-execution-details">Getting Execution details</a>.</p><blockquote><p>Please note that execution is <em>eventually started</em>, meaning that a successful response to the previous API call does not guarantee that the execution is running, but that it has been accepted by the system to start.</p></blockquote><h4><strong>Getting Execution details</strong></h4><p>To get detailed information about the execution, the following API can be used.</p><pre><code class="makeup bash" translate="no"><span class="">curl --request GET &#39;http://localhost:4000/api/checks/executions/205e326d-0c25-4f4b-9976-43f9ba1c86d3&#39; \
 </span><span class="">--header &#39;accept: application/json&#39; \
 </span><span class="">--header &#39;Content-Type: application/json&#39;
 </span></code></pre><blockquote><p><strong>Note</strong> that calling the execution detail API right after <a href="#starting-a-checks-execution">starting an execution</a> might result in a <code class="inline">404 not found</code>, because the execution, as mentioned, is <em>eventually started</em>.</p><p>In this case retry getting the detail of the execution.</p></blockquote><p>Refer to the <a href="http://localhost:4000/swaggerui">API doc</a> for more information about requests and responses.</p><h3 id="adding-new-checks" class="section-heading">
@@ -164,7 +166,7 @@ Wanda
   </a>
   Adding new Checks
 </h3>
-<p>Built-in Checks can be found in the Catalog directory at <code class="inline">./priv/catalog/</code></p><p>In order to implement new checks and test them:</p><ul><li>write a new <a href="specification.html">Check Specification</a> file</li><li>locate the newly created Check in the Catalog directory <code class="inline">./priv/catalog/</code></li><li>test the execution as <a href="#testing-executions">previously described</a></li></ul>
+<p>Built-in Checks can be found in the Catalog directory at <code class="inline">./priv/catalog/</code></p><p>To implement new checks and test them:</p><ul><li>write a new <a href="specification.html">Check Specification</a> file</li><li>locate the newly created Check in the Catalog directory <code class="inline">./priv/catalog/</code></li><li>test the execution as <a href="#testing-executions">previously described</a></li></ul>
 <div class="bottom-actions">
   <div class="bottom-actions-item">
 
