@@ -24,3 +24,6 @@ wanda-*.tar
 
 # Temporary files, for example, from tests.
 /tmp/
+
+# Generated OpenAPI spec.
+openapi.json
