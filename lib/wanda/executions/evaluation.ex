@@ -18,9 +18,6 @@ defmodule Wanda.Executions.Evaluation do
     Value
   }
 
-  # Abacus spec is wrong
-  @dialyzer {:nowarn_function, eval_expectation: 2, find_value: 3}
-
   @spec execute(
           String.t(),
           String.t(),
