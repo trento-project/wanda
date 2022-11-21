@@ -9,7 +9,8 @@ A service responsible to orchestrate Checks executions on a target infrastructur
 # Documentation
 
 The documentation is available at [trento-project.io/wanda](https://trento-project.io/wanda/).
-Swagger UI is available at [trento-project.io/wanda/swagger](https://trento-project.io/wanda/swaggerui).
+
+Swagger UI is available at [trento-project.io/wanda/swaggerui](https://trento-project.io/wanda/swaggerui).
 
 ## Developing Checks
 
