@@ -6,17 +6,23 @@
 
 A service responsible to orchestrate Checks executions on a target infrastructure.
 
+# Documentation
+
+The documentation is available at [trento-project.io/wanda](https://trento-project.io/wanda/).
+Swagger UI is available at [trento-project.io/wanda/swagger](https://trento-project.io/wanda/swaggerui).
+
 ## Developing Checks
 
 Wanda architecture aims to simplify [testing Checks Executions](#testing-executions) and [adding new ones](#adding-new-checks).
 
 ### Infrastructure
 
-A docker-compose setup is provided to enable seamless experience with the system.
+For development purposes, a [docker-compose file](./docker-compose.yaml) is provided.
+The [docker-compose.checks.yaml](./docker-compose.checks.yaml) provides additional configuration to start an environment for Checks development.
 
 #### Starting a local environment
 
-Start the required infrastructure (see [docker-compose.checks.yaml](./docker-compose.checks.yaml))
+Start the environment with:
 
 ```bash
 $ docker-compose -f docker-compose.checks.yaml up -d
@@ -24,15 +30,15 @@ $ docker-compose -f docker-compose.checks.yaml up -d
 
 Wanda is exposed on port `4000` and the API documentation is available at http://localhost:4000/swaggerui
 
-**Note** that the [message broker](https://www.rabbitmq.com/) **must** be reachable by wanda and all the targets.
+**Note** that the [message broker](https://www.rabbitmq.com/) **must** be reachable by Wanda and all the targets.
 
 ### Testing Executions
 
-With a runnig setup it is possible to easily test Checks and their Execution by:
+With a running setup, it is possible to easily test Checks and their Execution by:
 
 - consulting the catalog
 - starting a Checks Execution
-- checking up the state of the started execution
+- checking the state of an execution
 
 #### **Consulting the catalog**
 
@@ -77,7 +83,7 @@ curl --request POST 'http://localhost:4000/api/checks/executions/start' \
 
 > **execution_id** must be new and unique for every new execution. If an already used **execution_id** is provided, starting the execution fails.
 
-In order to get the detailed information for an execution see [Getting Execution details](#getting-execution-details).
+In order to get detailed information for an execution, see [Getting Execution details](#getting-execution-details).
 
 > Please note that execution is _eventually started_, meaning that a successful response to the previous API call does not guarantee that the execution is running, but that it has been accepted by the system to start.
 
@@ -101,7 +107,7 @@ Refer to the [API doc](http://localhost:4000/swaggerui) for more information abo
 
 Built-in Checks can be found in the Catalog directory at `./priv/catalog/`
 
-In order to implement new checks and test them:
+To implement new checks and test them:
 
 - write a new [Check Specification](./guides/specification.md) file
 - locate the newly created Check in the Catalog directory `./priv/catalog/`
