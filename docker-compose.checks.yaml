@@ -15,7 +15,7 @@ services:
       - rabbitmq
     ports:
       - 4000:4000
-    command: start
+    entrypoint: /bin/sh -c "/app/bin/wanda eval \"Wanda.Release.init()\" && /app/bin/wanda start"
     volumes:
       - ./priv/catalog/:/app/catalog:rw
 
