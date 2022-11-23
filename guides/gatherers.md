@@ -72,39 +72,38 @@ For extra information refer to [trento-project/agent/../gatherers/corosyncconf_t
 
 ### corosync-cmapctl
 
-This gatherer allows accessing information outputted by `corosync-cmapctl`. It supports all of the keys outputted by `corosync-cmapctl` to be queried here.
+This gatherer allows accessing the output of the `corosync-cmapctl` tool. It supports all of the keys returned by it to be queried.
 
 Sample arguments
 | Name                                 | Return value  
 | ------------------------------------ | --------------------------------------
-| `runtime.config.totem.consensus`     | extracted value from the command output e.g. `36000`
-| `runtime.votequorum.two_node`        | extracted value from the command output e.g. `1`
-| `totem.transport`                    | extracted value from the command output e.g. `"udpu"`
-| `runtime.config.totem.max_messages`  | extracted value from the command output e.g. `20`
+| `totem.token`                        | extracted value from the command output e.g. `30000`
+| `runtime.config.totem.token`         | extracted value from the command output e.g. `30000`
+| `nodelist.node.0.ring0_addr`         | extracted value from the command output e.g. `"10.80.1.11"`
 
 Specification examples:
 
 ```yaml
 facts:
-  - name: totem_consensus
+  - name: totem_token
     gatherer: corosync-cmapctl
     argument: totem.token
 
-  - name: votequorum_two_node
-    gatherer: corosynccmapctl
-    argument: totem.join
+  - name: runtime_totem_token
+    gatherer: corosync-cmapctl
+    argument: runtime.config.totem.token
 
   - name: totem_transport
-    gatherer: corosynccmapctl
+    gatherer: corosync-cmapctl
     argument: totem.transport
 
   - name: totem_max_messages
-    gatherer: corosynccmapctl
+    gatherer: corosync-cmapctl
     argument: runtime.config.totem.max_messages
 
-  - name: corosync_nodes
-    gatherer: corosynccmapctl
-    argument: nodelist.node
+  - name: node0_ring0addr
+    gatherer: corosync-cmapctl
+    argument: nodelist.node.0.ring0_addr
 ```
 
 For extra information refer to [trento-project/agent/../gatherers/corosynccmapctl_test.go](https://github.com/trento-project/agent/blob/main/internal/factsengine/gatherers/corosynccmapctl_test.go)
