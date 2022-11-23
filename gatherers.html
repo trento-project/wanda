@@ -113,19 +113,19 @@ Wanda
   </a>
   Introduction
 </h2>
-<p>Gatherers can be thought of as functions:</p><ul><li>they have a name</li><li>they accept argument(s)</li><li>they return a value, the gathered <a href="specification.html#facts">Fact</a></li></ul><p>Facts Gathering process in a nutshell</p><pre><code class="makeup elixir" translate="no"><span class="n">fact</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">gatherer</span><span class="p" data-group-id="4518195800-1">(</span><span class="n">argument</span><span class="p" data-group-id="4518195800-1">)</span></code></pre><h2 id="available-gatherers" class="section-heading">
+<p>Gatherers can be thought of as functions:</p><ul><li>they have a name</li><li>they accept argument(s)</li><li>they return a value, the gathered <a href="specification.html#facts">Fact</a></li></ul><p>Facts Gathering process in a nutshell</p><pre><code class="makeup elixir" translate="no"><span class="n">fact</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">gatherer</span><span class="p" data-group-id="8695128593-1">(</span><span class="n">argument</span><span class="p" data-group-id="8695128593-1">)</span></code></pre><h2 id="available-gatherers" class="section-heading">
   <a href="#available-gatherers" class="hover-link"><i class="ri-link-m" aria-hidden="true"></i>
   <p class="sr-only">available-gatherers</p>
   </a>
   Available Gatherers
 </h2>
-<p>Here's a collection of build-in gatherers, with information about how to use them.</p><table><thead><tr><th style="text-align: left;">name</th><th style="text-align: left;">implementation</th></tr></thead><tbody><tr><td style="text-align: left;"><a href="#corosyncconf"><code class="inline">corosync.conf</code></a></td><td style="text-align: left;"><a href="https://github.com/trento-project/agent/blob/main/internal/factsengine/gatherers/corosyncconf.go">trento-project/agent/../gatherers/corosyncconf.go</a></td></tr><tr><td style="text-align: left;"><a href="#hosts-etchosts"><code class="inline">hosts</code></a></td><td style="text-align: left;"><a href="https://github.com/trento-project/agent/blob/main/internal/factsengine/gatherers/hostsfile.go">trento-project/agent/../gatherers/hostsfile.go</a></td></tr><tr><td style="text-align: left;"><a href="#package_version"><code class="inline">package_version</code></a></td><td style="text-align: left;"><a href="https://github.com/trento-project/agent/blob/main/internal/factsengine/gatherers/packageversion.go">trento-project/agent/../gatherers/packageversion.go</a></td></tr><tr><td style="text-align: left;"><a href="#sbd_config"><code class="inline">sbd_config</code></a></td><td style="text-align: left;"><a href="https://github.com/trento-project/agent/blob/main/internal/factsengine/gatherers/sbd.go">trento-project/agent/../gatherers/sbd.go</a></td></tr><tr><td style="text-align: left;"><a href="#systemd"><code class="inline">systemd</code></a></td><td style="text-align: left;"><a href="https://github.com/trento-project/agent/blob/main/internal/factsengine/gatherers/systemd.go">trento-project/agent/../gatherers/systemd.go</a></td></tr></tbody></table><h3 id="corosync-conf" class="section-heading">
+<p>Here's a collection of build-in gatherers, with information about how to use them.</p><table><thead><tr><th style="text-align: left;">name</th><th style="text-align: left;">implementation</th></tr></thead><tbody><tr><td style="text-align: left;"><a href="#corosyncconf"><code class="inline">corosync.conf</code></a></td><td style="text-align: left;"><a href="https://github.com/trento-project/agent/blob/main/internal/factsengine/gatherers/corosyncconf.go">trento-project/agent/../gatherers/corosyncconf.go</a></td></tr><tr><td style="text-align: left;"><a href="#corosync-cmapctl"><code class="inline">corosync-cmapctl</code></a></td><td style="text-align: left;"><a href="https://github.com/trento-project/agent/blob/main/internal/factsengine/gatherers/corosynccmapctl.go">trento-project/agent/../gatherers/corosynccmapctl.go</a></td></tr><tr><td style="text-align: left;"><a href="#hosts-etchosts"><code class="inline">hosts</code></a></td><td style="text-align: left;"><a href="https://github.com/trento-project/agent/blob/main/internal/factsengine/gatherers/hostsfile.go">trento-project/agent/../gatherers/hostsfile.go</a></td></tr><tr><td style="text-align: left;"><a href="#package_version"><code class="inline">package_version</code></a></td><td style="text-align: left;"><a href="https://github.com/trento-project/agent/blob/main/internal/factsengine/gatherers/packageversion.go">trento-project/agent/../gatherers/packageversion.go</a></td></tr><tr><td style="text-align: left;"><a href="#sbd_config"><code class="inline">sbd_config</code></a></td><td style="text-align: left;"><a href="https://github.com/trento-project/agent/blob/main/internal/factsengine/gatherers/sbd.go">trento-project/agent/../gatherers/sbd.go</a></td></tr><tr><td style="text-align: left;"><a href="#systemd"><code class="inline">systemd</code></a></td><td style="text-align: left;"><a href="https://github.com/trento-project/agent/blob/main/internal/factsengine/gatherers/systemd.go">trento-project/agent/../gatherers/systemd.go</a></td></tr></tbody></table><h3 id="corosync-conf" class="section-heading">
   <a href="#corosync-conf" class="hover-link"><i class="ri-link-m" aria-hidden="true"></i>
   <p class="sr-only">corosync-conf</p>
   </a>
   corosync.conf
 </h3>
-<p>This gatherer allows accessing information contained in <code class="inline">/etc/corosync/corosync.conf</code></p><pre><code class="makeup elixir" translate="no"><span class="n">corosync_related_fact</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">corosync</span><span class="o">.</span><span class="n">conf</span><span class="p" data-group-id="5850132225-1">(</span><span class="n">some</span><span class="o">.</span><span class="n">argument</span><span class="p" data-group-id="5850132225-1">)</span></code></pre><p>Sample arguments
+<p>This gatherer allows accessing information contained in <code class="inline">/etc/corosync/corosync.conf</code></p><pre><code class="makeup elixir" translate="no"><span class="n">corosync_related_fact</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">corosync</span><span class="o">.</span><span class="n">conf</span><span class="p" data-group-id="8842319644-1">(</span><span class="n">some</span><span class="o">.</span><span class="n">argument</span><span class="p" data-group-id="8842319644-1">)</span></code></pre><p>Sample arguments
 | Name                                 | Return value<br/>| ------------------------------------ | --------------------------------------
 | <code class="inline">totem.token</code>                        | extracted value from the config
 | <code class="inline">totem.join</code>                         | extracted value from the config
@@ -149,7 +149,36 @@ Wanda
 
   - name: corosync_nodes
     gatherer: corosync.conf
-    argument: nodelist.node</code></pre><p>For extra information refer to <a href="https://github.com/trento-project/agent/blob/main/internal/factsengine/gatherers/corosyncconf_test.go">trento-project/agent/../gatherers/corosyncconf_test.go</a></p><h3 id="hosts-etc-hosts" class="section-heading">
+    argument: nodelist.node</code></pre><p>For extra information refer to <a href="https://github.com/trento-project/agent/blob/main/internal/factsengine/gatherers/corosyncconf_test.go">trento-project/agent/../gatherers/corosyncconf_test.go</a></p><h3 id="corosync-cmapctl" class="section-heading">
+  <a href="#corosync-cmapctl" class="hover-link"><i class="ri-link-m" aria-hidden="true"></i>
+  <p class="sr-only">corosync-cmapctl</p>
+  </a>
+  corosync-cmapctl
+</h3>
+<p>This gatherer allows accessing the output of the <code class="inline">corosync-cmapctl</code> tool. It supports all of the keys returned by it to be queried.</p><p>Sample arguments
+| Name                                 | Return value<br/>| ------------------------------------ | --------------------------------------
+| <code class="inline">totem.token</code>                        | extracted value from the command output e.g. <code class="inline">30000</code>
+| <code class="inline">runtime.config.totem.token</code>         | extracted value from the command output e.g. <code class="inline">30000</code>
+| <code class="inline">nodelist.node.0.ring0_addr</code>         | extracted value from the command output e.g. <code class="inline">&quot;10.80.1.11&quot;</code></p><p>Specification examples:</p><pre><code class="yaml">facts:
+  - name: totem_token
+    gatherer: corosync-cmapctl
+    argument: totem.token
+
+  - name: runtime_totem_token
+    gatherer: corosync-cmapctl
+    argument: runtime.config.totem.token
+
+  - name: totem_transport
+    gatherer: corosync-cmapctl
+    argument: totem.transport
+
+  - name: totem_max_messages
+    gatherer: corosync-cmapctl
+    argument: runtime.config.totem.max_messages
+
+  - name: node0_ring0addr
+    gatherer: corosync-cmapctl
+    argument: nodelist.node.0.ring0_addr</code></pre><p>For extra information refer to <a href="https://github.com/trento-project/agent/blob/main/internal/factsengine/gatherers/corosynccmapctl_test.go">trento-project/agent/../gatherers/corosynccmapctl_test.go</a></p><h3 id="hosts-etc-hosts" class="section-heading">
   <a href="#hosts-etc-hosts" class="hover-link"><i class="ri-link-m" aria-hidden="true"></i>
   <p class="sr-only">hosts-etc-hosts</p>
   </a>
