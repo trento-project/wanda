@@ -21,6 +21,7 @@ Here's a collection of build-in gatherers, with information about how to use the
 | name                             | implementation                                                                                                                                                 |
 | -------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | [`corosync.conf`](#corosyncconf) | [trento-project/agent/../gatherers/corosyncconf.go](https://github.com/trento-project/agent/blob/main/internal/factsengine/gatherers/corosyncconf.go)          |
+| [`corosync-cmapctl`](#corosync-cmapctl) | [trento-project/agent/../gatherers/corosynccmapctl.go](https://github.com/trento-project/agent/blob/main/internal/factsengine/gatherers/corosynccmapctl.go)          |
 | [`hosts`](#hosts-etchosts)       | [trento-project/agent/../gatherers/hostsfile.go](https://github.com/trento-project/agent/blob/main/internal/factsengine/gatherers/hostsfile.go)                |
 | [`package_version`](#package_version) | [trento-project/agent/../gatherers/packageversion.go](https://github.com/trento-project/agent/blob/main/internal/factsengine/gatherers/packageversion.go) |
 | [`sbd_config`](#sbd_config)      | [trento-project/agent/../gatherers/sbd.go](https://github.com/trento-project/agent/blob/main/internal/factsengine/gatherers/sbd.go)                            |
@@ -68,6 +69,44 @@ facts:
 ```
 
 For extra information refer to [trento-project/agent/../gatherers/corosyncconf_test.go](https://github.com/trento-project/agent/blob/main/internal/factsengine/gatherers/corosyncconf_test.go)
+
+### corosync-cmapctl
+
+This gatherer allows accessing the output of the `corosync-cmapctl` tool. It supports all of the keys returned by it to be queried.
+
+Sample arguments
+| Name                                 | Return value  
+| ------------------------------------ | --------------------------------------
+| `totem.token`                        | extracted value from the command output e.g. `30000`
+| `runtime.config.totem.token`         | extracted value from the command output e.g. `30000`
+| `nodelist.node.0.ring0_addr`         | extracted value from the command output e.g. `"10.80.1.11"`
+
+Specification examples:
+
+```yaml
+facts:
+  - name: totem_token
+    gatherer: corosync-cmapctl
+    argument: totem.token
+
+  - name: runtime_totem_token
+    gatherer: corosync-cmapctl
+    argument: runtime.config.totem.token
+
+  - name: totem_transport
+    gatherer: corosync-cmapctl
+    argument: totem.transport
+
+  - name: totem_max_messages
+    gatherer: corosync-cmapctl
+    argument: runtime.config.totem.max_messages
+
+  - name: node0_ring0addr
+    gatherer: corosync-cmapctl
+    argument: nodelist.node.0.ring0_addr
+```
+
+For extra information refer to [trento-project/agent/../gatherers/corosynccmapctl_test.go](https://github.com/trento-project/agent/blob/main/internal/factsengine/gatherers/corosynccmapctl_test.go)
 
 ### hosts (/etc/hosts)
 
