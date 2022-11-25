@@ -15,17 +15,18 @@ defmodule Wanda.CatalogTest do
     test "should return the whole catalog" do
       catalog_path = Application.fetch_env!(:wanda, Wanda.Catalog)[:catalog_path]
 
-      files =
+      valid_files =
         catalog_path
         |> File.ls!()
         |> Enum.sort()
+        |> Enum.filter(fn file -> file != "malformed_check.yaml" end)
 
       catalog = Catalog.get_catalog()
-      assert length(files) == length(catalog)
+      assert length(valid_files) == length(catalog)
 
       Enum.with_index(catalog, fn check, index ->
         file_name =
-          files
+          valid_files
           |> Enum.at(index)
           |> Path.basename(".yaml")
 
@@ -106,6 +107,10 @@ defmodule Wanda.CatalogTest do
 
     test "should return an error for non-existent check" do
       assert {:error, _} = Catalog.get_check("non_existent_check")
+    end
+
+    test "should return an error for malformed check" do
+      assert {:error, :malformed_check} = Catalog.get_check("malformed_check")
     end
 
     test "should load multiple checks" do

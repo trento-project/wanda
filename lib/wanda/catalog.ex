@@ -32,14 +32,21 @@ defmodule Wanda.Catalog do
   """
   @spec get_check(String.t()) :: {:ok, Check.t()} | {:error, any}
   def get_check(check_id) do
-    case get_catalog_path()
-         |> Path.join("#{check_id}.yaml")
-         |> YamlElixir.read_from_file() do
-      {:ok, file_content} ->
-        {:ok, map_check(file_content)}
+    with path <- Path.join(get_catalog_path(), "#{check_id}.yaml"),
+         {:ok, file_content} <- YamlElixir.read_from_file(path),
+         {:ok, check} <-
+           map_check(file_content) do
+      {:ok, check}
+    else
+      {:error, :malformed_check} = error ->
+        Logger.error(
+          "Check with ID #{check_id} is malformed. Check if all the required fields are present."
+        )
+
+        error
 
       {:error, reason} = error ->
-        Logger.error("Error getting file with ID #{check_id}: #{inspect(reason)}")
+        Logger.error("Error getting Check with ID #{check_id}: #{inspect(reason)}")
         error
     end
   end
@@ -72,17 +79,22 @@ defmodule Wanda.Catalog do
            "expectations" => expectations
          } = check
        ) do
-    %Check{
-      id: id,
-      name: name,
-      group: group,
-      description: description,
-      remediation: remediation,
-      severity: map_severity(check),
-      facts: Enum.map(facts, &map_fact/1),
-      values: map_values(check),
-      expectations: Enum.map(expectations, &map_expectation/1)
-    }
+    {:ok,
+     %Check{
+       id: id,
+       name: name,
+       group: group,
+       description: description,
+       remediation: remediation,
+       severity: map_severity(check),
+       facts: Enum.map(facts, &map_fact/1),
+       values: map_values(check),
+       expectations: Enum.map(expectations, &map_expectation/1)
+     }}
+  end
+
+  defp map_check(_) do
+    {:error, :malformed_check}
   end
 
   defp map_severity(%{"severity" => "critical"}), do: :critical
