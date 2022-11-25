@@ -57,6 +57,10 @@ defmodule WandaWeb.ExecutionViewTest do
                started_at: ^started_at,
                completed_at: nil,
                status: :running,
+               result: nil,
+               critical_count: nil,
+               warning_count: nil,
+               passing_count: nil,
                timeout: nil,
                check_results: nil
              } = render(WandaWeb.ExecutionView, "show.json", execution: execution)
@@ -86,6 +90,9 @@ defmodule WandaWeb.ExecutionViewTest do
                started_at: ^started_at,
                completed_at: ^completed_at,
                status: :completed,
+               critical_count: 0,
+               warning_count: 0,
+               passing_count: 1,
                timeout: ^timeout,
                check_results: ^check_results
              } = render(WandaWeb.ExecutionView, "show.json", execution: execution)
