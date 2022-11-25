@@ -11,6 +11,8 @@ defmodule Wanda.Catalog do
     Value
   }
 
+  require Logger
+
   @default_severity :critical
 
   @doc """
@@ -22,18 +24,24 @@ defmodule Wanda.Catalog do
     |> Path.join("/*")
     |> Path.wildcard()
     |> Enum.map(&Path.basename(&1, ".yaml"))
-    |> Enum.map(&get_check(&1))
+    |> get_checks()
   end
 
   @doc """
   Get a check from the catalog.
   """
-  @spec get_check(String.t()) :: Check.t()
+  @spec get_check(String.t()) :: {:ok, Check.t()} | {:error, any}
   def get_check(check_id) do
-    get_catalog_path()
-    |> Path.join("#{check_id}.yaml")
-    |> YamlElixir.read_from_file!()
-    |> map_check()
+    case get_catalog_path()
+         |> Path.join("#{check_id}.yaml")
+         |> YamlElixir.read_from_file() do
+      {:ok, file_content} ->
+        {:ok, map_check(file_content)}
+
+      {:error, reason} = error ->
+        Logger.error("Error getting file with ID #{check_id}: #{inspect(reason)}")
+        error
+    end
   end
 
   @doc """
@@ -41,7 +49,12 @@ defmodule Wanda.Catalog do
   """
   @spec get_checks([String.t()]) :: [Check.t()]
   def get_checks(checks_id) do
-    Enum.map(checks_id, &get_check/1)
+    Enum.flat_map(checks_id, fn check_id ->
+      case get_check(check_id) do
+        {:ok, check} -> [check]
+        {:error, _} -> []
+      end
+    end)
   end
 
   defp get_catalog_path do
