@@ -5,7 +5,10 @@ defmodule WandaWeb.Schemas.ExecutionResponse do
 
   alias OpenApiSpex.Schema
 
-  alias WandaWeb.Schemas.ExecutionResponse.CheckResult
+  alias WandaWeb.Schemas.ExecutionResponse.{
+    CheckResult,
+    Target
+  }
 
   require OpenApiSpex
 
@@ -38,6 +41,7 @@ defmodule WandaWeb.Schemas.ExecutionResponse do
         enum: ["passing", "warning", "critical"],
         description: "Aggregated result of the execution, unknown for running ones"
       },
+      targets: %Schema{type: :array, items: Target},
       critical_count: %Schema{
         type: :integer,
         nullable: true,
@@ -68,6 +72,7 @@ defmodule WandaWeb.Schemas.ExecutionResponse do
       :started_at,
       :completed_at,
       :result,
+      :targets,
       :critical_count,
       :warning_count,
       :passing_count,
