@@ -20,12 +20,20 @@ config :wanda, Wanda.Repo,
 config :wanda, WandaWeb.Endpoint,
   # Binding to loopback ipv4 address prevents access from other machines.
   # Change to `ip: {0, 0, 0, 0}` to allow access from other machines.
-  http: [ip: {127, 0, 0, 1}, port: 4000],
+  http: [ip: {127, 0, 0, 1}, port: 4001],
   check_origin: false,
   code_reloader: true,
   debug_errors: true,
   secret_key_base: "TDBhePnJFAJxgjzgZAckntbWeD89nTA16RUratDYpzsZyqIyP5gXz1qjGFu2uV4P",
   watchers: []
+
+config :wanda, Wanda.Messaging.Adapters.AMQP,
+  consumer: [
+    connection: "amqp://wanda:wanda@localhost:5674"
+  ],
+  publisher: [
+    connection: "amqp://wanda:wanda@localhost:5674"
+  ]
 
 # ## SSL Support
 #

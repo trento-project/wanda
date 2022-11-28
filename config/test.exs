@@ -17,7 +17,7 @@ config :wanda, Wanda.Repo,
 # We don't run a server during test. If one is required,
 # you can enable the server option below.
 config :wanda, WandaWeb.Endpoint,
-  http: [ip: {127, 0, 0, 1}, port: 4002],
+  http: [ip: {127, 0, 0, 1}, port: 4001],
   secret_key_base: "HipLWaSCDXUy5NYo9pu2D4cv9utZCdrmF00nHGN9maeDOxyricNSH7dUz+RNFLBY",
   server: false
 
@@ -37,7 +37,7 @@ config :wanda, Wanda.Messaging.Adapters.AMQP,
     exchange: "trento.test.checks",
     routing_key: "executions",
     prefetch_count: "10",
-    connection: "amqp://wanda:wanda@localhost:5672",
+    connection: "amqp://wanda:wanda@localhost:5674",
     queue_options: [
       durable: false,
       auto_delete: true
@@ -49,7 +49,7 @@ config :wanda, Wanda.Messaging.Adapters.AMQP,
   ],
   publisher: [
     exchange: "trento.test.checks",
-    connection: "amqp://wanda:wanda@localhost:5672"
+    connection: "amqp://wanda:wanda@localhost:5674"
   ],
   processor: GenRMQ.Processor.Mock
 

@@ -17,6 +17,15 @@ config :wanda, WandaWeb.Endpoint,
 # Do not print debug messages in production
 config :logger, level: :info
 
+config :wanda, Wanda.Messaging.Adapters.AMQP,
+  consumer: [
+    connection: "amqp://wanda:wanda@localhost:5672"
+  ],
+  publisher: [
+    connection: "amqp://wanda:wanda@localhost:5672"
+  ],
+  processor: Wanda.Messaging.Adapters.AMQP.Processor
+
 # ## SSL Support
 #
 # To get SSL working, you will need to add the `https` key

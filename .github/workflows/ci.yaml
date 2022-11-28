@@ -124,7 +124,7 @@ jobs:
           RABBITMQ_DEFAULT_USER: wanda
           RABBITMQ_DEFAULT_PASS: wanda
         ports:
-          - 5672:5672
+          - 5674:5672
     steps:
       - name: Checkout
         uses: actions/checkout@v3
