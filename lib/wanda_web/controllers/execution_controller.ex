@@ -54,6 +54,24 @@ defmodule WandaWeb.ExecutionController do
       404 => OpenApiSpex.JsonErrorResponse.response()
     }
 
+  operation :last,
+    summary: "Get the last execution of a group",
+    parameters: [
+      id: [
+        in: :path,
+        description: "Group ID",
+        type: %Schema{
+          type: :string,
+          format: :uuid
+        },
+        example: "00000000-0000-0000-0000-000000000001"
+      ]
+    ],
+    responses: %{
+      200 => {"Execution", "application/json", ExecutionResponse},
+      404 => OpenApiSpex.JsonErrorResponse.response()
+    }
+
   operation :start,
     summary: "Start a Checks Execution",
     description: "Start a Checks Execution on the target infrastructure",
@@ -74,6 +92,12 @@ defmodule WandaWeb.ExecutionController do
     execution = Executions.get_execution!(execution_id)
 
     render(conn, execution: execution)
+  end
+
+  def last(conn, %{id: group_id}) do
+    execution = Executions.get_last_execution_by_group_id!(group_id)
+
+    render(conn, :show, execution: execution)
   end
 
   def start(

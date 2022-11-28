@@ -67,6 +67,26 @@ defmodule WandaWeb.ExecutionControllerTest do
     end
   end
 
+  describe "get last execution by group id" do
+    test "should return the last execution", %{conn: conn} do
+      %{group_id: group_id} = 10 |> insert_list(:execution) |> List.last()
+
+      json =
+        conn
+        |> get("/api/checks/groups/#{group_id}/executions/last")
+        |> json_response(200)
+
+      api_spec = ApiSpec.spec()
+      assert_schema(json, "ExecutionResponse", api_spec)
+    end
+
+    test "should return a 404", %{conn: conn} do
+      assert_error_sent 404, fn ->
+        get(conn, "/api/checks/groups/#{UUID.uuid4()}/executions/last")
+      end
+    end
+  end
+
   describe "start execution" do
     test "should start an execution", %{conn: conn} do
       execution_id = UUID.uuid4()
