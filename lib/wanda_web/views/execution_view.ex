@@ -22,6 +22,7 @@ defmodule WandaWeb.ExecutionView do
           group_id: group_id,
           status: status,
           result: result,
+          targets: targets,
           started_at: started_at,
           completed_at: completed_at
         }
@@ -34,6 +35,7 @@ defmodule WandaWeb.ExecutionView do
       execution_id: execution_id,
       group_id: group_id,
       result: map_result(status, result),
+      targets: targets,
       critical_count: count_results(status, result, "critical"),
       warning_count: count_results(status, result, "warning"),
       passing_count: count_results(status, result, "passing"),

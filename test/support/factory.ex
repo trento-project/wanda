@@ -8,6 +8,7 @@ defmodule Wanda.Factory do
   alias Wanda.Executions.{
     AgentCheckResult,
     CheckResult,
+    Execution,
     ExpectationEvaluation,
     ExpectationEvaluationError,
     ExpectationResult,
@@ -16,8 +17,6 @@ defmodule Wanda.Factory do
     Result,
     Target
   }
-
-  alias Wanda.Executions.Execution
 
   def check_factory(attrs) do
     %Catalog.Check{
@@ -151,7 +150,7 @@ defmodule Wanda.Factory do
       execution_id: Faker.UUID.v4(),
       group_id: Faker.UUID.v4(),
       status: :running,
-      targets: [],
+      targets: Enum.map(build_list(2, :target), &Map.from_struct(&1)),
       started_at: DateTime.utc_now()
     }
   end

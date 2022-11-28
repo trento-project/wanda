@@ -45,7 +45,7 @@ defmodule WandaWeb.ExecutionViewTest do
     test "renders show.json for a running execution" do
       started_at = DateTime.utc_now()
 
-      %Execution{execution_id: execution_id, group_id: group_id} =
+      %Execution{execution_id: execution_id, group_id: group_id, targets: targets} =
         execution =
         :execution
         |> build(started_at: started_at)
@@ -62,6 +62,7 @@ defmodule WandaWeb.ExecutionViewTest do
                warning_count: nil,
                passing_count: nil,
                timeout: nil,
+               targets: ^targets,
                check_results: nil
              } = render(WandaWeb.ExecutionView, "show.json", execution: execution)
     end
