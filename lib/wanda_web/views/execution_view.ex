@@ -27,13 +27,16 @@ defmodule WandaWeb.ExecutionView do
         }
       }) do
     %{
-      check_results: map_checks_results(status, result),
+      check_results: map_check_results(status, result),
       status: status,
       started_at: started_at,
       completed_at: completed_at,
       execution_id: execution_id,
       group_id: group_id,
       result: map_result(status, result),
+      critical_count: count_results(status, result, "critical"),
+      warning_count: count_results(status, result, "warning"),
+      passing_count: count_results(status, result, "passing"),
       timeout: map_timeout(status, result)
     }
   end
@@ -56,6 +59,11 @@ defmodule WandaWeb.ExecutionView do
   defp map_timeout(:running, _), do: nil
   defp map_timeout(:completed, %{"timeout" => timeout}), do: timeout
 
-  defp map_checks_results(:running, _), do: nil
-  defp map_checks_results(:completed, %{"check_results" => check_results}), do: check_results
+  defp map_check_results(:running, _), do: nil
+  defp map_check_results(:completed, %{"check_results" => check_results}), do: check_results
+
+  defp count_results(:running, _, _), do: nil
+
+  defp count_results(:completed, %{"check_results" => check_results}, severity),
+    do: Enum.count(check_results, &(&1["result"] == severity))
 end

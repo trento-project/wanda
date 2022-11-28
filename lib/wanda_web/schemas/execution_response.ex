@@ -38,6 +38,21 @@ defmodule WandaWeb.Schemas.ExecutionResponse do
         enum: ["passing", "warning", "critical"],
         description: "Aggregated result of the execution, unknown for running ones"
       },
+      critical_count: %Schema{
+        type: :integer,
+        nullable: true,
+        description: "Number of checks with critical result"
+      },
+      warning_count: %Schema{
+        type: :integer,
+        nullable: true,
+        description: "Number of checks with warning result"
+      },
+      passing_count: %Schema{
+        type: :integer,
+        nullable: true,
+        description: "Number of checks with passing result"
+      },
       timeout: %Schema{
         type: :array,
         nullable: true,
@@ -53,6 +68,9 @@ defmodule WandaWeb.Schemas.ExecutionResponse do
       :started_at,
       :completed_at,
       :result,
+      :critical_count,
+      :warning_count,
+      :passing_count,
       :timeout,
       :check_results
     ]
