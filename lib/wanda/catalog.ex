@@ -34,8 +34,7 @@ defmodule Wanda.Catalog do
   def get_check(check_id) do
     with path <- Path.join(get_catalog_path(), "#{check_id}.yaml"),
          {:ok, file_content} <- YamlElixir.read_from_file(path),
-         {:ok, check} <-
-           map_check(file_content) do
+         {:ok, check} <- map_check(file_content) do
       {:ok, check}
     else
       {:error, :malformed_check} = error ->
@@ -93,9 +92,7 @@ defmodule Wanda.Catalog do
      }}
   end
 
-  defp map_check(_) do
-    {:error, :malformed_check}
-  end
+  defp map_check(_), do: {:error, :malformed_check}
 
   defp map_severity(%{"severity" => "critical"}), do: :critical
   defp map_severity(%{"severity" => "warning"}), do: :warning
