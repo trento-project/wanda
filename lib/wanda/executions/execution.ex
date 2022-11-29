@@ -21,6 +21,8 @@ defmodule Wanda.Executions.Execution do
     field :status, Ecto.Enum, values: [:running, :completed]
 
     embeds_many :targets, Target do
+      @derive {Jason.Encoder, [except: [:id]]}
+
       field :agent_id, Ecto.UUID
       field :checks, {:array, :string}
     end
