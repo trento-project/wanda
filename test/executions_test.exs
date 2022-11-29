@@ -7,7 +7,7 @@ defmodule Wanda.ExecutionsTest do
   alias Wanda.Executions
   alias Wanda.Executions.{Execution, Target}
 
-  describe "Creating an Execution" do
+  describe "create an execution" do
     test "should correctly create a running execution" do
       [
         %Execution{execution_id: execution_1, group_id: group_1},
@@ -55,7 +55,7 @@ defmodule Wanda.ExecutionsTest do
     end
   end
 
-  describe "Completing an Execution" do
+  describe "complete an execution" do
     test "should complete a running execution" do
       %Execution{
         execution_id: execution_id,
@@ -85,7 +85,7 @@ defmodule Wanda.ExecutionsTest do
     end
   end
 
-  describe "Getting Execution" do
+  describe "get an execution" do
     test "no filter or pagination applied" do
       [
         %Execution{execution_id: execution_1, group_id: group_1},
@@ -125,6 +125,16 @@ defmodule Wanda.ExecutionsTest do
                %Execution{execution_id: ^execution_2, group_id: ^group_2},
                %Execution{execution_id: ^execution_1, group_id: ^group_1}
              ] = Executions.list_executions(%{page: 2, items_per_page: 3})
+    end
+  end
+
+  describe "get the last execution of group" do
+    test "should return the last execution of a group" do
+      %Execution{execution_id: last_execution_id, group_id: group_id} =
+        10 |> insert_list(:execution) |> List.last()
+
+      assert %Execution{execution_id: ^last_execution_id} =
+               Executions.get_last_execution_by_group_id!(group_id)
     end
   end
 end

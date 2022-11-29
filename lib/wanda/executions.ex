@@ -31,11 +31,21 @@ defmodule Wanda.Executions do
   end
 
   @doc """
-  Get a result by execution_id.
+  Get an execution by execution_id.
   """
   @spec get_execution!(String.t()) :: Execution.t()
   def get_execution!(execution_id) do
     Repo.get!(Execution, execution_id)
+  end
+
+  @doc """
+  Get the last execution of a group by group_id.
+  """
+  @spec get_last_execution_by_group_id!(String.t()) :: Execution.t()
+  def get_last_execution_by_group_id!(group_id) do
+    Execution
+    |> last(:started_at)
+    |> Repo.one!(group_id: group_id)
   end
 
   @doc """
