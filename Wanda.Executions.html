@@ -12,7 +12,7 @@
 
     <script src="dist/handlebars.runtime-NWIB6V2M.js"></script>
     <script src="dist/handlebars.templates-X7YVL3G2.js"></script>
-    <script src="dist/sidebar_items-543E2548.js"></script>
+    <script src="dist/sidebar_items-5C603D83.js"></script>
 
       <script src="docs_config.js"></script>
 
@@ -165,7 +165,17 @@ Wanda
 
         </div>
 
-          <div class="summary-synopsis"><p>Get a result by execution_id.</p></div>
+          <div class="summary-synopsis"><p>Get an execution by execution_id.</p></div>
+
+      </div>
+
+      <div class="summary-row">
+        <div class="summary-signature">
+          <a href="#get_last_execution_by_group_id!/1" translate="no">get_last_execution_by_group_id!(group_id)</a>
+
+        </div>
+
+          <div class="summary-synopsis"><p>Get the last execution of a group by group_id.</p></div>
 
       </div>
 
@@ -202,7 +212,7 @@ Functions
     </a>
     <h1 class="signature" translate="no">complete_execution!(execution_id, result)</h1>
 
-      <a href="https://github.com/trento-project/wanda/blob/main/lib/wanda/executions.ex#L80" class="view-source" rel="help" title="View Source">
+      <a href="https://github.com/trento-project/wanda/blob/main/lib/wanda/executions.ex#L90" class="view-source" rel="help" title="View Source">
        <i class="ri-code-s-slash-line" aria-hidden="true"></i>
        <span class="sr-only">View Source</span>
      </a>
@@ -231,7 +241,7 @@ Functions
     </a>
     <h1 class="signature" translate="no">count_executions(params)</h1>
 
-      <a href="https://github.com/trento-project/wanda/blob/main/lib/wanda/executions.ex#L66" class="view-source" rel="help" title="View Source">
+      <a href="https://github.com/trento-project/wanda/blob/main/lib/wanda/executions.ex#L76" class="view-source" rel="help" title="View Source">
        <i class="ri-code-s-slash-line" aria-hidden="true"></i>
        <span class="sr-only">View Source</span>
      </a>
@@ -304,7 +314,35 @@ Functions
 
       </div>
 
-<p>Get a result by execution_id.</p>
+<p>Get an execution by execution_id.</p>
+  </section>
+</section>
+<section class="detail" id="get_last_execution_by_group_id!/1">
+
+  <div class="detail-header">
+    <a href="#get_last_execution_by_group_id!/1" class="detail-link" title="Link to this function">
+      <i class="ri-link-m" aria-hidden="true"></i>
+      <span class="sr-only">Link to this function</span>
+    </a>
+    <h1 class="signature" translate="no">get_last_execution_by_group_id!(group_id)</h1>
+
+      <a href="https://github.com/trento-project/wanda/blob/main/lib/wanda/executions.ex#L45" class="view-source" rel="help" title="View Source">
+       <i class="ri-code-s-slash-line" aria-hidden="true"></i>
+       <span class="sr-only">View Source</span>
+     </a>
+
+
+  </div>
+
+  <section class="docstring">
+
+      <div class="specs">
+
+          <pre translate="no"><span class="attribute">@spec</span> get_last_execution_by_group_id!(<a href="https://hexdocs.pm/elixir/String.html#t:t/0">String.t</a>()) :: <a href="Wanda.Executions.Execution.html#t:t/0">Wanda.Executions.Execution.t</a>()</pre>
+
+      </div>
+
+<p>Get the last execution of a group by group_id.</p>
   </section>
 </section>
 <section class="detail" id="list_executions/1">
@@ -318,7 +356,7 @@ Functions
     </a>
     <h1 class="signature" translate="no">list_executions(params \\ %{})</h1>
 
-      <a href="https://github.com/trento-project/wanda/blob/main/lib/wanda/executions.ex#L47" class="view-source" rel="help" title="View Source">
+      <a href="https://github.com/trento-project/wanda/blob/main/lib/wanda/executions.ex#L57" class="view-source" rel="help" title="View Source">
        <i class="ri-code-s-slash-line" aria-hidden="true"></i>
        <span class="sr-only">View Source</span>
      </a>
