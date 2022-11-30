@@ -34,6 +34,13 @@ defmodule Wanda.Executions.Server do
       |> Target.get_checks_from_targets()
       |> Catalog.get_checks()
 
+    checks_ids = Enum.map(checks, & &1.id)
+
+    targets =
+      Enum.map(targets, fn %{checks: target_checks} = target ->
+        %Target{target | checks: Enum.filter(target_checks, fn check -> check in checks_ids end)}
+      end)
+
     maybe_start_execution(execution_id, group_id, targets, checks, env, config)
   end
 

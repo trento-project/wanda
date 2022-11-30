@@ -1,0 +1,11 @@
+id: malformed_check
+name: Malformed check
+group: Test
+description: |
+  A malformed check
+remediation: |
+  ## Remediation
+  Remediation text
+expectations:
+  - name: some_expectation
+    expect_same: facts.jedi

@@ -11,6 +11,8 @@ defmodule Wanda.Catalog do
     Value
   }
 
+  require Logger
+
   @default_severity :critical
 
   @doc """
@@ -22,18 +24,30 @@ defmodule Wanda.Catalog do
     |> Path.join("/*")
     |> Path.wildcard()
     |> Enum.map(&Path.basename(&1, ".yaml"))
-    |> Enum.map(&get_check(&1))
+    |> get_checks()
   end
 
   @doc """
   Get a check from the catalog.
   """
-  @spec get_check(String.t()) :: Check.t()
+  @spec get_check(String.t()) :: {:ok, Check.t()} | {:error, any}
   def get_check(check_id) do
-    get_catalog_path()
-    |> Path.join("#{check_id}.yaml")
-    |> YamlElixir.read_from_file!()
-    |> map_check()
+    with path <- Path.join(get_catalog_path(), "#{check_id}.yaml"),
+         {:ok, file_content} <- YamlElixir.read_from_file(path),
+         {:ok, check} <- map_check(file_content) do
+      {:ok, check}
+    else
+      {:error, :malformed_check} = error ->
+        Logger.error(
+          "Check with ID #{check_id} is malformed. Check if all the required fields are present."
+        )
+
+        error
+
+      {:error, reason} = error ->
+        Logger.error("Error getting Check with ID #{check_id}: #{inspect(reason)}")
+        error
+    end
   end
 
   @doc """
@@ -41,7 +55,12 @@ defmodule Wanda.Catalog do
   """
   @spec get_checks([String.t()]) :: [Check.t()]
   def get_checks(checks_id) do
-    Enum.map(checks_id, &get_check/1)
+    Enum.flat_map(checks_id, fn check_id ->
+      case get_check(check_id) do
+        {:ok, check} -> [check]
+        {:error, _} -> []
+      end
+    end)
   end
 
   defp get_catalog_path do
@@ -59,18 +78,21 @@ defmodule Wanda.Catalog do
            "expectations" => expectations
          } = check
        ) do
-    %Check{
-      id: id,
-      name: name,
-      group: group,
-      description: description,
-      remediation: remediation,
-      severity: map_severity(check),
-      facts: Enum.map(facts, &map_fact/1),
-      values: map_values(check),
-      expectations: Enum.map(expectations, &map_expectation/1)
-    }
+    {:ok,
+     %Check{
+       id: id,
+       name: name,
+       group: group,
+       description: description,
+       remediation: remediation,
+       severity: map_severity(check),
+       facts: Enum.map(facts, &map_fact/1),
+       values: map_values(check),
+       expectations: Enum.map(expectations, &map_expectation/1)
+     }}
   end
+
+  defp map_check(_), do: {:error, :malformed_check}
 
   defp map_severity(%{"severity" => "critical"}), do: :critical
   defp map_severity(%{"severity" => "warning"}), do: :warning

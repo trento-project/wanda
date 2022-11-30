@@ -89,9 +89,7 @@ defmodule Wanda.Executions.ServerTest do
       group_id = UUID.uuid4()
       targets = build_list(2, :target, checks: ["expect_check"])
 
-      expect(Wanda.Messaging.Adapters.Mock, :publish, 0, fn _, _ ->
-        :ok
-      end)
+      expect(Wanda.Messaging.Adapters.Mock, :publish, 0, fn _, _ -> :ok end)
 
       start_supervised!(
         {Server,
@@ -261,6 +259,28 @@ defmodule Wanda.Executions.ServerTest do
 
       assert {:error, :no_checks_selected} =
                Server.start_execution(UUID.uuid4(), UUID.uuid4(), targets, %{})
+    end
+
+    test "should execute existing checks if non-existent checks are selected" do
+      group_id = UUID.uuid4()
+
+      [%{agent_id: agent_1}, %{agent_id: agent_2}] =
+        targets = [
+          build(:target, checks: ["expect_check", "non_existing"]),
+          build(:target, checks: ["expect_same_check", "non_existing"])
+        ]
+
+      assert :ok = Server.start_execution(UUID.uuid4(), group_id, targets, %{})
+
+      pid = :global.whereis_name({Server, group_id})
+      %{targets: actual_targets} = :sys.get_state(pid)
+
+      expected_targets = [
+        build(:target, agent_id: agent_1, checks: ["expect_check"]),
+        build(:target, agent_id: agent_2, checks: ["expect_same_check"])
+      ]
+
+      assert actual_targets == expected_targets
     end
   end
 end
