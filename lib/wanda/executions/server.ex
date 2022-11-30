@@ -38,7 +38,7 @@ defmodule Wanda.Executions.Server do
 
     targets =
       Enum.map(targets, fn %{checks: target_checks} = target ->
-        %Target{target | checks: intersection(target_checks, checks_ids)}
+        %Target{target | checks: Enum.filter(target_checks, fn check -> check in checks_ids end)}
       end)
 
     maybe_start_execution(execution_id, group_id, targets, checks, env, config)
@@ -151,8 +151,6 @@ defmodule Wanda.Executions.Server do
 
     {:stop, :normal, state}
   end
-
-  defp intersection(list_a, list_b), do: list_a -- list_a -- list_b
 
   defp continue_or_complete_execution(
          %State{
