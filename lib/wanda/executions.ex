@@ -45,7 +45,8 @@ defmodule Wanda.Executions do
   def get_last_execution_by_group_id!(group_id) do
     Execution
     |> last(:started_at)
-    |> Repo.one!(group_id: group_id)
+    |> where(group_id: ^group_id)
+    |> Repo.one!()
   end
 
   @doc """

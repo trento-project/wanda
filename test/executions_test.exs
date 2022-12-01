@@ -130,8 +130,12 @@ defmodule Wanda.ExecutionsTest do
 
   describe "get the last execution of group" do
     test "should return the last execution of a group" do
-      %Execution{execution_id: last_execution_id, group_id: group_id} =
-        10 |> insert_list(:execution) |> List.last()
+      group_id = Faker.UUID.v4()
+
+      %Execution{execution_id: last_execution_id} =
+        10 |> insert_list(:execution, group_id: group_id) |> List.last()
+
+      insert_list(10, :execution)
 
       assert %Execution{execution_id: ^last_execution_id} =
                Executions.get_last_execution_by_group_id!(group_id)
