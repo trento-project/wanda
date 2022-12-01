@@ -6,6 +6,7 @@ defmodule Wanda.Factory do
   alias Wanda.Catalog
 
   alias Wanda.Executions.{
+    AgentCheckError,
     AgentCheckResult,
     CheckResult,
     Execution,
@@ -130,7 +131,17 @@ defmodule Wanda.Factory do
   def agent_check_result_factory do
     %AgentCheckResult{
       agent_id: UUID.uuid4(),
+      facts: build_list(2, :fact),
       expectation_evaluations: build_list(2, :expectation_evaluation)
+    }
+  end
+
+  def agent_check_error_factory do
+    %AgentCheckError{
+      agent_id: UUID.uuid4(),
+      facts: build_list(2, :fact_error),
+      type: :fact_gathering_error,
+      message: Faker.StarWars.quote()
     }
   end
 
