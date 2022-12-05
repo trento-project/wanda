@@ -1,0 +1,40 @@
+id: 6E9B82
+name: Corosync configuration file
+group: Corosync
+description: |
+  Corosync `two_node` is set to expected value
+remediation: |
+  ## Abstract
+  The runtime value of the corosync `two_node` parameter is not set as recommended.
+  ## Remediation
+  Adjust the corosync two_node parameter to `1` to make sure Pacemaker calculates the actions properly for a two-node cluster.
+
+  ## References
+  Azure:
+
+    - https://docs.microsoft.com/en-us/azure/virtual-machines/workloads/sap/high-availability-guide-suse-pacemaker#install-the-cluster
+
+  SUSE / KVM:
+
+    - https://documentation.suse.com/sbp/all/single-html/SLES4SAP-hana-sr-guide-PerfOpt-15/#id-example-for-etccorosynccorosync-conf
+
+  GCP: 
+
+    - https://cloud.google.com/solutions/sap/docs/sap-hana-ha-config-sles
+
+  AWS:
+
+    -	https://docs.aws.amazon.com/sap/latest/sap-hana/sap-hana-on-aws-cluster-configuration.html
+
+facts:
+  - name: corosync_twonode
+    gatherer: corosync.conf
+    argument: quorum.two_node
+
+values:
+  - name: expected_twonode
+    default: 1
+
+expectations:
+  - name: parameter
+    expect: facts.corosync_twonode == values.expected_twonode

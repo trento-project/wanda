@@ -1,0 +1,41 @@
+id: 24ABCB
+name: Corosync configuration file
+group: Corosync
+description: |
+  Corosync `join` timeout is set to expected value
+remediation: |
+  ## Abstract
+  The value of the Corosync `join` timeout is not set as recommended.
+
+  ## Remediation
+  Adjust the Corosync `join` parameter as recommended on the best practices.
+
+  ## References
+  Azure:
+
+    - https://docs.microsoft.com/en-us/azure/virtual-machines/workloads/sap/high-availability-guide-suse-pacemaker#install-the-cluster
+
+  SUSE / KVM:
+
+    - https://documentation.suse.com/sbp/all/single-html/SLES4SAP-hana-sr-guide-PerfOpt-15/#id-example-for-etccorosynccorosync-conf
+
+  GCP: 
+
+    - https://cloud.google.com/solutions/sap/docs/sap-hana-ha-config-sles
+
+  AWS:
+
+    -	https://documentation.suse.com/sbp/all/single-html/SLES4SAP-hana-sr-guide-PerfOpt-15/#id-example-for-etccorosynccorosync-conf
+
+facts:
+  - name: corosync_join_timeout
+    gatherer: corosync.conf
+    argument: totem.join
+
+values:
+  - name: expected_join_timeout
+    default: 60
+
+expectations:
+  - name: timeout
+    expect: facts.corosync_join_timeout == values.expected_join_timeout

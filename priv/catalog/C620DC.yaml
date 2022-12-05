@@ -1,0 +1,44 @@
+id: C620DC
+name: Corosync configuration file
+group: Corosync
+description: |
+  Corosync `expected_votes` is set to expected value
+remediation: |
+  ## Abstract
+  The value of the corosync `expected_votes` parameter is not set as recommended.
+  ## Remediation
+  Adjust the corosync `expected_votes` parameter to 2 to make sure pacemaker calculates the actions properly for a two-node cluster.
+
+  ## References
+  Azure:
+
+    - https://docs.microsoft.com/en-us/azure/virtual-machines/workloads/sap/high-availability-guide-suse-pacemaker#install-the-cluster
+
+  SUSE / KVM:
+
+    - https://documentation.suse.com/sbp/all/single-html/SLES4SAP-hana-sr-guide-PerfOpt-15/#id-example-for-etccorosynccorosync-conf
+
+  GCP: 
+
+    - https://cloud.google.com/solutions/sap/docs/sap-hana-ha-config-sles
+
+  AWS:
+
+    -	https://docs.aws.amazon.com/sap/latest/sap-hana/sap-hana-on-aws-cluster-configuration.html
+
+  Nutanix:
+
+    - https://documentation.suse.com/sbp/all/single-html/SLES4SAP-hana-sr-guide-PerfOpt-15/#id-example-for-etccorosynccorosync-conf
+
+facts:
+  - name: corosync_expected_votes
+    gatherer: corosync.conf
+    argument: quorum.expected_votes
+
+values:
+  - name: expected_expected_votes
+    default: 2
+
+expectations:
+  - name: parameter
+    expect: facts.corosync_expected_votes == values.expected_expected_votes
