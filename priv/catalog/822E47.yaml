@@ -1,0 +1,56 @@
+id: "822E47"
+name: Corosync runtime
+group: Corosync
+description: |
+  Corosync is running with `join` timeout set to the recommended value
+remediation: |
+  ## Abstract
+  The runtime value of the Corosync `join` tiemout parameter is not set as recommended.
+
+  ## Remediation
+  Adjust the corosync `join` timeout as recommended on the best practices, and reload the corosync service.
+
+  1. Set the correct `join` timeout in the `totem` section in the corosync configuration file `/etc/corosync/corosync.conf`. This action must be repeated in all nodes of the cluster.
+     ```
+     [...]
+     totem {
+            join: <timeout value>
+           }
+     [...]
+     ```
+  2. Reload the corosync configuration:
+     `crm corosync reload`
+
+  ## References
+  AZURE:
+
+    - https://docs.microsoft.com/en-us/azure/virtual-machines/workloads/sap/high-availability-guide-suse-pacemaker#install-the-cluster
+
+  AWS:
+
+    - https://documentation.suse.com/sbp/all/single-html/SLES4SAP-hana-sr-guide-PerfOpt-15/#id-example-for-etccorosynccorosync-conf
+
+  GCP:
+
+    - https://cloud.google.com/solutions/sap/docs/sap-hana-ha-config-sles
+
+  SUSE / KVM:
+
+    - https://documentation.suse.com/sbp/all/single-html/SLES4SAP-hana-sr-guide-PerfOpt-15/#id-example-for-etccorosynccorosync-conf
+
+  Nutanix:
+
+    - https://documentation.suse.com/sbp/all/single-html/SLES4SAP-hana-sr-guide-PerfOpt-15/#id-example-for-etccorosynccorosync-conf
+
+facts:
+  - name: facts_runtime_join
+    gatherer: corosync-cmapctl
+    argument: runtime.config.totem.join
+
+values:
+  - name: expected_runtime_join
+    default: 60
+
+expectations:
+  - name: expectations_runtime_join
+    expect: facts.facts_runtime_join == values.expected_runtime_join
