@@ -22,11 +22,12 @@ defmodule WandaWeb.Schemas.ExecutionResponse.AgentCheckError do
             Fact,
             FactError
           ]
-        }
+        },
+        nullable: true
       },
       type: %Schema{type: :string, description: "Error type"},
       message: %Schema{type: :string, description: "Error message"}
     },
-    required: [:agent_id, :facts, :type, :message]
+    required: [:agent_id, :type, :message]
   })
 end
