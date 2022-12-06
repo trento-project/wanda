@@ -1,0 +1,48 @@
+id: 21FCA6
+name: Corosync configuration file
+group: Corosync
+description: |
+  Corosync `token_retransmits_before_loss_const` is set to expected value
+remediation: |
+  ## Abstract
+
+  ## Remediation
+
+  Adjust the corosync `token_retransmits_before_loss_const` timeout as recommended on the best practices, and reload the corosync configuration
+
+  ## References
+  Azure:
+
+    - https://docs.microsoft.com/en-us/azure/virtual-machines/workloads/sap/high-availability-guide-suse-pacemaker#install-the-cluster
+
+  SUSE / KVM:
+
+    - https://documentation.suse.com/sbp/all/single-html/SLES4SAP-hana-sr-guide-PerfOpt-15/#id-example-for-etccorosynccorosync-conf
+
+  GCP: 
+
+    - https://cloud.google.com/solutions/sap/docs/sap-hana-ha-config-sles
+
+  AWS:
+
+    -	https://docs.aws.amazon.com/sap/latest/sap-hana/sap-hana-on-aws-cluster-configuration.html
+
+  Nutanix:
+
+    - https://documentation.suse.com/sbp/all/single-html/SLES4SAP-hana-sr-guide-PerfOpt-15/#id-example-for-etccorosynccorosync-conf
+
+facts:
+  - name: corosync_token_retransmits_before_loss_const
+    gatherer: corosync.conf
+    argument: totem.token_retransmits_before_loss_const
+
+values:
+  - name: expected_token_retransmits_before_loss_const
+    default: 10
+    conditions:
+      - value: 6
+        when: env.provider == "aws"
+
+expectations:
+  - name: retransmits
+    expect: facts.corosync_token_retransmits_before_loss_const == values.expected_token_retransmits_before_loss_const

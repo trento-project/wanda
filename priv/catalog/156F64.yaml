@@ -11,7 +11,7 @@ remediation: |
 
   Adjust the corosync `token` timeout as recommended on the best practices, and reload the corosync configuration
 
-  1. Set the correct `token` timeout in the totem session in the corosync config file `/etc/corosync/corosync.conf`. This action must be repeated in all nodes of the cluster.
+  1. Set the correct `token` timeout in the `totem` section in the corosync configuration file `/etc/corosync/corosync.conf`. This action must be repeated in all nodes of the cluster.
      ```
      [...]
      totem { 
