@@ -6,6 +6,9 @@
       "id": {
         "type": "string"
       },
+      "severity": {
+        "type": "string"
+      },
       "name": {
         "type": "string"
       },
