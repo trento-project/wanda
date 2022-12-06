@@ -20,7 +20,7 @@ defmodule Wanda.Catalog do
   """
   @spec get_catalog() :: [Check.t()]
   def get_catalog do
-    get_catalog_path()
+    catalog_path()
     |> Path.join("/*")
     |> Path.wildcard()
     |> Enum.map(&Path.basename(&1, ".yaml"))
@@ -28,42 +28,39 @@ defmodule Wanda.Catalog do
   end
 
   @doc """
-  Get a check from the catalog.
-  """
-  @spec get_check(String.t()) :: {:ok, Check.t()} | {:error, any}
-  def get_check(check_id) do
-    with path <- Path.join(get_catalog_path(), "#{check_id}.yaml"),
-         {:ok, file_content} <- YamlElixir.read_from_file(path),
-         {:ok, check} <- map_check(file_content) do
-      {:ok, check}
-    else
-      {:error, :malformed_check} = error ->
-        Logger.error(
-          "Check with ID #{check_id} is malformed. Check if all the required fields are present."
-        )
-
-        error
-
-      {:error, reason} = error ->
-        Logger.error("Error getting Check with ID #{check_id}: #{inspect(reason)}")
-        error
-    end
-  end
-
-  @doc """
   Get specific checks from the catalog.
   """
   @spec get_checks([String.t()]) :: [Check.t()]
   def get_checks(checks_id) do
-    Enum.flat_map(checks_id, fn check_id ->
-      case get_check(check_id) do
-        {:ok, check} -> [check]
-        {:error, _} -> []
-      end
-    end)
+    checks_id
+    |> Enum.map(&get_check/1)
+    |> Enum.reject(&is_nil/1)
   end
 
-  defp get_catalog_path do
+  @doc """
+  Get a check from the catalog.
+  """
+  @spec get_check(String.t()) :: Check.t() | nil
+  def get_check(check_id) do
+    path = Path.join(catalog_path(), "#{check_id}.yaml")
+
+    case YamlElixir.read_from_file(path) do
+      {:ok, file_content} ->
+        map_check(file_content)
+
+      {:error, %YamlElixir.FileNotFoundError{message: message}} ->
+        Logger.error("Check with ID #{check_id} not found: #{message}")
+
+        nil
+
+      {:error, reason} ->
+        Logger.error("Error getting Check with ID #{check_id}: #{inspect(reason)}")
+
+        nil
+    end
+  end
+
+  defp catalog_path do
     Application.fetch_env!(:wanda, Wanda.Catalog)[:catalog_path]
   end
 
@@ -78,21 +75,24 @@ defmodule Wanda.Catalog do
            "expectations" => expectations
          } = check
        ) do
-    {:ok,
-     %Check{
-       id: id,
-       name: name,
-       group: group,
-       description: description,
-       remediation: remediation,
-       severity: map_severity(check),
-       facts: Enum.map(facts, &map_fact/1),
-       values: map_values(check),
-       expectations: Enum.map(expectations, &map_expectation/1)
-     }}
+    %Check{
+      id: id,
+      name: name,
+      group: group,
+      description: description,
+      remediation: remediation,
+      severity: map_severity(check),
+      facts: Enum.map(facts, &map_fact/1),
+      values: map_values(check),
+      expectations: Enum.map(expectations, &map_expectation/1)
+    }
   end
 
-  defp map_check(_), do: {:error, :malformed_check}
+  defp map_check(check) do
+    Logger.warn("Check is malformed: #{inspect(check)}")
+
+    nil
+  end
 
   defp map_severity(%{"severity" => "critical"}), do: :critical
   defp map_severity(%{"severity" => "warning"}), do: :warning
