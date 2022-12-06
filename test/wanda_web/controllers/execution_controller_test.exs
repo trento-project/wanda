@@ -45,11 +45,12 @@ defmodule WandaWeb.ExecutionControllerTest do
     end
 
     test "should return a completed execution", %{conn: conn} do
+      targets = build_pair(:execution_target)
+      check_results = build(:check_results_from_targets, targets: targets)
+      result = build(:result, check_results: check_results, result: :passing)
+
       %{execution_id: execution_id} =
-        :execution
-        |> build()
-        |> with_completed_status()
-        |> insert()
+        insert(:execution, status: :completed, completed_at: DateTime.utc_now(), result: result)
 
       json =
         conn
@@ -61,9 +62,9 @@ defmodule WandaWeb.ExecutionControllerTest do
     end
 
     test "should return a 404", %{conn: conn} do
-      assert_error_sent 404, fn ->
+      assert_error_sent(404, fn ->
         get(conn, "/api/checks/executions/#{UUID.uuid4()}")
-      end
+      end)
     end
   end
 
@@ -81,9 +82,9 @@ defmodule WandaWeb.ExecutionControllerTest do
     end
 
     test "should return a 404", %{conn: conn} do
-      assert_error_sent 404, fn ->
+      assert_error_sent(404, fn ->
         get(conn, "/api/checks/groups/#{UUID.uuid4()}/executions/last")
-      end
+      end)
     end
   end
 

@@ -68,11 +68,35 @@ defmodule WandaWeb.ExecutionViewTest do
     end
 
     test "renders show.json for a completed execution" do
-      started_at = DateTime.utc_now()
+      passing_checks = ["check_1", "check_2"]
+      warning_checks = ["check_3"]
+      critical_checks = ["check_4"]
+
+      passing_targets = build_pair(:execution_target, checks: passing_checks)
+      warning_targets = build_pair(:execution_target, checks: warning_checks)
+      critical_targets = build_pair(:execution_target, checks: critical_checks)
+      targets = passing_targets ++ warning_targets ++ critical_targets
+
+      passing_check_results = build(:check_results_from_targets, targets: passing_targets)
+
+      warning_check_results =
+        build(:check_results_from_targets, targets: warning_targets, result: :warning)
+
+      critical_check_results =
+        build(:check_results_from_targets, targets: critical_targets, result: :critical)
+
+      check_results = passing_check_results ++ warning_check_results ++ critical_check_results
+
+      result =
+        build(:result,
+          check_results: check_results,
+          result: :critical
+        )
 
       %Execution{
         execution_id: execution_id,
         group_id: group_id,
+        started_at: started_at,
         completed_at: completed_at,
         result: %{
           "timeout" => timeout,
@@ -81,8 +105,12 @@ defmodule WandaWeb.ExecutionViewTest do
       } =
         execution =
         :execution
-        |> build(started_at: started_at)
-        |> with_completed_status()
+        |> build(
+          targets: targets,
+          result: result,
+          completed_at: DateTime.utc_now(),
+          status: :completed
+        )
         |> insert(returning: true)
 
       assert %{
@@ -91,9 +119,10 @@ defmodule WandaWeb.ExecutionViewTest do
                started_at: ^started_at,
                completed_at: ^completed_at,
                status: :completed,
-               critical_count: 0,
-               warning_count: 0,
-               passing_count: 1,
+               passing_count: 2,
+               warning_count: 1,
+               critical_count: 1,
+               result: "critical",
                timeout: ^timeout,
                check_results: ^check_results
              } = render(WandaWeb.ExecutionView, "show.json", execution: execution)
