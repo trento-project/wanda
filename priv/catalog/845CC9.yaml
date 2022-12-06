@@ -8,13 +8,13 @@ remediation: |
 
   ## Remediation
 
-  Adjust the corosync `max_messages` timeout as recommended on the best practices, and reload the corosync configuration
+  Adjust the corosync `max_messages` count as recommended on the best practices, and reload the corosync configuration
 
-  1. Set the correct `max_messages` timeout in the totem session in the corosync config file `/etc/corosync/corosync.conf`. This action must be repeated in all nodes of the cluster.
+  1. Set the correct `max_messages` count in the `totem` section in the corosync configuration file `/etc/corosync/corosync.conf`. This action must be repeated in all nodes of the cluster.
      ```
      [...]
      totem {
-            max_messages: <timeout value>
+            max_messages: <count value>
            }
      [...]
      ```

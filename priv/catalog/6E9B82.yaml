@@ -5,9 +5,21 @@ description: |
   Corosync `two_node` is set to expected value
 remediation: |
   ## Abstract
-  The runtime value of the corosync `two_node` parameter is not set as recommended.
+  The value of the corosync `two_node` parameter is not set as recommended.
+
   ## Remediation
   Adjust the corosync two_node parameter to `1` to make sure Pacemaker calculates the actions properly for a two-node cluster.
+
+  1. Set the correct `two_node` value in the `quorum` section in the corosync configuration file `/etc/corosync/corosync.conf`. This action must be repeated in all nodes of the cluster.
+     ```
+     [...]
+     quorum {
+            two_node: <value>
+           }
+     [...]
+     ```
+  2. Reload the corosync configuration:
+     `crm corosync reload`
 
   ## References
   Azure:
@@ -25,6 +37,10 @@ remediation: |
   AWS:
 
     -	https://docs.aws.amazon.com/sap/latest/sap-hana/sap-hana-on-aws-cluster-configuration.html
+
+  Nutanix:
+
+    - https://documentation.suse.com/sbp/all/single-html/SLES4SAP-hana-sr-guide-PerfOpt-15/#id-example-for-etccorosynccorosync-conf
 
 facts:
   - name: corosync_twonode

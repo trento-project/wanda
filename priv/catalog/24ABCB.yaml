@@ -8,7 +8,18 @@ remediation: |
   The value of the Corosync `join` timeout is not set as recommended.
 
   ## Remediation
-  Adjust the Corosync `join` parameter as recommended on the best practices.
+  Adjust the Corosync `join` timeout as recommended on the best practices.
+
+  1. Set the correct `join` timeout in the `totem` section in the corosync configuration file `/etc/corosync/corosync.conf`. This action must be repeated in all nodes of the cluster.
+     ```
+     [...]
+     totem {
+            join: <timeout value>
+           }
+     [...]
+     ```
+  2. Reload the corosync configuration:
+     `crm corosync reload`
 
   ## References
   Azure:

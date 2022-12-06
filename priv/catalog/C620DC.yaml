@@ -9,6 +9,17 @@ remediation: |
   ## Remediation
   Adjust the corosync `expected_votes` parameter to 2 to make sure pacemaker calculates the actions properly for a two-node cluster.
 
+  1. Set the correct `expected_votes` value in the `quorum` section in the corosync configuration file `/etc/corosync/corosync.conf`. This action must be repeated in all nodes of the cluster.
+     ```
+     [...]
+     quorum {
+            expected_votes: <value>
+           }
+     [...]
+     ```
+  2. Reload the corosync configuration:
+     `crm corosync reload`
+
   ## References
   Azure:
 

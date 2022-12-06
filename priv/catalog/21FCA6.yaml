@@ -8,7 +8,18 @@ remediation: |
 
   ## Remediation
 
-  Adjust the corosync `token_retransmits_before_loss_const` timeout as recommended on the best practices, and reload the corosync configuration
+  Adjust the corosync `token_retransmits_before_loss_const` count as recommended on the best practices, and reload the corosync configuration
+
+  1. Set the correct `token_retransmits_before_loss_const` count in the `totem` section in the corosync configuration file `/etc/corosync/corosync.conf`. This action must be repeated in all nodes of the cluster.
+     ```
+     [...]
+     totem {
+            token_retransmits_before_loss_const: <count value>
+           }
+     [...]
+     ```
+  2. Reload the corosync configuration:
+     `crm corosync reload`
 
   ## References
   Azure:

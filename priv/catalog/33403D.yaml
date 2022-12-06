@@ -2,7 +2,7 @@ id: 33403D
 name: Corosync configuration file
 group: Corosync
 description: |
-  Corosync `transport` is set to expected value
+  Corosync `transport` mechanism is set to expected value
 remediation: |
   ## Abstract
 
@@ -33,12 +33,11 @@ remediation: |
   +
   +}
   ```
-  1. stop the already running cluster by using **systemctl stop pacemaker**
-  2. In the totem section, in the interface subsection remove the
-  keys-value pairs **bindnetaddr** and **mcastaddr**
-  3. In the totem section add key-value pair **transport: udpu**
-  4. Add section nodelist and subsections node for each nodes of the
-  cluster, where the **ring0_addr** is the IP address of the node
+  1. Stop the already running cluster by using **crm cluster stop**
+  2. In the `totem` section, in the `interface` subsection remove the keys-value pairs **bindnetaddr** and **mcastaddr**
+  3. In the `totem` section add key-value pair **transport: udpu**
+  4. Add section `nodelist` and subsections `node` for each nodes of the cluster, where the **ring0_addr** is the IP address of the node
+  5. Start the cluster by using **crm cluster start**
 
   ## References
   Azure:
