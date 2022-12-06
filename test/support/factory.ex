@@ -18,130 +18,77 @@ defmodule Wanda.Factory do
     Target
   }
 
-  def check_factory(attrs) do
+  def check_factory do
     %Catalog.Check{
-      id: Map.get(attrs, :id, UUID.uuid4()),
-      name: Map.get(attrs, :name, Faker.StarWars.character()),
-      severity: Map.get(attrs, :severity, Enum.random([:critical, :warning, :passing])),
-      facts: Map.get(attrs, :facts, build_list(10, :catalog_fact)),
-      values: Map.get(attrs, :values, build_list(10, :catalog_value)),
-      expectations: Map.get(attrs, :expectations, build_list(10, :catalog_expectation))
+      id: UUID.uuid4(),
+      name: Faker.StarWars.character(),
+      severity: Enum.random([:critical, :warning, :passing]),
+      facts: build_list(10, :catalog_fact),
+      values: build_list(10, :catalog_value),
+      expectations: build_list(10, :catalog_expectation)
     }
   end
 
-  def catalog_fact_factory(attrs) do
+  def catalog_fact_factory do
     %Catalog.Fact{
-      name: Map.get(attrs, :name, Faker.Cat.name()),
-      gatherer: Map.get(attrs, :gatherer, Faker.StarWars.character()),
-      argument: Map.get(attrs, :argument, Faker.StarWars.quote())
+      name: Faker.Cat.name(),
+      gatherer: Faker.StarWars.character(),
+      argument: Faker.StarWars.quote()
     }
   end
 
-  def catalog_value_factory(attrs) do
+  def catalog_value_factory do
     %Catalog.Value{
-      name: Map.get(attrs, :name, Faker.StarWars.character()),
-      default: Map.get(attrs, :default, Faker.StarWars.character()),
-      conditions: Map.get(attrs, :conditions, build_list(10, :catalog_condition))
+      name: Faker.StarWars.character(),
+      default: Faker.StarWars.character(),
+      conditions: build_list(10, :catalog_condition)
     }
   end
 
-  def catalog_condition_factory(attrs) do
+  def catalog_condition_factory do
     %Catalog.Condition{
-      value: Map.get(attrs, :value, Faker.StarWars.character()),
-      expression: Map.get(attrs, :expression, Faker.StarWars.quote())
+      value: Faker.StarWars.character(),
+      expression: Faker.StarWars.quote()
     }
   end
 
-  def catalog_expectation_factory(attrs) do
+  def catalog_expectation_factory do
     %Catalog.Expectation{
-      name: Map.get(attrs, :name, Faker.StarWars.character()),
-      type: Map.get(attrs, :type, Enum.random([:expect, :expect_same])),
-      expression: Map.get(attrs, :expression, Faker.StarWars.quote())
+      name: Faker.StarWars.character(),
+      type: Enum.random([:expect, :expect_same]),
+      expression: Faker.StarWars.quote()
     }
   end
 
-  def target_factory(attrs) do
+  def target_factory do
     %Target{
-      agent_id: Map.get(attrs, :agent_id, UUID.uuid4()),
-      checks:
-        Map.get(
-          attrs,
-          :checks,
-          1..10 |> Enum.map(fn _ -> Faker.StarWars.planet() end) |> Enum.uniq()
-        )
+      agent_id: UUID.uuid4(),
+      checks: random_checks()
     }
   end
 
   def env_factory(attrs) do
     count = Map.get(attrs, :count, 5)
 
-    Enum.reduce(0..count, %{}, fn _, acc ->
-      Map.put(acc, Faker.Pokemon.name(), random_env_value())
+    Enum.into(0..count, %{}, fn _ ->
+      {Faker.Pokemon.name(), random_env_value()}
     end)
   end
 
-  def fact_factory(attrs) do
+  def fact_factory do
     %Fact{
-      check_id: Map.get(attrs, :check_id, UUID.uuid4()),
-      name: Map.get(attrs, :name, Faker.StarWars.character()),
-      value: Map.get(attrs, :value, Faker.StarWars.planet())
+      check_id: UUID.uuid4(),
+      name: Faker.StarWars.character(),
+      value: Faker.StarWars.planet()
     }
   end
 
-  def fact_error_factory(attrs) do
+  def fact_error_factory do
     %FactError{
-      check_id: Map.get(attrs, :check_id, UUID.uuid4()),
-      name: Map.get(attrs, :name, Faker.StarWars.character()),
-      type: Map.get(attrs, :type, Faker.StarWars.planet()),
-      message: Map.get(attrs, :message, Faker.StarWars.quote())
-    }
-  end
-
-  def result_factory(attrs) do
-    %Result{
-      execution_id: Map.get(attrs, :execution_id, UUID.uuid4()),
-      group_id: Map.get(attrs, :group_id, UUID.uuid4()),
-      check_results: [
-        %CheckResult{
-          agents_check_results: [
-            %AgentCheckResult{
-              agent_id: UUID.uuid4(),
-              expectation_evaluations: [
-                %ExpectationEvaluation{
-                  name: "timeout",
-                  return_value: true,
-                  type: :expect
-                }
-              ]
-            },
-            %AgentCheckResult{
-              agent_id: UUID.uuid4(),
-              expectation_evaluations: [
-                %ExpectationEvaluation{
-                  name: "timeout",
-                  return_value: true,
-                  type: :expect
-                },
-                %ExpectationEvaluationError{
-                  name: "timeout",
-                  message: Faker.StarWars.quote(),
-                  type: :fact_missing_error
-                }
-              ]
-            }
-          ],
-          check_id: "expect_check",
-          expectation_results: [
-            %ExpectationResult{
-              name: "timeout",
-              result: true,
-              type: :expect
-            }
-          ],
-          result: :passing
-        }
-      ],
-      result: Map.get(attrs, :result, Enum.random([:passing, :warning, :critical]))
+      check_id: UUID.uuid4(),
+      name: Faker.StarWars.character(),
+      type: Faker.StarWars.planet(),
+      message: Faker.StarWars.quote()
     }
   end
 
@@ -150,19 +97,64 @@ defmodule Wanda.Factory do
       execution_id: Faker.UUID.v4(),
       group_id: Faker.UUID.v4(),
       status: :running,
-      targets: Enum.map(build_list(2, :target), &Map.from_struct(&1)),
+      targets: 1..5 |> Enum.random() |> build_list(:execution_target),
       started_at: DateTime.utc_now()
     }
   end
 
-  def with_completed_status(
-        %Execution{execution_id: execution_id, group_id: group_id} = execution
-      ) do
-    %Execution{
-      execution
-      | status: :completed,
-        result: build(:result, execution_id: execution_id, group_id: group_id),
-        completed_at: DateTime.utc_now()
+  def execution_target_factory do
+    %Execution.Target{
+      agent_id: Faker.UUID.v4(),
+      checks: random_checks()
+    }
+  end
+
+  def result_factory do
+    %Result{
+      execution_id: UUID.uuid4(),
+      group_id: UUID.uuid4(),
+      check_results: build_list(5, :check_result),
+      result: :passing
+    }
+  end
+
+  def check_result_factory do
+    %CheckResult{
+      agents_check_results: build_list(5, :agent_check_result),
+      check_id: UUID.uuid4(),
+      expectation_results: build_list(5, :expectation_result),
+      result: :passing
+    }
+  end
+
+  def agent_check_result_factory do
+    %AgentCheckResult{
+      agent_id: UUID.uuid4(),
+      expectation_evaluations: build_list(2, :expectation_evaluation)
+    }
+  end
+
+  def expectation_evaluation_factory do
+    %ExpectationEvaluation{
+      name: sequence(:name, &"expectation_#{&1}"),
+      return_value: true,
+      type: :expect
+    }
+  end
+
+  def expectation_evaluation_error_factory do
+    %ExpectationEvaluationError{
+      name: sequence(:name, &"expectation_#{&1}"),
+      type: :property_not_found,
+      message: Faker.StarWars.quote()
+    }
+  end
+
+  def expectation_result_factory do
+    %ExpectationResult{
+      name: sequence(:name, &"expectation_#{&1}"),
+      result: true,
+      type: :expect
     }
   end
 
@@ -172,5 +164,66 @@ defmodule Wanda.Factory do
       Enum.random(1..10),
       Enum.random([false, true])
     ])
+  end
+
+  defp random_checks do
+    1..10
+    |> Enum.map(fn _ -> UUID.uuid4() end)
+    |> Enum.take_random(Enum.random(1..5))
+  end
+
+  def check_results_from_targets_factory(attrs) do
+    targets = Map.get(attrs, :targets, [])
+    result = Map.get(attrs, :result, :passing)
+
+    targets
+    |> Enum.flat_map(& &1.checks)
+    |> Enum.uniq()
+    |> Enum.map(fn check_id ->
+      check_targets = Enum.filter(targets, &(check_id in &1.checks))
+      check_result_from_target(check_id, check_targets, result)
+    end)
+  end
+
+  defp check_result_from_target(check_id, check_targets, result) do
+    expectations_evaluations_expect =
+      1..5
+      |> Enum.random()
+      |> build_list(:expectation_evaluation, return_value: result == :passing)
+
+    expectations_evaluations_expect_same =
+      Enum.map(1..Enum.random(1..5), fn _ ->
+        build(:expectation_evaluation,
+          type: :expect_same,
+          return_value:
+            if result == :passing do
+              "same_value"
+            else
+              Faker.StarWars.quote()
+            end
+        )
+      end)
+
+    expectation_evaluations =
+      Enum.shuffle(expectations_evaluations_expect ++ expectations_evaluations_expect_same)
+
+    expectation_results =
+      Enum.map(
+        expectation_evaluations,
+        &build(:expectation_result, name: &1.name, type: &1.type, result: result == :passing)
+      )
+
+    build(:check_result,
+      check_id: check_id,
+      agents_check_results:
+        Enum.map(check_targets, fn target ->
+          build(:agent_check_result,
+            agent_id: target.agent_id,
+            expectation_evaluations: expectation_evaluations
+          )
+        end),
+      expectation_results: expectation_results,
+      result: result
+    )
   end
 end
