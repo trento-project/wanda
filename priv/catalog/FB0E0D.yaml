@@ -1,0 +1,61 @@
+id: FB0E0D
+name: Corosync runtime
+group: Corosync
+description: |
+  Corosync is running with consensus timeout set to the recommended value
+remediation: |
+  ## Abstract
+  The runtime value of the Corosync `consensus` timeout is not set as recommended.
+
+  ## Remediation
+  Adjust the corosync `consensus` timeout as recommended on the best practices, and reload the corosync service.
+
+  1. Set the correct `consensus` timeout in the `totem` section in the corosync configuration file `/etc/corosync/corosync.conf`. This action must be repeated in all nodes of the cluster.
+     ```
+     [...]
+     totem { 
+            consensus: <timeout value> 
+           }
+     [...]
+     ```   
+  2. Reload the corosync configuration:
+     `crm corosync reload`
+
+  ## References
+  Azure:
+
+    - https://docs.microsoft.com/en-us/azure/virtual-machines/workloads/sap/high-availability-guide-suse-pacemaker
+
+  AWS:
+
+    - https://docs.aws.amazon.com/sap/latest/sap-hana/sap-hana-on-aws-cluster-configuration.html
+
+  GCP:
+
+    - https://documentation.suse.com/sbp/all/single-html/SLES4SAP-hana-sr-guide-PerfOpt-15/#id-example-for-etccorosynccorosync-conf
+
+  SUSE / KVM:
+
+    - https://documentation.suse.com/sbp/all/single-html/SLES4SAP-hana-sr-guide-PerfOpt-15/#id-example-for-etccorosynccorosync-conf
+
+  Nutanix:
+
+  - https://documentation.suse.com/sbp/all/single-html/SLES4SAP-hana-sr-guide-PerfOpt-15/#id-example-for-etccorosynccorosync-conf
+
+facts:
+  - name: facts_consensus_timeout
+    gatherer: corosync-cmapctl
+    argument: runtime.config.totem.consensus
+
+values:
+  - name: expected_consensus_timeout
+    default: 6000
+    conditions:
+      - value: 36000
+        when: env.provider == "azure" || env.provider == "aws"
+      - value: 24000
+        when: env.provider == "gcp"
+
+expectations:
+  - name: expectations_consensus_timeout
+    expect: facts.facts_consensus_timeout == values.expected_consensus_timeout
