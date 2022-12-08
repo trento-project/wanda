@@ -18,13 +18,17 @@ remediation: |
 
   GCP:
 
+  Nutanix:
+
+    - https://documentation.suse.com/sbp/all/single-html/SLES4SAP-hana-sr-guide-PerfOpt-15/#cha.hana-sr.scenario
+
   SUSE / KVM:
 
     - https://documentation.suse.com/sbp/all/single-html/SLES4SAP-hana-sr-guide-PerfOpt-15/#cha.hana-sr.scenario
 
 facts:
   - name: sbd_multiple_SBD_DEVICE
-    # should only run on 'azure' or 'kvm', NOT on 'gcp' or 'aws'
+    # should only run on 'azure', 'nutanix' or 'kvm', NOT on 'gcp' or 'aws'
     gatherer: sbd_config
     argument: SBD_DEVICE
 
@@ -33,7 +37,7 @@ values:
     default: notUsed
     conditions:
       - value: 3
-        when: env.provider == "azure" || env.provider == "kvm"
+        when: env.provider == "azure" || env.provider == "kvm" || env.provider == "nutanix"
 
 expectations:
   - name: expectations_multiple_SBD_DEVICE

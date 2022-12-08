@@ -23,6 +23,10 @@ remediation: |
 
   GCP:
 
+  Nutanix:
+
+    - https://documentation.suse.com/sle-ha/15-SP3/html/SLE-HA-all/cha-ha-storage-protect.html#pro-ha-storage-protect-sbd-services
+
   SUSE / KVM:
 
     - https://documentation.suse.com/sle-ha/15-SP3/html/SLE-HA-all/cha-ha-storage-protect.html#pro-ha-storage-protect-sbd-services
@@ -37,7 +41,7 @@ values:
     default: inactive
     conditions:
       - value: active
-        when: env.provider == "azure" || env.provider == "kvm"
+        when: env.provider == "azure" || env.provider == "kvm" || env.provider == "nutanix"
 
 expectations:
   - name: expectations_sbd_service_state

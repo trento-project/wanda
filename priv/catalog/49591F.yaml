@@ -36,6 +36,11 @@ remediation: |
 
   GCP:
 
+  Nutanix:
+
+    - https://documentation.suse.com/sbp/all/single-html/SLES4SAP-hana-sr-guide-PerfOpt-15/#id-1.11.5.5.4.4
+    - https://documentation.suse.com/sle-ha/15-SP3/html/SLE-HA-all/cha-ha-storage-protect.html
+
   SUSE / KVM:
 
     - https://documentation.suse.com/sbp/all/single-html/SLES4SAP-hana-sr-guide-PerfOpt-15/#id-1.11.5.5.4.4
@@ -43,7 +48,7 @@ remediation: |
 
 facts:
   - name: sbd_SBD_STARTMODE
-    # should only run on 'azure' or 'kvm', NOT on 'gcp' or 'aws'
+    # should only run on 'azure', 'nutanix' or 'kvm', NOT on 'gcp' or 'aws'
     gatherer: CHANGE
     argument: SBD_STARTMODE
 
@@ -52,7 +57,7 @@ values:
     default: notUsed
     conditions:
       - value: always
-        when: env.provider == "azure" || env.provider == "kvm"
+        when: env.provider == "azure" || env.provider == "kvm" || env.provider == "nutanix"
 
 expectations:
   - name: expectations_SBD_STARTMODE
