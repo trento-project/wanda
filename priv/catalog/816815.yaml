@@ -1,0 +1,44 @@
+id: "816815"
+name: "SBD service state"
+group: "SBD"
+description: |
+  SBD service is enabled (only if SBD is used)
+remediation: |
+  ## Abstract
+  If not enabled, SBD service will not start automatically after reboots, affecting the correct cluster startup.
+
+  The SBD is not used in GCP or AWS environments.
+  ## Remediation
+  To enable the service, run:
+  ```
+  systemctl enable sbd
+  ```
+
+  ## References
+  Azure:
+
+    - https://docs.microsoft.com/en-us/azure/virtual-machines/workloads/sap/high-availability-guide-suse-pacemaker#set-up-the-iscsi-target-server-sbd-device
+
+  AWS:
+
+  GCP:
+
+  SUSE / KVM:
+
+    - https://documentation.suse.com/sle-ha/15-SP3/html/SLE-HA-all/cha-ha-storage-protect.html#pro-ha-storage-protect-sbd-services
+
+facts:
+  - name: sbd_service_state
+    gatherer: systemd
+    argument: sbd
+
+values:
+  - name: expected_sbd_service_state
+    default: inactive
+    conditions:
+      - value: active
+        when: env.provider == "azure" || env.provider == "kvm"
+
+expectations:
+  - name: expectations_sbd_service_state
+    expect: facts.sbd_service_state == values.expected_sbd_service_state
