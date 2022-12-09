@@ -1,0 +1,31 @@
+id: "222A57"
+name: "sbd version"
+group: "OS and package versions"
+description: |
+  SBD version is supported
+remediation: |
+  ## Abstract
+  Installed SBD version must be equal or higher than the recommended value
+
+  ## Remediation
+  Install or upgrade to a supported SBD version
+
+  ## Reference
+  - https://documentation.suse.com/en-us/sbp/all/single-html/SLES4SAP-hana-sr-guide-PerfOpt-15/
+
+facts:
+  - name: package_sbd
+    #should only run on 'azure', 'nutanix' or 'kvm', NOT on 'gcp' or 'aws'
+    gatherer: package_version
+    argument: sbd
+
+values:
+  - name: expected_sbd_version
+    default: ""
+    conditions:
+      - value: "1.4.0"
+        when: env.provider == "azure" || env.provider == "kvm" || env.provider == "nutanix"
+
+expectations:
+  - name: expectations_sbd_version
+    expect: facts.package_sbd >= values.expected_sbd_version

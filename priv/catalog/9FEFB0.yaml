@@ -1,0 +1,27 @@
+id: "9FEFB0"
+name: "pacemaker version"
+group: "OS and package versions"
+description: |
+  Pacemaker version is supported
+remediation: |
+  ## Abstract
+  Installed Pacemaker version must be equal or higher than the recommended value
+
+  ## Remediation
+  Install or upgrade to a supported Pacemaker version
+
+  ## Reference
+  - https://documentation.suse.com/en-us/sbp/all/single-html/SLES4SAP-hana-sr-guide-PerfOpt-15/
+
+facts:
+  - name: package_pacemaker
+    gatherer: package_version
+    argument: pacemaker
+
+values:
+  - name: expected_pacemaker_version
+    default: "2.0.1"
+
+expectations:
+  - name: expectations_pacemaker_version
+    expect: facts.package_pacemaker >= values.expected_pacemaker_version
