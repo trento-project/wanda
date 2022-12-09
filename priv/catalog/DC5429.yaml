@@ -1,0 +1,27 @@
+id: "DC5429"
+name: "corosync version"
+group: "OS and package versions"
+description: |
+  Corosync version is supported
+remediation: |
+  ## Abstract
+  Installed Corosync version must be equal or higher than the recommended value
+
+  ## Remediation
+  Install or upgrade to a supported Corosync version
+
+  ## Reference
+  - https://documentation.suse.com/en-us/sbp/all/single-html/SLES4SAP-hana-sr-guide-PerfOpt-15/
+
+facts:
+  - name: package_corosync
+    gatherer: package_version
+    argument: corosync
+
+values:
+  - name: expected_corosync_version
+    default: "2.4.5"
+
+expectations:
+  - name: expectations_corosync_version
+    expect: facts.package_corosync >= values.expected_corosync_version

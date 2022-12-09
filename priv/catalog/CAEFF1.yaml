@@ -1,0 +1,44 @@
+id: "CAEFF1"
+name: "OS flavor SLES_SAP"
+group: "OS and package versions"
+description: |
+  Operating system vendor is supported
+remediation: |
+  ## Abstract
+  SAPHanaSR is only supported on SUSE Linux Enterprise Server for SAP Applications.
+
+  ## Remediation
+  Please use SUSE Linux Enterprise Server for SAP Applications.
+
+  ## Reference
+  Azure:
+
+    - https://docs.microsoft.com/en-us/azure/virtual-machines/workloads/sap/sap-hana-high-availability
+
+  AWS:
+
+    - https://docs.aws.amazon.com/sap/latest/sap-hana/sap-hana-on-aws-ha-cluster-configuration-on-sles.html
+
+  GCP:
+
+    - https://cloud.google.com/solutions/sap/docs/sap-hana-os-support
+
+  Nutanix:
+
+    - https://documentation.suse.com/sbp/all/single-html/SLES4SAP-hana-sr-guide-PerfOpt-15/#id-planning-the-installation
+
+  SUSE / KVM:
+
+    - https://documentation.suse.com/sbp/all/single-html/SLES4SAP-hana-sr-guide-PerfOpt-15/#id-planning-the-installation
+
+facts:
+  - name: os_flavor
+    gatherer: package_version
+    argument: SLES_SAP-release
+
+expectations:
+  - name: expectations_SLES_SAP
+    expect: |
+        if facts.os_flavor != "" {
+            true
+        }
