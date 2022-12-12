@@ -48,16 +48,13 @@ remediation: |
 
 facts:
   - name: sbd_SBD_STARTMODE
-    # should only run on 'azure', 'nutanix' or 'kvm', NOT on 'gcp' or 'aws'
-    gatherer: CHANGE
+    gatherer: sbd_config
     argument: SBD_STARTMODE
 
 values:
   - name: expected_SBD_STARTMODE
-    default: notUsed
-    conditions:
-      - value: always
-        when: env.provider == "azure" || env.provider == "kvm" || env.provider == "nutanix"
+    # should only run on 'azure', 'nutanix' or 'kvm', NOT on 'gcp' or 'aws'
+    default: "always"
 
 expectations:
   - name: expectations_SBD_STARTMODE

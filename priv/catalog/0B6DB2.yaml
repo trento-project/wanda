@@ -50,16 +50,13 @@ remediation: |
 
 facts:
   - name: sbd_SBD_PACEMAKER
-    #should only run on 'azure', 'nutanix' or 'kvm', NOT on 'gcp' or 'aws'
     gatherer: sbd_config
     argument: SBD_PACEMAKER
 
 values:
   - name: expected_SBD_PACEMAKER
-    default: notUsed
-    conditions:
-      - value: yes
-        when: env.provider == "azure" || env.provider == "kvm" || env.provider == "nutanix"
+    #should only run on 'azure', 'nutanix' or 'kvm', NOT on 'gcp' or 'aws'
+    default: yes
 
 expectations:
   - name: expectations_SBD_PACEMAKER

@@ -28,16 +28,13 @@ remediation: |
 
 facts:
   - name: sbd_multiple_SBD_DEVICE
-    # should only run on 'azure', 'nutanix' or 'kvm', NOT on 'gcp' or 'aws'
     gatherer: sbd_config
     argument: SBD_DEVICE
 
 values:
   - name: expected_multiple_SBD_DEVICE
-    default: notUsed
-    conditions:
-      - value: 3
-        when: env.provider == "azure" || env.provider == "kvm" || env.provider == "nutanix"
+    # should only run on 'azure', 'nutanix' or 'kvm', NOT on 'gcp' or 'aws'
+    default: 3
 
 expectations:
   - name: expectations_multiple_SBD_DEVICE

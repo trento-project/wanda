@@ -38,10 +38,8 @@ facts:
 
 values:
   - name: expected_sbd_service_state
-    default: inactive
-    conditions:
-      - value: active
-        when: env.provider == "azure" || env.provider == "kvm" || env.provider == "nutanix"
+    #should only run on 'azure', 'nutanix' or 'kvm', NOT on 'gcp' or 'aws'
+    default: active
 
 expectations:
   - name: expectations_sbd_service_state
