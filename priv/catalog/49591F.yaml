@@ -54,7 +54,10 @@ facts:
 values:
   - name: expected_SBD_STARTMODE
     # should only run on 'azure', 'nutanix' or 'kvm', NOT on 'gcp' or 'aws'
-    default: "always"
+    default: "clean"
+    conditions:
+      - value: "always"
+        when: env.provider == "azure"
 
 expectations:
   - name: expectations_SBD_STARTMODE
