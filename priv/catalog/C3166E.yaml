@@ -20,10 +20,8 @@ facts:
 
 values:
   - name: expected_sbd_version_to_exclude
-    default: ""
-    conditions:
-      - value: "1.4.0+20190326.c38c5e6"
-        when: env.provider == "azure" || env.provider == "kvm" || env.provider == "nutanix"
+    #should only run on 'azure', 'nutanix' or 'kvm', NOT on 'gcp' or 'aws'
+    default: "1.4.0+20190326.c38c5e6"
 
 expectations:
   - name: expectations_sbd_version_to_exclude
