@@ -52,5 +52,5 @@ values:
     default: 20
 
 expectations:
-  - name: retransmits
+  - name: max_messages
     expect: facts.corosync_max_messages == values.expected_max_messages
