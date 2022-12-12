@@ -15,16 +15,13 @@ remediation: |
 
 facts:
   - name: package_sbd
-    #should only run on 'azure', 'nutanix' or 'kvm', NOT on 'gcp' or 'aws'
     gatherer: package_version
     argument: sbd
 
 values:
   - name: expected_sbd_version
-    default: ""
-    conditions:
-      - value: "1.4.0"
-        when: env.provider == "azure" || env.provider == "kvm" || env.provider == "nutanix"
+    #should only run on 'azure', 'nutanix' or 'kvm', NOT on 'gcp' or 'aws'
+    default: "1.4.0"
 
 expectations:
   - name: expectations_sbd_version
