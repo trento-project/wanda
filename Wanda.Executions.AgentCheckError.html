@@ -174,9 +174,9 @@ Types
 
           <pre translate="no"><span class="attribute">@type</span> t() :: %Wanda.Executions.AgentCheckError{
   agent_id: <a href="https://hexdocs.pm/elixir/String.html#t:t/0">String.t</a>(),
-  facts: [<a href="Wanda.Executions.Fact.html#t:t/0">Wanda.Executions.Fact.t</a>() | <a href="Wanda.Executions.FactError.html#t:t/0">Wanda.Executions.FactError.t</a>()],
+  facts: [<a href="Wanda.Executions.Fact.html#t:t/0">Wanda.Executions.Fact.t</a>() | <a href="Wanda.Executions.FactError.html#t:t/0">Wanda.Executions.FactError.t</a>()] | nil,
   message: <a href="https://hexdocs.pm/elixir/String.html#t:t/0">String.t</a>(),
-  type: :timeout
+  type: :fact_gathering_error | :timeout
 }</pre>
 
       </div>
