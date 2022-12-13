@@ -38,7 +38,4 @@ facts:
 
 expectations:
   - name: expectations_SLES_SAP
-    expect: |
-        if facts.os_flavor != "" {
-            true
-        }
+    expect: facts.os_flavor != ""
