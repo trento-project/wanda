@@ -88,6 +88,75 @@ In order to get detailed information for an execution, see [Getting Execution de
 
 > Please note that execution is _eventually started_, meaning that a successful response to the previous API call does not guarantee that the execution is running, but that it has been accepted by the system to start.
 
+#### Execution Targets
+When starting an execution a list of targets has to be specified. Each item in this list is an execution target. An execution target is a target host that will receive the payload, gather the facts informations about the requested checks, and send them back.
+
+Each target _must_ specify an `agent_id`. That can be obtained just issuing `trento-agent id` in a host's command line.
+
+Each target _must_ specify a list of checks, that can be empty. These are the selected checks for each agent, that will be executed.
+
+Given two different targets, the same checks can be selected:
+
+```bash
+curl --request POST 'http://localhost:4000/api/checks/executions/start' \
+--header 'accept: application/json' \
+--header 'Content-Type: application/json' \
+--data-raw '{
+  "env": {
+    "provider": "azure"
+  },
+  "execution_id": "205e326d-0c25-4f4b-9976-43f9ba1c86d3",
+  "group_id": "3dff9d03-4adf-453e-9513-8533e221bb12",
+  "targets": [
+    {
+      "agent_id": "a644919a-d953-43d4-bd57-7e0bb96ee894",
+      "checks": [
+        "156F64",
+        "45B653"
+      ]
+    },
+    {
+      "agent_id": "02d99b2f-0efd-443c-ac9c-32710323f620",
+      "checks": [
+        "156F64",
+        "45B653"
+      ]
+    }
+  ]
+}'
+```
+
+Or completely different ones:
+
+```bash
+curl --request POST 'http://localhost:4000/api/checks/executions/start' \
+--header 'accept: application/json' \
+--header 'Content-Type: application/json' \
+--data-raw '{
+  "env": {
+    "provider": "azure"
+  },
+  "execution_id": "205e326d-0c25-4f4b-9976-43f9ba1c86d3",
+  "group_id": "3dff9d03-4adf-453e-9513-8533e221bb12",
+  "targets": [
+    {
+      "agent_id": "a644919a-d953-43d4-bd57-7e0bb96ee894",
+      "checks": [
+        "156F64",
+        "45B653"
+      ]
+    },
+    {
+      "agent_id": "02d99b2f-0efd-443c-ac9c-32710323f620",
+      "checks": [
+        "OTH3R1",
+        "OTH3R2"
+      ]
+    }
+  ]
+}'
+```
+
 #### **Getting Execution details**
 
 To get detailed information about the execution, the following API can be used.
