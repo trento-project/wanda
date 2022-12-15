@@ -89,11 +89,12 @@ In order to get detailed information for an execution, see [Getting Execution de
 > Please note that execution is _eventually started_, meaning that a successful response to the previous API call does not guarantee that the execution is running, but that it has been accepted by the system to start.
 
 #### Execution Targets
-When starting an execution a list of targets has to be specified. Each item in this list is an execution target. An execution target is a target host that will receive the payload, gather the facts informations about the requested checks, and send them back.
 
-Each target _must_ specify an `agent_id`. That can be obtained just issuing `trento-agent id` in a host's command line.
+An execution target is a target host where the checks are executed. This requires to have the `trento-agent` executable running in the host. In order to specify an execution order, its `agent_id` and a list of checks to be executed are provided. Once the execution is started, a facts gathering request is sent to these targets, facts are gathered and sent back to Wanda, where the checks result is evaluated using the gathered facts.
 
-Each target _must_ specify a list of checks, that can be empty. These are the selected checks for each agent, that will be executed.
+The `agent_id` can be obtained just issuing `trento-agent id` command in the target host.
+
+Each target _must_ specify a list of checks, that can be empty. These are the selected checks for each agent, that are executed.
 
 Given two different targets, the same checks can be selected:
 
@@ -183,11 +184,9 @@ To implement new checks and test them:
 - locate the newly created Check in the Catalog directory `./priv/catalog/`
 - test the execution as [previously described](#testing-executions)
 
-
 # Contributing
 
 See [CONTRIBUTING.md](CONTRIBUTING.md)
-
 
 # License
 
