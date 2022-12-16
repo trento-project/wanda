@@ -20,12 +20,46 @@ Here's a collection of build-in gatherers, with information about how to use the
 
 | name                             | implementation                                                                                                                                                 |
 | -------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| [`cibadmin`](#cibadmin)          | [trento-project/agent/../gatherers/cibadmin.go](https://github.com/trento-project/agent/blob/main/internal/factsengine/gatherers/cibadmin.go)    
 | [`corosync.conf`](#corosyncconf) | [trento-project/agent/../gatherers/corosyncconf.go](https://github.com/trento-project/agent/blob/main/internal/factsengine/gatherers/corosyncconf.go)          |
 | [`corosync-cmapctl`](#corosync-cmapctl) | [trento-project/agent/../gatherers/corosynccmapctl.go](https://github.com/trento-project/agent/blob/main/internal/factsengine/gatherers/corosynccmapctl.go)          |
 | [`hosts`](#hosts-etchosts)       | [trento-project/agent/../gatherers/hostsfile.go](https://github.com/trento-project/agent/blob/main/internal/factsengine/gatherers/hostsfile.go)                |
 | [`package_version`](#package_version) | [trento-project/agent/../gatherers/packageversion.go](https://github.com/trento-project/agent/blob/main/internal/factsengine/gatherers/packageversion.go) |
 | [`sbd_config`](#sbd_config)      | [trento-project/agent/../gatherers/sbd.go](https://github.com/trento-project/agent/blob/main/internal/factsengine/gatherers/sbd.go)                            |
 | [`systemd`](#systemd)            | [trento-project/agent/../gatherers/systemd.go](https://github.com/trento-project/agent/blob/main/internal/factsengine/gatherers/systemd.go)                    |
+
+### cibadmin
+
+This gatherer allows accessing Pacemaker's CIB information, the output of the `cibadmin` command more precisely.
+As the `cibadmin` command output is in XML format, the gatherer converts it to map/dictionary type of format, so the fields are available with the normal dot access way.
+Some specific fields, such as `primitive`, `clone`, `master`, etc (find the complete list [here](https://github.com/trento-project/agent/blob/main/internal/factsengine/gatherers/cibadmin.go#L48)) are converted to lists, in order to avoid differences when the field appears one or multiple times. 
+
+
+Sample arguments
+| Name                                                        | Return value  
+| ------------------------------------------------------------| ----------------------------------------------------------------------------------
+| `cib.configuration`                                         | complete cib configuration entry as a map
+| `cib.configuration.resources.primitive.0`                   | first available primitive resource
+| `cib.configuration.crm_config.cluster_property_set.nvpair.1`| second nvpair value from the cluster property sets
+
+Specification examples:
+
+```yaml
+facts:
+  - name: cib_configuration
+    gatherer: cibadmin
+    argument: cib.configuration
+
+  - name: first_primitive
+    gatherer: cibadmin
+    argument: cib.configuration.resources.primitive.0
+
+  - name: second_cluster_property
+    gatherer: cibadmin
+    argument: cib.configuration.crm_config.cluster_property_set.nvpair.1
+```
+
+For extra information refer to [trento-project/agent/../gatherers/cibadmin_test.go](https://github.com/trento-project/agent/blob/main/internal/factsengine/gatherers/cibadmin_test.go)
 
 ### corosync.conf
 
