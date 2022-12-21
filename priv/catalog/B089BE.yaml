@@ -1,0 +1,44 @@
+id: "B089BE"
+name: "SBD watchdog timeout"
+group: "SBD"
+description: |
+  SBD watchdog timeout is set to the recommended value
+remediation: |
+  ## Remediation
+  Make sure you configure your SBD Watchdog Timeout to `the recommended value` seconds as recommended on the best practices.
+
+  The SBD is not used in GCP or AWS environments.
+
+  ## References
+  Azure:
+
+    -  https://docs.microsoft.com/en-us/azure/virtual-machines/workloads/sap/high-availability-guide-suse-pacemaker#set-up-sbd-device
+
+  AWS:
+
+  GCP:
+
+  Nutanix:
+
+    - https://documentation.suse.com/sbp/all/single-html/SLES4SAP-hana-sr-guide-PerfOpt-15/#id-cluster-bootstrap-and-more
+
+  SUSE / KVM:
+
+    - https://documentation.suse.com/sbp/all/single-html/SLES4SAP-hana-sr-guide-PerfOpt-15/#id-cluster-bootstrap-and-more
+
+facts:
+  - name: dump_sbd_devices
+    gatherer: sbd_dump
+
+values:
+  - name: expected_watchdog_timeout
+    #should only run on 'azure', 'nutanix' or 'kvm', NOT on 'gcp' or 'aws'
+    default: 15
+    conditions:
+      - value: 60
+        when: env.provider == "azure"
+
+expectations:
+  - name: expectations_watchdog_timeout
+    expect: facts.dump_sbd_devices.values().all(|sbddev| sbddev.timeout_watchdog == values.expected_watchdog_timeout)
+
