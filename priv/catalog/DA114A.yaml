@@ -40,5 +40,8 @@ values:
         when: env.provider == "azure" || env.provider == "gcp"
 
 expectations:
+  - name: has_some_nodes_configured
+    expect: facts.corosync_nodes.len() > 0
+
   - name: expected_number_of_rings_per_node
     expect: facts.corosync_nodes.all(|node| node.keys().filter(|prop| prop.starts_with("ring")).len() >= values.expected_corosync_rings_per_node)
