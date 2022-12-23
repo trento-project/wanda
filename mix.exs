@@ -58,7 +58,8 @@ defmodule Wanda.MixProject do
       "CONTRIBUTING.md",
       "guides/specification.md",
       "guides/expression_language.md",
-      "guides/gatherers.md"
+      "guides/gatherers.md",
+      "guides/rhai_expressions_cheat_sheet.cheatmd"
     ]
   end
 
