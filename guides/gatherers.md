@@ -25,6 +25,7 @@ Here's a collection of build-in gatherers, with information about how to use the
 | [`corosync-cmapctl`](#corosync-cmapctl) | [trento-project/agent/../gatherers/corosynccmapctl.go](https://github.com/trento-project/agent/blob/main/internal/factsengine/gatherers/corosynccmapctl.go)          |
 | [`hosts`](#hosts-etchosts)       | [trento-project/agent/../gatherers/hostsfile.go](https://github.com/trento-project/agent/blob/main/internal/factsengine/gatherers/hostsfile.go)                |
 | [`package_version`](#package_version) | [trento-project/agent/../gatherers/packageversion.go](https://github.com/trento-project/agent/blob/main/internal/factsengine/gatherers/packageversion.go) |
+| [`saphostctrl`](#saphostctrl)    | [trento-project/agent/../gatherers/saphostctrl.go](https://github.com/trento-project/agent/blob/main/internal/factsengine/gatherers/saphostctrl.go)            |
 | [`sbd_config`](#sbd_config)      | [trento-project/agent/../gatherers/sbd.go](https://github.com/trento-project/agent/blob/main/internal/factsengine/gatherers/sbd.go)                            |
 | [`sbd_dump`](#sbd_dump)      | [trento-project/agent/../gatherers/sbddump.go](https://github.com/trento-project/agent/blob/main/internal/factsengine/gatherers/sbddump.go)                            |
 | [`systemd`](#systemd)            | [trento-project/agent/../gatherers/systemd.go](https://github.com/trento-project/agent/blob/main/internal/factsengine/gatherers/systemd.go)                    |
@@ -170,7 +171,7 @@ facts:
     gatherer: hosts
     argument: node2
 
-  - name: hsots_all
+  - name: hosts_all
     gatherer: hosts
 
 ```
@@ -202,6 +203,65 @@ facts:
 ```
 
 For extra information refer to [trento-project/agent/../gatherers/packageversion_test.go](https://github.com/trento-project/agent/blob/main/internal/factsengine/gatherers/packageversion_test.go)
+
+### saphostctrl
+
+This gatherer allows access to certain webmethods that `saphostctrl` implements. An argument is required to specify
+which webmethod should be called. This webmethod is passed to the `saphostctrl` command-line tool through the `-function` argument.
+
+Supported webmethods:
+  - `Ping`
+  - `ListInstances`
+
+A `Ping` call with a successful return should look like:
+
+```
+{
+  "status" => "SUCCESS", 
+  "elapsed" => 543341,
+},
+```
+
+or as follows for a failed one:
+
+```
+{
+  "status" => "FAILED",
+  "elapsed" => 497,
+},
+```
+
+A `ListInstances` call return should instead look like:
+
+```
+[
+  {
+    "changelist" => 2069355,
+    "hostname" => "s41db",
+    "instance" => "11",
+    "patch" => 819,
+    "sapkernel" => 753,
+    "system" => "HS1",
+  },
+]
+```
+
+Specification examples:
+
+```yaml
+facts:
+  - name: ping
+    gatherer: saphostctrl
+    argument: Ping
+
+  - name: list_instances
+    gatherer: saphostctrl
+    argument: ListInstances
+
+  ...
+```
+
+For extra information refer to [trento-project/agent/../gatherers/saphostctrl_test.go](https://github.com/trento-project/agent/blob/main/internal/factsengine/gatherers/saphostctrl_test.go)
 
 ### sbd_config
 
