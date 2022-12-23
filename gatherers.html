@@ -113,7 +113,7 @@ Wanda
   </a>
   Introduction
 </h2>
-<p>Gatherers can be thought of as functions:</p><ul><li>they have a name</li><li>they accept argument(s)</li><li>they return a value, the gathered <a href="specification.html#facts">Fact</a></li></ul><p>Facts Gathering process in a nutshell</p><pre><code class="makeup elixir" translate="no"><span class="n">fact</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">gatherer</span><span class="p" data-group-id="0581319776-1">(</span><span class="n">argument</span><span class="p" data-group-id="0581319776-1">)</span></code></pre><h2 id="available-gatherers" class="section-heading">
+<p>Gatherers can be thought of as functions:</p><ul><li>they have a name</li><li>they accept argument(s)</li><li>they return a value, the gathered <a href="specification.html#facts">Fact</a></li></ul><p>Facts Gathering process in a nutshell</p><pre><code class="makeup elixir" translate="no"><span class="n">fact</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">gatherer</span><span class="p" data-group-id="0565876545-1">(</span><span class="n">argument</span><span class="p" data-group-id="0565876545-1">)</span></code></pre><h2 id="available-gatherers" class="section-heading">
   <a href="#available-gatherers" class="hover-link"><i class="ri-link-m" aria-hidden="true"></i>
   <p class="sr-only">available-gatherers</p>
   </a>
@@ -123,6 +123,7 @@ Wanda
 | <a href="#corosync-cmapctl"><code class="inline">corosync-cmapctl</code></a> | <a href="https://github.com/trento-project/agent/blob/main/internal/factsengine/gatherers/corosynccmapctl.go">trento-project/agent/../gatherers/corosynccmapctl.go</a>          |
 | <a href="#hosts-etchosts"><code class="inline">hosts</code></a>       | <a href="https://github.com/trento-project/agent/blob/main/internal/factsengine/gatherers/hostsfile.go">trento-project/agent/../gatherers/hostsfile.go</a>                |
 | <a href="#package_version"><code class="inline">package_version</code></a> | <a href="https://github.com/trento-project/agent/blob/main/internal/factsengine/gatherers/packageversion.go">trento-project/agent/../gatherers/packageversion.go</a> |
+| <a href="#saphostctrl"><code class="inline">saphostctrl</code></a>    | <a href="https://github.com/trento-project/agent/blob/main/internal/factsengine/gatherers/saphostctrl.go">trento-project/agent/../gatherers/saphostctrl.go</a>            |
 | <a href="#sbd_config"><code class="inline">sbd_config</code></a>      | <a href="https://github.com/trento-project/agent/blob/main/internal/factsengine/gatherers/sbd.go">trento-project/agent/../gatherers/sbd.go</a>                            |
 | <a href="#sbd_dump"><code class="inline">sbd_dump</code></a>      | <a href="https://github.com/trento-project/agent/blob/main/internal/factsengine/gatherers/sbddump.go">trento-project/agent/../gatherers/sbddump.go</a>                            |
 | <a href="#systemd"><code class="inline">systemd</code></a>            | <a href="https://github.com/trento-project/agent/blob/main/internal/factsengine/gatherers/systemd.go">trento-project/agent/../gatherers/systemd.go</a>                    |</p><h3 id="cibadmin" class="section-heading">
@@ -154,7 +155,7 @@ Some specific fields, such as <code class="inline">primitive</code>, <code class
   </a>
   corosync.conf
 </h3>
-<p>This gatherer allows accessing information contained in <code class="inline">/etc/corosync/corosync.conf</code></p><pre><code class="makeup elixir" translate="no"><span class="n">corosync_related_fact</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">corosync</span><span class="o">.</span><span class="n">conf</span><span class="p" data-group-id="7424541741-1">(</span><span class="n">some</span><span class="o">.</span><span class="n">argument</span><span class="p" data-group-id="7424541741-1">)</span></code></pre><p>Sample arguments
+<p>This gatherer allows accessing information contained in <code class="inline">/etc/corosync/corosync.conf</code></p><pre><code class="makeup elixir" translate="no"><span class="n">corosync_related_fact</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">corosync</span><span class="o">.</span><span class="n">conf</span><span class="p" data-group-id="3674697074-1">(</span><span class="n">some</span><span class="o">.</span><span class="n">argument</span><span class="p" data-group-id="3674697074-1">)</span></code></pre><p>Sample arguments
 | Name                                 | Return value<br/>| ------------------------------------ | --------------------------------------
 | <code class="inline">totem.token</code>                        | extracted value from the config
 | <code class="inline">totem.join</code>                         | extracted value from the config
@@ -227,7 +228,7 @@ does <strong>not</strong> use domain resolution in any way but instead directly 
     gatherer: hosts
     argument: node2
 
-  - name: hsots_all
+  - name: hosts_all
     gatherer: hosts
 </code></pre><p>For more information refer to <a href="https://github.com/trento-project/agent/blob/main/internal/factsengine/gatherers/hostsfile_test.go">trento-project/agent/../gatherers/hostsfile_test.go</a></p><h3 id="package_version" class="section-heading">
   <a href="#package_version" class="hover-link"><i class="ri-link-m" aria-hidden="true"></i>
@@ -246,7 +247,38 @@ does <strong>not</strong> use domain resolution in any way but instead directly 
     gatherer: package_version
     argument: pacemaker
 
-  ...</code></pre><p>For extra information refer to <a href="https://github.com/trento-project/agent/blob/main/internal/factsengine/gatherers/packageversion_test.go">trento-project/agent/../gatherers/packageversion_test.go</a></p><h3 id="sbd_config" class="section-heading">
+  ...</code></pre><p>For extra information refer to <a href="https://github.com/trento-project/agent/blob/main/internal/factsengine/gatherers/packageversion_test.go">trento-project/agent/../gatherers/packageversion_test.go</a></p><h3 id="saphostctrl" class="section-heading">
+  <a href="#saphostctrl" class="hover-link"><i class="ri-link-m" aria-hidden="true"></i>
+  <p class="sr-only">saphostctrl</p>
+  </a>
+  saphostctrl
+</h3>
+<p>This gatherer allows access to certain webmethods that <code class="inline">saphostctrl</code> implements. An argument is required to specify
+which webmethod should be called. This webmethod is passed to the <code class="inline">saphostctrl</code> command-line tool through the <code class="inline">-function</code> argument.</p><p>Supported webmethods:</p><ul><li><code class="inline">Ping</code></li><li><code class="inline">ListInstances</code></li></ul><p>A <code class="inline">Ping</code> call with a successful return should look like:</p><pre><code class="makeup elixir" translate="no"><span class="p" data-group-id="5320317859-1">{</span><span class="w">
+  </span><span class="s">&quot;status&quot;</span><span class="w"> </span><span class="p">=&gt;</span><span class="w"> </span><span class="s">&quot;SUCCESS&quot;</span><span class="p">,</span><span class="w"> 
+  </span><span class="s">&quot;elapsed&quot;</span><span class="w"> </span><span class="p">=&gt;</span><span class="w"> </span><span class="mi">543341</span><span class="p">,</span><span class="w">
+</span><span class="p" data-group-id="5320317859-1">}</span><span class="p">,</span></code></pre><p>or as follows for a failed one:</p><pre><code class="makeup elixir" translate="no"><span class="p" data-group-id="3526982386-1">{</span><span class="w">
+  </span><span class="s">&quot;status&quot;</span><span class="w"> </span><span class="p">=&gt;</span><span class="w"> </span><span class="s">&quot;FAILED&quot;</span><span class="p">,</span><span class="w">
+  </span><span class="s">&quot;elapsed&quot;</span><span class="w"> </span><span class="p">=&gt;</span><span class="w"> </span><span class="mi">497</span><span class="p">,</span><span class="w">
+</span><span class="p" data-group-id="3526982386-1">}</span><span class="p">,</span></code></pre><p>A <code class="inline">ListInstances</code> call return should instead look like:</p><pre><code class="makeup elixir" translate="no"><span class="p" data-group-id="0047587619-1">[</span><span class="w">
+  </span><span class="p" data-group-id="0047587619-2">{</span><span class="w">
+    </span><span class="s">&quot;changelist&quot;</span><span class="w"> </span><span class="p">=&gt;</span><span class="w"> </span><span class="mi">2069355</span><span class="p">,</span><span class="w">
+    </span><span class="s">&quot;hostname&quot;</span><span class="w"> </span><span class="p">=&gt;</span><span class="w"> </span><span class="s">&quot;s41db&quot;</span><span class="p">,</span><span class="w">
+    </span><span class="s">&quot;instance&quot;</span><span class="w"> </span><span class="p">=&gt;</span><span class="w"> </span><span class="s">&quot;11&quot;</span><span class="p">,</span><span class="w">
+    </span><span class="s">&quot;patch&quot;</span><span class="w"> </span><span class="p">=&gt;</span><span class="w"> </span><span class="mi">819</span><span class="p">,</span><span class="w">
+    </span><span class="s">&quot;sapkernel&quot;</span><span class="w"> </span><span class="p">=&gt;</span><span class="w"> </span><span class="mi">753</span><span class="p">,</span><span class="w">
+    </span><span class="s">&quot;system&quot;</span><span class="w"> </span><span class="p">=&gt;</span><span class="w"> </span><span class="s">&quot;HS1&quot;</span><span class="p">,</span><span class="w">
+  </span><span class="p" data-group-id="0047587619-2">}</span><span class="p">,</span><span class="w">
+</span><span class="p" data-group-id="0047587619-1">]</span></code></pre><p>Specification examples:</p><pre><code class="yaml">facts:
+  - name: ping
+    gatherer: saphostctrl
+    argument: Ping
+
+  - name: list_instances
+    gatherer: saphostctrl
+    argument: ListInstances
+
+  ...</code></pre><p>For extra information refer to <a href="https://github.com/trento-project/agent/blob/main/internal/factsengine/gatherers/saphostctrl_test.go">trento-project/agent/../gatherers/saphostctrl_test.go</a></p><h3 id="sbd_config" class="section-heading">
   <a href="#sbd_config" class="hover-link"><i class="ri-link-m" aria-hidden="true"></i>
   <p class="sr-only">sbd_config</p>
   </a>
