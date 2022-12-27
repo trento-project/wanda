@@ -18,31 +18,34 @@ fact = gatherer(argument)
 
 Here's a collection of build-in gatherers, with information about how to use them.
 
-| name                             | implementation                                                                                                                                                 |
-| -------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| [`cibadmin`](#cibadmin)          | [trento-project/agent/../gatherers/cibadmin.go](https://github.com/trento-project/agent/blob/main/internal/factsengine/gatherers/cibadmin.go)    
-| [`corosync.conf`](#corosyncconf) | [trento-project/agent/../gatherers/corosyncconf.go](https://github.com/trento-project/agent/blob/main/internal/factsengine/gatherers/corosyncconf.go)          |
-| [`corosync-cmapctl`](#corosync-cmapctl) | [trento-project/agent/../gatherers/corosynccmapctl.go](https://github.com/trento-project/agent/blob/main/internal/factsengine/gatherers/corosynccmapctl.go)          |
-| [`hosts`](#hosts-etchosts)       | [trento-project/agent/../gatherers/hostsfile.go](https://github.com/trento-project/agent/blob/main/internal/factsengine/gatherers/hostsfile.go)                |
-| [`package_version`](#package_version) | [trento-project/agent/../gatherers/packageversion.go](https://github.com/trento-project/agent/blob/main/internal/factsengine/gatherers/packageversion.go) |
-| [`saphostctrl`](#saphostctrl)    | [trento-project/agent/../gatherers/saphostctrl.go](https://github.com/trento-project/agent/blob/main/internal/factsengine/gatherers/saphostctrl.go)            |
-| [`sbd_config`](#sbd_config)      | [trento-project/agent/../gatherers/sbd.go](https://github.com/trento-project/agent/blob/main/internal/factsengine/gatherers/sbd.go)                            |
-| [`sbd_dump`](#sbd_dump)      | [trento-project/agent/../gatherers/sbddump.go](https://github.com/trento-project/agent/blob/main/internal/factsengine/gatherers/sbddump.go)                            |
-| [`systemd`](#systemd)            | [trento-project/agent/../gatherers/systemd.go](https://github.com/trento-project/agent/blob/main/internal/factsengine/gatherers/systemd.go)                    |
+| Name                            | Implementation                                                                                                                                                     |
+|:--------------------------------|:-------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+|[`cibadmin`](#cibadmin)          | [trento-project/agent/../gatherers/cibadmin.go](https://github.com/trento-project/agent/blob/main/internal/factsengine/gatherers/cibadmin.go)                      |
+|[`corosync.conf`](#corosyncconf) | [trento-project/agent/../gatherers/corosyncconf.go](https://github.com/trento-project/agent/blob/main/internal/factsengine/gatherers/corosyncconf.go)              |
+|[`corosync-cmapctl`](#corosync-cmapctl) | [trento-project/agent/../gatherers/corosynccmapctl.go](https://github.com/trento-project/agent/blob/main/internal/factsengine/gatherers/corosynccmapctl.go) |
+|[`hosts`](#hosts-etchosts)       | [trento-project/agent/../gatherers/hostsfile.go](https://github.com/trento-project/agent/blob/main/internal/factsengine/gatherers/hostsfile.go)                    |
+|[`package_version`](#package_version) | [trento-project/agent/../gatherers/packageversion.go](https://github.com/trento-project/agent/blob/main/internal/factsengine/gatherers/packageversion.go)     |
+|[`saphostctrl`](#saphostctrl)    | [trento-project/agent/../gatherers/saphostctrl.go](https://github.com/trento-project/agent/blob/main/internal/factsengine/gatherers/saphostctrl.go)                |
+|[`sbd_config`](#sbd_config)      | [trento-project/agent/../gatherers/sbd.go](https://github.com/trento-project/agent/blob/main/internal/factsengine/gatherers/sbd.go)                                |
+|[`sbd_dump`](#sbd_dump)      | [trento-project/agent/../gatherers/sbddump.go](https://github.com/trento-project/agent/blob/main/internal/factsengine/gatherers/sbddump.go)                            |
+|[`systemd`](#systemd)            | [trento-project/agent/../gatherers/systemd.go](https://github.com/trento-project/agent/blob/main/internal/factsengine/gatherers/systemd.go)                        |
 
 ### cibadmin
+
+**Argument required**: no.
 
 This gatherer allows accessing Pacemaker's CIB information, the output of the `cibadmin` command more precisely.
 As the `cibadmin` command output is in XML format, the gatherer converts it to map/dictionary type of format, so the fields are available with the normal dot access way.
 Some specific fields, such as `primitive`, `clone`, `master`, etc (find the complete list [here](https://github.com/trento-project/agent/blob/main/internal/factsengine/gatherers/cibadmin.go#L48)) are converted to lists, in order to avoid differences when the field appears one or multiple times. 
 
 
-Sample arguments
-| Name                                                        | Return value  
-| ------------------------------------------------------------| ----------------------------------------------------------------------------------
-| `cib.configuration`                                         | complete cib configuration entry as a map
-| `cib.configuration.resources.primitive.0`                   | first available primitive resource
-| `cib.configuration.crm_config.cluster_property_set.nvpair.1`| second nvpair value from the cluster property sets
+Sample arguments:
+
+| Name                                                       | Return value                                       | 
+|:-----------------------------------------------------------|:---------------------------------------------------|
+|`cib.configuration`                                         | complete cib configuration entry as a map          |
+|`cib.configuration.resources.primitive.0`                   | first available primitive resource                 |
+|`cib.configuration.crm_config.cluster_property_set.nvpair.1`| second nvpair value from the cluster property sets |
 
 Specification examples:
 
@@ -65,19 +68,22 @@ For extra information refer to [trento-project/agent/../gatherers/cibadmin_test.
 
 ### corosync.conf
 
+**Argument required**: no.
+
 This gatherer allows accessing information contained in `/etc/corosync/corosync.conf`
 
 ```
 corosync_related_fact = corosync.conf(some.argument)
 ```
 
-Sample arguments
-| Name                                 | Return value  
-| ------------------------------------ | --------------------------------------
-| `totem.token`                        | extracted value from the config
-| `totem.join`                         | extracted value from the config
-| `nodelist.node.<node_index>.nodeid`  | extracted value from the config
-| `nodelist.node`                      | list of objects representing the nodes
+Sample arguments:
+
+| Name                                | Return value                           |
+|:------------------------------------| ---------------------------------------|
+|`totem.token`                        | extracted value from the config        |
+|`totem.join`                         | extracted value from the config        |
+|`nodelist.node.<node_index>.nodeid`  | extracted value from the config        |
+|`nodelist.node`                      | list of objects representing the nodes |
 
 Specification examples:
 
@@ -108,14 +114,18 @@ For extra information refer to [trento-project/agent/../gatherers/corosyncconf_t
 
 ### corosync-cmapctl
 
+**Argument required**: yes.
+
 This gatherer allows accessing the output of the `corosync-cmapctl` tool. It supports all of the keys returned by it to be queried.
 
-Sample arguments
-| Name                                 | Return value  
-| ------------------------------------ | --------------------------------------
-| `totem.token`                        | extracted value from the command output e.g. `30000`
-| `runtime.config.totem.token`         | extracted value from the command output e.g. `30000`
-| `nodelist.node.0.ring0_addr`         | extracted value from the command output e.g. `"10.80.1.11"`
+
+Sample arguments:
+
+| Name                                | Return value                                                 |
+|:------------------------------------|:-------------------------------------------------------------|
+|`totem.token`                        | extracted value from the command output e.g. `30000`         |
+|`runtime.config.totem.token`         | extracted value from the command output e.g. `30000`         |
+|`nodelist.node.0.ring0_addr`         | extracted value from the command output e.g. `"10.80.1.11"`  |
 
 Specification examples:
 
@@ -146,6 +156,8 @@ For extra information refer to [trento-project/agent/../gatherers/corosynccmapct
 
 ### hosts (/etc/hosts)
 
+**Argument required**: no.
+
 This gatherer allows accessing the hostnames that are resolvable through `/etc/hosts`. It
 does **not** use domain resolution in any way but instead directly parses the file.
 
@@ -153,12 +165,13 @@ It allows one argument to be specified or none at all:
  - When a hostname is provided as an argument, the gatherer will return an array of IPv4 and/or IPv6 addresses.
  - When no argument is provided, the gatherer will return a map with hostname as keys and arrays with IPv4 and/or IPv6 addresses.
 
-Sample arguments
-| name                                 | Return value          
-| ------------------------------------ | --------------------------------------------------------
-| `localhost`                          | list of IPs resolving `localhost` e.g. `["127.0.0.1", "::1"]`
-| `node1`                              | list of IPs resolving `node1` e.g. `["172.22.0.1"]`
-| `no argument provided`               | map with hostnames and IP addresses e.g. `{"localhost": ["127.0.0.1", "::1"], "node1": ["172.22.0.1"]}`
+Sample arguments:
+
+| Name                                | Return value                                                                                            |
+|:------------------------------------|:--------------------------------------------------------------------------------------------------------|
+|`localhost`                          | list of IPs resolving `localhost` e.g. `["127.0.0.1", "::1"]`                                           |
+|`node1`                              | list of IPs resolving `node1` e.g. `["172.22.0.1"]`                                                     |
+|`no argument provided`               | map with hostnames and IP addresses e.g. `{"localhost": ["127.0.0.1", "::1"], "node1": ["172.22.0.1"]}` |
 
 Specification examples:
 ```yaml
@@ -180,12 +193,15 @@ For more information refer to [trento-project/agent/../gatherers/hostsfile_test.
 
 ### package_version
 
+**Argument required**: yes.
+
 This gatherer returns the version as a string of the specified package
 
-Sample arguments
-| Name                   | Return value  
-| ---------------------- | -------------------------------------------------------------------------------------
-| `corosync`             | a string containing the installed version for the package `package_name`, e.g "2.4.5"
+Sample arguments:
+
+| Name                  | Return value                                                                         |
+|:----------------------|:-------------------------------------------------------------------------------------|
+|`corosync`             |a string containing the installed version for the package `package_name`, e.g "2.4.5" |
 
 Specification examples:
 
@@ -205,6 +221,8 @@ facts:
 For extra information refer to [trento-project/agent/../gatherers/packageversion_test.go](https://github.com/trento-project/agent/blob/main/internal/factsengine/gatherers/packageversion_test.go)
 
 ### saphostctrl
+
+**Argument required**: yes.
 
 This gatherer allows access to certain webmethods that `saphostctrl` implements. An argument is required to specify
 which webmethod should be called. This webmethod is passed to the `saphostctrl` command-line tool through the `-function` argument.
@@ -265,14 +283,17 @@ For extra information refer to [trento-project/agent/../gatherers/saphostctrl_te
 
 ### sbd_config
 
+**Argument required**: yes.
+
 This gatherer allows accessing information contained in `/etc/sysconfig/sbd`
 
-Sample arguments
-| Name | Return value  
-| ------------------------------------ | ------------------------------------------
-| `SBD_PACEMAKER` | extracted value from the config (e.g. `yes`)
-| `SBD_STARTMODE` | extracted value from the config (e.g. `always`)
-| `SBD_DEVICE`    | extracted value from the config (e.g. `/dev/vdc;/dev/vdb`)
+Sample arguments:
+
+| Name           | Return value                                                |
+|:---------------|:------------------------------------------------------------|
+|`SBD_PACEMAKER` | extracted value from the config (e.g. `yes`)                |
+|`SBD_STARTMODE` | extracted value from the config (e.g. `always`)             |
+|`SBD_DEVICE`    | extracted value from the config (e.g. `/dev/vdc;/dev/vdb`)  |
 
 Specification examples:
 ```yaml
@@ -293,6 +314,8 @@ facts:
 For extra information refer to [trento-project/agent/../gatherers/sbd_test.go](https://github.com/trento-project/agent/blob/main/internal/factsengine/gatherers/sbd_test.go)
 
 ### sbd_dump
+
+**Argument required**: no.
 
 This gatherer allows accessing the sbd dump command output data.
 
@@ -340,6 +363,8 @@ facts:
 For extra information refer to [trento-project/agent/../gatherers/sbddump_test.go](https://github.com/trento-project/agent/blob/main/internal/factsengine/gatherers/sbddump_test.go)
 
 ### systemd
+
+**Argument required**: yes.
 
 Gather systemd daemons state. It returns an `active/inactive` string. If the daemon is disabled or does not even exist, `inactive` is returned.
 
