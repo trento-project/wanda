@@ -1,0 +1,51 @@
+id: "205AF7"
+name: fencing enabled
+group: Pacemaker
+description: |
+  Fencing is enabled in the cluster properties 'cib-bootstrap-options': stonith-enabled
+remediation: |
+  ## Abstract
+  Fencing is mandatory to guarantee data integrity for your SAP Applications.
+  Running a HA Cluster without fencing is not supported and might cause data loss.
+
+  ## Remediation
+  Execute the following command to enable it:
+  ```
+  crm configure property stonith-enabled=true
+  ```
+
+  ## References
+  AZURE:
+
+    - https://docs.microsoft.com/en-us/azure/virtual-machines/workloads/sap/high-availability-guide-suse-pacemaker#create-a-stonith-device-on-the-pacemaker-cluster
+
+  AWS:
+
+    - https://docs.aws.amazon.com/sap/latest/sap-hana/sap-hana-on-aws-cluster-resources.html
+
+  GCP:
+
+    - https://cloud.google.com/solutions/sap/docs/sap-hana-ha-config-sles#configure_the_general_cluster_properties
+
+  Nutanix:
+
+    - https://documentation.suse.com/sbp/all/single-html/SLES4SAP-hana-sr-guide-PerfOpt-15/#id-cluster-bootstrap-and-more
+    - https://documentation.suse.com/sle-ha/15-SP3/html/SLE-HA-all/cha-ha-fencing.html#sec-ha-fencing-recommend
+
+  SUSE / KVM:
+
+    - https://documentation.suse.com/sbp/all/single-html/SLES4SAP-hana-sr-guide-PerfOpt-15/#id-cluster-bootstrap-and-more
+    - https://documentation.suse.com/sle-ha/15-SP3/html/SLE-HA-all/cha-ha-fencing.html#sec-ha-fencing-recommend
+
+facts:
+  - name: fencing_enabled
+    gatherer: cibadmin
+    argument: cib.configuration.crm_config.cluster_property_set
+
+#expected value: true
+
+expectations:
+  - name: expectations_fencing_enabled
+    expect: facts.fencing_enabled[facts.fencing_enabled.index_of(|item| item.id == "cib-bootstrap-options")].nvpair.filter(|prop| prop.name == "stonith-enabled")[0].value
+
+
