@@ -113,32 +113,21 @@ Wanda
   </a>
   Introduction
 </h2>
-<p>Gatherers can be thought of as functions:</p><ul><li>they have a name</li><li>they accept argument(s)</li><li>they return a value, the gathered <a href="specification.html#facts">Fact</a></li></ul><p>Facts Gathering process in a nutshell</p><pre><code class="makeup elixir" translate="no"><span class="n">fact</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">gatherer</span><span class="p" data-group-id="0565876545-1">(</span><span class="n">argument</span><span class="p" data-group-id="0565876545-1">)</span></code></pre><h2 id="available-gatherers" class="section-heading">
+<p>Gatherers can be thought of as functions:</p><ul><li>they have a name</li><li>they accept argument(s)</li><li>they return a value, the gathered <a href="specification.html#facts">Fact</a></li></ul><p>Facts Gathering process in a nutshell</p><pre><code class="makeup elixir" translate="no"><span class="n">fact</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">gatherer</span><span class="p" data-group-id="8574267913-1">(</span><span class="n">argument</span><span class="p" data-group-id="8574267913-1">)</span></code></pre><h2 id="available-gatherers" class="section-heading">
   <a href="#available-gatherers" class="hover-link"><i class="ri-link-m" aria-hidden="true"></i>
   <p class="sr-only">available-gatherers</p>
   </a>
   Available Gatherers
 </h2>
-<p>Here's a collection of build-in gatherers, with information about how to use them.</p><table><thead><tr><th style="text-align: left;">name</th><th style="text-align: left;">implementation</th></tr></thead><tbody></tbody></table><p>| <a href="#cibadmin"><code class="inline">cibadmin</code></a>          | <a href="https://github.com/trento-project/agent/blob/main/internal/factsengine/gatherers/cibadmin.go">trento-project/agent/../gatherers/cibadmin.go</a><br/>| <a href="#corosyncconf"><code class="inline">corosync.conf</code></a> | <a href="https://github.com/trento-project/agent/blob/main/internal/factsengine/gatherers/corosyncconf.go">trento-project/agent/../gatherers/corosyncconf.go</a>          |
-| <a href="#corosync-cmapctl"><code class="inline">corosync-cmapctl</code></a> | <a href="https://github.com/trento-project/agent/blob/main/internal/factsengine/gatherers/corosynccmapctl.go">trento-project/agent/../gatherers/corosynccmapctl.go</a>          |
-| <a href="#hosts-etchosts"><code class="inline">hosts</code></a>       | <a href="https://github.com/trento-project/agent/blob/main/internal/factsengine/gatherers/hostsfile.go">trento-project/agent/../gatherers/hostsfile.go</a>                |
-| <a href="#package_version"><code class="inline">package_version</code></a> | <a href="https://github.com/trento-project/agent/blob/main/internal/factsengine/gatherers/packageversion.go">trento-project/agent/../gatherers/packageversion.go</a> |
-| <a href="#saphostctrl"><code class="inline">saphostctrl</code></a>    | <a href="https://github.com/trento-project/agent/blob/main/internal/factsengine/gatherers/saphostctrl.go">trento-project/agent/../gatherers/saphostctrl.go</a>            |
-| <a href="#sbd_config"><code class="inline">sbd_config</code></a>      | <a href="https://github.com/trento-project/agent/blob/main/internal/factsengine/gatherers/sbd.go">trento-project/agent/../gatherers/sbd.go</a>                            |
-| <a href="#sbd_dump"><code class="inline">sbd_dump</code></a>      | <a href="https://github.com/trento-project/agent/blob/main/internal/factsengine/gatherers/sbddump.go">trento-project/agent/../gatherers/sbddump.go</a>                            |
-| <a href="#systemd"><code class="inline">systemd</code></a>            | <a href="https://github.com/trento-project/agent/blob/main/internal/factsengine/gatherers/systemd.go">trento-project/agent/../gatherers/systemd.go</a>                    |</p><h3 id="cibadmin" class="section-heading">
+<p>Here's a collection of build-in gatherers, with information about how to use them.</p><table><thead><tr><th style="text-align: left;">Name</th><th style="text-align: left;">Implementation</th></tr></thead><tbody><tr><td style="text-align: left;"><a href="#cibadmin"><code class="inline">cibadmin</code></a></td><td style="text-align: left;"><a href="https://github.com/trento-project/agent/blob/main/internal/factsengine/gatherers/cibadmin.go">trento-project/agent/../gatherers/cibadmin.go</a></td></tr><tr><td style="text-align: left;"><a href="#corosyncconf"><code class="inline">corosync.conf</code></a></td><td style="text-align: left;"><a href="https://github.com/trento-project/agent/blob/main/internal/factsengine/gatherers/corosyncconf.go">trento-project/agent/../gatherers/corosyncconf.go</a></td></tr><tr><td style="text-align: left;"><a href="#corosync-cmapctl"><code class="inline">corosync-cmapctl</code></a></td><td style="text-align: left;"><a href="https://github.com/trento-project/agent/blob/main/internal/factsengine/gatherers/corosynccmapctl.go">trento-project/agent/../gatherers/corosynccmapctl.go</a></td></tr><tr><td style="text-align: left;"><a href="#hosts-etchosts"><code class="inline">hosts</code></a></td><td style="text-align: left;"><a href="https://github.com/trento-project/agent/blob/main/internal/factsengine/gatherers/hostsfile.go">trento-project/agent/../gatherers/hostsfile.go</a></td></tr><tr><td style="text-align: left;"><a href="#package_version"><code class="inline">package_version</code></a></td><td style="text-align: left;"><a href="https://github.com/trento-project/agent/blob/main/internal/factsengine/gatherers/packageversion.go">trento-project/agent/../gatherers/packageversion.go</a></td></tr><tr><td style="text-align: left;"><a href="#saphostctrl"><code class="inline">saphostctrl</code></a></td><td style="text-align: left;"><a href="https://github.com/trento-project/agent/blob/main/internal/factsengine/gatherers/saphostctrl.go">trento-project/agent/../gatherers/saphostctrl.go</a></td></tr><tr><td style="text-align: left;"><a href="#sbd_config"><code class="inline">sbd_config</code></a></td><td style="text-align: left;"><a href="https://github.com/trento-project/agent/blob/main/internal/factsengine/gatherers/sbd.go">trento-project/agent/../gatherers/sbd.go</a></td></tr><tr><td style="text-align: left;"><a href="#sbd_dump"><code class="inline">sbd_dump</code></a></td><td style="text-align: left;"><a href="https://github.com/trento-project/agent/blob/main/internal/factsengine/gatherers/sbddump.go">trento-project/agent/../gatherers/sbddump.go</a></td></tr><tr><td style="text-align: left;"><a href="#systemd"><code class="inline">systemd</code></a></td><td style="text-align: left;"><a href="https://github.com/trento-project/agent/blob/main/internal/factsengine/gatherers/systemd.go">trento-project/agent/../gatherers/systemd.go</a></td></tr></tbody></table><h3 id="cibadmin" class="section-heading">
   <a href="#cibadmin" class="hover-link"><i class="ri-link-m" aria-hidden="true"></i>
   <p class="sr-only">cibadmin</p>
   </a>
   cibadmin
 </h3>
-<p>This gatherer allows accessing Pacemaker's CIB information, the output of the <code class="inline">cibadmin</code> command more precisely.
+<p><strong>Argument required</strong>: no.</p><p>This gatherer allows accessing Pacemaker's CIB information, the output of the <code class="inline">cibadmin</code> command more precisely.
 As the <code class="inline">cibadmin</code> command output is in XML format, the gatherer converts it to map/dictionary type of format, so the fields are available with the normal dot access way.
-Some specific fields, such as <code class="inline">primitive</code>, <code class="inline">clone</code>, <code class="inline">master</code>, etc (find the complete list <a href="https://github.com/trento-project/agent/blob/main/internal/factsengine/gatherers/cibadmin.go#L48">here</a>) are converted to lists, in order to avoid differences when the field appears one or multiple times. </p><p>Sample arguments
-| Name                                                        | Return value<br/>| ------------------------------------------------------------| ----------------------------------------------------------------------------------
-| <code class="inline">cib.configuration</code>                                         | complete cib configuration entry as a map
-| <code class="inline">cib.configuration.resources.primitive.0</code>                   | first available primitive resource
-| <code class="inline">cib.configuration.crm_config.cluster_property_set.nvpair.1</code>| second nvpair value from the cluster property sets</p><p>Specification examples:</p><pre><code class="yaml">facts:
+Some specific fields, such as <code class="inline">primitive</code>, <code class="inline">clone</code>, <code class="inline">master</code>, etc (find the complete list <a href="https://github.com/trento-project/agent/blob/main/internal/factsengine/gatherers/cibadmin.go#L48">here</a>) are converted to lists, in order to avoid differences when the field appears one or multiple times. </p><p>Sample arguments:</p><table><thead><tr><th style="text-align: left;">Name</th><th style="text-align: left;">Return value</th></tr></thead><tbody><tr><td style="text-align: left;"><code class="inline">cib.configuration</code></td><td style="text-align: left;">complete cib configuration entry as a map</td></tr><tr><td style="text-align: left;"><code class="inline">cib.configuration.resources.primitive.0</code></td><td style="text-align: left;">first available primitive resource</td></tr><tr><td style="text-align: left;"><code class="inline">cib.configuration.crm_config.cluster_property_set.nvpair.1</code></td><td style="text-align: left;">second nvpair value from the cluster property sets</td></tr></tbody></table><p>Specification examples:</p><pre><code class="yaml">facts:
   - name: cib_configuration
     gatherer: cibadmin
     argument: cib.configuration
@@ -155,12 +144,7 @@ Some specific fields, such as <code class="inline">primitive</code>, <code class
   </a>
   corosync.conf
 </h3>
-<p>This gatherer allows accessing information contained in <code class="inline">/etc/corosync/corosync.conf</code></p><pre><code class="makeup elixir" translate="no"><span class="n">corosync_related_fact</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">corosync</span><span class="o">.</span><span class="n">conf</span><span class="p" data-group-id="3674697074-1">(</span><span class="n">some</span><span class="o">.</span><span class="n">argument</span><span class="p" data-group-id="3674697074-1">)</span></code></pre><p>Sample arguments
-| Name                                 | Return value<br/>| ------------------------------------ | --------------------------------------
-| <code class="inline">totem.token</code>                        | extracted value from the config
-| <code class="inline">totem.join</code>                         | extracted value from the config
-| <code class="inline">nodelist.node.&lt;node_index&gt;.nodeid</code>  | extracted value from the config
-| <code class="inline">nodelist.node</code>                      | list of objects representing the nodes</p><p>Specification examples:</p><pre><code class="yaml">facts:
+<p><strong>Argument required</strong>: no.</p><p>This gatherer allows accessing information contained in <code class="inline">/etc/corosync/corosync.conf</code></p><pre><code class="makeup elixir" translate="no"><span class="n">corosync_related_fact</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">corosync</span><span class="o">.</span><span class="n">conf</span><span class="p" data-group-id="6611567880-1">(</span><span class="n">some</span><span class="o">.</span><span class="n">argument</span><span class="p" data-group-id="6611567880-1">)</span></code></pre><p>Sample arguments:</p><table><thead><tr><th style="text-align: left;">Name</th><th style="text-align: left;">Return value</th></tr></thead><tbody><tr><td style="text-align: left;"><code class="inline">totem.token</code></td><td style="text-align: left;">extracted value from the config</td></tr><tr><td style="text-align: left;"><code class="inline">totem.join</code></td><td style="text-align: left;">extracted value from the config</td></tr><tr><td style="text-align: left;"><code class="inline">nodelist.node.&lt;node_index&gt;.nodeid</code></td><td style="text-align: left;">extracted value from the config</td></tr><tr><td style="text-align: left;"><code class="inline">nodelist.node</code></td><td style="text-align: left;">list of objects representing the nodes</td></tr></tbody></table><p>Specification examples:</p><pre><code class="yaml">facts:
   - name: corosync_token_timeout
     gatherer: corosync.conf
     argument: totem.token
@@ -185,11 +169,7 @@ Some specific fields, such as <code class="inline">primitive</code>, <code class
   </a>
   corosync-cmapctl
 </h3>
-<p>This gatherer allows accessing the output of the <code class="inline">corosync-cmapctl</code> tool. It supports all of the keys returned by it to be queried.</p><p>Sample arguments
-| Name                                 | Return value<br/>| ------------------------------------ | --------------------------------------
-| <code class="inline">totem.token</code>                        | extracted value from the command output e.g. <code class="inline">30000</code>
-| <code class="inline">runtime.config.totem.token</code>         | extracted value from the command output e.g. <code class="inline">30000</code>
-| <code class="inline">nodelist.node.0.ring0_addr</code>         | extracted value from the command output e.g. <code class="inline">&quot;10.80.1.11&quot;</code></p><p>Specification examples:</p><pre><code class="yaml">facts:
+<p><strong>Argument required</strong>: yes.</p><p>This gatherer allows accessing the output of the <code class="inline">corosync-cmapctl</code> tool. It supports all of the keys returned by it to be queried.</p><p>Sample arguments:</p><table><thead><tr><th style="text-align: left;">Name</th><th style="text-align: left;">Return value</th></tr></thead><tbody><tr><td style="text-align: left;"><code class="inline">totem.token</code></td><td style="text-align: left;">extracted value from the command output e.g. <code class="inline">30000</code></td></tr><tr><td style="text-align: left;"><code class="inline">runtime.config.totem.token</code></td><td style="text-align: left;">extracted value from the command output e.g. <code class="inline">30000</code></td></tr><tr><td style="text-align: left;"><code class="inline">nodelist.node.0.ring0_addr</code></td><td style="text-align: left;">extracted value from the command output e.g. <code class="inline">&quot;10.80.1.11&quot;</code></td></tr></tbody></table><p>Specification examples:</p><pre><code class="yaml">facts:
   - name: totem_token
     gatherer: corosync-cmapctl
     argument: totem.token
@@ -214,12 +194,8 @@ Some specific fields, such as <code class="inline">primitive</code>, <code class
   </a>
   hosts (/etc/hosts)
 </h3>
-<p>This gatherer allows accessing the hostnames that are resolvable through <code class="inline">/etc/hosts</code>. It
-does <strong>not</strong> use domain resolution in any way but instead directly parses the file.</p><p>It allows one argument to be specified or none at all:</p><ul><li>When a hostname is provided as an argument, the gatherer will return an array of IPv4 and/or IPv6 addresses.</li><li>When no argument is provided, the gatherer will return a map with hostname as keys and arrays with IPv4 and/or IPv6 addresses.</li></ul><p>Sample arguments
-| name                                 | Return value<br/>| ------------------------------------ | --------------------------------------------------------
-| <code class="inline">localhost</code>                          | list of IPs resolving <code class="inline">localhost</code> e.g. <code class="inline">[&quot;127.0.0.1&quot;, &quot;::1&quot;]</code>
-| <code class="inline">node1</code>                              | list of IPs resolving <code class="inline">node1</code> e.g. <code class="inline">[&quot;172.22.0.1&quot;]</code>
-| <code class="inline">no argument provided</code>               | map with hostnames and IP addresses e.g. <code class="inline">{&quot;localhost&quot;: [&quot;127.0.0.1&quot;, &quot;::1&quot;], &quot;node1&quot;: [&quot;172.22.0.1&quot;]}</code></p><p>Specification examples:</p><pre><code class="yaml">facts:
+<p><strong>Argument required</strong>: no.</p><p>This gatherer allows accessing the hostnames that are resolvable through <code class="inline">/etc/hosts</code>. It
+does <strong>not</strong> use domain resolution in any way but instead directly parses the file.</p><p>It allows one argument to be specified or none at all:</p><ul><li>When a hostname is provided as an argument, the gatherer will return an array of IPv4 and/or IPv6 addresses.</li><li>When no argument is provided, the gatherer will return a map with hostname as keys and arrays with IPv4 and/or IPv6 addresses.</li></ul><p>Sample arguments:</p><table><thead><tr><th style="text-align: left;">Name</th><th style="text-align: left;">Return value</th></tr></thead><tbody><tr><td style="text-align: left;"><code class="inline">localhost</code></td><td style="text-align: left;">list of IPs resolving <code class="inline">localhost</code> e.g. <code class="inline">[&quot;127.0.0.1&quot;, &quot;::1&quot;]</code></td></tr><tr><td style="text-align: left;"><code class="inline">node1</code></td><td style="text-align: left;">list of IPs resolving <code class="inline">node1</code> e.g. <code class="inline">[&quot;172.22.0.1&quot;]</code></td></tr><tr><td style="text-align: left;"><code class="inline">no argument provided</code></td><td style="text-align: left;">map with hostnames and IP addresses e.g. <code class="inline">{&quot;localhost&quot;: [&quot;127.0.0.1&quot;, &quot;::1&quot;], &quot;node1&quot;: [&quot;172.22.0.1&quot;]}</code></td></tr></tbody></table><p>Specification examples:</p><pre><code class="yaml">facts:
   - name: hosts_node1
     gatherer: hosts
     argument: node1
@@ -236,9 +212,7 @@ does <strong>not</strong> use domain resolution in any way but instead directly 
   </a>
   package_version
 </h3>
-<p>This gatherer returns the version as a string of the specified package</p><p>Sample arguments
-| Name                   | Return value<br/>| ---------------------- | -------------------------------------------------------------------------------------
-| <code class="inline">corosync</code>             | a string containing the installed version for the package <code class="inline">package_name</code>, e.g &quot;2.4.5&quot;</p><p>Specification examples:</p><pre><code class="yaml">facts:
+<p><strong>Argument required</strong>: yes.</p><p>This gatherer returns the version as a string of the specified package</p><p>Sample arguments:</p><table><thead><tr><th style="text-align: left;">Name</th><th style="text-align: left;">Return value</th></tr></thead><tbody><tr><td style="text-align: left;"><code class="inline">corosync</code></td><td style="text-align: left;">a string containing the installed version for the package <code class="inline">package_name</code>, e.g &quot;2.4.5&quot;</td></tr></tbody></table><p>Specification examples:</p><pre><code class="yaml">facts:
   - name: corosync_version
     gatherer: package_version
     argument: corosync
@@ -253,23 +227,23 @@ does <strong>not</strong> use domain resolution in any way but instead directly 
   </a>
   saphostctrl
 </h3>
-<p>This gatherer allows access to certain webmethods that <code class="inline">saphostctrl</code> implements. An argument is required to specify
-which webmethod should be called. This webmethod is passed to the <code class="inline">saphostctrl</code> command-line tool through the <code class="inline">-function</code> argument.</p><p>Supported webmethods:</p><ul><li><code class="inline">Ping</code></li><li><code class="inline">ListInstances</code></li></ul><p>A <code class="inline">Ping</code> call with a successful return should look like:</p><pre><code class="makeup elixir" translate="no"><span class="p" data-group-id="5320317859-1">{</span><span class="w">
+<p><strong>Argument required</strong>: yes.</p><p>This gatherer allows access to certain webmethods that <code class="inline">saphostctrl</code> implements. An argument is required to specify
+which webmethod should be called. This webmethod is passed to the <code class="inline">saphostctrl</code> command-line tool through the <code class="inline">-function</code> argument.</p><p>Supported webmethods:</p><ul><li><code class="inline">Ping</code></li><li><code class="inline">ListInstances</code></li></ul><p>A <code class="inline">Ping</code> call with a successful return should look like:</p><pre><code class="makeup elixir" translate="no"><span class="p" data-group-id="9115060495-1">{</span><span class="w">
   </span><span class="s">&quot;status&quot;</span><span class="w"> </span><span class="p">=&gt;</span><span class="w"> </span><span class="s">&quot;SUCCESS&quot;</span><span class="p">,</span><span class="w"> 
   </span><span class="s">&quot;elapsed&quot;</span><span class="w"> </span><span class="p">=&gt;</span><span class="w"> </span><span class="mi">543341</span><span class="p">,</span><span class="w">
-</span><span class="p" data-group-id="5320317859-1">}</span><span class="p">,</span></code></pre><p>or as follows for a failed one:</p><pre><code class="makeup elixir" translate="no"><span class="p" data-group-id="3526982386-1">{</span><span class="w">
+</span><span class="p" data-group-id="9115060495-1">}</span><span class="p">,</span></code></pre><p>or as follows for a failed one:</p><pre><code class="makeup elixir" translate="no"><span class="p" data-group-id="1537160545-1">{</span><span class="w">
   </span><span class="s">&quot;status&quot;</span><span class="w"> </span><span class="p">=&gt;</span><span class="w"> </span><span class="s">&quot;FAILED&quot;</span><span class="p">,</span><span class="w">
   </span><span class="s">&quot;elapsed&quot;</span><span class="w"> </span><span class="p">=&gt;</span><span class="w"> </span><span class="mi">497</span><span class="p">,</span><span class="w">
-</span><span class="p" data-group-id="3526982386-1">}</span><span class="p">,</span></code></pre><p>A <code class="inline">ListInstances</code> call return should instead look like:</p><pre><code class="makeup elixir" translate="no"><span class="p" data-group-id="0047587619-1">[</span><span class="w">
-  </span><span class="p" data-group-id="0047587619-2">{</span><span class="w">
+</span><span class="p" data-group-id="1537160545-1">}</span><span class="p">,</span></code></pre><p>A <code class="inline">ListInstances</code> call return should instead look like:</p><pre><code class="makeup elixir" translate="no"><span class="p" data-group-id="8507918681-1">[</span><span class="w">
+  </span><span class="p" data-group-id="8507918681-2">{</span><span class="w">
     </span><span class="s">&quot;changelist&quot;</span><span class="w"> </span><span class="p">=&gt;</span><span class="w"> </span><span class="mi">2069355</span><span class="p">,</span><span class="w">
     </span><span class="s">&quot;hostname&quot;</span><span class="w"> </span><span class="p">=&gt;</span><span class="w"> </span><span class="s">&quot;s41db&quot;</span><span class="p">,</span><span class="w">
     </span><span class="s">&quot;instance&quot;</span><span class="w"> </span><span class="p">=&gt;</span><span class="w"> </span><span class="s">&quot;11&quot;</span><span class="p">,</span><span class="w">
     </span><span class="s">&quot;patch&quot;</span><span class="w"> </span><span class="p">=&gt;</span><span class="w"> </span><span class="mi">819</span><span class="p">,</span><span class="w">
     </span><span class="s">&quot;sapkernel&quot;</span><span class="w"> </span><span class="p">=&gt;</span><span class="w"> </span><span class="mi">753</span><span class="p">,</span><span class="w">
     </span><span class="s">&quot;system&quot;</span><span class="w"> </span><span class="p">=&gt;</span><span class="w"> </span><span class="s">&quot;HS1&quot;</span><span class="p">,</span><span class="w">
-  </span><span class="p" data-group-id="0047587619-2">}</span><span class="p">,</span><span class="w">
-</span><span class="p" data-group-id="0047587619-1">]</span></code></pre><p>Specification examples:</p><pre><code class="yaml">facts:
+  </span><span class="p" data-group-id="8507918681-2">}</span><span class="p">,</span><span class="w">
+</span><span class="p" data-group-id="8507918681-1">]</span></code></pre><p>Specification examples:</p><pre><code class="yaml">facts:
   - name: ping
     gatherer: saphostctrl
     argument: Ping
@@ -284,11 +258,7 @@ which webmethod should be called. This webmethod is passed to the <code class="i
   </a>
   sbd_config
 </h3>
-<p>This gatherer allows accessing information contained in <code class="inline">/etc/sysconfig/sbd</code></p><p>Sample arguments
-| Name | Return value<br/>| ------------------------------------ | ------------------------------------------
-| <code class="inline">SBD_PACEMAKER</code> | extracted value from the config (e.g. <code class="inline">yes</code>)
-| <code class="inline">SBD_STARTMODE</code> | extracted value from the config (e.g. <code class="inline">always</code>)
-| <code class="inline">SBD_DEVICE</code>    | extracted value from the config (e.g. <code class="inline">/dev/vdc;/dev/vdb</code>)</p><p>Specification examples:</p><pre><code class="yaml">facts:
+<p><strong>Argument required</strong>: yes.</p><p>This gatherer allows accessing information contained in <code class="inline">/etc/sysconfig/sbd</code></p><p>Sample arguments:</p><table><thead><tr><th style="text-align: left;">Name</th><th style="text-align: left;">Return value</th></tr></thead><tbody><tr><td style="text-align: left;"><code class="inline">SBD_PACEMAKER</code></td><td style="text-align: left;">extracted value from the config (e.g. <code class="inline">yes</code>)</td></tr><tr><td style="text-align: left;"><code class="inline">SBD_STARTMODE</code></td><td style="text-align: left;">extracted value from the config (e.g. <code class="inline">always</code>)</td></tr><tr><td style="text-align: left;"><code class="inline">SBD_DEVICE</code></td><td style="text-align: left;">extracted value from the config (e.g. <code class="inline">/dev/vdc;/dev/vdb</code>)</td></tr></tbody></table><p>Specification examples:</p><pre><code class="yaml">facts:
   - name: sbd_pacemaker
     gatherer: sbd_config
     argument: SBD_PACEMAKER
@@ -305,7 +275,7 @@ which webmethod should be called. This webmethod is passed to the <code class="i
   </a>
   sbd_dump
 </h3>
-<p>This gatherer allows accessing the sbd dump command output data.</p><p>It executes the <code class="inline">sbd -d &lt;device&gt; dump</code> command in all devices configured in the <code class="inline">SBD_DEVICE</code> field on <code class="inline">/etc/sysconfig/sbd</code> and aggregates results in only one fact.</p><p>Note that:</p><ul><li>no arguments are required</li><li>if any dump fails, a fact error is returned</li></ul><p>Dumped keys (<code class="inline">Timeout (watchdog)</code>, <code class="inline">Timeout (msgwait)</code>, <code class="inline">Number of slots</code>, etc) are sanitized to simplify their access and usage in the expression language. </p><pre><code class="rust">{
+<p><strong>Argument required</strong>: no.</p><p>This gatherer allows accessing the sbd dump command output data.</p><p>It executes the <code class="inline">sbd -d &lt;device&gt; dump</code> command in all devices configured in the <code class="inline">SBD_DEVICE</code> field on <code class="inline">/etc/sysconfig/sbd</code> and aggregates results in only one fact.</p><p>Note that:</p><ul><li>no arguments are required</li><li>if any dump fails, a fact error is returned</li></ul><p>Dumped keys (<code class="inline">Timeout (watchdog)</code>, <code class="inline">Timeout (msgwait)</code>, <code class="inline">Number of slots</code>, etc) are sanitized to simplify their access and usage in the expression language. </p><pre><code class="rust">{
   &quot;/path/to/a-device&quot; =&gt; {
     &quot;header_version&quot;   =&gt; 2.1,
     &quot;number_of_slots&quot;  =&gt; 255,
@@ -334,7 +304,7 @@ which webmethod should be called. This webmethod is passed to the <code class="i
   </a>
   systemd
 </h3>
-<p>Gather systemd daemons state. It returns an <code class="inline">active/inactive</code> string. If the daemon is disabled or does not even exist, <code class="inline">inactive</code> is returned.</p><p>Specification examples:</p><pre><code class="yaml">facts:
+<p><strong>Argument required</strong>: yes.</p><p>Gather systemd daemons state. It returns an <code class="inline">active/inactive</code> string. If the daemon is disabled or does not even exist, <code class="inline">inactive</code> is returned.</p><p>Specification examples:</p><pre><code class="yaml">facts:
   - name: sbd_state
     gatherer: systemd
     argument: sbd
