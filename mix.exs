@@ -100,7 +100,7 @@ defmodule Wanda.MixProject do
   # Run "mix help deps" to learn about dependencies.
   defp deps do
     [
-      {:rhai_rustler, "~> 0.1.1"},
+      {:rhai_rustler, "~> 0.1.2"},
       {:gen_rmq, "~> 4.0"},
       # this is pinned since the 3.1.0 version requires OTP 23.2
       # overrides gen_rmq dependency
