@@ -387,17 +387,20 @@ For extra information refer to [trento-project/agent/../gatherers/systemd_test.g
 
 **Argument required**: yes.
 
-This gatherer uses `getent` to determine whether a password from a certain user needs to be changed or not. It returns `true` if the password should be changed or `false` if not.
+This gatherer determines whether a given user has its password still set to the (unsafe) default one. It returns `true` if it needs to be changed to something or `false` if it has already been changed.
 
 Specification examples:
 ```yaml
 facts:
-  - name: hacluster
+  - name: hacluster_has_default_password
     gatherer: verify_password
     argument: hacluster
 ```
 
 For the argument, only whitelisted user are allowed. Currently whitelisted usernames:
  - `hacluster`
+
+The default passwords that we check against, are:
+ - `linux`
   
 For extra information refer to [trento-project/agent/../gatherers/verifypassword_test.go](https://github.com/trento-project/agent/blob/main/internal/factsengine/gatherers/verifypassword_test.go)
