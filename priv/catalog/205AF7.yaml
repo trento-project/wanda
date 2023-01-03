@@ -38,14 +38,13 @@ remediation: |
     - https://documentation.suse.com/sle-ha/15-SP3/html/SLE-HA-all/cha-ha-fencing.html#sec-ha-fencing-recommend
 
 facts:
-  - name: fencing_enabled
+  - name: crm_config_properties
     gatherer: cibadmin
     argument: cib.configuration.crm_config.cluster_property_set
 
-#expected value: true
 
 expectations:
   - name: expectations_fencing_enabled
-    expect: facts.fencing_enabled[facts.fencing_enabled.index_of(|item| item.id == "cib-bootstrap-options")].nvpair.filter(|prop| prop.name == "stonith-enabled")[0].value
+    expect: facts.crm_config_properties.find(|item| item.id == "cib-bootstrap-options").nvpair.find(|prop| prop.name == "stonith-enabled").value
 
 

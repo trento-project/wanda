@@ -36,10 +36,10 @@ remediation: |
     - https://documentation.suse.com/sbp/all/single-html/SLES4SAP-hana-sr-guide-PerfOpt-15/#id-cluster-bootstrap-and-more
 
 facts:
-  - name: fencing_timeout
+  - name: crm_config_properties
     gatherer: cibadmin
     argument: cib.configuration.crm_config.cluster_property_set
-  - name: fence_azure_arm
+  - name: resources_primitives
     gatherer: cibadmin
     argument: cib.configuration.resources.primitive
 
@@ -57,8 +57,15 @@ values:
 expectations:
   - name: expectations_fencing_timeout
     expect: |
-      let fencing_timeout=facts.fencing_timeout[facts.fencing_timeout.index_of(|item| item.id == "cib-bootstrap-options")].nvpair.filter(|prop| prop.name == "stonith-timeout")[0].value;
-      let fence_azure_arm_detected=facts.fence_azure_arm.filter(|item| item.type == "fence_azure_arm").len() != 0;
+      let fencing_timeout=
+          facts.crm_config_properties
+               .find(|item| item.id == "cib-bootstrap-options").nvpair
+               .find(|prop| prop.name == "stonith-timeout").value;
+
+      let fence_azure_arm_detected=
+          facts.resources_primitives
+               .filter(|item| item.type == "fence_azure_arm").len() != 0;
+
       if fence_azure_arm_detected {
         fencing_timeout == 900;
       } else {
