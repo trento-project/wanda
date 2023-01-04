@@ -98,6 +98,8 @@ defmodule Wanda.Executions.Evaluation do
         |> add_scope("facts", facts)
         |> add_scope("values", evaluated_values)
 
+      IO.inspect(expectation_evaluation_scope)
+
       %AgentCheckResult{
         agent_id: agent_id,
         facts: facts,

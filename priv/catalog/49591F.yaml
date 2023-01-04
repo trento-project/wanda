@@ -47,11 +47,7 @@ remediation: |
     - https://documentation.suse.com/sle-ha/15-SP3/html/SLE-HA-all/cha-ha-storage-protect.html
 
 facts:
-<<<<<<< HEAD
   - name: sbd_startmode
-=======
-  - name: sbd_SBD_STARTMODE
->>>>>>> 9aa3c98 (remove conditions as a result of the discussion in https://github.com/trento-project/wanda/discussions/121)
     gatherer: sbd_config
     argument: SBD_STARTMODE
 
