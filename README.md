@@ -18,8 +18,8 @@ Wanda architecture aims to simplify [testing Checks Executions](#testing-executi
 
 ### Infrastructure
 
-For development purposes, a [docker-compose file](./docker-compose.yaml) is provided.
-The [docker-compose.checks.yaml](./docker-compose.checks.yaml) provides additional configuration to start an environment for Checks development.
+For development purposes, a [docker-compose file](https://github.com/trento-project/wanda/blob/main/docker-compose.yaml) is provided.
+The [docker-compose.checks.yaml](https://github.com/trento-project/wanda/blob/main/docker-compose.checks.yaml) provides additional configuration to start an environment for Checks development.
 
 #### Starting a local environment
 
