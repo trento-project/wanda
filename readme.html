@@ -121,8 +121,8 @@ Wanda
   </a>
   Infrastructure
 </h3>
-<p>For development purposes, a <a href="./docker-compose.yaml">docker-compose file</a> is provided.
-The <a href="./docker-compose.checks.yaml">docker-compose.checks.yaml</a> provides additional configuration to start an environment for Checks development.</p><h4>Starting a local environment</h4><p>Start the environment with:</p><pre><code class="makeup bash" translate="no"><span class="gp unselectable">$ </span><span class="">docker-compose -f docker-compose.checks.yaml up -d
+<p>For development purposes, a <a href="https://github.com/trento-project/wanda/blob/main/docker-compose.yaml">docker-compose file</a> is provided.
+The <a href="https://github.com/trento-project/wanda/blob/main/docker-compose.checks.yaml">docker-compose.checks.yaml</a> provides additional configuration to start an environment for Checks development.</p><h4>Starting a local environment</h4><p>Start the environment with:</p><pre><code class="makeup bash" translate="no"><span class="gp unselectable">$ </span><span class="">docker-compose -f docker-compose.checks.yaml up -d
 </span></code></pre><p>Wanda is exposed on port <code class="inline">4000</code> and the API documentation is available at <a href="http://localhost:4000/swaggerui">http://localhost:4000/swaggerui</a></p><p><strong>Note</strong> that the <a href="https://www.rabbitmq.com/">message broker</a> <strong>must</strong> be reachable by Wanda and all the targets.</p><h3 id="testing-executions" class="section-heading">
   <a href="#testing-executions" class="hover-link"><i class="ri-link-m" aria-hidden="true"></i>
   <p class="sr-only">testing-executions</p>
