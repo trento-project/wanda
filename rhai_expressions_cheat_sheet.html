@@ -7,7 +7,7 @@
     <meta name="generator" content="ExDoc v0.29.0">
     <meta name="project" content="Wanda v0.1.0">
 
-    <title>Wanda.Messaging — Wanda v0.1.0</title>
+    <title>Rhai expressions cheatsheet — Wanda v0.1.0</title>
     <link rel="stylesheet" href="dist/html-elixir-2YOS5DIE.css" />
 
     <script src="dist/handlebars.runtime-NWIB6V2M.js"></script>
@@ -20,7 +20,7 @@
 
 
   </head>
-  <body data-type="modules" class="page-module">
+  <body data-type="extras" class="page-cheatmd">
     <script>
 
       try {
@@ -99,90 +99,86 @@ Wanda
 </button>
 
 
-    <a href="https://github.com/trento-project/wanda/blob/main/lib/wanda/messaging.ex#L1" title="View Source" class="view-source" rel="help">
+    <a href="https://github.com/trento-project/wanda/blob/main/guides/rhai_expressions_cheat_sheet.cheatmd#L1" title="View Source" class="view-source" rel="help">
       <i class="ri-code-s-slash-line" aria-hidden="true"></i>
       <span class="sr-only">View Source</span>
     </a>
 
-  <span translate="no">Wanda.Messaging</span> 
-  <small class="app-vsn" translate="no">(Wanda v0.1.0)</small>
-
+  <span>Rhai expressions cheatsheet</span>
 </h1>
 
+<p>In this cheatsheet are grouped the most frequent manipulations that can be done through Rhai, for convenience.</p><section class="h2 col-2"><h2 id="cheatsheet" class="col-2 section-heading">
+  <a href="#cheatsheet" class="hover-link"><i class="ri-link-m" aria-hidden="true"></i>
+  <p class="sr-only">cheatsheet</p>
+  </a>
+  Cheatsheet
+</h2>
+<section class="h3"><h3 id="arrays" class="section-heading">
+  <a href="#arrays" class="hover-link"><i class="ri-link-m" aria-hidden="true"></i>
+  <p class="sr-only">arrays</p>
+  </a>
+  Arrays
+</h3>
+<h4>Filtering an array</h4><pre><code class="rust">[1, 2, 3].filter(|value| value % 2 == 0)
+=&gt; [2]</code></pre><h4>Finding the index of an element inside an array</h4><pre><code class="rust">[&quot;wow&quot;, &quot;check&quot;].index_of(|value| value == &quot;check&quot;)
+=&gt; 1</code></pre><h4>Finding an element inside an array</h4><pre><code class="rust">let nodelist = [
+  #{resource_id: 5, name: &quot;foo&quot;},
+  #{resource_id: 12, name: &quot;bar&quot;}
+];
 
-  <section id="moduledoc">
-<p>Publishes messages to the message bus</p>
-  </section>
+nodelist.find(|value| value.resource_id == 5)
+=&gt; #{&quot;name&quot;: &quot;foo&quot;, &quot;resource_id&quot;: 5}</code></pre><h4>Checking if an expression is true for every element of an array</h4><pre><code class="rust">[2, 4, 6].all(|value| value % 2 == 0)
+=&gt; true</code></pre></section><section class="h3"><h3 id="maps" class="section-heading">
+  <a href="#maps" class="hover-link"><i class="ri-link-m" aria-hidden="true"></i>
+  <p class="sr-only">maps</p>
+  </a>
+  Maps
+</h3>
+<h4>Get only keys (returns an array)</h4><pre><code class="rust">#{a: 1, b: 2}.keys()
+=&gt; [&quot;a&quot;, &quot;b&quot;]</code></pre><h4>Get only values (returns an array)</h4><pre><code class="rust">#{a: 1, b: 2}.values()
+=&gt; [1, 2]</code></pre><h4>Check if a map has more than 5 keys which name starts with &quot;ring&quot;</h4><pre><code class="rust">let map = #{
+  ring_one: 12,
+  ring_two: 34,
+  ring_three: 90,
+  ring_four: 234,
+  ring_five: 908
+};
 
+map.keys().filter(|prop| prop.starts_with(&quot;ring&quot;)).len() &gt;= 5
+=&gt; true</code></pre></section><section class="h3"><h3 id="strings" class="section-heading">
+  <a href="#strings" class="hover-link"><i class="ri-link-m" aria-hidden="true"></i>
+  <p class="sr-only">strings</p>
+  </a>
+  Strings
+</h3>
+<h4>Splitting a string</h4><pre><code class="rust">&quot;a;b;c&quot;.split(&quot;;&quot;)
+=&gt; [&quot;a&quot;, &quot;b&quot;, &quot;c&quot;]</code></pre></section></section>
+<div class="bottom-actions">
+  <div class="bottom-actions-item">
 
-  <section id="summary" class="details-list">
-    <h1 class="section-heading">
-      <a class="hover-link" href="#summary">
-        <i class="ri-link-m" aria-hidden="true"></i>
-        <span class="sr-only">Link to this section</span>
+      <a href="contributing.html" class="bottom-actions-button" rel="prev">
+        <span class="subheader">
+          ← Previous Page
+        </span>
+        <span class="title">
+How to contribute
+        </span>
       </a>
-      Summary
-    </h1>
-
-  <div class="summary-functions summary">
-    <h2>
-      <a href="#functions">Functions</a>
-    </h2>
-
-      <div class="summary-row">
-        <div class="summary-signature">
-          <a href="#publish/2" translate="no">publish(topic, message)</a>
-
-        </div>
-
-      </div>
 
   </div>
+  <div class="bottom-actions-item">
 
-  </section>
-
-
-  <section id="functions" class="details-list">
-    <h1 class="section-heading">
-      <a class="hover-link" href="#functions">
-        <i class="ri-link-m" aria-hidden="true"></i>
-        <span class="sr-only">Link to this section</span>
+      <a href="specification.html" class="bottom-actions-button" rel="next">
+        <span class="subheader">
+          Next Page →
+        </span>
+        <span class="title">
+Checks Specification
+        </span>
       </a>
-Functions
-    </h1>
-    <div class="functions-list">
-<section class="detail" id="publish/2">
-
-  <div class="detail-header">
-    <a href="#publish/2" class="detail-link" title="Link to this function">
-      <i class="ri-link-m" aria-hidden="true"></i>
-      <span class="sr-only">Link to this function</span>
-    </a>
-    <h1 class="signature" translate="no">publish(topic, message)</h1>
-
-      <a href="https://github.com/trento-project/wanda/blob/main/lib/wanda/messaging.ex#L7" class="view-source" rel="help" title="View Source">
-       <i class="ri-code-s-slash-line" aria-hidden="true"></i>
-       <span class="sr-only">View Source</span>
-     </a>
-
 
   </div>
-
-  <section class="docstring">
-
-      <div class="specs">
-
-          <pre translate="no"><span class="attribute">@spec</span> publish(<a href="https://hexdocs.pm/elixir/String.html#t:t/0">String.t</a>(), <a href="https://hexdocs.pm/elixir/typespecs.html#basic-types">any</a>()) :: :ok | {:error, <a href="https://hexdocs.pm/elixir/typespecs.html#basic-types">any</a>()}</pre>
-
-      </div>
-
-
-  </section>
-</section>
-
-    </div>
-  </section>
-
+</div>
       <footer class="footer">
 
         <p>
