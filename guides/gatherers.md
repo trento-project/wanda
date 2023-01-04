@@ -27,8 +27,9 @@ Here's a collection of build-in gatherers, with information about how to use the
 |[`package_version`](#package_version) | [trento-project/agent/../gatherers/packageversion.go](https://github.com/trento-project/agent/blob/main/internal/factsengine/gatherers/packageversion.go)     |
 |[`saphostctrl`](#saphostctrl)    | [trento-project/agent/../gatherers/saphostctrl.go](https://github.com/trento-project/agent/blob/main/internal/factsengine/gatherers/saphostctrl.go)                |
 |[`sbd_config`](#sbd_config)      | [trento-project/agent/../gatherers/sbd.go](https://github.com/trento-project/agent/blob/main/internal/factsengine/gatherers/sbd.go)                                |
-|[`sbd_dump`](#sbd_dump)      | [trento-project/agent/../gatherers/sbddump.go](https://github.com/trento-project/agent/blob/main/internal/factsengine/gatherers/sbddump.go)                            |
+|[`sbd_dump`](#sbd_dump)          | [trento-project/agent/../gatherers/sbddump.go](https://github.com/trento-project/agent/blob/main/internal/factsengine/gatherers/sbddump.go)                        |
 |[`systemd`](#systemd)            | [trento-project/agent/../gatherers/systemd.go](https://github.com/trento-project/agent/blob/main/internal/factsengine/gatherers/systemd.go)                        |
+|[`verify_password`](#verify_password) | [trento-project/agent/../gatherers/verifypassword.go](https://github.com/trento-project/agent/blob/main/internal/factsengine/gatherers/verifypassword.go)     |
 
 ### cibadmin
 
@@ -381,3 +382,25 @@ facts:
 ```
 
 For extra information refer to [trento-project/agent/../gatherers/systemd_test.go](https://github.com/trento-project/agent/blob/main/internal/factsengine/gatherers/systemd_test.go)
+
+### verify_password
+
+**Argument required**: yes.
+
+This gatherer determines whether a given user has its password still set to the (unsafe) default one. It returns `true` if it needs to be changed to something or `false` if it has already been changed.
+
+Specification examples:
+```yaml
+facts:
+  - name: hacluster_has_default_password
+    gatherer: verify_password
+    argument: hacluster
+```
+
+For the argument, only whitelisted user are allowed. Currently whitelisted usernames:
+ - `hacluster`
+
+The default passwords that we check against, are:
+ - `linux`
+  
+For extra information refer to [trento-project/agent/../gatherers/verifypassword_test.go](https://github.com/trento-project/agent/blob/main/internal/factsengine/gatherers/verifypassword_test.go)
