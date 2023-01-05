@@ -32,7 +32,7 @@ defmodule Wanda.Executions.Server do
     checks =
       targets
       |> Target.get_checks_from_targets()
-      |> Catalog.get_checks()
+      |> Catalog.get_checks(env)
 
     checks_ids = Enum.map(checks, & &1.id)
 

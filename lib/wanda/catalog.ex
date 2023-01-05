@@ -24,8 +24,7 @@ defmodule Wanda.Catalog do
     |> Path.join("/*")
     |> Path.wildcard()
     |> Enum.map(&Path.basename(&1, ".yaml"))
-    |> get_checks()
-    |> Enum.filter(&when_condition(&1, env))
+    |> get_checks(env)
   end
 
   @doc """
@@ -54,14 +53,16 @@ defmodule Wanda.Catalog do
   @doc """
   Get specific checks from the catalog.
   """
-  @spec get_checks([String.t()]) :: [Check.t()]
-  def get_checks(checks_id) do
-    Enum.flat_map(checks_id, fn check_id ->
+  @spec get_checks([String.t()], map()) :: [Check.t()]
+  def get_checks(checks_id, env) do
+    checks_id
+    |> Enum.flat_map(fn check_id ->
       case get_check(check_id) do
         {:ok, check} -> [check]
         {:error, _} -> []
       end
     end)
+    |> Enum.filter(&when_condition(&1, env))
   end
 
   defp when_condition(%Check{when: nil}, _), do: true

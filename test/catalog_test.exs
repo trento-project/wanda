@@ -130,7 +130,10 @@ defmodule Wanda.CatalogTest do
 
     test "should load multiple checks" do
       assert [%Check{id: "expect_check"}, %Check{id: "expect_same_check"}] =
-               Catalog.get_checks(["expect_check", "non_existent_check", "expect_same_check"])
+               Catalog.get_checks(
+                 ["expect_check", "non_existent_check", "expect_same_check"],
+                 %{}
+               )
     end
   end
 end
