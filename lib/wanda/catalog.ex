@@ -18,13 +18,14 @@ defmodule Wanda.Catalog do
   @doc """
   Get the checks catalog with all checks
   """
-  @spec get_catalog() :: [Check.t()]
-  def get_catalog do
+  @spec get_catalog(map()) :: [Check.t()]
+  def get_catalog(env \\ %{}) do
     get_catalog_path()
     |> Path.join("/*")
     |> Path.wildcard()
     |> Enum.map(&Path.basename(&1, ".yaml"))
     |> get_checks()
+    |> Enum.filter(&when_condition(&1, env))
   end
 
   @doc """
@@ -63,6 +64,17 @@ defmodule Wanda.Catalog do
     end)
   end
 
+  defp when_condition(%Check{when: nil}, _), do: true
+
+  defp when_condition(%Check{when: when_clause}, env) do
+    scope = %{"env" => env}
+
+    case Rhai.eval(when_clause, scope) do
+      {:ok, true} -> true
+      _ -> false
+    end
+  end
+
   defp get_catalog_path do
     Application.fetch_env!(:wanda, Wanda.Catalog)[:catalog_path]
   end
@@ -85,6 +97,7 @@ defmodule Wanda.Catalog do
        group: group,
        description: description,
        remediation: remediation,
+       when: Map.get(check, "when"),
        severity: map_severity(check),
        facts: Enum.map(facts, &map_fact/1),
        values: map_values(check),
