@@ -34,11 +34,11 @@ remediation: |
 severity: warning
 
 facts:
-  - name: hacluster_passwd_changed
+  - name: hacluster_has_default_password
     gatherer: verify_password
     argument: hacluster
 
 expectations:
   - name: expectations_hacluster_passwd_changed
     expect: |
-      !facts.hacluster_passwd_changed;
+      !facts.hacluster_has_default_password;
