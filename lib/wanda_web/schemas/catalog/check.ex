@@ -14,6 +14,11 @@ defmodule WandaWeb.Schemas.CatalogResponse.Check do
     properties: %{
       id: %Schema{type: :string, description: "Check ID"},
       name: %Schema{type: :string, description: "Check name"},
+      when: %Schema{
+        type: :string,
+        description: "When clause used to filter checks",
+        nullable: true
+      },
       severity: %Schema{
         type: :string,
         description: "Check severity: critical|warning",
