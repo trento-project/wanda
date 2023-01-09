@@ -1,6 +1,6 @@
 id: "0B6DB2"
-name: "SBD_PACEMAKER"
-group: "SBD"
+name: SBD_PACEMAKER
+group: SBD
 description: |
   SBD_PACEMAKER value is correctly set in SBD configuration (/etc/sysconfig/sbd)
 remediation: |
@@ -49,15 +49,15 @@ remediation: |
     - https://documentation.suse.com/sbp/all/single-html/SLES4SAP-hana-sr-guide-PerfOpt-15/#id-1.11.5.5.4.4
 
 facts:
-  - name: sbd_SBD_PACEMAKER
+  - name: sbd_pacemaker
     gatherer: sbd_config
     argument: SBD_PACEMAKER
 
 values:
-  - name: expected_SBD_PACEMAKER
+  - name: expected_sbd_pacemaker
     #should only run on 'azure', 'nutanix' or 'kvm', NOT on 'gcp' or 'aws'
     default: yes
 
 expectations:
-  - name: expectations_SBD_PACEMAKER
-    expect: facts.sbd_SBD_PACEMAKER == values.expected_SBD_PACEMAKER
+  - name: expectations_sbd_pacemaker
+    expect: facts.sbd_pacemaker == values.expected_sbd_pacemaker

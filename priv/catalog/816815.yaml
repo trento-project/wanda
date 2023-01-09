@@ -1,6 +1,6 @@
 id: "816815"
-name: "SBD service state"
-group: "SBD"
+name: SBD service state
+group: SBD
 description: |
   SBD service is enabled (only if SBD is used)
 remediation: |

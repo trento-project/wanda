@@ -1,6 +1,6 @@
 id: "61451E"
-name: "sbd multiple SBD_DEVICE"
-group: "SBD"
+name: multiple SBD devices
+group: SBD
 description: |
   Multiple SBD devices are configured
 remediation: |
@@ -29,15 +29,15 @@ remediation: |
 severity: warning
 
 facts:
-  - name: sbd_multiple_SBD_DEVICE
+  - name: sbd_multiple_sbd_device
     gatherer: sbd_config
     argument: SBD_DEVICE
 
 values:
-  - name: expected_multiple_SBD_DEVICE
+  - name: expected_multiple_sbd_device
     # should only run on 'azure', 'nutanix' or 'kvm', NOT on 'gcp' or 'aws'
     default: 3
 
 expectations:
-  - name: expectations_multiple_SBD_DEVICE
-    expect: facts.sbd_multiple_SBD_DEVICE.split(";").len() == values.expected_multiple_SBD_DEVICE
+  - name: expectations_multiple_sbd_device
+    expect: facts.sbd_multiple_sbd_device.split(";").len() == values.expected_multiple_sbd_device
