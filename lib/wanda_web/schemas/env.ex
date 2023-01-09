@@ -14,7 +14,8 @@ defmodule WandaWeb.Schemas.Env do
         oneOf: [
           %Schema{type: :string},
           %Schema{type: :integer},
-          %Schema{type: :boolean}
+          %Schema{type: :boolean},
+          %Schema{type: :array, items: __MODULE__}
         ]
       }
     },

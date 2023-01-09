@@ -18,7 +18,7 @@ defmodule Wanda.Catalog do
   @doc """
   Get the checks catalog with all checks
   """
-  @spec get_catalog(map()) :: [Check.t()]
+  @spec get_catalog(%{String.t() => String.t()}) :: [Check.t()]
   def get_catalog(env \\ %{}) do
     get_catalog_path()
     |> Path.join("/*")
@@ -65,12 +65,12 @@ defmodule Wanda.Catalog do
     |> Enum.filter(&when_condition(&1, env))
   end
 
+  defp when_condition(_, env) when env == %{}, do: true
+
   defp when_condition(%Check{when: nil}, _), do: true
 
   defp when_condition(%Check{when: when_clause}, env) do
-    scope = %{"env" => env}
-
-    case Rhai.eval(when_clause, scope) do
+    case Rhai.eval(when_clause, %{"env" => env}) do
       {:ok, true} -> true
       _ -> false
     end

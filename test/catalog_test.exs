@@ -21,7 +21,7 @@ defmodule Wanda.CatalogTest do
         |> Enum.sort()
         |> Enum.filter(fn file -> file != "malformed_check.yaml" end)
 
-      catalog = Catalog.get_catalog(%{"provider" => "azure"})
+      catalog = Catalog.get_catalog()
       assert length(valid_files) == length(catalog)
 
       Enum.with_index(catalog, fn check, index ->
@@ -34,19 +34,13 @@ defmodule Wanda.CatalogTest do
       end)
     end
 
-    test "should return the whole catalog but the check with the when clause" do
-      catalog_path = Application.fetch_env!(:wanda, Wanda.Catalog)[:catalog_path]
-
-      valid_files =
-        catalog_path
-        |> File.ls!()
-        |> Enum.sort()
-        |> Enum.filter(fn file -> file != "malformed_check.yaml" end)
-
+    test "should filter out checks if the when clause doesn't match" do
+      complete_catalog = Catalog.get_catalog(%{"provider" => "azure"})
       catalog = Catalog.get_catalog(%{"provider" => "aws"})
-      assert length(valid_files) - 1 == length(catalog)
 
-      assert Enum.any?(catalog, fn %Check{id: id} -> id == "when_condition_check" end) == false
+      assert length(complete_catalog) - 1 == length(catalog)
+
+      refute Enum.any?(catalog, fn %Check{id: id} -> id == "when_condition_check" end)
     end
 
     test "should load a check from a yaml file properly" do
