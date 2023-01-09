@@ -1,6 +1,6 @@
 id: "9FEFB0"
-name: "pacemaker version"
-group: "OS and package versions"
+name: supported pacemaker version
+group: OS and package versions
 description: |
   Pacemaker version is supported
 remediation: |

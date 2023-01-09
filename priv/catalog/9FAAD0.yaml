@@ -1,6 +1,6 @@
 id: "9FAAD0"
-name: "pacemaker version"
-group: "OS and package versions"
+name: unsupported pacemaker version
+group: OS and package versions
 description: |
   Pacemaker version is not the recommended value
 remediation: |

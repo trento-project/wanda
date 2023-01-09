@@ -1,6 +1,6 @@
 id: "F50AF5"
-name: "python3 version"
-group: "OS and package versions"
+name: supported python3 version
+group: OS and package versions
 description: |
   Python3 version is supported
 remediation: |

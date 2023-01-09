@@ -1,6 +1,6 @@
 id: "DC5429"
-name: "corosync version"
-group: "OS and package versions"
+name: supported corosync version
+group: OS and package versions
 description: |
   Corosync version is supported
 remediation: |

@@ -1,6 +1,6 @@
 id: "D028B9"
-name: "OS version SLES_SAP"
-group: "OS and package versions"
+name: OS version SLES_SAP
+group: OS and package versions
 description: |
   Operating system version is supported
 remediation: |
@@ -14,14 +14,14 @@ remediation: |
   - https://documentation.suse.com/en-us/sbp/all/single-html/SLES4SAP-hana-sr-guide-PerfOpt-15/
 
 facts:
-  - name: SLES_SAP_version
+  - name: sles_sap_version
     gatherer: package_version
     argument: SLES_SAP-release
 
 values:
-  - name: expected_SLES_SAP_version
+  - name: expected_sles_sap_version
     default: "15.1"
 
 expectations:
-  - name: expectations_SLES_SAP_version
-    expect: facts.SLES_SAP_version >= values.expected_SLES_SAP_version
+  - name: expectations_sles_sap_version
+    expect: facts.sles_sap_version >= values.expected_sles_sap_version

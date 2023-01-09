@@ -1,6 +1,6 @@
 id: "CAEFF1"
-name: "OS flavor SLES_SAP"
-group: "OS and package versions"
+name: OS flavor SLES_SAP
+group: OS and package versions
 description: |
   Operating system vendor is supported
 remediation: |
@@ -37,5 +37,5 @@ facts:
     argument: SLES_SAP-release
 
 expectations:
-  - name: expectations_SLES_SAP
+  - name: expectations_sles_sap
     expect: facts.os_flavor != ""

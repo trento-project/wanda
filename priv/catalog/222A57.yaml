@@ -1,6 +1,6 @@
 id: "222A57"
-name: "sbd version"
-group: "OS and package versions"
+name: supported sbd version
+group: OS and package versions
 description: |
   SBD version is supported
 remediation: |
