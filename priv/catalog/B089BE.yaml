@@ -1,6 +1,6 @@
 id: "B089BE"
-name: "SBD watchdog timeout"
-group: "SBD"
+name: SBD watchdog timeout
+group: SBD
 description: |
   SBD watchdog timeout is set to the recommended value
 remediation: |

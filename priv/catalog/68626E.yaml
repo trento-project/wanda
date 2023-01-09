@@ -1,6 +1,6 @@
 id: "68626E"
-name: "SBD msgwait timeout"
-group: "SBD"
+name: SBD msgwait timeout
+group: SBD
 description: |
   SBD msgwait timeout value is at least two times the watchdog timeout
 remediation: |
