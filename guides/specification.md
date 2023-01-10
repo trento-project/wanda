@@ -595,12 +595,12 @@ Available entries in scope
 
 ## Best practices and conventions
 
-In order to have a standardized format of writting checks, follow the next best practices and conventions as much as possible:
+To have a standardized format for writing checks, follow the next best practices and conventions as much as possible:
 
-- The `id` field must go wrapped in double quotes to avoid any type ambiguity, as this field must be of string format. 
-- The remaining `name`, `description`, `group` and `remediation` fields must not be wrapped in quotes, as they are text based values always.
-- Take advantage of markdown tags in the `name`, `description` and `remediation` fields to make the text easy and compelling to read.
-- The `name` field of `facts`, `values` and `expectations` must follow `camel_case` format.  
+- The `id` field must be wrapped in double quotes to avoid any type of ambiguity, as this field must be of string format.
+- The remaining `name`, `description`, `group`, and `remediation` fields must not be wrapped in quotes, as they are text-based values always.
+- Take advantage of markdown tags in the `name`, `description`, and `remediation` fields to make the text easy and compelling to read.
+- The `name` field of `facts`, `values`, and `expectations` must follow `camel_case` format.  
   For example:
   ```
   facts:
@@ -626,12 +626,12 @@ In order to have a standardized format of writting checks, follow the next best 
   values:
     - name: expected_foo
       default: 30
-
+  
   expectations:
     - name: some_expectation
       expect: facts.foo == values.expected_foo
   ```
-- If the gathered fact is plainly compared to a value, using a `value` and `expected_value` names for facts and values respectively is recommended, as it improves the meaning of the comparison.  
+- If the gathered fact is compared to a value, using `value` and `expected_value` names for facts and values respectively is recommended, as it improves the meaning of the comparison.  
   For example:
   ```
   facts:
@@ -641,7 +641,7 @@ In order to have a standardized format of writting checks, follow the next best 
     - name: expected_some_fact
   ...
   ```
-- Avoid adding prefixes as `facts` or `values` to the entries of these sections, as they already use this as a namespace.
+- Avoid adding prefixes such as `facts` or `values` to the entries of these sections, as they already use this as a namespace.
 For example, the next example should be avoided, as the `facts` prefix would be redundant in the expectation expression:
   ```
   facts:
@@ -678,4 +678,4 @@ For example, the next example should be avoided, as the `facts` prefix would be 
         .find(|item| item.id == "super").properties
         .find(|prop| prop.name == "good").value
   ```
-  > Note: Keep in mind that some functions as `sort` and `drain` run in-place modifications, so they cannot be piped.
+  > Note: Keep in mind that some functions such as `sort` and `drain` run in-place modifications, so they cannot be piped.
