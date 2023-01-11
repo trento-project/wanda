@@ -1,0 +1,36 @@
+id: "68626E"
+name: SBD msgwait timeout
+group: SBD
+description: |
+  SBD msgwait timeout value is at least two times the watchdog timeout
+remediation: |
+  ## Remediation
+  Make sure you configure your the SBD msgwait to 2 * (SBD Watchdog Timeout) as recommended on the best practices.
+
+  The SBD is not used in GCP or AWS environments.
+  ## References
+  Azure:
+
+    - https://docs.microsoft.com/en-us/azure/virtual-machines/workloads/sap/high-availability-guide-suse-pacemaker#set-up-sbd-device
+    - https://docs.microsoft.com/en-us/azure/virtual-machines/workloads/sap/high-availability-guide-suse-pacemaker#set-up-the-iscsi-target-server-sbd-device
+
+  AWS:
+
+  GCP:
+
+  Nutanix:
+
+    - https://documentation.suse.com/sbp/all/single-html/SLES4SAP-hana-sr-guide-PerfOpt-15/#id-verifying-the-sbd-device
+
+  SUSE / KVM:
+
+    - https://documentation.suse.com/sbp/all/single-html/SLES4SAP-hana-sr-guide-PerfOpt-15/#id-verifying-the-sbd-device
+
+facts:
+  - name: dump_sbd_devices
+    gatherer: sbd_dump
+    #should only run on 'azure', 'nutanix' or 'kvm', NOT on 'gcp' or 'aws'
+
+expectations:
+  - name: expectations_sbd_msgwait_timeout
+    expect: facts.dump_sbd_devices.values().all(|sbddev| sbddev.timeout_msgwait >= 2 * sbddev.timeout_watchdog)
