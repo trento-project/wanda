@@ -42,9 +42,9 @@ facts:
     gatherer: cibadmin
     argument: cib.configuration.crm_config.cluster_property_set
 
-
 expectations:
   - name: expectations_fencing_enabled
-    expect: facts.crm_config_properties.find(|item| item.id == "cib-bootstrap-options").nvpair.find(|prop| prop.name == "stonith-enabled").value
-
-
+    expect: |
+      facts.crm_config_properties
+           .find(|item| item.id == "cib-bootstrap-options").nvpair
+           .find(|prop| prop.name == "stonith-enabled").value

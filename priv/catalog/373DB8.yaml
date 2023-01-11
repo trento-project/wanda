@@ -54,6 +54,9 @@ values:
       - value: 144
         when: env.provider == "azure"
 
+  - name: expected_azure_fencing_timeout
+    default: 900
+
 expectations:
   - name: expectations_fencing_timeout
     expect: |
@@ -67,8 +70,7 @@ expectations:
                .filter(|item| item.type == "fence_azure_arm").len() != 0;
 
       if fence_azure_arm_detected {
-        fencing_timeout == 900;
+        fencing_timeout == values.expected_azure_fencing_timeout;
       } else {
         fencing_timeout >= values.expected_fencing_timeout;
       }
-
