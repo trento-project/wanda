@@ -27,6 +27,12 @@ defmodule Wanda.Executions.Server do
 
   @default_timeout 5 * 60 * 1_000
 
+  @doc """
+  Starts a check execution.
+
+  The checks are filtered leveraging the `env` and evaluating the `when` condition using a best-effort approach.
+  If non-existing check IDs are provided inside a target, they will get filtered away.
+  """
   @impl true
   def start_execution(execution_id, group_id, targets, env, config \\ []) do
     checks =
