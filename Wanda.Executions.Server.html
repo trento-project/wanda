@@ -12,7 +12,7 @@
 
     <script src="dist/handlebars.runtime-NWIB6V2M.js"></script>
     <script src="dist/handlebars.templates-X7YVL3G2.js"></script>
-    <script src="dist/sidebar_items-82C13AA5.js"></script>
+    <script src="dist/sidebar_items-E6954882.js"></script>
 
       <script src="docs_config.js"></script>
 
@@ -142,6 +142,16 @@ Orchestrates facts gathering on the targets - issuing execution and receiving ba
 
       <div class="summary-row">
         <div class="summary-signature">
+          <a href="#start_execution/5" translate="no">start_execution(execution_id, group_id, targets, env, config \\ [])</a>
+
+        </div>
+
+          <div class="summary-synopsis"><p>Starts a check execution.</p></div>
+
+      </div>
+
+      <div class="summary-row">
+        <div class="summary-signature">
           <a href="#start_link/1" translate="no">start_link(opts)</a>
 
         </div>
@@ -184,6 +194,31 @@ Functions
 <p>Returns a specification to start this module under a supervisor.</p><p>See <a href="https://hexdocs.pm/elixir/Supervisor.html"><code class="inline">Supervisor</code></a>.</p>
   </section>
 </section>
+<section class="detail" id="start_execution/5">
+
+    <span id="start_execution/4"></span>
+
+  <div class="detail-header">
+    <a href="#start_execution/5" class="detail-link" title="Link to this function">
+      <i class="ri-link-m" aria-hidden="true"></i>
+      <span class="sr-only">Link to this function</span>
+    </a>
+    <h1 class="signature" translate="no">start_execution(execution_id, group_id, targets, env, config \\ [])</h1>
+
+      <a href="https://github.com/trento-project/wanda/blob/main/lib/wanda/executions/server.ex#L37" class="view-source" rel="help" title="View Source">
+       <i class="ri-code-s-slash-line" aria-hidden="true"></i>
+       <span class="sr-only">View Source</span>
+     </a>
+
+
+  </div>
+
+  <section class="docstring">
+
+<p>Starts a check execution.</p><p>The checks are filtered leveraging the <code class="inline">env</code> and evaluating the <code class="inline">when</code> condition using a best-effort approach.
+If non-existing check IDs are provided inside a target, they will get filtered away.</p>
+  </section>
+</section>
 <section class="detail" id="start_link/1">
 
   <div class="detail-header">
@@ -193,7 +228,7 @@ Functions
     </a>
     <h1 class="signature" translate="no">start_link(opts)</h1>
 
-      <a href="https://github.com/trento-project/wanda/blob/main/lib/wanda/executions/server.ex#L51" class="view-source" rel="help" title="View Source">
+      <a href="https://github.com/trento-project/wanda/blob/main/lib/wanda/executions/server.ex#L57" class="view-source" rel="help" title="View Source">
        <i class="ri-code-s-slash-line" aria-hidden="true"></i>
        <span class="sr-only">View Source</span>
      </a>
