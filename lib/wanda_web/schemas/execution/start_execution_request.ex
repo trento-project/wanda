@@ -4,6 +4,7 @@ defmodule WandaWeb.Schemas.StartExecutionRequest do
   """
 
   alias OpenApiSpex.Schema
+  alias WandaWeb.Schemas.Env
 
   require OpenApiSpex
 
@@ -30,26 +31,6 @@ defmodule WandaWeb.Schemas.StartExecutionRequest do
       },
       required: [:agent_id, :checks]
     })
-  end
-
-  defmodule Env do
-    @moduledoc false
-
-    OpenApiSpex.schema(
-      %{
-        title: "ExecutionEnv",
-        description: "Contextual Environment for the current execution",
-        type: :object,
-        additionalProperties: %Schema{
-          oneOf: [
-            %Schema{type: :string},
-            %Schema{type: :integer},
-            %Schema{type: :boolean}
-          ]
-        }
-      },
-      struct?: false
-    )
   end
 
   OpenApiSpex.schema(%{
