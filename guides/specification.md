@@ -388,7 +388,7 @@ Expectations are assertions on the state of a target infrastructure for a given 
 An Expectation declaration contains:
 
 - the expectation name
-- the expectation expression itself with [access](#evaluation-scope) to gathered [facts](#facts-1), [resolved values](#values-1) and the [environment](#env)
+- the expectation expression itself with [access](#evaluation-scope) to gathered [facts](#facts-1) and [resolved values](#values-1)
 
 ```yaml
 expectations:
