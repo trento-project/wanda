@@ -16,7 +16,7 @@ defmodule WandaWeb.Schemas.CatalogResponse.Check do
       name: %Schema{type: :string, description: "Check name"},
       when: %Schema{
         type: :string,
-        description: "When clause used to filter checks",
+        description: "Expression to determine whether a check should run",
         nullable: true
       },
       severity: %Schema{
