@@ -31,6 +31,8 @@ remediation: |
 
     - https://documentation.suse.com/sle-ha/15-SP3/html/SLE-HA-all/cha-ha-storage-protect.html#pro-ha-storage-protect-sbd-services
 
+when: env.provider == "azure" || env.provider == "nutanix" || env.provider == "kvm"
+
 facts:
   - name: sbd_service_state
     gatherer: systemd
@@ -38,7 +40,6 @@ facts:
 
 values:
   - name: expected_sbd_service_state
-    #should only run on 'azure', 'nutanix' or 'kvm', NOT on 'gcp' or 'aws'
     default: active
 
 expectations:

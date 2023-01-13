@@ -46,6 +46,8 @@ remediation: |
     - https://documentation.suse.com/sbp/all/single-html/SLES4SAP-hana-sr-guide-PerfOpt-15/#id-1.11.5.5.4.4
     - https://documentation.suse.com/sle-ha/15-SP3/html/SLE-HA-all/cha-ha-storage-protect.html
 
+when: env.provider == "azure" || env.provider == "nutanix" || env.provider == "kvm"
+
 facts:
   - name: sbd_startmode
     gatherer: sbd_config
@@ -53,7 +55,6 @@ facts:
 
 values:
   - name: expected_sbd_startmode
-    # should only run on 'azure', 'nutanix' or 'kvm', NOT on 'gcp' or 'aws'
     default: clean
     conditions:
       - value: always
@@ -61,4 +62,4 @@ values:
 
 expectations:
   - name: expectations_sbd_startmode
-    expect: facts.sbd_sbd_startmode == values.expected_sbd_startmode
+    expect: facts.sbd_startmode == values.expected_sbd_startmode

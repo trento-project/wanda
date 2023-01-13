@@ -26,10 +26,11 @@ remediation: |
 
     - https://documentation.suse.com/sbp/all/single-html/SLES4SAP-hana-sr-guide-PerfOpt-15/#id-verifying-the-sbd-device
 
+when: env.provider == "azure" || env.provider == "nutanix" || env.provider == "kvm"
+
 facts:
   - name: dump_sbd_devices
     gatherer: sbd_dump
-    #should only run on 'azure', 'nutanix' or 'kvm', NOT on 'gcp' or 'aws'
 
 expectations:
   - name: expectations_sbd_msgwait_timeout
