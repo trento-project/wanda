@@ -1,5 +1,5 @@
-id: 15F7A8
-name: Corosync runtime
+id: "15F7A8"
+name: Check Corosync token_retransmits_before_loss_const during runtime
 group: Corosync
 description: |
   Corosync is running with `token_retransmits_before_loss_const` set to the recommended value
@@ -43,7 +43,7 @@ remediation: |
     - https://documentation.suse.com/sbp/all/single-html/SLES4SAP-hana-sr-guide-PerfOpt-15/#id-example-for-etccorosynccorosync-conf
 
 facts:
-  - name: facts_token_retransmits
+  - name: token_retransmits
     gatherer: corosync-cmapctl
     argument: runtime.config.totem.token_retransmits_before_loss_const
 
@@ -56,4 +56,4 @@ values:
 
 expectations:
   - name: expectations_token_retransmits
-    expect: facts.facts_token_retransmits == values.expected_token_retransmits
+    expect: facts.token_retransmits == values.expected_token_retransmits

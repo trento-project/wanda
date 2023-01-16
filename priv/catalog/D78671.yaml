@@ -1,5 +1,5 @@
-id: D78671
-name: Corosync runtime
+id: "D78671"
+name: Check Corosync two_node value during runtime
 group: Corosync
 description: |
   Corosync is running with two_node set to the recommended value
@@ -44,7 +44,7 @@ remediation: |
     - https://documentation.suse.com/sbp/all/single-html/SLES4SAP-hana-sr-guide-PerfOpt-15/#id-example-for-etccorosynccorosync-conf
 
 facts:
-  - name: facts_runtime_two_node
+  - name: runtime_two_node
     gatherer: corosync-cmapctl
     argument: runtime.votequorum.two_node
 
@@ -54,4 +54,4 @@ values:
 
 expectations:
   - name: expectations_two_node
-    expect: facts.facts_runtime_two_node == values.expected_runtime_two_node
+    expect: facts.runtime_two_node == values.expected_runtime_two_node

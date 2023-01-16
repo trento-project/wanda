@@ -1,5 +1,5 @@
 id: "822E47"
-name: Corosync runtime
+name: Check Corosync join timeout during runtime
 group: Corosync
 description: |
   Corosync is running with `join` timeout set to the recommended value
@@ -43,7 +43,7 @@ remediation: |
     - https://documentation.suse.com/sbp/all/single-html/SLES4SAP-hana-sr-guide-PerfOpt-15/#id-example-for-etccorosynccorosync-conf
 
 facts:
-  - name: facts_runtime_join
+  - name: runtime_join
     gatherer: corosync-cmapctl
     argument: runtime.config.totem.join
 
@@ -53,4 +53,4 @@ values:
 
 expectations:
   - name: expectations_runtime_join
-    expect: facts.facts_runtime_join == values.expected_runtime_join
+    expect: facts.runtime_join == values.expected_runtime_join

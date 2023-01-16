@@ -1,5 +1,5 @@
-id: FB0E0D
-name: Corosync runtime
+id: "FB0E0D"
+name: Check Corosync consensus timeout during runtime
 group: Corosync
 description: |
   Corosync is running with consensus timeout set to the recommended value
@@ -43,7 +43,7 @@ remediation: |
   - https://documentation.suse.com/sbp/all/single-html/SLES4SAP-hana-sr-guide-PerfOpt-15/#id-example-for-etccorosynccorosync-conf
 
 facts:
-  - name: facts_consensus_timeout
+  - name: consensus_timeout
     gatherer: corosync-cmapctl
     argument: runtime.config.totem.consensus
 
@@ -58,4 +58,4 @@ values:
 
 expectations:
   - name: expectations_consensus_timeout
-    expect: facts.facts_consensus_timeout == values.expected_consensus_timeout
+    expect: facts.consensus_timeout == values.expected_consensus_timeout

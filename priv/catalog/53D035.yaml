@@ -1,5 +1,5 @@
-id: 53D035
-name: Corosync runtime
+id: "53D035"
+name: Check Corosync token timeout during runtime
 group: Corosync
 description: |
   Corosync is running with token timeout set to the recommended value
@@ -45,7 +45,7 @@ remediation: |
     - https://documentation.suse.com/sbp/all/single-html/SLES4SAP-hana-sr-guide-PerfOpt-15/#id-example-for-etccorosynccorosync-conf
 
 facts:
-  - name: facts_token_timeout
+  - name: token_timeout
     gatherer: corosync-cmapctl
     argument: runtime.config.totem.token
 
@@ -60,4 +60,4 @@ values:
 
 expectations:
   - name: expectations_token_timeout
-    expect: facts.facts_token_timeout == values.expected_token_timeout
+    expect: facts.token_timeout == values.expected_token_timeout

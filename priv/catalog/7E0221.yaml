@@ -1,5 +1,5 @@
 id: "7E0221"
-name: Corosync runtime
+name: Check Corosync transport settings during runtime
 group: Corosync
 description: |
   Corosync is running with `transport` set to the recommended value
@@ -63,7 +63,7 @@ remediation: |
     - https://documentation.suse.com/sbp/all/single-html/SLES4SAP-hana-sr-guide-PerfOpt-15/#id-example-for-etccorosynccorosync-conf
 
 facts:
-  - name: facts_runtime_transport
+  - name: runtime_transport
     gatherer: corosync-cmapctl
     argument: totem.transport
 
@@ -73,4 +73,4 @@ values:
     
 expectations:
   - name: expectations_runtime_transport
-    expect: facts.facts_runtime_transport == values.expected_runtime_transport
+    expect: facts.runtime_transport == values.expected_runtime_transport
