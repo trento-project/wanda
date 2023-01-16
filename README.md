@@ -41,6 +41,7 @@ With a running setup, it is possible to easily test Checks and their Execution b
 - consulting the catalog
 - starting a Checks Execution
 - checking the state of an execution
+- debugging the gathered facts
 
 #### **Starting the targets**
 
@@ -196,6 +197,33 @@ curl --request GET 'http://localhost:4000/api/checks/executions/205e326d-0c25-4f
 > In this case retry getting the detail of the execution.
 
 Refer to the [API doc](http://localhost:4000/swaggerui) for more information about requests and responses.
+
+#### **Debugging gathered facts**
+
+Often times knowing the returned value of the gathered facts is not a trivial thing, more during the implementation of new checks.
+
+To better debug the fact gathering process and the returned values the `facts` subcommand of `trento-agent` is a really useful tool. This command helps to see in the target itself what the gathered fact looks like. This is specially interesting when the returned value is a complex object or the target under test is modified and the check developer wants to see how this affects to the gathered fact.
+
+The command can be used as:
+
+```
+./trento-agent facts gather --gatherer corosync.conf --argument totem.token
+# To see the currently available gatherers and their names
+# ./trento-agent facts list
+```
+
+Which would return the next where the `Value` is the available value in the written check:
+
+```
+{
+  "Name": "totem.token",
+  "CheckID": "",
+  "Value": {
+    "Value": 30000
+  },
+  "Error": null
+} 
+```
 
 ### Adding new Checks
 
