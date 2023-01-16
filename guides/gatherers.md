@@ -269,13 +269,21 @@ Example output (in Rhai):
 
 **Argument required**: yes.
 
-This gatherer returns the version as a string of the specified rpm package.
+This gatherer supports two usecases:
+ - it can be used to return the version as a string of the specified package.
+ - it can be used to compare a given version string against the installed version string of a given package.
+
+While for the first usecase, a simple string containing the version is returned, for the second usecase, the return value is as follows:
+ - A value of `0` if the provided version string matches the installed package version for the requested package.
+ - A value of `-1` if the provided version string is older that what's currently installed.
+ - A value of `1` if the provided version string is newer than what's currently installed.
 
 Example arguments:
 
-| Name           | Return value                                                 |
-| :------------- | :----------------------------------------------------------- |
-| `package_name` | a string containing the installed version of the rpm package |
+| Name             | Return value                                                 |
+| :--------------- | :----------------------------------------------------------- |
+| `package_name`   | a string containing the installed version of the rpm package |
+| `corosync,2.4.5` | an integer with a value of `-1`, `0` or `-1` (see above)     |
 
 Example specification:
 
@@ -288,16 +296,25 @@ facts:
   - name: pacemaker_version
     gatherer: package_version
     argument: pacemaker
+
+  - name: corosync_compare
+    gatherer: package_version
+    argument: corosync,2.4.5
+
+  ...
 ```
 
 Example output (in Rhai):
 
 ```ts
-// corosync
+// corosync_version
 "2.4.5";
 
-// pacemaker
+// pacemaker_version
 "2.0.4+20200616.2deceaa3a";
+
+// corosync_compare
+0
 ```
 
 ### saphostctrl
