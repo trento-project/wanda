@@ -37,9 +37,32 @@ Wanda is exposed on port `4000` and the API documentation is available at http:/
 
 With a running setup, it is possible to easily test Checks and their Execution by:
 
+- starting the targets
 - consulting the catalog
 - starting a Checks Execution
 - checking the state of an execution
+
+#### **Starting the targets**
+
+The [trento-agent](https://github.com/trento-project/agent) must be up and running on the targets to run a correct execution, otherwise a timeout error is raised.
+
+Here an example on how to start it:
+
+```
+./trento-agent start --ssh-address <ssh-address> --api-key <api-key> --factsengine --facts-service-url amqp://wanda:wanda@localhost:5674
+```
+
+> Note: `ssh-address` and `api-key` values are not used if the unique goal is to run checks, so setting them as `--ssh-address 0 --api-key 0` does the work.
+
+Keep in mind that the `agent_id` of the targets must match with values provided in the `targets` field of the execution request.
+
+The ID can be obtained running:
+
+```
+./trento-agent id
+```
+
+If the execution is run in a development/testing environment, [faking the agent id](https://github.com/trento-project/agent#fake-agent-id) might come handy. 
 
 #### **Consulting the catalog**
 
