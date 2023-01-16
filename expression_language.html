@@ -131,7 +131,7 @@ Wanda
   </a>
   Comparing different types defaults to <code class="inline">false</code>
 </h3>
-<p>Comparing two values of <em>different</em> data types defaults to <code class="inline">false</code>.</p><p>The exception is <code class="inline">!=</code> (not equals) which defaults to <code class="inline">true</code>. This is in line with intuition.</p><pre><code class="rust">42 &gt; &quot;42&quot;;          // false: i64 cannot be compared with string
+<p>Comparing two values of <em>different</em> data types defaults to <code class="inline">false</code>.</p><p>The exception is <code class="inline">!=</code> (not equals) which defaults to <code class="inline">true</code>. This is in line with intuition.</p><pre><code class="ts">42 &gt; &quot;42&quot;;          // false: i64 cannot be compared with string
 42 &lt;= &quot;42&quot;;         // false: i64 cannot be compared with string
 ts == 42;           // false: different types cannot be compared
 ts != 42;           // true: different types cannot be compared</code></pre><h3 id="boolean-operators" class="section-heading">
@@ -141,7 +141,7 @@ ts != 42;           // true: different types cannot be compared</code></pre><h3 
   Boolean Operators
 </h3>
 <table><thead><tr><th style="text-align: center;">Operator</th><th style="text-align: center;">Description</th><th style="text-align: center;">Arity</th><th style="text-align: center;">Short-circuits?</th></tr></thead><tbody><tr><td style="text-align: center;"><code class="inline">!</code> <em>(prefix)</em></td><td style="text-align: center;"><em>NOT</em></td><td style="text-align: center;">unary</td><td style="text-align: center;">no</td></tr><tr><td style="text-align: center;"><code class="inline">&amp;&amp;</code></td><td style="text-align: center;"><em>AND</em></td><td style="text-align: center;">binary</td><td style="text-align: center;">yes</td></tr><tr><td style="text-align: center;"><code class="inline">&amp;</code></td><td style="text-align: center;"><em>AND</em></td><td style="text-align: center;">binary</td><td style="text-align: center;">no</td></tr><tr><td style="text-align: center;">&lt;code&gt;||&lt;/code&gt;</td><td style="text-align: center;"><em>OR</em></td><td style="text-align: center;">binary</td><td style="text-align: center;">yes</td></tr><tr><td style="text-align: center;">&lt;code&gt;|&lt;/code&gt;</td><td style="text-align: center;"><em>OR</em></td><td style="text-align: center;">binary</td><td style="text-align: center;">no</td></tr></tbody></table><p>Double boolean operators <code class="inline">&amp;&amp;</code> and <code class="inline">||</code> <em>short-circuit</em> &amp;ndash; meaning that the second operand will not be evaluated
-if the first one already proves the condition wrong.</p><p>Single boolean operators <code class="inline">&amp;</code> and <code class="inline">|</code> always evaluate both operands.</p><pre><code class="rust">a() || b();         // b() is not evaluated if a() is true
+if the first one already proves the condition wrong.</p><p>Single boolean operators <code class="inline">&amp;</code> and <code class="inline">|</code> always evaluate both operands.</p><pre><code class="ts">a() || b();         // b() is not evaluated if a() is true
 a() &amp;&amp; b();         // b() is not evaluated if a() is false
 a() | b();          // both a() and b() are evaluated
 a() &amp; b();          // both a() and b() are evaluated</code></pre><h2 id="if-statement" class="section-heading">
@@ -150,7 +150,7 @@ a() &amp; b();          // both a() and b() are evaluated</code></pre><h2 id="if
   </a>
   If Statement
 </h2>
-<p><code class="inline">if</code> statements follow C syntax.</p><pre><code class="rust">if foo(x) {
+<p><code class="inline">if</code> statements follow C syntax.</p><pre><code class="ts">if foo(x) {
     print(&quot;It's true!&quot;);
 } else if bar == baz {
     print(&quot;It's true again!&quot;);
@@ -163,7 +163,7 @@ a() &amp; b();          // both a() and b() are evaluated</code></pre><h2 id="if
 }</code></pre><blockquote><p>Unlike C, the condition expression does <em>not</em> need to be enclosed in parentheses <code class="inline">(</code>...<code class="inline">)</code>, but all
 branches of the <code class="inline">if</code> statement must be enclosed within braces <code class="inline">{</code>...<code class="inline">}</code>, even when there is only
 one statement inside the branch.
-Like Rust, there is no ambiguity regarding which <code class="inline">if</code> clause a branch belongs to.</p><pre><code class="rust">// not C!
+Like Rust, there is no ambiguity regarding which <code class="inline">if</code> clause a branch belongs to.</p><pre><code class="ts">// not C!
 if (decision) print(42);
 //            ^ syntax error, expecting '{'</code></pre></blockquote><h3 id="if-expression" class="section-heading">
   <a href="#if-expression" class="hover-link"><i class="ri-link-m" aria-hidden="true"></i>
@@ -172,7 +172,7 @@ if (decision) print(42);
   If Expression
 </h3>
 <p><code class="inline">if</code> statements can also be used as <em>expressions</em>, replacing the <code class="inline">? :</code> conditional
-operators in other C-like languages.</p><pre><code class="rust">// The following is equivalent to C: int x = 1 + (decision ? 42 : 123) / 2;
+operators in other C-like languages.</p><pre><code class="ts">// The following is equivalent to C: int x = 1 + (decision ? 42 : 123) / 2;
 let x = 1 + if decision { 42 } else { 123 } / 2;
 x == 22;
 let x = if decision { 42 }; // no else branch defaults to '()'
@@ -183,7 +183,7 @@ x == ();</code></pre><h2 id="arrays" class="section-heading">
   Arrays
 </h2>
 <p>All elements stored in an array are dynamic, and the array can freely grow or shrink with elements
-added or removed.</p><p>Array literals are built within square brackets <code class="inline">[</code> ... <code class="inline">]</code> and separated by commas <code class="inline">,</code>:</p><blockquote><p><code class="inline">[</code> <em>value</em><code class="inline">,</code> <em>value</em><code class="inline">,</code> ... <code class="inline">,</code> <em>value</em> <code class="inline">]</code></p><p><code class="inline">[</code> <em>value</em><code class="inline">,</code> <em>value</em><code class="inline">,</code> ... <code class="inline">,</code> <em>value</em> <code class="inline">,</code> <code class="inline">]</code> <code class="inline">// trailing comma is OK</code></p></blockquote><pre><code class="rust">let some_list = [1, 2, 3];
+added or removed.</p><p>Array literals are built within square brackets <code class="inline">[</code> ... <code class="inline">]</code> and separated by commas <code class="inline">,</code>:</p><blockquote><p><code class="inline">[</code> <em>value</em><code class="inline">,</code> <em>value</em><code class="inline">,</code> ... <code class="inline">,</code> <em>value</em> <code class="inline">]</code></p><p><code class="inline">[</code> <em>value</em><code class="inline">,</code> <em>value</em><code class="inline">,</code> ... <code class="inline">,</code> <em>value</em> <code class="inline">,</code> <code class="inline">]</code> <code class="inline">// trailing comma is OK</code></p></blockquote><pre><code class="ts">let some_list = [1, 2, 3];
 
 let another_list = [&quot;foo&quot;, &quot;bar&quot;, 42];</code></pre><h3 id="access-element-from-beginning" class="section-heading">
   <a href="#access-element-from-beginning" class="hover-link"><i class="ri-link-m" aria-hidden="true"></i>
@@ -191,7 +191,7 @@ let another_list = [&quot;foo&quot;, &quot;bar&quot;, 42];</code></pre><h3 id="a
   </a>
   Access Element From beginning
 </h3>
-<p>Like C, arrays are accessed with zero-based, non-negative integer indices:</p><blockquote><p><em>array</em> <code class="inline">[</code> <em>index position from 0 to length−1</em> <code class="inline">]</code></p></blockquote><pre><code class="rust">let some_list = [&quot;foo&quot;, &quot;bar&quot;, 42];
+<p>Like C, arrays are accessed with zero-based, non-negative integer indices:</p><blockquote><p><em>array</em> <code class="inline">[</code> <em>index position from 0 to length−1</em> <code class="inline">]</code></p></blockquote><pre><code class="ts">let some_list = [&quot;foo&quot;, &quot;bar&quot;, 42];
 
 let second_element = some_list[1];
 
@@ -202,13 +202,13 @@ let second_element = some_list[1];
   Access Element From end
 </h3>
 <p>A <em>negative</em> position accesses an element in the array counting from the <em>end</em>, with −1 being the
-<em>last</em> element.</p><blockquote><p><em>array</em> <code class="inline">[</code> <em>index position from −1 to −length</em> <code class="inline">]</code></p></blockquote><pre><code class="rust">let some_list = [&quot;foo&quot;, &quot;bar&quot;, 42];
+<em>last</em> element.</p><blockquote><p><em>array</em> <code class="inline">[</code> <em>index position from −1 to −length</em> <code class="inline">]</code></p></blockquote><pre><code class="ts">let some_list = [&quot;foo&quot;, &quot;bar&quot;, 42];
 
 let second_element = some_list[-2];
 let last_element = some_list[-1];
 
 // second_element is &quot;bar&quot;
-// last_element is 42</code></pre><table><thead><tr><th style="text-align: left;">Function</th><th style="text-align: left;">Parameter(s)</th><th style="text-align: left;">Description</th></tr></thead><tbody><tr><td style="text-align: left;"><code class="inline">get</code></td><td style="text-align: left;">position, counting from end if &lt; 0</td><td style="text-align: left;">gets a copy of the element at a certain position (<code class="inline">()</code> if the position is not valid)</td></tr><tr><td style="text-align: left;"><code class="inline">len</code></td><td style="text-align: left;"><em>none</em></td><td style="text-align: left;">returns the number of elements</td></tr><tr><td style="text-align: left;"><code class="inline">filter</code></td><td style="text-align: left;">predicate (usually a closure)</td><td style="text-align: left;">constructs a new array with all items that return <code class="inline">true</code> when called with the predicate function taking the following parameters:&lt;ol&gt;&lt;li&gt;array item&lt;/li&gt;&lt;li&gt;<em>(optional)</em> offset position&lt;/li&gt;&lt;/ol&gt;</td></tr><tr><td style="text-align: left;"><code class="inline">all</code></td><td style="text-align: left;">predicate (usually a closure)</td><td style="text-align: left;">returns <code class="inline">true</code> if all items return <code class="inline">true</code> when called with the predicate function taking the following parameters:&lt;ol&gt;&lt;li&gt;array item&lt;/li&gt;&lt;li&gt;<em>(optional)</em> offset position&lt;/li&gt;&lt;/ol&gt;</td></tr></tbody></table><p>Examples</p><pre><code class="rust">let some_list = [1, 2, 3, 4, &quot;foo&quot;, &quot;bar&quot;];
+// last_element is 42</code></pre><table><thead><tr><th style="text-align: left;">Function</th><th style="text-align: left;">Parameter(s)</th><th style="text-align: left;">Description</th></tr></thead><tbody><tr><td style="text-align: left;"><code class="inline">get</code></td><td style="text-align: left;">position, counting from end if &lt; 0</td><td style="text-align: left;">gets a copy of the element at a certain position (<code class="inline">()</code> if the position is not valid)</td></tr><tr><td style="text-align: left;"><code class="inline">len</code></td><td style="text-align: left;"><em>none</em></td><td style="text-align: left;">returns the number of elements</td></tr><tr><td style="text-align: left;"><code class="inline">filter</code></td><td style="text-align: left;">predicate (usually a closure)</td><td style="text-align: left;">constructs a new array with all items that return <code class="inline">true</code> when called with the predicate function taking the following parameters:&lt;ol&gt;&lt;li&gt;array item&lt;/li&gt;&lt;li&gt;<em>(optional)</em> offset position&lt;/li&gt;&lt;/ol&gt;</td></tr><tr><td style="text-align: left;"><code class="inline">all</code></td><td style="text-align: left;">predicate (usually a closure)</td><td style="text-align: left;">returns <code class="inline">true</code> if all items return <code class="inline">true</code> when called with the predicate function taking the following parameters:&lt;ol&gt;&lt;li&gt;array item&lt;/li&gt;&lt;li&gt;<em>(optional)</em> offset position&lt;/li&gt;&lt;/ol&gt;</td></tr></tbody></table><p>Examples</p><pre><code class="ts">let some_list = [1, 2, 3, 4, &quot;foo&quot;, &quot;bar&quot;];
 
 let foo = some_list.get(4); // &quot;foo&quot;
 
@@ -228,7 +228,7 @@ let all_greater_than_10 = another_list.all(|item| item &gt; 10); // false
   Maps
 </h2>
 <p>Maps are hash dictionaries. Properties are all dynamic values and can be freely added and retrieved.</p><p>Map literals are built within braces <code class="inline">#{</code> ... <code class="inline">}</code> with <em>name</em><code class="inline">:</code><em>value</em> pairs separated by
-commas <code class="inline">,</code>:</p><blockquote><p><code class="inline">#{</code> <em>property</em> <code class="inline">:</code> <em>value</em><code class="inline">,</code> ... <code class="inline">,</code> <em>property</em> <code class="inline">:</code> <em>value</em> <code class="inline">}</code></p><p><code class="inline">#{</code> <em>property</em> <code class="inline">:</code> <em>value</em><code class="inline">,</code> ... <code class="inline">,</code> <em>property</em> <code class="inline">:</code> <em>value</em> <code class="inline">,</code> <code class="inline">}</code> <code class="inline">// trailing comma is OK</code></p></blockquote><pre><code class="rust">let some_map = #{              // map literal with 2 properties
+commas <code class="inline">,</code>:</p><blockquote><p><code class="inline">#{</code> <em>property</em> <code class="inline">:</code> <em>value</em><code class="inline">,</code> ... <code class="inline">,</code> <em>property</em> <code class="inline">:</code> <em>value</em> <code class="inline">}</code></p><p><code class="inline">#{</code> <em>property</em> <code class="inline">:</code> <em>value</em><code class="inline">,</code> ... <code class="inline">,</code> <em>property</em> <code class="inline">:</code> <em>value</em> <code class="inline">,</code> <code class="inline">}</code> <code class="inline">// trailing comma is OK</code></p></blockquote><pre><code class="ts">let some_map = #{              // map literal with 2 properties
     foo: 42,
     bar: &quot;hello&quot;,
 };</code></pre><h3 id="dot-notation" class="section-heading">
@@ -237,7 +237,7 @@ commas <code class="inline">,</code>:</p><blockquote><p><code class="inline">#{<
   </a>
   Dot notation
 </h3>
-<p>The <em>dot notation</em> allows to access properties by name.</p><blockquote><p><em>object</em> <code class="inline">.</code> <em>property</em></p></blockquote><pre><code class="rust">let some_map = #{              // map literal with 2 properties
+<p>The <em>dot notation</em> allows to access properties by name.</p><blockquote><p><em>object</em> <code class="inline">.</code> <em>property</em></p></blockquote><pre><code class="ts">let some_map = #{              // map literal with 2 properties
     foo: 42,
     bar: &quot;hello&quot;,
 };
@@ -250,7 +250,7 @@ some_map.bar // &quot;hello&quot;
   </a>
   Non-existing property
 </h3>
-<p>Trying to read a non-existing property returns an error.</p><pre><code class="rust">let some_map = #{              // map literal with 2 properties
+<p>Trying to read a non-existing property returns an error.</p><pre><code class="ts">let some_map = #{              // map literal with 2 properties
     foo: 42,
     bar: &quot;hello&quot;,
 };
@@ -261,7 +261,7 @@ some_map.another_property      // returns &quot;Property not found: another_prop
   </a>
   A more complex example
 </h3>
-<pre><code class="rust">let some_map = #{              // map literal with 2 properties
+<pre><code class="ts">let some_map = #{              // map literal with 2 properties
     foo: 42,
     bar: &quot;hello&quot;,
     rabbits: [

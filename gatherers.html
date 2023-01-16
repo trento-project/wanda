@@ -113,21 +113,21 @@ Wanda
   </a>
   Introduction
 </h2>
-<p>Gatherers can be thought of as functions:</p><ul><li>they have a name</li><li>they accept argument(s)</li><li>they return a value, the gathered <a href="specification.html#facts">Fact</a></li></ul><p>Facts Gathering process in a nutshell</p><pre><code class="makeup elixir" translate="no"><span class="n">fact</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">gatherer</span><span class="p" data-group-id="9263339230-1">(</span><span class="n">argument</span><span class="p" data-group-id="9263339230-1">)</span></code></pre><h2 id="available-gatherers" class="section-heading">
+<p>Gatherers can be thought of as functions:</p><ul><li>they have a name</li><li>they accept argument(s)</li><li>they return a value, the gathered <a href="specification.html#facts">Fact</a></li></ul><p>Facts Gathering process in a nutshell</p><pre><code class="makeup elixir" translate="no"><span class="n">fact</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">gatherer</span><span class="p" data-group-id="4304495755-1">(</span><span class="n">argument</span><span class="p" data-group-id="4304495755-1">)</span></code></pre><h2 id="available-gatherers" class="section-heading">
   <a href="#available-gatherers" class="hover-link"><i class="ri-link-m" aria-hidden="true"></i>
   <p class="sr-only">available-gatherers</p>
   </a>
   Available Gatherers
 </h2>
-<p>Here's a collection of build-in gatherers, with information about how to use them.</p><table><thead><tr><th style="text-align: left;">Name</th><th style="text-align: left;">Implementation</th></tr></thead><tbody><tr><td style="text-align: left;"><a href="#cibadmin"><code class="inline">cibadmin</code></a></td><td style="text-align: left;"><a href="https://github.com/trento-project/agent/blob/main/internal/factsengine/gatherers/cibadmin.go">trento-project/agent/../gatherers/cibadmin.go</a></td></tr><tr><td style="text-align: left;"><a href="#corosyncconf"><code class="inline">corosync.conf</code></a></td><td style="text-align: left;"><a href="https://github.com/trento-project/agent/blob/main/internal/factsengine/gatherers/corosyncconf.go">trento-project/agent/../gatherers/corosyncconf.go</a></td></tr><tr><td style="text-align: left;"><a href="#corosync-cmapctl"><code class="inline">corosync-cmapctl</code></a></td><td style="text-align: left;"><a href="https://github.com/trento-project/agent/blob/main/internal/factsengine/gatherers/corosynccmapctl.go">trento-project/agent/../gatherers/corosynccmapctl.go</a></td></tr><tr><td style="text-align: left;"><a href="#hosts-etchosts"><code class="inline">hosts</code></a></td><td style="text-align: left;"><a href="https://github.com/trento-project/agent/blob/main/internal/factsengine/gatherers/hostsfile.go">trento-project/agent/../gatherers/hostsfile.go</a></td></tr><tr><td style="text-align: left;"><a href="#package_version"><code class="inline">package_version</code></a></td><td style="text-align: left;"><a href="https://github.com/trento-project/agent/blob/main/internal/factsengine/gatherers/packageversion.go">trento-project/agent/../gatherers/packageversion.go</a></td></tr><tr><td style="text-align: left;"><a href="#saphostctrl"><code class="inline">saphostctrl</code></a></td><td style="text-align: left;"><a href="https://github.com/trento-project/agent/blob/main/internal/factsengine/gatherers/saphostctrl.go">trento-project/agent/../gatherers/saphostctrl.go</a></td></tr><tr><td style="text-align: left;"><a href="#sbd_config"><code class="inline">sbd_config</code></a></td><td style="text-align: left;"><a href="https://github.com/trento-project/agent/blob/main/internal/factsengine/gatherers/sbd.go">trento-project/agent/../gatherers/sbd.go</a></td></tr><tr><td style="text-align: left;"><a href="#sbd_dump"><code class="inline">sbd_dump</code></a></td><td style="text-align: left;"><a href="https://github.com/trento-project/agent/blob/main/internal/factsengine/gatherers/sbddump.go">trento-project/agent/../gatherers/sbddump.go</a></td></tr><tr><td style="text-align: left;"><a href="#systemd"><code class="inline">systemd</code></a></td><td style="text-align: left;"><a href="https://github.com/trento-project/agent/blob/main/internal/factsengine/gatherers/systemd.go">trento-project/agent/../gatherers/systemd.go</a></td></tr><tr><td style="text-align: left;"><a href="#verify_password"><code class="inline">verify_password</code></a></td><td style="text-align: left;"><a href="https://github.com/trento-project/agent/blob/main/internal/factsengine/gatherers/verifypassword.go">trento-project/agent/../gatherers/verifypassword.go</a></td></tr></tbody></table><h3 id="cibadmin" class="section-heading">
+<p>Here's a collection of built-in gatherers, with information about how to use them.</p><table><thead><tr><th style="text-align: left;">Name</th><th style="text-align: left;">Implementation</th></tr></thead><tbody><tr><td style="text-align: left;"><a href="#cibadmin"><code class="inline">cibadmin</code></a></td><td style="text-align: left;"><a href="https://github.com/trento-project/agent/blob/main/internal/factsengine/gatherers/cibadmin.go">trento-project/agent/../gatherers/cibadmin.go</a></td></tr><tr><td style="text-align: left;"><a href="#corosyncconf"><code class="inline">corosync.conf</code></a></td><td style="text-align: left;"><a href="https://github.com/trento-project/agent/blob/main/internal/factsengine/gatherers/corosyncconf.go">trento-project/agent/../gatherers/corosyncconf.go</a></td></tr><tr><td style="text-align: left;"><a href="#corosync-cmapctl"><code class="inline">corosync-cmapctl</code></a></td><td style="text-align: left;"><a href="https://github.com/trento-project/agent/blob/main/internal/factsengine/gatherers/corosynccmapctl.go">trento-project/agent/../gatherers/corosynccmapctl.go</a></td></tr><tr><td style="text-align: left;"><a href="#hosts-etchosts"><code class="inline">hosts</code></a></td><td style="text-align: left;"><a href="https://github.com/trento-project/agent/blob/main/internal/factsengine/gatherers/hostsfile.go">trento-project/agent/../gatherers/hostsfile.go</a></td></tr><tr><td style="text-align: left;"><a href="#package_version"><code class="inline">package_version</code></a></td><td style="text-align: left;"><a href="https://github.com/trento-project/agent/blob/main/internal/factsengine/gatherers/packageversion.go">trento-project/agent/../gatherers/packageversion.go</a></td></tr><tr><td style="text-align: left;"><a href="#saphostctrl"><code class="inline">saphostctrl</code></a></td><td style="text-align: left;"><a href="https://github.com/trento-project/agent/blob/main/internal/factsengine/gatherers/saphostctrl.go">trento-project/agent/../gatherers/saphostctrl.go</a></td></tr><tr><td style="text-align: left;"><a href="#sbd_config"><code class="inline">sbd_config</code></a></td><td style="text-align: left;"><a href="https://github.com/trento-project/agent/blob/main/internal/factsengine/gatherers/sbd.go">trento-project/agent/../gatherers/sbd.go</a></td></tr><tr><td style="text-align: left;"><a href="#sbd_dump"><code class="inline">sbd_dump</code></a></td><td style="text-align: left;"><a href="https://github.com/trento-project/agent/blob/main/internal/factsengine/gatherers/sbddump.go">trento-project/agent/../gatherers/sbddump.go</a></td></tr><tr><td style="text-align: left;"><a href="#systemd"><code class="inline">systemd</code></a></td><td style="text-align: left;"><a href="https://github.com/trento-project/agent/blob/main/internal/factsengine/gatherers/systemd.go">trento-project/agent/../gatherers/systemd.go</a></td></tr><tr><td style="text-align: left;"><a href="#verify_password"><code class="inline">verify_password</code></a></td><td style="text-align: left;"><a href="https://github.com/trento-project/agent/blob/main/internal/factsengine/gatherers/verifypassword.go">trento-project/agent/../gatherers/verifypassword.go</a></td></tr></tbody></table><h3 id="cibadmin" class="section-heading">
   <a href="#cibadmin" class="hover-link"><i class="ri-link-m" aria-hidden="true"></i>
   <p class="sr-only">cibadmin</p>
   </a>
   cibadmin
 </h3>
 <p><strong>Argument required</strong>: no.</p><p>This gatherer allows accessing Pacemaker's CIB information, the output of the <code class="inline">cibadmin</code> command more precisely.
-As the <code class="inline">cibadmin</code> command output is in XML format, the gatherer converts it to map/dictionary type of format, so the fields are available with the normal dot access way.
-Some specific fields, such as <code class="inline">primitive</code>, <code class="inline">clone</code>, <code class="inline">master</code>, etc (find the complete list <a href="https://github.com/trento-project/agent/blob/main/internal/factsengine/gatherers/cibadmin.go#L48">here</a>) are converted to lists, in order to avoid differences when the field appears one or multiple times. </p><p>Sample arguments:</p><table><thead><tr><th style="text-align: left;">Name</th><th style="text-align: left;">Return value</th></tr></thead><tbody><tr><td style="text-align: left;"><code class="inline">cib.configuration</code></td><td style="text-align: left;">complete cib configuration entry as a map</td></tr><tr><td style="text-align: left;"><code class="inline">cib.configuration.resources.primitive.0</code></td><td style="text-align: left;">first available primitive resource</td></tr><tr><td style="text-align: left;"><code class="inline">cib.configuration.crm_config.cluster_property_set.nvpair.1</code></td><td style="text-align: left;">second nvpair value from the cluster property sets</td></tr></tbody></table><p>Specification examples:</p><pre><code class="yaml">facts:
+As the <code class="inline">cibadmin</code> command output is in XML format, the gatherer converts it to map/dictionary type format, so the fields are available with the normal dot access way.
+Some specific fields, such as <code class="inline">primitive</code>, <code class="inline">clone</code>, <code class="inline">master</code>, etc (find the complete list <a href="https://github.com/trento-project/agent/blob/main/internal/factsengine/gatherers/cibadmin.go#L48">here</a>) are converted to lists, in order to avoid differences when the field appears one or multiple times.</p><p>Example arguments:</p><table><thead><tr><th style="text-align: left;">Name</th><th style="text-align: left;">Return value</th></tr></thead><tbody><tr><td style="text-align: left;"><code class="inline">cib.configuration</code></td><td style="text-align: left;">complete cib configuration entry as a map</td></tr><tr><td style="text-align: left;"><code class="inline">cib.configuration.resources.primitive.0</code></td><td style="text-align: left;">first available primitive resource</td></tr><tr><td style="text-align: left;"><code class="inline">cib.configuration.crm_config.cluster_property_set.0.nvpair.1</code></td><td style="text-align: left;">second nvpair value from the first element of cluster_property_set</td></tr></tbody></table><p>Example specification:</p><pre><code class="yaml">facts:
   - name: cib_configuration
     gatherer: cibadmin
     argument: cib.configuration
@@ -136,15 +136,35 @@ Some specific fields, such as <code class="inline">primitive</code>, <code class
     gatherer: cibadmin
     argument: cib.configuration.resources.primitive.0
 
-  - name: second_cluster_property
+  - name: first_cluster_property_set_second_nvpair
     gatherer: cibadmin
-    argument: cib.configuration.crm_config.cluster_property_set.nvpair.1</code></pre><p>For extra information refer to <a href="https://github.com/trento-project/agent/blob/main/internal/factsengine/gatherers/cibadmin_test.go">trento-project/agent/../gatherers/cibadmin_test.go</a></p><h3 id="corosync-conf" class="section-heading">
+    argument: cib.configuration.crm_config.cluster_property_set.0.nvpair.1</code></pre><p>Example output (in Rhai):</p><pre><code class="ts">// first_primitive
+#{
+    class: &quot;stonith&quot;,
+    id: &quot;stonith-sbd&quot;,
+    instance_attributes: #{
+        id: &quot;stonith-sbd-instance_attributes&quot;,
+        nvpair: [#{
+            id: &quot;stonith-sbd-instance_attributes-pcmk_delay_max&quot;,
+            name: &quot;pcmk_delay_max&quot;,
+            value: &quot;30s&quot;
+        }]
+    },
+    type: &quot;external/sbd&quot;
+};
+
+// first_cluster_property_set_second_nvpair
+#{
+    id: &quot;cib-bootstrap-options-dc-version&quot;,
+    name: &quot;dc-version&quot;,
+    value: &quot;2.0.4+20200616.2deceaa3a-3.12.1-2.0.4+20200616.2deceaa3a&quot;
+};</code></pre><h3 id="corosync-conf" class="section-heading">
   <a href="#corosync-conf" class="hover-link"><i class="ri-link-m" aria-hidden="true"></i>
   <p class="sr-only">corosync-conf</p>
   </a>
   corosync.conf
 </h3>
-<p><strong>Argument required</strong>: no.</p><p>This gatherer allows accessing information contained in <code class="inline">/etc/corosync/corosync.conf</code></p><pre><code class="makeup elixir" translate="no"><span class="n">corosync_related_fact</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">corosync</span><span class="o">.</span><span class="n">conf</span><span class="p" data-group-id="3979890897-1">(</span><span class="n">some</span><span class="o">.</span><span class="n">argument</span><span class="p" data-group-id="3979890897-1">)</span></code></pre><p>Sample arguments:</p><table><thead><tr><th style="text-align: left;">Name</th><th style="text-align: left;">Return value</th></tr></thead><tbody><tr><td style="text-align: left;"><code class="inline">totem.token</code></td><td style="text-align: left;">extracted value from the config</td></tr><tr><td style="text-align: left;"><code class="inline">totem.join</code></td><td style="text-align: left;">extracted value from the config</td></tr><tr><td style="text-align: left;"><code class="inline">nodelist.node.&lt;node_index&gt;.nodeid</code></td><td style="text-align: left;">extracted value from the config</td></tr><tr><td style="text-align: left;"><code class="inline">nodelist.node</code></td><td style="text-align: left;">list of objects representing the nodes</td></tr></tbody></table><p>Specification examples:</p><pre><code class="yaml">facts:
+<p><strong>Argument required</strong>: no.</p><p>This gatherer allows accessing the information contained in <code class="inline">/etc/corosync/corosync.conf</code></p><p>Example arguments:</p><table><thead><tr><th style="text-align: left;">Name</th><th style="text-align: left;">Return value</th></tr></thead><tbody><tr><td style="text-align: left;"><code class="inline">totem.token</code></td><td style="text-align: left;">extracted value from the config</td></tr><tr><td style="text-align: left;"><code class="inline">totem.join</code></td><td style="text-align: left;">extracted value from the config</td></tr><tr><td style="text-align: left;"><code class="inline">nodelist.node.&lt;node_index&gt;.nodeid</code></td><td style="text-align: left;">extracted value from the config</td></tr><tr><td style="text-align: left;"><code class="inline">nodelist.node</code></td><td style="text-align: left;">list of objects representing the nodes</td></tr></tbody></table><p>Example specification:</p><pre><code class="yaml">facts:
   - name: corosync_token_timeout
     gatherer: corosync.conf
     argument: totem.token
@@ -153,23 +173,36 @@ Some specific fields, such as <code class="inline">primitive</code>, <code class
     gatherer: corosync.conf
     argument: totem.join
 
-  - name: corosync_node1id
+  - name: corosync_node_id_0
     gatherer: corosync.conf
     argument: nodelist.node.0.nodeid
 
-  - name: corosync_node2id
+  - name: corosync_node_id_1
     gatherer: corosync.conf
     argument: nodelist.node.1.nodeid
 
   - name: corosync_nodes
     gatherer: corosync.conf
-    argument: nodelist.node</code></pre><p>For extra information refer to <a href="https://github.com/trento-project/agent/blob/main/internal/factsengine/gatherers/corosyncconf_test.go">trento-project/agent/../gatherers/corosyncconf_test.go</a></p><h3 id="corosync-cmapctl" class="section-heading">
+    argument: nodelist.node</code></pre><p>Example output (in Rhai):</p><pre><code class="ts">// corosync_token_timeout
+30000;
+
+// corosync_join
+60;
+
+// corosync_node_id_0
+1;
+
+// corosync_node_id_1
+2;
+
+// corosync_nodes
+[#{nodeid: 1, ring0_addr: &quot;192.168.157.10&quot;}, #{nodeid: 2, ring0_addr: &quot;192.168.157.11&quot;}];</code></pre><p>For extra information refer to <a href="https://github.com/trento-project/agent/blob/main/internal/factsengine/gatherers/corosyncconf_test.go">trento-project/agent/../gatherers/corosyncconf_test.go</a></p><h3 id="corosync-cmapctl" class="section-heading">
   <a href="#corosync-cmapctl" class="hover-link"><i class="ri-link-m" aria-hidden="true"></i>
   <p class="sr-only">corosync-cmapctl</p>
   </a>
   corosync-cmapctl
 </h3>
-<p><strong>Argument required</strong>: yes.</p><p>This gatherer allows accessing the output of the <code class="inline">corosync-cmapctl</code> tool. It supports all of the keys returned by it to be queried.</p><p>Sample arguments:</p><table><thead><tr><th style="text-align: left;">Name</th><th style="text-align: left;">Return value</th></tr></thead><tbody><tr><td style="text-align: left;"><code class="inline">totem.token</code></td><td style="text-align: left;">extracted value from the command output e.g. <code class="inline">30000</code></td></tr><tr><td style="text-align: left;"><code class="inline">runtime.config.totem.token</code></td><td style="text-align: left;">extracted value from the command output e.g. <code class="inline">30000</code></td></tr><tr><td style="text-align: left;"><code class="inline">nodelist.node.0.ring0_addr</code></td><td style="text-align: left;">extracted value from the command output e.g. <code class="inline">&quot;10.80.1.11&quot;</code></td></tr></tbody></table><p>Specification examples:</p><pre><code class="yaml">facts:
+<p><strong>Argument required</strong>: yes.</p><p>This gatherer allows accessing the output of the <code class="inline">corosync-cmapctl</code> tool. It supports all of the keys returned by it to be queried.</p><p>Example arguments:</p><table><thead><tr><th style="text-align: left;">Name</th><th style="text-align: left;">Return value</th></tr></thead><tbody><tr><td style="text-align: left;"><code class="inline">totem.token</code></td><td style="text-align: left;">extracted value from the command</td></tr><tr><td style="text-align: left;"><code class="inline">runtime.config.totem.token</code></td><td style="text-align: left;">extracted value from the command</td></tr><tr><td style="text-align: left;"><code class="inline">totem.transport</code></td><td style="text-align: left;">extracted value from the command</td></tr><tr><td style="text-align: left;"><code class="inline">totem.transport</code></td><td style="text-align: left;">extracted value from the command</td></tr><tr><td style="text-align: left;"><code class="inline">nodelist.node.0.ring0_addr</code></td><td style="text-align: left;">extracted value from the command</td></tr></tbody></table><p>Example specification:</p><pre><code class="yaml">facts:
   - name: totem_token
     gatherer: corosync-cmapctl
     argument: totem.token
@@ -186,79 +219,101 @@ Some specific fields, such as <code class="inline">primitive</code>, <code class
     gatherer: corosync-cmapctl
     argument: runtime.config.totem.max_messages
 
-  - name: node0_ring0addr
+  - name: node_0_ring0addr
     gatherer: corosync-cmapctl
-    argument: nodelist.node.0.ring0_addr</code></pre><p>For extra information refer to <a href="https://github.com/trento-project/agent/blob/main/internal/factsengine/gatherers/corosynccmapctl_test.go">trento-project/agent/../gatherers/corosynccmapctl_test.go</a></p><h3 id="hosts-etc-hosts" class="section-heading">
+    argument: nodelist.node.0.ring0_addr</code></pre><p>Example output (in Rhai):</p><pre><code class="ts">// totem_token
+30000;
+
+// runtime_totem_token
+30000;
+
+// totem_transport
+(&quot;udpu&quot;);
+
+// totem_max_messages
+20;
+
+// node_0_ring0addr
+20;</code></pre><h3 id="hosts-etc-hosts" class="section-heading">
   <a href="#hosts-etc-hosts" class="hover-link"><i class="ri-link-m" aria-hidden="true"></i>
   <p class="sr-only">hosts-etc-hosts</p>
   </a>
   hosts (/etc/hosts)
 </h3>
 <p><strong>Argument required</strong>: no.</p><p>This gatherer allows accessing the hostnames that are resolvable through <code class="inline">/etc/hosts</code>. It
-does <strong>not</strong> use domain resolution in any way but instead directly parses the file.</p><p>It allows one argument to be specified or none at all:</p><ul><li>When a hostname is provided as an argument, the gatherer will return an array of IPv4 and/or IPv6 addresses.</li><li>When no argument is provided, the gatherer will return a map with hostname as keys and arrays with IPv4 and/or IPv6 addresses.</li></ul><p>Sample arguments:</p><table><thead><tr><th style="text-align: left;">Name</th><th style="text-align: left;">Return value</th></tr></thead><tbody><tr><td style="text-align: left;"><code class="inline">localhost</code></td><td style="text-align: left;">list of IPs resolving <code class="inline">localhost</code> e.g. <code class="inline">[&quot;127.0.0.1&quot;, &quot;::1&quot;]</code></td></tr><tr><td style="text-align: left;"><code class="inline">node1</code></td><td style="text-align: left;">list of IPs resolving <code class="inline">node1</code> e.g. <code class="inline">[&quot;172.22.0.1&quot;]</code></td></tr><tr><td style="text-align: left;"><code class="inline">no argument provided</code></td><td style="text-align: left;">map with hostnames and IP addresses e.g. <code class="inline">{&quot;localhost&quot;: [&quot;127.0.0.1&quot;, &quot;::1&quot;], &quot;node1&quot;: [&quot;172.22.0.1&quot;]}</code></td></tr></tbody></table><p>Specification examples:</p><pre><code class="yaml">facts:
+does <strong>not</strong> use domain resolution in any way but instead directly parses the file.</p><p>It allows one argument to be specified or none at all:</p><ul><li>When a hostname is provided as an argument, the gatherer will return an array of IPv4 and/or IPv6 addresses.</li><li>When no argument is provided, the gatherer will return a map with hostname as keys and arrays with IPv4 and/or IPv6 addresses.</li></ul><p>Example arguments:</p><table><thead><tr><th style="text-align: left;">Name</th><th style="text-align: left;">Return value</th></tr></thead><tbody><tr><td style="text-align: left;"><code class="inline">localhost</code></td><td style="text-align: left;">list of IPs resolving</td></tr><tr><td style="text-align: left;"><code class="inline">node1</code></td><td style="text-align: left;">list of IPs resolving</td></tr><tr><td style="text-align: left;"><code class="inline">no argument provided</code></td><td style="text-align: left;">map with hostnames and IP addresses</td></tr></tbody></table><p>Example specification:</p><pre><code class="yaml">facts:
   - name: hosts_node1
     gatherer: hosts
     argument: node1
-  
+
   - name: hosts_node2
     gatherer: hosts
     argument: node2
 
   - name: hosts_all
-    gatherer: hosts
-</code></pre><p>For more information refer to <a href="https://github.com/trento-project/agent/blob/main/internal/factsengine/gatherers/hostsfile_test.go">trento-project/agent/../gatherers/hostsfile_test.go</a></p><h3 id="package_version" class="section-heading">
+    gatherer: hosts</code></pre><p>Example output (in Rhai):</p><pre><code class="ts">// hosts_node1
+[&quot;127.0.0.1&quot;, &quot;::1&quot;];
+
+// hosts_node2
+[&quot;192.168.157.11&quot;];
+
+// hosts_all
+#{
+  &quot;localhost&quot;: [&quot;127.0.0.1&quot;, &quot;::1&quot;],
+  &quot;node1&quot;: [&quot;192.168.157.10&quot;],
+  &quot;node2&quot;: [&quot;192.168.157.11&quot;],
+  ...
+};</code></pre><h3 id="package_version" class="section-heading">
   <a href="#package_version" class="hover-link"><i class="ri-link-m" aria-hidden="true"></i>
   <p class="sr-only">package_version</p>
   </a>
   package_version
 </h3>
-<p><strong>Argument required</strong>: yes.</p><p>This gatherer returns the version as a string of the specified package</p><p>Sample arguments:</p><table><thead><tr><th style="text-align: left;">Name</th><th style="text-align: left;">Return value</th></tr></thead><tbody><tr><td style="text-align: left;"><code class="inline">corosync</code></td><td style="text-align: left;">a string containing the installed version for the package <code class="inline">package_name</code>, e.g &quot;2.4.5&quot;</td></tr></tbody></table><p>Specification examples:</p><pre><code class="yaml">facts:
+<p><strong>Argument required</strong>: yes.</p><p>This gatherer returns the version as a string of the specified rpm package.</p><p>Example arguments:</p><table><thead><tr><th style="text-align: left;">Name</th><th style="text-align: left;">Return value</th></tr></thead><tbody><tr><td style="text-align: left;"><code class="inline">package_name</code></td><td style="text-align: left;">a string containing the installed version of the rpm package</td></tr></tbody></table><p>Example specification:</p><pre><code class="yaml">facts:
   - name: corosync_version
     gatherer: package_version
     argument: corosync
 
   - name: pacemaker_version
     gatherer: package_version
-    argument: pacemaker
+    argument: pacemaker</code></pre><p>Example output (in Rhai):</p><pre><code class="ts">// corosync
+&quot;2.4.5&quot;;
 
-  ...</code></pre><p>For extra information refer to <a href="https://github.com/trento-project/agent/blob/main/internal/factsengine/gatherers/packageversion_test.go">trento-project/agent/../gatherers/packageversion_test.go</a></p><h3 id="saphostctrl" class="section-heading">
+// pacemaker
+&quot;2.0.4+20200616.2deceaa3a&quot;;</code></pre><h3 id="saphostctrl" class="section-heading">
   <a href="#saphostctrl" class="hover-link"><i class="ri-link-m" aria-hidden="true"></i>
   <p class="sr-only">saphostctrl</p>
   </a>
   saphostctrl
 </h3>
 <p><strong>Argument required</strong>: yes.</p><p>This gatherer allows access to certain webmethods that <code class="inline">saphostctrl</code> implements. An argument is required to specify
-which webmethod should be called. This webmethod is passed to the <code class="inline">saphostctrl</code> command-line tool through the <code class="inline">-function</code> argument.</p><p>Supported webmethods:</p><ul><li><code class="inline">Ping</code></li><li><code class="inline">ListInstances</code></li></ul><p>A <code class="inline">Ping</code> call with a successful return should look like:</p><pre><code class="makeup elixir" translate="no"><span class="p" data-group-id="8393762778-1">{</span><span class="w">
-  </span><span class="s">&quot;status&quot;</span><span class="w"> </span><span class="p">=&gt;</span><span class="w"> </span><span class="s">&quot;SUCCESS&quot;</span><span class="p">,</span><span class="w"> 
-  </span><span class="s">&quot;elapsed&quot;</span><span class="w"> </span><span class="p">=&gt;</span><span class="w"> </span><span class="mi">543341</span><span class="p">,</span><span class="w">
-</span><span class="p" data-group-id="8393762778-1">}</span><span class="p">,</span></code></pre><p>or as follows for a failed one:</p><pre><code class="makeup elixir" translate="no"><span class="p" data-group-id="9357591790-1">{</span><span class="w">
-  </span><span class="s">&quot;status&quot;</span><span class="w"> </span><span class="p">=&gt;</span><span class="w"> </span><span class="s">&quot;FAILED&quot;</span><span class="p">,</span><span class="w">
-  </span><span class="s">&quot;elapsed&quot;</span><span class="w"> </span><span class="p">=&gt;</span><span class="w"> </span><span class="mi">497</span><span class="p">,</span><span class="w">
-</span><span class="p" data-group-id="9357591790-1">}</span><span class="p">,</span></code></pre><p>A <code class="inline">ListInstances</code> call return should instead look like:</p><pre><code class="makeup elixir" translate="no"><span class="p" data-group-id="3025439298-1">[</span><span class="w">
-  </span><span class="p" data-group-id="3025439298-2">{</span><span class="w">
-    </span><span class="s">&quot;changelist&quot;</span><span class="w"> </span><span class="p">=&gt;</span><span class="w"> </span><span class="mi">2069355</span><span class="p">,</span><span class="w">
-    </span><span class="s">&quot;hostname&quot;</span><span class="w"> </span><span class="p">=&gt;</span><span class="w"> </span><span class="s">&quot;s41db&quot;</span><span class="p">,</span><span class="w">
-    </span><span class="s">&quot;instance&quot;</span><span class="w"> </span><span class="p">=&gt;</span><span class="w"> </span><span class="s">&quot;11&quot;</span><span class="p">,</span><span class="w">
-    </span><span class="s">&quot;patch&quot;</span><span class="w"> </span><span class="p">=&gt;</span><span class="w"> </span><span class="mi">819</span><span class="p">,</span><span class="w">
-    </span><span class="s">&quot;sapkernel&quot;</span><span class="w"> </span><span class="p">=&gt;</span><span class="w"> </span><span class="mi">753</span><span class="p">,</span><span class="w">
-    </span><span class="s">&quot;system&quot;</span><span class="w"> </span><span class="p">=&gt;</span><span class="w"> </span><span class="s">&quot;HS1&quot;</span><span class="p">,</span><span class="w">
-  </span><span class="p" data-group-id="3025439298-2">}</span><span class="p">,</span><span class="w">
-</span><span class="p" data-group-id="3025439298-1">]</span></code></pre><p>Specification examples:</p><pre><code class="yaml">facts:
+which webmethod should be called. This webmethod is passed to the <code class="inline">saphostctrl</code> command-line tool through the <code class="inline">-function</code> argument.</p><p>Supported webmethods:</p><ul><li><code class="inline">Ping</code></li><li><code class="inline">ListInstances</code></li></ul><p>A <code class="inline">Ping</code> call with a successful return should look like this:</p><p>Example specification:</p><pre><code class="yaml">facts:
   - name: ping
     gatherer: saphostctrl
     argument: Ping
 
   - name: list_instances
     gatherer: saphostctrl
-    argument: ListInstances
+    argument: ListInstances</code></pre><p>Example output (in Rhai):</p><pre><code class="ts">// ping
+#{elapsed: 579770.0, status: &quot;SUCCESS&quot;}
 
-  ...</code></pre><p>For extra information refer to <a href="https://github.com/trento-project/agent/blob/main/internal/factsengine/gatherers/saphostctrl_test.go">trento-project/agent/../gatherers/saphostctrl_test.go</a></p><h3 id="sbd_config" class="section-heading">
+// list_instances
+[
+    #{
+        &quot;changelist&quot;: 1908545,
+        &quot;hostname&quot;: &quot;vmhana01&quot;,
+        &quot;instance&quot;: &quot;00&quot;,
+        &quot;patch&quot;: 410,
+        &quot;sapkernel&quot;: 753,
+        &quot;system&quot;: &quot;PRD&quot;
+    }
+];</code></pre><h3 id="sbd_config" class="section-heading">
   <a href="#sbd_config" class="hover-link"><i class="ri-link-m" aria-hidden="true"></i>
   <p class="sr-only">sbd_config</p>
   </a>
   sbd_config
 </h3>
-<p><strong>Argument required</strong>: yes.</p><p>This gatherer allows accessing information contained in <code class="inline">/etc/sysconfig/sbd</code></p><p>Sample arguments:</p><table><thead><tr><th style="text-align: left;">Name</th><th style="text-align: left;">Return value</th></tr></thead><tbody><tr><td style="text-align: left;"><code class="inline">SBD_PACEMAKER</code></td><td style="text-align: left;">extracted value from the config (e.g. <code class="inline">yes</code>)</td></tr><tr><td style="text-align: left;"><code class="inline">SBD_STARTMODE</code></td><td style="text-align: left;">extracted value from the config (e.g. <code class="inline">always</code>)</td></tr><tr><td style="text-align: left;"><code class="inline">SBD_DEVICE</code></td><td style="text-align: left;">extracted value from the config (e.g. <code class="inline">/dev/vdc;/dev/vdb</code>)</td></tr></tbody></table><p>Specification examples:</p><pre><code class="yaml">facts:
+<p><strong>Argument required</strong>: yes.</p><p>This gatherer allows accessing the information contained in <code class="inline">/etc/sysconfig/sbd</code></p><p>Example arguments:</p><table><thead><tr><th style="text-align: left;">Name</th><th style="text-align: left;">Return value</th></tr></thead><tbody><tr><td style="text-align: left;"><code class="inline">SBD_PACEMAKER</code></td><td style="text-align: left;">extracted value from the config</td></tr><tr><td style="text-align: left;"><code class="inline">SBD_STARTMODE</code></td><td style="text-align: left;">extracted value from the config</td></tr><tr><td style="text-align: left;"><code class="inline">SBD_DEVICE</code></td><td style="text-align: left;">extracted value from the config</td></tr></tbody></table><p>Example specification:</p><pre><code class="yaml">facts:
   - name: sbd_pacemaker
     gatherer: sbd_config
     argument: SBD_PACEMAKER
@@ -269,58 +324,63 @@ which webmethod should be called. This webmethod is passed to the <code class="i
 
   - name: sbd_device
     gatherer: sbd_config
-    argument: SBD_DEVICE</code></pre><p>For extra information refer to <a href="https://github.com/trento-project/agent/blob/main/internal/factsengine/gatherers/sbd_test.go">trento-project/agent/../gatherers/sbd_test.go</a></p><h3 id="sbd_dump" class="section-heading">
+    argument: SBD_DEVICE</code></pre><p>Example output (in Rhai):</p><pre><code class="ts">// sbd_pacemaker
+&quot;yes&quot;;
+
+// sbd_startmode
+&quot;always&quot;;
+
+// sbd_device
+&quot;/dev/vdc;/dev/vdb&quot;;</code></pre><h3 id="sbd_dump" class="section-heading">
   <a href="#sbd_dump" class="hover-link"><i class="ri-link-m" aria-hidden="true"></i>
   <p class="sr-only">sbd_dump</p>
   </a>
   sbd_dump
 </h3>
-<p><strong>Argument required</strong>: no.</p><p>This gatherer allows accessing the sbd dump command output data.</p><p>It executes the <code class="inline">sbd -d &lt;device&gt; dump</code> command in all devices configured in the <code class="inline">SBD_DEVICE</code> field on <code class="inline">/etc/sysconfig/sbd</code> and aggregates results in only one fact.</p><p>Note that:</p><ul><li>no arguments are required</li><li>if any dump fails, a fact error is returned</li></ul><p>Dumped keys (<code class="inline">Timeout (watchdog)</code>, <code class="inline">Timeout (msgwait)</code>, <code class="inline">Number of slots</code>, etc) are sanitized to simplify their access and usage in the expression language. </p><pre><code class="rust">{
-  &quot;/path/to/a-device&quot; =&gt; {
-    &quot;header_version&quot;   =&gt; 2.1,
-    &quot;number_of_slots&quot;  =&gt; 255,
-    &quot;sector_size&quot;      =&gt; 512,
-    &quot;timeout_allocate&quot; =&gt; 2,
-    &quot;timeout_loop&quot;     =&gt; 1,
-    &quot;timeout_msgwait&quot;  =&gt; 10,
-    &quot;timeout_watchdog&quot; =&gt; 5,
-    &quot;uuid&quot;             =&gt; &quot;e09c8993-0cba-438d-a4c3-78e91f58ee52&quot;,
-  },
-  &quot;/path/to/another-device&quot; =&gt; {
-    &quot;header_version&quot;   =&gt; 2.1,
-    &quot;number_of_slots&quot;  =&gt; 255,
-    &quot;sector_size&quot;      =&gt; 512,
-    &quot;timeout_allocate&quot; =&gt; 2,
-    &quot;timeout_loop&quot;     =&gt; 1,
-    &quot;timeout_msgwait&quot;  =&gt; 10,
-    &quot;timeout_watchdog&quot; =&gt; 5,
-    &quot;uuid&quot;             =&gt; &quot;e5b7c05a-1d3c-43d0-827a-9d4dd05ca54a&quot;,
-  }
-}</code></pre><p>Specification examples:</p><pre><code class="yaml">facts:
+<p><strong>Argument required</strong>: no.</p><p>This gatherer allows accessing the sbd dump command output data.</p><p>It executes the <code class="inline">sbd -d &lt;device&gt; dump</code> command in all devices configured in the <code class="inline">SBD_DEVICE</code> field on <code class="inline">/etc/sysconfig/sbd</code> and aggregates results in only one fact.</p><p>Note that:</p><ul><li>no arguments are required</li><li>if any of the dumps fail, a fact error is returned</li></ul><p>Dumped keys (<code class="inline">Timeout (watchdog)</code>, <code class="inline">Timeout (msgwait)</code>, <code class="inline">Number of slots</code>, etc) are sanitized to simplify their access and usage in the expression language.</p><p>Example specification:</p><pre><code class="yaml">facts:
   - name: sbd_devices_dump
-    gatherer: sbd_dump</code></pre><p>For extra information refer to <a href="https://github.com/trento-project/agent/blob/main/internal/factsengine/gatherers/sbddump_test.go">trento-project/agent/../gatherers/sbddump_test.go</a></p><h3 id="systemd" class="section-heading">
+    gatherer: sbd_dump</code></pre><p>Example output (in Rhai):</p><pre><code class="ts">// sbd_devices_dump
+#{
+    &quot;/dev/vdc&quot;: #{
+        header_version: 2.1,
+        number_of_slots: 255,
+        sector_size: 512,
+        timeout_allocate: 2,
+        timeout_loop: 1,
+        timeout_msgwait: 10,
+        timeout_watchdog: 5,
+        uuid: &quot;69048391-c647-4b34-a03a-f704f5cc2258&quot;
+    }
+};</code></pre><p>For extra information refer to <a href="https://github.com/trento-project/agent/blob/main/internal/factsengine/gatherers/sbddump_test.go">trento-project/agent/../gatherers/sbddump_test.go</a></p><h3 id="systemd" class="section-heading">
   <a href="#systemd" class="hover-link"><i class="ri-link-m" aria-hidden="true"></i>
   <p class="sr-only">systemd</p>
   </a>
   systemd
 </h3>
-<p><strong>Argument required</strong>: yes.</p><p>Gather systemd daemons state. It returns an <code class="inline">active/inactive</code> string. If the daemon is disabled or does not even exist, <code class="inline">inactive</code> is returned.</p><p>Specification examples:</p><pre><code class="yaml">facts:
+<p><strong>Argument required</strong>: yes.</p><p>Gather systemd units state. It returns an <code class="inline">active/inactive</code> string.
+If the service is disabled or it does not exist, <code class="inline">inactive</code> is returned.</p><p>Example arguments:</p><table><thead><tr><th style="text-align: left;">Name</th><th style="text-align: left;">Return value</th></tr></thead><tbody><tr><td style="text-align: left;"><code class="inline">trento-agent</code></td><td style="text-align: left;">state of the systemd unit</td></tr></tbody></table><pre><code class="yaml">facts:
   - name: sbd_state
     gatherer: systemd
     argument: sbd
 
   - name: corosync_state
     gatherer: systemd
-    argument: corosync</code></pre><p>For extra information refer to <a href="https://github.com/trento-project/agent/blob/main/internal/factsengine/gatherers/systemd_test.go">trento-project/agent/../gatherers/systemd_test.go</a></p><h3 id="verify_password" class="section-heading">
+    argument: corosync</code></pre><p>Example output (in Rhai):</p><pre><code class="ts">// sbd_state
+&quot;active&quot;;
+
+// corosync_state
+&quot;inactive&quot;;</code></pre><h3 id="verify_password" class="section-heading">
   <a href="#verify_password" class="hover-link"><i class="ri-link-m" aria-hidden="true"></i>
   <p class="sr-only">verify_password</p>
   </a>
   verify_password
 </h3>
-<p><strong>Argument required</strong>: yes.</p><p>This gatherer determines whether a given user has its password still set to the (unsafe) default one. It returns <code class="inline">true</code> if it needs to be changed to something or <code class="inline">false</code> if it has already been changed.</p><p>Specification examples:</p><pre><code class="yaml">facts:
+<p><strong>Argument required</strong>: yes.</p><p>This gatherer determines whether a given user has its password still set to an unsafe password.
+It returns <code class="inline">true</code> if the password matches a password in the list of unsafe passwords, <code class="inline">false</code> otherwise.</p><p>Specification examples:</p><pre><code class="yaml">facts:
   - name: hacluster_has_default_password
     gatherer: verify_password
-    argument: hacluster</code></pre><p>For the argument, only whitelisted user are allowed. Currently whitelisted usernames:</p><ul><li><code class="inline">hacluster</code></li></ul><p>The default passwords that we check against, are:</p><ul><li><code class="inline">linux</code></li></ul><p>For extra information refer to <a href="https://github.com/trento-project/agent/blob/main/internal/factsengine/gatherers/verifypassword_test.go">trento-project/agent/../gatherers/verifypassword_test.go</a></p>
+    argument: hacluster</code></pre><p>For the argument, only whitelisted users are allowed. Currently whitelisted usernames:</p><ul><li><code class="inline">hacluster</code></li></ul><p>List of unsafe passwords:</p><ul><li><code class="inline">linux</code></li></ul><p>Example output (in Rhai):</p><pre><code class="ts">// hacluster_has_default_password
+true;</code></pre>
 <div class="bottom-actions">
   <div class="bottom-actions-item">
 

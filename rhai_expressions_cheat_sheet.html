@@ -119,24 +119,24 @@ Wanda
   </a>
   Arrays
 </h3>
-<h4>Filtering an array</h4><pre><code class="rust">[1, 2, 3].filter(|value| value % 2 == 0)
-=&gt; [2]</code></pre><h4>Finding the index of an element inside an array</h4><pre><code class="rust">[&quot;wow&quot;, &quot;check&quot;].index_of(|value| value == &quot;check&quot;)
-=&gt; 1</code></pre><h4>Finding an element inside an array</h4><pre><code class="rust">let nodelist = [
+<h4>Filtering an array</h4><pre><code class="ts">[1, 2, 3].filter(|value| value % 2 == 0)
+=&gt; [2]</code></pre><h4>Finding the index of an element inside an array</h4><pre><code class="ts">[&quot;wow&quot;, &quot;check&quot;].index_of(|value| value == &quot;check&quot;)
+=&gt; 1</code></pre><h4>Finding an element inside an array</h4><pre><code class="ts">let nodelist = [
   #{resource_id: 5, name: &quot;foo&quot;},
   #{resource_id: 12, name: &quot;bar&quot;}
 ];
 
 nodelist.find(|value| value.resource_id == 5)
-=&gt; #{&quot;name&quot;: &quot;foo&quot;, &quot;resource_id&quot;: 5}</code></pre><h4>Checking if an expression is true for every element of an array</h4><pre><code class="rust">[2, 4, 6].all(|value| value % 2 == 0)
+=&gt; #{&quot;name&quot;: &quot;foo&quot;, &quot;resource_id&quot;: 5}</code></pre><h4>Checking if an expression is true for every element of an array</h4><pre><code class="ts">[2, 4, 6].all(|value| value % 2 == 0)
 =&gt; true</code></pre></section><section class="h3"><h3 id="maps" class="section-heading">
   <a href="#maps" class="hover-link"><i class="ri-link-m" aria-hidden="true"></i>
   <p class="sr-only">maps</p>
   </a>
   Maps
 </h3>
-<h4>Get only keys (returns an array)</h4><pre><code class="rust">#{a: 1, b: 2}.keys()
-=&gt; [&quot;a&quot;, &quot;b&quot;]</code></pre><h4>Get only values (returns an array)</h4><pre><code class="rust">#{a: 1, b: 2}.values()
-=&gt; [1, 2]</code></pre><h4>Check if a map has more than 5 keys which name starts with &quot;ring&quot;</h4><pre><code class="rust">let map = #{
+<h4>Get only keys (returns an array)</h4><pre><code class="ts">#{a: 1, b: 2}.keys()
+=&gt; [&quot;a&quot;, &quot;b&quot;]</code></pre><h4>Get only values (returns an array)</h4><pre><code class="ts">#{a: 1, b: 2}.values()
+=&gt; [1, 2]</code></pre><h4>Check if a map has more than 5 keys which name starts with &quot;ring&quot;</h4><pre><code class="ts">let map = #{
   ring_one: 12,
   ring_two: 34,
   ring_three: 90,
@@ -151,7 +151,7 @@ map.keys().filter(|prop| prop.starts_with(&quot;ring&quot;)).len() &gt;= 5
   </a>
   Strings
 </h3>
-<h4>Splitting a string</h4><pre><code class="rust">&quot;a;b;c&quot;.split(&quot;;&quot;)
+<h4>Splitting a string</h4><pre><code class="ts">&quot;a;b;c&quot;.split(&quot;;&quot;)
 =&gt; [&quot;a&quot;, &quot;b&quot;, &quot;c&quot;]</code></pre></section></section>
 <div class="bottom-actions">
   <div class="bottom-actions-item">
