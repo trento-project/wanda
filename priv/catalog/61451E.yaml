@@ -28,7 +28,7 @@ remediation: |
 
 severity: warning
 
-when: env.provider == "azure" || env.provider == "nutanix" || env.provider == "kvm"
+when: env.provider in ["azure", "nutanix", "kvm"]
 
 facts:
   - name: sbd_multiple_sbd_device

@@ -48,7 +48,7 @@ remediation: |
     - https://documentation.suse.com/sle-ha/15-SP3/html/SLE-HA-all/cha-ha-storage-protect.html
     - https://documentation.suse.com/sbp/all/single-html/SLES4SAP-hana-sr-guide-PerfOpt-15/#id-1.11.5.5.4.4
 
-when: env.provider == "azure" || env.provider == "nutanix" || env.provider == "kvm"
+when: env.provider in ["azure", "nutanix", "kvm"]
 
 facts:
   - name: sbd_pacemaker
