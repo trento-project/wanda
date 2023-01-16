@@ -16,7 +16,8 @@ defmodule Wanda.Catalog.Check do
     :facts,
     :values,
     :expectations,
-    :when
+    :when,
+    :premium
   ]
 
   @type t :: %__MODULE__{
@@ -29,6 +30,7 @@ defmodule Wanda.Catalog.Check do
           facts: [Fact.t()],
           values: [Value.t()],
           expectations: [Expectation.t()],
-          when: String.t()
+          when: String.t(),
+          premium: boolean()
         }
 end

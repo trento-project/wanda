@@ -24,6 +24,10 @@ defmodule WandaWeb.Schemas.CatalogResponse.Check do
         description: "Check severity: critical|warning",
         enum: [:critical, :warning]
       },
+      premium: %Schema{
+        type: :boolean,
+        description: "Check is Premium or not"
+      },
       facts: %Schema{
         type: :array,
         items: %Schema{

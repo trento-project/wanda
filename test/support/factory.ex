@@ -26,7 +26,8 @@ defmodule Wanda.Factory do
       severity: Enum.random([:critical, :warning, :passing]),
       facts: build_list(10, :catalog_fact),
       values: build_list(10, :catalog_value),
-      expectations: build_list(10, :catalog_expectation)
+      expectations: build_list(10, :catalog_expectation),
+      premium: Enum.random([false, true])
     }
   end
 

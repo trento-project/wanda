@@ -52,6 +52,7 @@ defmodule Wanda.CatalogTest do
                 description: "Just a check\n",
                 remediation: "## Remediation\nRemediation text\n",
                 severity: :critical,
+                premium: true,
                 facts: [
                   %Fact{
                     name: "jedi",
@@ -112,6 +113,10 @@ defmodule Wanda.CatalogTest do
 
     test "should load a warning severity" do
       assert {:ok, %Check{severity: :warning}} = Catalog.get_check("warning_severity_check")
+    end
+
+    test "should load premium as false by default" do
+      assert {:ok, %Check{premium: false}} = Catalog.get_check("warning_severity_check")
     end
 
     test "should return an error for non-existent check" do
