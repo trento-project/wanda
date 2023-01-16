@@ -6,10 +6,16 @@
       "id": {
         "type": "string"
       },
+      "severity": {
+        "type": "string"
+      },
       "name": {
         "type": "string"
       },
       "group": {
+        "type": "string"
+      },
+      "when": {
         "type": "string"
       },
       "description": {

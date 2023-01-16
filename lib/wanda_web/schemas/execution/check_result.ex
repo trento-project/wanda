@@ -3,7 +3,7 @@ defmodule WandaWeb.Schemas.ExecutionResponse.CheckResult do
 
   alias OpenApiSpex.Schema
 
-  alias WandaWeb.Schemas.ExecutionResponse.{AgentCheckResult, ExpectationResult}
+  alias WandaWeb.Schemas.ExecutionResponse.{AgentCheckError, AgentCheckResult, ExpectationResult}
 
   require OpenApiSpex
 
@@ -14,7 +14,15 @@ defmodule WandaWeb.Schemas.ExecutionResponse.CheckResult do
     properties: %{
       check_id: %Schema{type: :string, description: "Check ID"},
       expectation_results: %Schema{type: :array, items: ExpectationResult},
-      agents_check_results: %Schema{type: :array, items: AgentCheckResult},
+      agents_check_results: %Schema{
+        type: :array,
+        items: %Schema{
+          oneOf: [
+            AgentCheckResult,
+            AgentCheckError
+          ]
+        }
+      },
       result: %Schema{
         type: :string,
         enum: ["passing", "warning", "critical"],

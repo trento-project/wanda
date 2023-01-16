@@ -122,6 +122,11 @@ defmodule Wanda.Messaging.Mapper do
     Enum.into(fields, %{}, fn {key, value} -> {key, map_value(value)} end)
   end
 
+  defp map_value(%{kind: {:number_value, value}}) do
+    truncated = trunc(value)
+    if truncated == value, do: truncated, else: value
+  end
+
   defp map_value(%{kind: {_, value}}) do
     value
   end

@@ -185,8 +185,13 @@ defmodule Wanda.Messaging.MapperTest do
           },
           %{
             check_id: "check2",
-            name: "number_value",
-            fact_value: {:value, %{kind: {:number_value, 10}}}
+            name: "integer_value",
+            fact_value: {:value, %{kind: {:number_value, 10.0}}}
+          },
+          %{
+            check_id: "check2",
+            name: "float_value",
+            fact_value: {:value, %{kind: {:number_value, 10.2}}}
           },
           %{
             check_id: "check3",
@@ -203,7 +208,7 @@ defmodule Wanda.Messaging.MapperTest do
                    {:list_value,
                     %{
                       values: [
-                        %{kind: {:number_value, 10}},
+                        %{kind: {:number_value, 10.0}},
                         %{
                           kind:
                             {:list_value,
@@ -232,8 +237,8 @@ defmodule Wanda.Messaging.MapperTest do
                             {:struct_value,
                              %{
                                fields: %{
-                                 other_key: %{kind: {:number_value, 10}},
-                                 third_key: %{kind: {:number_value, 15}}
+                                 other_key: %{kind: {:number_value, 10.0}},
+                                 third_key: %{kind: {:number_value, 15.0}}
                                }
                              }}
                         }
@@ -255,7 +260,8 @@ defmodule Wanda.Messaging.MapperTest do
              agent_id: ^agent_id,
              facts_gathered: [
                %Executions.Fact{check_id: "check1", name: "string_value", value: "some_string"},
-               %Executions.Fact{check_id: "check2", name: "number_value", value: 10},
+               %Executions.Fact{check_id: "check2", name: "integer_value", value: 10},
+               %Executions.Fact{check_id: "check2", name: "float_value", value: 10.2},
                %Executions.Fact{check_id: "check3", name: "boolean_value", value: true},
                %Executions.Fact{check_id: "check4", name: "list_value", value: [10, [true]]},
                %Executions.Fact{

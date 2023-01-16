@@ -14,5 +14,24 @@ defmodule WandaWeb.CatalogControllerTest do
       api_spec = ApiSpec.spec()
       assert_schema(json, "CatalogResponse", api_spec)
     end
+
+    test "listing the checks catalog produces a CatalogResponse when filtered", %{conn: conn} do
+      json =
+        conn
+        |> get("/api/checks/catalog?provider=azure&foo=bar")
+        |> json_response(200)
+
+      assert %{
+               "items" => [
+                 %{"id" => "expect_check"},
+                 %{"id" => "expect_same_check"},
+                 %{"id" => "warning_severity_check"},
+                 %{"id" => "when_condition_check"}
+               ]
+             } = json
+
+      api_spec = ApiSpec.spec()
+      assert_schema(json, "CatalogResponse", api_spec)
+    end
   end
 end

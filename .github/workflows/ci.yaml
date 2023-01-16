@@ -18,7 +18,7 @@ env:
 jobs:
   elixir-deps:
     name: Elixir dependencies
-    runs-on: ubuntu-20.04
+    runs-on: ubuntu-latest
     steps:
       - name: Checkout
         uses: actions/checkout@v3
@@ -52,7 +52,7 @@ jobs:
 
   tlint:
     name: Lint checks
-    runs-on: ubuntu-20.04
+    runs-on: ubuntu-latest
     container:
       image: ghcr.io/trento-project/tlint:latest
       volumes:
@@ -68,7 +68,7 @@ jobs:
   static-code-analysis:
     name: Static Code Analysis
     needs: elixir-deps
-    runs-on: ubuntu-20.04
+    runs-on: ubuntu-latest
     steps:
       - name: Checkout
         uses: actions/checkout@v3
@@ -103,7 +103,7 @@ jobs:
   test:
     name: Test
     needs: elixir-deps
-    runs-on: ubuntu-20.04
+    runs-on: ubuntu-latest
     services:
       postgres:
         image: postgres

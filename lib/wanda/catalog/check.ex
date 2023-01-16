@@ -15,7 +15,8 @@ defmodule Wanda.Catalog.Check do
     :severity,
     :facts,
     :values,
-    :expectations
+    :expectations,
+    :when
   ]
 
   @type t :: %__MODULE__{
@@ -27,6 +28,7 @@ defmodule Wanda.Catalog.Check do
           severity: :warning | :critical,
           facts: [Fact.t()],
           values: [Value.t()],
-          expectations: [Expectation.t()]
+          expectations: [Expectation.t()],
+          when: String.t()
         }
 end

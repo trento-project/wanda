@@ -1,0 +1,63 @@
+id: "0B6DB2"
+name: SBD_PACEMAKER
+group: SBD
+description: |
+  SBD_PACEMAKER value is correctly set in SBD configuration (/etc/sysconfig/sbd)
+remediation: |
+  ## Abstract
+  For proper SBD fencing, make sure that the integration with Pacemaker is enabled.
+  **IMPORTANT**: Always verify these steps in a testing environment before doing so in production ones!
+  
+  The SBD is not used in GCP or AWS environments.
+  ## Remediation
+  Run the following commands in order:
+
+  1. Put cluster into maintenance mode:
+     ```crm configure property maintenance-mode=true```
+  2. Stop the cluster:
+     ```crm cluster stop```
+  3. Set the SBD_PACEMAKER parameter to `yes` on `/etc/sysconfig/sbd`:
+     ```
+     [...]
+     SBD_PACEMAKER="yes"
+     [...]
+     ```
+  4. Restart the cluster:
+     ```crm cluster start```
+  5. Put cluster out of maintenance mode
+     ```crm configure property maintenance-mode=false```
+
+  ## References
+  Azure:
+
+    - https://docs.microsoft.com/en-us/azure/virtual-machines/workloads/sap/high-availability-guide-suse-pacemaker#set-up-the-iscsi-target-server-sbd-device
+
+  AWS:
+
+
+  GCP:
+
+
+  Nutanix:
+
+    - https://documentation.suse.com/sle-ha/15-SP3/html/SLE-HA-all/cha-ha-storage-protect.html
+    - https://documentation.suse.com/sbp/all/single-html/SLES4SAP-hana-sr-guide-PerfOpt-15/#id-1.11.5.5.4.4
+
+  SUSE / KVM:
+
+    - https://documentation.suse.com/sle-ha/15-SP3/html/SLE-HA-all/cha-ha-storage-protect.html
+    - https://documentation.suse.com/sbp/all/single-html/SLES4SAP-hana-sr-guide-PerfOpt-15/#id-1.11.5.5.4.4
+
+facts:
+  - name: sbd_pacemaker
+    gatherer: sbd_config
+    argument: SBD_PACEMAKER
+
+values:
+  - name: expected_sbd_pacemaker
+    #should only run on 'azure', 'nutanix' or 'kvm', NOT on 'gcp' or 'aws'
+    default: yes
+
+expectations:
+  - name: expectations_sbd_pacemaker
+    expect: facts.sbd_pacemaker == values.expected_sbd_pacemaker
