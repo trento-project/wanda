@@ -18,7 +18,7 @@ COPY --from=elixir-build /build /build
 WORKDIR /build
 ARG MIX_ENV=prod
 ENV MIX_ENV=$MIX_ENV
-RUN RHAI_RUSTLER_FORCE_BUILD=true mix phx.digest
+RUN mix phx.digest
 RUN mix release
 
 FROM registry.suse.com/bci/bci-base:15.3 AS wanda
