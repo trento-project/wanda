@@ -35,7 +35,7 @@ Comparing two values of _different_ data types defaults to `false`.
 
 The exception is `!=` (not equals) which defaults to `true`. This is in line with intuition.
 
-```rust
+```ts
 42 > "42";          // false: i64 cannot be compared with string
 42 <= "42";         // false: i64 cannot be compared with string
 ts == 42;           // false: different types cannot be compared
@@ -57,7 +57,7 @@ if the first one already proves the condition wrong.
 
 Single boolean operators `&` and `|` always evaluate both operands.
 
-```rust
+```ts
 a() || b();         // b() is not evaluated if a() is true
 a() && b();         // b() is not evaluated if a() is false
 a() | b();          // both a() and b() are evaluated
@@ -68,7 +68,7 @@ a() & b();          // both a() and b() are evaluated
 
 `if` statements follow C syntax.
 
-```rust
+```ts
 if foo(x) {
     print("It's true!");
 } else if bar == baz {
@@ -87,7 +87,7 @@ if foo(x) {
 > one statement inside the branch.
 > Like Rust, there is no ambiguity regarding which `if` clause a branch belongs to.
 >
-> ```rust
+> ```ts
 > // not C!
 > if (decision) print(42);
 > //            ^ syntax error, expecting '{'
@@ -98,7 +98,7 @@ if foo(x) {
 `if` statements can also be used as _expressions_, replacing the `? :` conditional
 operators in other C-like languages.
 
-```rust
+```ts
 // The following is equivalent to C: int x = 1 + (decision ? 42 : 123) / 2;
 let x = 1 + if decision { 42 } else { 123 } / 2;
 x == 22;
@@ -117,7 +117,7 @@ Array literals are built within square brackets `[` ... `]` and separated by com
 >
 > `[` _value_`,` _value_`,` ... `,` _value_ `,` `]` `// trailing comma is OK`
 
-```rust
+```ts
 let some_list = [1, 2, 3];
 
 let another_list = ["foo", "bar", 42];
@@ -129,7 +129,7 @@ Like C, arrays are accessed with zero-based, non-negative integer indices:
 
 > _array_ `[` _index position from 0 to length−1_ `]`
 
-```rust
+```ts
 let some_list = ["foo", "bar", 42];
 
 let second_element = some_list[1];
@@ -144,7 +144,7 @@ _last_ element.
 
 > _array_ `[` _index position from −1 to −length_ `]`
 
-```rust
+```ts
 let some_list = ["foo", "bar", 42];
 
 let second_element = some_list[-2];
@@ -163,7 +163,7 @@ let last_element = some_list[-1];
 
 Examples
 
-```rust
+```ts
 let some_list = [1, 2, 3, 4, "foo", "bar"];
 
 let foo = some_list.get(4); // "foo"
@@ -191,7 +191,7 @@ commas `,`:
 >
 > `#{` _property_ `:` _value_`,` ... `,` _property_ `:` _value_ `,` `}` `// trailing comma is OK`
 
-```rust
+```ts
 let some_map = #{              // map literal with 2 properties
     foo: 42,
     bar: "hello",
@@ -204,7 +204,7 @@ The _dot notation_ allows to access properties by name.
 
 > _object_ `.` _property_
 
-```rust
+```ts
 let some_map = #{              // map literal with 2 properties
     foo: 42,
     bar: "hello",
@@ -219,7 +219,7 @@ some_map.bar // "hello"
 
 Trying to read a non-existing property returns an error.
 
-```rust
+```ts
 let some_map = #{              // map literal with 2 properties
     foo: 42,
     bar: "hello",
@@ -230,7 +230,7 @@ some_map.another_property      // returns "Property not found: another_property 
 
 ### A more complex example
 
-```rust
+```ts
 let some_map = #{              // map literal with 2 properties
     foo: 42,
     bar: "hello",
