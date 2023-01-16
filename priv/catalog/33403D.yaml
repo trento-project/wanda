@@ -1,0 +1,75 @@
+id: "33403D"
+name: Check Corosync transport mechanism 
+group: Corosync
+description: |
+  Corosync `transport` mechanism is set to expected value
+remediation: |
+  ## Abstract
+  The current Corosync `transport` mechanism is not configured as recommended.
+
+  ## Remediation
+  To change the corosync MCAST transport to UCAST edit the /etc/corosync/corosync.conf
+  as in the example
+  ```
+      max_messages: 20
+      interface {
+          ringnumber: 0
+  -       bindnetaddr: 10.162.32.167
+  -       mcastaddr: 239.11.100.41
+          mcastport: 5405
+          ttl: 1
+      }
+  +   transport: udpu
+  ...
+  +nodelist {
+  +       node {
+  +               ring0_addr: 10.162.32.167
+  +               nodeid: 1
+  +       }
+  +
+  +       node {
+  +               ring0_addr: 10.162.32.89
+  +               nodeid: 2
+  +       }
+  +
+  +}
+  ```
+  1. Stop the already running cluster by using **crm cluster stop**
+  2. In the `totem` section, in the `interface` subsection remove the keys-value pairs **bindnetaddr** and **mcastaddr**
+  3. In the `totem` section add key-value pair **transport: udpu**
+  4. Add section `nodelist` and subsections `node` for each nodes of the cluster, where the **ring0_addr** is the IP address of the node
+  5. Start the cluster by using **crm cluster start**
+
+  ## References
+  Azure:
+
+    - https://docs.microsoft.com/en-us/azure/virtual-machines/workloads/sap/high-availability-guide-suse-pacemaker#install-the-cluster
+
+  SUSE / KVM:
+
+    - https://documentation.suse.com/sbp/all/single-html/SLES4SAP-hana-sr-guide-PerfOpt-15/#id-example-for-etccorosynccorosync-conf
+
+  GCP: 
+
+    - https://cloud.google.com/solutions/sap/docs/sap-hana-ha-config-sles#create_the_corosync_configuration_files
+
+  AWS:
+
+    -	https://docs.aws.amazon.com/sap/latest/sap-hana/sap-hana-on-aws-cluster-configuration.html
+
+  Nutanix:
+
+    - https://documentation.suse.com/sbp/all/single-html/SLES4SAP-hana-sr-guide-PerfOpt-15/#id-example-for-etccorosynccorosync-conf
+
+facts:
+  - name: corosync_transport_protocol
+    gatherer: corosync.conf
+    argument: totem.transport
+
+values:
+  - name: expected_transport_protocol
+    default: udpu
+
+expectations:
+  - name: corosync_protocol
+    expect: facts.corosync_transport_protocol == values.expected_transport_protocol

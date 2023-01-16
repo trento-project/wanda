@@ -1,0 +1,57 @@
+id: "845CC9"
+name: Check Corosync max_messages value
+group: Corosync
+description: |
+  Corosync `max_messages` is set to expected value
+remediation: |
+  ## Abstract
+  The Corosync `max_messages` value is not set as recommended.
+
+  ## Remediation
+
+  Adjust the corosync `max_messages` count as recommended on the best practices, and reload the corosync configuration
+
+  1. Set the correct `max_messages` count in the `totem` section in the corosync configuration file `/etc/corosync/corosync.conf`. This action must be repeated in all nodes of the cluster.
+     ```
+     [...]
+     totem {
+            max_messages: <count value>
+           }
+     [...]
+     ```
+  2. Reload the corosync configuration:
+     `crm corosync reload`
+
+  ## References
+  Azure:
+
+    - https://docs.microsoft.com/en-us/azure/virtual-machines/workloads/sap/high-availability-guide-suse-pacemaker#install-the-cluster
+
+  SUSE / KVM:
+
+    - https://documentation.suse.com/sbp/all/single-html/SLES4SAP-hana-sr-guide-PerfOpt-15/#id-example-for-etccorosynccorosync-conf
+
+  GCP: 
+
+    - https://cloud.google.com/solutions/sap/docs/sap-hana-ha-config-sles
+
+  AWS:
+
+    -	https://documentation.suse.com/sbp/all/single-html/SLES4SAP-hana-sr-guide-PerfOpt-15/#id-example-for-etccorosynccorosync-conf
+
+  Nutanix:
+
+    - https://documentation.suse.com/sbp/all/single-html/SLES4SAP-hana-sr-guide-PerfOpt-15/#id-example-for-etccorosynccorosync-conf
+
+facts:
+  - name: corosync_max_messages
+    gatherer: corosync.conf
+    argument: totem.max_messages
+
+values:
+  - name: expected_max_messages
+    default: 20
+
+expectations:
+  - name: max_messages
+    expect: facts.corosync_max_messages == values.expected_max_messages

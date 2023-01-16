@@ -1,21 +1,20 @@
-id: "156F64"
-name: Check Corosync token_timeout value
+id: "A1244C"
+name: Check Corosync consensus timeout
 group: Corosync
 description: |
-  Corosync `token` timeout is set to expected value
+  Corosync `consensus` timeout is set to expected value
 remediation: |
   ## Abstract
-  The value of the Corosync `token` timeout is not set as recommended.
+  The value of the Corosync `consensus` timeout is not set as recommended.
 
   ## Remediation
+  Adjust the corosync `consensus` timeout as recommended on the best practices, and reload the corosync configuration
 
-  Adjust the corosync `token` timeout as recommended on the best practices, and reload the corosync configuration
-
-  1. Set the correct `token` timeout in the `totem` section in the corosync configuration file `/etc/corosync/corosync.conf`. This action must be repeated in all nodes of the cluster.
+  1. Set the correct `consensus` timeout in the `totem` section in the corosync configuration file `/etc/corosync/corosync.conf`. This action must be repeated in all nodes of the cluster.
      ```
      [...]
      totem { 
-            token: <timeout value> 
+            consensus: <timeout value> 
            }
      [...]
      ```   
@@ -25,7 +24,7 @@ remediation: |
   ## References
   Azure:
 
-    - https://docs.microsoft.com/en-us/azure/virtual-machines/workloads/sap/high-availability-guide-suse-pacemaker
+    - https://docs.microsoft.com/en-us/azure/virtual-machines/workloads/sap/high-availability-guide-suse-pacemaker#install-the-cluster
 
   SUSE / KVM:
 
@@ -44,19 +43,19 @@ remediation: |
     - https://documentation.suse.com/sbp/all/single-html/SLES4SAP-hana-sr-guide-PerfOpt-15/#id-example-for-etccorosynccorosync-conf
 
 facts:
-  - name: corosync_token_timeout
+  - name: corosync_consensus_timeout
     gatherer: corosync.conf
-    argument: totem.token
+    argument: totem.consensus
 
 values:
-  - name: expected_token_timeout
-    default: 5000
+  - name: expected_consensus_timeout
+    default: 6000
     conditions:
-      - value: 30000
+      - value: 36000
         when: env.provider == "azure" || env.provider == "aws"
-      - value: 20000
+      - value: 24000
         when: env.provider == "gcp"
 
 expectations:
-  - name: token_timeout
-    expect: facts.corosync_token_timeout == values.expected_token_timeout
+  - name: consensus_timeout
+    expect: facts.corosync_consensus_timeout == values.expected_consensus_timeout
