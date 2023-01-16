@@ -3,23 +3,31 @@ defmodule WandaWeb.Schemas.ExecutionResponse.AgentCheckError do
 
   alias OpenApiSpex.Schema
 
-  alias WandaWeb.Schemas.ExecutionResponse.{ExpectationEvaluation, Fact}
+  alias WandaWeb.Schemas.ExecutionResponse.{Fact, FactError}
 
   require OpenApiSpex
 
   OpenApiSpex.schema(%{
     title: "AgentCheckError",
-    description: "The result of check on a specific agent",
+    description:
+      "An error describing that some of the facts could not be gathered on a specific agent eg. gathering failure or timeout",
     type: :object,
     properties: %{
       agent_id: %Schema{type: :string, format: :uuid, description: "Agent ID"},
-      facts: %Schema{type: :array, items: Fact, description: "Facts gathered from the targets"},
-      expectation_evaluations: %Schema{
+      facts: %Schema{
+        description: "Facts gathered, possibly with errors, from the target",
         type: :array,
-        items: ExpectationEvaluation,
-        description: "Expectation evaluated during the check execution"
-      }
+        items: %Schema{
+          oneOf: [
+            Fact,
+            FactError
+          ]
+        },
+        nullable: true
+      },
+      type: %Schema{type: :string, description: "Error type"},
+      message: %Schema{type: :string, description: "Error message"}
     },
-    required: [:agent_id, :facts, :expectation_evaluations]
+    required: [:agent_id, :type, :message]
   })
 end

@@ -34,6 +34,15 @@ defmodule Wanda.CatalogTest do
       end)
     end
 
+    test "should filter out checks if the when clause doesn't match" do
+      complete_catalog = Catalog.get_catalog(%{"provider" => "azure"})
+      catalog = Catalog.get_catalog(%{"provider" => "aws"})
+
+      assert length(complete_catalog) - 1 == length(catalog)
+
+      refute Enum.any?(catalog, fn %Check{id: id} -> id == "when_condition_check" end)
+    end
+
     test "should load a check from a yaml file properly" do
       assert {:ok,
               %Check{
@@ -115,7 +124,10 @@ defmodule Wanda.CatalogTest do
 
     test "should load multiple checks" do
       assert [%Check{id: "expect_check"}, %Check{id: "expect_same_check"}] =
-               Catalog.get_checks(["expect_check", "non_existent_check", "expect_same_check"])
+               Catalog.get_checks(
+                 ["expect_check", "non_existent_check", "expect_same_check"],
+                 %{}
+               )
     end
   end
 end

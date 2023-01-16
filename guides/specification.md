@@ -63,7 +63,7 @@ A Check declaration comes in the form of a `yaml` file and all the Checks togeth
 Here's an example:
 
 ```yaml
-id: 156F64
+id: "156F64"
 name: Corosync `token` timeout
 group: Corosync
 description: Corosync `token` timeout is set to the correct value
@@ -121,9 +121,9 @@ Uniquely identifies a Check in the Catalog
 ie:
 
 ```yaml
-id: 156F64
-id: 845CC9
-id: B089BE
+id: "156F64"
+id: "845CC9"
+id: "B089BE"
 ```
 
 #### name
@@ -388,7 +388,7 @@ Expectations are assertions on the state of a target infrastructure for a given 
 An Expectation declaration contains:
 
 - the expectation name
-- the expectation expression itself with [access](#evaluation-scope) to gathered [facts](#facts-1), [resolved values](#values-1) and the [environment](#env)
+- the expectation expression itself with [access](#evaluation-scope) to gathered [facts](#facts-1) and [resolved values](#values-1)
 
 ```yaml
 expectations:
@@ -592,3 +592,90 @@ Available entries in scope
 | ------------------------------- | -------------------------------------------------------
 | `values.expected_token_timeout` | `5000`, `30000`, `20000` based on the conditions
 | `values.another_variable_value` | `blue`, `red` based on the conditions
+
+## Best practices and conventions
+
+To have a standardized format for writing checks, follow the next best practices and conventions as much as possible:
+
+- The `id` field must be wrapped in double quotes to avoid any type of ambiguity, as this field must be of string format.
+- The remaining `name`, `description`, `group`, and `remediation` fields must not be wrapped in quotes, as they are text-based values always.
+- Take advantage of markdown tags in the `name`, `description`, and `remediation` fields to make the text easy and compelling to read.
+- The `name` field of `facts`, `values`, and `expectations` must follow `camel_case` format.  
+  For example:
+  ```
+  facts:
+    - name: some_fact
+  ...
+  values:
+    - name: expected_some_fact
+  ...
+  expectations:
+    - name: some_expectation
+  ...
+  ```
+- Use 2 spaces to indent multiline expectation expressions.
+- Naming hardcoded values in the `values` section with the `default` field is encouraged instead of putting hardcoded values in the expectation expression itself. This gives some meaning to the expected value and improves potential interaction with the Wanda API.  
+  So this:
+  ```
+  expectations:
+    - name: some_expectation
+      expect: facts.foo == 30
+  ```
+  would be:
+  ```
+  values:
+    - name: expected_foo
+      default: 30
+  
+  expectations:
+    - name: some_expectation
+      expect: facts.foo == values.expected_foo
+  ```
+- If the gathered fact is compared to a value, using `value` and `expected_value` names for facts and values respectively is recommended, as it improves the meaning of the comparison.  
+  For example:
+  ```
+  facts:
+    - name: some_fact
+  ...
+  values:
+    - name: expected_some_fact
+  ...
+  ```
+- Avoid adding prefixes such as `facts` or `values` to the entries of these sections, as they already use this as a namespace.
+For example, the next example should be avoided, as the `facts` prefix would be redundant in the expectation expression:
+  ```
+  facts:
+    - name: facts_some_fact
+  ```
+- If the implemented expectation expression contains any kind of `&&` to combine multiple operations, consider adding them as individual expectations, as the final result is the combination of all of them.  
+  So this:
+  ```
+  expectations:
+    - name: some_expectation
+      expect: facts.foo == values.expected_foo && facts.bar == values.expected_bar
+  ```
+  would be:
+  ```
+  expectations:
+    - name: foo_expectation
+      expect: facts.foo == values.expected_foo
+    - name: bar_expectation
+      expect: facts.bar == values.expected_bar
+  ```
+- Pipe the expression language functions vertically in order to provide a better visual output of the code.  
+  So this:
+  ```
+  expectations:
+    - name: some_expectation
+      expect: facts.foo.find(|item| item.id == "super").properties.find(|prop| prop.name == "good").value
+  ```
+  would be:
+  ```
+  expectations:
+    - name: some_expectation
+      expect: |
+        facts.foo
+        .find(|item| item.id == "super").properties
+        .find(|prop| prop.name == "good").value
+  ```
+  > Note: Keep in mind that some functions such as `sort` and `drain` run in-place modifications, so they cannot be piped.

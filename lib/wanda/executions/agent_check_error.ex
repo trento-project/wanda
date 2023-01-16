@@ -18,8 +18,8 @@ defmodule Wanda.Executions.AgentCheckError do
 
   @type t :: %__MODULE__{
           agent_id: String.t(),
-          facts: [Fact.t() | FactError.t()],
-          type: :timeout,
+          facts: [Fact.t() | FactError.t()] | nil,
+          type: :fact_gathering_error | :timeout,
           message: String.t()
         }
 end

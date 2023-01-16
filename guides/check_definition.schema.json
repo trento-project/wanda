@@ -15,6 +15,9 @@
       "group": {
         "type": "string"
       },
+      "when": {
+        "type": "string"
+      },
       "description": {
         "type": "string"
       },

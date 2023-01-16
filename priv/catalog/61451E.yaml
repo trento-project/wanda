@@ -1,0 +1,43 @@
+id: "61451E"
+name: multiple SBD devices
+group: SBD
+description: |
+  Multiple SBD devices are configured
+remediation: |
+  ## Abstract
+  It is recommended to configure 3 SBD devices for production environments.
+
+  The SBD is not used in GCP or AWS environments.
+
+  ## References
+  Azure:
+
+    -  https://docs.microsoft.com/en-us/azure/virtual-machines/workloads/sap/high-availability-guide-suse-pacemaker#set-up-sbd-device
+
+  AWS:
+
+  GCP:
+
+  Nutanix:
+
+    - https://documentation.suse.com/sbp/all/single-html/SLES4SAP-hana-sr-guide-PerfOpt-15/#cha.hana-sr.scenario
+
+  SUSE / KVM:
+
+    - https://documentation.suse.com/sbp/all/single-html/SLES4SAP-hana-sr-guide-PerfOpt-15/#cha.hana-sr.scenario
+
+severity: warning
+
+facts:
+  - name: sbd_multiple_sbd_device
+    gatherer: sbd_config
+    argument: SBD_DEVICE
+
+values:
+  - name: expected_multiple_sbd_device
+    # should only run on 'azure', 'nutanix' or 'kvm', NOT on 'gcp' or 'aws'
+    default: 3
+
+expectations:
+  - name: expectations_multiple_sbd_device
+    expect: facts.sbd_multiple_sbd_device.split(";").len() == values.expected_multiple_sbd_device
