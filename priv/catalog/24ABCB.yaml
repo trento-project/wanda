@@ -1,5 +1,5 @@
-id: 24ABCB
-name: Corosync configuration file
+id: "24ABCB"
+name: Check Corosync join timeout value
 group: Corosync
 description: |
   Corosync `join` timeout is set to expected value
@@ -48,5 +48,5 @@ values:
     default: 60
 
 expectations:
-  - name: timeout
+  - name: join_timeout
     expect: facts.corosync_join_timeout == values.expected_join_timeout

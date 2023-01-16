@@ -1,5 +1,5 @@
-id: 6E9B82
-name: Corosync configuration file
+id: "6E9B82"
+name: Check Corosync two_node value
 group: Corosync
 description: |
   Corosync `two_node` is set to expected value
@@ -52,5 +52,5 @@ values:
     default: 1
 
 expectations:
-  - name: parameter
+  - name: twonode_parameter
     expect: facts.corosync_twonode == values.expected_twonode

@@ -1,10 +1,11 @@
-id: 33403D
-name: Corosync configuration file
+id: "33403D"
+name: Check Corosync transport mechanism 
 group: Corosync
 description: |
   Corosync `transport` mechanism is set to expected value
 remediation: |
   ## Abstract
+  The current Corosync `transport` mechanism is not configured as recommended.
 
   ## Remediation
   To change the corosync MCAST transport to UCAST edit the /etc/corosync/corosync.conf
@@ -70,5 +71,5 @@ values:
     default: udpu
 
 expectations:
-  - name: protocol
+  - name: corosync_protocol
     expect: facts.corosync_transport_protocol == values.expected_transport_protocol

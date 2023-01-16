@@ -1,5 +1,5 @@
 id: "156F64"
-name: Corosync configuration file
+name: Check Corosync token_timeout value
 group: Corosync
 description: |
   Corosync `token` timeout is set to expected value
@@ -58,5 +58,5 @@ values:
         when: env.provider == "gcp"
 
 expectations:
-  - name: timeout
+  - name: token_timeout
     expect: facts.corosync_token_timeout == values.expected_token_timeout

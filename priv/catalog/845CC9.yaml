@@ -1,10 +1,11 @@
-id: 845CC9
-name: Corosync configuration file
+id: "845CC9"
+name: Check Corosync max_messages value
 group: Corosync
 description: |
   Corosync `max_messages` is set to expected value
 remediation: |
   ## Abstract
+  The Corosync `max_messages` value is not set as recommended.
 
   ## Remediation
 

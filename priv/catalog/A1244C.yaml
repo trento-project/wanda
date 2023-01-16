@@ -1,5 +1,5 @@
-id: A1244C
-name: Corosync configuration file
+id: "A1244C"
+name: Check Corosync consensus timeout
 group: Corosync
 description: |
   Corosync `consensus` timeout is set to expected value
@@ -8,7 +8,6 @@ remediation: |
   The value of the Corosync `consensus` timeout is not set as recommended.
 
   ## Remediation
-
   Adjust the corosync `consensus` timeout as recommended on the best practices, and reload the corosync configuration
 
   1. Set the correct `consensus` timeout in the `totem` section in the corosync configuration file `/etc/corosync/corosync.conf`. This action must be repeated in all nodes of the cluster.
@@ -58,5 +57,5 @@ values:
         when: env.provider == "gcp"
 
 expectations:
-  - name: timeout
+  - name: consensus_timeout
     expect: facts.corosync_consensus_timeout == values.expected_consensus_timeout
