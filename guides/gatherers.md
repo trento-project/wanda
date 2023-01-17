@@ -269,35 +269,78 @@ Example output (in Rhai):
 
 **Argument required**: yes.
 
-This gatherer returns the version as a string of the specified rpm package.
+This gatherer supports two usecases:
+ - get the version as a string of the specified package (useful to check if the installed version of a package is the same across multiple nodes)
+ - compare a given version string against the installed version string of a given package.
+
+While for the first usecase, a simple string containing the version is returned, for the second usecase, the return value is as follows (see additional details [here](https://fedoraproject.org/wiki/Archive:Tools/RPM/VersionComparison#The_rpmvercmp_algorithm)):
+ - A value of `0` if the provided version string matches the installed package version for the requested package.
+ - A value of `-1` if the provided version string is older that what's currently installed.
+ - A value of `1` if the provided version string is newer than what's currently installed.
+
+Naming the facts / expectations accordingly is specially important here to avoid confusion.
+ - We suggest using a `compare_` prefix for package version comparisons and `package_` to retrieve
+   a package version
+
+Additionally, when using the version comparison, it increases readability to explicitly mention
+the values to compare against:
+
+```yaml
+facts:
+  - name: compare_package_corosync
+    gatherer: package_version
+    argument: corosync,2.4.5
+
+values:
+  - name: greater_than_installed
+    default: 1
+  - name: lesser_than_installed
+    default: -1
+  - name: same_as_installed
+    default: 0
+
+expectations:
+  - name: compare_package_corosync
+    expect: facts.compare_package_corosync == values.greater_than_installed
+```
 
 Example arguments:
 
-| Name           | Return value                                                 |
-| :------------- | :----------------------------------------------------------- |
-| `package_name` | a string containing the installed version of the rpm package |
+| Name                 | Return value                                                 |
+| :------------------- | :----------------------------------------------------------- |
+| `package_name`       | a string containing the installed version of the rpm package |
+| `package_name,2.4.5` | an integer with a value of `-1`, `0` or `-1` (see above)     |
 
 Example specification:
 
 ```yaml
 facts:
-  - name: corosync_version
+  - name: package_corosync
     gatherer: package_version
     argument: corosync
 
-  - name: pacemaker_version
+  - name: package_pacemaker
     gatherer: package_version
     argument: pacemaker
+
+  - name: compare_package_corosync
+    gatherer: package_version
+    argument: corosync,2.4.5
+
+  ...
 ```
 
 Example output (in Rhai):
 
 ```ts
-// corosync
+// package_corosync
 "2.4.5";
 
-// pacemaker
+// package_pacemaker
 "2.0.4+20200616.2deceaa3a";
+
+// compare_package_corosync
+0
 ```
 
 ### saphostctrl
