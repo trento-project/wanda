@@ -273,7 +273,7 @@ This gatherer supports two usecases:
  - get the version as a string of the specified package (useful to check if the installed version of a package is the same across multiple nodes)
  - compare a given version string against the installed version string of a given package.
 
-While for the first usecase, a simple string containing the version is returned, for the second usecase, the return value is as follows:
+While for the first usecase, a simple string containing the version is returned, for the second usecase, the return value is as follows (see additional details [here](https://fedoraproject.org/wiki/Archive:Tools/RPM/VersionComparison#The_rpmvercmp_algorithm)):
  - A value of `0` if the provided version string matches the installed package version for the requested package.
  - A value of `-1` if the provided version string is older that what's currently installed.
  - A value of `1` if the provided version string is newer than what's currently installed.
