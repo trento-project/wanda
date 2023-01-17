@@ -1,0 +1,47 @@
+id: "32CFC6"
+name: Corosync runtime
+group: Corosync
+description: |
+  Corosync is running with at least 2 rings
+remediation: |
+  ## Abstract
+  It is strongly recommended to add a second ring to the corosync communication.
+  ## References
+  Azure:
+    - https://docs.microsoft.com/en-us/azure/virtual-machines/workloads/sap/high-availability-guide-suse-pacemaker
+  AWS:
+    - https://docs.aws.amazon.com/sap/latest/sap-hana/sap-hana-on-aws-cluster-configuration.html
+  GCP:
+    - https://cloud.google.com/solutions/sap/docs/sap-hana-ha-config-sles
+  SUSE / KVM:
+   - https://documentation.suse.com/sbp/all/single-html/SLES4SAP-hana-sr-guide-PerfOpt-15/#id-example-for-etccorosynccorosync-conf
+   - section 9.1.3 in https://documentation.suse.com/sbp/all/single-html/SLES4SAP-hana-sr-guide-PerfOpt-15/#id-adapting-the-corosync-and-sbd-configuration
+
+when: "true"
+premium: true
+
+facts:
+  - name: runtime_corosync_nodes
+    gatherer: corosync-cmapctl
+    argument: totem.interface
+
+values:
+  - name: expected_corosync_rings_per_node
+    default: 2
+    conditions:
+      - value: 1
+        when: env.provider == "azure" || env.provider == "gcp"
+
+expectations:
+  - name: has_some_nodes_configured
+    expect: facts.runtime_corosync_nodes.len() > 0
+
+  - name: expected_number_of_rings_per_node
+    expect: |
+      facts.runtime_corosync_nodes
+      .values()
+      .all(|node|
+        node
+        .keys()
+        .filter(|prop| prop.starts_with("bindnetaddr"))
+        .len() >= values.expected_corosync_rings_per_node)
