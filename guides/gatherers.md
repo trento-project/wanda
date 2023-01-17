@@ -166,6 +166,8 @@ Example arguments:
 | `totem.transport`            | extracted value from the command |
 | `totem.transport`            | extracted value from the command |
 | `nodelist.node.0.ring0_addr` | extracted value from the command |
+| `nodelist.node`              | extracted value from the command |
+| `nodelist.node.1`            | extracted value from the command |
 
 Example specification:
 
@@ -190,6 +192,14 @@ facts:
   - name: node_0_ring0addr
     gatherer: corosync-cmapctl
     argument: nodelist.node.0.ring0_addr
+
+  - name: node_list
+    gatherer: corosync-cmapctl
+    argument: nodelist.node
+
+  - name: second_node
+    gatherer: corosync-cmapctl
+    argument: nodelist.node.1
 ```
 
 Example output (in Rhai):
@@ -209,6 +219,15 @@ Example output (in Rhai):
 
 // node_0_ring0addr
 20;
+
+// node_list
+#{
+  "0": #{ "nodeid": 1, "ring0_addr": "10.80.1.11" },
+  "1": #{ "nodeid": 2, "ring0_addr": "10.80.1.12" }
+}
+
+// second_node
+#{ "nodeid": 2, "ring0_addr": "10.80.1.12" }
 ```
 
 ### hosts (/etc/hosts)
