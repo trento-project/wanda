@@ -16,12 +16,8 @@ remediation: |
 facts:
   - name: sles_sap_version
     gatherer: package_version
-    argument: SLES_SAP-release
-
-values:
-  - name: expected_sles_sap_version
-    default: "15.1"
+    argument: SLES_SAP-release,15.1
 
 expectations:
   - name: expectations_sles_sap_version
-    expect: facts.sles_sap_version >= values.expected_sles_sap_version
+    expect: facts.sles_sap_version < 1

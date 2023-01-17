@@ -16,12 +16,8 @@ remediation: |
 facts:
   - name: exclude_package_pacemaker
     gatherer: package_version
-    argument: pacemaker
-
-values:
-  - name: expected_pacemaker_version_to_exclude
-    default: "2.0.3+20200511.2b248d828"
+    argument: pacemaker,2.0.3+20200511.2b248d828
 
 expectations:
   - name: expectations_pacemaker_version_to_exclude
-    expect: facts.exclude_package_pacemaker != values.expected_pacemaker_version_to_exclude
+    expect: facts.exclude_package_pacemaker != 0

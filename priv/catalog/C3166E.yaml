@@ -13,16 +13,13 @@ remediation: |
   ## Reference
   - https://documentation.suse.com/en-us/sbp/all/single-html/SLES4SAP-hana-sr-guide-PerfOpt-15/
 
+when: env.provider in ["azure", "nutanix", "kvm"]
+
 facts:
   - name: exclude_package_sbd
     gatherer: package_version
-    argument: sbd
-
-values:
-  - name: expected_sbd_version_to_exclude
-    #should only run on 'azure', 'nutanix' or 'kvm', NOT on 'gcp' or 'aws'
-    default: "1.4.0+20190326.c38c5e6"
+    argument: sbd,1.4.0+20190326.c38c5e6
 
 expectations:
   - name: expectations_sbd_version_to_exclude
-    expect: facts.exclude_package_sbd != values.expected_sbd_version_to_exclude
+    expect: facts.exclude_package_sbd != 0

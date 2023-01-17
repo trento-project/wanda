@@ -13,16 +13,13 @@ remediation: |
   ## Reference
   - https://documentation.suse.com/en-us/sbp/all/single-html/SLES4SAP-hana-sr-guide-PerfOpt-15/
 
+when: env.provider in ["azure", "nutanix", "kvm"]
+
 facts:
   - name: package_sbd
     gatherer: package_version
-    argument: sbd
-
-values:
-  - name: expected_sbd_version
-    #should only run on 'azure', 'nutanix' or 'kvm', NOT on 'gcp' or 'aws'
-    default: "1.4.0"
+    argument: sbd,1.4.0
 
 expectations:
   - name: expectations_sbd_version
-    expect: facts.package_sbd >= values.expected_sbd_version
+    expect: facts.package_sbd < 1

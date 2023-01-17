@@ -16,12 +16,8 @@ remediation: |
 facts:
   - name: package_python3
     gatherer: package_version
-    argument: python3
-
-values:
-  - name: expected_python3_version
-    default: "3.6.5"
+    argument: python3,3.6.5
 
 expectations:
   - name: expectations_python3_version
-    expect: facts.package_python3 >= values.expected_python3_version
+    expect: facts.package_python3 < 1

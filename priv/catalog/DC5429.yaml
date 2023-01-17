@@ -16,12 +16,8 @@ remediation: |
 facts:
   - name: package_corosync
     gatherer: package_version
-    argument: corosync
-
-values:
-  - name: expected_corosync_version
-    default: "2.4.5"
+    argument: corosync,2.4.5
 
 expectations:
   - name: expectations_corosync_version
-    expect: facts.package_corosync >= values.expected_corosync_version
+    expect: facts.package_corosync < 1

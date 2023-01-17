@@ -16,12 +16,8 @@ remediation: |
 facts:
   - name: package_pacemaker
     gatherer: package_version
-    argument: pacemaker
-
-values:
-  - name: expected_pacemaker_version
-    default: "2.0.1"
+    argument: pacemaker,2.0.1
 
 expectations:
   - name: expectations_pacemaker_version
-    expect: facts.package_pacemaker >= values.expected_pacemaker_version
+    expect: facts.package_pacemaker < 1
