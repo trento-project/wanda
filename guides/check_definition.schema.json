@@ -24,6 +24,9 @@
       "remediation": {
         "type": "string"
       },
+      "premium": {
+        "type": "boolean"
+      },
       "facts": {
         "type": "array",
         "items": {
