@@ -113,7 +113,7 @@ Wanda
   </a>
   Introduction
 </h2>
-<p>Gatherers can be thought of as functions:</p><ul><li>they have a name</li><li>they accept argument(s)</li><li>they return a value, the gathered <a href="specification.html#facts">Fact</a></li></ul><p>Facts Gathering process in a nutshell</p><pre><code class="makeup elixir" translate="no"><span class="n">fact</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">gatherer</span><span class="p" data-group-id="3054328847-1">(</span><span class="n">argument</span><span class="p" data-group-id="3054328847-1">)</span></code></pre><h2 id="available-gatherers" class="section-heading">
+<p>Gatherers can be thought of as functions:</p><ul><li>they have a name</li><li>they accept argument(s)</li><li>they return a value, the gathered <a href="specification.html#facts">Fact</a></li></ul><p>Facts Gathering process in a nutshell</p><pre><code class="makeup elixir" translate="no"><span class="n">fact</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">gatherer</span><span class="p" data-group-id="7559239145-1">(</span><span class="n">argument</span><span class="p" data-group-id="7559239145-1">)</span></code></pre><h2 id="available-gatherers" class="section-heading">
   <a href="#available-gatherers" class="hover-link"><i class="ri-link-m" aria-hidden="true"></i>
   <p class="sr-only">available-gatherers</p>
   </a>
@@ -202,7 +202,7 @@ Some specific fields, such as <code class="inline">primitive</code>, <code class
   </a>
   corosync-cmapctl
 </h3>
-<p><strong>Argument required</strong>: yes.</p><p>This gatherer allows accessing the output of the <code class="inline">corosync-cmapctl</code> tool. It supports all of the keys returned by it to be queried.</p><p>Example arguments:</p><table><thead><tr><th style="text-align: left;">Name</th><th style="text-align: left;">Return value</th></tr></thead><tbody><tr><td style="text-align: left;"><code class="inline">totem.token</code></td><td style="text-align: left;">extracted value from the command</td></tr><tr><td style="text-align: left;"><code class="inline">runtime.config.totem.token</code></td><td style="text-align: left;">extracted value from the command</td></tr><tr><td style="text-align: left;"><code class="inline">totem.transport</code></td><td style="text-align: left;">extracted value from the command</td></tr><tr><td style="text-align: left;"><code class="inline">totem.transport</code></td><td style="text-align: left;">extracted value from the command</td></tr><tr><td style="text-align: left;"><code class="inline">nodelist.node.0.ring0_addr</code></td><td style="text-align: left;">extracted value from the command</td></tr></tbody></table><p>Example specification:</p><pre><code class="yaml">facts:
+<p><strong>Argument required</strong>: yes.</p><p>This gatherer allows accessing the output of the <code class="inline">corosync-cmapctl</code> tool. It supports all of the keys returned by it to be queried.</p><p>Example arguments:</p><table><thead><tr><th style="text-align: left;">Name</th><th style="text-align: left;">Return value</th></tr></thead><tbody><tr><td style="text-align: left;"><code class="inline">totem.token</code></td><td style="text-align: left;">extracted value from the command</td></tr><tr><td style="text-align: left;"><code class="inline">runtime.config.totem.token</code></td><td style="text-align: left;">extracted value from the command</td></tr><tr><td style="text-align: left;"><code class="inline">totem.transport</code></td><td style="text-align: left;">extracted value from the command</td></tr><tr><td style="text-align: left;"><code class="inline">runtime.config.totem.max_messages</code></td><td style="text-align: left;">extracted value from the command</td></tr><tr><td style="text-align: left;"><code class="inline">nodelist.node.0.ring0_addr</code></td><td style="text-align: left;">extracted value from the command</td></tr><tr><td style="text-align: left;"><code class="inline">nodelist.node</code></td><td style="text-align: left;">extracted value from the command</td></tr><tr><td style="text-align: left;"><code class="inline">nodelist.node.1</code></td><td style="text-align: left;">extracted value from the command</td></tr></tbody></table><p>Example specification:</p><pre><code class="yaml">facts:
   - name: totem_token
     gatherer: corosync-cmapctl
     argument: totem.token
@@ -221,20 +221,43 @@ Some specific fields, such as <code class="inline">primitive</code>, <code class
 
   - name: node_0_ring0addr
     gatherer: corosync-cmapctl
-    argument: nodelist.node.0.ring0_addr</code></pre><p>Example output (in Rhai):</p><pre><code class="ts">// totem_token
+    argument: nodelist.node.0.ring0_addr
+
+  - name: node_list
+    gatherer: corosync-cmapctl
+    argument: nodelist.node
+
+  - name: second_node
+    gatherer: corosync-cmapctl
+    argument: nodelist.node.1</code></pre><p>Example output (in Rhai):</p><pre><code class="ts">// totem_token
 30000;
 
 // runtime_totem_token
 30000;
 
 // totem_transport
-(&quot;udpu&quot;);
+&quot;udpu&quot;;
 
 // totem_max_messages
 20;
 
 // node_0_ring0addr
-20;</code></pre><h3 id="hosts-etc-hosts" class="section-heading">
+&quot;10.80.1.11&quot;;
+
+// node_list
+#{
+  &quot;0&quot;: #{
+    nodeid: 1,
+    ring0_addr: &quot;10.80.1.11&quot;
+  },
+  &quot;1&quot;: #{
+    nodeid: 2,
+    ring0_addr: &quot;10.80.1.12&quot;
+  }
+};
+
+// second_node
+#{ nodeid: 2, ring0_addr: &quot;10.80.1.12&quot; };</code></pre><h3 id="hosts-etc-hosts" class="section-heading">
   <a href="#hosts-etc-hosts" class="hover-link"><i class="ri-link-m" aria-hidden="true"></i>
   <p class="sr-only">hosts-etc-hosts</p>
   </a>
