@@ -626,6 +626,45 @@ defmodule Wanda.Executions.EvaluationTest do
                result: :warning
              } = Evaluation.execute(execution_id, group_id, checks, gathered_facts, %{})
     end
+
+    test "should return a critical result if an agent times out and severity is warning" do
+      execution_id = UUID.uuid4()
+      group_id = UUID.uuid4()
+
+      [%Catalog.Fact{name: fact_name}] = catalog_facts = build_list(1, :catalog_fact)
+
+      expectations = build_list(1, :catalog_expectation, type: :expect, expression: "1 == 1")
+
+      [%Catalog.Check{id: check_id}] =
+        checks =
+        build_list(1, :check,
+          severity: :warning,
+          facts: catalog_facts,
+          values: [],
+          expectations: expectations
+        )
+
+      facts = build_list(1, :fact, name: fact_name, check_id: check_id)
+
+      gathered_facts = %{
+        check_id => %{
+          "agent_1" => facts,
+          "agent_2" => :timeout
+        }
+      }
+
+      assert %Result{
+               execution_id: ^execution_id,
+               group_id: ^group_id,
+               check_results: [
+                 %CheckResult{
+                   check_id: ^check_id,
+                   result: :critical
+                 }
+               ],
+               result: :critical
+             } = Evaluation.execute(execution_id, group_id, checks, gathered_facts, %{})
+    end
   end
 
   describe "expressions with arrays" do
