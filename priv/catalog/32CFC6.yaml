@@ -46,4 +46,4 @@ values:
 
 expectations:
   - name: expectations_totem_interfaces
-    expect: facts.totem_interfaces.len() == values.expected_totem_interfaces
+    expect: facts.totem_interfaces.len() >= values.expected_totem_interfaces
