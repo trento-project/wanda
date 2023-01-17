@@ -1,0 +1,49 @@
+id: "32CFC6"
+name: corosync running 2 ring configuration
+group: Corosync
+description: |
+  Corosync is running with at least 2 rings
+remediation: |
+  ## Abstract
+  It is strongly recommended to add a second ring to the corosync communication.
+
+  ## References
+  Azure:
+
+    - https://docs.microsoft.com/en-us/azure/virtual-machines/workloads/sap/high-availability-guide-suse-pacemaker
+
+  AWS:
+
+    - https://docs.aws.amazon.com/sap/latest/sap-hana/sap-hana-on-aws-cluster-configuration.html
+
+  GCP:
+
+    - https://cloud.google.com/solutions/sap/docs/sap-hana-ha-config-sles
+
+  Nutanix:
+
+   - https://documentation.suse.com/sbp/all/single-html/SLES4SAP-hana-sr-guide-PerfOpt-15/#id-example-for-etccorosynccorosync-conf
+   - section 9.1.3 in https://documentation.suse.com/sbp/all/single-html/SLES4SAP-hana-sr-guide-PerfOpt-15/#id-adapting-the-corosync-and-sbd-configuration
+
+  SUSE / KVM:
+
+   - https://documentation.suse.com/sbp/all/single-html/SLES4SAP-hana-sr-guide-PerfOpt-15/#id-example-for-etccorosynccorosync-conf
+   - section 9.1.3 in https://documentation.suse.com/sbp/all/single-html/SLES4SAP-hana-sr-guide-PerfOpt-15/#id-adapting-the-corosync-and-sbd-configuration
+
+severity: warning
+
+facts:
+  - name: totem_interfaces
+    gatherer: corosync-cmapctl
+    argument: totem.interface
+
+values:
+  - name: expected_totem_interfaces
+    default: 2
+    conditions:
+      - value: 1
+        when: env.provider == "azure" || env.provider == "gcp"
+
+expectations:
+  - name: expectations_totem_interfaces
+    expect: facts.totem_interfaces.len() == values.expected_totem_interfaces
