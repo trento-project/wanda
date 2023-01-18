@@ -55,3 +55,8 @@ config :wanda, Wanda.Messaging.Adapters.AMQP,
 
 config :wanda,
   children: [Wanda.Messaging.Adapters.AMQP.Publisher, Wanda.Messaging.Adapters.AMQP.Consumer]
+
+config :joken,
+  access_token_signer: "s2ZdE+3+ke1USHEJ5O45KT364KiXPYaB9cJPdH3p60t8yT0nkLexLBNw8TFSzC7k"
+
+config :wanda, :jwt_authentication, enabled: false
