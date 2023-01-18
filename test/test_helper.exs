@@ -6,6 +6,9 @@ Application.put_env(:wanda, Wanda.Policy, execution_server_impl: Wanda.Execution
 
 Mox.defmock(GenRMQ.Processor.Mock, for: GenRMQ.Processor)
 
+Mox.defmock(Joken.CurrentTime.Mock, for: Joken.CurrentTime)
+Application.put_env(:joken, :current_time_adapter, Joken.CurrentTime.Mock)
+
 ExUnit.start(capture_log: true)
 Faker.start()
 
