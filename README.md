@@ -50,10 +50,10 @@ The [trento-agent](https://github.com/trento-project/agent) must be up and runni
 Here an example on how to start it:
 
 ```
-./trento-agent start --ssh-address <ssh-address> --api-key <api-key> --factsengine --facts-service-url amqp://wanda:wanda@localhost:5674
+./trento-agent start --api-key <api-key> --facts-service-url amqp://wanda:wanda@localhost:5674
 ```
 
-> Note: `ssh-address` and `api-key` values are not used if the unique goal is to run checks, so setting them as `--ssh-address 0 --api-key 0` does the work.
+> Note: `api-key` value is not used if the unique goal is to run checks, so setting it as `--api-key 0` does the work.
 
 Keep in mind that the `agent_id` of the targets must match with values provided in the `targets` field of the execution request.
 
