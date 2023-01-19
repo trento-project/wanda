@@ -5,7 +5,12 @@ defmodule Wanda.Executions.ServerTest do
   import Mox
   import Wanda.Factory
 
-  alias Trento.Checks.V1.FactsGatheringRequested
+  alias Trento.Checks.V1.{
+    ExecutionCompleted,
+    ExecutionStarted,
+    FactsGatheringRequested
+  }
+
   alias Wanda.Catalog
 
   alias Wanda.Executions.{Execution, Server, State}
@@ -59,10 +64,13 @@ defmodule Wanda.Executions.ServerTest do
     test "should start an execution" do
       pid = self()
 
-      expect(Wanda.Messaging.Adapters.Mock, :publish, fn "agents", %FactsGatheringRequested{} ->
-        send(pid, :wandalorian)
+      expect(Wanda.Messaging.Adapters.Mock, :publish, 2, fn
+        "agents", %FactsGatheringRequested{} ->
+          send(pid, :wandalorian)
 
-        :ok
+        "results", %ExecutionStarted{} ->
+          send(pid, :toniolorian)
+          :ok
       end)
 
       execution_id = UUID.uuid4()
@@ -81,6 +89,7 @@ defmodule Wanda.Executions.ServerTest do
       )
 
       assert_receive :wandalorian
+      assert_receive :toniolorian
 
       assert %Execution{execution_id: ^execution_id, status: :running} = Repo.one!(Execution)
     end
@@ -114,7 +123,7 @@ defmodule Wanda.Executions.ServerTest do
 
       targets = build_list(3, :target, %{checks: [context[:check].id]})
 
-      expect(Wanda.Messaging.Adapters.Mock, :publish, 2, fn
+      expect(Wanda.Messaging.Adapters.Mock, :publish, 3, fn
         "results", _ ->
           send(pid, :executed)
 
@@ -161,8 +170,8 @@ defmodule Wanda.Executions.ServerTest do
 
       targets = build_list(3, :target, %{checks: [context[:check].id]})
 
-      expect(Wanda.Messaging.Adapters.Mock, :publish, 2, fn
-        "results", _ ->
+      expect(Wanda.Messaging.Adapters.Mock, :publish, 3, fn
+        "results", %ExecutionCompleted{} ->
           send(pid, :timeout)
 
           :ok
