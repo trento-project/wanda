@@ -242,7 +242,10 @@ defmodule Wanda.Executions.Evaluation do
            not errors?(agents_check_results) do
         :passing
       else
-        severity
+        Enum.find_value(agents_check_results, severity, fn
+          %AgentCheckError{type: :timeout} -> :critical
+          _ -> false
+        end)
       end
 
     %CheckResult{check_result | result: result}
