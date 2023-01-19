@@ -72,6 +72,20 @@ if config_env() == :prod do
   config :cors_plug,
     origin: [cors_origin]
 
+  jwt_authentication_enabled = System.get_env("JWT_AUTHENTICATION_ENABLED", true)
+
+  config :wanda, :jwt_authentication, enabled: jwt_authentication_enabled
+
+  if jwt_authentication_enabled do
+    config :joken,
+      access_token_signer:
+        System.get_env("ACCESS_TOKEN_ENC_SECRET") ||
+          raise("""
+          environment variable ACCESS_TOKEN_ENC_SECRET is missing.
+          You can generate one by calling: mix phx.gen.secret
+          """)
+  end
+
   # Update catalog path to the current application dir during runtime
   config :wanda, Wanda.Catalog,
     catalog_path:

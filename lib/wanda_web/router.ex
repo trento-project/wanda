@@ -4,12 +4,17 @@ defmodule WandaWeb.Router do
   pipeline :api do
     plug :accepts, ["json"]
     plug OpenApiSpex.Plug.PutApiSpec, module: WandaWeb.ApiSpec
-
     plug CORSPlug
   end
 
+  pipeline :protected_api do
+    if Application.get_env(:wanda, :jwt_authentication)[:enabled] do
+      plug WandaWeb.Auth.JWTAuthPlug
+    end
+  end
+
   scope "/api/checks", WandaWeb do
-    pipe_through :api
+    pipe_through [:api, :protected_api]
 
     resources "/executions", ExecutionController, only: [:index, :show]
     get "/groups/:id/executions/last", ExecutionController, :last

@@ -10,6 +10,7 @@ services:
       AMQP_URL: amqp://wanda:wanda@rabbitmq
       CORS_ORIGIN: http://localhost:4000
       CATALOG_PATH: /app/catalog
+      JWT_AUTHENTICATION_ENABLED: false
     depends_on:
       - postgres
       - rabbitmq
