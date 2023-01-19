@@ -34,6 +34,8 @@ Wanda.Messaging.html
 Wanda.Policy.html
 Wanda.Release.html
 Wanda.Repo.html
+WandaWeb.Auth.AccessToken.html
+WandaWeb.Auth.JWTAuthPlug.html
 WandaWeb.CatalogController.html
 WandaWeb.CatalogView.html
 WandaWeb.ConnCase.html
@@ -80,8 +82,8 @@ dist/merriweather-latin-ext-300-normal-K6L27CZ5.woff2
 dist/merriweather-vietnamese-300-italic-EHHNZPUO.woff2
 dist/merriweather-vietnamese-300-normal-U376L4Z4.woff2
 dist/remixicon-E5UFLALU.woff2
-dist/search_items-4989A11D.js
-dist/sidebar_items-E6954882.js
+dist/search_items-D2110439.js
+dist/sidebar_items-0B88C528.js
 expression_language.html
 gatherers.html
 index.html
