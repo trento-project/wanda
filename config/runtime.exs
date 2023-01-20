@@ -72,7 +72,7 @@ if config_env() == :prod do
   config :cors_plug,
     origin: [cors_origin]
 
-  jwt_authentication_enabled = System.get_env("JWT_AUTHENTICATION_ENABLED", true)
+  jwt_authentication_enabled = System.get_env("JWT_AUTHENTICATION_ENABLED", "true") == "true"
 
   config :wanda, :jwt_authentication, enabled: jwt_authentication_enabled
 
