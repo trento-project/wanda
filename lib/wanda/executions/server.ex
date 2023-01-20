@@ -93,8 +93,11 @@ defmodule Wanda.Executions.Server do
     facts_gathering_requested =
       Messaging.Mapper.to_facts_gathering_requested(execution_id, group_id, targets, checks)
 
+    execution_started = Messaging.Mapper.to_execution_started(execution_id, group_id, targets)
+
     Executions.create_execution!(execution_id, group_id, targets)
 
+    :ok = Messaging.publish("results", execution_started)
     :ok = Messaging.publish("agents", facts_gathering_requested)
 
     Process.send_after(self(), :timeout, timeout)

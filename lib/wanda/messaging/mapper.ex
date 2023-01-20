@@ -15,11 +15,21 @@ defmodule Wanda.Messaging.Mapper do
   alias Trento.Checks.V1.{
     ExecutionCompleted,
     ExecutionRequested,
+    ExecutionStarted,
     FactRequest,
     FactsGathered,
     FactsGatheringRequested,
     FactsGatheringRequestedTarget
   }
+
+  @spec to_execution_started(String.t(), String.t(), [Target.t()]) :: ExecutionStarted.t()
+  def to_execution_started(execution_id, group_id, targets) do
+    ExecutionStarted.new!(
+      execution_id: execution_id,
+      group_id: group_id,
+      targets: Enum.map(targets, &map_target(&1))
+    )
+  end
 
   def to_facts_gathering_requested(execution_id, group_id, targets, checks) do
     FactsGatheringRequested.new!(
@@ -82,6 +92,10 @@ defmodule Wanda.Messaging.Mapper do
           map_gathered_fact(check_id, name, fact_value)
         end)
     }
+  end
+
+  defp map_target(%Target{agent_id: agent_id, checks: checks}) do
+    Trento.Checks.V1.Target.new!(agent_id: agent_id, checks: checks)
   end
 
   defp to_facts_gathering_requested_target(

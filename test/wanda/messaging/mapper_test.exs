@@ -13,9 +13,36 @@ defmodule Wanda.Messaging.MapperTest do
   alias Trento.Checks.V1.{
     ExecutionCompleted,
     ExecutionRequested,
+    ExecutionStarted,
     FactsGathered,
-    FactsGatheringRequested
+    FactsGatheringRequested,
+    Target
   }
+
+  test "should map to ExecutionStarted event" do
+    execution_id = UUID.uuid4()
+    group_id = UUID.uuid4()
+
+    targets = [
+      %Executions.Target{agent_id: "agent_1", checks: ["check_1", "check_2"]},
+      %Executions.Target{agent_id: "agent_2", checks: ["check_3"]}
+    ]
+
+    assert %ExecutionStarted{
+             execution_id: ^execution_id,
+             group_id: ^group_id,
+             targets: [
+               %Target{
+                 agent_id: "agent_1",
+                 checks: ["check_1", "check_2"]
+               },
+               %Target{
+                 agent_id: "agent_2",
+                 checks: ["check_3"]
+               }
+             ]
+           } = Mapper.to_execution_started(execution_id, group_id, targets)
+  end
 
   test "should map to a FactGatheringRequested event" do
     execution_id = UUID.uuid4()
