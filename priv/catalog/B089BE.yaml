@@ -26,13 +26,14 @@ remediation: |
 
     - https://documentation.suse.com/sbp/all/single-html/SLES4SAP-hana-sr-guide-PerfOpt-15/#id-cluster-bootstrap-and-more
 
+when: env.provider in ["azure", "nutanix", "kvm"]
+
 facts:
   - name: dump_sbd_devices
     gatherer: sbd_dump
 
 values:
   - name: expected_watchdog_timeout
-    #should only run on 'azure', 'nutanix' or 'kvm', NOT on 'gcp' or 'aws'
     default: 15
     conditions:
       - value: 60
@@ -41,4 +42,3 @@ values:
 expectations:
   - name: expectations_watchdog_timeout
     expect: facts.dump_sbd_devices.values().all(|sbddev| sbddev.timeout_watchdog == values.expected_watchdog_timeout)
-

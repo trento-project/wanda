@@ -28,6 +28,8 @@ remediation: |
 
 severity: warning
 
+when: env.provider in ["azure", "nutanix", "kvm"]
+
 facts:
   - name: sbd_multiple_sbd_device
     gatherer: sbd_config
@@ -35,7 +37,6 @@ facts:
 
 values:
   - name: expected_multiple_sbd_device
-    # should only run on 'azure', 'nutanix' or 'kvm', NOT on 'gcp' or 'aws'
     default: 3
 
 expectations:
