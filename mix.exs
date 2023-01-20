@@ -109,7 +109,7 @@ defmodule Wanda.MixProject do
       {:credentials_obfuscation, "3.0.0", override: true},
       {:jason, "~> 1.3"},
       {:yaml_elixir, "~> 2.9"},
-      {:trento_contracts, github: "trento-project/contracts", sparse: "elixir", ref: "1bff79a"},
+      {:trento_contracts, github: "trento-project/contracts", sparse: "elixir", ref: "b8e1036d0177c029ac40d34f237c366a7fb08bec"},
       # test deps
       {:ex_doc, "~> 0.29", only: [:dev, :test], runtime: false},
       {:credo, "~> 1.6", only: [:dev, :test], runtime: false},
