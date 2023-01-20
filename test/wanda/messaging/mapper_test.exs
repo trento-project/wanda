@@ -13,9 +13,10 @@ defmodule Wanda.Messaging.MapperTest do
   alias Trento.Checks.V1.{
     ExecutionCompleted,
     ExecutionRequested,
+    ExecutionStarted,
     FactsGathered,
     FactsGatheringRequested,
-    ExecutionStarted
+    Target
   }
 
   test "should map to ExecutionStarted event" do
@@ -31,11 +32,11 @@ defmodule Wanda.Messaging.MapperTest do
              execution_id: ^execution_id,
              group_id: ^group_id,
              targets: [
-               %Trento.Checks.V1.Target{
+               %Target{
                  agent_id: "agent_1",
                  checks: ["check_1", "check_2"]
                },
-               %Trento.Checks.V1.Target{
+               %Target{
                  agent_id: "agent_2",
                  checks: ["check_3"]
                }
