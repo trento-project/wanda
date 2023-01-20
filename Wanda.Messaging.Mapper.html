@@ -12,7 +12,7 @@
 
     <script src="dist/handlebars.runtime-NWIB6V2M.js"></script>
     <script src="dist/handlebars.templates-X7YVL3G2.js"></script>
-    <script src="dist/sidebar_items-0B88C528.js"></script>
+    <script src="dist/sidebar_items-627A1975.js"></script>
 
       <script src="docs_config.js"></script>
 
@@ -155,6 +155,14 @@ Wanda
 
       <div class="summary-row">
         <div class="summary-signature">
+          <a href="#to_execution_started/3" translate="no">to_execution_started(execution_id, group_id, targets)</a>
+
+        </div>
+
+      </div>
+
+      <div class="summary-row">
+        <div class="summary-signature">
           <a href="#to_facts_gathering_requested/4" translate="no">to_facts_gathering_requested(execution_id, group_id, targets, checks)</a>
 
         </div>
@@ -184,7 +192,7 @@ Functions
     </a>
     <h1 class="signature" translate="no">from_execution_requested(execution_requested)</h1>
 
-      <a href="https://github.com/trento-project/wanda/blob/main/lib/wanda/messaging/mapper.ex#L50" class="view-source" rel="help" title="View Source">
+      <a href="https://github.com/trento-project/wanda/blob/main/lib/wanda/messaging/mapper.ex#L60" class="view-source" rel="help" title="View Source">
        <i class="ri-code-s-slash-line" aria-hidden="true"></i>
        <span class="sr-only">View Source</span>
      </a>
@@ -217,7 +225,7 @@ Functions
     </a>
     <h1 class="signature" translate="no">from_facts_gathererd(facts_gathered)</h1>
 
-      <a href="https://github.com/trento-project/wanda/blob/main/lib/wanda/messaging/mapper.ex#L70" class="view-source" rel="help" title="View Source">
+      <a href="https://github.com/trento-project/wanda/blob/main/lib/wanda/messaging/mapper.ex#L80" class="view-source" rel="help" title="View Source">
        <i class="ri-code-s-slash-line" aria-hidden="true"></i>
        <span class="sr-only">View Source</span>
      </a>
@@ -250,7 +258,7 @@ Functions
     </a>
     <h1 class="signature" translate="no">to_execution_completed(result)</h1>
 
-      <a href="https://github.com/trento-project/wanda/blob/main/lib/wanda/messaging/mapper.ex#L32" class="view-source" rel="help" title="View Source">
+      <a href="https://github.com/trento-project/wanda/blob/main/lib/wanda/messaging/mapper.ex#L42" class="view-source" rel="help" title="View Source">
        <i class="ri-code-s-slash-line" aria-hidden="true"></i>
        <span class="sr-only">View Source</span>
      </a>
@@ -259,6 +267,35 @@ Functions
   </div>
 
   <section class="docstring">
+
+
+  </section>
+</section>
+<section class="detail" id="to_execution_started/3">
+
+  <div class="detail-header">
+    <a href="#to_execution_started/3" class="detail-link" title="Link to this function">
+      <i class="ri-link-m" aria-hidden="true"></i>
+      <span class="sr-only">Link to this function</span>
+    </a>
+    <h1 class="signature" translate="no">to_execution_started(execution_id, group_id, targets)</h1>
+
+      <a href="https://github.com/trento-project/wanda/blob/main/lib/wanda/messaging/mapper.ex#L26" class="view-source" rel="help" title="View Source">
+       <i class="ri-code-s-slash-line" aria-hidden="true"></i>
+       <span class="sr-only">View Source</span>
+     </a>
+
+
+  </div>
+
+  <section class="docstring">
+
+      <div class="specs">
+
+          <pre translate="no"><span class="attribute">@spec</span> to_execution_started(<a href="https://hexdocs.pm/elixir/String.html#t:t/0">String.t</a>(), <a href="https://hexdocs.pm/elixir/String.html#t:t/0">String.t</a>(), [<a href="Wanda.Executions.Target.html#t:t/0">Wanda.Executions.Target.t</a>()]) ::
+  Trento.Checks.V1.ExecutionStarted.t()</pre>
+
+      </div>
 
 
   </section>
@@ -272,7 +309,7 @@ Functions
     </a>
     <h1 class="signature" translate="no">to_facts_gathering_requested(execution_id, group_id, targets, checks)</h1>
 
-      <a href="https://github.com/trento-project/wanda/blob/main/lib/wanda/messaging/mapper.ex#L24" class="view-source" rel="help" title="View Source">
+      <a href="https://github.com/trento-project/wanda/blob/main/lib/wanda/messaging/mapper.ex#L34" class="view-source" rel="help" title="View Source">
        <i class="ri-code-s-slash-line" aria-hidden="true"></i>
        <span class="sr-only">View Source</span>
      </a>
