@@ -3,7 +3,7 @@ version: "3.7"
 services:
 
   wanda:
-    image: ghcr.io/trento-project/wanda:rolling
+    image: ghcr.io/trento-project/trento-wanda:rolling
     environment:
       DATABASE_URL: ecto://postgres:postgres@postgres/postgres
       SECRET_KEY_BASE: dummyS3cr3t
