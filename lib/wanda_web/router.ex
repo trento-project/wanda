@@ -8,9 +8,7 @@ defmodule WandaWeb.Router do
   end
 
   pipeline :protected_api do
-    if Application.get_env(:wanda, :jwt_authentication)[:enabled] do
-      plug WandaWeb.Auth.JWTAuthPlug
-    end
+    plug WandaWeb.Auth.JWTAuthPlug
   end
 
   scope "/api/checks", WandaWeb do

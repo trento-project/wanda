@@ -1,5 +1,5 @@
 defmodule WandaWeb.Auth.JWTAuthPlugTest do
-  use WandaWeb.ConnCase, async: true
+  use WandaWeb.ConnCase, async: false
 
   import Mox
 
@@ -7,19 +7,23 @@ defmodule WandaWeb.Auth.JWTAuthPlugTest do
 
   setup [:set_mox_from_context, :verify_on_exit!]
 
-  setup do
-    stub(
-      Joken.CurrentTime.Mock,
-      :current_time,
-      fn ->
-        1_671_715_992
-      end
-    )
+  describe "call/2" do
+    setup do
+      stub(
+        Joken.CurrentTime.Mock,
+        :current_time,
+        fn ->
+          1_671_715_992
+        end
+      )
 
-    :ok
-  end
+      Application.put_env(:wanda, :jwt_authentication, enabled: true)
 
-  describe "call/1" do
+      on_exit(fn ->
+        Application.put_env(:wanda, :jwt_authentication, enabled: false)
+      end)
+    end
+
     test "should return the connection with the user_id as subject" do
       jwt =
         "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJhdWQiOiJ0cmVudG8tcHJvamVjdCIsImV4cCI6MTY3MTcxNjU5MiwiaWF0IjoxNjcxNzE1OTkyLCJpc3MiOiJodHRwczovL2dpdGh1Yi5jb20vdHJlbnRvLXByb2plY3Qvd2ViIiwianRpIjoiMnN0bW9wOTY5b3RrOTNpNjU0MDAwYmViIiwibmJmIjoxNjcxNzE1OTkyLCJzdWIiOjEsInR5cCI6IkJlYXJlciJ9.KnUXDdH2IHd5hDJFrc-KXzXrRmWwotc26t9L2CksQs4"
@@ -27,7 +31,7 @@ defmodule WandaWeb.Auth.JWTAuthPlugTest do
       conn =
         build_conn()
         |> put_req_header("authorization", "Bearer " <> jwt)
-        |> JWTAuthPlug.call(%{})
+        |> JWTAuthPlug.call([])
 
       refute conn.halted
       assert conn.private.user_id == 1
@@ -40,7 +44,7 @@ defmodule WandaWeb.Auth.JWTAuthPlugTest do
       conn =
         build_conn()
         |> put_req_header("authorization", "Bearer " <> expired_jwt)
-        |> JWTAuthPlug.call(%{})
+        |> JWTAuthPlug.call([])
 
       assert conn.status == 401
       assert conn.halted
@@ -53,17 +57,26 @@ defmodule WandaWeb.Auth.JWTAuthPlugTest do
       conn =
         build_conn()
         |> put_req_header("authorization", "Bearer " <> invalid_jwt)
-        |> JWTAuthPlug.call(%{})
+        |> JWTAuthPlug.call([])
 
       assert conn.status == 401
       assert conn.halted
     end
 
     test "should be halted and have unauthorized status if no token was passed" do
-      conn = JWTAuthPlug.call(build_conn(), %{})
+      conn = JWTAuthPlug.call(build_conn(), [])
 
       assert conn.status == 401
       assert conn.halted
+    end
+  end
+
+  describe "call/2 with disabled JWT authentication" do
+    test "should noop if JWT authentication is disabled" do
+      conn = build_conn()
+      new_conn = JWTAuthPlug.call(conn, enabled: false)
+
+      assert conn == new_conn
     end
   end
 end
