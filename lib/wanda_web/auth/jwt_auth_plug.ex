@@ -20,7 +20,15 @@ defmodule WandaWeb.Auth.JWTAuthPlug do
   @doc """
     Read, validate and decode the JWT from authorization header at each call
   """
-  def call(conn, _config) do
+  def call(conn, _) do
+    if Application.get_env(:wanda, :jwt_authentication)[:enabled] do
+      authenticate(conn)
+    else
+      conn
+    end
+  end
+
+  defp authenticate(conn) do
     with {:ok, jwt_token} <- read_token(conn),
          {:ok, claims} <- AccessToken.verify_and_validate(jwt_token) do
       put_private(conn, :user_id, claims["sub"])
