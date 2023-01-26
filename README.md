@@ -237,7 +237,9 @@ To implement new checks and test them:
 
 # Installing a development environment
 
-Set up a local development wanda evironment to hack on wanda --> [hack on wanda](./guides/development/hack_on_wanda.md) and **have a lot of fun**!
+To set up a local development environment for hacking on Wanda, you will need to follow the instructions provided in the [hack on wanda](./guides/development/hack_on_wanda.md).
+
+This guide will walk you through the process of installing and configuring the necessary dependencies, as well as setting up a local development environment.
 
 # Support
 
