@@ -5,7 +5,8 @@
 #!UseOBSRepositories
 
 FROM bci/rust:1.66 AS release
-ADD wanda.tar.gz /build/
+ADD wanda.tar.gz premium-checks.tar.gz* /build/
+RUN mv /build/priv/catalog/* /build/wanda/priv/catalog || true && rm -fr /build/priv/
 # Workaround for https://github.com/openSUSE/obs-build/issues/487
 RUN zypper --non-interactive in sles-release
 RUN zypper -n in elixir elixir-hex erlang-rebar3
