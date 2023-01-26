@@ -6,22 +6,26 @@
 
 A service responsible to orchestrate Checks executions on a target infrastructure.
 
+# Overview
+
+Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et
+
 # Documentation
 
 The documentation is available at [trento-project.io/wanda](https://trento-project.io/wanda/).
 
 Swagger UI is available at [trento-project.io/wanda/swaggerui](https://trento-project.io/wanda/swaggerui).
 
-## Developing Checks
+# Developing Checks
 
 Wanda architecture aims to simplify [testing Checks Executions](#testing-executions) and [adding new ones](#adding-new-checks).
 
-### Infrastructure
+## Infrastructure
 
 For development purposes, a [docker-compose file](https://github.com/trento-project/wanda/blob/main/docker-compose.yaml) is provided.
 The [docker-compose.checks.yaml](https://github.com/trento-project/wanda/blob/main/docker-compose.checks.yaml) provides additional configuration to start an environment for Checks development.
 
-#### Starting a local environment
+### Starting a local environment
 
 Start the environment with:
 
@@ -33,7 +37,7 @@ Wanda is exposed on port `4000` and the API documentation is available at http:/
 
 **Note** that the [message broker](https://www.rabbitmq.com/) **must** be reachable by Wanda and all the targets.
 
-### Testing Executions
+## Testing Executions
 
 With a running setup, it is possible to easily test Checks and their Execution by:
 
@@ -43,7 +47,7 @@ With a running setup, it is possible to easily test Checks and their Execution b
 - checking the state of an execution
 - debugging the gathered facts
 
-#### **Starting the targets**
+### **Starting the targets**
 
 The [trento-agent](https://github.com/trento-project/agent) must be up and running on the targets to run a correct execution, otherwise a timeout error is raised.
 
@@ -63,9 +67,9 @@ The ID can be obtained running:
 ./trento-agent id
 ```
 
-If the execution is run in a development/testing environment, [faking the agent id](https://github.com/trento-project/agent#fake-agent-id) might come handy. 
+If the execution is run in a development/testing environment, [faking the agent id](https://github.com/trento-project/agent#fake-agent-id) might come handy.
 
-#### **Consulting the catalog**
+### **Consulting the catalog**
 
 Available Checks are part of the **Catalog**, and they can be retrieved by accessing the dedicated API
 
@@ -75,7 +79,7 @@ curl -X 'GET' \
   -H 'accept: application/json'
 ```
 
-#### **Starting a Checks Execution**
+### **Starting a Checks Execution**
 
 A Checks Execution can be started by calling the Start Execution endpoint, as follows
 
@@ -112,7 +116,7 @@ In order to get detailed information for an execution, see [Getting Execution de
 
 > Please note that execution is _eventually started_, meaning that a successful response to the previous API call does not guarantee that the execution is running, but that it has been accepted by the system to start.
 
-#### Execution Targets
+### Execution Targets
 
 An execution target is a target host where the checks are executed. This requires to have the `trento-agent` executable running in the host. In order to specify an execution order, its `agent_id` and a list of checks to be executed are provided. Once the execution is started, a facts gathering request is sent to these targets, facts are gathered and sent back to Wanda, where the checks result is evaluated using the gathered facts.
 
@@ -182,7 +186,7 @@ curl --request POST 'http://localhost:4000/api/checks/executions/start' \
 }'
 ```
 
-#### **Getting Execution details**
+### **Getting Execution details**
 
 To get detailed information about the execution, the following API can be used.
 
@@ -198,7 +202,7 @@ curl --request GET 'http://localhost:4000/api/checks/executions/205e326d-0c25-4f
 
 Refer to the [API doc](http://localhost:4000/swaggerui) for more information about requests and responses.
 
-#### **Debugging gathered facts**
+### **Debugging gathered facts**
 
 Often times knowing the returned value of the gathered facts is not a trivial thing, more during the implementation of new checks.
 
@@ -222,10 +226,10 @@ Which would return the next where the `Value` is the available value in the writ
     "Value": 30000
   },
   "Error": null
-} 
+}
 ```
 
-### Adding new Checks
+## Adding new Checks
 
 Built-in Checks can be found in the Catalog directory at `./priv/catalog/`
 
@@ -234,6 +238,15 @@ To implement new checks and test them:
 - write a new [Check Specification](./guides/specification.md) file
 - locate the newly created Check in the Catalog directory `./priv/catalog/`
 - test the execution as [previously described](#testing-executions)
+
+# Development environment
+
+If you want to play around with the current repository, go ahead, [hack on wanda](./guides/development/hack_on_wanda.md) and **have a lot of fun**!
+
+# Support
+
+Please only report bugs via [GitHub issues](https://github.com/trento-project/web/issues);
+for any other inquiry or topic use [GitHub discussion](https://github.com/trento-project/trento/discussions).
 
 # Contributing
 
