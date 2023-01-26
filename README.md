@@ -6,10 +6,6 @@
 
 A service responsible to orchestrate Checks executions on a target infrastructure.
 
-# Overview
-
-Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et
-
 # Documentation
 
 The documentation is available at [trento-project.io/wanda](https://trento-project.io/wanda/).
@@ -22,7 +18,7 @@ Wanda architecture aims to simplify [testing Checks Executions](#testing-executi
 
 ## Infrastructure
 
-For development purposes, a [docker-compose file](https://github.com/trento-project/wanda/blob/main/docker-compose.yaml) is provided.
+For checks development purposes, a [docker-compose file](https://github.com/trento-project/wanda/blob/main/docker-compose.yaml) is provided.
 The [docker-compose.checks.yaml](https://github.com/trento-project/wanda/blob/main/docker-compose.checks.yaml) provides additional configuration to start an environment for Checks development.
 
 ### Starting a local environment
@@ -239,9 +235,9 @@ To implement new checks and test them:
 - locate the newly created Check in the Catalog directory `./priv/catalog/`
 - test the execution as [previously described](#testing-executions)
 
-# Development environment
+# Installing a development environment
 
-If you want to play around with the current repository, go ahead, [hack on wanda](./guides/development/hack_on_wanda.md) and **have a lot of fun**!
+Set up a local development wanda evironment to hack on wanda --> [hack on wanda](./guides/development/hack_on_wanda.md) and **have a lot of fun**!
 
 # Support
 
