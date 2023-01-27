@@ -59,7 +59,8 @@ defmodule Wanda.MixProject do
       "guides/specification.md",
       "guides/expression_language.md",
       "guides/gatherers.md",
-      "guides/rhai_expressions_cheat_sheet.cheatmd"
+      "guides/rhai_expressions_cheat_sheet.cheatmd",
+      "guides/development/hack_on_wanda.md"
     ]
   end
 
@@ -69,7 +70,8 @@ defmodule Wanda.MixProject do
         "guides/specification.md",
         "guides/expression_language.md",
         "guides/gatherers.md"
-      ]
+      ],
+      "Hack on Wanda": ["guides/development/hack_on_wanda.md"]
     ]
   end
 
