@@ -14,7 +14,7 @@ A `docker-compose` environment is provided for easy local development. To start 
 docker-compose up -d
 ```
 
-This command starts a **Postgres** database and a **RabbitMq** instance, which is used for storage and communication respectively.
+This command starts a **Postgres** database and a **RabbitMq** instance, which is used for storage and communication.
 
 ## Setup Wanda
 
@@ -28,7 +28,7 @@ This command performs necessary tasks such as installing dependencies, creating 
 
 ### Hint about Project setup
 
-Gain a deeper understanding of how Wanda is configured, reading the [mix.exs](/mix.exs) file located in the root directory of the project. This file contains information on dependencies, configuration settings, and tasks that can be run using the Mix build tool, providing a complete picture of the project's setup.
+Gain a deeper understanding of how Wanda is configured, reading the [mix.exs](https://github.com/trento-project/wanda/blob/main/mix.exs) file located in the root directory of the project. This file contains information on dependencies, configuration settings, and tasks that can be run using the Mix build tool, providing a complete picture of the project's setup.
 
 ## Start Wanda in the REPL
 
@@ -42,7 +42,8 @@ This command starts the Wanda server and opens an interactive Elixir shell (REPL
 
 ## Access Wanda Swaggerui
 
-Congratulations, Wanda is now running locally on your machine! You can access its API documentation by visiting the following URL: [localhost:4001/swaggerui](http://localhost:4001/swaggerui).
+Congratulations, Wanda is now running locally on your machine! You can access its API documentation by visiting the following URL:
+[localhost:4001/swaggerui](http://localhost:4001/swaggerui).
 
 The Swagger UI provides a user-friendly interface for exploring and testing the various API endpoints of Wanda.
 
