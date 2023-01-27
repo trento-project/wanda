@@ -1,6 +1,6 @@
 # Hack on Wanda
 
-In order to run Wanda, you will need
+In order to run Wanda, the following is needed
 
 1. [Elixir](https://elixir-lang.org/), a programming language used to build scalable and maintainable applications.
 2. [Docker](https://docs.docker.com/get-docker/), a platform for developing, shipping, and running applications in containers.
@@ -14,31 +14,25 @@ A `docker-compose` development environment is provided for easy setup and manage
 docker-compose up -d
 ```
 
-This command will start a **Postgres** database and a **RabbitMq** instance, which will be used for storage and communication respectively.
-
-## Install dependencies
-
-Before you can start hacking on Wanda, you will need to install its dependencies. You can do this by running the following command:
-
-```
-mix deps.get
-```
-
-This command will install all the required libraries and dependencies for the application.
+This command starts a **Postgres** database and a **RabbitMq** instance, which is used for storage and communication respectively.
 
 ## Setup Wanda
 
-After installing the dependencies, you will need to perform some initial setup tasks before you can start Wanda. You can do this by running the following command:
+After installing the dependencies, you need to perform some initial setup tasks before you can start Wanda. You can do this by running the following command:
 
 ```
 mix setup
 ```
 
-This command will perform necessary tasks such as creating the database schema and running migrations.
+This command performs necessary tasks such as creating the database schema and running migrations.
+
+### Hint about Project setup
+
+Gain a deeper understanding of how Wanda is configured, reading the mix.exs file located in the root directory of the project. This file contains information on dependencies, configuration settings, and tasks that can be run using the Mix build tool, providing a complete picture of the project's setup.
 
 ## Start Wanda in the REPL
 
-To start Wanda, you will need to run the following command:
+To start Wanda, you need to run the following command:
 
 ```
 iex -S mix phx.server

@@ -110,7 +110,7 @@ curl --request POST 'http://localhost:4000/api/checks/executions/start' \
 
 In order to get detailed information for an execution, see [Getting Execution details](#getting-execution-details).
 
-> Please note that execution is _eventually started_, meaning that a successful response to the previous API call does not guarantee that the execution is running, but that it has been accepted by the system to start.
+> Please note that execution is _eventually started_, meaning that a successful response the previous API call does not guarantee that the execution is running, but that it has been accepted by the system to start.
 
 ### Execution Targets
 
@@ -202,7 +202,7 @@ Refer to the [API doc](http://localhost:4000/swaggerui) for more information abo
 
 Often times knowing the returned value of the gathered facts is not a trivial thing, more during the implementation of new checks.
 
-To better debug the fact gathering process and the returned values the `facts` subcommand of `trento-agent` is a really useful tool. This command helps to see in the target itself what the gathered fact looks like. This is specially interesting when the returned value is a complex object or the target under test is modified and the check developer wants to see how this affects to the gathered fact.
+To better debug the fact gathering process and the returned values, the `facts` subcommand of `trento-agent` is a really useful tool. This command helps to see in the target itself what the gathered fact looks like. This is specially interesting when the returned value is a complex object or the target under test is modified and the check developer wants to see how this affects the gathered fact.
 
 The command can be used as:
 
@@ -237,9 +237,9 @@ To implement new checks and test them:
 
 # Installing a development environment
 
-To set up a local development environment for hacking on Wanda, you will need to follow the instructions provided in the [hack on wanda](./guides/development/hack_on_wanda.md).
+To set up a local development environment for hacking on Wanda, you need to follow the instructions provided in the [hack on wanda](./guides/development/hack_on_wanda.md).
 
-This guide will walk you through the process of installing and configuring the necessary dependencies, as well as setting up a local development environment.
+This guide walks you through the process of installing and configuring the necessary dependencies, as well as setting up a local development environment.
 
 # Support
 
