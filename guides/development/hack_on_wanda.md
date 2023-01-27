@@ -8,7 +8,7 @@ In order to run Wanda, the following is needed
 
 ## Development environment
 
-A `docker-compose` development environment is provided for easy setup and management of dependencies. To start the development environment, simply run the following command:
+A `docker-compose` environment is provided for easy local development. To start the environment, run the following command:
 
 ```
 docker-compose up -d
@@ -18,17 +18,17 @@ This command starts a **Postgres** database and a **RabbitMq** instance, which i
 
 ## Setup Wanda
 
-After installing the dependencies, you need to perform some initial setup tasks before you can start Wanda. You can do this by running the following command:
+Before starting Wanda, some initial setup tasks are required. This can be achieved by running the following command:
 
 ```
 mix setup
 ```
 
-This command performs necessary tasks such as creating the database schema and running migrations.
+This command performs necessary tasks such as installing dependencies, creating the database schema and running migrations.
 
 ### Hint about Project setup
 
-Gain a deeper understanding of how Wanda is configured, reading the mix.exs file located in the root directory of the project. This file contains information on dependencies, configuration settings, and tasks that can be run using the Mix build tool, providing a complete picture of the project's setup.
+Gain a deeper understanding of how Wanda is configured, reading the [mix.exs](/mix.exs) file located in the root directory of the project. This file contains information on dependencies, configuration settings, and tasks that can be run using the Mix build tool, providing a complete picture of the project's setup.
 
 ## Start Wanda in the REPL
 
@@ -42,8 +42,8 @@ This command starts the Wanda server and opens an interactive Elixir shell (REPL
 
 ## Access Wanda Swaggerui
 
-Congratulations, Wanda is now running locally on your machine! You can access its API documentation by visiting the following URL:
-[localhost:4001/swaggerui](http://localhost:4001/swaggerui)
+Congratulations, Wanda is now running locally on your machine! You can access its API documentation by visiting the following URL: [localhost:4001/swaggerui](http://localhost:4001/swaggerui).
+
 The Swagger UI provides a user-friendly interface for exploring and testing the various API endpoints of Wanda.
 
 Happy Hacking!

@@ -18,7 +18,7 @@ Wanda architecture aims to simplify [testing Checks Executions](#testing-executi
 
 ## Infrastructure
 
-For checks development purposes, a [docker-compose file](https://github.com/trento-project/wanda/blob/main/docker-compose.yaml) is provided.
+For development purposes, a [docker-compose file](https://github.com/trento-project/wanda/blob/main/docker-compose.yaml) is provided.
 The [docker-compose.checks.yaml](https://github.com/trento-project/wanda/blob/main/docker-compose.checks.yaml) provides additional configuration to start an environment for Checks development.
 
 ### Starting a local environment
@@ -110,7 +110,7 @@ curl --request POST 'http://localhost:4000/api/checks/executions/start' \
 
 In order to get detailed information for an execution, see [Getting Execution details](#getting-execution-details).
 
-> Please note that execution is _eventually started_, meaning that a successful response the previous API call does not guarantee that the execution is running, but that it has been accepted by the system to start.
+> Note that execution is _eventually started_, meaning that a successful response to the previous API call does not guarantee that the execution is running, but that it has been accepted by the system to start.
 
 ### Execution Targets
 
@@ -237,14 +237,14 @@ To implement new checks and test them:
 
 # Installing a development environment
 
-To set up a local development environment for hacking on Wanda, you need to follow the instructions provided in the [hack on wanda](./guides/development/hack_on_wanda.md).
+To set up a local development environment for hacking on Wanda, you need to follow the instructions provided in [hack on wanda](./guides/development/hack_on_wanda.md).
 
 This guide walks you through the process of installing and configuring the necessary dependencies, as well as setting up a local development environment.
 
 # Support
 
-Please only report bugs via [GitHub issues](https://github.com/trento-project/web/issues);
-for any other inquiry or topic use [GitHub discussion](https://github.com/trento-project/trento/discussions).
+Please only report bugs via [GitHub issues](https://github.com/trento-project/wanda/issues) and
+for any other inquiry or topic use [GitHub discussion](https://github.com/trento-project/wanda/discussions).
 
 # Contributing
 
