@@ -82,10 +82,11 @@ dist/merriweather-latin-ext-300-normal-K6L27CZ5.woff2
 dist/merriweather-vietnamese-300-italic-EHHNZPUO.woff2
 dist/merriweather-vietnamese-300-normal-U376L4Z4.woff2
 dist/remixicon-E5UFLALU.woff2
-dist/search_items-26DE118C.js
-dist/sidebar_items-627A1975.js
+dist/search_items-F8F05380.js
+dist/sidebar_items-BB51036D.js
 expression_language.html
 gatherers.html
+hack_on_wanda.html
 index.html
 readme.html
 rhai_expressions_cheat_sheet.html
