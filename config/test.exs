@@ -54,7 +54,7 @@ config :wanda, Wanda.Messaging.Adapters.AMQP,
   processor: GenRMQ.Processor.Mock
 
 config :wanda,
-  children: [Wanda.Messaging.Adapters.AMQP.Publisher, Wanda.Messaging.Adapters.AMQP.Consumer]
+  children: []
 
 config :joken,
   access_token_signer: "s2ZdE+3+ke1USHEJ5O45KT364KiXPYaB9cJPdH3p60t8yT0nkLexLBNw8TFSzC7k"

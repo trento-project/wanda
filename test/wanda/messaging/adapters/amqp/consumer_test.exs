@@ -3,11 +3,41 @@ defmodule Wanda.Messaging.Adapters.AMQP.ConsumerTest do
 
   import Mox
 
-  alias Wanda.Messaging.Adapters.AMQP.Publisher
+  alias Wanda.Messaging.Adapters.AMQP.{
+    Consumer,
+    Publisher
+  }
+
+  alias Wanda.Support.Messaging.AMQPEventHandler
 
   setup [:set_mox_from_context, :verify_on_exit!]
 
   @moduletag :integration
+
+  setup_all do
+    pid = self()
+
+    :ok =
+      :telemetry.attach_many(
+        "amqp-connection",
+        [
+          [:gen_rmq, :publisher, :connection, :start],
+          [:gen_rmq, :consumer, :connection, :start]
+        ],
+        &AMQPEventHandler.handle_event/4,
+        %{pid: pid}
+      )
+
+    start_supervised!(Publisher)
+    start_supervised!(Consumer)
+
+    assert_receive {:connected, :publisher}, 1_000
+    assert_receive {:connected, :consumer}, 1_000
+
+    :timer.sleep(300)
+
+    :ok
+  end
 
   describe "handle_message/1" do
     test "should consume any incoming message" do
