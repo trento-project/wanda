@@ -295,13 +295,22 @@ Example output (in Rhai):
 **Argument required**: yes.
 
 This gatherer supports two usecases:
- - get the version as a string of the specified package (useful to check if the installed version of a package is the same across multiple nodes)
- - compare a given version string against the installed version string of a given package.
+ - get information about the installed versions of the specified package.
+ - compare a given version string against the latest installed version of a given package.
 
-While for the first usecase, a simple string containing the version is returned, for the second usecase, the return value is as follows (see additional details [here](https://fedoraproject.org/wiki/Archive:Tools/RPM/VersionComparison#The_rpmvercmp_algorithm)):
+In the first usecase a list of objects is returned, where each object carries relevant information about an installed version of a package.
+
+> Note:
+> - a list of one element is often expected since usually the installed version would be only one
+> - detected installed versions list is ordered by descending installation time: **latest installed versions come first**
+> - operating on the latest installed version requires accessing the first element in the list via `package_fact_name[0]` or `package_fact_name.first()`
+
+In the second usecase, the return value is as follows (see additional details [here](https://fedoraproject.org/wiki/Archive:Tools/RPM/VersionComparison#The_rpmvercmp_algorithm)):
  - A value of `0` if the provided version string matches the installed package version for the requested package.
  - A value of `-1` if the provided version string is older that what's currently installed.
  - A value of `1` if the provided version string is newer than what's currently installed.
+
+> The latest detected installed version is used for comparison
 
 Naming the facts / expectations accordingly is specially important here to avoid confusion.
  - We suggest using a `compare_` prefix for package version comparisons and `package_` to retrieve
@@ -316,6 +325,14 @@ facts:
     gatherer: package_version
     argument: corosync,2.4.5
 
+  - name: package_corosync
+    gatherer: package_version
+    argument: corosync
+  
+  - name: package_sbd
+    gatherer: package_version
+    argument: sbd
+
 values:
   - name: greater_than_installed
     default: 1
@@ -323,18 +340,26 @@ values:
     default: -1
   - name: same_as_installed
     default: 0
+  - name: expected_corosync_version
+    default: "2.4.5"
 
 expectations:
   - name: compare_package_corosync
     expect: facts.compare_package_corosync == values.greater_than_installed
+  
+  - name: package_corosync_is_the_expected_one
+    expect: facts.package_corosync.first().version == values.expected_corosync_version
+
+  - name: sbd_version_same_on_all_hosts
+    expect_same: facts.package_sbd.first().version
 ```
 
 Example arguments:
 
-| Name                 | Return value                                                 |
-| :------------------- | :----------------------------------------------------------- |
-| `package_name`       | a string containing the installed version of the rpm package |
-| `package_name,2.4.5` | an integer with a value of `-1`, `0` or `-1` (see above)     |
+| Name                 | Return value                                                                  |
+| :------------------- | :---------------------------------------------------------------------------- |
+| `package_name`       | a list containing information about the installed versions of the rpm package |
+| `package_name,2.4.5` | an integer with a value of `-1`, `0` or `1` (see above)                      |
 
 Example specification:
 
@@ -347,6 +372,10 @@ facts:
   - name: package_pacemaker
     gatherer: package_version
     argument: pacemaker
+  
+  - name: multiple_sbd_versions_installed
+    gatherer: package_version
+    argument: sbd
 
   - name: compare_package_corosync
     gatherer: package_version
@@ -359,10 +388,28 @@ Example output (in Rhai):
 
 ```ts
 // package_corosync
-"2.4.5";
+[
+  #{
+    "version": "2.4.5"
+  }
+]
 
 // package_pacemaker
-"2.0.4+20200616.2deceaa3a";
+[
+  #{
+    "version": "2.0.4+20200616.2deceaa3a"
+  }
+]
+
+// multiple_sbd_versions_installed
+[
+  #{
+    "version": "1.5.1" // latest installed version, not necessarily the newest one
+  },
+  #{
+    "version": "1.5.2"
+  }
+]
 
 // compare_package_corosync
 0
