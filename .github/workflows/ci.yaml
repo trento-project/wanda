@@ -11,14 +11,21 @@ on:
     types: [start-ci]
 
 env:
-  ELIXIR_VERSION: 1.13.4
-  OTP_VERSION: 24
+  ELIXIR_VERSION: 1.14.3
+  OTP_VERSION: 25
   MIX_ENV: test
 
 jobs:
   elixir-deps:
-    name: Elixir dependencies
-    runs-on: ubuntu-latest
+    name: Elixir dependencies (Elixir ${{ matrix.elixir }}, OTP ${{ matrix.otp }})
+    runs-on: ubuntu-20.04
+    strategy:
+      matrix:
+        include:
+          - elixir: 1.14.3
+            otp: 25
+          - elixir: 1.13.4
+            otp: 22
     steps:
       - name: Cancel Previous Runs
         uses: styfle/cancel-workflow-action@0.11.0
@@ -31,8 +38,8 @@ jobs:
       - name: Setup
         uses: erlef/setup-beam@v1
         with:
-          elixir-version: ${{ env.ELIXIR_VERSION }}
-          otp-version: ${{ env.OTP_VERSION }}
+          elixir-version: ${{ matrix.elixir }}
+          otp-version: ${{ matrix.otp }}
         env:
           ImageOS: ubuntu20
       - name: Retrieve Cached Dependencies
@@ -43,7 +50,7 @@ jobs:
             deps
             _build/test
             priv/plts
-          key: ${{ runner.os }}-${{ env.OTP_VERSION }}-${{ env.ELIXIR_VERSION }}-${{ hashFiles('mix.lock') }}
+          key: ${{ runner.os }}-${{ matrix.otp }}-${{ matrix.elixir }}-${{ hashFiles('mix.lock') }}
       - name: Install Dependencies
         if: steps.mix-cache.outputs.cache-hit != 'true'
         run: |
@@ -56,7 +63,7 @@ jobs:
 
   tlint:
     name: Lint checks
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-20.04
     container:
       image: ghcr.io/trento-project/tlint:latest
       volumes:
@@ -72,7 +79,7 @@ jobs:
   static-code-analysis:
     name: Static Code Analysis
     needs: elixir-deps
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-20.04
     steps:
       - name: Cancel Previous Runs
         uses: styfle/cancel-workflow-action@0.11.0
@@ -109,9 +116,16 @@ jobs:
         run: mix dialyzer
 
   test:
-    name: Test
+    name: Test (Elixir ${{ matrix.elixir }}, OTP ${{ matrix.otp }})
     needs: elixir-deps
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-20.04
+    strategy:
+      matrix:
+        include:
+          - elixir: 1.14.3
+            otp: 25
+          - elixir: 1.13.4
+            otp: 22
     services:
       postgres:
         image: postgres
@@ -145,8 +159,8 @@ jobs:
       - name: Setup
         uses: erlef/setup-beam@v1
         with:
-          elixir-version: ${{ env.ELIXIR_VERSION }}
-          otp-version: ${{ env.OTP_VERSION }}
+          elixir-version: ${{ matrix.elixir }}
+          otp-version: ${{ matrix.otp }}
       - name: Retrieve Cached Dependencies
         uses: actions/cache@v3
         id: mix-cache
@@ -155,7 +169,7 @@ jobs:
             deps
             _build/test
             priv/plts
-          key: ${{ runner.os }}-${{ env.OTP_VERSION }}-${{ env.ELIXIR_VERSION }}-${{ hashFiles('mix.lock') }}
+          key: ${{ runner.os }}-${{ matrix.otp }}-${{ matrix.elixir }}-${{ hashFiles('mix.lock') }}
       - name: Run test
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
@@ -163,7 +177,7 @@ jobs:
 
   build-and-push-container-images:
     name: Build and push container images
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-20.04
     if: github.event_name == 'release' || (github.event_name == 'push' && github.ref_name == 'main') || github.event_name == 'workflow_dispatch'
     needs: [static-code-analysis, test]
     permissions:
@@ -201,7 +215,7 @@ jobs:
 
   generate-docs:
     name: Generate project documentation
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-20.04
     if: github.event_name == 'push' && github.ref_name == 'main'
     steps:
       - uses: actions/checkout@v2
@@ -236,7 +250,7 @@ jobs:
 
   obs-commit:
     name: Commit the project on OBS
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-20.04
     if: github.event_name == 'release' || (github.event_name == 'push' && github.ref_name == 'main') || github.event_name == 'workflow_dispatch'
     needs: [static-code-analysis, test]
     container:
