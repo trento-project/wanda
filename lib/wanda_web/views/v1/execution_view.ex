@@ -1,7 +1,7 @@
-defmodule WandaWeb.ExecutionView do
+defmodule WandaWeb.V1.ExecutionView do
   use WandaWeb, :view
 
-  alias WandaWeb.ExecutionView
+  alias WandaWeb.V1.ExecutionView
 
   alias Wanda.Executions.Execution
 

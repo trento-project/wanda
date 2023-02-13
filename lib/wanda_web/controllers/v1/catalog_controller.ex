@@ -1,4 +1,4 @@
-defmodule WandaWeb.CatalogController do
+defmodule WandaWeb.V1.CatalogController do
   use WandaWeb, :controller
   use OpenApiSpex.ControllerSpecs
 
