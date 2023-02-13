@@ -113,7 +113,7 @@ Wanda
   </a>
   Introduction
 </h2>
-<p>Gatherers can be thought of as functions:</p><ul><li>they have a name</li><li>they accept argument(s)</li><li>they return a value, the gathered <a href="specification.html#facts">Fact</a></li></ul><p>Facts Gathering process in a nutshell</p><pre><code class="makeup elixir" translate="no"><span class="n">fact</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">gatherer</span><span class="p" data-group-id="2503495923-1">(</span><span class="n">argument</span><span class="p" data-group-id="2503495923-1">)</span></code></pre><h2 id="available-gatherers" class="section-heading">
+<p>Gatherers can be thought of as functions:</p><ul><li>they have a name</li><li>they accept argument(s)</li><li>they return a value, the gathered <a href="specification.html#facts">Fact</a></li></ul><p>Facts Gathering process in a nutshell</p><pre><code class="makeup elixir" translate="no"><span class="n">fact</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">gatherer</span><span class="p" data-group-id="6974998355-1">(</span><span class="n">argument</span><span class="p" data-group-id="6974998355-1">)</span></code></pre><h2 id="available-gatherers" class="section-heading">
   <a href="#available-gatherers" class="hover-link"><i class="ri-link-m" aria-hidden="true"></i>
   <p class="sr-only">available-gatherers</p>
   </a>
@@ -292,12 +292,20 @@ does <strong>not</strong> use domain resolution in any way but instead directly 
   </a>
   package_version
 </h3>
-<p><strong>Argument required</strong>: yes.</p><p>This gatherer supports two usecases:</p><ul><li>get the version as a string of the specified package (useful to check if the installed version of a package is the same across multiple nodes)</li><li>compare a given version string against the installed version string of a given package.</li></ul><p>While for the first usecase, a simple string containing the version is returned, for the second usecase, the return value is as follows (see additional details <a href="https://fedoraproject.org/wiki/Archive:Tools/RPM/VersionComparison#The_rpmvercmp_algorithm">here</a>):</p><ul><li>A value of <code class="inline">0</code> if the provided version string matches the installed package version for the requested package.</li><li>A value of <code class="inline">-1</code> if the provided version string is older that what's currently installed.</li><li>A value of <code class="inline">1</code> if the provided version string is newer than what's currently installed.</li></ul><p>Naming the facts / expectations accordingly is specially important here to avoid confusion.</p><ul><li>We suggest using a <code class="inline">compare_</code> prefix for package version comparisons and <code class="inline">package_</code> to retrieve
+<p><strong>Argument required</strong>: yes.</p><p>This gatherer supports two usecases:</p><ul><li>get information about the installed versions of the specified package.</li><li>compare a given version string against the latest installed version of a given package.</li></ul><p>In the first usecase a list of objects is returned, where each object carries relevant information about an installed version of a package.</p><blockquote><p>Note:</p><ul><li>a list of one element is often expected since usually the installed version would be only one</li><li>detected installed versions list is ordered by descending installation time: <strong>latest installed versions come first</strong></li><li>operating on the latest installed version requires accessing the first element in the list via <code class="inline">package_fact_name[0]</code> or <code class="inline">package_fact_name.first()</code></li></ul></blockquote><p>In the second usecase, the return value is as follows (see additional details <a href="https://fedoraproject.org/wiki/Archive:Tools/RPM/VersionComparison#The_rpmvercmp_algorithm">here</a>):</p><ul><li>A value of <code class="inline">0</code> if the provided version string matches the installed package version for the requested package.</li><li>A value of <code class="inline">-1</code> if the provided version string is older that what's currently installed.</li><li>A value of <code class="inline">1</code> if the provided version string is newer than what's currently installed.</li></ul><blockquote><p>The latest detected installed version is used for comparison</p></blockquote><p>Naming the facts / expectations accordingly is specially important here to avoid confusion.</p><ul><li>We suggest using a <code class="inline">compare_</code> prefix for package version comparisons and <code class="inline">package_</code> to retrieve
 a package version</li></ul><p>Additionally, when using the version comparison, it increases readability to explicitly mention
 the values to compare against:</p><pre><code class="yaml">facts:
   - name: compare_package_corosync
     gatherer: package_version
     argument: corosync,2.4.5
+
+  - name: package_corosync
+    gatherer: package_version
+    argument: corosync
+  
+  - name: package_sbd
+    gatherer: package_version
+    argument: sbd
 
 values:
   - name: greater_than_installed
@@ -306,10 +314,18 @@ values:
     default: -1
   - name: same_as_installed
     default: 0
+  - name: expected_corosync_version
+    default: &quot;2.4.5&quot;
 
 expectations:
   - name: compare_package_corosync
-    expect: facts.compare_package_corosync == values.greater_than_installed</code></pre><p>Example arguments:</p><table><thead><tr><th style="text-align: left;">Name</th><th style="text-align: left;">Return value</th></tr></thead><tbody><tr><td style="text-align: left;"><code class="inline">package_name</code></td><td style="text-align: left;">a string containing the installed version of the rpm package</td></tr><tr><td style="text-align: left;"><code class="inline">package_name,2.4.5</code></td><td style="text-align: left;">an integer with a value of <code class="inline">-1</code>, <code class="inline">0</code> or <code class="inline">-1</code> (see above)</td></tr></tbody></table><p>Example specification:</p><pre><code class="yaml">facts:
+    expect: facts.compare_package_corosync == values.greater_than_installed
+  
+  - name: package_corosync_is_the_expected_one
+    expect: facts.package_corosync.first().version == values.expected_corosync_version
+
+  - name: sbd_version_same_on_all_hosts
+    expect_same: facts.package_sbd.first().version</code></pre><p>Example arguments:</p><table><thead><tr><th style="text-align: left;">Name</th><th style="text-align: left;">Return value</th></tr></thead><tbody><tr><td style="text-align: left;"><code class="inline">package_name</code></td><td style="text-align: left;">a list containing information about the installed versions of the rpm package</td></tr><tr><td style="text-align: left;"><code class="inline">package_name,2.4.5</code></td><td style="text-align: left;">an integer with a value of <code class="inline">-1</code>, <code class="inline">0</code> or <code class="inline">1</code> (see above)</td></tr></tbody></table><p>Example specification:</p><pre><code class="yaml">facts:
   - name: package_corosync
     gatherer: package_version
     argument: corosync
@@ -317,16 +333,38 @@ expectations:
   - name: package_pacemaker
     gatherer: package_version
     argument: pacemaker
+  
+  - name: multiple_sbd_versions_installed
+    gatherer: package_version
+    argument: sbd
 
   - name: compare_package_corosync
     gatherer: package_version
     argument: corosync,2.4.5
 
   ...</code></pre><p>Example output (in Rhai):</p><pre><code class="ts">// package_corosync
-&quot;2.4.5&quot;;
+[
+  #{
+    &quot;version&quot;: &quot;2.4.5&quot;
+  }
+]
 
 // package_pacemaker
-&quot;2.0.4+20200616.2deceaa3a&quot;;
+[
+  #{
+    &quot;version&quot;: &quot;2.0.4+20200616.2deceaa3a&quot;
+  }
+]
+
+// multiple_sbd_versions_installed
+[
+  #{
+    &quot;version&quot;: &quot;1.5.1&quot; // latest installed version, not necessarily the newest one
+  },
+  #{
+    &quot;version&quot;: &quot;1.5.2&quot;
+  }
+]
 
 // compare_package_corosync
 0</code></pre><h3 id="saphostctrl" class="section-heading">
