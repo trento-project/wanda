@@ -36,14 +36,11 @@ Wanda.Release.html
 Wanda.Repo.html
 WandaWeb.Auth.AccessToken.html
 WandaWeb.Auth.JWTAuthPlug.html
-WandaWeb.CatalogController.html
-WandaWeb.CatalogView.html
 WandaWeb.ConnCase.html
 WandaWeb.Endpoint.html
 WandaWeb.ErrorHelpers.html
 WandaWeb.ErrorView.html
-WandaWeb.ExecutionController.html
-WandaWeb.ExecutionView.html
+WandaWeb.Plugs.ApiRedirector.html
 WandaWeb.Router.Helpers.html
 WandaWeb.Router.html
 WandaWeb.Schemas.AcceptedExecutionResponse.html
@@ -52,6 +49,10 @@ WandaWeb.Schemas.CatalogResponse.html
 WandaWeb.Schemas.ExecutionResponse.html
 WandaWeb.Schemas.ListExecutionsResponse.html
 WandaWeb.Schemas.StartExecutionRequest.html
+WandaWeb.V1.CatalogController.html
+WandaWeb.V1.CatalogView.html
+WandaWeb.V1.ExecutionController.html
+WandaWeb.V1.ExecutionView.html
 WandaWeb.html
 api-reference.html
 assets/logo.svg
@@ -82,8 +83,8 @@ dist/merriweather-latin-ext-300-normal-K6L27CZ5.woff2
 dist/merriweather-vietnamese-300-italic-EHHNZPUO.woff2
 dist/merriweather-vietnamese-300-normal-U376L4Z4.woff2
 dist/remixicon-E5UFLALU.woff2
-dist/search_items-95F4F9FE.js
-dist/sidebar_items-BB51036D.js
+dist/search_items-E3979939.js
+dist/sidebar_items-46BA6FBF.js
 expression_language.html
 gatherers.html
 hack_on_wanda.html
