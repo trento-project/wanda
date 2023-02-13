@@ -11,6 +11,10 @@ defmodule WandaWeb.ErrorView do
     %{error: %{detail: error}}
   end
 
+  def render("error.json", %{reason: reason}) do
+    %{error: reason}
+  end
+
   # By default, Phoenix returns the status message from
   # the template name. For example, "404.json" becomes
   # "Not Found".
