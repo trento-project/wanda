@@ -1,4 +1,4 @@
-defmodule WandaWeb.ExecutionControllerTest do
+defmodule WandaWeb.V1.ExecutionControllerTest do
   use WandaWeb.ConnCase, async: true
 
   import Mox
@@ -17,7 +17,7 @@ defmodule WandaWeb.ExecutionControllerTest do
 
       json =
         conn
-        |> get("/api/checks/executions")
+        |> get("/api/v1/checks/executions")
         |> json_response(200)
 
       api_spec = ApiSpec.spec()
@@ -25,7 +25,7 @@ defmodule WandaWeb.ExecutionControllerTest do
     end
 
     test "should return a 422 status code if an invalid paramaters is passed", %{conn: conn} do
-      conn = get(conn, "/api/checks/executions?limit=invalid")
+      conn = get(conn, "/api/v1/checks/executions?limit=invalid")
 
       assert 422 == conn.status
     end
@@ -37,7 +37,7 @@ defmodule WandaWeb.ExecutionControllerTest do
 
       json =
         conn
-        |> get("/api/checks/executions/#{execution_id}")
+        |> get("/api/v1/checks/executions/#{execution_id}")
         |> json_response(200)
 
       api_spec = ApiSpec.spec()
@@ -54,7 +54,7 @@ defmodule WandaWeb.ExecutionControllerTest do
 
       json =
         conn
-        |> get("/api/checks/executions/#{execution_id}")
+        |> get("/api/v1/checks/executions/#{execution_id}")
         |> json_response(200)
 
       api_spec = ApiSpec.spec()
@@ -112,7 +112,7 @@ defmodule WandaWeb.ExecutionControllerTest do
 
       json =
         conn
-        |> get("/api/checks/executions/#{execution_id}")
+        |> get("/api/v1/checks/executions/#{execution_id}")
         |> json_response(200)
 
       api_spec = ApiSpec.spec()
@@ -121,7 +121,7 @@ defmodule WandaWeb.ExecutionControllerTest do
 
     test "should return a 404", %{conn: conn} do
       assert_error_sent(404, fn ->
-        get(conn, "/api/checks/executions/#{UUID.uuid4()}")
+        get(conn, "/api/v1/checks/executions/#{UUID.uuid4()}")
       end)
     end
   end
@@ -132,7 +132,7 @@ defmodule WandaWeb.ExecutionControllerTest do
 
       json =
         conn
-        |> get("/api/checks/groups/#{group_id}/executions/last")
+        |> get("/api/v1/checks/groups/#{group_id}/executions/last")
         |> json_response(200)
 
       api_spec = ApiSpec.spec()
@@ -141,7 +141,7 @@ defmodule WandaWeb.ExecutionControllerTest do
 
     test "should return a 404", %{conn: conn} do
       assert_error_sent(404, fn ->
-        get(conn, "/api/checks/groups/#{UUID.uuid4()}/executions/last")
+        get(conn, "/api/v1/checks/groups/#{UUID.uuid4()}/executions/last")
       end)
     end
   end
@@ -175,7 +175,7 @@ defmodule WandaWeb.ExecutionControllerTest do
       json =
         conn
         |> put_req_header("content-type", "application/json")
-        |> post("/api/checks/executions/start", %{
+        |> post("/api/v1/checks/executions/start", %{
           "execution_id" => execution_id,
           "group_id" => group_id,
           "targets" => targets,
@@ -217,7 +217,7 @@ defmodule WandaWeb.ExecutionControllerTest do
       json =
         conn
         |> put_req_header("content-type", "application/json")
-        |> post("/api/checks/executions/start", %{
+        |> post("/api/v1/checks/executions/start", %{
           "execution_id" => execution_id,
           "group_id" => group_id,
           "targets" => targets,
@@ -233,7 +233,7 @@ defmodule WandaWeb.ExecutionControllerTest do
         conn
         |> put_req_header("content-type", "application/json")
         |> post(
-          "/api/checks/executions/start",
+          "/api/v1/checks/executions/start",
           %{
             "group_id" => UUID.uuid4(),
             "targets" => [

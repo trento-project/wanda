@@ -1,4 +1,4 @@
-defmodule WandaWeb.ExecutionViewTest do
+defmodule WandaWeb.V1.ExecutionViewTest do
   use WandaWeb.ConnCase, async: true
 
   import Phoenix.View
@@ -36,7 +36,7 @@ defmodule WandaWeb.ExecutionViewTest do
                ],
                total_count: 10
              } =
-               render(WandaWeb.ExecutionView, "index.json",
+               render(WandaWeb.V1.ExecutionView, "index.json",
                  executions: executions,
                  total_count: 10
                )
@@ -64,7 +64,7 @@ defmodule WandaWeb.ExecutionViewTest do
                timeout: nil,
                targets: ^targets,
                check_results: nil
-             } = render(WandaWeb.ExecutionView, "show.json", execution: execution)
+             } = render(WandaWeb.V1.ExecutionView, "show.json", execution: execution)
     end
 
     test "renders show.json for a completed execution" do
@@ -125,7 +125,7 @@ defmodule WandaWeb.ExecutionViewTest do
                result: "critical",
                timeout: ^timeout,
                check_results: ^check_results
-             } = render(WandaWeb.ExecutionView, "show.json", execution: execution)
+             } = render(WandaWeb.V1.ExecutionView, "show.json", execution: execution)
     end
   end
 end

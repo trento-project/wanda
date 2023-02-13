@@ -12,11 +12,11 @@ defmodule WandaWeb.Plugs.ApiRedirector do
   """
   @behaviour Plug
 
+  import Plug.Conn
+
   alias Phoenix.Controller
 
   alias WandaWeb.ErrorView
-
-  import Plug.Conn
 
   @impl true
   def init(opts), do: opts

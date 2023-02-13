@@ -1,4 +1,4 @@
-defmodule WandaWeb.CatalogViewTest do
+defmodule WandaWeb.V1.CatalogViewTest do
   use WandaWeb.ConnCase, async: true
 
   import Phoenix.View
@@ -10,7 +10,7 @@ defmodule WandaWeb.CatalogViewTest do
 
       assert %{
                items: ^checks
-             } = render(WandaWeb.CatalogView, "catalog.json", catalog: checks)
+             } = render(WandaWeb.V1.CatalogView, "catalog.json", catalog: checks)
     end
   end
 end
