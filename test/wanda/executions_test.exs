@@ -51,7 +51,10 @@ defmodule Wanda.ExecutionsTest do
                    }
                  ]
                }
-             ] = Repo.all(Execution)
+             ] =
+               Execution
+               |> order_by(asc: :started_at)
+               |> Repo.all()
     end
   end
 
