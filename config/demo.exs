@@ -8,11 +8,3 @@ config :wanda, WandaWeb.Endpoint,
   server: true
 
 config :logger, level: :debug
-
-config :cors_plug,
-  origin: [
-    "http://localhost:4000",
-    "http://demo.trento-project.io",
-    "https://demo.trento-project.io"
-  ],
-  allow_credentials: true
