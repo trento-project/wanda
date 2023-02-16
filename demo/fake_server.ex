@@ -24,7 +24,7 @@ defmodule Wanda.Executions.FakeServer do
   end
 
   @impl true
-  def receive_facts(execution_id, group_id, agent_id, facts) do
+  def receive_facts(_execution_id, _group_id, _agent_id, _facts) do
     :ok
   end
 
