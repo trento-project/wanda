@@ -18,7 +18,7 @@ defmodule Wanda.Executions.FakeServer do
   def start_execution(execution_id, group_id, targets, env, config \\ []) do
     create_fake_execution(execution_id, group_id, targets)
     Process.sleep(2_000)
-    complete_fake_execution(execution_id, group_id, targets, :passing)
+    complete_fake_execution(execution_id, group_id, targets)
 
     :ok
   end
@@ -41,7 +41,7 @@ defmodule Wanda.Executions.FakeServer do
     :ok = Messaging.publish("results", execution_started)
   end
 
-  defp complete_fake_execution(execution_id, group_id, targets, result) do
+  defp complete_fake_execution(execution_id, group_id, targets) do
     check_results = build(:check_results_from_targets, targets: targets)
 
     build_result =
@@ -49,7 +49,7 @@ defmodule Wanda.Executions.FakeServer do
         check_results: check_results,
         execution_id: execution_id,
         group_id: group_id,
-        result: result
+        result: Enum.random([:passing, :warning, :critical])
       )
 
     Executions.complete_execution!(
