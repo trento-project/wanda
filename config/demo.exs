@@ -9,15 +9,6 @@ config :wanda, WandaWeb.Endpoint,
 
 config :logger, level: :debug
 
-config :wanda, Wanda.Messaging.Adapters.AMQP,
-  consumer: [
-    connection: "amqp://wanda:wanda@localhost:5672"
-  ],
-  publisher: [
-    connection: "amqp://wanda:wanda@localhost:5672"
-  ],
-  processor: Wanda.Messaging.Adapters.AMQP.Processor
-
 config :cors_plug,
   origin: [
     "http://localhost:4000",
