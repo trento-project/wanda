@@ -7,15 +7,12 @@ defmodule Wanda.Executions.FakeServer do
 
   alias Wanda.Executions
 
-  alias Wanda.Executions.{
-    Execution,
-    Result
-  }
+  alias Wanda.Executions
 
   alias Wanda.Messaging
 
   @impl true
-  def start_execution(execution_id, group_id, targets, env, config \\ []) do
+  def start_execution(execution_id, group_id, targets, _env, _config \\ []) do
     create_fake_execution(execution_id, group_id, targets)
     Process.sleep(2_000)
     complete_fake_execution(execution_id, group_id, targets)
@@ -42,14 +39,15 @@ defmodule Wanda.Executions.FakeServer do
   end
 
   defp complete_fake_execution(execution_id, group_id, targets) do
-    check_results = build(:check_results_from_targets, targets: targets)
+    result = Enum.random([:passing, :warning, :critical])
+    check_results = build(:check_results_from_targets, targets: targets, result: result)
 
     build_result =
       build(:result,
         check_results: check_results,
         execution_id: execution_id,
         group_id: group_id,
-        result: Enum.random([:passing, :warning, :critical])
+        result: result
       )
 
     Executions.complete_execution!(

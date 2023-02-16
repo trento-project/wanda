@@ -215,9 +215,9 @@ jobs:
 
   build-demo-img:
     name: Build the docker image for the demo environment
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-20.04
     if: github.event_name == 'release' || (github.event_name == 'push' && github.ref_name == 'main') || github.event_name == 'workflow_dispatch'
-    needs: [static-code-analysis, test, test-e2e]
+    needs: [static-code-analysis, test]
     permissions:
       contents: read
       packages: write
@@ -246,11 +246,11 @@ jobs:
         with:
           context: .
           push: true
-          tags: ${{ env.IMAGE_REPOSITORY }}:demo
+          tags: ${{ env.IMAGE_REPOSITORY }}:${{ env.MIX_ENV }}
           labels: ${{ steps.meta.outputs.labels }}
           cache-from: type=gha
           cache-to: type=gha,mode=max
-          build-args: MIX_ENV=demo
+          build-args: MIX_ENV=${{ env.MIX_ENV }}
 
   generate-docs:
     name: Generate project documentation
