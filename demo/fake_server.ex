@@ -1,15 +1,18 @@
 defmodule Wanda.Executions.FakeServer do
+  @moduledoc """
+  Execution server implementation that does not actually execute anything and just
+  returns (fake) random results.
+  """
   @behaviour Wanda.Executions.ServerBehaviour
 
   import Wanda.Factory
 
+  alias Wanda.{
+    Executions,
+    Messaging
+  }
+
   require Logger
-
-  alias Wanda.Executions
-
-  alias Wanda.Executions
-
-  alias Wanda.Messaging
 
   @impl true
   def start_execution(execution_id, group_id, targets, _env, _config \\ []) do
