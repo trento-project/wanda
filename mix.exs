@@ -99,6 +99,13 @@ defmodule Wanda.MixProject do
       "test/support"
     ]
 
+  defp elixirc_paths(:demo),
+    do: [
+      "test/support/factory.ex",
+      "demo/fake_server.ex",
+      "lib"
+    ]
+
   defp elixirc_paths(_), do: ["lib"]
   # Run "mix help deps" to learn about dependencies.
   defp deps do
@@ -120,8 +127,8 @@ defmodule Wanda.MixProject do
       {:credo, "~> 1.6", only: [:dev, :test], runtime: false},
       {:dialyxir, "~> 1.0", only: [:dev, :test], runtime: false},
       {:mox, "~> 1.0", only: :test},
-      {:ex_machina, "~> 2.7.0", only: :test},
-      {:faker, "~> 0.17", only: :test},
+      {:ex_machina, "~> 2.7.0", only: [:demo, :test]},
+      {:faker, "~> 0.17", only: [:demo, :test]},
       {:excoveralls, "~> 0.10", only: :test},
       # phoenix deps
       {:phoenix, "~> 1.6.12"},
