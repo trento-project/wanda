@@ -8,6 +8,7 @@ defmodule Wanda.Executions.FakeServer do
   import Wanda.Factory
 
   alias Wanda.{
+    Catalog,
     Executions,
     Messaging
   }
@@ -15,7 +16,19 @@ defmodule Wanda.Executions.FakeServer do
   require Logger
 
   @impl true
-  def start_execution(execution_id, group_id, targets, _env, _config \\ []) do
+  def start_execution(execution_id, group_id, targets, env, _config \\ []) do
+    checks =
+      targets
+      |> Executions.Target.get_checks_from_targets()
+      |> Catalog.get_checks(env)
+
+    checks_ids = Enum.map(checks, & &1.id)
+
+    targets =
+      Enum.map(targets, fn %{checks: target_checks} = target ->
+        %Executions.Target{target | checks: target_checks -- target_checks -- checks_ids}
+      end)
+
     create_fake_execution(execution_id, group_id, targets)
     Process.sleep(2_000)
     complete_fake_execution(execution_id, group_id, targets)
