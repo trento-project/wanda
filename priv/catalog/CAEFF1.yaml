@@ -38,4 +38,4 @@ facts:
 
 expectations:
   - name: expectations_sles_sap
-    expect: facts.os_flavor != ""
+    expect: facts.os_flavor != ()
