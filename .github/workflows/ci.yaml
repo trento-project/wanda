@@ -256,7 +256,7 @@ jobs:
         with:
           token: ${{ secrets.PAT }}
           repository: ${{ github.repository_owner }}/web
-          event-type: demo-deploy
+          event-type: deploy-demo
 
   generate-docs:
     name: Generate project documentation
