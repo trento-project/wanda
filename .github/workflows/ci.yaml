@@ -216,7 +216,7 @@ jobs:
   build-demo-img:
     name: Build the docker image for the demo environment
     runs-on: ubuntu-20.04
-    if: github.event_name == 'release' || (github.event_name == 'push' && github.ref_name == 'main') || github.event_name == 'workflow_dispatch'
+    if: vars.DEPLOY_DEMO == 'true' && (github.event_name == 'release' || (github.event_name == 'push' && github.ref_name == 'main') || github.event_name == 'workflow_dispatch')
     needs: [static-code-analysis, test]
     permissions:
       contents: read
@@ -251,6 +251,12 @@ jobs:
           cache-from: type=gha
           cache-to: type=gha,mode=max
           build-args: MIX_ENV=${{ env.MIX_ENV }}
+      - name: Remotely trigger trento-web demo deployment
+        uses: peter-evans/repository-dispatch@v2
+        with:
+          token: ${{ secrets.PAT }}
+          repository: ${{ github.repository_owner }}/web
+          event-type: deploy-demo
 
   generate-docs:
     name: Generate project documentation
