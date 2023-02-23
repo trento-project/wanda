@@ -1,0 +1,23 @@
+id: "F50AF5"
+name: supported python3 version
+group: OS and package versions
+description: |
+  Python3 version is supported
+remediation: |
+  ## Abstract
+  Installed Python3 version must be equal or higher than the recommended value
+
+  ## Remediation
+  Install or upgrade to a supported Python3 version
+
+  ## Reference
+  - https://documentation.suse.com/en-us/sbp/all/single-html/SLES4SAP-hana-sr-guide-PerfOpt-15/
+
+facts:
+  - name: package_python3
+    gatherer: package_version
+    argument: python3,3.6.5
+
+expectations:
+  - name: expectations_python3_version
+    expect: facts.package_python3 < 1
