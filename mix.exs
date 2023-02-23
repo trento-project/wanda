@@ -140,7 +140,7 @@ defmodule Wanda.MixProject do
       {:plug_cowboy, "~> 2.5"},
       {:open_api_spex, "~> 3.13"},
       {:cors_plug, "~> 3.0"},
-      {:joken, "~> 2.5.0"}
+      {:joken, "~> 2.6.0"}
     ]
   end
 
