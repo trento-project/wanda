@@ -13,7 +13,13 @@ defmodule WandaWeb.Schemas.ExecutionResponse.Fact do
       check_id: %Schema{type: :string, description: "Check ID"},
       name: %Schema{type: :string, description: "Name"},
       value: %Schema{
-        oneOf: [%Schema{type: :string}, %Schema{type: :number}, %Schema{type: :boolean}],
+        oneOf: [
+          %Schema{type: :string},
+          %Schema{type: :number},
+          %Schema{type: :boolean},
+          %Schema{type: :array},
+          %Schema{type: :object}
+        ],
         description: "Value"
       }
     },
