@@ -1,5 +1,6 @@
 defmodule WandaWeb.V1.ExecutionControllerTest do
   use WandaWeb.ConnCase, async: true
+  use ExUnitProperties
 
   import Mox
   import OpenApiSpex.TestAssertions
@@ -117,6 +118,35 @@ defmodule WandaWeb.V1.ExecutionControllerTest do
 
       api_spec = ApiSpec.spec()
       assert_schema(json, "ExecutionResponse", api_spec)
+    end
+
+    property "should accept all different types of fact values", %{conn: conn} do
+      check all(
+              value <-
+                one_of([
+                  integer(),
+                  string(:ascii),
+                  boolean(),
+                  map_of(string(:ascii), integer()),
+                  list_of(string(:ascii))
+                ])
+            ) do
+        facts = build_list(1, :fact, value: value)
+        agents_check_results = build_list(5, :agent_check_result, facts: facts)
+        check_results = build_list(1, :check_result, agents_check_results: agents_check_results)
+        result = build(:result, check_results: check_results, result: :passing)
+
+        %{execution_id: execution_id} =
+          insert(:execution, status: :completed, completed_at: DateTime.utc_now(), result: result)
+
+        json =
+          conn
+          |> get("/api/v1/checks/executions/#{execution_id}")
+          |> json_response(200)
+
+        api_spec = ApiSpec.spec()
+        assert_schema(json, "ExecutionResponse", api_spec)
+      end
     end
 
     test "should return a 404", %{conn: conn} do

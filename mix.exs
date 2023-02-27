@@ -130,6 +130,7 @@ defmodule Wanda.MixProject do
       {:ex_machina, "~> 2.7.0", only: [:demo, :test]},
       {:faker, "~> 0.17", only: [:demo, :test]},
       {:excoveralls, "~> 0.10", only: :test},
+      {:stream_data, "~> 0.5", only: :test},
       # phoenix deps
       {:phoenix, "~> 1.6.12"},
       {:phoenix_ecto, "~> 4.4"},
