@@ -8,9 +8,9 @@ services:
       DATABASE_URL: ecto://postgres:postgres@postgres/postgres
       SECRET_KEY_BASE: dummyS3cr3t
       AMQP_URL: amqp://wanda:wanda@rabbitmq
-      CORS_ORIGIN: http://localhost:4000
+      CORS_ENABLED: "false"
       CATALOG_PATH: /app/catalog
-      JWT_AUTHENTICATION_ENABLED: false
+      JWT_AUTHENTICATION_ENABLED: "false"
     depends_on:
       - postgres
       - rabbitmq
