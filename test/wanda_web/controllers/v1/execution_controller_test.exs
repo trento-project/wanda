@@ -1,6 +1,5 @@
 defmodule WandaWeb.V1.ExecutionControllerTest do
   use WandaWeb.ConnCase, async: true
-  use ExUnitProperties
 
   import Mox
   import OpenApiSpex.TestAssertions
@@ -120,17 +119,20 @@ defmodule WandaWeb.V1.ExecutionControllerTest do
       assert_schema(json, "ExecutionResponse", api_spec)
     end
 
-    property "should accept all different types of fact values", %{conn: conn} do
-      check all(
-              value <-
-                one_of([
-                  integer(),
-                  string(:ascii),
-                  boolean(),
-                  map_of(string(:ascii), integer()),
-                  list_of(string(:ascii))
-                ])
-            ) do
+    test "should accept all different types of fact values", %{conn: conn} do
+      values = [
+        Faker.String.base64(),
+        Enum.random(-100..100),
+        Enum.random([false, true]),
+        %{Faker.String.base64() => Faker.String.base64()},
+        [
+          Faker.String.base64(),
+          Enum.random(-100..100),
+          %{Faker.String.base64() => Faker.String.base64()}
+        ]
+      ]
+
+      for value <- values do
         facts = build_list(1, :fact, value: value)
         agents_check_results = build_list(5, :agent_check_result, facts: facts)
         check_results = build_list(1, :check_result, agents_check_results: agents_check_results)
