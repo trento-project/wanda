@@ -37,7 +37,8 @@ config :wanda, WandaWeb.Endpoint,
   live_view: [signing_salt: "j6kcshS4"]
 
 config :cors_plug,
-  origin: [System.get_env("CORS_ORIGIN", "http://localhost:4000")]
+  origin: [System.get_env("CORS_ORIGIN", "http://localhost:4000")],
+  enabled: true
 
 # Configures Elixir's Logger
 config :logger, :console,

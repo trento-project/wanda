@@ -62,15 +62,22 @@ if config_env() in [:prod, :demo] do
       connection: amqp_url
     ]
 
-  cors_origin =
-    System.get_env("CORS_ORIGIN") ||
-      raise """
-      environment variable CORS_ORIGIN is missing.
-      For example: http://your-domain.com
-      """
+  cors_enabled = System.get_env("CORS_ENABLED", "true") == "true"
 
   config :cors_plug,
-    origin: [cors_origin]
+    enabled: cors_enabled
+
+  if cors_enabled do
+    cors_origin =
+      System.get_env("CORS_ORIGIN") ||
+        raise """
+        environment variable CORS_ORIGIN is missing.
+        For example: http://your-domain.com
+        """
+
+    config :cors_plug,
+      origin: [cors_origin]
+  end
 
   jwt_authentication_enabled = System.get_env("JWT_AUTHENTICATION_ENABLED", "true") == "true"
 

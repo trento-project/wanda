@@ -122,6 +122,7 @@ defmodule Wanda.MixProject do
        github: "trento-project/contracts",
        sparse: "elixir",
        ref: "b8e1036d0177c029ac40d34f237c366a7fb08bec"},
+      {:unplug, "~> 1.0.0"},
       # test deps
       {:ex_doc, "~> 0.29", only: [:dev, :test], runtime: false},
       {:credo, "~> 1.6", only: [:dev, :test], runtime: false},
