@@ -119,6 +119,38 @@ defmodule WandaWeb.V1.ExecutionControllerTest do
       assert_schema(json, "ExecutionResponse", api_spec)
     end
 
+    test "should accept all different types of fact values", %{conn: conn} do
+      values = [
+        Faker.String.base64(),
+        Enum.random(-100..100),
+        Enum.random([false, true]),
+        %{Faker.String.base64() => Faker.String.base64()},
+        [
+          Faker.String.base64(),
+          Enum.random(-100..100),
+          %{Faker.String.base64() => Faker.String.base64()}
+        ]
+      ]
+
+      for value <- values do
+        facts = build_list(1, :fact, value: value)
+        agents_check_results = build_list(5, :agent_check_result, facts: facts)
+        check_results = build_list(1, :check_result, agents_check_results: agents_check_results)
+        result = build(:result, check_results: check_results, result: :passing)
+
+        %{execution_id: execution_id} =
+          insert(:execution, status: :completed, completed_at: DateTime.utc_now(), result: result)
+
+        json =
+          conn
+          |> get("/api/v1/checks/executions/#{execution_id}")
+          |> json_response(200)
+
+        api_spec = ApiSpec.spec()
+        assert_schema(json, "ExecutionResponse", api_spec)
+      end
+    end
+
     test "should return a 404", %{conn: conn} do
       assert_error_sent(404, fn ->
         get(conn, "/api/v1/checks/executions/#{UUID.uuid4()}")
