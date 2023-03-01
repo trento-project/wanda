@@ -7,8 +7,6 @@ defmodule Wanda.Executions.FakeServer do
 
   import Wanda.Factory
 
-  alias Wanda.Executions.Result
-
   alias Wanda.{
     Catalog,
     Executions,
@@ -62,29 +60,18 @@ defmodule Wanda.Executions.FakeServer do
       build(:result,
         check_results: check_results,
         execution_id: execution_id,
-        group_id: group_id
+        group_id: group_id,
+        result: result
       )
 
     Executions.complete_execution!(
       execution_id,
-      Map.put(build_result, :result, get_result(build_result))
+      build_result
     )
 
     execution_completed = Messaging.Mapper.to_execution_completed(build_result)
     :ok = Messaging.publish("results", execution_completed)
   end
-
-  defp get_result(%Result{check_results: check_results}) do
-    check_results
-    |> Enum.map(& &1.result)
-    |> Enum.map(&{&1, result_weight(&1)})
-    |> Enum.max_by(fn {_, weight} -> weight end)
-    |> elem(0)
-  end
-
-  defp result_weight(:critical), do: 2
-  defp result_weight(:warning), do: 1
-  defp result_weight(:passing), do: 0
 
   defp build_check_results_from_targets(targets, result) do
     targets
