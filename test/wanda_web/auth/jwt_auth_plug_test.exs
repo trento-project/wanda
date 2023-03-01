@@ -17,11 +17,7 @@ defmodule WandaWeb.Auth.JWTAuthPlugTest do
         end
       )
 
-      Application.put_env(:wanda, :jwt_authentication_enabled, true)
-
-      on_exit(fn ->
-        Application.put_env(:wanda, :jwt_authentication_enabled, false)
-      end)
+      :ok
     end
 
     test "should return the connection with the user_id as subject" do
