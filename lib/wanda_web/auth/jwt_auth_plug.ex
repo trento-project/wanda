@@ -21,11 +21,7 @@ defmodule WandaWeb.Auth.JWTAuthPlug do
     Read, validate and decode the JWT from authorization header at each call
   """
   def call(conn, _) do
-    if Application.get_env(:wanda, :jwt_authentication)[:enabled] do
-      authenticate(conn)
-    else
-      conn
-    end
+    authenticate(conn)
   end
 
   defp authenticate(conn) do

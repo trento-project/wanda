@@ -37,8 +37,7 @@ config :wanda, WandaWeb.Endpoint,
   live_view: [signing_salt: "j6kcshS4"]
 
 config :cors_plug,
-  origin: [System.get_env("CORS_ORIGIN", "http://localhost:4000")],
-  enabled: true
+  origin: [System.get_env("CORS_ORIGIN", "http://localhost:4000")]
 
 # Configures Elixir's Logger
 config :logger, :console,
@@ -51,7 +50,9 @@ config :phoenix, :json_library, Jason
 # Disable rustler precompiled NIFs
 config :rustler_precompiled, :force_build, rhai_rustler: true
 
-config :wanda, :jwt_authentication, enabled: true
+config :wanda,
+  cors_enabled: true,
+  jwt_authentication_enabled: true
 
 # Import environment specific config. This must remain at the bottom
 # of this file so it overrides the configuration defined above.

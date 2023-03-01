@@ -64,8 +64,8 @@ if config_env() in [:prod, :demo] do
 
   cors_enabled = System.get_env("CORS_ENABLED", "true") == "true"
 
-  config :cors_plug,
-    enabled: cors_enabled
+  config :wanda,
+    cors_enabled: cors_enabled
 
   if cors_enabled do
     cors_origin =
@@ -81,7 +81,8 @@ if config_env() in [:prod, :demo] do
 
   jwt_authentication_enabled = System.get_env("JWT_AUTHENTICATION_ENABLED", "true") == "true"
 
-  config :wanda, :jwt_authentication, enabled: jwt_authentication_enabled
+  config :wanda,
+    jwt_authentication_enabled: jwt_authentication_enabled
 
   if jwt_authentication_enabled do
     config :joken,

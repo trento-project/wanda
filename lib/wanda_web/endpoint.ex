@@ -42,7 +42,7 @@ defmodule WandaWeb.Endpoint do
   plug Plug.Session, @session_options
 
   plug Unplug,
-    if: {Unplug.Predicates.AppConfigEquals, {:cors_plug, :enabled, true}},
+    if: {Unplug.Predicates.AppConfigEquals, {:wanda, :cors_enabled, true}},
     do: CORSPlug
 
   plug WandaWeb.Router
