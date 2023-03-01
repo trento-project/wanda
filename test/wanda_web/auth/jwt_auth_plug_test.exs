@@ -17,10 +17,10 @@ defmodule WandaWeb.Auth.JWTAuthPlugTest do
         end
       )
 
-      Application.put_env(:wanda, :jwt_authentication, enabled: true)
+      Application.put_env(:wanda, :jwt_authentication_enabled, true)
 
       on_exit(fn ->
-        Application.put_env(:wanda, :jwt_authentication, enabled: false)
+        Application.put_env(:wanda, :jwt_authentication_enabled, false)
       end)
     end
 
@@ -68,15 +68,6 @@ defmodule WandaWeb.Auth.JWTAuthPlugTest do
 
       assert conn.status == 401
       assert conn.halted
-    end
-  end
-
-  describe "call/2 with disabled JWT authentication" do
-    test "should noop if JWT authentication is disabled" do
-      conn = build_conn()
-      new_conn = JWTAuthPlug.call(conn, enabled: false)
-
-      assert conn == new_conn
     end
   end
 end
