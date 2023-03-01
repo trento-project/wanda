@@ -102,7 +102,7 @@ defmodule Wanda.MixProject do
   defp elixirc_paths(:demo),
     do: [
       "test/support/factory.ex",
-      "demo/fake_server.ex",
+      "demo",
       "lib"
     ]
 
