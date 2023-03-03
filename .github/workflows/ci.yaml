@@ -170,10 +170,12 @@ jobs:
             _build/test
             priv/plts
           key: ${{ runner.os }}-${{ matrix.otp }}-${{ matrix.elixir }}-${{ hashFiles('mix.lock') }}
+      - name: Compile
+        run: mix compile --warnings-as-errors
       - name: Run test
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        run: mix coveralls.github --color --trace
+        run: mix coveralls.github --warnings-as-errors --color --trace
 
   build-and-push-container-images:
     name: Build and push container images
