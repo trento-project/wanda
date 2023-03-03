@@ -13,7 +13,7 @@ remediation: |
   ## References
   Azure:
 
-    - https://docs.microsoft.com/en-us/azure/virtual-machines/workloads/sap/high-availability-guide-suse-pacemaker#install-the-cluster
+    - https://learn.microsoft.com/en-us/azure/sap/workloads/high-availability-guide-suse-pacemaker#install-the-cluster
 
   AWS:
 
@@ -25,11 +25,11 @@ remediation: |
 
   Nutanix:
 
-    - https://documentation.suse.com/sbp/all/single-html/SLES4SAP-hana-sr-guide-PerfOpt-15/#id-initial-cluster-setup-using-ha-cluster-init
+    - https://documentation.suse.com/sbp/all/single-html/SLES4SAP-hana-sr-guide-PerfOpt-15/#id-setting-up-the-initial-cluster-using-ha-cluster-init
 
   SUSE / KVM:
 
-    - https://documentation.suse.com/sbp/all/single-html/SLES4SAP-hana-sr-guide-PerfOpt-15/#id-initial-cluster-setup-using-ha-cluster-init
+    - https://documentation.suse.com/sbp/all/single-html/SLES4SAP-hana-sr-guide-PerfOpt-15/#id-setting-up-the-initial-cluster-using-ha-cluster-init
 
 severity: warning
 
