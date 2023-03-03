@@ -13,7 +13,7 @@
 
     <script src="dist/handlebars.runtime-NWIB6V2M.js"></script>
     <script src="dist/handlebars.templates-XRYTXUVD.js"></script>
-    <script src="dist/sidebar_items-E98B61EE.js"></script>
+    <script src="dist/sidebar_items-1F49212B.js"></script>
 
       <script src="docs_config.js"></script>
 
@@ -109,7 +109,19 @@ Wanda
   <span>Hack on Wanda</span>
 </h1>
 
-<p>In order to run Wanda, the following is needed</p><ol><li><a href="https://elixir-lang.org/">Elixir</a>, a programming language used to build scalable and maintainable applications.</li><li><a href="https://docs.docker.com/get-docker/">Docker</a>, a platform for developing, shipping, and running applications in containers.</li><li><a href="https://docs.docker.com/compose/install/">Docker Compose</a>, a tool for defining and running multi-container applications.</li></ol><h2 id="development-environment" class="section-heading">
+<h2 id="requirements" class="section-heading">
+  <a href="#requirements" class="hover-link"><i class="ri-link-m" aria-hidden="true"></i>
+  <p class="sr-only">requirements</p>
+  </a>
+  Requirements
+</h2>
+<p>In order to run Wanda, the following software must be installed:</p><ol><li><a href="https://elixir-lang.org/">Elixir</a></li><li><a href="https://www.erlang.org/">Erlang OTP</a></li><li><a href="https://www.rust-lang.org/tools/install">Rust</a></li><li><a href="https://docs.docker.com/get-docker/">Docker</a></li><li><a href="https://docs.docker.com/compose/install/">Docker Compose</a></li></ol><h3 id="ensure-compatibility-with-asdf" class="section-heading">
+  <a href="#ensure-compatibility-with-asdf" class="hover-link"><i class="ri-link-m" aria-hidden="true"></i>
+  <p class="sr-only">ensure-compatibility-with-asdf</p>
+  </a>
+  Ensure Compatibility with asdf
+</h3>
+<p><a href="https://asdf-vm.com/guide/introduction.html">asdf</a> allows using specific versions of programming language tools that are known to be compatible with the project, rather than relying on the version that's installed globally on the host system.</p><p>In order to use asdf, follow the official <a href="https://asdf-vm.com/guide/getting-started.html">asdf getting started guide</a>.</p><p>Install all required asdf plugins from <a href="/.tool-versions">.tool-versions</a> inside the web repository.</p><pre><code class="makeup elixir" translate="no"><span class="n">cut</span><span class="w"> </span><span class="o">-</span><span class="n">d</span><span class="sc">&#39; &#39;</span><span class="w"> </span><span class="o">-</span><span class="n">f1</span><span class="w"> </span><span class="o">.</span><span class="n">tool</span><span class="o">-</span><span class="n">versions</span><span class="o">|</span><span class="n">xargs</span><span class="w"> </span><span class="o">-</span><span class="n">i</span><span class="w"> </span><span class="n">asdf</span><span class="w"> </span><span class="n">plugin</span><span class="w"> </span><span class="n">add</span><span class="w">  </span><span class="p" data-group-id="5468261143-1">{</span><span class="p" data-group-id="5468261143-1">}</span></code></pre><p>Set up the asdf environment</p><pre><code class="makeup elixir" translate="no"><span class="n">asdf</span><span class="w"> </span><span class="n">install</span></code></pre><h2 id="development-environment" class="section-heading">
   <a href="#development-environment" class="hover-link"><i class="ri-link-m" aria-hidden="true"></i>
   <p class="sr-only">development-environment</p>
   </a>
@@ -133,7 +145,7 @@ Wanda
   </a>
   Start Wanda in the REPL
 </h2>
-<p>To start Wanda, you need to run the following command:</p><pre><code class="makeup elixir" translate="no"><span class="n">iex</span><span class="w"> </span><span class="o">-</span><span class="nc">S</span><span class="w"> </span><span class="n">mix</span><span class="w"> </span><span class="n">phx</span><span class="o">.</span><span class="n">server</span></code></pre><p>This command starts the Wanda server and opens an interactive Elixir shell (REPL) for you to interact with the running application.</p><h2 id="access-wanda-swaggerui" class="section-heading">
+<p>To start Wanda, you need to run the following command:</p><pre><code class="makeup elixir" translate="no"><span class="n">iex</span><span class="w"> </span><span class="o">-</span><span class="nc">S</span><span class="w"> </span><span class="n">mix</span><span class="w"> </span><span class="n">phx</span><span class="o">.</span><span class="n">server</span></code></pre><h2 id="access-wanda-swaggerui" class="section-heading">
   <a href="#access-wanda-swaggerui" class="hover-link"><i class="ri-link-m" aria-hidden="true"></i>
   <p class="sr-only">access-wanda-swaggerui</p>
   </a>
