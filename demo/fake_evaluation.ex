@@ -6,17 +6,15 @@ defmodule Wanda.Executions.FakeEvaluation do
   import Wanda.Factory
 
   alias Wanda.{
-    Executions,
-    Messaging
+    Executions
   }
 
-  def create_complete_fake_execution(execution_id, group_id, targets, checks) do
-    create_fake_execution(execution_id, group_id, targets)
-    Process.sleep(2_000)
-    :ok = complete_fake_execution(execution_id, group_id, targets, checks)
-  end
-
-  defp create_fake_execution(execution_id, group_id, targets) do
+  @spec create_fake_execution(
+          String.t(),
+          String.t(),
+          [Wanda.Executions.Target.t()]
+        ) :: Wanda.Executions.Execution.t()
+  def create_fake_execution(execution_id, group_id, targets) do
     insert(:execution,
       status: :running,
       execution_id: execution_id,
@@ -25,11 +23,15 @@ defmodule Wanda.Executions.FakeEvaluation do
     )
 
     Executions.create_execution!(execution_id, group_id, targets)
-    execution_started = Messaging.Mapper.to_execution_started(execution_id, group_id, targets)
-    :ok = Messaging.publish("results", execution_started)
   end
 
-  defp complete_fake_execution(execution_id, group_id, targets, checks) do
+  @spec complete_fake_execution(
+          String.t(),
+          String.t(),
+          [Wanda.Executions.Target.t()],
+          [Wanda.Catalog.Check.t()]
+        ) :: Wanda.Executions.Result.t()
+  def complete_fake_execution(execution_id, group_id, targets, checks) do
     result = Enum.random([:passing, :warning, :critical])
     check_results = build_check_results_from_targets(targets, result, checks)
 
@@ -46,8 +48,7 @@ defmodule Wanda.Executions.FakeEvaluation do
       build_result
     )
 
-    execution_completed = Messaging.Mapper.to_execution_completed(build_result)
-    :ok = Messaging.publish("results", execution_completed)
+    build_result
   end
 
   defp build_check_results_from_targets(targets, result, checks) do
