@@ -1,6 +1,5 @@
 defmodule Wanda.Executions.FakeEvaluationTest do
   use ExUnit.Case
-  use Wanda.DataCase
 
   import Wanda.Factory
 
@@ -14,44 +13,8 @@ defmodule Wanda.Executions.FakeEvaluationTest do
     CheckResult,
     Execution,
     FakeEvaluation,
-    Result,
-    Target
+    Result
   }
-
-  describe "create_fake_execution/3" do
-    test "creates a fake execution" do
-      [
-        %Target{
-          agent_id: agent_id_1,
-          checks: checks_1
-        },
-        %Target{
-          agent_id: agent_id_2,
-          checks: checks_2
-        }
-      ] = targets = build_list(2, :target)
-
-      execution_id = UUID.uuid4()
-      group_id = UUID.uuid4()
-
-      assert %Execution{
-               execution_id: ^execution_id,
-               group_id: ^group_id,
-               status: :running,
-               result: %{},
-               targets: [
-                 %{
-                   agent_id: ^agent_id_1,
-                   checks: ^checks_1
-                 },
-                 %{
-                   agent_id: ^agent_id_2,
-                   checks: ^checks_2
-                 }
-               ]
-             } = FakeEvaluation.create_fake_execution(execution_id, group_id, targets)
-    end
-  end
 
   describe "complete_fake_execution/4" do
     test "should complete a running fake execution" do
@@ -93,7 +56,7 @@ defmodule Wanda.Executions.FakeEvaluationTest do
       %Execution{
         execution_id: execution_id,
         group_id: group_id
-      } = insert(:execution, status: :running)
+      } = build(:execution, status: :running)
 
       assert %Result{
                execution_id: ^execution_id,

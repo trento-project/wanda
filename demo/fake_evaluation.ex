@@ -5,24 +5,6 @@ defmodule Wanda.Executions.FakeEvaluation do
 
   import Wanda.Factory
 
-  alias Wanda.Executions
-
-  @spec create_fake_execution(
-          String.t(),
-          String.t(),
-          [Wanda.Executions.Target.t()]
-        ) :: Wanda.Executions.Execution.t()
-  def create_fake_execution(execution_id, group_id, targets) do
-    insert(:execution,
-      status: :running,
-      execution_id: execution_id,
-      group_id: group_id,
-      targets: Enum.map(targets, &Map.from_struct/1)
-    )
-
-    Executions.create_execution!(execution_id, group_id, targets)
-  end
-
   @spec complete_fake_execution(
           String.t(),
           String.t(),
@@ -33,20 +15,12 @@ defmodule Wanda.Executions.FakeEvaluation do
     result = Enum.random([:passing, :warning, :critical])
     check_results = build_check_results_from_targets(targets, result, checks)
 
-    build_result =
-      build(:result,
-        check_results: check_results,
-        execution_id: execution_id,
-        group_id: group_id,
-        result: result
-      )
-
-    Executions.complete_execution!(
-      execution_id,
-      build_result
+    build(:result,
+      check_results: check_results,
+      execution_id: execution_id,
+      group_id: group_id,
+      result: result
     )
-
-    build_result
   end
 
   defp build_check_results_from_targets(targets, result, checks) do

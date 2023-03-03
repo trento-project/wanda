@@ -27,13 +27,19 @@ defmodule Wanda.Executions.FakeServer do
         %Executions.Target{target | checks: target_checks -- target_checks -- checks_ids}
       end)
 
-    FakeEvaluation.create_fake_execution(execution_id, group_id, targets)
+    Executions.create_execution!(execution_id, group_id, targets)
     execution_started = Messaging.Mapper.to_execution_started(execution_id, group_id, targets)
     :ok = Messaging.publish("results", execution_started)
 
     Process.sleep(2_000)
 
     build_result = FakeEvaluation.complete_fake_execution(execution_id, group_id, targets, checks)
+
+    Executions.complete_execution!(
+      execution_id,
+      build_result
+    )
+
     execution_completed = Messaging.Mapper.to_execution_completed(build_result)
     :ok = Messaging.publish("results", execution_completed)
   end
