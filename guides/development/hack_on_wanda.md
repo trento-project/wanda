@@ -1,10 +1,32 @@
 # Hack on Wanda
 
-In order to run Wanda, the following is needed
+## Requirements
 
-1. [Elixir](https://elixir-lang.org/), a programming language used to build scalable and maintainable applications.
-2. [Docker](https://docs.docker.com/get-docker/), a platform for developing, shipping, and running applications in containers.
-3. [Docker Compose](https://docs.docker.com/compose/install/), a tool for defining and running multi-container applications.
+In order to run Wanda, the following software must be installed:
+
+1. [Elixir](https://elixir-lang.org/)
+2. [Erlang OTP](https://www.erlang.org/)
+3. [Rust](https://www.rust-lang.org/tools/install)
+4. [Docker](https://docs.docker.com/get-docker/)
+5. [Docker Compose](https://docs.docker.com/compose/install/)
+
+### Ensure Compatibility with asdf
+
+[asdf](https://asdf-vm.com/guide/introduction.html) allows using specific versions of programming language tools that are known to be compatible with the project, rather than relying on the version that's installed globally on the host system.
+
+In order to use asdf, follow the official [asdf getting started guide](https://asdf-vm.com/guide/getting-started.html).
+
+Install all required asdf plugins from [.tool-versions](/.tool-versions) inside the web repository.
+
+```
+cut -d' ' -f1 .tool-versions|xargs -i asdf plugin add  {}
+```
+
+Set up the asdf environment
+
+```
+asdf install
+```
 
 ## Development environment
 
@@ -37,8 +59,6 @@ To start Wanda, you need to run the following command:
 ```
 iex -S mix phx.server
 ```
-
-This command starts the Wanda server and opens an interactive Elixir shell (REPL) for you to interact with the running application.
 
 ## Access Wanda Swaggerui
 
