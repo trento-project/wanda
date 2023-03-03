@@ -5,9 +5,7 @@ defmodule Wanda.Executions.FakeEvaluation do
 
   import Wanda.Factory
 
-  alias Wanda.{
-    Executions
-  }
+  alias Wanda.Executions
 
   @spec create_fake_execution(
           String.t(),

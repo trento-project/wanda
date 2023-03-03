@@ -9,8 +9,6 @@ defmodule Wanda.Executions.FakeServerTest do
     ExecutionStarted
   }
 
-  alias Wanda.Catalog
-
   alias Wanda.Executions.{
     Execution,
     FakeServer
