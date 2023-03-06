@@ -35,13 +35,6 @@ defmodule Wanda.Executions.FakeEvaluation do
 
   defp build_check_result_from_target(check_id, check_targets, result, checks) do
     check = Enum.find(checks, &(&1.id == check_id))
-    expectation_evaluations = expectation_evaluations_from_check(check, result)
-
-    expectation_results =
-      Enum.map(
-        expectation_evaluations,
-        &build(:expectation_result, name: &1.name, type: &1.type, result: result == :passing)
-      )
 
     build(:check_result,
       check_id: check_id,
@@ -53,14 +46,18 @@ defmodule Wanda.Executions.FakeEvaluation do
               Enum.map(check.facts, fn %{name: name} ->
                 build(:fact, check_id: check_id, name: name)
               end),
-            expectation_evaluations: expectation_evaluations,
+            expectation_evaluations: expectation_evaluations_from_check(check, result),
             values:
               Enum.map(check.values, fn %{name: name, default: value} ->
                 %{name: name, value: value}
               end)
           )
         end),
-      expectation_results: expectation_results,
+      expectation_results:
+        Enum.map(
+          expectation_evaluations_from_check(check, result),
+          &build(:expectation_result, name: &1.name, type: &1.type, result: result == :passing)
+        ),
       result: result
     )
   end
@@ -83,7 +80,7 @@ defmodule Wanda.Executions.FakeEvaluation do
               if result == :passing do
                 "same_value"
               else
-                Faker.StarWars.quote()
+                Faker.StarWars.character()
               end
           )
       end
