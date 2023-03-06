@@ -17,7 +17,7 @@ remediation: |
   ## References
   AZURE:
 
-    - https://docs.microsoft.com/en-us/azure/virtual-machines/workloads/sap/high-availability-guide-suse-pacemaker#create-a-stonith-device-on-the-pacemaker-cluster
+    - https://learn.microsoft.com/en-us/azure/sap/workloads/high-availability-guide-suse-pacemaker#create-a-fencing-device-on-the-pacemaker-cluster
 
   AWS:
 

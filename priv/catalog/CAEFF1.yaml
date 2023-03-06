@@ -13,7 +13,7 @@ remediation: |
   ## Reference
   Azure:
 
-    - https://docs.microsoft.com/en-us/azure/virtual-machines/workloads/sap/sap-hana-high-availability
+    - https://learn.microsoft.com/en-us/azure/sap/workloads/sap-hana-high-availability
 
   AWS:
 
@@ -23,13 +23,14 @@ remediation: |
 
     - https://cloud.google.com/solutions/sap/docs/sap-hana-os-support
 
-  Nutanix:
 
-    - https://documentation.suse.com/sbp/all/single-html/SLES4SAP-hana-sr-guide-PerfOpt-15/#id-planning-the-installation
+  Nutanix: 
+
+    - https://documentation.suse.com/sbp/all/single-html/SLES4SAP-hana-sr-guide-PerfOpt-15/#cha.s4s.hana-planning
 
   SUSE / KVM:
 
-    - https://documentation.suse.com/sbp/all/single-html/SLES4SAP-hana-sr-guide-PerfOpt-15/#id-planning-the-installation
+    - https://documentation.suse.com/sbp/all/single-html/SLES4SAP-hana-sr-guide-PerfOpt-15/#cha.s4s.hana-planning
 
 facts:
   - name: os_flavor
