@@ -34,7 +34,13 @@ defmodule Wanda.Executions.FakeEvaluation do
   end
 
   defp build_check_result_from_target(check_id, check_targets, result, checks) do
-    check = Enum.find(checks, &(&1.id == check_id))
+    %{facts: facts, expectations: expectations, values: values} =
+      Enum.find(checks, &(&1.id == check_id))
+
+    expect_same_values =
+      Enum.into(expectations, %{}, fn %{name: name} ->
+        {name, Faker.StarWars.character()}
+      end)
 
     build(:check_result,
       check_id: check_id,
@@ -43,47 +49,48 @@ defmodule Wanda.Executions.FakeEvaluation do
           build(:agent_check_result,
             agent_id: agent_id,
             facts:
-              Enum.map(check.facts, fn %{name: name} ->
+              Enum.map(facts, fn %{name: name} ->
                 build(:fact, check_id: check_id, name: name)
               end),
-            expectation_evaluations: expectation_evaluations_from_check(check, result),
+            expectation_evaluations:
+              build_expectation_evaluations(expectations, result == :passing, expect_same_values),
             values:
-              Enum.map(check.values, fn %{name: name, default: value} ->
+              Enum.map(values, fn %{name: name, default: value} ->
                 %{name: name, value: value}
               end)
           )
         end),
       expectation_results:
         Enum.map(
-          expectation_evaluations_from_check(check, result),
+          expectations,
           &build(:expectation_result, name: &1.name, type: &1.type, result: result == :passing)
         ),
       result: result
     )
   end
 
-  defp expectation_evaluations_from_check(check, result) do
-    Enum.map(check.expectations, fn %{type: type, name: name} ->
+  defp build_expectation_evaluations(expectations, result, expect_same_values) do
+    Enum.map(expectations, fn %{name: name, type: type} ->
       case type do
         :expect ->
           build(:expectation_evaluation,
             type: :expect,
             name: name,
-            return_value: result == :passing
+            return_value: result
           )
 
         :expect_same ->
           build(:expectation_evaluation,
             type: :expect_same,
             name: name,
-            return_value:
-              if result == :passing do
-                "same_value"
-              else
-                Faker.StarWars.character()
-              end
+            return_value: build_expect_same_result(result, name, expect_same_values)
           )
       end
     end)
   end
+
+  defp build_expect_same_result(true, name, expect_same_values),
+    do: Map.get(expect_same_values, name)
+
+  defp build_expect_same_result(false, _, _), do: Faker.StarWars.character()
 end
