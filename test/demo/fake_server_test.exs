@@ -30,7 +30,7 @@ defmodule Wanda.Executions.FakeServerTest do
         :ok
     end)
 
-    assert :ok = FakeServer.start_execution(execution_id, group_id, targets, env)
+    assert :ok = FakeServer.start_execution(execution_id, group_id, targets, env, sleep: 0)
 
     assert %Execution{execution_id: ^execution_id, status: :completed} = Repo.one!(Execution)
   end
