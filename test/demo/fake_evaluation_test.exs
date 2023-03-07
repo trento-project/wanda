@@ -5,9 +5,9 @@ defmodule Wanda.Executions.FakeEvaluationTest do
 
   alias Wanda.Catalog.{
     Check,
+    Expectation,
     Fact,
-    Value,
-    Expectation
+    Value
   }
 
   alias Wanda.Executions.{
@@ -26,7 +26,7 @@ defmodule Wanda.Executions.FakeEvaluationTest do
         %Fact{
           name: fact_name_2
         }
-      ] = catalog_facts = build_list(2, :catalog_fact)
+      ] = facts = build_list(2, :catalog_fact)
 
       [
         %Value{
@@ -53,9 +53,7 @@ defmodule Wanda.Executions.FakeEvaluationTest do
         %Check{
           id: check_id_2
         }
-      ] =
-        checks =
-        build_list(2, :check, facts: catalog_facts, values: values, expectations: expectations)
+      ] = checks = build_list(2, :check, facts: facts, values: values, expectations: expectations)
 
       [
         %Execution.Target{
