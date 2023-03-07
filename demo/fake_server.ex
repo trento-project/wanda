@@ -13,8 +13,9 @@ defmodule Wanda.Executions.FakeServer do
     Messaging
   }
 
+  @default_config [sleep: 2_000]
   @impl true
-  def start_execution(execution_id, group_id, targets, env, config \\ [sleep: 2_000]) do
+  def start_execution(execution_id, group_id, targets, env, config \\ @default_config) do
     checks =
       targets
       |> Executions.Target.get_checks_from_targets()
