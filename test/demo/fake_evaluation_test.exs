@@ -6,7 +6,8 @@ defmodule Wanda.Executions.FakeEvaluationTest do
   alias Wanda.Catalog.{
     Check,
     Fact,
-    Value
+    Value,
+    Expectation
   }
 
   alias Wanda.Executions.{
@@ -37,21 +38,38 @@ defmodule Wanda.Executions.FakeEvaluationTest do
       ] = values = build_list(2, :catalog_value)
 
       [
+        %Expectation{name: expectation_name_1},
+        %Expectation{name: expectation_name_2}
+      ] =
+        expectations = [
+          build(:catalog_expectation, type: :expect),
+          build(:catalog_expectation, type: :expect_same)
+        ]
+
+      [
         %Check{
           id: check_id_1
         },
         %Check{
           id: check_id_2
         }
-      ] = checks = build_list(2, :check, facts: catalog_facts, values: values)
+      ] =
+        checks =
+        build_list(2, :check, facts: catalog_facts, values: values, expectations: expectations)
 
       [
         %Execution.Target{
-          agent_id: agent_id
+          agent_id: agent_id_1
+        },
+        %Execution.Target{
+          agent_id: agent_id_2
         }
-      ] = build_list(1, :execution_target, checks: [check_id_1, check_id_2])
+      ] = build_list(2, :execution_target, checks: [check_id_1, check_id_2])
 
-      targets = build_list(1, :target, agent_id: agent_id, checks: [check_id_1, check_id_2])
+      targets = [
+        build(:target, agent_id: agent_id_1, checks: [check_id_1, check_id_2]),
+        build(:target, agent_id: agent_id_2, checks: [check_id_1, check_id_2])
+      ]
 
       %Execution{
         execution_id: execution_id,
@@ -66,7 +84,48 @@ defmodule Wanda.Executions.FakeEvaluationTest do
                    check_id: ^check_id_1,
                    agents_check_results: [
                      %Wanda.Executions.AgentCheckResult{
-                       agent_id: ^agent_id,
+                       agent_id: ^agent_id_1,
+                       expectation_evaluations: [
+                         %Wanda.Executions.ExpectationEvaluation{
+                           name: ^expectation_name_1,
+                           type: :expect
+                         },
+                         %Wanda.Executions.ExpectationEvaluation{
+                           name: ^expectation_name_2,
+                           type: :expect_same
+                         }
+                       ],
+                       facts: [
+                         %Wanda.Executions.Fact{
+                           name: ^fact_name_1,
+                           check_id: ^check_id_1
+                         },
+                         %Wanda.Executions.Fact{
+                           name: ^fact_name_2,
+                           check_id: ^check_id_1
+                         }
+                       ],
+                       values: [
+                         %{
+                           name: ^value_name_1
+                         },
+                         %{
+                           name: ^value_name_2
+                         }
+                       ]
+                     },
+                     %Wanda.Executions.AgentCheckResult{
+                       agent_id: ^agent_id_2,
+                       expectation_evaluations: [
+                         %Wanda.Executions.ExpectationEvaluation{
+                           name: ^expectation_name_1,
+                           type: :expect
+                         },
+                         %Wanda.Executions.ExpectationEvaluation{
+                           name: ^expectation_name_2,
+                           type: :expect_same
+                         }
+                       ],
                        facts: [
                          %Wanda.Executions.Fact{
                            name: ^fact_name_1,
@@ -86,13 +145,23 @@ defmodule Wanda.Executions.FakeEvaluationTest do
                          }
                        ]
                      }
+                   ],
+                   expectation_results: [
+                     %Wanda.Executions.ExpectationResult{
+                       name: ^expectation_name_1,
+                       type: :expect
+                     },
+                     %Wanda.Executions.ExpectationResult{
+                       name: ^expectation_name_2,
+                       type: :expect_same
+                     }
                    ]
                  },
                  %CheckResult{
                    check_id: ^check_id_2,
                    agents_check_results: [
                      %Wanda.Executions.AgentCheckResult{
-                       agent_id: ^agent_id,
+                       agent_id: ^agent_id_1,
                        facts: [
                          %Wanda.Executions.Fact{
                            name: ^fact_name_1,
@@ -111,6 +180,37 @@ defmodule Wanda.Executions.FakeEvaluationTest do
                            name: ^value_name_2
                          }
                        ]
+                     },
+                     %Wanda.Executions.AgentCheckResult{
+                       agent_id: ^agent_id_2,
+                       facts: [
+                         %Wanda.Executions.Fact{
+                           name: ^fact_name_1,
+                           check_id: ^check_id_2
+                         },
+                         %Wanda.Executions.Fact{
+                           name: ^fact_name_2,
+                           check_id: ^check_id_2
+                         }
+                       ],
+                       values: [
+                         %{
+                           name: ^value_name_1
+                         },
+                         %{
+                           name: ^value_name_2
+                         }
+                       ]
+                     }
+                   ],
+                   expectation_results: [
+                     %Wanda.Executions.ExpectationResult{
+                       name: ^expectation_name_1,
+                       type: :expect
+                     },
+                     %Wanda.Executions.ExpectationResult{
+                       name: ^expectation_name_2,
+                       type: :expect_same
                      }
                    ]
                  }
