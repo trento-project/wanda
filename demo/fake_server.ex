@@ -5,7 +5,7 @@ defmodule Wanda.Executions.FakeServer do
   """
   @behaviour Wanda.Executions.ServerBehaviour
 
-  import Wanda.Factory
+  alias Wanda.Executions.FakeEvaluation
 
   alias Wanda.{
     Catalog,
@@ -13,10 +13,9 @@ defmodule Wanda.Executions.FakeServer do
     Messaging
   }
 
-  require Logger
-
+  @default_config [sleep: 2_000]
   @impl true
-  def start_execution(execution_id, group_id, targets, env, _config \\ []) do
+  def start_execution(execution_id, group_id, targets, env, config \\ @default_config) do
     checks =
       targets
       |> Executions.Target.get_checks_from_targets()
@@ -29,42 +28,13 @@ defmodule Wanda.Executions.FakeServer do
         %Executions.Target{target | checks: target_checks -- target_checks -- checks_ids}
       end)
 
-    create_fake_execution(execution_id, group_id, targets)
-    Process.sleep(2_000)
-    complete_fake_execution(execution_id, group_id, targets)
-
-    :ok
-  end
-
-  @impl true
-  def receive_facts(_execution_id, _group_id, _agent_id, _facts) do
-    :ok
-  end
-
-  defp create_fake_execution(execution_id, group_id, targets) do
-    insert(:execution,
-      status: :running,
-      execution_id: execution_id,
-      group_id: group_id,
-      targets: Enum.map(targets, &Map.from_struct/1)
-    )
-
     Executions.create_execution!(execution_id, group_id, targets)
     execution_started = Messaging.Mapper.to_execution_started(execution_id, group_id, targets)
     :ok = Messaging.publish("results", execution_started)
-  end
 
-  defp complete_fake_execution(execution_id, group_id, targets) do
-    result = Enum.random([:passing, :warning, :critical])
-    check_results = build(:check_results_from_targets, targets: targets, result: result)
+    Process.sleep(Keyword.get(config, :sleep, 2_000))
 
-    build_result =
-      build(:result,
-        check_results: check_results,
-        execution_id: execution_id,
-        group_id: group_id,
-        result: result
-      )
+    build_result = FakeEvaluation.complete_fake_execution(execution_id, group_id, targets, checks)
 
     Executions.complete_execution!(
       execution_id,
@@ -73,5 +43,10 @@ defmodule Wanda.Executions.FakeServer do
 
     execution_completed = Messaging.Mapper.to_execution_completed(build_result)
     :ok = Messaging.publish("results", execution_completed)
+  end
+
+  @impl true
+  def receive_facts(_execution_id, _group_id, _agent_id, _facts) do
+    :ok
   end
 end
