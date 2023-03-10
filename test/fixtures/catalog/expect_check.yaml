@@ -29,5 +29,6 @@ values:
 expectations:
   - name: some_expectation
     expect: facts.jedi == values.expected_value
+    failure_message: "some failure message ${fact.name}"
   - name: some_other_expectation
     expect: facts.jedi > values.expected_higher_value

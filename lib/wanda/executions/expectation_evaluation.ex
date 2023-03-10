@@ -7,12 +7,14 @@ defmodule Wanda.Executions.ExpectationEvaluation do
   defstruct [
     :name,
     :return_value,
-    :type
+    :type,
+    :failure_message
   ]
 
   @type t :: %__MODULE__{
           name: String.t(),
           return_value: number() | boolean() | String.t(),
-          type: :expect | :expect_same
+          type: :expect | :expect_same,
+          failure_message: String.t() | nil
         }
 end

@@ -1188,4 +1188,179 @@ defmodule Wanda.Executions.EvaluationTest do
              } = Evaluation.execute(execution_id, group_id, checks, gathered_facts, env)
     end
   end
+
+  describe "failure message is evaluated" do
+    test "should return an evaluated failure message inside the expectation evaluation when the result is false, otherwise a nil field" do
+      execution_id = UUID.uuid4()
+      group_id = UUID.uuid4()
+      fact_value = Enum.random(1..10)
+      incorrect_fact_value = Enum.random(11..20)
+
+      [%Catalog.Fact{name: fact_name}] = catalog_facts = build_list(1, :catalog_fact)
+
+      [%Catalog.Expectation{name: expectation_name}] =
+        expectations =
+        build_list(1, :catalog_expectation,
+          type: :expect,
+          expression: "facts.#{fact_name} == #{fact_value}",
+          failure_message: "failure checking ${facts.#{fact_name}}"
+        )
+
+      [%Catalog.Check{id: check_id}] =
+        checks =
+        build_list(1, :check,
+          severity: :critical,
+          facts: catalog_facts,
+          values: [],
+          expectations: expectations
+        )
+
+      gathered_facts = %{
+        check_id => %{
+          "agent_1" =>
+            incorrect_facts =
+              build_list(1, :fact,
+                name: fact_name,
+                check_id: check_id,
+                value: incorrect_fact_value
+              ),
+          "agent_2" =>
+            facts = build_list(1, :fact, name: fact_name, check_id: check_id, value: fact_value)
+        }
+      }
+
+      interpolated_failure_message = "failure checking #{incorrect_fact_value}"
+
+      assert %Result{
+               execution_id: ^execution_id,
+               group_id: ^group_id,
+               check_results: [
+                 %CheckResult{
+                   agents_check_results: [
+                     %AgentCheckResult{
+                       agent_id: "agent_1",
+                       expectation_evaluations: [
+                         %ExpectationEvaluation{
+                           name: ^expectation_name,
+                           return_value: false,
+                           type: :expect,
+                           failure_message: ^interpolated_failure_message
+                         }
+                       ],
+                       facts: ^incorrect_facts
+                     },
+                     %AgentCheckResult{
+                       agent_id: "agent_2",
+                       expectation_evaluations: [
+                         %ExpectationEvaluation{
+                           name: ^expectation_name,
+                           return_value: true,
+                           type: :expect,
+                           failure_message: nil
+                         }
+                       ],
+                       facts: ^facts
+                     }
+                   ],
+                   check_id: ^check_id,
+                   expectation_results: [
+                     %ExpectationResult{
+                       name: ^expectation_name,
+                       result: false,
+                       type: :expect
+                     }
+                   ],
+                   result: :critical
+                 }
+               ],
+               result: :critical
+             } = Evaluation.execute(execution_id, group_id, checks, gathered_facts, %{})
+    end
+
+    test "should return a failure message inside the result when having a failing expect_same" do
+      execution_id = UUID.uuid4()
+      group_id = UUID.uuid4()
+      fact_value = Enum.random(1..10)
+      incorrect_fact_value = Enum.random(11..20)
+
+      [%Catalog.Fact{name: fact_name}] = catalog_facts = build_list(1, :catalog_fact)
+
+      failure_message = "failure checking #{fact_name}"
+
+      [%Catalog.Expectation{name: expectation_name}] =
+        expectations =
+        build_list(1, :catalog_expectation,
+          type: :expect_same,
+          expression: "facts.#{fact_name} == #{fact_value}",
+          failure_message: failure_message
+        )
+
+      [%Catalog.Check{id: check_id}] =
+        checks =
+        build_list(1, :check,
+          severity: :critical,
+          facts: catalog_facts,
+          values: [],
+          expectations: expectations
+        )
+
+      gathered_facts = %{
+        check_id => %{
+          "agent_1" =>
+            facts = build_list(1, :fact, name: fact_name, check_id: check_id, value: fact_value),
+          "agent_2" =>
+            incorrect_facts =
+              build_list(1, :fact,
+                name: fact_name,
+                check_id: check_id,
+                value: incorrect_fact_value
+              )
+        }
+      }
+
+      assert %Result{
+               execution_id: ^execution_id,
+               group_id: ^group_id,
+               check_results: [
+                 %CheckResult{
+                   agents_check_results: [
+                     %AgentCheckResult{
+                       agent_id: "agent_1",
+                       expectation_evaluations: [
+                         %ExpectationEvaluation{
+                           name: ^expectation_name,
+                           return_value: true,
+                           type: :expect_same
+                         }
+                       ],
+                       facts: ^facts
+                     },
+                     %AgentCheckResult{
+                       agent_id: "agent_2",
+                       expectation_evaluations: [
+                         %ExpectationEvaluation{
+                           name: ^expectation_name,
+                           return_value: false,
+                           type: :expect_same
+                         }
+                       ],
+                       facts: ^incorrect_facts
+                     }
+                   ],
+                   check_id: ^check_id,
+                   expectation_results: [
+                     %ExpectationResult{
+                       name: ^expectation_name,
+                       result: false,
+                       type: :expect_same,
+                       failure_message: ^failure_message
+                     }
+                   ],
+                   result: :critical
+                 }
+               ],
+               result: :critical
+             } = Evaluation.execute(execution_id, group_id, checks, gathered_facts, %{})
+    end
+  end
 end
