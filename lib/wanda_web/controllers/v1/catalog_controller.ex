@@ -20,7 +20,8 @@ defmodule WandaWeb.V1.CatalogController do
       ]
     ],
     responses: [
-      ok: {"Check catalog response", "application/json", CatalogResponse}
+      ok: {"Check catalog response", "application/json", CatalogResponse},
+      unprocessable_entity: OpenApiSpex.JsonErrorResponse.response()
     ]
 
   def catalog(conn, params) do
