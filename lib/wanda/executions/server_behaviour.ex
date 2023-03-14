@@ -10,7 +10,7 @@ defmodule Wanda.Executions.ServerBehaviour do
               group_id :: String.t(),
               targets :: [Target.t()],
               env :: %{String.t() => boolean() | number() | String.t()}
-            ) :: :ok | {:error, any}
+            ) :: :ok | {:error, :no_checks_selected} | {:error, :already_running}
 
   @callback start_execution(
               execution_id :: String.t(),

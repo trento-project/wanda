@@ -257,36 +257,39 @@ defmodule WandaWeb.V1.ExecutionControllerTest do
         })
         |> json_response(422)
 
-      assert %{"error" => %{"detail" => "already_running"}} = json
+      assert %{
+               "errors" => [
+                 %{"detail" => "Execution already running.", "title" => "Unprocessable Entity"}
+               ]
+             } = json
     end
 
-    test "should return an error on validation failure", %{conn: conn} do
+    test "should return an error if no checks were selected", %{conn: conn} do
+      expect(Wanda.Executions.ServerMock, :start_execution, fn _, _, _, _ ->
+        {:error, :no_checks_selected}
+      end)
+
       json =
         conn
         |> put_req_header("content-type", "application/json")
-        |> post(
-          "/api/v1/checks/executions/start",
-          %{
-            "group_id" => UUID.uuid4(),
-            "targets" => [
-              %{
-                "agent_id" => UUID.uuid4(),
-                "checks" => ["expect_check"]
-              }
-            ],
-            "env" => %{
-              "provider" => "azure"
+        |> post("/api/v1/checks/executions/start", %{
+          "execution_id" => UUID.uuid4(),
+          "group_id" => UUID.uuid4(),
+          "targets" => [
+            %{
+              agent_id: UUID.uuid4(),
+              checks: []
             }
-          }
-        )
+          ],
+          "env" => build(:env)
+        })
         |> json_response(422)
 
       assert %{
                "errors" => [
                  %{
-                   "detail" => "Missing field: execution_id",
-                   "source" => %{"pointer" => "/execution_id"},
-                   "title" => "Invalid value"
+                   "detail" => "No checks were selected.",
+                   "title" => "Unprocessable Entity"
                  }
                ]
              } = json
