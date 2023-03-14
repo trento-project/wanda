@@ -42,7 +42,11 @@ defmodule WandaWeb.Plugs.ApiRedirectorTest do
 
       resp_body = json_response(result_conn, 404)
 
-      assert resp_body == %{"error" => "not found"}
+      assert %{
+               "errors" => [
+                 %{"detail" => "The requested resource was not found.", "title" => "Not Found"}
+               ]
+             } = resp_body
     end
 
     test "should return 404 with the error view when the path is not recognized by the router because match the ApiRedirectorPlug",
@@ -61,7 +65,11 @@ defmodule WandaWeb.Plugs.ApiRedirectorTest do
 
       resp_body = json_response(result_conn, 404)
 
-      assert resp_body == %{"error" => "not found"}
+      assert %{
+               "errors" => [
+                 %{"detail" => "The requested resource was not found.", "title" => "Not Found"}
+               ]
+             } = resp_body
     end
 
     test "should redirect to the correct path when the route is recognized with the latest version",
