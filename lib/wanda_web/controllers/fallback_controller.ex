@@ -16,4 +16,11 @@ defmodule WandaWeb.FallbackController do
     |> put_view(ErrorView)
     |> render(:"422", reason: "Execution already running.")
   end
+
+  def call(conn, _) do
+    conn
+    |> put_status(:internal_server_error)
+    |> put_view(ErrorView)
+    |> render(:"500")
+  end
 end
