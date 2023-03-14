@@ -16,6 +16,11 @@ defmodule WandaWeb.Schemas.ExecutionResponse.ExpectationResult do
         type: :string,
         enum: ["expect", "expect_same"],
         description: "Evaluation type"
+      },
+      failure_message: %Schema{
+        type: :string,
+        nullable: true,
+        description: "Failure message"
       }
     },
     required: [:name, :result, :type]

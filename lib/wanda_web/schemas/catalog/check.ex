@@ -89,6 +89,11 @@ defmodule WandaWeb.Schemas.CatalogResponse.Check do
             expression: %Schema{
               type: :string,
               description: "Expression to be evaluated to get the expectation result"
+            },
+            failure_message: %Schema{
+              type: :string,
+              nullable: true,
+              description: "Expression to be evaluated in case of failure"
             }
           },
           required: [:name, :type, :expression]
