@@ -1,24 +1,36 @@
 defmodule WandaWeb.ErrorView do
   use WandaWeb, :view
 
-  # If you want to customize a particular status code
-  # for a certain format, you may uncomment below.
-  # def render("500.json", _assigns) do
-  #   %{errors: %{detail: "Internal Server Error"}}
-  # end
-
-  def render("422.json", %{error: error}) do
-    %{error: %{detail: error}}
+  def render("422.json", %{reason: reason}) do
+    %{
+      errors: [
+        %{
+          title: "Unprocessable Entity",
+          detail: reason
+        }
+      ]
+    }
   end
 
-  def render("error.json", %{reason: reason}) do
-    %{error: reason}
+  def render("404.json", _) do
+    %{
+      errors: [
+        %{
+          title: "Not Found",
+          detail: "The requested resource was not found."
+        }
+      ]
+    }
   end
 
-  # By default, Phoenix returns the status message from
-  # the template name. For example, "404.json" becomes
-  # "Not Found".
   def template_not_found(template, _assigns) do
-    %{errors: %{detail: Phoenix.Controller.status_message_from_template(template)}}
+    %{
+      errors: [
+        %{
+          title: Phoenix.Controller.status_message_from_template(template),
+          detail: "An error has occurred."
+        }
+      ]
+    }
   end
 end

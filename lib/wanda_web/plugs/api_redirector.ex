@@ -44,7 +44,7 @@ defmodule WandaWeb.Plugs.ApiRedirector do
     else
       conn
       |> put_resp_content_type("application/json")
-      |> resp(:not_found, Jason.encode!(ErrorView.render("error.json", reason: "not found")))
+      |> resp(:not_found, Jason.encode!(ErrorView.render("404.json", [])))
       |> halt()
     end
   end
