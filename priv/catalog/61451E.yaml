@@ -28,7 +28,7 @@ remediation: |
 
 severity: warning
 
-when: env.provider in ["azure", "nutanix", "kvm"]
+when: env.provider != "gcp" & env.provider != "aws"
 
 facts:
   - name: sbd_multiple_sbd_device

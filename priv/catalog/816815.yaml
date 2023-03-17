@@ -31,7 +31,7 @@ remediation: |
 
     - https://documentation.suse.com/sle-ha/15-SP3/html/SLE-HA-all/cha-ha-storage-protect.html#pro-ha-storage-protect-sbd-services
 
-when: env.provider in ["azure", "nutanix", "kvm"]
+when: env.provider != "gcp" & env.provider != "aws"
 
 facts:
   - name: sbd_service_state

@@ -13,7 +13,7 @@ remediation: |
   ## Reference
   - https://documentation.suse.com/en-us/sbp/all/single-html/SLES4SAP-hana-sr-guide-PerfOpt-15/
 
-when: env.provider in ["azure", "nutanix", "kvm"]
+when: env.provider != "gcp" & env.provider != "aws"
 
 facts:
   - name: exclude_package_sbd

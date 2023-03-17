@@ -26,7 +26,7 @@ remediation: |
 
     - https://documentation.suse.com/sbp/all/single-html/SLES4SAP-hana-sr-guide-PerfOpt-15/#id-cluster-bootstrap-and-more
 
-when: env.provider in ["azure", "nutanix", "kvm"]
+when: env.provider != "gcp" & env.provider != "aws"
 
 facts:
   - name: dump_sbd_devices
