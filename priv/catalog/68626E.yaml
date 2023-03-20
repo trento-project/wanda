@@ -26,7 +26,7 @@ remediation: |
 
     - https://documentation.suse.com/sbp/all/single-html/SLES4SAP-hana-sr-guide-PerfOpt-15/#id-verifying-the-sbd-device
 
-when: env.provider in ["azure", "nutanix", "kvm"]
+when: env.provider !in ["gcp", "aws"]
 
 facts:
   - name: dump_sbd_devices
