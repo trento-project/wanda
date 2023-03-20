@@ -46,7 +46,7 @@ remediation: |
     - https://documentation.suse.com/sbp/all/single-html/SLES4SAP-hana-sr-guide-PerfOpt-15/#id-adapting-the-sbd-configuration
     - https://documentation.suse.com/sle-ha/15-SP3/html/SLE-HA-all/cha-ha-storage-protect.html
 
-when: env.provider != "gcp" & env.provider != "aws"
+when: env.provider !in ["gcp", "aws"]
 
 facts:
   - name: sbd_startmode
