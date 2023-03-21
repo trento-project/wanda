@@ -27,3 +27,6 @@ wanda-*.tar
 
 # Generated OpenAPI spec.
 openapi.json
+
+# Local dev.local.exs file
+config/dev.local.exs
