@@ -198,15 +198,17 @@ defmodule Wanda.Executions.Evaluation do
         %ExpectationResult{
           name: name,
           type: type,
-          result: eval_expectation_result_or_error(type, expectation_evaluations)
+          result:
+            eval_expectation_result_or_error(type, expectation_evaluations, agents_check_results)
         }
       end)
 
     %CheckResult{result | expectation_results: expectation_results}
   end
 
-  defp eval_expectation_result_or_error(type, expectation_evaluations) do
-    if has_error?(expectation_evaluations) do
+  defp eval_expectation_result_or_error(type, expectation_evaluations, agents_check_results) do
+    if has_error?(expectation_evaluations) or
+         length(agents_check_results) != length(expectation_evaluations) do
       false
     else
       eval_expectation_result(type, expectation_evaluations)
