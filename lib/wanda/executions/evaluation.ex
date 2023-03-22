@@ -53,7 +53,7 @@ defmodule Wanda.Executions.Evaluation do
       check_id: check_id
     }
     |> add_agents_results(expectations, agents_facts, env, values)
-    |> add_expectation_evaluations(expectations)
+    |> add_expectation_results(expectations)
     |> aggregate_check_result(severity)
   end
 
@@ -115,6 +115,14 @@ defmodule Wanda.Executions.Evaluation do
     end)
   end
 
+  defp add_scope(scope, namespace, namespaced_scope) do
+    Map.put(
+      scope,
+      namespace,
+      Enum.into(namespaced_scope, %{}, fn %{name: name, value: value} -> {name, value} end)
+    )
+  end
+
   defp eval_value(
          %CatalogValue{
            name: name,
@@ -127,14 +135,6 @@ defmodule Wanda.Executions.Evaluation do
       name: name,
       value: find_value(conditions, default, evaluation_scope)
     }
-  end
-
-  defp add_scope(scope, namespace, namespaced_scope) do
-    Map.put(
-      scope,
-      namespace,
-      Enum.into(namespaced_scope, %{}, fn %{name: name, value: value} -> {name, value} end)
-    )
   end
 
   defp find_value(conditions, default, evaluation_scope) do
@@ -173,7 +173,7 @@ defmodule Wanda.Executions.Evaluation do
     end
   end
 
-  defp add_expectation_evaluations(
+  defp add_expectation_results(
          %CheckResult{agents_check_results: agents_check_results} = result,
          expectations
        ) do
@@ -251,6 +251,13 @@ defmodule Wanda.Executions.Evaluation do
     %CheckResult{check_result | result: result}
   end
 
+  defp errors?(agents_check_results),
+    do:
+      Enum.any?(agents_check_results, fn
+        %AgentCheckError{} -> true
+        _ -> false
+      end)
+
   defp aggregate_execution_result(%Result{check_results: check_results} = execution) do
     result =
       check_results
@@ -261,13 +268,6 @@ defmodule Wanda.Executions.Evaluation do
 
     %Result{execution | result: result}
   end
-
-  defp errors?(agents_check_results),
-    do:
-      Enum.any?(agents_check_results, fn
-        %AgentCheckError{} -> true
-        _ -> false
-      end)
 
   # TODO: is unknown needed?
   # defp result_weight(:unknown), do: 3
