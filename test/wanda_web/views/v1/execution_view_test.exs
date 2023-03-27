@@ -4,7 +4,13 @@ defmodule WandaWeb.V1.ExecutionViewTest do
   import Phoenix.View
   import Wanda.Factory
 
-  alias Wanda.Executions.Execution
+  alias Wanda.Executions.{
+    AgentCheckResult,
+    CheckResult,
+    Execution,
+    ExpectationEvaluation,
+    ExpectationResult
+  }
 
   describe "ExecutionView" do
     test "renders index.json" do
@@ -99,8 +105,7 @@ defmodule WandaWeb.V1.ExecutionViewTest do
         started_at: started_at,
         completed_at: completed_at,
         result: %{
-          "timeout" => timeout,
-          "check_results" => check_results
+          "timeout" => timeout
         }
       } =
         execution =
@@ -124,8 +129,121 @@ defmodule WandaWeb.V1.ExecutionViewTest do
                critical_count: 1,
                result: "critical",
                timeout: ^timeout,
-               check_results: ^check_results
+               check_results: [
+                 %{"check_id" => "check_1"},
+                 %{"check_id" => "check_2"},
+                 %{"check_id" => "check_3"},
+                 %{"check_id" => "check_4"}
+               ]
              } = render(WandaWeb.V1.ExecutionView, "show.json", execution: execution)
+    end
+
+    test "renders show.json stripping nil failure_message keys" do
+      passing_checks = ["check_1", "check_2"]
+      critical_checks = ["check_3"]
+
+      passing_targets = build_pair(:execution_target, checks: passing_checks)
+      critical_targets = build_pair(:execution_target, checks: critical_checks)
+      targets = passing_targets ++ critical_targets
+
+      [
+        %CheckResult{
+          expectation_results: [
+            %ExpectationResult{
+              name: passing_expectation_result_name,
+              result: passing_expectation_result,
+              type: passing_expectation_result_type
+            }
+            | _
+          ],
+          agents_check_results: [
+            %AgentCheckResult{
+              expectation_evaluations: [
+                %ExpectationEvaluation{
+                  name: passing_check_result_name,
+                  return_value: passing_check_result_value,
+                  type: passing_check_result_type
+                }
+                | _
+              ]
+            }
+            | _
+          ]
+        }
+        | _
+      ] = passing_check_results = build(:check_results_from_targets, targets: passing_targets)
+
+      failure_message = Faker.StarWars.quote()
+
+      critical_check_results =
+        build(:check_results_from_targets,
+          targets: critical_targets,
+          result: :critical,
+          failure_message: failure_message
+        )
+
+      check_results = passing_check_results ++ critical_check_results
+
+      result =
+        build(:result,
+          check_results: check_results,
+          result: :critical
+        )
+
+      execution =
+        :execution
+        |> build(
+          targets: targets,
+          result: result,
+          completed_at: DateTime.utc_now(),
+          status: :completed
+        )
+        |> insert(returning: true)
+
+      %{
+        check_results: [
+          %{
+            "expectation_results" => [rendered_passing_expectation_result | _],
+            "agents_check_results" => [
+              %{
+                "expectation_evaluations" => [rendered_passing_expectation_evaluation | _]
+              }
+              | _
+            ]
+          },
+          _,
+          %{
+            "agents_check_results" => [
+              _,
+              %{"expectation_evaluations" => critical_expectation_evaluations}
+            ]
+          }
+        ]
+      } = render(WandaWeb.V1.ExecutionView, "show.json", execution: execution)
+
+      Enum.each(critical_expectation_evaluations, fn
+        %{
+          "type" => "expect",
+          "return_value" => false,
+          "failure_message" => expectation_failure_message
+        } ->
+          assert expectation_failure_message === failure_message
+
+        _ ->
+          :ok
+      end)
+
+      assert rendered_passing_expectation_evaluation == %{
+               "name" => passing_check_result_name,
+               "type" => to_string(passing_check_result_type),
+               "return_value" => passing_check_result_value
+             }
+
+      assert rendered_passing_expectation_result == %{
+               "name" => passing_expectation_result_name,
+               "type" => to_string(passing_expectation_result_type),
+               "result" => passing_expectation_result
+             }
     end
   end
 end

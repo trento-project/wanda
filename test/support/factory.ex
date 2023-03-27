@@ -187,21 +187,29 @@ defmodule Wanda.Factory do
   def check_results_from_targets_factory(attrs) do
     targets = Map.get(attrs, :targets, [])
     result = Map.get(attrs, :result, :passing)
+    failure_message = Map.get(attrs, :failure_message)
 
     targets
     |> Enum.flat_map(& &1.checks)
     |> Enum.uniq()
     |> Enum.map(fn check_id ->
       check_targets = Enum.filter(targets, &(check_id in &1.checks))
-      check_result_from_target(check_id, check_targets, result)
+      check_result_from_target(check_id, check_targets, result, failure_message)
     end)
   end
 
-  defp check_result_from_target(check_id, check_targets, result) do
+  defp check_result_from_target(check_id, check_targets, result, failure_message) do
     expectations_evaluations_expect =
       1..5
       |> Enum.random()
       |> build_list(:expectation_evaluation, return_value: result == :passing)
+      |> Enum.map(fn
+        %{return_value: true} = expectation_evaluation ->
+          expectation_evaluation
+
+        %{return_value: false} = expectation_evaluation ->
+          %ExpectationEvaluation{expectation_evaluation | failure_message: failure_message}
+      end)
 
     expectations_evaluations_expect_same =
       Enum.map(1..Enum.random(1..5), fn _ ->
@@ -220,10 +228,17 @@ defmodule Wanda.Factory do
       Enum.shuffle(expectations_evaluations_expect ++ expectations_evaluations_expect_same)
 
     expectation_results =
-      Enum.map(
-        expectation_evaluations,
+      expectation_evaluations
+      |> Enum.map(
         &build(:expectation_result, name: &1.name, type: &1.type, result: result == :passing)
       )
+      |> Enum.map(fn
+        %ExpectationResult{result: false, type: :expect_same} = expectation_result ->
+          %ExpectationResult{expectation_result | failure_message: failure_message}
+
+        expectation_result ->
+          expectation_result
+      end)
 
     build(:check_result,
       check_id: check_id,

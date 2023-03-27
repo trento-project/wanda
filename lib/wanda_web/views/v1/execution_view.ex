@@ -62,10 +62,30 @@ defmodule WandaWeb.V1.ExecutionView do
   defp map_timeout(:completed, %{"timeout" => timeout}), do: timeout
 
   defp map_check_results(:running, _), do: nil
-  defp map_check_results(:completed, %{"check_results" => check_results}), do: check_results
+
+  defp map_check_results(:completed, %{"check_results" => check_results}),
+    do: Enum.map(check_results, &strip_nil_failure_messages/1)
 
   defp count_results(:running, _, _), do: nil
 
   defp count_results(:completed, %{"check_results" => check_results}, severity),
     do: Enum.count(check_results, &(&1["result"] == severity))
+
+  defp strip_nil_failure_messages(%{"failure_message" => nil} = struct) do
+    struct
+    |> Map.delete("failure_message")
+    |> Enum.map(fn {key, value} -> {key, strip_nil_failure_messages(value)} end)
+    |> Map.new()
+  end
+
+  defp strip_nil_failure_messages(param) when is_list(param),
+    do: Enum.map(param, &strip_nil_failure_messages/1)
+
+  defp strip_nil_failure_messages(param) when is_map(param),
+    do:
+      param
+      |> Enum.map(fn {key, value} -> {key, strip_nil_failure_messages(value)} end)
+      |> Map.new()
+
+  defp strip_nil_failure_messages(value), do: value
 end
