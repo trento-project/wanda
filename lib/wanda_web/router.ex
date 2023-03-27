@@ -32,6 +32,12 @@ defmodule WandaWeb.Router do
     get "/openapi", OpenApiSpex.Plug.RenderSpec, []
   end
 
+  scope "/api", WandaWeb do
+    pipe_through :api
+    get "/healthz", HealthController, :health
+    get "/readyz", HealthController, :ready
+  end
+
   scope "/api" do
     pipe_through :api
 
