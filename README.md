@@ -71,7 +71,7 @@ Available Checks are part of the **Catalog**, and they can be retrieved by acces
 
 ```bash
 curl -X 'GET' \
-  'http://localhost:4000/api/checks/catalog' \
+  'http://localhost:4000/api/v1/checks/catalog' \
   -H 'accept: application/json'
 ```
 
@@ -80,7 +80,7 @@ curl -X 'GET' \
 A Checks Execution can be started by calling the Start Execution endpoint, as follows
 
 ```bash
-curl --request POST 'http://localhost:4000/api/checks/executions/start' \
+curl --request POST 'http://localhost:4000/api/v1/checks/executions/start' \
 --header 'accept: application/json' \
 --header 'Content-Type: application/json' \
 --data-raw '{
@@ -123,7 +123,7 @@ Each target _must_ specify a list of checks, that can be empty. These are the se
 Given two different targets, the same checks can be selected:
 
 ```bash
-curl --request POST 'http://localhost:4000/api/checks/executions/start' \
+curl --request POST 'http://localhost:4000/api/v1/checks/executions/start' \
 --header 'accept: application/json' \
 --header 'Content-Type: application/json' \
 --data-raw '{
@@ -154,7 +154,7 @@ curl --request POST 'http://localhost:4000/api/checks/executions/start' \
 Or completely different ones:
 
 ```bash
-curl --request POST 'http://localhost:4000/api/checks/executions/start' \
+curl --request POST 'http://localhost:4000/api/v1/checks/executions/start' \
 --header 'accept: application/json' \
 --header 'Content-Type: application/json' \
 --data-raw '{
@@ -187,7 +187,7 @@ curl --request POST 'http://localhost:4000/api/checks/executions/start' \
 To get detailed information about the execution, the following API can be used.
 
 ```bash
-curl --request GET 'http://localhost:4000/api/checks/executions/205e326d-0c25-4f4b-9976-43f9ba1c86d3' \
+curl --request GET 'http://localhost:4000/api/v1/checks/executions/205e326d-0c25-4f4b-9976-43f9ba1c86d3' \
 --header 'accept: application/json' \
 --header 'Content-Type: application/json'
 ```
