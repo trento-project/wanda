@@ -232,7 +232,7 @@ defmodule Wanda.Executions.EvaluationTest do
                    expectation_results: [
                      %ExpectationResult{
                        name: ^expectation_name,
-                       result: true,
+                       result: false,
                        type: :expect
                      }
                    ],
@@ -318,7 +318,7 @@ defmodule Wanda.Executions.EvaluationTest do
              } = Evaluation.execute(execution_id, group_id, checks, gathered_facts, %{})
     end
 
-    test "should return a passing result when not all the agents fullfill the expectations with an expect_same condition" do
+    test "should return a critical result when some of the agents expect_same condition return value is different" do
       execution_id = UUID.uuid4()
       group_id = UUID.uuid4()
       fact_value = Enum.random(1..10)
@@ -578,7 +578,7 @@ defmodule Wanda.Executions.EvaluationTest do
                    expectation_results: [
                      %ExpectationResult{
                        name: ^expectation_name,
-                       result: true,
+                       result: false,
                        type: :expect
                      }
                    ],
