@@ -20,7 +20,7 @@ defmodule WandaWeb.Schemas.ExecutionResponse.ExpectationResult do
       failure_message: %Schema{
         type: :string,
         nullable: true,
-        description: "Failure message"
+        description: "Failure message. Only available for `expect_same` scenarios"
       }
     },
     required: [:name, :result, :type]

@@ -13,7 +13,6 @@ defmodule Wanda.Catalog do
 
   require Logger
 
-  @default_failure_message "Expectation not met"
   @default_severity :critical
 
   @doc """
@@ -119,7 +118,7 @@ defmodule Wanda.Catalog do
       name: name,
       type: :expect,
       expression: expression,
-      failure_message: Map.get(expectation, "failure_message", @default_failure_message)
+      failure_message: Map.get(expectation, "failure_message")
     }
   end
 
@@ -128,7 +127,7 @@ defmodule Wanda.Catalog do
       name: name,
       type: :expect_same,
       expression: expression,
-      failure_message: Map.get(expectation, "failure_message", @default_failure_message)
+      failure_message: Map.get(expectation, "failure_message")
     }
   end
 

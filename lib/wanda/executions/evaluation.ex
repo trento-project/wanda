@@ -18,6 +18,8 @@ defmodule Wanda.Executions.Evaluation do
     Value
   }
 
+  @default_failure_message "Expectation not met"
+
   @spec execute(
           String.t(),
           String.t(),
@@ -188,12 +190,24 @@ defmodule Wanda.Executions.Evaluation do
 
   defp maybe_add_failure_message(
          %ExpectationEvaluation{type: :expect, return_value: false} = expectation_evaluation,
+         nil,
+         _evaluation_scope
+       ) do
+    %ExpectationEvaluation{expectation_evaluation | failure_message: @default_failure_message}
+  end
+
+  defp maybe_add_failure_message(
+         %ExpectationEvaluation{type: :expect, return_value: false} = expectation_evaluation,
          failure_message,
          evaluation_scope
        ) do
-    {:ok, interpolated_failure_message} = Rhai.eval("`#{failure_message}`", evaluation_scope)
+    message =
+      case Rhai.eval("`#{failure_message}`", evaluation_scope) do
+        {:ok, interpolated_failure_message} -> interpolated_failure_message
+        _ -> @default_failure_message
+      end
 
-    Map.put(expectation_evaluation, :failure_message, interpolated_failure_message)
+    %ExpectationEvaluation{expectation_evaluation | failure_message: message}
   end
 
   defp maybe_add_failure_message(
@@ -201,7 +215,7 @@ defmodule Wanda.Executions.Evaluation do
          failure_message,
          _evaluation_scope
        ) do
-    Map.put(expectation_result, :failure_message, failure_message)
+    %ExpectationResult{expectation_result | failure_message: failure_message}
   end
 
   defp maybe_add_failure_message(expectation, _, _), do: expectation
@@ -222,15 +236,9 @@ defmodule Wanda.Executions.Evaluation do
       end)
       |> Enum.group_by(& &1.name)
       |> Enum.map(fn {name, expectation_evaluations} ->
-        type =
-          Enum.find_value(expectations, fn
-            %Expectation{name: ^name, type: type} -> type
-            _ -> false
-          end)
-
-        failure_message =
-          Enum.find_value(expectations, fn
-            %Expectation{name: ^name, failure_message: failure_message} -> failure_message
+        %Expectation{type: type, failure_message: failure_message} =
+          Enum.find(expectations, fn
+            %Expectation{name: ^name} -> true
             _ -> false
           end)
 

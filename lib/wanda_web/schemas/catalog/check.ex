@@ -93,7 +93,7 @@ defmodule WandaWeb.Schemas.CatalogResponse.Check do
             failure_message: %Schema{
               type: :string,
               nullable: true,
-              description: "Expression to be evaluated in case of failure"
+              description: "Message returned when the check fails"
             }
           },
           required: [:name, :type, :expression]
