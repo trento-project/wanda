@@ -1,4 +1,4 @@
-defmodule WandaWeb.HealthcheckViewTest do
+defmodule WandaWeb.HealthViewTest do
   use ExUnit.Case
 
   import Phoenix.View
