@@ -43,6 +43,8 @@ WandaWeb.Endpoint.html
 WandaWeb.ErrorHelpers.html
 WandaWeb.ErrorView.html
 WandaWeb.FallbackController.html
+WandaWeb.HealthController.html
+WandaWeb.HealthView.html
 WandaWeb.Plugs.ApiRedirector.html
 WandaWeb.Router.Helpers.html
 WandaWeb.Router.html
@@ -51,8 +53,10 @@ WandaWeb.Schemas.BadRequest.html
 WandaWeb.Schemas.CatalogResponse.Check.html
 WandaWeb.Schemas.CatalogResponse.html
 WandaWeb.Schemas.ExecutionResponse.html
+WandaWeb.Schemas.Health.html
 WandaWeb.Schemas.ListExecutionsResponse.html
 WandaWeb.Schemas.NotFound.html
+WandaWeb.Schemas.Ready.html
 WandaWeb.Schemas.StartExecutionRequest.html
 WandaWeb.V1.CatalogController.html
 WandaWeb.V1.CatalogView.html
@@ -88,8 +92,8 @@ dist/merriweather-latin-ext-300-normal-K6L27CZ5.woff2
 dist/merriweather-vietnamese-300-italic-EHHNZPUO.woff2
 dist/merriweather-vietnamese-300-normal-U376L4Z4.woff2
 dist/remixicon-NKANDIL5.woff2
-dist/search_items-16C81949.js
-dist/sidebar_items-4185CF3C.js
+dist/search_items-8D590947.js
+dist/sidebar_items-B83D3338.js
 expression_language.html
 gatherers.html
 hack_on_wanda.html

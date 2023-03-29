@@ -7,7 +7,7 @@
     <meta name="generator" content="ExDoc v0.29.2">
     <meta name="project" content="Wanda v0.1.0">
 
-    <title>Wanda.Executions.State — Wanda v0.1.0</title>
+    <title>WandaWeb.Schemas.Ready — Wanda v0.1.0</title>
     <link rel="stylesheet" href="dist/html-elixir-ZA3CNPHL.css" />
 
 
@@ -100,19 +100,19 @@ Wanda
 </button>
 
 
-    <a href="https://github.com/trento-project/wanda/blob/main/lib/wanda/executions/state.ex#L1" title="View Source" class="icon-action" rel="help">
+    <a href="https://github.com/trento-project/wanda/blob/main/lib/wanda_web/schemas/ready.ex#L1" title="View Source" class="icon-action" rel="help">
       <i class="ri-code-s-slash-line" aria-hidden="true"></i>
       <span class="sr-only">View Source</span>
     </a>
 
-  <span translate="no">Wanda.Executions.State</span> 
+  <span translate="no">WandaWeb.Schemas.Ready</span> 
   <small class="app-vsn" translate="no">(Wanda v0.1.0)</small>
 
 </h1>
 
 
   <section id="moduledoc">
-<p>State of an execution.</p>
+<p>Ready</p>
   </section>
 
 
@@ -134,6 +134,30 @@ Wanda
         <a href="#t:t/0" translate="no">t()</a>
 
       </div>
+
+    </div>
+
+</div>
+<div class="summary-functions summary">
+  <h2>
+    <a href="#functions">Functions</a>
+  </h2>
+
+    <div class="summary-row">
+      <div class="summary-signature">
+        <a href="#response/0" translate="no">response()</a>
+
+      </div>
+
+    </div>
+
+    <div class="summary-row">
+      <div class="summary-signature">
+        <a href="#schema/0" translate="no">schema()</a>
+
+      </div>
+
+        <div class="summary-synopsis"><p>Callback implementation for <a href="https://hexdocs.pm/open_api_spex/3.16.1/OpenApiSpex.Schema.html#c:schema/0"><code class="inline">OpenApiSpex.Schema.schema/0</code></a>.</p></div>
 
     </div>
 
@@ -160,7 +184,7 @@ Types
     </a>
     <h1 class="signature" translate="no">t()</h1>
 
-      <a href="https://github.com/trento-project/wanda/blob/main/lib/wanda/executions/state.ex#L20" class="icon-action" rel="help" title="View Source">
+      <a href="https://github.com/trento-project/wanda/blob/main/lib/wanda_web/schemas/ready.ex#L10" class="icon-action" rel="help" title="View Source">
        <i class="ri-code-s-slash-line" aria-hidden="true"></i>
        <span class="sr-only">View Source</span>
      </a>
@@ -172,20 +196,68 @@ Types
 
       <div class="specs">
 
-          <pre translate="no"><span class="attribute">@type</span> t() :: %Wanda.Executions.State{
-  agents_gathered: [<a href="https://hexdocs.pm/elixir/String.html#t:t/0">String.t</a>()],
-  checks: [<a href="Wanda.Catalog.Check.html#t:t/0">Wanda.Catalog.Check.t</a>()],
-  env: %{required(<a href="https://hexdocs.pm/elixir/String.html#t:t/0">String.t</a>()) =&gt; <a href="https://hexdocs.pm/elixir/typespecs.html#built-in-types">boolean</a>() | <a href="https://hexdocs.pm/elixir/typespecs.html#built-in-types">number</a>() | <a href="https://hexdocs.pm/elixir/String.html#t:t/0">String.t</a>()},
-  execution_id: <a href="https://hexdocs.pm/elixir/String.html#t:t/0">String.t</a>(),
-  gathered_facts: <a href="https://hexdocs.pm/elixir/typespecs.html#basic-types">map</a>(),
-  group_id: <a href="https://hexdocs.pm/elixir/String.html#t:t/0">String.t</a>(),
-  targets: [<a href="Wanda.Executions.Target.html#t:t/0">Wanda.Executions.Target.t</a>()],
-  timeout: <a href="https://hexdocs.pm/elixir/typespecs.html#basic-types">integer</a>()
-}</pre>
+          <pre translate="no"><span class="attribute">@type</span> t() :: %WandaWeb.Schemas.Ready{ready: <a href="https://hexdocs.pm/elixir/typespecs.html#built-in-types">term</a>()}</pre>
 
       </div>
 
 
+  </section>
+</section>
+
+    </div>
+  </section>
+
+  <section id="functions" class="details-list">
+    <h1 class="section-heading">
+      <a class="hover-link" href="#functions">
+        <i class="ri-link-m" aria-hidden="true"></i>
+        <span class="sr-only">Link to this section</span>
+      </a>
+Functions
+    </h1>
+    <div class="functions-list">
+<section class="detail" id="response/0">
+
+  <div class="detail-header">
+    <a href="#response/0" class="detail-link" title="Link to this function">
+      <i class="ri-link-m" aria-hidden="true"></i>
+      <span class="sr-only">Link to this function</span>
+    </a>
+    <h1 class="signature" translate="no">response()</h1>
+
+      <a href="https://github.com/trento-project/wanda/blob/main/lib/wanda_web/schemas/ready.ex#L24" class="icon-action" rel="help" title="View Source">
+       <i class="ri-code-s-slash-line" aria-hidden="true"></i>
+       <span class="sr-only">View Source</span>
+     </a>
+
+
+  </div>
+
+  <section class="docstring">
+
+
+  </section>
+</section>
+<section class="detail" id="schema/0">
+
+  <div class="detail-header">
+    <a href="#schema/0" class="detail-link" title="Link to this function">
+      <i class="ri-link-m" aria-hidden="true"></i>
+      <span class="sr-only">Link to this function</span>
+    </a>
+    <h1 class="signature" translate="no">schema()</h1>
+
+      <a href="https://github.com/trento-project/wanda/blob/main/lib/wanda_web/schemas/ready.ex#L10" class="icon-action" rel="help" title="View Source">
+       <i class="ri-code-s-slash-line" aria-hidden="true"></i>
+       <span class="sr-only">View Source</span>
+     </a>
+
+
+  </div>
+
+  <section class="docstring">
+
+<p>Callback implementation for <a href="https://hexdocs.pm/open_api_spex/3.16.1/OpenApiSpex.Schema.html#c:schema/0"><code class="inline">OpenApiSpex.Schema.schema/0</code></a>.</p>
   </section>
 </section>
 

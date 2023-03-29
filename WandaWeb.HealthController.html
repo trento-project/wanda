@@ -7,7 +7,7 @@
     <meta name="generator" content="ExDoc v0.29.2">
     <meta name="project" content="Wanda v0.1.0">
 
-    <title>Wanda.Executions.State — Wanda v0.1.0</title>
+    <title>WandaWeb.HealthController — Wanda v0.1.0</title>
     <link rel="stylesheet" href="dist/html-elixir-ZA3CNPHL.css" />
 
 
@@ -100,20 +100,16 @@ Wanda
 </button>
 
 
-    <a href="https://github.com/trento-project/wanda/blob/main/lib/wanda/executions/state.ex#L1" title="View Source" class="icon-action" rel="help">
+    <a href="https://github.com/trento-project/wanda/blob/main/lib/wanda_web/controllers/health_controller.ex#L1" title="View Source" class="icon-action" rel="help">
       <i class="ri-code-s-slash-line" aria-hidden="true"></i>
       <span class="sr-only">View Source</span>
     </a>
 
-  <span translate="no">Wanda.Executions.State</span> 
+  <span translate="no">WandaWeb.HealthController</span> 
   <small class="app-vsn" translate="no">(Wanda v0.1.0)</small>
 
 </h1>
 
-
-  <section id="moduledoc">
-<p>State of an execution.</p>
-  </section>
 
 
   <section id="summary" class="details-list">
@@ -124,14 +120,46 @@ Wanda
       </a>
       Summary
     </h1>
-<div class="summary-types summary">
+<div class="summary-functions summary">
   <h2>
-    <a href="#types">Types</a>
+    <a href="#functions">Functions</a>
   </h2>
 
     <div class="summary-row">
       <div class="summary-signature">
-        <a href="#t:t/0" translate="no">t()</a>
+        <a href="#health/2" translate="no">health(conn, _)</a>
+
+      </div>
+
+    </div>
+
+    <div class="summary-row">
+      <div class="summary-signature">
+        <a href="#open_api_operation/1" translate="no">open_api_operation(action)</a>
+
+      </div>
+
+    </div>
+
+    <div class="summary-row">
+      <div class="summary-signature">
+        <a href="#ready/2" translate="no">ready(conn, _)</a>
+
+      </div>
+
+    </div>
+
+    <div class="summary-row">
+      <div class="summary-signature">
+        <a href="#shared_security/0" translate="no">shared_security()</a>
+
+      </div>
+
+    </div>
+
+    <div class="summary-row">
+      <div class="summary-signature">
+        <a href="#shared_tags/0" translate="no">shared_tags()</a>
 
       </div>
 
@@ -142,25 +170,47 @@ Wanda
   </section>
 
 
-  <section id="types" class="details-list">
+  <section id="functions" class="details-list">
     <h1 class="section-heading">
-      <a class="hover-link" href="#types">
+      <a class="hover-link" href="#functions">
         <i class="ri-link-m" aria-hidden="true"></i>
         <span class="sr-only">Link to this section</span>
       </a>
-Types
+Functions
     </h1>
-    <div class="types-list">
-<section class="detail" id="t:t/0">
+    <div class="functions-list">
+<section class="detail" id="health/2">
 
   <div class="detail-header">
-    <a href="#t:t/0" class="detail-link" title="Link to this type">
+    <a href="#health/2" class="detail-link" title="Link to this function">
       <i class="ri-link-m" aria-hidden="true"></i>
-      <span class="sr-only">Link to this type</span>
+      <span class="sr-only">Link to this function</span>
     </a>
-    <h1 class="signature" translate="no">t()</h1>
+    <h1 class="signature" translate="no">health(conn, _)</h1>
 
-      <a href="https://github.com/trento-project/wanda/blob/main/lib/wanda/executions/state.ex#L20" class="icon-action" rel="help" title="View Source">
+      <a href="https://github.com/trento-project/wanda/blob/main/lib/wanda_web/controllers/health_controller.ex#L36" class="icon-action" rel="help" title="View Source">
+       <i class="ri-code-s-slash-line" aria-hidden="true"></i>
+       <span class="sr-only">View Source</span>
+     </a>
+
+
+  </div>
+
+  <section class="docstring">
+
+
+  </section>
+</section>
+<section class="detail" id="open_api_operation/1">
+
+  <div class="detail-header">
+    <a href="#open_api_operation/1" class="detail-link" title="Link to this function">
+      <i class="ri-link-m" aria-hidden="true"></i>
+      <span class="sr-only">Link to this function</span>
+    </a>
+    <h1 class="signature" translate="no">open_api_operation(action)</h1>
+
+      <a href="https://github.com/trento-project/wanda/blob/main/lib/wanda_web/controllers/health_controller.ex#L12" class="icon-action" rel="help" title="View Source">
        <i class="ri-code-s-slash-line" aria-hidden="true"></i>
        <span class="sr-only">View Source</span>
      </a>
@@ -172,18 +222,75 @@ Types
 
       <div class="specs">
 
-          <pre translate="no"><span class="attribute">@type</span> t() :: %Wanda.Executions.State{
-  agents_gathered: [<a href="https://hexdocs.pm/elixir/String.html#t:t/0">String.t</a>()],
-  checks: [<a href="Wanda.Catalog.Check.html#t:t/0">Wanda.Catalog.Check.t</a>()],
-  env: %{required(<a href="https://hexdocs.pm/elixir/String.html#t:t/0">String.t</a>()) =&gt; <a href="https://hexdocs.pm/elixir/typespecs.html#built-in-types">boolean</a>() | <a href="https://hexdocs.pm/elixir/typespecs.html#built-in-types">number</a>() | <a href="https://hexdocs.pm/elixir/String.html#t:t/0">String.t</a>()},
-  execution_id: <a href="https://hexdocs.pm/elixir/String.html#t:t/0">String.t</a>(),
-  gathered_facts: <a href="https://hexdocs.pm/elixir/typespecs.html#basic-types">map</a>(),
-  group_id: <a href="https://hexdocs.pm/elixir/String.html#t:t/0">String.t</a>(),
-  targets: [<a href="Wanda.Executions.Target.html#t:t/0">Wanda.Executions.Target.t</a>()],
-  timeout: <a href="https://hexdocs.pm/elixir/typespecs.html#basic-types">integer</a>()
-}</pre>
+          <pre translate="no"><span class="attribute">@spec</span> open_api_operation(<a href="https://hexdocs.pm/elixir/typespecs.html#basic-types">atom</a>()) :: <a href="https://hexdocs.pm/open_api_spex/3.16.1/OpenApiSpex.Operation.html#t:t/0">OpenApiSpex.Operation.t</a>()</pre>
 
       </div>
+
+
+  </section>
+</section>
+<section class="detail" id="ready/2">
+
+  <div class="detail-header">
+    <a href="#ready/2" class="detail-link" title="Link to this function">
+      <i class="ri-link-m" aria-hidden="true"></i>
+      <span class="sr-only">Link to this function</span>
+    </a>
+    <h1 class="signature" translate="no">ready(conn, _)</h1>
+
+      <a href="https://github.com/trento-project/wanda/blob/main/lib/wanda_web/controllers/health_controller.ex#L21" class="icon-action" rel="help" title="View Source">
+       <i class="ri-code-s-slash-line" aria-hidden="true"></i>
+       <span class="sr-only">View Source</span>
+     </a>
+
+
+  </div>
+
+  <section class="docstring">
+
+
+  </section>
+</section>
+<section class="detail" id="shared_security/0">
+
+  <div class="detail-header">
+    <a href="#shared_security/0" class="detail-link" title="Link to this function">
+      <i class="ri-link-m" aria-hidden="true"></i>
+      <span class="sr-only">Link to this function</span>
+    </a>
+    <h1 class="signature" translate="no">shared_security()</h1>
+
+      <a href="https://github.com/trento-project/wanda/blob/main/lib/wanda_web/controllers/health_controller.ex#L1" class="icon-action" rel="help" title="View Source">
+       <i class="ri-code-s-slash-line" aria-hidden="true"></i>
+       <span class="sr-only">View Source</span>
+     </a>
+
+
+  </div>
+
+  <section class="docstring">
+
+
+  </section>
+</section>
+<section class="detail" id="shared_tags/0">
+
+  <div class="detail-header">
+    <a href="#shared_tags/0" class="detail-link" title="Link to this function">
+      <i class="ri-link-m" aria-hidden="true"></i>
+      <span class="sr-only">Link to this function</span>
+    </a>
+    <h1 class="signature" translate="no">shared_tags()</h1>
+
+      <a href="https://github.com/trento-project/wanda/blob/main/lib/wanda_web/controllers/health_controller.ex#L1" class="icon-action" rel="help" title="View Source">
+       <i class="ri-code-s-slash-line" aria-hidden="true"></i>
+       <span class="sr-only">View Source</span>
+     </a>
+
+
+  </div>
+
+  <section class="docstring">
 
 
   </section>
