@@ -1,4 +1,4 @@
-defmodule WandaWeb.HealthTest do
+defmodule WandaWeb.HealthControllerTest do
   @moduledoc false
 
   use WandaWeb.ConnCase, async: true
