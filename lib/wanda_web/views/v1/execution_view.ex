@@ -71,21 +71,22 @@ defmodule WandaWeb.V1.ExecutionView do
   defp count_results(:completed, %{"check_results" => check_results}, severity),
     do: Enum.count(check_results, &(&1["result"] == severity))
 
-  defp strip_nil_failure_messages(%{"failure_message" => nil} = struct) do
-    struct
-    |> Map.delete("failure_message")
-    |> Enum.map(fn {key, value} -> {key, strip_nil_failure_messages(value)} end)
-    |> Map.new()
-  end
+  defp strip_nil_failure_messages(param) when is_map(param),
+    do:
+      Enum.reduce(
+        param,
+        %{},
+        fn
+          {"failure_message", nil}, acc ->
+            acc
+
+          {key, value}, acc ->
+            Map.put(acc, key, strip_nil_failure_messages(value))
+        end
+      )
 
   defp strip_nil_failure_messages(param) when is_list(param),
     do: Enum.map(param, &strip_nil_failure_messages/1)
-
-  defp strip_nil_failure_messages(param) when is_map(param),
-    do:
-      param
-      |> Enum.map(fn {key, value} -> {key, strip_nil_failure_messages(value)} end)
-      |> Map.new()
 
   defp strip_nil_failure_messages(value), do: value
 end
