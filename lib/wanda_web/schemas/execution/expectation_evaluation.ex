@@ -19,6 +19,11 @@ defmodule WandaWeb.Schemas.ExecutionResponse.ExpectationEvaluation do
         type: :string,
         enum: ["expect", "expect_same"],
         description: "Evaluation type"
+      },
+      failure_message: %Schema{
+        type: :string,
+        nullable: true,
+        description: "Failure message. Only available for `expect` scenarios"
       }
     },
     required: [:name, :return_value, :type]

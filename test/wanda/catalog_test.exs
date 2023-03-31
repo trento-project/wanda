@@ -86,12 +86,14 @@ defmodule Wanda.CatalogTest do
                   %Expectation{
                     name: "some_expectation",
                     type: :expect,
-                    expression: "facts.jedi == values.expected_value"
+                    expression: "facts.jedi == values.expected_value",
+                    failure_message: "some failure message ${facts.jedi}"
                   },
                   %Expectation{
                     name: "some_other_expectation",
                     type: :expect,
-                    expression: "facts.jedi > values.expected_higher_value"
+                    expression: "facts.jedi > values.expected_higher_value",
+                    failure_message: nil
                   }
                 ]
               }} = Catalog.get_check("expect_check")

@@ -113,19 +113,21 @@ defmodule Wanda.Catalog do
   defp map_severity(%{"severity" => "warning"}), do: :warning
   defp map_severity(_), do: @default_severity
 
-  defp map_expectation(%{"name" => name, "expect" => expression}) do
+  defp map_expectation(%{"name" => name, "expect" => expression} = expectation) do
     %Expectation{
       name: name,
       type: :expect,
-      expression: expression
+      expression: expression,
+      failure_message: Map.get(expectation, "failure_message")
     }
   end
 
-  defp map_expectation(%{"name" => name, "expect_same" => expression}) do
+  defp map_expectation(%{"name" => name, "expect_same" => expression} = expectation) do
     %Expectation{
       name: name,
       type: :expect_same,
-      expression: expression
+      expression: expression,
+      failure_message: Map.get(expectation, "failure_message")
     }
   end
 

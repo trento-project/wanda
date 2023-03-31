@@ -135,9 +135,12 @@
         "type": "object",
         "additionalProperties": false,
         "minProperties": 2,
-        "maxProperties": 2,
+        "maxProperties": 3,
         "properties": {
           "name": {
+            "type": "string"
+          },
+          "failure_message": {
             "type": "string"
           }
         },

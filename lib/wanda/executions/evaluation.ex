@@ -18,6 +18,8 @@ defmodule Wanda.Executions.Evaluation do
     Value
   }
 
+  @default_failure_message "Expectation not met"
+
   @spec execute(
           String.t(),
           String.t(),
@@ -157,12 +159,25 @@ defmodule Wanda.Executions.Evaluation do
   end
 
   defp eval_expectation(
-         %Expectation{name: name, type: type, expression: expression},
+         %Expectation{
+           name: name,
+           type: type,
+           expression: expression,
+           failure_message: failure_message
+         },
          evaluation_scope
        ) do
     case Rhai.eval(expression, evaluation_scope) do
       {:ok, return_value} ->
-        %ExpectationEvaluation{name: name, type: type, return_value: return_value}
+        maybe_add_failure_message(
+          %ExpectationEvaluation{
+            name: name,
+            type: type,
+            return_value: return_value
+          },
+          failure_message,
+          evaluation_scope
+        )
 
       {:error, {error_type, message}} ->
         %ExpectationEvaluationError{
@@ -172,6 +187,38 @@ defmodule Wanda.Executions.Evaluation do
         }
     end
   end
+
+  defp maybe_add_failure_message(
+         %ExpectationEvaluation{type: :expect, return_value: false} = expectation_evaluation,
+         nil,
+         _evaluation_scope
+       ) do
+    %ExpectationEvaluation{expectation_evaluation | failure_message: @default_failure_message}
+  end
+
+  defp maybe_add_failure_message(
+         %ExpectationEvaluation{type: :expect, return_value: false} = expectation_evaluation,
+         failure_message,
+         evaluation_scope
+       ) do
+    message =
+      case Rhai.eval("`#{failure_message}`", evaluation_scope) do
+        {:ok, interpolated_failure_message} -> interpolated_failure_message
+        _ -> @default_failure_message
+      end
+
+    %ExpectationEvaluation{expectation_evaluation | failure_message: message}
+  end
+
+  defp maybe_add_failure_message(
+         %ExpectationResult{type: :expect_same, result: false} = expectation_result,
+         failure_message,
+         _evaluation_scope
+       ) do
+    %ExpectationResult{expectation_result | failure_message: failure_message}
+  end
+
+  defp maybe_add_failure_message(expectation, _, _), do: expectation
 
   defp add_expectation_results(
          %CheckResult{agents_check_results: agents_check_results} = result,
@@ -189,18 +236,26 @@ defmodule Wanda.Executions.Evaluation do
       end)
       |> Enum.group_by(& &1.name)
       |> Enum.map(fn {name, expectation_evaluations} ->
-        type =
-          Enum.find_value(expectations, fn
-            %Expectation{name: ^name, type: type} -> type
+        %Expectation{type: type, failure_message: failure_message} =
+          Enum.find(expectations, fn
+            %Expectation{name: ^name} -> true
             _ -> false
           end)
 
-        %ExpectationResult{
-          name: name,
-          type: type,
-          result:
-            eval_expectation_result_or_error(type, expectation_evaluations, agents_check_results)
-        }
+        maybe_add_failure_message(
+          %ExpectationResult{
+            name: name,
+            type: type,
+            result:
+              eval_expectation_result_or_error(
+                type,
+                expectation_evaluations,
+                agents_check_results
+              )
+          },
+          failure_message,
+          %{}
+        )
       end)
 
     %CheckResult{result | expectation_results: expectation_results}
