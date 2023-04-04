@@ -12,7 +12,7 @@ Checks are, in Trento's domain, the crystallization of SUSE's best practices whe
 
 ## Checks Execution
 
-*Checks Execution* is the process that determines whether the best practices defined in the [Checks Specifications](#anatomy-of-a-check) are being followed on a target infrastructure.
+_Checks Execution_ is the process that determines whether the best practices defined in the [Checks Specifications](#anatomy-of-a-check) are being followed on a target infrastructure.
 
 > [Requesting an Execution](#requesting-an-execution) -> [Facts Gathering](#facts-gathering) -> [Expectation Evaluation](#expectation-evaluation)
 
@@ -26,20 +26,20 @@ An Execution can be requested to start by providing Wanda the following informat
 
 When the Execution starts running, its current state is stored in the Database and the targets are notified - via the message broker - about Facts to be gathered.
 
-Then the *Execution* waits for the [Facts Gathering](#facts-gathering) to complete.
+Then the _Execution_ waits for the [Facts Gathering](#facts-gathering) to complete.
 
 ### Facts Gathering
 
 After an _Execution Request_ the targets are notified about the facts they need to [gather](./gatherers.md).
 
-Whenever a target has gathered all the needed facts for an *Execution*, it notifies Wanda - via the message broker - about the *Gathered Facts*.
+Whenever a target has gathered all the needed facts for an _Execution_, it notifies Wanda - via the message broker - about the _Gathered Facts_.
 
 ### Expectation Evaluation
 
-*Expectation Evaluation* is the process of [evaluating](#expression-language) the [Expectations](#expectations)
-using the received *Gathered Facts* to obtain the result of a check.
+_Expectation Evaluation_ is the process of [evaluating](#expression-language) the [Expectations](#expectations)
+using the received _Gathered Facts_ to obtain the result of a check.
 
-This will only happen once *Gathered Facts* are received **from all the targets**.
+This will only happen once _Gathered Facts_ are received **from all the targets**.
 
 After the result has been determined, the currently `running` Execution transitions to `completed` and its new state is tracked on the Database.
 
@@ -50,6 +50,7 @@ At this point the Execution is considered **Completed** and interested parties a
 Once an execution is completed, a checks result should give feedback on what aspects of a target infrastructure adhere to the best practices and which don't.
 
 Possible results:
+
 - `passing`, everything ok
 - `warning`, best practice not followed, should fix
 - `critical`, best practice not followed, must fix
@@ -100,17 +101,17 @@ expectations:
 
 Following are listed the top level properties of a Check definition yaml.
 
-| Key                           | Required/Not Required | Details          
-| ----------------------------- | --------------------- | ------------------------------------------
-| `id`                          | required              | [see more](#id)
-| `name`                        | required              | [see more](#name)
-| `group`                       | required              | [see more](#group)
-| `description`                 | required              | [see more](#description)
-| `remediation`                 | required              | [see more](#remediation)
-| `severity`                    | not required          | [see more](#severity)
-| `facts`                       | required              | [see more](#facts)
-| `values`                      | not required          | [see more](#values)
-| `expectations`                | required              | [see more](#expectations)
+| Key            | Required/Not Required | Details                   |
+| -------------- | --------------------- | ------------------------- |
+| `id`           | required              | [see more](#id)           |
+| `name`         | required              | [see more](#name)         |
+| `group`        | required              | [see more](#group)        |
+| `description`  | required              | [see more](#description)  |
+| `remediation`  | required              | [see more](#remediation)  |
+| `severity`     | not required          | [see more](#severity)     |
+| `facts`        | required              | [see more](#facts)        |
+| `values`       | not required          | [see more](#values)       |
+| `expectations` | required              | [see more](#expectations) |
 
 ---
 
@@ -403,6 +404,7 @@ An Expectation declaration contains:
 
 - the expectation name
 - the expectation expression itself with [access](#evaluation-scope) to gathered [facts](#facts-1) and [resolved values](#values-1)
+- an optional [failure message](#failure-message)
 
 ```yaml
 expectations:
@@ -411,6 +413,7 @@ expectations:
 
   - name: <another_expectation_name>
     expect: <another_expectation_expression>
+    failure_message: <something_went_wrong>
 
   - name: <yet_another_expectation_name>
     expect_same: <yet_another_expectation_expression>
@@ -512,6 +515,32 @@ Considering the previous scenario what happens is that:
 >   - name: installed_rpm_version_must_be_the_same_on_all_targets
 >     expect_same: facts.installed_rpm_version
 > ```
+
+### failure_message
+
+An optional failure message can be declared for every expectation.
+
+In case of an `expect` one, the failure message can interpolate `facts` and `values` present in the check definition to provide more meaningful insights:
+
+```yaml
+expectations:
+  - name: awesome_expectation
+    expect: values.awesome_constant_value == facts.awesome_fact
+    failure_message: The expectation did not match ${values.awesome_constant_value}
+```
+
+The outcome of the interpolation is available in `ExpectationEvaluation` inside the API response.
+
+In case of an `expect_same` one, the failure message has to be a plain string:
+
+```yaml
+expectations:
+  - name: awesome_expectation
+    expect_same: facts.awesome_fact
+    failure_message: Boom!
+```
+
+This plain string is available in `ExpectationResult` inside the API response.
 
 ## Expression Language
 
@@ -630,21 +659,25 @@ To have a standardized format for writing checks, follow the next best practices
 - Use 2 spaces to indent multiline expectation expressions.
 - Naming hardcoded values in the `values` section with the `default` field is encouraged instead of putting hardcoded values in the expectation expression itself. This gives some meaning to the expected value and improves potential interaction with the Wanda API.  
   So this:
+
   ```
   expectations:
     - name: some_expectation
       expect: facts.foo == 30
   ```
+
   would be:
+
   ```
   values:
     - name: expected_foo
       default: 30
-  
+
   expectations:
     - name: some_expectation
       expect: facts.foo == values.expected_foo
   ```
+
 - If the gathered fact is compared to a value, using `value` and `expected_value` names for facts and values respectively is recommended, as it improves the meaning of the comparison.  
   For example:
   ```
@@ -656,7 +689,7 @@ To have a standardized format for writing checks, follow the next best practices
   ...
   ```
 - Avoid adding prefixes such as `facts` or `values` to the entries of these sections, as they already use this as a namespace.
-For example, the next example should be avoided, as the `facts` prefix would be redundant in the expectation expression:
+  For example, the next example should be avoided, as the `facts` prefix would be redundant in the expectation expression:
   ```
   facts:
     - name: facts_some_fact
