@@ -6,7 +6,10 @@ description: |
 remediation: |
   ## Abstract
   The fencing timeout (`stonith-timeout`) determines the time Pacemaker will wait for fencing to succeed.
-  The recommended values on Azure are `144` seconds for SBD only or `900` seconds when using SBD combined with the Azure Fence agent.
+  The remommended default value is at least `150` seconds for SBD.
+  The recommended values on Azure are at least `144` seconds for SBD only or `900` seconds when using SBD combined with the Azure Fence agent.
+  The recommended value on AWS is at least `600` seconds.
+  The recommended value on GCP is at least `300` seconds.
 
   ## Remediation
   Execute the following command to adjust the timeout for your usecase:
