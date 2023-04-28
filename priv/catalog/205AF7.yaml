@@ -48,3 +48,4 @@ expectations:
       facts.crm_config_properties
            .find(|item| item.id == "cib-bootstrap-options").nvpair
            .find(|prop| prop.name == "stonith-enabled").value
+    failure_message: Fencing was expected to be enabled in the cluster configuration, but property 'stonith-enabled' is set to false or missing.

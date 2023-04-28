@@ -42,3 +42,4 @@ expectations:
   - name: expectations_hacluster_passwd_changed
     expect: |
       !facts.hacluster_has_default_password;
+    failure_message: The hacluster user password was expected to be changed but has still the default value from the cluster setup

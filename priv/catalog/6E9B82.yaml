@@ -54,3 +54,4 @@ values:
 expectations:
   - name: twonode_parameter
     expect: facts.corosync_twonode == values.expected_twonode
+    failure_message: Corosync 'two_node' value was expected to be '${values.expected_twonode}' but configured value is '${facts.corosync_twonode}'

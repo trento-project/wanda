@@ -19,10 +19,6 @@ remediation: |
 
     - https://docs.microsoft.com/en-us/azure/virtual-machines/workloads/sap/high-availability-guide-suse-pacemaker#set-up-the-iscsi-target-server-sbd-device
 
-  AWS:
-
-  GCP:
-
   Nutanix:
 
     - https://documentation.suse.com/sle-ha/15-SP3/html/SLE-HA-all/cha-ha-storage-protect.html#pro-ha-storage-protect-sbd-services
@@ -45,3 +41,4 @@ values:
 expectations:
   - name: expectations_sbd_service_state
     expect: facts.sbd_service_state == values.expected_sbd_service_state
+    failure_message: SBD service was expected to be active (enabled and running) but returned value is '${facts.sbd_service_state}'

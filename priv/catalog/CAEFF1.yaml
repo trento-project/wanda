@@ -40,3 +40,4 @@ facts:
 expectations:
   - name: expectations_sles_sap
     expect: facts.os_flavor != ()
+    failure_message: System is NOT running SUSE Linux Enterprise Server for SAP Applications

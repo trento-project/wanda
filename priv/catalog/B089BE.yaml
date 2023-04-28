@@ -14,10 +14,6 @@ remediation: |
 
     -  https://learn.microsoft.com/en-us/azure/sap/workloads/high-availability-guide-suse-pacemaker
 
-  AWS:
-
-  GCP:
-
   Nutanix:
 
     - https://documentation.suse.com/sbp/all/single-html/SLES4SAP-hana-sr-guide-PerfOpt-15/#id-cluster-bootstrap-and-more
@@ -42,3 +38,4 @@ values:
 expectations:
   - name: expectations_watchdog_timeout
     expect: facts.dump_sbd_devices.values().all(|sbddev| sbddev.timeout_watchdog == values.expected_watchdog_timeout)
+    failure_message: SBD watchdog timeout value was expected to be '${values.expected_watchdog_timeout}' but configured value does not match for some SBD device(s)

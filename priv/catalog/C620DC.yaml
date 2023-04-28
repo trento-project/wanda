@@ -53,3 +53,4 @@ values:
 expectations:
   - name: expected_votes
     expect: facts.corosync_expected_votes == values.expected_expected_votes
+    failure_message: Corosync 'expected_votes' value was expected to be '${values.expected_expected_votes}' but configured value is '${facts.corosync_expected_votes}'

@@ -60,3 +60,4 @@ values:
 expectations:
   - name: token_timeout
     expect: facts.corosync_token_timeout == values.expected_token_timeout
+    failure_message: Corosync token timeout value was expected to be '${values.expected_token_timeout}' but configured value is '${facts.corosync_token_timeout}'

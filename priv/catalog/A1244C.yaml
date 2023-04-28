@@ -59,3 +59,4 @@ values:
 expectations:
   - name: consensus_timeout
     expect: facts.corosync_consensus_timeout == values.expected_consensus_timeout
+    failure_message: Corosync 'consensus' timeout value was expected to be '${values.expected_consensus_timeout}' but configured value is '${facts.corosync_consensus_timeout}'
