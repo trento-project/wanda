@@ -21,4 +21,4 @@ facts:
 expectations:
   - name: expectations_sles_sap_version
     expect: facts.compare_sles_sap_version < 1
-    failure_message: System is running a SUSE Linux Enterprise Server for SAP Applications version less than 15 SP1
+    failure_message: System is running a SUSE Linux Enterprise Server for SAP Applications version older than 15 SP1

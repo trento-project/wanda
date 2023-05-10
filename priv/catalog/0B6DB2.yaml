@@ -56,4 +56,4 @@ values:
 expectations:
   - name: expectations_sbd_pacemaker
     expect: facts.sbd_pacemaker == values.expected_sbd_pacemaker
-    failure_message: SBD_PACEMAKER value was expected to be '${values.expected_sbd_pacemaker}' but configured value in /etc/sysconfig/sbd is '${facts.sbd_pacemaker}'
+    failure_message: 'SBD_PACEMAKER' value was expected to be '${values.expected_sbd_pacemaker}' but configured value in /etc/sysconfig/sbd is '${facts.sbd_pacemaker}'

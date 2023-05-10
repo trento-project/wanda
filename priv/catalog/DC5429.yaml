@@ -21,4 +21,4 @@ facts:
 expectations:
   - name: expectations_corosync_version
     expect: facts.compare_corosync_version < 1
-    failure_message: The installed Corosync version is less than the recommended version (2.4.5)
+    failure_message: The installed Corosync version is older than the recommended version (2.4.5)

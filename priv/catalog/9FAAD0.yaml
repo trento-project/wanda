@@ -21,4 +21,4 @@ facts:
 expectations:
   - name: expectations_pacemaker_version_to_exclude
     expect: facts.exclude_package_pacemaker != 0
-    failure_message: The installed Pacemaker version is an unsupported version (2.0.3+20200511.2b248d828)
+    failure_message: The installed Pacemaker version (2.0.3+20200511.2b248d828) is an unsupported version

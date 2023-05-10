@@ -23,4 +23,4 @@ facts:
 expectations:
   - name: expectations_sbd_version_to_exclude
     expect: facts.exclude_package_sbd != 0
-    failure_message: The installed SBD version is an unsupported version (1.4.0+20190326.c38c5e6)
+    failure_message: The installed SBD version (1.4.0+20190326.c38c5e6) is an unsupported version

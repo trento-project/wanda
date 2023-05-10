@@ -54,4 +54,4 @@ values:
 expectations:
   - name: expectations_max_messages
     expect: facts.max_messages == values.expected_max_messages
-    failure_message: Corosync max_messages value was expected to be '${values.expected_max_messages}' but value of running config is '${facts.max_messages}'
+    failure_message: Corosync 'max_messages' value was expected to be '${values.expected_max_messages}' but value of running config is '${facts.max_messages}'

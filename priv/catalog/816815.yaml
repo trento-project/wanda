@@ -2,7 +2,7 @@ id: "816815"
 name: SBD service state
 group: SBD
 description: |
-  SBD service is enabled (only if SBD is used)
+  SBD service is enabled and running (only if SBD is used)
 remediation: |
   ## Abstract
   If not enabled, SBD service will not start automatically after reboots, affecting the correct cluster startup.

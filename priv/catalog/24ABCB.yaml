@@ -50,4 +50,4 @@ values:
 expectations:
   - name: join_timeout
     expect: facts.corosync_join_timeout == values.expected_join_timeout
-    failure_message: Corosync join timeout value was expected to be '${values.expected_join_timeout}' but configured value is '${facts.corosync_join_timeout}'
+    failure_message: Corosync 'join' timeout value was expected to be '${values.expected_join_timeout}' but configured value is '${facts.corosync_join_timeout}'

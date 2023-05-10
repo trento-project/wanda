@@ -21,4 +21,4 @@ facts:
 expectations:
   - name: expectations_python3_version
     expect: facts.compare_python3_version < 1
-    failure_message: The installed Python3 version is less than the recommended version (3.6.5)
+    failure_message: The installed Python3 version is older than the recommended version (3.6.5)

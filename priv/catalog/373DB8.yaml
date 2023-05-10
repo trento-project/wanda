@@ -77,4 +77,4 @@ expectations:
       } else {
         fencing_timeout >= values.expected_fencing_timeout;
       }
-    failure_message: Cluster fencing timeout is not configured correctly
+    failure_message: Cluster fencing timeout 'stonith-timeout' is not configured correctly
