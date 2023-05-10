@@ -59,4 +59,4 @@ values:
 expectations:
   - name: expectations_sbd_startmode
     expect: facts.sbd_startmode == values.expected_sbd_startmode
-    failure_message: 'SBD_STARTMODE' value was expected to be '${values.expected_sbd_startmode}' but configured value is '${facts.sbd_startmode}'
+    failure_message: value of 'SBD_STARTMODE' was expected to be '${values.expected_sbd_startmode}' but configured value is '${facts.sbd_startmode}'
