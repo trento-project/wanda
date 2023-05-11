@@ -42,6 +42,7 @@ values:
 expectations:
   - name: has_some_nodes_configured
     expect: facts.corosync_nodes.len() > 0
+    failure_message: No corosync nodes configured
 
   - name: expected_number_of_rings_per_node
     expect: |
@@ -51,3 +52,4 @@ expectations:
         .keys()
         .filter(|prop| prop.starts_with("ring"))
         .len() >= values.expected_corosync_rings_per_node)
+    failure_message: Corosync ring count per node was expected to be at least '${values.expected_corosync_rings_per_node}' but configured value is less than this expectation

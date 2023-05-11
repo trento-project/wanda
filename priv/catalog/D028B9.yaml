@@ -14,10 +14,11 @@ remediation: |
   - https://documentation.suse.com/en-us/sbp/all/single-html/SLES4SAP-hana-sr-guide-PerfOpt-15/
 
 facts:
-  - name: sles_sap_version
+  - name: compare_sles_sap_version
     gatherer: package_version
     argument: SLES_SAP-release,15.1
 
 expectations:
   - name: expectations_sles_sap_version
-    expect: facts.sles_sap_version < 1
+    expect: facts.compare_sles_sap_version < 1
+    failure_message: System is running a SUSE Linux Enterprise Server for SAP Applications version older than 15 SP1

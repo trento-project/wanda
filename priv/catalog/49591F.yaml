@@ -32,10 +32,6 @@ remediation: |
 
     - https://learn.microsoft.com/en-us/azure/sap/workloads/high-availability-guide-suse-pacemaker#set-up-the-iscsi-target-server-sbd-device
 
-  AWS:
-
-  GCP:
-
   Nutanix:
 
     - https://documentation.suse.com/sbp/all/single-html/SLES4SAP-hana-sr-guide-PerfOpt-15/#id-adapting-the-sbd-configuration
@@ -63,3 +59,4 @@ values:
 expectations:
   - name: expectations_sbd_startmode
     expect: facts.sbd_startmode == values.expected_sbd_startmode
+    failure_message: value of 'SBD_STARTMODE' was expected to be '${values.expected_sbd_startmode}' but configured value is '${facts.sbd_startmode}'

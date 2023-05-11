@@ -32,12 +32,6 @@ remediation: |
 
     - https://learn.microsoft.com/en-us/azure/sap/workloads/high-availability-guide-suse-pacemaker#set-up-the-iscsi-target-server-sbd-device
 
-  AWS:
-
-
-  GCP:
-
-
   Nutanix:
 
     - https://documentation.suse.com/sle-ha/15-SP3/html/SLE-HA-all/cha-ha-storage-protect.html#pro-ha-storage-protect-sbd-config
@@ -62,3 +56,4 @@ values:
 expectations:
   - name: expectations_sbd_pacemaker
     expect: facts.sbd_pacemaker == values.expected_sbd_pacemaker
+    failure_message: value of 'SBD_PACEMAKER' was expected to be '${values.expected_sbd_pacemaker}' but configured value in /etc/sysconfig/sbd is '${facts.sbd_pacemaker}'

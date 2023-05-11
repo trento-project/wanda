@@ -14,10 +14,6 @@ remediation: |
     - https://learn.microsoft.com/en-us/azure/sap/workloads/high-availability-guide-suse-pacemaker
     - https://learn.microsoft.com/en-us/azure/sap/workloads/high-availability-guide-suse-pacemaker#set-up-the-iscsi-target-server-sbd-device
 
-  AWS:
-
-  GCP:
-
   Nutanix:
 
     - https://documentation.suse.com/sbp/all/single-html/SLES4SAP-hana-sr-guide-PerfOpt-15/#id-verifying-the-sbd-device
@@ -35,3 +31,4 @@ facts:
 expectations:
   - name: expectations_sbd_msgwait_timeout
     expect: facts.dump_sbd_devices.values().all(|sbddev| sbddev.timeout_msgwait >= 2 * sbddev.timeout_watchdog)
+    failure_message: The SBD 'msgwait' timeout value is less than two times the 'watchdog' timeout for some SBD device(s)

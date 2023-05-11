@@ -14,10 +14,6 @@ remediation: |
 
     -  https://learn.microsoft.com/en-us/azure/sap/workloads/high-availability-guide-suse-pacemaker
 
-  AWS:
-
-  GCP:
-
   Nutanix:
 
     - https://documentation.suse.com/sbp/all/single-html/SLES4SAP-hana-sr-guide-PerfOpt-15/#cha.hana-sr.scenario
@@ -42,3 +38,4 @@ values:
 expectations:
   - name: expectations_multiple_sbd_device
     expect: facts.sbd_multiple_sbd_device.split(";").len() == values.expected_multiple_sbd_device
+    failure_message: SBD devices count was expected to be '${values.expected_multiple_sbd_device}' but configured value is '${facts.sbd_multiple_sbd_device.split(";").len()}'

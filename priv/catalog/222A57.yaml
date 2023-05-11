@@ -16,10 +16,11 @@ remediation: |
 when: env.provider !in ["gcp", "aws"]
 
 facts:
-  - name: package_sbd
+  - name: compare_sbd_version
     gatherer: package_version
     argument: sbd,1.4.0
 
 expectations:
   - name: expectations_sbd_version
-    expect: facts.package_sbd < 1
+    expect: facts.compare_sbd_version < 1
+    failure_message: The installed SBD version is older than the recommended version (1.4.0)

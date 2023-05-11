@@ -55,3 +55,4 @@ values:
 expectations:
   - name: expectations_two_node
     expect: facts.runtime_two_node == values.expected_runtime_two_node
+    failure_message: Corosync 'two_node' value was expected to be '${values.expected_runtime_two_node}' but value of running config is '${facts.runtime_two_node}'

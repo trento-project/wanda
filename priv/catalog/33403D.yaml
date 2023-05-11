@@ -73,3 +73,4 @@ values:
 expectations:
   - name: corosync_protocol
     expect: facts.corosync_transport_protocol == values.expected_transport_protocol
+    failure_message: Corosync 'transport' protocol value was expected to be '${values.expected_transport_protocol}' but configured value is '${facts.corosync_transport_protocol}'

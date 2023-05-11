@@ -14,10 +14,11 @@ remediation: |
   - https://documentation.suse.com/en-us/sbp/all/single-html/SLES4SAP-hana-sr-guide-PerfOpt-15/
 
 facts:
-  - name: package_pacemaker
+  - name: compare_pacemaker_version
     gatherer: package_version
     argument: pacemaker,2.0.1
 
 expectations:
   - name: expectations_pacemaker_version
-    expect: facts.package_pacemaker < 1
+    expect: facts.compare_pacemaker_version < 1
+    failure_message: The installed Pacemaker version is older than the recommended version (2.0.1)

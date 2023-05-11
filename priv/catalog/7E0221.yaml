@@ -74,3 +74,4 @@ values:
 expectations:
   - name: expectations_runtime_transport
     expect: facts.runtime_transport == values.expected_runtime_transport
+    failure_message: Corosync 'transport' protocol value was expected to be '${values.expected_runtime_transport}' but value of running config is '${facts.runtime_transport}'

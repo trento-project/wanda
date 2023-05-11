@@ -14,10 +14,11 @@ remediation: |
   - https://documentation.suse.com/en-us/sbp/all/single-html/SLES4SAP-hana-sr-guide-PerfOpt-15/
 
 facts:
-  - name: package_python3
+  - name: compare_python3_version
     gatherer: package_version
     argument: python3,3.6.5
 
 expectations:
   - name: expectations_python3_version
-    expect: facts.package_python3 < 1
+    expect: facts.compare_python3_version < 1
+    failure_message: The installed Python3 version is older than the recommended version (3.6.5)

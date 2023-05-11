@@ -47,3 +47,4 @@ values:
 expectations:
   - name: expectations_totem_interfaces
     expect: facts.totem_interfaces.len() >= values.expected_totem_interfaces
+    failure_message: Corosync configuration was expected to have at least '${values.expected_totem_interfaces}' ring(s) but configured are '${facts.totem_interfaces.len()}'

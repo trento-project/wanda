@@ -58,3 +58,4 @@ values:
 expectations:
   - name: corosync_retransmits
     expect: facts.corosync_token_retransmits_before_loss_const == values.expected_token_retransmits_before_loss_const
+    failure_message: Corosync 'token_retransmits_before_loss_const' value was expected to be '${values.expected_token_retransmits_before_loss_const}' but configured value is '${facts.corosync_token_retransmits_before_loss_const}'
