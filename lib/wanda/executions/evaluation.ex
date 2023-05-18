@@ -212,6 +212,14 @@ defmodule Wanda.Executions.Evaluation do
 
   defp maybe_add_failure_message(
          %ExpectationResult{type: :expect_same, result: false} = expectation_result,
+         nil,
+         _evaluation_scope
+       ) do
+    %ExpectationResult{expectation_result | failure_message: @default_failure_message}
+  end
+
+  defp maybe_add_failure_message(
+         %ExpectationResult{type: :expect_same, result: false} = expectation_result,
          failure_message,
          _evaluation_scope
        ) do
