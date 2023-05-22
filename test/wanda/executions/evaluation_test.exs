@@ -1363,6 +1363,91 @@ defmodule Wanda.Executions.EvaluationTest do
              } = Evaluation.execute(execution_id, group_id, checks, gathered_facts, %{})
     end
 
+    test "should return the default failure message inside the result when having a failing expect_same" do
+      execution_id = UUID.uuid4()
+      group_id = UUID.uuid4()
+
+      fact_name = Faker.Lorem.word()
+      fact_value = Faker.Lorem.sentence()
+      expectation_name = Faker.Lorem.word()
+
+      another_fact_name = Faker.Code.iban()
+      another_fact_value = Faker.Lorem.paragraph()
+      another_expectation_name = Faker.Code.iban()
+
+      incorrect_fact_value = Faker.Cat.name()
+
+      [%Catalog.Check{id: check_id}] =
+        checks =
+        build_list(1, :check,
+          severity: :critical,
+          facts: [
+            build(:catalog_fact, name: fact_name),
+            build(:catalog_fact, name: another_fact_name)
+          ],
+          values: [],
+          expectations: [
+            build(:catalog_expectation,
+              name: expectation_name,
+              type: :expect_same,
+              expression: "facts.#{fact_name}"
+            ),
+            build(:catalog_expectation,
+              name: another_expectation_name,
+              type: :expect_same,
+              expression: "facts.#{another_fact_name} == \"#{another_fact_value}\""
+            )
+          ]
+        )
+
+      gathered_facts = %{
+        check_id => %{
+          "agent_1" => [
+            build(:fact, name: fact_name, check_id: check_id, value: fact_value),
+            build(:fact, name: another_fact_name, check_id: check_id, value: another_fact_value)
+          ],
+          "agent_2" => [
+            build(:fact,
+              name: fact_name,
+              check_id: check_id,
+              value: incorrect_fact_value
+            ),
+            build(:fact,
+              name: another_fact_name,
+              check_id: check_id,
+              value: incorrect_fact_value
+            )
+          ]
+        }
+      }
+
+      assert %Result{
+               execution_id: ^execution_id,
+               group_id: ^group_id,
+               check_results: [
+                 %CheckResult{
+                   check_id: ^check_id,
+                   expectation_results: [
+                     %ExpectationResult{
+                       name: ^another_expectation_name,
+                       result: false,
+                       type: :expect_same,
+                       failure_message: "Expectation not met"
+                     },
+                     %ExpectationResult{
+                       name: ^expectation_name,
+                       result: false,
+                       type: :expect_same,
+                       failure_message: "Expectation not met"
+                     }
+                   ],
+                   result: :critical
+                 }
+               ],
+               result: :critical
+             } = Evaluation.execute(execution_id, group_id, checks, gathered_facts, %{})
+    end
+
     test "should return a default failure message in case of an erroring interpolation" do
       execution_id = UUID.uuid4()
       group_id = UUID.uuid4()
