@@ -1366,36 +1366,58 @@ defmodule Wanda.Executions.EvaluationTest do
     test "should return the default failure message inside the result when having a failing expect_same" do
       execution_id = UUID.uuid4()
       group_id = UUID.uuid4()
+
       fact_name = Faker.Lorem.word()
-      expectation_name = Faker.Airports.iata()
       fact_value = Faker.Lorem.sentence()
+      expectation_name = Faker.Lorem.word()
+
+      another_fact_name = Faker.Code.iban()
+      another_fact_value = Faker.Lorem.paragraph()
+      another_expectation_name = Faker.Code.iban()
+
       incorrect_fact_value = Faker.Cat.name()
 
       [%Catalog.Check{id: check_id}] =
         checks =
         build_list(1, :check,
           severity: :critical,
-          facts: build_list(1, :catalog_fact, name: fact_name),
+          facts: [
+            build(:catalog_fact, name: fact_name),
+            build(:catalog_fact, name: another_fact_name)
+          ],
           values: [],
-          expectations:
-            build_list(1, :catalog_expectation,
+          expectations: [
+            build(:catalog_expectation,
               name: expectation_name,
               type: :expect_same,
-              expression: "facts.#{fact_name} == \"#{fact_value}\""
+              expression: "facts.#{fact_name}"
+            ),
+            build(:catalog_expectation,
+              name: another_expectation_name,
+              type: :expect_same,
+              expression: "facts.#{another_fact_name} == \"#{another_fact_value}\""
             )
+          ]
         )
 
       gathered_facts = %{
         check_id => %{
-          "agent_1" =>
-            build_list(1, :fact, name: fact_name, check_id: check_id, value: fact_value),
-          "agent_2" =>
-            incorrect_facts =
-              build_list(1, :fact,
-                name: fact_name,
-                check_id: check_id,
-                value: incorrect_fact_value
-              )
+          "agent_1" => [
+            build(:fact, name: fact_name, check_id: check_id, value: fact_value),
+            build(:fact, name: another_fact_name, check_id: check_id, value: another_fact_value)
+          ],
+          "agent_2" => [
+            build(:fact,
+              name: fact_name,
+              check_id: check_id,
+              value: incorrect_fact_value
+            ),
+            build(:fact,
+              name: another_fact_name,
+              check_id: check_id,
+              value: incorrect_fact_value
+            )
+          ]
         }
       }
 
@@ -1405,21 +1427,13 @@ defmodule Wanda.Executions.EvaluationTest do
                check_results: [
                  %CheckResult{
                    check_id: ^check_id,
-                   agents_check_results: [
-                     %AgentCheckResult{agent_id: "agent_1"},
-                     %AgentCheckResult{
-                       agent_id: "agent_2",
-                       expectation_evaluations: [
-                         %ExpectationEvaluation{
-                           name: ^expectation_name,
-                           return_value: false,
-                           type: :expect_same
-                         }
-                       ],
-                       facts: ^incorrect_facts
-                     }
-                   ],
                    expectation_results: [
+                     %ExpectationResult{
+                       name: ^another_expectation_name,
+                       result: false,
+                       type: :expect_same,
+                       failure_message: "Expectation not met"
+                     },
                      %ExpectationResult{
                        name: ^expectation_name,
                        result: false,
