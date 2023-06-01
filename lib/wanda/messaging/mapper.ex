@@ -55,7 +55,7 @@ defmodule Wanda.Messaging.Mapper do
           execution_id: String.t(),
           group_id: String.t(),
           targets: [Target.t()],
-          env: %{String.t() => boolean() | number() | String.t()}
+          env: %{String.t() => boolean() | number() | String.t() | nil}
         }
   def from_execution_requested(%ExecutionRequested{
         execution_id: execution_id,
@@ -67,7 +67,7 @@ defmodule Wanda.Messaging.Mapper do
       execution_id: execution_id,
       group_id: group_id,
       targets: Target.map_targets(targets),
-      env: Map.new(env, fn {key, %{kind: {_, value}}} -> {key, value} end)
+      env: Map.new(env, fn {key, %{kind: value}} -> {key, map_env_entry(value)} end)
     }
   end
 
@@ -144,4 +144,7 @@ defmodule Wanda.Messaging.Mapper do
   defp map_value(%{kind: {_, value}}) do
     value
   end
+
+  defp map_env_entry({_, value}), do: value
+  defp map_env_entry({:null_value}), do: nil
 end
