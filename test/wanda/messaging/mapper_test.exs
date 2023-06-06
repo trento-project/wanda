@@ -169,6 +169,9 @@ defmodule Wanda.Messaging.MapperTest do
           },
           some_boolean: %{
             kind: {:boolean_value, true}
+          },
+          null: %{
+            kind: {:null_value}
           }
         }
       )
@@ -189,7 +192,8 @@ defmodule Wanda.Messaging.MapperTest do
              env: %{
                some_string: "some_string",
                some_number: 10,
-               some_boolean: true
+               some_boolean: true,
+               null: nil
              }
            } = Mapper.from_execution_requested(execution)
   end
