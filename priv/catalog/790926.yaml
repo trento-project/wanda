@@ -33,6 +33,8 @@ remediation: |
 
 severity: warning
 
+when: env.target_type == "cluster"
+
 facts:
   - name: hacluster_has_default_password
     gatherer: verify_password

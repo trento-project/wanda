@@ -13,6 +13,8 @@ remediation: |
   ## Reference
   - https://documentation.suse.com/en-us/sbp/all/single-html/SLES4SAP-hana-sr-guide-PerfOpt-15/
 
+when: env.target_type == "cluster"
+
 facts:
   - name: compare_sles_sap_version
     gatherer: package_version

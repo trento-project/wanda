@@ -32,6 +32,8 @@ remediation: |
 
 severity: warning
 
+when: env.target_type == "cluster"
+
 facts:
   - name: totem_interfaces
     gatherer: corosync-cmapctl
