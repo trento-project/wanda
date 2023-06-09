@@ -23,6 +23,8 @@ defmodule Wanda.Executions.FakeServer do
 
     checks_ids = Enum.map(checks, & &1.id)
 
+    target_type = Map.get(env, "target_type", "cluster")
+
     targets =
       Enum.map(targets, fn %{checks: target_checks} = target ->
         %Executions.Target{target | checks: target_checks -- target_checks -- checks_ids}
@@ -41,7 +43,7 @@ defmodule Wanda.Executions.FakeServer do
       build_result
     )
 
-    execution_completed = Messaging.Mapper.to_execution_completed(build_result)
+    execution_completed = Messaging.Mapper.to_execution_completed(build_result, target_type)
     :ok = Messaging.publish("results", execution_completed)
   end
 

@@ -25,6 +25,7 @@ defmodule Wanda.Executions.Server do
 
   require Logger
 
+  @default_target_type "cluster"
   @default_timeout 5 * 60 * 1_000
 
   @doc """
@@ -156,7 +157,7 @@ defmodule Wanda.Executions.Server do
     result =
       Evaluation.execute(execution_id, group_id, checks, gathered_facts, env, timedout_agents)
 
-    store_and_publish_execution_result(result)
+    store_and_publish_execution_result(result, env)
 
     {:stop, :normal, state}
   end
@@ -182,7 +183,7 @@ defmodule Wanda.Executions.Server do
     if Gathering.all_agents_sent_facts?(agents_gathered, targets) do
       result = Evaluation.execute(execution_id, group_id, checks, gathered_facts, env)
 
-      store_and_publish_execution_result(result)
+      store_and_publish_execution_result(result, env)
 
       {:stop, :normal, state}
     else
@@ -190,10 +191,12 @@ defmodule Wanda.Executions.Server do
     end
   end
 
-  defp store_and_publish_execution_result(%Result{execution_id: execution_id} = result) do
+  defp store_and_publish_execution_result(%Result{execution_id: execution_id} = result, env) do
     Executions.complete_execution!(execution_id, result)
 
-    execution_completed = Messaging.Mapper.to_execution_completed(result)
+    target_type = Map.get(env, "target_type", @default_target_type)
+
+    execution_completed = Messaging.Mapper.to_execution_completed(result, target_type)
     :ok = Messaging.publish("results", execution_completed)
   end
 

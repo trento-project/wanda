@@ -39,15 +39,19 @@ defmodule Wanda.Messaging.Mapper do
     )
   end
 
-  def to_execution_completed(%Result{
-        execution_id: execution_id,
-        group_id: group_id,
-        result: result
-      }) do
+  def to_execution_completed(
+        %Result{
+          execution_id: execution_id,
+          group_id: group_id,
+          result: result
+        },
+        target_type
+      ) do
     ExecutionCompleted.new!(
       execution_id: execution_id,
       group_id: group_id,
-      result: map_result(result)
+      result: map_result(result),
+      target_type: target_type
     )
   end
 
