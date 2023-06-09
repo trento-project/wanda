@@ -123,6 +123,7 @@ defmodule Wanda.Messaging.MapperTest do
   test "should map to an ExecutionCompletedV1 event" do
     execution_id = UUID.uuid4()
     group_id = UUID.uuid4()
+    target_type = Faker.StarWars.character()
 
     result_map = %{passing: :PASSING, warning: :WARNING, critical: :CRITICAL}
 
@@ -137,8 +138,9 @@ defmodule Wanda.Messaging.MapperTest do
       assert %ExecutionCompleted{
                execution_id: ^execution_id,
                group_id: ^group_id,
-               result: ^event_result
-             } = Mapper.to_execution_completed(execution)
+               result: ^event_result,
+               target_type: ^target_type
+             } = Mapper.to_execution_completed(execution, target_type)
     end)
   end
 
