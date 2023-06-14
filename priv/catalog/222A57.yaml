@@ -13,7 +13,7 @@ remediation: |
   ## Reference
   - https://documentation.suse.com/en-us/sbp/all/single-html/SLES4SAP-hana-sr-guide-PerfOpt-15/
 
-when: env.provider !in ["gcp", "aws"]
+when: env.target_type == "cluster" && env.provider !in ["gcp", "aws"]
 
 facts:
   - name: compare_sbd_version

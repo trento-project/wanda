@@ -43,6 +43,8 @@ remediation: |
 
     - https://documentation.suse.com/sbp/all/single-html/SLES4SAP-hana-sr-guide-PerfOpt-15/#id-example-for-etccorosynccorosync-conf
 
+when: env.target_type == "cluster"
+
 facts:
   - name: corosync_token_retransmits_before_loss_const
     gatherer: corosync.conf

@@ -24,7 +24,7 @@ remediation: |
 
 severity: warning
 
-when: env.provider !in ["gcp", "aws"]
+when: env.target_type == "cluster" && env.provider !in ["gcp", "aws"]
 
 facts:
   - name: sbd_multiple_sbd_device

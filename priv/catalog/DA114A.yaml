@@ -27,6 +27,8 @@ remediation: |
 
 severity: warning
 
+when: env.target_type == "cluster"
+
 facts:
   - name: corosync_nodes
     gatherer: corosync.conf
