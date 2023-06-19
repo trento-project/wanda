@@ -584,10 +584,12 @@ Scopes are namespaced and access to items in the scope is name based.
 `env` is a map of information about the context of the running execution, it is set by the system on each execution/check compilation.
 
 Examples of entries in the scope. What is actually available during the execution depends on the scenario. Find the updated values in the reference column link.
+
 | name | Type | Reference
 | ---- | -----| ----------
 | `env.provider` | one of `azure`, `aws`, `gcp`,`kvm`,`nutanix`, `vmware`, `unknown` | [Providers](https://github.com/trento-project/web/blob/main/lib/trento/domain/enums/provider.ex)
 | `env.cluster_type` | one of `hana_scale_up`, `hana_scale_out`, `ascs_ers`, `unknown` | [Cluster types](https://github.com/trento-project/web/blob/main/lib/trento/domain/enums/cluster_type.ex)
+| `env.target_type` | one of `cluster`, `host` | No enum available
 
 #### **facts**
 
