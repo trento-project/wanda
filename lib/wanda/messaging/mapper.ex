@@ -24,19 +24,19 @@ defmodule Wanda.Messaging.Mapper do
 
   @spec to_execution_started(String.t(), String.t(), [Target.t()]) :: ExecutionStarted.t()
   def to_execution_started(execution_id, group_id, targets) do
-    ExecutionStarted.new!(
+    %ExecutionStarted{
       execution_id: execution_id,
       group_id: group_id,
       targets: Enum.map(targets, &map_target(&1))
-    )
+    }
   end
 
   def to_facts_gathering_requested(execution_id, group_id, targets, checks) do
-    FactsGatheringRequested.new!(
+    %FactsGatheringRequested{
       execution_id: execution_id,
       group_id: group_id,
       targets: Enum.map(targets, &to_facts_gathering_requested_target(&1, checks))
-    )
+    }
   end
 
   def to_execution_completed(
@@ -47,12 +47,12 @@ defmodule Wanda.Messaging.Mapper do
         },
         target_type
       ) do
-    ExecutionCompleted.new!(
+    %ExecutionCompleted{
       execution_id: execution_id,
       group_id: group_id,
       result: map_result(result),
       target_type: target_type
-    )
+    }
   end
 
   @spec from_execution_requested(ExecutionRequested.t()) :: %{
@@ -99,7 +99,7 @@ defmodule Wanda.Messaging.Mapper do
   end
 
   defp map_target(%Target{agent_id: agent_id, checks: checks}) do
-    Trento.Checks.V1.Target.new!(agent_id: agent_id, checks: checks)
+    %Trento.Checks.V1.Target{agent_id: agent_id, checks: checks}
   end
 
   defp to_facts_gathering_requested_target(
@@ -113,12 +113,12 @@ defmodule Wanda.Messaging.Mapper do
         map_fact_requests(check_id, facts)
       end)
 
-    FactsGatheringRequestedTarget.new!(agent_id: agent_id, fact_requests: fact_requests)
+    %FactsGatheringRequestedTarget{agent_id: agent_id, fact_requests: fact_requests}
   end
 
   defp map_fact_requests(check_id, facts) do
     Enum.map(facts, fn %Catalog.Fact{name: name, gatherer: gatherer, argument: argument} ->
-      FactRequest.new!(check_id: check_id, name: name, gatherer: gatherer, argument: argument)
+      %FactRequest{check_id: check_id, name: name, gatherer: gatherer, argument: argument}
     end)
   end
 

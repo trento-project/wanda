@@ -148,35 +148,34 @@ defmodule Wanda.Messaging.MapperTest do
     execution_id = UUID.uuid4()
     group_id = UUID.uuid4()
 
-    execution =
-      ExecutionRequested.new!(
-        execution_id: execution_id,
-        group_id: group_id,
-        targets: [
-          %{
-            agent_id: "agent1",
-            checks: ["check_1", "check_2"]
-          },
-          %{
-            agent_id: "agent3",
-            checks: ["check_3", "check_4"]
-          }
-        ],
-        env: %{
-          some_string: %{
-            kind: {:string_value, "some_string"}
-          },
-          some_number: %{
-            kind: {:number_value, 10}
-          },
-          some_boolean: %{
-            kind: {:boolean_value, true}
-          },
-          null: %{
-            kind: {:null_value}
-          }
+    execution = %ExecutionRequested{
+      execution_id: execution_id,
+      group_id: group_id,
+      targets: [
+        %{
+          agent_id: "agent1",
+          checks: ["check_1", "check_2"]
+        },
+        %{
+          agent_id: "agent3",
+          checks: ["check_3", "check_4"]
         }
-      )
+      ],
+      env: %{
+        some_string: %{
+          kind: {:string_value, "some_string"}
+        },
+        some_number: %{
+          kind: {:number_value, 10}
+        },
+        some_boolean: %{
+          kind: {:boolean_value, true}
+        },
+        null: %{
+          kind: {:null_value}
+        }
+      }
+    }
 
     assert %{
              execution_id: ^execution_id,
@@ -205,87 +204,86 @@ defmodule Wanda.Messaging.MapperTest do
     group_id = UUID.uuid4()
     agent_id = UUID.uuid4()
 
-    facts =
-      FactsGathered.new!(
-        execution_id: execution_id,
-        group_id: group_id,
-        agent_id: agent_id,
-        facts_gathered: [
-          %{
-            check_id: "check1",
-            name: "string_value",
-            fact_value: {:value, %{kind: {:string_value, "some_string"}}}
-          },
-          %{
-            check_id: "check2",
-            name: "integer_value",
-            fact_value: {:value, %{kind: {:number_value, 10.0}}}
-          },
-          %{
-            check_id: "check2",
-            name: "float_value",
-            fact_value: {:value, %{kind: {:number_value, 10.2}}}
-          },
-          %{
-            check_id: "check3",
-            name: "boolean_value",
-            fact_value: {:value, %{kind: {:boolean_value, true}}}
-          },
-          %{
-            check_id: "check4",
-            name: "list_value",
-            fact_value:
-              {:value,
-               %{
-                 kind:
-                   {:list_value,
-                    %{
-                      values: [
-                        %{kind: {:number_value, 10.0}},
-                        %{
-                          kind:
-                            {:list_value,
-                             %{
-                               values: [
-                                 %{kind: {:boolean_value, true}}
-                               ]
-                             }}
-                        }
-                      ]
-                    }}
-               }}
-          },
-          %{
-            check_id: "check5",
-            name: "struct_value",
-            fact_value:
-              {:value,
-               %{
-                 kind:
-                   {:struct_value,
-                    %{
-                      fields: %{
-                        some_key: %{
-                          kind:
-                            {:struct_value,
-                             %{
-                               fields: %{
-                                 other_key: %{kind: {:number_value, 10.0}},
-                                 third_key: %{kind: {:number_value, 15.0}}
-                               }
-                             }}
-                        }
+    facts = %FactsGathered{
+      execution_id: execution_id,
+      group_id: group_id,
+      agent_id: agent_id,
+      facts_gathered: [
+        %{
+          check_id: "check1",
+          name: "string_value",
+          fact_value: {:value, %{kind: {:string_value, "some_string"}}}
+        },
+        %{
+          check_id: "check2",
+          name: "integer_value",
+          fact_value: {:value, %{kind: {:number_value, 10.0}}}
+        },
+        %{
+          check_id: "check2",
+          name: "float_value",
+          fact_value: {:value, %{kind: {:number_value, 10.2}}}
+        },
+        %{
+          check_id: "check3",
+          name: "boolean_value",
+          fact_value: {:value, %{kind: {:boolean_value, true}}}
+        },
+        %{
+          check_id: "check4",
+          name: "list_value",
+          fact_value:
+            {:value,
+             %{
+               kind:
+                 {:list_value,
+                  %{
+                    values: [
+                      %{kind: {:number_value, 10.0}},
+                      %{
+                        kind:
+                          {:list_value,
+                           %{
+                             values: [
+                               %{kind: {:boolean_value, true}}
+                             ]
+                           }}
                       }
-                    }}
-               }}
-          },
-          %{
-            check_id: "check6",
-            name: "fact_error",
-            fact_value: {:error_value, %{type: "error_type", message: "Error!"}}
-          }
-        ]
-      )
+                    ]
+                  }}
+             }}
+        },
+        %{
+          check_id: "check5",
+          name: "struct_value",
+          fact_value:
+            {:value,
+             %{
+               kind:
+                 {:struct_value,
+                  %{
+                    fields: %{
+                      some_key: %{
+                        kind:
+                          {:struct_value,
+                           %{
+                             fields: %{
+                               other_key: %{kind: {:number_value, 10.0}},
+                               third_key: %{kind: {:number_value, 15.0}}
+                             }
+                           }}
+                      }
+                    }
+                  }}
+             }}
+        },
+        %{
+          check_id: "check6",
+          name: "fact_error",
+          fact_value: {:error_value, %{type: "error_type", message: "Error!"}}
+        }
+      ]
+    }
 
     assert %{
              execution_id: ^execution_id,
