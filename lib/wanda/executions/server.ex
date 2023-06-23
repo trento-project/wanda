@@ -36,6 +36,9 @@ defmodule Wanda.Executions.Server do
   """
   @impl true
   def start_execution(execution_id, group_id, targets, env, config \\ []) do
+    # TODO: this should be removed when web properly sets the target type in ExecutionRequested event
+    env = Map.put(env, "target_type", @default_target_type)
+
     checks =
       targets
       |> Target.get_checks_from_targets()
