@@ -27,6 +27,10 @@ remediation: |
 
     - https://documentation.suse.com/sle-ha/15-SP3/html/SLE-HA-all/cha-ha-storage-protect.html#pro-ha-storage-protect-sbd-services
 
+  VMware vSphere:
+
+    - https://documentation.suse.com/sle-ha/15-SP5/single-html/SLE-HA-administration/#pro-ha-storage-protect-sbd-config
+
 when: env.target_type == "cluster" && env.provider !in ["gcp", "aws"]
 
 facts:
