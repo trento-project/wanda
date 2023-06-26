@@ -23,7 +23,12 @@ remediation: |
   SUSE / KVM:
 
    - https://documentation.suse.com/sbp/all/single-html/SLES4SAP-hana-sr-guide-PerfOpt-15/#id-example-for-etccorosynccorosync-conf
-   - section 9.1.3 in https://documentation.suse.com/sbp/all/single-html/SLES4SAP-hana-sr-guide-PerfOpt-15/#id-checking-and-adapting-the-corosync-and-sbd-configuration
+   - https://documentation.suse.com/sbp/all/single-html/SLES4SAP-hana-sr-guide-PerfOpt-15/#id-checking-and-adapting-the-corosync-and-sbd-configuration
+
+  VMware vSphere:
+
+   - https://documentation.suse.com/sbp/all/single-html/SLES4SAP-hana-sr-guide-PerfOpt-15/#id-example-for-etccorosynccorosync-conf
+   - https://documentation.suse.com/sbp/all/single-html/SLES4SAP-hana-sr-guide-PerfOpt-15/#id-checking-and-adapting-the-corosync-and-sbd-configuration
 
 severity: warning
 
