@@ -30,12 +30,12 @@ remediation: |
   Nutanix:
 
     - https://documentation.suse.com/sbp/all/single-html/SLES4SAP-hana-sr-guide-PerfOpt-15/#id-cluster-bootstrap-and-more
-    - https://documentation.suse.com/sle-ha/15-SP3/html/SLE-HA-all/cha-ha-fencing.html#sec-ha-fencing-recommend
+    - https://documentation.suse.com/sle-ha/15-SP5/single-html/SLE-HA-administration/#sec-ha-fencing-recommend
 
   SUSE / KVM:
 
     - https://documentation.suse.com/sbp/all/single-html/SLES4SAP-hana-sr-guide-PerfOpt-15/#id-cluster-bootstrap-and-more
-    - https://documentation.suse.com/sle-ha/15-SP3/html/SLE-HA-all/cha-ha-fencing.html#sec-ha-fencing-recommend
+    - https://documentation.suse.com/sle-ha/15-SP5/single-html/SLE-HA-administration/#sec-ha-fencing-recommend
 
 when: env.target_type == "cluster"
 
