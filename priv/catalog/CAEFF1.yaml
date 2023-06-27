@@ -18,6 +18,7 @@ remediation: |
   AWS:
 
     - https://docs.aws.amazon.com/sap/latest/sap-hana/sap-hana-on-aws-ha-cluster-configuration-on-sles.html
+    - https://docs.aws.amazon.com/sap/latest/general/overview-sap-planning.html#overview-os-support
 
   GCP:
 
