@@ -10,7 +10,7 @@ remediation: |
   ## References
   Azure:
 
-    - https://learn.microsoft.com/en-us/azure/sap/workloads/high-availability-guide-suse-pacemaker
+    - https://learn.microsoft.com/en-us/azure/sap/workloads/high-availability-guide-suse-pacemaker#install-the-cluster      
 
   AWS:
 

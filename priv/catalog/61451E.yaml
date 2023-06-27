@@ -12,7 +12,7 @@ remediation: |
   ## References
   Azure:
 
-    -  https://learn.microsoft.com/en-us/azure/sap/workloads/high-availability-guide-suse-pacemaker
+    - https://learn.microsoft.com/en-us/azure/sap/workloads/high-availability-guide-suse-pacemaker#set-up-the-iscsi-target-server-sbd-device
 
   Nutanix:
 
