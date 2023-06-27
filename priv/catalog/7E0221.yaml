@@ -46,7 +46,7 @@ remediation: |
 
   AWS:
 
-    - https://docs.aws.amazon.com/sap/latest/sap-hana/sap-hana-on-aws-cluster-configuration.html#sap-hana-on-aws-create-the-corosync-configuration-file      
+    - https://docs.aws.amazon.com/sap/latest/sap-hana/sap-hana-on-aws-cluster-configuration.html#sap-hana-on-aws-create-the-corosync-configuration-file
 
   GCP:
 
@@ -72,7 +72,7 @@ facts:
 values:
   - name: expected_runtime_transport
     default: udpu
-    
+
 expectations:
   - name: expectations_runtime_transport
     expect: facts.runtime_transport == values.expected_runtime_transport

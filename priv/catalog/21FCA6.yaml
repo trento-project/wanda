@@ -6,7 +6,7 @@ description: |
 remediation: |
   ## Abstract
   The Corosync `token_retransmits_before_loss_const` is set as recommended.
-  
+
   ## Remediation
 
   Adjust the corosync `token_retransmits_before_loss_const` count as recommended on the best practices, and reload the corosync configuration
@@ -31,7 +31,7 @@ remediation: |
 
     - https://documentation.suse.com/sbp/all/single-html/SLES4SAP-hana-sr-guide-PerfOpt-15/#id-example-for-etccorosynccorosync-conf
 
-  GCP: 
+  GCP:
 
     - https://cloud.google.com/solutions/sap/docs/sap-hana-ha-config-sles#create_the_corosync_configuration_files
 

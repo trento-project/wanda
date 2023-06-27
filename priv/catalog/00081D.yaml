@@ -13,11 +13,11 @@ remediation: |
   1. Set the correct `max_messages` count in the `totem` section in the corosync configuration file `/etc/corosync/corosync.conf`. This action must be repeated in all nodes of the cluster.
      ```
      [...]
-     totem { 
-            max_messages: <count value> 
+     totem {
+            max_messages: <count value>
            }
      [...]
-     ```   
+     ```
   2. Reload the corosync configuration:
      `crm corosync reload`
 

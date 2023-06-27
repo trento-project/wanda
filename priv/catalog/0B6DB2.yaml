@@ -7,7 +7,7 @@ remediation: |
   ## Abstract
   For proper SBD fencing, make sure that the integration with Pacemaker is enabled.
   **IMPORTANT**: Always verify these steps in a testing environment before doing so in production ones!
-  
+
   The SBD is not used in GCP or AWS environments.
   ## Remediation
   Run the following commands in order:

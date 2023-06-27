@@ -14,11 +14,11 @@ remediation: |
   1. Set the correct `token` timeout in the `totem` section in the corosync configuration file `/etc/corosync/corosync.conf`. This action must be repeated in all nodes of the cluster.
      ```
      [...]
-     totem { 
-            token: <timeout value> 
+     totem {
+            token: <timeout value>
            }
      [...]
-     ```   
+     ```
   2. Reload the corosync configuration:
      `crm corosync reload`
 
@@ -31,7 +31,7 @@ remediation: |
 
     - https://documentation.suse.com/sbp/all/single-html/SLES4SAP-hana-sr-guide-PerfOpt-15/#id-example-for-etccorosynccorosync-conf
 
-  GCP: 
+  GCP:
 
     - https://cloud.google.com/solutions/sap/docs/sap-hana-ha-config-sles#create_the_corosync_configuration_files
 
