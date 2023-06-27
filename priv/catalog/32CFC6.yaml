@@ -18,7 +18,7 @@ remediation: |
 
   GCP:
 
-    - https://cloud.google.com/solutions/sap/docs/sap-hana-ha-config-sles
+    - https://cloud.google.com/solutions/sap/docs/sap-hana-ha-config-sles#create_the_corosync_configuration_files
 
   Nutanix:
 

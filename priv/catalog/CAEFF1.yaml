@@ -22,8 +22,7 @@ remediation: |
 
   GCP:
 
-    - https://cloud.google.com/solutions/sap/docs/sap-hana-os-support
-
+    - https://cloud.google.com/solutions/sap/docs/sap-hana-os-support#quick_reference_table
 
   Nutanix: 
 
