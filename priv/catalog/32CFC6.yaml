@@ -10,15 +10,15 @@ remediation: |
   ## References
   Azure:
 
-    - https://docs.microsoft.com/en-us/azure/virtual-machines/workloads/sap/high-availability-guide-suse-pacemaker
+    - https://learn.microsoft.com/en-us/azure/sap/workloads/high-availability-guide-suse-pacemaker#install-the-cluster
 
   AWS:
 
-    - https://docs.aws.amazon.com/sap/latest/sap-hana/sap-hana-on-aws-cluster-configuration.html
+    - https://docs.aws.amazon.com/sap/latest/sap-hana/sap-hana-on-aws-cluster-configuration.html#sap-hana-on-aws-create-the-corosync-configuration-file
 
   GCP:
 
-    - https://cloud.google.com/solutions/sap/docs/sap-hana-ha-config-sles
+    - https://cloud.google.com/solutions/sap/docs/sap-hana-ha-config-sles#create_the_corosync_configuration_files
 
   Nutanix:
 

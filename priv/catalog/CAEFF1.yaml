@@ -13,18 +13,18 @@ remediation: |
   ## Reference
   Azure:
 
-    - https://learn.microsoft.com/en-us/azure/sap/workloads/sap-hana-high-availability
+    - https://learn.microsoft.com/en-us/azure/sap/workloads/supported-product-on-azure#general-restrictions-for-sap-workload
 
   AWS:
 
     - https://docs.aws.amazon.com/sap/latest/sap-hana/sap-hana-on-aws-ha-cluster-configuration-on-sles.html
+    - https://docs.aws.amazon.com/sap/latest/general/overview-sap-planning.html#overview-os-support
 
   GCP:
 
-    - https://cloud.google.com/solutions/sap/docs/sap-hana-os-support
+    - https://cloud.google.com/solutions/sap/docs/sap-hana-os-support#quick_reference_table
 
-
-  Nutanix: 
+  Nutanix:
 
     - https://documentation.suse.com/sbp/all/single-html/SLES4SAP-hana-sr-guide-PerfOpt-15/#cha.s4s.hana-planning
 

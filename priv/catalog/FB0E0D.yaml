@@ -13,22 +13,22 @@ remediation: |
   1. Set the correct `consensus` timeout in the `totem` section in the corosync configuration file `/etc/corosync/corosync.conf`. This action must be repeated in all nodes of the cluster.
      ```
      [...]
-     totem { 
-            consensus: <timeout value> 
+     totem {
+            consensus: <timeout value>
            }
      [...]
-     ```   
+     ```
   2. Reload the corosync configuration:
      `crm corosync reload`
 
   ## References
   Azure:
 
-    - https://docs.microsoft.com/en-us/azure/virtual-machines/workloads/sap/high-availability-guide-suse-pacemaker
+    - https://learn.microsoft.com/en-us/azure/sap/workloads/high-availability-guide-suse-pacemaker#install-the-cluster
 
   AWS:
 
-    - https://docs.aws.amazon.com/sap/latest/sap-hana/sap-hana-on-aws-cluster-configuration.html
+    - https://docs.aws.amazon.com/sap/latest/sap-hana/sap-hana-on-aws-cluster-configuration.html#sap-hana-on-aws-create-the-corosync-configuration-file
 
   GCP:
 

@@ -1,5 +1,5 @@
 id: "33403D"
-name: Check Corosync transport mechanism 
+name: Check Corosync transport mechanism
 group: Corosync
 description: |
   Corosync `transport` mechanism is set to expected value
@@ -43,19 +43,19 @@ remediation: |
   ## References
   Azure:
 
-    - https://docs.microsoft.com/en-us/azure/virtual-machines/workloads/sap/high-availability-guide-suse-pacemaker#install-the-cluster
+    - https://learn.microsoft.com/en-us/azure/sap/workloads/high-availability-guide-suse-pacemaker#install-the-cluster
 
   SUSE / KVM:
 
     - https://documentation.suse.com/sbp/all/single-html/SLES4SAP-hana-sr-guide-PerfOpt-15/#id-example-for-etccorosynccorosync-conf
 
-  GCP: 
+  GCP:
 
     - https://cloud.google.com/solutions/sap/docs/sap-hana-ha-config-sles#create_the_corosync_configuration_files
 
   AWS:
 
-    -	https://docs.aws.amazon.com/sap/latest/sap-hana/sap-hana-on-aws-cluster-configuration.html
+    - https://docs.aws.amazon.com/sap/latest/sap-hana/sap-hana-on-aws-cluster-configuration.html#sap-hana-on-aws-create-the-corosync-configuration-file
 
   Nutanix:
 

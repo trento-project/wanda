@@ -13,7 +13,7 @@ remediation: |
   ## Reference
   The recommended minimal version of the corosync package is 2.4.5 as we had seen some 'split brain' situations with corosync versions older than 2.4.5.
   It is the *first* version supported with SUSE Linux Enterprise Server for SAP Applications 15 SP2 and it is also available as a maintenance update in SUSE Linux Enterprise Server for SAP Applications 15 SP1.
-  - https://documentation.suse.com/en-us/sbp/all/single-html/SLES4SAP-hana-sr-guide-PerfOpt-15/
+  - https://documentation.suse.com/sbp/all/single-html/SLES4SAP-hana-sr-guide-PerfOpt-15/
 
 when: env.target_type == "cluster"
 

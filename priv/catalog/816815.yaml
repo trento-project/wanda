@@ -17,15 +17,15 @@ remediation: |
   ## References
   Azure:
 
-    - https://docs.microsoft.com/en-us/azure/virtual-machines/workloads/sap/high-availability-guide-suse-pacemaker#set-up-the-iscsi-target-server-sbd-device
+    - https://learn.microsoft.com/en-us/azure/sap/workloads/high-availability-guide-suse-pacemaker#set-up-the-iscsi-target-server-sbd-device
 
   Nutanix:
 
-    - https://documentation.suse.com/sle-ha/15-SP3/html/SLE-HA-all/cha-ha-storage-protect.html#pro-ha-storage-protect-sbd-services
+    - https://documentation.suse.com/sle-ha/15-SP5/single-html/SLE-HA-administration/#pro-ha-storage-protect-sbd-config
 
   SUSE / KVM:
 
-    - https://documentation.suse.com/sle-ha/15-SP3/html/SLE-HA-all/cha-ha-storage-protect.html#pro-ha-storage-protect-sbd-services
+    - https://documentation.suse.com/sle-ha/15-SP5/single-html/SLE-HA-administration/#pro-ha-storage-protect-sbd-config
 
 when: env.target_type == "cluster" && env.provider !in ["gcp", "aws"]
 

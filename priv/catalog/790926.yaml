@@ -17,7 +17,7 @@ remediation: |
 
   AWS:
 
-    - https://docs.aws.amazon.com/sap/latest/sap-hana/sap-hana-on-aws-cluster-configuration.html
+    - https://docs.aws.amazon.com/sap/latest/sap-hana/sap-hana-on-aws-cluster-configuration.html#sap-hana-on-aws-update-the-hacluster-password
 
   GCP:
 
