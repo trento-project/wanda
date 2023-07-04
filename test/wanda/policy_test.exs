@@ -33,7 +33,7 @@ defmodule Wanda.PolicyTest do
     end)
 
     assert :ok =
-             %{
+             Wanda.Policy.handle_event(%ExecutionRequested{
                execution_id: execution_id,
                group_id: group_id,
                targets: [%{agent_id: agent_id, checks: ["check_id"]}],
@@ -41,9 +41,7 @@ defmodule Wanda.PolicyTest do
                  "key" => %{kind: {:string_value, "value"}},
                  "other_key" => %{kind: {:string_value, "other_value"}}
                }
-             }
-             |> ExecutionRequested.new!()
-             |> Wanda.Policy.handle_event()
+             })
   end
 
   test "should handle a FactsGathered event" do
@@ -65,7 +63,7 @@ defmodule Wanda.PolicyTest do
     end)
 
     assert :ok =
-             %{
+             Wanda.Policy.handle_event(%FactsGathered{
                execution_id: execution_id,
                group_id: group_id,
                agent_id: agent_id,
@@ -76,8 +74,6 @@ defmodule Wanda.PolicyTest do
                    fact_value: {:value, %{kind: {:string_value, "value"}}}
                  }
                ]
-             }
-             |> FactsGathered.new!()
-             |> Wanda.Policy.handle_event()
+             })
   end
 end
