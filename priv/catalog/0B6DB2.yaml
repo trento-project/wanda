@@ -42,6 +42,11 @@ remediation: |
     - https://documentation.suse.com/sle-ha/15-SP5/single-html/SLE-HA-administration/#cha-ha-storage-protect
     - https://documentation.suse.com/sbp/all/single-html/SLES4SAP-hana-sr-guide-PerfOpt-15/#id-adapting-the-sbd-configuration
 
+  VMware:
+
+    - https://documentation.suse.com/sle-ha/15-SP5/single-html/SLE-HA-administration/#cha-ha-storage-protect
+    - https://documentation.suse.com/sbp/all/single-html/SLES4SAP-hana-sr-guide-PerfOpt-15/#id-adapting-the-sbd-configuration
+
 when: env.target_type == "cluster" && env.provider !in ["gcp", "aws"]
 
 facts:
