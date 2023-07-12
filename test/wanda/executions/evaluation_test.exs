@@ -3,7 +3,7 @@ defmodule Wanda.Executions.EvaluationTest do
 
   import Wanda.Factory
 
-  alias Wanda.Catalog
+  alias Wanda.{Catalog, EvaluationEngine}
 
   alias Wanda.Executions.{
     AgentCheckError,
@@ -18,8 +18,15 @@ defmodule Wanda.Executions.EvaluationTest do
     Value
   }
 
+  setup do
+    engine = EvaluationEngine.new()
+
+    {:ok, %{engine: engine}}
+  end
+
   describe "evaluation of an execution" do
-    test "should return a passing result when all the agents fullfill the expectations with an expect condition" do
+    test "should return a passing result when all the agents fullfill the expectations with an expect condition",
+         %{engine: engine} do
       execution_id = UUID.uuid4()
       group_id = UUID.uuid4()
       fact_value = Enum.random(1..10)
@@ -87,10 +94,11 @@ defmodule Wanda.Executions.EvaluationTest do
                  }
                ],
                result: :passing
-             } = Evaluation.execute(execution_id, group_id, checks, gathered_facts, %{})
+             } = Evaluation.execute(execution_id, group_id, checks, gathered_facts, %{}, engine)
     end
 
-    test "should return a critical result when not all the agents fullfill the expectations with an expect condition" do
+    test "should return a critical result when not all the agents fullfill the expectations with an expect condition",
+         %{engine: engine} do
       execution_id = UUID.uuid4()
       group_id = UUID.uuid4()
       fact_value = Enum.random(1..10)
@@ -169,10 +177,12 @@ defmodule Wanda.Executions.EvaluationTest do
                  }
                ],
                result: :critical
-             } = Evaluation.execute(execution_id, group_id, checks, gathered_facts, %{})
+             } = Evaluation.execute(execution_id, group_id, checks, gathered_facts, %{}, engine)
     end
 
-    test "should return a critical result when some agent gets fact gathering errors" do
+    test "should return a critical result when some agent gets fact gathering errors", %{
+      engine: engine
+    } do
       execution_id = UUID.uuid4()
       group_id = UUID.uuid4()
       fact_value = Enum.random(1..10)
@@ -240,10 +250,11 @@ defmodule Wanda.Executions.EvaluationTest do
                  }
                ],
                result: :critical
-             } = Evaluation.execute(execution_id, group_id, checks, gathered_facts, %{})
+             } = Evaluation.execute(execution_id, group_id, checks, gathered_facts, %{}, engine)
     end
 
-    test "should return a passing result when all the agents fullfill the expectations with an expect_same condition" do
+    test "should return a passing result when all the agents fullfill the expectations with an expect_same condition",
+         %{engine: engine} do
       execution_id = UUID.uuid4()
       group_id = UUID.uuid4()
       fact_value = Enum.random(1..10)
@@ -315,10 +326,11 @@ defmodule Wanda.Executions.EvaluationTest do
                  }
                ],
                result: :passing
-             } = Evaluation.execute(execution_id, group_id, checks, gathered_facts, %{})
+             } = Evaluation.execute(execution_id, group_id, checks, gathered_facts, %{}, engine)
     end
 
-    test "should return a critical result when some of the agents expect_same condition return value is different" do
+    test "should return a critical result when some of the agents expect_same condition return value is different",
+         %{engine: engine} do
       execution_id = UUID.uuid4()
       group_id = UUID.uuid4()
       fact_value = Enum.random(1..10)
@@ -397,10 +409,12 @@ defmodule Wanda.Executions.EvaluationTest do
                  }
                ],
                result: :critical
-             } = Evaluation.execute(execution_id, group_id, checks, gathered_facts, %{})
+             } = Evaluation.execute(execution_id, group_id, checks, gathered_facts, %{}, engine)
     end
 
-    test "should return a critical result if a fact is missing from the agent fact gathering" do
+    test "should return a critical result if a fact is missing from the agent fact gathering", %{
+      engine: engine
+    } do
       execution_id = UUID.uuid4()
       group_id = UUID.uuid4()
       fact_value = Enum.random(1..10)
@@ -459,10 +473,11 @@ defmodule Wanda.Executions.EvaluationTest do
                    ]
                  }
                ]
-             } = Evaluation.execute(execution_id, group_id, checks, gathered_facts, %{})
+             } = Evaluation.execute(execution_id, group_id, checks, gathered_facts, %{}, engine)
     end
 
-    test "should return a critical result if an illegal expression was specified in a check expectation" do
+    test "should return a critical result if an illegal expression was specified in a check expectation",
+         %{engine: engine} do
       execution_id = UUID.uuid4()
       group_id = UUID.uuid4()
 
@@ -524,10 +539,10 @@ defmodule Wanda.Executions.EvaluationTest do
                    ]
                  }
                ]
-             } = Evaluation.execute(execution_id, group_id, checks, gathered_facts, %{})
+             } = Evaluation.execute(execution_id, group_id, checks, gathered_facts, %{}, engine)
     end
 
-    test "should return a critical result if an agent times out" do
+    test "should return a critical result if an agent times out", %{engine: engine} do
       execution_id = UUID.uuid4()
       group_id = UUID.uuid4()
       fact_value = Enum.random(1..10)
@@ -586,10 +601,12 @@ defmodule Wanda.Executions.EvaluationTest do
                  }
                ],
                result: :critical
-             } = Evaluation.execute(execution_id, group_id, checks, gathered_facts, %{})
+             } = Evaluation.execute(execution_id, group_id, checks, gathered_facts, %{}, engine)
     end
 
-    test "should return warning result if the check severity is specified as warning" do
+    test "should return warning result if the check severity is specified as warning", %{
+      engine: engine
+    } do
       execution_id = UUID.uuid4()
       group_id = UUID.uuid4()
 
@@ -624,10 +641,12 @@ defmodule Wanda.Executions.EvaluationTest do
                  }
                ],
                result: :warning
-             } = Evaluation.execute(execution_id, group_id, checks, gathered_facts, %{})
+             } = Evaluation.execute(execution_id, group_id, checks, gathered_facts, %{}, engine)
     end
 
-    test "should return a critical result if an agent times out and severity is warning" do
+    test "should return a critical result if an agent times out and severity is warning", %{
+      engine: engine
+    } do
       execution_id = UUID.uuid4()
       group_id = UUID.uuid4()
 
@@ -663,12 +682,12 @@ defmodule Wanda.Executions.EvaluationTest do
                  }
                ],
                result: :critical
-             } = Evaluation.execute(execution_id, group_id, checks, gathered_facts, %{})
+             } = Evaluation.execute(execution_id, group_id, checks, gathered_facts, %{}, engine)
     end
   end
 
   describe "expressions with arrays" do
-    test "should return a passing result" do
+    test "should return a passing result", %{engine: engine} do
       [value | _] =
         array =
         1..10
@@ -738,12 +757,13 @@ defmodule Wanda.Executions.EvaluationTest do
                    ]
                  }
                ]
-             } = Evaluation.execute(UUID.uuid4(), UUID.uuid4(), checks, gathered_facts, %{})
+             } =
+               Evaluation.execute(UUID.uuid4(), UUID.uuid4(), checks, gathered_facts, %{}, engine)
     end
   end
 
   describe "expression with maps" do
-    test "should return a passing result" do
+    test "should return a passing result", %{engine: engine} do
       map =
         1..10
         |> Enum.random()
@@ -788,7 +808,8 @@ defmodule Wanda.Executions.EvaluationTest do
                    ]
                  }
                ]
-             } = Evaluation.execute(UUID.uuid4(), UUID.uuid4(), checks, gathered_facts, %{})
+             } =
+               Evaluation.execute(UUID.uuid4(), UUID.uuid4(), checks, gathered_facts, %{}, engine)
     end
   end
 
@@ -833,9 +854,7 @@ defmodule Wanda.Executions.EvaluationTest do
     end
 
     test "should return a passing result based on the first matching environmental condition",
-         context do
-      checks = [%{id: check_id}] = context[:checks]
-
+         %{checks: [%{id: check_id}] = checks, engine: engine} do
       gathered_facts = %{
         check_id => %{
           "agent_1" => [
@@ -913,20 +932,32 @@ defmodule Wanda.Executions.EvaluationTest do
       }
 
       assert ^expected_result =
-               Evaluation.execute(execution_id, group_id, checks, gathered_facts, %{
-                 "some_env" => "whoa"
-               })
+               Evaluation.execute(
+                 execution_id,
+                 group_id,
+                 checks,
+                 gathered_facts,
+                 %{
+                   "some_env" => "whoa"
+                 },
+                 engine
+               )
 
       assert ^expected_result =
-               Evaluation.execute(execution_id, group_id, checks, gathered_facts, %{
-                 "some_env" => "yeah"
-               })
+               Evaluation.execute(
+                 execution_id,
+                 group_id,
+                 checks,
+                 gathered_facts,
+                 %{
+                   "some_env" => "yeah"
+                 },
+                 engine
+               )
     end
 
     test "should return a passing result based on the proper environmental conditions matching",
-         context do
-      checks = [%{id: check_id}] = context[:checks]
-
+         %{checks: [%{id: check_id}] = checks, engine: engine} do
       env = %{"some_env" => "yay"}
 
       gathered_facts = %{
@@ -1003,13 +1034,11 @@ defmodule Wanda.Executions.EvaluationTest do
                ],
                result: :passing,
                timeout: []
-             } = Evaluation.execute(execution_id, group_id, checks, gathered_facts, env)
+             } = Evaluation.execute(execution_id, group_id, checks, gathered_facts, env, engine)
     end
 
     test "should return a passing result based on the default value when environmental condition does not match",
-         context do
-      checks = [%{id: check_id}] = context[:checks]
-
+         %{checks: [%{id: check_id}] = checks, engine: engine} do
       gathered_facts = %{
         check_id => %{
           "agent_1" => [
@@ -1087,29 +1116,56 @@ defmodule Wanda.Executions.EvaluationTest do
       }
 
       assert ^expected_result =
-               Evaluation.execute(execution_id, group_id, checks, gathered_facts, %{
-                 "some_value" => "unrecognized"
-               })
+               Evaluation.execute(
+                 execution_id,
+                 group_id,
+                 checks,
+                 gathered_facts,
+                 %{
+                   "some_value" => "unrecognized"
+                 },
+                 engine
+               )
 
       assert ^expected_result =
-               Evaluation.execute(execution_id, group_id, checks, gathered_facts, %{
-                 "some_value" => nil
-               })
+               Evaluation.execute(
+                 execution_id,
+                 group_id,
+                 checks,
+                 gathered_facts,
+                 %{
+                   "some_value" => nil
+                 },
+                 engine
+               )
 
       assert ^expected_result =
-               Evaluation.execute(execution_id, group_id, checks, gathered_facts, %{
-                 "some_value" => ""
-               })
+               Evaluation.execute(
+                 execution_id,
+                 group_id,
+                 checks,
+                 gathered_facts,
+                 %{
+                   "some_value" => ""
+                 },
+                 engine
+               )
 
       assert ^expected_result =
-               Evaluation.execute(execution_id, group_id, checks, gathered_facts, %{
-                 "unrecognized_value" => "some"
-               })
+               Evaluation.execute(
+                 execution_id,
+                 group_id,
+                 checks,
+                 gathered_facts,
+                 %{
+                   "unrecognized_value" => "some"
+                 },
+                 engine
+               )
     end
 
     test "should return a critical result when expectation does not match expected evaluated value",
-         context do
-      checks = [%{id: check_id}] = context[:checks]
+         %{checks: [%{id: check_id}] = checks, engine: engine} do
       env = %{"some_env" => "whoa"}
 
       gathered_facts = %{
@@ -1185,12 +1241,13 @@ defmodule Wanda.Executions.EvaluationTest do
                  }
                ],
                result: :critical
-             } = Evaluation.execute(execution_id, group_id, checks, gathered_facts, env)
+             } = Evaluation.execute(execution_id, group_id, checks, gathered_facts, env, engine)
     end
   end
 
   describe "failure message is evaluated" do
-    test "should return an evaluated failure message inside the expectation evaluation when the result is false, otherwise a nil field" do
+    test "should return an evaluated failure message inside the expectation evaluation when the result is false, otherwise a nil field",
+         %{engine: engine} do
       execution_id = UUID.uuid4()
       group_id = UUID.uuid4()
       fact_value = Enum.random(1..10)
@@ -1274,10 +1331,12 @@ defmodule Wanda.Executions.EvaluationTest do
                  }
                ],
                result: :critical
-             } = Evaluation.execute(execution_id, group_id, checks, gathered_facts, %{})
+             } = Evaluation.execute(execution_id, group_id, checks, gathered_facts, %{}, engine)
     end
 
-    test "should return a failure message inside the result when having a failing expect_same" do
+    test "should return a failure message inside the result when having a failing expect_same", %{
+      engine: engine
+    } do
       execution_id = UUID.uuid4()
       group_id = UUID.uuid4()
       fact_value = Enum.random(1..10)
@@ -1360,10 +1419,11 @@ defmodule Wanda.Executions.EvaluationTest do
                  }
                ],
                result: :critical
-             } = Evaluation.execute(execution_id, group_id, checks, gathered_facts, %{})
+             } = Evaluation.execute(execution_id, group_id, checks, gathered_facts, %{}, engine)
     end
 
-    test "should return the default failure message inside the result when having a failing expect_same" do
+    test "should return the default failure message inside the result when having a failing expect_same",
+         %{engine: engine} do
       execution_id = UUID.uuid4()
       group_id = UUID.uuid4()
 
@@ -1445,10 +1505,12 @@ defmodule Wanda.Executions.EvaluationTest do
                  }
                ],
                result: :critical
-             } = Evaluation.execute(execution_id, group_id, checks, gathered_facts, %{})
+             } = Evaluation.execute(execution_id, group_id, checks, gathered_facts, %{}, engine)
     end
 
-    test "should return a default failure message in case of an erroring interpolation" do
+    test "should return a default failure message in case of an erroring interpolation", %{
+      engine: engine
+    } do
       execution_id = UUID.uuid4()
       group_id = UUID.uuid4()
       fact_value = Enum.random(1..10)
@@ -1530,7 +1592,7 @@ defmodule Wanda.Executions.EvaluationTest do
                  }
                ],
                result: :critical
-             } = Evaluation.execute(execution_id, group_id, checks, gathered_facts, %{})
+             } = Evaluation.execute(execution_id, group_id, checks, gathered_facts, %{}, engine)
     end
   end
 end
