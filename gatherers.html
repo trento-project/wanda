@@ -4,20 +4,20 @@
     <meta charset="utf-8">
     <meta http-equiv="x-ua-compatible" content="ie=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="generator" content="ExDoc v0.29.4">
+    <meta name="generator" content="ExDoc v0.30.2">
     <meta name="project" content="Wanda v1.0.0">
 
     <title>Gatherers — Wanda v1.0.0</title>
-    <link rel="stylesheet" href="dist/html-elixir-HHVY3JYD.css" />
+    <link rel="stylesheet" href="dist/html-elixir-JUCHUGAD.css" />
 
 
     <script src="dist/handlebars.runtime-NWIB6V2M.js"></script>
-    <script src="dist/handlebars.templates-XWGFFSCD.js"></script>
-    <script src="dist/sidebar_items-D679F50C.js"></script>
+    <script src="dist/handlebars.templates-NBND3S2D.js"></script>
+    <script src="dist/sidebar_items-CA0AFAA2.js"></script>
 
       <script src="docs_config.js"></script>
 
-    <script async src="dist/html-JDI3AVDD.js"></script>
+    <script async src="dist/html-WC6MMJK3.js"></script>
 
 
   </head>
@@ -110,22 +110,22 @@ Wanda
 </h1>
 
 <h2 id="introduction" class="section-heading">
-  <a href="#introduction" class="hover-link"><i class="ri-link-m" aria-hidden="true"></i>
-  <p class="sr-only">introduction</p>
+  <a href="#introduction">
+    <i class="ri-link-m" aria-hidden="true"></i>
+    Introduction
   </a>
-  Introduction
 </h2>
-<p>Gatherers can be thought of as functions:</p><ul><li>they have a name</li><li>they accept argument(s)</li><li>they return a value, the gathered <a href="specification.html#facts">Fact</a></li></ul><p>Facts Gathering process in a nutshell</p><pre><code class="makeup elixir" translate="no"><span class="n">fact</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">gatherer</span><span class="p" data-group-id="8106679593-1">(</span><span class="n">argument</span><span class="p" data-group-id="8106679593-1">)</span></code></pre><h2 id="available-gatherers" class="section-heading">
-  <a href="#available-gatherers" class="hover-link"><i class="ri-link-m" aria-hidden="true"></i>
-  <p class="sr-only">available-gatherers</p>
+<p>Gatherers can be thought of as functions:</p><ul><li>they have a name</li><li>they accept argument(s)</li><li>they return a value, the gathered <a href="specification.html#facts">Fact</a></li></ul><p>Facts Gathering process in a nutshell</p><pre><code class="makeup elixir" translate="no"><span class="n">fact</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">gatherer</span><span class="p" data-group-id="1266913244-1">(</span><span class="n">argument</span><span class="p" data-group-id="1266913244-1">)</span></code></pre><h2 id="available-gatherers" class="section-heading">
+  <a href="#available-gatherers">
+    <i class="ri-link-m" aria-hidden="true"></i>
+    Available Gatherers
   </a>
-  Available Gatherers
 </h2>
 <p>Here's a collection of built-in gatherers, with information about how to use them.</p><table><thead><tr><th style="text-align: left;">Name</th><th style="text-align: left;">Implementation</th></tr></thead><tbody><tr><td style="text-align: left;"><a href="#cibadmin"><code class="inline">cibadmin</code></a></td><td style="text-align: left;"><a href="https://github.com/trento-project/agent/blob/main/internal/factsengine/gatherers/cibadmin.go">trento-project/agent/../gatherers/cibadmin.go</a></td></tr><tr><td style="text-align: left;"><a href="#corosyncconf"><code class="inline">corosync.conf</code></a></td><td style="text-align: left;"><a href="https://github.com/trento-project/agent/blob/main/internal/factsengine/gatherers/corosyncconf.go">trento-project/agent/../gatherers/corosyncconf.go</a></td></tr><tr><td style="text-align: left;"><a href="#corosync-cmapctl"><code class="inline">corosync-cmapctl</code></a></td><td style="text-align: left;"><a href="https://github.com/trento-project/agent/blob/main/internal/factsengine/gatherers/corosynccmapctl.go">trento-project/agent/../gatherers/corosynccmapctl.go</a></td></tr><tr><td style="text-align: left;"><a href="#hosts-etchosts"><code class="inline">hosts</code></a></td><td style="text-align: left;"><a href="https://github.com/trento-project/agent/blob/main/internal/factsengine/gatherers/hostsfile.go">trento-project/agent/../gatherers/hostsfile.go</a></td></tr><tr><td style="text-align: left;"><a href="#package_version"><code class="inline">package_version</code></a></td><td style="text-align: left;"><a href="https://github.com/trento-project/agent/blob/main/internal/factsengine/gatherers/packageversion.go">trento-project/agent/../gatherers/packageversion.go</a></td></tr><tr><td style="text-align: left;"><a href="#saphostctrl"><code class="inline">saphostctrl</code></a></td><td style="text-align: left;"><a href="https://github.com/trento-project/agent/blob/main/internal/factsengine/gatherers/saphostctrl.go">trento-project/agent/../gatherers/saphostctrl.go</a></td></tr><tr><td style="text-align: left;"><a href="#sbd_config"><code class="inline">sbd_config</code></a></td><td style="text-align: left;"><a href="https://github.com/trento-project/agent/blob/main/internal/factsengine/gatherers/sbd.go">trento-project/agent/../gatherers/sbd.go</a></td></tr><tr><td style="text-align: left;"><a href="#sbd_dump"><code class="inline">sbd_dump</code></a></td><td style="text-align: left;"><a href="https://github.com/trento-project/agent/blob/main/internal/factsengine/gatherers/sbddump.go">trento-project/agent/../gatherers/sbddump.go</a></td></tr><tr><td style="text-align: left;"><a href="#systemd"><code class="inline">systemd</code></a></td><td style="text-align: left;"><a href="https://github.com/trento-project/agent/blob/main/internal/factsengine/gatherers/systemd.go">trento-project/agent/../gatherers/systemd.go</a></td></tr><tr><td style="text-align: left;"><a href="#verify_password"><code class="inline">verify_password</code></a></td><td style="text-align: left;"><a href="https://github.com/trento-project/agent/blob/main/internal/factsengine/gatherers/verifypassword.go">trento-project/agent/../gatherers/verifypassword.go</a></td></tr></tbody></table><h3 id="cibadmin" class="section-heading">
-  <a href="#cibadmin" class="hover-link"><i class="ri-link-m" aria-hidden="true"></i>
-  <p class="sr-only">cibadmin</p>
+  <a href="#cibadmin">
+    <i class="ri-link-m" aria-hidden="true"></i>
+    cibadmin
   </a>
-  cibadmin
 </h3>
 <p><strong>Argument required</strong>: no.</p><p>This gatherer allows accessing Pacemaker's CIB information, the output of the <code class="inline">cibadmin</code> command more precisely.
 As the <code class="inline">cibadmin</code> command output is in XML format, the gatherer converts it to map/dictionary type format, so the fields are available with the normal dot access way.
@@ -161,10 +161,10 @@ Some specific fields, such as <code class="inline">primitive</code>, <code class
     name: &quot;dc-version&quot;,
     value: &quot;2.0.4+20200616.2deceaa3a-3.12.1-2.0.4+20200616.2deceaa3a&quot;
 };</code></pre><h3 id="corosync-conf" class="section-heading">
-  <a href="#corosync-conf" class="hover-link"><i class="ri-link-m" aria-hidden="true"></i>
-  <p class="sr-only">corosync-conf</p>
+  <a href="#corosync-conf">
+    <i class="ri-link-m" aria-hidden="true"></i>
+    corosync.conf
   </a>
-  corosync.conf
 </h3>
 <p><strong>Argument required</strong>: no.</p><p>This gatherer allows accessing the information contained in <code class="inline">/etc/corosync/corosync.conf</code></p><p>Example arguments:</p><table><thead><tr><th style="text-align: left;">Name</th><th style="text-align: left;">Return value</th></tr></thead><tbody><tr><td style="text-align: left;"><code class="inline">totem.token</code></td><td style="text-align: left;">extracted value from the config</td></tr><tr><td style="text-align: left;"><code class="inline">totem.join</code></td><td style="text-align: left;">extracted value from the config</td></tr><tr><td style="text-align: left;"><code class="inline">nodelist.node.&lt;node_index&gt;.nodeid</code></td><td style="text-align: left;">extracted value from the config</td></tr><tr><td style="text-align: left;"><code class="inline">nodelist.node</code></td><td style="text-align: left;">list of objects representing the nodes</td></tr></tbody></table><p>Example specification:</p><pre><code class="yaml">facts:
   - name: corosync_token_timeout
@@ -199,10 +199,10 @@ Some specific fields, such as <code class="inline">primitive</code>, <code class
 
 // corosync_nodes
 [#{nodeid: 1, ring0_addr: &quot;192.168.157.10&quot;}, #{nodeid: 2, ring0_addr: &quot;192.168.157.11&quot;}];</code></pre><p>For extra information refer to <a href="https://github.com/trento-project/agent/blob/main/internal/factsengine/gatherers/corosyncconf_test.go">trento-project/agent/../gatherers/corosyncconf_test.go</a></p><h3 id="corosync-cmapctl" class="section-heading">
-  <a href="#corosync-cmapctl" class="hover-link"><i class="ri-link-m" aria-hidden="true"></i>
-  <p class="sr-only">corosync-cmapctl</p>
+  <a href="#corosync-cmapctl">
+    <i class="ri-link-m" aria-hidden="true"></i>
+    corosync-cmapctl
   </a>
-  corosync-cmapctl
 </h3>
 <p><strong>Argument required</strong>: yes.</p><p>This gatherer allows accessing the output of the <code class="inline">corosync-cmapctl</code> tool. It supports all of the keys returned by it to be queried.</p><p>Example arguments:</p><table><thead><tr><th style="text-align: left;">Name</th><th style="text-align: left;">Return value</th></tr></thead><tbody><tr><td style="text-align: left;"><code class="inline">totem.token</code></td><td style="text-align: left;">extracted value from the command</td></tr><tr><td style="text-align: left;"><code class="inline">runtime.config.totem.token</code></td><td style="text-align: left;">extracted value from the command</td></tr><tr><td style="text-align: left;"><code class="inline">totem.transport</code></td><td style="text-align: left;">extracted value from the command</td></tr><tr><td style="text-align: left;"><code class="inline">runtime.config.totem.max_messages</code></td><td style="text-align: left;">extracted value from the command</td></tr><tr><td style="text-align: left;"><code class="inline">nodelist.node.0.ring0_addr</code></td><td style="text-align: left;">extracted value from the command</td></tr><tr><td style="text-align: left;"><code class="inline">nodelist.node</code></td><td style="text-align: left;">extracted value from the command</td></tr><tr><td style="text-align: left;"><code class="inline">nodelist.node.1</code></td><td style="text-align: left;">extracted value from the command</td></tr></tbody></table><p>Example specification:</p><pre><code class="yaml">facts:
   - name: totem_token
@@ -260,10 +260,10 @@ Some specific fields, such as <code class="inline">primitive</code>, <code class
 
 // second_node
 #{ nodeid: 2, ring0_addr: &quot;10.80.1.12&quot; };</code></pre><h3 id="hosts-etc-hosts" class="section-heading">
-  <a href="#hosts-etc-hosts" class="hover-link"><i class="ri-link-m" aria-hidden="true"></i>
-  <p class="sr-only">hosts-etc-hosts</p>
+  <a href="#hosts-etc-hosts">
+    <i class="ri-link-m" aria-hidden="true"></i>
+    hosts (/etc/hosts)
   </a>
-  hosts (/etc/hosts)
 </h3>
 <p><strong>Argument required</strong>: no.</p><p>This gatherer allows accessing the hostnames that are resolvable through <code class="inline">/etc/hosts</code>. It
 does <strong>not</strong> use domain resolution in any way but instead directly parses the file.</p><p>It allows one argument to be specified or none at all:</p><ul><li>When a hostname is provided as an argument, the gatherer will return an array of IPv4 and/or IPv6 addresses.</li><li>When no argument is provided, the gatherer will return a map with hostname as keys and arrays with IPv4 and/or IPv6 addresses.</li></ul><p>Example arguments:</p><table><thead><tr><th style="text-align: left;">Name</th><th style="text-align: left;">Return value</th></tr></thead><tbody><tr><td style="text-align: left;"><code class="inline">localhost</code></td><td style="text-align: left;">list of IPs resolving</td></tr><tr><td style="text-align: left;"><code class="inline">node1</code></td><td style="text-align: left;">list of IPs resolving</td></tr><tr><td style="text-align: left;"><code class="inline">no argument provided</code></td><td style="text-align: left;">map with hostnames and IP addresses</td></tr></tbody></table><p>Example specification:</p><pre><code class="yaml">facts:
@@ -289,10 +289,10 @@ does <strong>not</strong> use domain resolution in any way but instead directly 
   &quot;node2&quot;: [&quot;192.168.157.11&quot;],
   ...
 };</code></pre><h3 id="package_version" class="section-heading">
-  <a href="#package_version" class="hover-link"><i class="ri-link-m" aria-hidden="true"></i>
-  <p class="sr-only">package_version</p>
+  <a href="#package_version">
+    <i class="ri-link-m" aria-hidden="true"></i>
+    package_version
   </a>
-  package_version
 </h3>
 <p><strong>Argument required</strong>: yes.</p><p>This gatherer supports two usecases:</p><ul><li>get information about the installed versions of the specified package.</li><li>compare a given version string against the latest installed version of a given package.</li></ul><p>In the first usecase a list of objects is returned, where each object carries relevant information about an installed version of a package.</p><blockquote><p>Note:</p><ul><li>a list of one element is often expected since usually the installed version would be only one</li><li>detected installed versions list is ordered by descending installation time: <strong>latest installed versions come first</strong></li><li>operating on the latest installed version requires accessing the first element in the list via <code class="inline">package_fact_name[0]</code> or <code class="inline">package_fact_name.first()</code></li></ul></blockquote><p>In the second usecase, the return value is as follows (see additional details <a href="https://fedoraproject.org/wiki/Archive:Tools/RPM/VersionComparison#The_rpmvercmp_algorithm">here</a>):</p><ul><li>A value of <code class="inline">0</code> if the provided version string matches the installed package version for the requested package.</li><li>A value of <code class="inline">-1</code> if the provided version string is older that what's currently installed.</li><li>A value of <code class="inline">1</code> if the provided version string is newer than what's currently installed.</li></ul><blockquote><p>The latest detected installed version is used for comparison</p></blockquote><p>Naming the facts / expectations accordingly is specially important here to avoid confusion.</p><ul><li>We suggest using a <code class="inline">compare_</code> prefix for package version comparisons and <code class="inline">package_</code> to retrieve
 a package version</li></ul><p>Additionally, when using the version comparison, it increases readability to explicitly mention
@@ -370,10 +370,10 @@ expectations:
 
 // compare_package_corosync
 0</code></pre><h3 id="saphostctrl" class="section-heading">
-  <a href="#saphostctrl" class="hover-link"><i class="ri-link-m" aria-hidden="true"></i>
-  <p class="sr-only">saphostctrl</p>
+  <a href="#saphostctrl">
+    <i class="ri-link-m" aria-hidden="true"></i>
+    saphostctrl
   </a>
-  saphostctrl
 </h3>
 <p><strong>Argument required</strong>: yes.</p><p>This gatherer allows access to certain webmethods that <code class="inline">saphostctrl</code> implements. An argument is required to specify
 which webmethod should be called. This webmethod is passed to the <code class="inline">saphostctrl</code> command-line tool through the <code class="inline">-function</code> argument.</p><p>Supported webmethods:</p><ul><li><code class="inline">Ping</code></li><li><code class="inline">ListInstances</code></li></ul><p>A <code class="inline">Ping</code> call with a successful return should look like this:</p><p>Example specification:</p><pre><code class="yaml">facts:
@@ -397,10 +397,10 @@ which webmethod should be called. This webmethod is passed to the <code class="i
         &quot;system&quot;: &quot;PRD&quot;
     }
 ];</code></pre><h3 id="sbd_config" class="section-heading">
-  <a href="#sbd_config" class="hover-link"><i class="ri-link-m" aria-hidden="true"></i>
-  <p class="sr-only">sbd_config</p>
+  <a href="#sbd_config">
+    <i class="ri-link-m" aria-hidden="true"></i>
+    sbd_config
   </a>
-  sbd_config
 </h3>
 <p><strong>Argument required</strong>: yes.</p><p>This gatherer allows accessing the information contained in <code class="inline">/etc/sysconfig/sbd</code></p><p>Example arguments:</p><table><thead><tr><th style="text-align: left;">Name</th><th style="text-align: left;">Return value</th></tr></thead><tbody><tr><td style="text-align: left;"><code class="inline">SBD_PACEMAKER</code></td><td style="text-align: left;">extracted value from the config</td></tr><tr><td style="text-align: left;"><code class="inline">SBD_STARTMODE</code></td><td style="text-align: left;">extracted value from the config</td></tr><tr><td style="text-align: left;"><code class="inline">SBD_DEVICE</code></td><td style="text-align: left;">extracted value from the config</td></tr></tbody></table><p>Example specification:</p><pre><code class="yaml">facts:
   - name: sbd_pacemaker
@@ -421,10 +421,10 @@ which webmethod should be called. This webmethod is passed to the <code class="i
 
 // sbd_device
 &quot;/dev/vdc;/dev/vdb&quot;;</code></pre><h3 id="sbd_dump" class="section-heading">
-  <a href="#sbd_dump" class="hover-link"><i class="ri-link-m" aria-hidden="true"></i>
-  <p class="sr-only">sbd_dump</p>
+  <a href="#sbd_dump">
+    <i class="ri-link-m" aria-hidden="true"></i>
+    sbd_dump
   </a>
-  sbd_dump
 </h3>
 <p><strong>Argument required</strong>: no.</p><p>This gatherer allows accessing the sbd dump command output data.</p><p>It executes the <code class="inline">sbd -d &lt;device&gt; dump</code> command in all devices configured in the <code class="inline">SBD_DEVICE</code> field on <code class="inline">/etc/sysconfig/sbd</code> and aggregates results in only one fact.</p><p>Note that:</p><ul><li>no arguments are required</li><li>if any of the dumps fail, a fact error is returned</li></ul><p>Dumped keys (<code class="inline">Timeout (watchdog)</code>, <code class="inline">Timeout (msgwait)</code>, <code class="inline">Number of slots</code>, etc) are sanitized to simplify their access and usage in the expression language.</p><p>Example specification:</p><pre><code class="yaml">facts:
   - name: sbd_devices_dump
@@ -441,10 +441,10 @@ which webmethod should be called. This webmethod is passed to the <code class="i
         uuid: &quot;69048391-c647-4b34-a03a-f704f5cc2258&quot;
     }
 };</code></pre><p>For extra information refer to <a href="https://github.com/trento-project/agent/blob/main/internal/factsengine/gatherers/sbddump_test.go">trento-project/agent/../gatherers/sbddump_test.go</a></p><h3 id="systemd" class="section-heading">
-  <a href="#systemd" class="hover-link"><i class="ri-link-m" aria-hidden="true"></i>
-  <p class="sr-only">systemd</p>
+  <a href="#systemd">
+    <i class="ri-link-m" aria-hidden="true"></i>
+    systemd
   </a>
-  systemd
 </h3>
 <p><strong>Argument required</strong>: yes.</p><p>Gather systemd units state. It returns an <code class="inline">active/inactive</code> string.
 If the service is disabled or it does not exist, <code class="inline">inactive</code> is returned.</p><p>Example arguments:</p><table><thead><tr><th style="text-align: left;">Name</th><th style="text-align: left;">Return value</th></tr></thead><tbody><tr><td style="text-align: left;"><code class="inline">trento-agent</code></td><td style="text-align: left;">state of the systemd unit</td></tr></tbody></table><pre><code class="yaml">facts:
@@ -459,10 +459,10 @@ If the service is disabled or it does not exist, <code class="inline">inactive</
 
 // corosync_state
 &quot;inactive&quot;;</code></pre><h3 id="verify_password" class="section-heading">
-  <a href="#verify_password" class="hover-link"><i class="ri-link-m" aria-hidden="true"></i>
-  <p class="sr-only">verify_password</p>
+  <a href="#verify_password">
+    <i class="ri-link-m" aria-hidden="true"></i>
+    verify_password
   </a>
-  verify_password
 </h3>
 <p><strong>Argument required</strong>: yes.</p><p>This gatherer determines whether a given user has its password still set to an unsafe password.
 It returns <code class="inline">true</code> if the password matches a password in the list of unsafe passwords, <code class="inline">false</code> otherwise.</p><p>Specification examples:</p><pre><code class="yaml">facts:
@@ -513,7 +513,7 @@ Hack on Wanda
 
         <p class="built-using">
           Built using
-          <a href="https://github.com/elixir-lang/ex_doc" title="ExDoc" target="_blank" rel="help noopener" translate="no">ExDoc</a> (v0.29.4) for the
+          <a href="https://github.com/elixir-lang/ex_doc" title="ExDoc" target="_blank" rel="help noopener" translate="no">ExDoc</a> (v0.30.2) for the
 
             <a href="https://elixir-lang.org" title="Elixir" target="_blank" translate="no">Elixir programming language</a>
 
