@@ -1,4 +1,10 @@
 defmodule Wanda.EvaluationEngine do
+  @moduledoc """
+  This module wraps the Rhai engine and provides a simple interface for
+  evaluating expressions.
+  It also sets some default options for the engine.
+  """
+
   alias Rhai.{Engine, Scope}
 
   def new do
