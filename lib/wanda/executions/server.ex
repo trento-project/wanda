@@ -23,6 +23,8 @@ defmodule Wanda.Executions.Server do
     Messaging
   }
 
+  alias Wanda.EvaluationEngine
+
   require Logger
 
   @default_target_type "cluster"
@@ -94,6 +96,8 @@ defmodule Wanda.Executions.Server do
           timeout: timeout
         } = state
       ) do
+    engine = EvaluationEngine.new()
+
     facts_gathering_requested =
       Messaging.Mapper.to_facts_gathering_requested(execution_id, group_id, targets, checks)
 
@@ -106,7 +110,7 @@ defmodule Wanda.Executions.Server do
 
     Process.send_after(self(), :timeout, timeout)
 
-    {:noreply, state}
+    {:noreply, %State{state | engine: engine}}
   end
 
   @impl true
@@ -139,6 +143,7 @@ defmodule Wanda.Executions.Server do
   def handle_info(
         :timeout,
         %State{
+          engine: engine,
           execution_id: execution_id,
           group_id: group_id,
           gathered_facts: gathered_facts,
@@ -158,7 +163,15 @@ defmodule Wanda.Executions.Server do
     gathered_facts = Gathering.put_gathering_timeouts(gathered_facts, targets)
 
     result =
-      Evaluation.execute(execution_id, group_id, checks, gathered_facts, env, timedout_agents)
+      Evaluation.execute(
+        execution_id,
+        group_id,
+        checks,
+        gathered_facts,
+        env,
+        timedout_agents,
+        engine
+      )
 
     store_and_publish_execution_result(result, env)
 
@@ -167,6 +180,7 @@ defmodule Wanda.Executions.Server do
 
   defp continue_or_complete_execution(
          %State{
+           engine: engine,
            execution_id: execution_id,
            group_id: group_id,
            gathered_facts: gathered_facts,
@@ -184,7 +198,7 @@ defmodule Wanda.Executions.Server do
     state = %State{state | gathered_facts: gathered_facts, agents_gathered: agents_gathered}
 
     if Gathering.all_agents_sent_facts?(agents_gathered, targets) do
-      result = Evaluation.execute(execution_id, group_id, checks, gathered_facts, env)
+      result = Evaluation.execute(execution_id, group_id, checks, gathered_facts, env, engine)
 
       store_and_publish_execution_result(result, env)
 

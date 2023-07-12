@@ -3,10 +3,11 @@ defmodule Wanda.Executions.State do
   State of an execution.
   """
 
-  alias Wanda.Catalog
+  alias Wanda.{Catalog, EvaluationEngine}
   alias Wanda.Executions.Target
 
   defstruct [
+    :engine,
     :execution_id,
     :group_id,
     :timeout,
@@ -18,6 +19,7 @@ defmodule Wanda.Executions.State do
   ]
 
   @type t :: %__MODULE__{
+          engine: EvaluationEngine.t(),
           execution_id: String.t(),
           group_id: String.t(),
           timeout: integer(),
