@@ -18,6 +18,8 @@ defmodule Wanda.Executions.Evaluation do
     Value
   }
 
+  alias Wanda.EvaluationEngine
+
   @default_failure_message "Expectation not met"
 
   @spec execute(
@@ -26,36 +28,48 @@ defmodule Wanda.Executions.Evaluation do
           [Check.t()],
           map(),
           %{String.t() => boolean() | number() | String.t()},
-          [String.t()]
+          [String.t()],
+          Rhai.Engine.t()
         ) :: Result.t()
-  def execute(execution_id, group_id, checks, gathered_facts, env, timeouts \\ []) do
+  def execute(execution_id, group_id, checks, gathered_facts, env, timeouts \\ [], engine) do
     %Result{
       execution_id: execution_id,
       group_id: group_id,
       timeout: timeouts
     }
-    |> add_checks_result(checks, gathered_facts, env)
+    |> add_checks_result(
+      checks,
+      gathered_facts,
+      env,
+      engine
+    )
     |> aggregate_execution_result()
   end
 
-  defp add_checks_result(%Result{} = result, checks, gathered_facts, env) do
+  defp add_checks_result(%Result{} = result, checks, gathered_facts, env, engine) do
     check_results =
       Enum.map(gathered_facts, fn {check_id, agents_facts} ->
         %Check{severity: severity, values: values, expectations: expectations} =
           Enum.find(checks, &(&1.id == check_id))
 
-        build_check_result(check_id, severity, expectations, agents_facts, env, values)
+        build_check_result(check_id, severity, expectations, agents_facts, env, values, engine)
       end)
 
     %Result{result | check_results: check_results}
   end
 
-  defp build_check_result(check_id, severity, expectations, agents_facts, env, values) do
+  defp build_check_result(check_id, severity, expectations, agents_facts, env, values, engine) do
     %CheckResult{
       check_id: check_id
     }
-    |> add_agents_results(expectations, agents_facts, env, values)
-    |> add_expectation_results(expectations)
+    |> add_agents_results(
+      expectations,
+      agents_facts,
+      env,
+      values,
+      engine
+    )
+    |> add_expectation_results(expectations, engine)
     |> aggregate_check_result(severity)
   end
 
@@ -64,7 +78,8 @@ defmodule Wanda.Executions.Evaluation do
          expectations,
          agents_facts,
          env,
-         values
+         values,
+         engine
        ) do
     agents_results =
       Enum.map(agents_facts, fn
@@ -76,13 +91,13 @@ defmodule Wanda.Executions.Evaluation do
           }
 
         {agent_id, facts} ->
-          add_agent_check_result_or_error(agent_id, facts, expectations, env, values)
+          add_agent_check_result_or_error(agent_id, facts, expectations, env, values, engine)
       end)
 
     %CheckResult{check_result | agents_check_results: agents_results}
   end
 
-  defp add_agent_check_result_or_error(agent_id, facts, expectations, env, values) do
+  defp add_agent_check_result_or_error(agent_id, facts, expectations, env, values, engine) do
     if has_some_fact_gathering_error?(facts) do
       %AgentCheckError{
         agent_id: agent_id,
@@ -93,7 +108,7 @@ defmodule Wanda.Executions.Evaluation do
     else
       value_evaluation_scope = add_scope(%{"env" => env}, "facts", facts)
 
-      evaluated_values = Enum.map(values, &eval_value(&1, value_evaluation_scope))
+      evaluated_values = Enum.map(values, &eval_value(&1, value_evaluation_scope, engine))
 
       expectation_evaluation_scope =
         %{}
@@ -105,7 +120,7 @@ defmodule Wanda.Executions.Evaluation do
         facts: facts,
         values: evaluated_values,
         expectation_evaluations:
-          Enum.map(expectations, &eval_expectation(&1, expectation_evaluation_scope))
+          Enum.map(expectations, &eval_expectation(&1, expectation_evaluation_scope, engine))
       }
     end
   end
@@ -131,15 +146,16 @@ defmodule Wanda.Executions.Evaluation do
            default: default,
            conditions: conditions
          },
-         evaluation_scope
+         evaluation_scope,
+         engine
        ) do
     %Value{
       name: name,
-      value: find_value(conditions, default, evaluation_scope)
+      value: find_value(conditions, default, evaluation_scope, engine)
     }
   end
 
-  defp find_value(conditions, default, evaluation_scope) do
+  defp find_value(conditions, default, evaluation_scope, engine) do
     Enum.find_value(
       conditions,
       default,
@@ -147,7 +163,7 @@ defmodule Wanda.Executions.Evaluation do
            value: value,
            expression: expression
          } ->
-        case Rhai.eval(expression, evaluation_scope) do
+        case EvaluationEngine.eval(engine, expression, evaluation_scope) do
           {:ok, true} ->
             value
 
@@ -165,9 +181,10 @@ defmodule Wanda.Executions.Evaluation do
            expression: expression,
            failure_message: failure_message
          },
-         evaluation_scope
+         evaluation_scope,
+         engine
        ) do
-    case Rhai.eval(expression, evaluation_scope) do
+    case EvaluationEngine.eval(engine, expression, evaluation_scope) do
       {:ok, return_value} ->
         maybe_add_failure_message(
           %ExpectationEvaluation{
@@ -176,7 +193,8 @@ defmodule Wanda.Executions.Evaluation do
             return_value: return_value
           },
           failure_message,
-          evaluation_scope
+          evaluation_scope,
+          engine
         )
 
       {:error, {error_type, message}} ->
@@ -191,7 +209,8 @@ defmodule Wanda.Executions.Evaluation do
   defp maybe_add_failure_message(
          %ExpectationEvaluation{type: :expect, return_value: false} = expectation_evaluation,
          nil,
-         _evaluation_scope
+         _evaluation_scope,
+         _
        ) do
     %ExpectationEvaluation{expectation_evaluation | failure_message: @default_failure_message}
   end
@@ -199,10 +218,11 @@ defmodule Wanda.Executions.Evaluation do
   defp maybe_add_failure_message(
          %ExpectationEvaluation{type: :expect, return_value: false} = expectation_evaluation,
          failure_message,
-         evaluation_scope
+         evaluation_scope,
+         engine
        ) do
     message =
-      case Rhai.eval("`#{failure_message}`", evaluation_scope) do
+      case EvaluationEngine.eval(engine, "`#{failure_message}`", evaluation_scope) do
         {:ok, interpolated_failure_message} -> interpolated_failure_message
         _ -> @default_failure_message
       end
@@ -213,7 +233,8 @@ defmodule Wanda.Executions.Evaluation do
   defp maybe_add_failure_message(
          %ExpectationResult{type: :expect_same, result: false} = expectation_result,
          nil,
-         _evaluation_scope
+         _evaluation_scope,
+         _
        ) do
     %ExpectationResult{expectation_result | failure_message: @default_failure_message}
   end
@@ -221,16 +242,18 @@ defmodule Wanda.Executions.Evaluation do
   defp maybe_add_failure_message(
          %ExpectationResult{type: :expect_same, result: false} = expectation_result,
          failure_message,
-         _evaluation_scope
+         _evaluation_scope,
+         _
        ) do
     %ExpectationResult{expectation_result | failure_message: failure_message}
   end
 
-  defp maybe_add_failure_message(expectation, _, _), do: expectation
+  defp maybe_add_failure_message(expectation, _, _, _), do: expectation
 
   defp add_expectation_results(
          %CheckResult{agents_check_results: agents_check_results} = result,
-         expectations
+         expectations,
+         engine
        ) do
     expectation_results =
       agents_check_results
@@ -262,7 +285,8 @@ defmodule Wanda.Executions.Evaluation do
               )
           },
           failure_message,
-          %{}
+          %{},
+          engine
         )
       end)
 

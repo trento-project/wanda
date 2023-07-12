@@ -7,6 +7,7 @@ defmodule Wanda.Executions.State do
   alias Wanda.Executions.Target
 
   defstruct [
+    :engine,
     :execution_id,
     :group_id,
     :timeout,
@@ -18,6 +19,7 @@ defmodule Wanda.Executions.State do
   ]
 
   @type t :: %__MODULE__{
+          engine: Rhai.Engine.t(),
           execution_id: String.t(),
           group_id: String.t(),
           timeout: integer(),

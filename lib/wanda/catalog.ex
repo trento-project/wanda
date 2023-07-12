@@ -11,6 +11,8 @@ defmodule Wanda.Catalog do
     Value
   }
 
+  alias Wanda.EvaluationEngine
+
   require Logger
 
   @default_severity :critical
@@ -70,7 +72,9 @@ defmodule Wanda.Catalog do
   defp when_condition(%Check{when: nil}, _), do: true
 
   defp when_condition(%Check{when: when_clause}, env) do
-    case Rhai.eval(when_clause, %{"env" => env}) do
+    engine = EvaluationEngine.new()
+
+    case EvaluationEngine.eval(engine, when_clause, %{"env" => env}) do
       {:ok, true} -> true
       _ -> false
     end
