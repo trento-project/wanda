@@ -13,6 +13,6 @@ defmodule Wanda.Executions.ExpectationEvaluationError do
   @type t :: %__MODULE__{
           name: String.t(),
           message: String.t(),
-          type: Rhai.rhai_error()
+          type: Rhai.Error.t()
         }
 end

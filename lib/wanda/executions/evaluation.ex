@@ -29,7 +29,7 @@ defmodule Wanda.Executions.Evaluation do
           map(),
           %{String.t() => boolean() | number() | String.t()},
           [String.t()],
-          EvaluationEngine.t()
+          Rhai.Engine.t()
         ) :: Result.t()
   def execute(execution_id, group_id, checks, gathered_facts, env, timeouts \\ [], engine) do
     %Result{
