@@ -4,7 +4,7 @@
 #!BuildTag: trento/trento-wanda:%%VERSION%%-build%RELEASE%
 #!UseOBSRepositories
 
-FROM bci/rust:1.66 AS release
+FROM bci/rust:stable AS release
 ADD wanda.tar.gz premium-checks.tar.gz* /build/
 RUN mv /build/priv/catalog/* /build/wanda/priv/catalog || true && rm -fr /build/priv/
 # Workaround for https://github.com/openSUSE/obs-build/issues/487
@@ -20,7 +20,7 @@ ENV VERSION=%%VERSION%%
 RUN mix phx.digest
 RUN mix release
 
-FROM bci/rust:1.66 AS wanda
+FROM bci/rust:stable AS wanda
 # Define labels according to https://en.opensuse.org/Building_derived_containers
 # labelprefix=com.suse.trento
 LABEL org.opencontainers.image.source="https://github.com/trento-project/wanda"
