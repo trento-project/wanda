@@ -707,12 +707,12 @@ config :wanda,
       target6 => %{"runtime_transport" => "udpu"}
     },
     "CAEFF1" => %{
-      target1 => %{"os_flavor" => "Passing"},
-      target2 => %{"os_flavor" => "Passing"},
-      target3 => %{"os_flavor" => "Passing"},
-      target4 => %{"os_flavor" => "Passing"},
-      target5 => %{"os_flavor" => "Passing"},
-      target6 => %{"os_flavor" => "Passing"}
+      target1 => %{"os_flavor" => "SLES_SAP"},
+      target2 => %{"os_flavor" => "SLES_SAP"},
+      target3 => %{"os_flavor" => "SLES_SAP"},
+      target4 => %{"os_flavor" => "SLES_SAP"},
+      target5 => %{"os_flavor" => "SLES_SAP"},
+      target6 => %{"os_flavor" => "SLES_SAP"}
     },
     "DC5429" => %{
       target1 => %{
