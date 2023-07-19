@@ -5,7 +5,8 @@ defmodule Wanda.Executions.FakeServer do
   """
   @behaviour Wanda.Executions.ServerBehaviour
 
-  alias Wanda.Executions.FakeEvaluation
+  alias Wanda.EvaluationEngine
+  alias Wanda.Executions.{Evaluation, FakeGatheredFacts}
 
   alias Wanda.{
     Catalog,
@@ -16,19 +17,15 @@ defmodule Wanda.Executions.FakeServer do
   @default_config [sleep: 2_000]
   @impl true
   def start_execution(execution_id, group_id, targets, env, config \\ @default_config) do
+    default_target_type = "cluster"
+    env = Map.put(env, "target_type", default_target_type)
+
     checks =
       targets
       |> Executions.Target.get_checks_from_targets()
       |> Catalog.get_checks(env)
 
-    checks_ids = Enum.map(checks, & &1.id)
-
-    target_type = Map.get(env, "target_type", "cluster")
-
-    targets =
-      Enum.map(targets, fn %{checks: target_checks} = target ->
-        %Executions.Target{target | checks: target_checks -- target_checks -- checks_ids}
-      end)
+    gathered_facts = FakeGatheredFacts.get_demo_gathered_facts(checks, targets)
 
     Executions.create_execution!(execution_id, group_id, targets)
     execution_started = Messaging.Mapper.to_execution_started(execution_id, group_id, targets)
@@ -36,14 +33,24 @@ defmodule Wanda.Executions.FakeServer do
 
     Process.sleep(Keyword.get(config, :sleep, 2_000))
 
-    build_result = FakeEvaluation.complete_fake_execution(execution_id, group_id, targets, checks)
+    evaluation_result =
+      Evaluation.execute(
+        execution_id,
+        group_id,
+        checks,
+        gathered_facts,
+        env,
+        EvaluationEngine.new()
+      )
 
     Executions.complete_execution!(
       execution_id,
-      build_result
+      evaluation_result
     )
 
-    execution_completed = Messaging.Mapper.to_execution_completed(build_result, target_type)
+    execution_completed =
+      Messaging.Mapper.to_execution_completed(evaluation_result, default_target_type)
+
     :ok = Messaging.publish("results", execution_completed)
   end
 
