@@ -19,64 +19,48 @@ target6 = "e0c182db-32ff-55c6-a9eb-2b82dd21bc8b"
 config :wanda,
   fake_gathered_facts: %{
     "C620DC" => %{
-      target1 => %{"corosync_expected_votes" => 2},
-      target2 => %{"corosync_expected_votes" => 2},
-      target3 => %{"corosync_expected_votes" => 2},
-      target4 => %{"corosync_expected_votes" => 2},
-      target5 => %{"corosync_expected_votes" => 2},
-      target6 => %{"corosync_expected_votes" => 2}
+      "corosync_expected_votes" => %{
+        target1 => 2,
+        target2 => 2,
+        target3 => 2,
+        target4 => 2,
+        target5 => 2,
+        target6 => 2
+      }
     },
     "845CC9" => %{
-      target1 => %{"corosync_max_messages" => 20},
-      target2 => %{"corosync_max_messages" => 20},
-      target3 => %{"corosync_max_messages" => 20},
-      target4 => %{"corosync_max_messages" => 20},
-      target5 => %{"corosync_max_messages" => 20},
-      target6 => %{"corosync_max_messages" => 20}
+      "corosync_max_messages" => %{
+        target1 => 20,
+        target2 => 20,
+        target3 => 20,
+        target4 => 20,
+        target5 => 20,
+        target6 => 20
+      }
     },
     "D028B9" => %{
-      target1 => %{
-        "compare_sles_sap_version" => 0
-      },
-      target2 => %{
-        "compare_sles_sap_version" => -1
-      },
-      target3 => %{
-        "compare_sles_sap_version" => 0
-      },
-      target4 => %{
-        "compare_sles_sap_version" => 0
-      },
-      target5 => %{
-        "compare_sles_sap_version" => -1
-      },
-      target6 => %{
-        "compare_sles_sap_version" => 0
+      "compare_sles_sap_version" => %{
+        target1 => 0,
+        target2 => -1,
+        target3 => 0,
+        target4 => 0,
+        target5 => -1,
+        target6 => 0
       }
     },
     "A1244C" => %{
-      target1 => %{
-        "corosync_consensus_timeout" => 36_000
-      },
-      target2 => %{
-        "corosync_consensus_timeout" => 36_000
-      },
-      target3 => %{
-        "corosync_consensus_timeout" => 36_000
-      },
-      target4 => %{
-        "corosync_consensus_timeout" => 36_000
-      },
-      target5 => %{
-        "corosync_consensus_timeout" => 36_000
-      },
-      target6 => %{
-        "corosync_consensus_timeout" => 36_000
+      "corosync_consensus_timeout" => %{
+        target1 => 36_000,
+        target2 => 36_000,
+        target3 => 36_000,
+        target4 => 36_000,
+        target5 => 36_000,
+        target6 => 36_000
       }
     },
     "DA114A" => %{
-      target1 => %{
-        "corosync_nodes" => [
+      "corosync_nodes" => %{
+        target1 => [
           %{
             "nodeid" => 1,
             "ring0_addr" => "192.168.157.10"
@@ -85,10 +69,8 @@ config :wanda,
             "nodeid" => 2,
             "ring0_addr" => "192.168.157.11"
           }
-        ]
-      },
-      target2 => %{
-        "corosync_nodes" => [
+        ],
+        target2 => [
           %{
             "nodeid" => 1,
             "ring0_addr" => "192.168.157.10"
@@ -97,10 +79,8 @@ config :wanda,
             "nodeid" => 2,
             "ring0_addr" => "192.168.157.11"
           }
-        ]
-      },
-      target3 => %{
-        "corosync_nodes" => [
+        ],
+        target3 => [
           %{
             "nodeid" => 1,
             "ring0_addr" => "192.168.157.10"
@@ -109,10 +89,8 @@ config :wanda,
             "nodeid" => 2,
             "ring0_addr" => "192.168.157.11"
           }
-        ]
-      },
-      target4 => %{
-        "corosync_nodes" => [
+        ],
+        target4 => [
           %{
             "nodeid" => 1,
             "ring0_addr" => "192.168.157.10"
@@ -121,10 +99,8 @@ config :wanda,
             "nodeid" => 2,
             "ring0_addr" => "192.168.157.11"
           }
-        ]
-      },
-      target5 => %{
-        "corosync_nodes" => [
+        ],
+        target5 => [
           %{
             "nodeid" => 1,
             "ring0_addr" => "192.168.157.10"
@@ -133,10 +109,8 @@ config :wanda,
             "nodeid" => 2,
             "ring0_addr" => "192.168.157.11"
           }
-        ]
-      },
-      target6 => %{
-        "corosync_nodes" => [
+        ],
+        target6 => [
           %{
             "nodeid" => 1,
             "ring0_addr" => "192.168.157.10"
@@ -149,63 +123,43 @@ config :wanda,
       }
     },
     "222A57" => %{
-      target1 => %{
-        "compare_sbd_version" => 0
-      },
-      target2 => %{
-        "compare_sbd_version" => -1
-      },
-      target3 => %{
-        "compare_sbd_version" => 0
-      },
-      target4 => %{
-        "compare_sbd_version" => -1
-      },
-      target5 => %{
-        "compare_sbd_version" => 0
-      },
-      target6 => %{
-        "compare_sbd_version" => 0
+      "compare_sbd_version" => %{
+        target1 => 0,
+        target2 => -1,
+        target3 => 0,
+        target4 => -1,
+        target5 => 0,
+        target6 => 0
       }
     },
     "B089BE" => %{
-      target1 => %{
-        "dump_sbd_devices" => %{
+      "dump_sbd_devices" => %{
+        target1 => %{
           "/dev/sdb" => %{
             "timeout_watchdog" => 15
           }
-        }
-      },
-      target2 => %{
-        "dump_sbd_devices" => %{
+        },
+        target2 => %{
           "/dev/sdb" => %{
             "timeout_watchdog" => 60
           }
-        }
-      },
-      target3 => %{
-        "dump_sbd_devices" => %{
+        },
+        target3 => %{
           "/dev/sdb" => %{
             "timeout_watchdog" => 60
           }
-        }
-      },
-      target4 => %{
-        "dump_sbd_devices" => %{
+        },
+        target4 => %{
           "/dev/sdb" => %{
             "timeout_watchdog" => 60
           }
-        }
-      },
-      target5 => %{
-        "dump_sbd_devices" => %{
+        },
+        target5 => %{
           "/dev/sdb" => %{
             "timeout_watchdog" => 60
           }
-        }
-      },
-      target6 => %{
-        "dump_sbd_devices" => %{
+        },
+        target6 => %{
           "/dev/sdb" => %{
             "timeout_watchdog" => 60
           }
@@ -213,162 +167,118 @@ config :wanda,
       }
     },
     "9FAAD0" => %{
-      target1 => %{
-        "exclude_package_pacemaker" => 1
-      },
-      target2 => %{
-        "exclude_package_pacemaker" => -1
-      },
-      target3 => %{
-        "exclude_package_pacemaker" => 1
-      },
-      target4 => %{
-        "exclude_package_pacemaker" => 1
-      },
-      target5 => %{
-        "exclude_package_pacemaker" => -1
-      },
-      target6 => %{
-        "exclude_package_pacemaker" => 1
+      "exclude_package_pacemaker" => %{
+        target1 => 1,
+        target2 => -1,
+        target3 => 1,
+        target4 => 1,
+        target5 => -1,
+        target6 => 1
       }
     },
     "790926" => %{
-      target1 => %{
-        "hacluster_has_default_password" => false
-      },
-      target2 => %{
-        "hacluster_has_default_password" => false
-      },
-      target3 => %{
-        "hacluster_has_default_password" => false
-      },
-      target4 => %{
-        "hacluster_has_default_password" => false
-      },
-      target5 => %{
-        "hacluster_has_default_password" => false
-      },
-      target6 => %{
-        "hacluster_has_default_password" => false
+      "hacluster_has_default_password" => %{
+        target1 => false,
+        target2 => false,
+        target3 => false,
+        target4 => false,
+        target5 => false,
+        target6 => false
       }
     },
     "0B6DB2" => %{
-      target1 => %{"sbd_pacemaker" => "yes"},
-      target2 => %{"sbd_pacemaker" => "yes"},
-      target3 => %{"sbd_pacemaker" => "yes"},
-      target4 => %{"sbd_pacemaker" => "yes"},
-      target5 => %{"sbd_pacemaker" => "yes"},
-      target6 => %{"sbd_pacemaker" => "yes"}
+      "sbd_pacemaker" => %{
+        target1 => "yes",
+        target2 => "yes",
+        target3 => "yes",
+        target4 => "yes",
+        target5 => "yes",
+        target6 => "yes"
+      }
     },
     "F50AF5" => %{
-      target1 => %{
-        "compare_python3_version" => 0
-      },
-      target2 => %{
-        "compare_python3_version" => -1
-      },
-      target3 => %{
-        "compare_python3_version" => 0
-      },
-      target4 => %{
-        "compare_python3_version" => 0
-      },
-      target5 => %{
-        "compare_python3_version" => -1
-      },
-      target6 => %{
-        "compare_python3_version" => 0
+      "compare_python3_version" => %{
+        target1 => 0,
+        target2 => -1,
+        target3 => 0,
+        target4 => 0,
+        target5 => -1,
+        target6 => 0
       }
     },
     "53D035" => %{
-      target1 => %{"token_timeout" => 30_000},
-      target2 => %{"token_timeout" => 30_000},
-      target3 => %{"token_timeout" => 30_000},
-      target4 => %{"token_timeout" => 30_000},
-      target5 => %{"token_timeout" => 30_000},
-      target6 => %{"token_timeout" => 30_000}
+      "token_timeout" => %{
+        target1 => 30_000,
+        target2 => 30_000,
+        target3 => 30_000,
+        target4 => 30_000,
+        target5 => 30_000,
+        target6 => 30_000
+      }
     },
     "21FCA6" => %{
-      target1 => %{
-        "corosync_token_retransmits_before_loss_const" => 10
-      },
-      target2 => %{
-        "corosync_token_retransmits_before_loss_const" => 10
-      },
-      target3 => %{
-        "corosync_token_retransmits_before_loss_const" => 10
-      },
-      target4 => %{
-        "corosync_token_retransmits_before_loss_const" => 10
-      },
-      target5 => %{
-        "corosync_token_retransmits_before_loss_const" => 10
-      },
-      target6 => %{
-        "corosync_token_retransmits_before_loss_const" => 10
+      "corosync_token_retransmits_before_loss_const" => %{
+        target1 => 10,
+        target2 => 10,
+        target3 => 10,
+        target4 => 10,
+        target5 => 10,
+        target6 => 10
       }
     },
     "00081D" => %{
-      target1 => %{"max_messages" => 20},
-      target2 => %{"max_messages" => 20},
-      target3 => %{"max_messages" => 20},
-      target4 => %{"max_messages" => 20},
-      target5 => %{"max_messages" => 20},
-      target6 => %{"max_messages" => 20}
+      "max_messages" => %{
+        target1 => 20,
+        target2 => 20,
+        target3 => 20,
+        target4 => 20,
+        target5 => 20,
+        target6 => 20
+      }
     },
     "32CFC6" => %{
-      target1 => %{
-        "totem_interfaces" => [
+      "totem_interfaces" => %{
+        target1 => [
           %{
             "bindnetaddr" => "10.80.1.12",
             "mcastaddr" => "239.192.100.25",
             "mcastport" => 5405,
             "ttl" => 1
           }
-        ]
-      },
-      target2 => %{
-        "totem_interfaces" => [
+        ],
+        target2 => [
           %{
             "bindnetaddr" => "10.80.1.12",
             "mcastaddr" => "239.192.100.25",
             "mcastport" => 5405,
             "ttl" => 1
           }
-        ]
-      },
-      target3 => %{
-        "totem_interfaces" => [
+        ],
+        target3 => [
           %{
             "bindnetaddr" => "10.80.1.12",
             "mcastaddr" => "239.192.100.25",
             "mcastport" => 5405,
             "ttl" => 1
           }
-        ]
-      },
-      target4 => %{
-        "totem_interfaces" => [
+        ],
+        target4 => [
           %{
             "bindnetaddr" => "10.80.1.12",
             "mcastaddr" => "239.192.100.25",
             "mcastport" => 5405,
             "ttl" => 1
           }
-        ]
-      },
-      target5 => %{
-        "totem_interfaces" => [
+        ],
+        target5 => [
           %{
             "bindnetaddr" => "10.80.1.12",
             "mcastaddr" => "239.192.100.25",
             "mcastport" => 5405,
             "ttl" => 1
           }
-        ]
-      },
-      target6 => %{
-        "totem_interfaces" => [
+        ],
+        target6 => [
           %{
             "bindnetaddr" => "10.80.1.12",
             "mcastaddr" => "239.192.100.25",
@@ -379,53 +289,51 @@ config :wanda,
       }
     },
     "15F7A8" => %{
-      target1 => %{"token_retransmits" => 10},
-      target2 => %{"token_retransmits" => 10},
-      target3 => %{"token_retransmits" => 10},
-      target4 => %{"token_retransmits" => 10},
-      target5 => %{"token_retransmits" => 10},
-      target6 => %{"token_retransmits" => 10}
+      "token_retransmits" => %{
+        target1 => 10,
+        target2 => 10,
+        target3 => 10,
+        target4 => 10,
+        target5 => 10,
+        target6 => 10
+      }
     },
     "FB0E0D" => %{
-      target1 => %{"consensus_timeout" => 36_000},
-      target2 => %{"consensus_timeout" => 36_000},
-      target3 => %{"consensus_timeout" => 36_000},
-      target4 => %{"consensus_timeout" => 36_000},
-      target5 => %{"consensus_timeout" => 36_000},
-      target6 => %{"consensus_timeout" => 36_000}
+      "consensus_timeout" => %{
+        target1 => 36_000,
+        target2 => 36_000,
+        target3 => 36_000,
+        target4 => 36_000,
+        target5 => 36_000,
+        target6 => 36_000
+      }
     },
     "D78671" => %{
-      target1 => %{"runtime_two_node" => 1},
-      target2 => %{"runtime_two_node" => 1},
-      target3 => %{"runtime_two_node" => 1},
-      target4 => %{"runtime_two_node" => 1},
-      target5 => %{"runtime_two_node" => 1},
-      target6 => %{"runtime_two_node" => 1}
+      "runtime_two_node" => %{
+        target1 => 1,
+        target2 => 1,
+        target3 => 1,
+        target4 => 1,
+        target5 => 1,
+        target6 => 1
+      }
     },
     "373DB8" => %{
-      target1 => %{
-        "crm_config_properties" => %{"acme" => 42},
-        "resources_primitives" => %{"foo" => [%{"bar" => "baz"}]}
+      "crm_config_properties" => %{
+        target1 => %{"acme" => 42},
+        target2 => %{"acme" => 42},
+        target3 => %{"acme" => 42},
+        target4 => %{"acme" => 42},
+        target5 => %{"acme" => 42},
+        target6 => %{"acme" => 42}
       },
-      target2 => %{
-        "crm_config_properties" => %{"acme" => 42},
-        "resources_primitives" => %{"foo" => [%{"bar" => "baz"}]}
-      },
-      target3 => %{
-        "crm_config_properties" => %{"acme" => 42},
-        "resources_primitives" => %{"foo" => [%{"bar" => "baz"}]}
-      },
-      target4 => %{
-        "crm_config_properties" => %{"acme" => 42},
-        "resources_primitives" => %{"foo" => [%{"bar" => "baz"}]}
-      },
-      target5 => %{
-        "crm_config_properties" => %{"acme" => 42},
-        "resources_primitives" => %{"foo" => [%{"bar" => "baz"}]}
-      },
-      target6 => %{
-        "crm_config_properties" => %{"acme" => 42},
-        "resources_primitives" => %{"foo" => [%{"bar" => "baz"}]}
+      "resources_primitives" => %{
+        target1 => %{"foo" => [%{"bar" => "baz"}]},
+        target2 => %{"foo" => [%{"bar" => "baz"}]},
+        target3 => %{"foo" => [%{"bar" => "baz"}]},
+        target4 => %{"foo" => [%{"bar" => "baz"}]},
+        target5 => %{"foo" => [%{"bar" => "baz"}]},
+        target6 => %{"foo" => [%{"bar" => "baz"}]}
       }
     },
     "816815" => %{
@@ -437,64 +345,48 @@ config :wanda,
       target6 => %{"sbd_service_state" => "active"}
     },
     "156F64" => %{
-      target1 => %{
-        "corosync_token_timeout" => 30_000
-      },
-      target2 => %{
-        "corosync_token_timeout" => 30_000
-      },
-      target3 => %{
-        "corosync_token_timeout" => 30_000
-      },
-      target4 => %{
-        "corosync_token_timeout" => 30_000
-      },
-      target5 => %{
-        "corosync_token_timeout" => 30_000
-      },
-      target6 => %{
-        "corosync_token_timeout" => 30_000
+      "corosync_token_timeout" => %{
+        target1 => 30_000,
+        target2 => 30_000,
+        target3 => 30_000,
+        target4 => 30_000,
+        target5 => 30_000,
+        target6 => 30_000
       }
     },
     "49591F" => %{
-      target1 => %{"sbd_startmode" => "always"},
-      target2 => %{"sbd_startmode" => "always"},
-      target3 => %{"sbd_startmode" => "always"},
-      target4 => %{"sbd_startmode" => "always"},
-      target5 => %{"sbd_startmode" => "always"},
-      target6 => %{"sbd_startmode" => "always"}
+      "sbd_startmode" => %{
+        target1 => "always",
+        target2 => "always",
+        target3 => "always",
+        target4 => "always",
+        target5 => "always",
+        target6 => "always"
+      }
     },
     "822E47" => %{
-      target1 => %{"runtime_join" => 60},
-      target2 => %{"runtime_join" => 60},
-      target3 => %{"runtime_join" => 60},
-      target4 => %{"runtime_join" => 60},
-      target5 => %{"runtime_join" => 60},
-      target6 => %{"runtime_join" => 60}
+      "runtime_join" => %{
+        target1 => 60,
+        target2 => 60,
+        target3 => 60,
+        target4 => 60,
+        target5 => 60,
+        target6 => 60
+      }
     },
     "C3166E" => %{
-      target1 => %{
-        "exclude_package_sbd" => -1
-      },
-      target2 => %{
-        "exclude_package_sbd" => 1
-      },
-      target3 => %{
-        "exclude_package_sbd" => -1
-      },
-      target4 => %{
-        "exclude_package_sbd" => -1
-      },
-      target5 => %{
-        "exclude_package_sbd" => 1
-      },
-      target6 => %{
-        "exclude_package_sbd" => 1
+      "exclude_package_sbd" => %{
+        target1 => -1,
+        target2 => 1,
+        target3 => -1,
+        target4 => -1,
+        target5 => 1,
+        target6 => 1
       }
     },
     "205AF7" => %{
-      target1 => %{
-        "crm_config_properties" => [
+      "crm_config_properties" => %{
+        target1 => [
           %{
             "id" => "cib-bootstrap-options",
             "nvpair" => [
@@ -504,10 +396,8 @@ config :wanda,
               }
             ]
           }
-        ]
-      },
-      target2 => %{
-        "crm_config_properties" => [
+        ],
+        target2 => [
           %{
             "id" => "cib-bootstrap-options",
             "nvpair" => [
@@ -517,10 +407,8 @@ config :wanda,
               }
             ]
           }
-        ]
-      },
-      target3 => %{
-        "crm_config_properties" => [
+        ],
+        target3 => [
           %{
             "id" => "cib-bootstrap-options",
             "nvpair" => [
@@ -530,10 +418,8 @@ config :wanda,
               }
             ]
           }
-        ]
-      },
-      target4 => %{
-        "crm_config_properties" => [
+        ],
+        target4 => [
           %{
             "id" => "cib-bootstrap-options",
             "nvpair" => [
@@ -543,10 +429,8 @@ config :wanda,
               }
             ]
           }
-        ]
-      },
-      target5 => %{
-        "crm_config_properties" => [
+        ],
+        target5 => [
           %{
             "id" => "cib-bootstrap-options",
             "nvpair" => [
@@ -556,10 +440,8 @@ config :wanda,
               }
             ]
           }
-        ]
-      },
-      target6 => %{
-        "crm_config_properties" => [
+        ],
+        target6 => [
           %{
             "id" => "cib-bootstrap-options",
             "nvpair" => [
@@ -573,104 +455,78 @@ config :wanda,
       }
     },
     "24ABCB" => %{
-      target1 => %{"corosync_join_timeout" => 60},
-      target2 => %{"corosync_join_timeout" => 60},
-      target3 => %{"corosync_join_timeout" => 60},
-      target4 => %{"corosync_join_timeout" => 60},
-      target5 => %{"corosync_join_timeout" => 60},
-      target6 => %{"corosync_join_timeout" => 60}
+      "corosync_join_timeout" => %{
+        target1 => 60,
+        target2 => 60,
+        target3 => 60,
+        target4 => 60,
+        target5 => 60,
+        target6 => 60
+      }
     },
     "33403D" => %{
-      target1 => %{
-        "corosync_transport_protocol" => "udpu"
-      },
-      target2 => %{
-        "corosync_transport_protocol" => "udpu"
-      },
-      target3 => %{
-        "corosync_transport_protocol" => "udpu"
-      },
-      target4 => %{
-        "corosync_transport_protocol" => "udpu"
-      },
-      target5 => %{
-        "corosync_transport_protocol" => "udpu"
-      },
-      target6 => %{
-        "corosync_transport_protocol" => "udpu"
+      "corosync_transport_protocol" => %{
+        target1 => "udpu",
+        target2 => "udpu",
+        target3 => "udpu",
+        target4 => "udpu",
+        target5 => "udpu",
+        target6 => "udpu"
       }
     },
     "6E9B82" => %{
-      target1 => %{"corosync_twonode" => 1},
-      target2 => %{"corosync_twonode" => 1},
-      target3 => %{"corosync_twonode" => 1},
-      target4 => %{"corosync_twonode" => 1},
-      target5 => %{"corosync_twonode" => 1},
-      target6 => %{"corosync_twonode" => 1}
+      "corosync_twonode" => %{
+        target1 => 1,
+        target2 => 1,
+        target3 => 1,
+        target4 => 1,
+        target5 => 1,
+        target6 => 1
+      }
     },
     "61451E" => %{
-      target1 => %{
-        "sbd_multiple_sbd_device" => "/dev/sdb;/dev/sdc;dev/sdg"
-      },
-      target2 => %{
-        "sbd_multiple_sbd_device" => "/dev/sdb;/dev/sdc"
-      },
-      target3 => %{
-        "sbd_multiple_sbd_device" => "/dev/sdb;/dev/sdc;dev/sdg"
-      },
-      target4 => %{
-        "sbd_multiple_sbd_device" => "/dev/sdb;/dev/sdc;dev/sdg"
-      },
-      target5 => %{
-        "sbd_multiple_sbd_device" => "/dev/sdb;/dev/sdc"
-      },
-      target6 => %{
-        "sbd_multiple_sbd_device" => "/dev/sdb;/dev/sdc;dev/sdg"
+      "sbd_multiple_sbd_device" => %{
+        target1 => "/dev/sdb;/dev/sdc;dev/sdg",
+        target2 => "/dev/sdb;/dev/sdc",
+        target3 => "/dev/sdb;/dev/sdc;dev/sdg",
+        target4 => "/dev/sdb;/dev/sdc;dev/sdg",
+        target5 => "/dev/sdb;/dev/sdc",
+        target6 => "/dev/sdb;/dev/sdc;dev/sdg"
       }
     },
     "68626E" => %{
-      target1 => %{
-        "dump_sbd_devices" => %{
+      "dump_sbd_devices" => %{
+        target1 => %{
           "/dev/sdb" => %{
             "timeout_msgwait" => 11,
             "timeout_watchdog" => 5
           }
-        }
-      },
-      target2 => %{
-        "dump_sbd_devices" => %{
+        },
+        target2 => %{
           "/dev/sdb" => %{
             "timeout_msgwait" => 11,
             "timeout_watchdog" => 5
           }
-        }
-      },
-      target3 => %{
-        "dump_sbd_devices" => %{
+        },
+        target3 => %{
           "/dev/sdb" => %{
             "timeout_msgwait" => 11,
             "timeout_watchdog" => 5
           }
-        }
-      },
-      target4 => %{
-        "dump_sbd_devices" => %{
+        },
+        target4 => %{
           "/dev/sdb" => %{
             "timeout_msgwait" => 11,
             "timeout_watchdog" => 5
           }
-        }
-      },
-      target5 => %{
-        "dump_sbd_devices" => %{
+        },
+        target5 => %{
           "/dev/sdb" => %{
             "timeout_msgwait" => 11,
             "timeout_watchdog" => 5
           }
-        }
-      },
-      target6 => %{
-        "dump_sbd_devices" => %{
+        },
+        target6 => %{
           "/dev/sdb" => %{
             "timeout_msgwait" => 11,
             "timeout_watchdog" => 5
@@ -679,59 +535,43 @@ config :wanda,
       }
     },
     "9FEFB0" => %{
-      target1 => %{
-        "compare_pacemaker_version" => 0
-      },
-      target2 => %{
-        "compare_pacemaker_version" => -1
-      },
-      target3 => %{
-        "compare_pacemaker_version" => 0
-      },
-      target4 => %{
-        "compare_pacemaker_version" => 0
-      },
-      target5 => %{
-        "compare_pacemaker_version" => -1
-      },
-      target6 => %{
-        "compare_pacemaker_version" => 0
+      "compare_pacemaker_version" => %{
+        target1 => 0,
+        target2 => -1,
+        target3 => 0,
+        target4 => 0,
+        target5 => -1,
+        target6 => 0
       }
     },
     "7E0221" => %{
-      target1 => %{"runtime_transport" => "udpu"},
-      target2 => %{"runtime_transport" => "udpu"},
-      target3 => %{"runtime_transport" => "udpu"},
-      target4 => %{"runtime_transport" => "udpu"},
-      target5 => %{"runtime_transport" => "udpu"},
-      target6 => %{"runtime_transport" => "udpu"}
+      "runtime_transport" => %{
+        target1 => "udpu",
+        target2 => "udpu",
+        target3 => "udpu",
+        target4 => "udpu",
+        target5 => "udpu",
+        target6 => "udpu"
+      }
     },
     "CAEFF1" => %{
-      target1 => %{"os_flavor" => "SLES_SAP"},
-      target2 => %{"os_flavor" => "SLES_SAP"},
-      target3 => %{"os_flavor" => "SLES_SAP"},
-      target4 => %{"os_flavor" => "SLES_SAP"},
-      target5 => %{"os_flavor" => "SLES_SAP"},
-      target6 => %{"os_flavor" => "SLES_SAP"}
+      "os_flavor" => %{
+        target1 => "SLES_SAP",
+        target2 => "SLES_SAP",
+        target3 => "SLES_SAP",
+        target4 => "SLES_SAP",
+        target5 => "SLES_SAP",
+        target6 => "SLES_SAP"
+      }
     },
     "DC5429" => %{
-      target1 => %{
-        "compare_corosync_version" => 0
-      },
-      target2 => %{
-        "compare_corosync_version" => -1
-      },
-      target3 => %{
-        "compare_corosync_version" => -1
-      },
-      target4 => %{
-        "compare_corosync_version" => 0
-      },
-      target5 => %{
-        "compare_corosync_version" => -1
-      },
-      target6 => %{
-        "compare_corosync_version" => 0
+      "compare_corosync_version" => %{
+        target1 => 0,
+        target2 => -1,
+        target3 => -1,
+        target4 => 0,
+        target5 => -1,
+        target6 => 0
       }
     }
   }

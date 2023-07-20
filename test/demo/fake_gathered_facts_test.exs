@@ -34,21 +34,19 @@ defmodule Wanda.Executions.FakeGatheredFactsTest do
 
       Application.put_env(:wanda, :fake_gathered_facts, %{
         check_id_1 => %{
-          agent_id_1 => %{
-            fact_name_1 => fact_value1_agent_1 = Faker.Lorem.word()
-          },
-          agent_id_2 => %{
-            fact_name_1 => fact_value1_agent_2 = Faker.StarWars.character()
+          fact_name_1 => %{
+            agent_id_1 => fact_value1_agent_1 = Faker.Lorem.word(),
+            agent_id_2 => fact_value1_agent_2 = Faker.StarWars.character()
           }
         },
         check_id_2 => %{
-          agent_id_1 => %{
-            fact_name_2 => fact_value2_agent_1 = Faker.Cannabis.brand()
+          fact_name_2 => %{
+            agent_id_1 => fact_value2_agent_1 = Faker.Cannabis.brand(),
+            agent_id_2 => fact_value2_agent_2 = Faker.Beer.alcohol()
             # fact_value3_agent_1 should have fallback fact value
           },
-          agent_id_2 => %{
-            fact_name_2 => fact_value2_agent_2 = Faker.Beer.alcohol(),
-            fact_name_3 => fact_value3_agent_2 = nil
+          fact_name_3 => %{
+            agent_id_2 => fact_value3_agent_2 = nil
           }
         }
       })

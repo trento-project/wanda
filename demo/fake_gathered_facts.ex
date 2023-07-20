@@ -33,7 +33,7 @@ defmodule Wanda.Executions.FakeGatheredFacts do
 
   defp get_fake_fact_value(check_id, agent_id, fact_name) do
     case get_fake_gathered_facts() do
-      %{^check_id => %{^agent_id => %{^fact_name => fact_value}}} ->
+      %{^check_id => %{^fact_name => %{^agent_id => fact_value}}} ->
         fact_value
 
       _ ->
