@@ -1,0 +1,25 @@
+targets:
+  target1: 0a055c90-4cb6-54ce-ac9c-ae3fedaf40d4
+  target2: 13e8c25c-3180-5a9a-95c8-51ec38e50cfc
+  target3: 99cf8a3a-48d6-57a4-b302-6e4482227ab6
+facts:
+  CHECK1:
+    fact_name1:
+      target1: 2
+      target2: 3
+      target3: null
+  CHECK2:
+    fact_name2:
+      target1:
+        property1:
+          some_sub_prop: 15
+      target2:
+        property2:
+          some_sub_prop: 60
+      target3:
+        property3:
+          some_sub_prop: 60
+  CHECK3:
+    fact_name3:
+      target1: /dev/sdb;/dev/sdc;dev/sdg
+      target3: /dev/sdb;/dev/sdc;dev/sdg
