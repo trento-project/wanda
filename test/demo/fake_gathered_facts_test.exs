@@ -5,10 +5,18 @@ defmodule Wanda.Executions.FakeGatheredFactsTest do
 
   import Wanda.Factory
 
-  alias Wanda.Executions.Fact, as: ExecutionFact
+  alias Wanda.Executions.Fact
   alias Wanda.Executions.FakeGatheredFacts
 
   describe "Generation of fake gathered facts" do
+    setup do
+      on_exit(fn ->
+        Application.put_env(:wanda, Wanda.Executions.FakeGatheredFacts,
+          demo_facts_config: "test/fixtures/demo/fake_facts_test.yaml"
+        )
+      end)
+    end
+
     test "get_demo_gathered_facts generates the fake gathered facts" do
       check_id_1 = "CHECK1"
       check_id_2 = "CHECK2"
@@ -55,16 +63,16 @@ defmodule Wanda.Executions.FakeGatheredFactsTest do
       assert %{
                ^check_id_1 => %{
                  ^agent_id_1 => [
-                   %ExecutionFact{check_id: ^check_id_1, name: ^fact_name1, value: 2}
+                   %Fact{check_id: ^check_id_1, name: ^fact_name1, value: 2}
                  ],
                  ^agent_id_2 => [
-                   %ExecutionFact{check_id: ^check_id_1, name: ^fact_name1, value: 3}
+                   %Fact{check_id: ^check_id_1, name: ^fact_name1, value: 3}
                  ],
                  ^agent_id_3 => [
-                   %ExecutionFact{check_id: ^check_id_1, name: ^fact_name1, value: nil}
+                   %Fact{check_id: ^check_id_1, name: ^fact_name1, value: nil}
                  ],
                  ^not_configured_target_id => [
-                   %ExecutionFact{
+                   %Fact{
                      check_id: ^check_id_1,
                      name: ^fact_name1,
                      value: "some fact value"
@@ -73,48 +81,48 @@ defmodule Wanda.Executions.FakeGatheredFactsTest do
                },
                ^check_id_2 => %{
                  ^agent_id_1 => [
-                   %ExecutionFact{
+                   %Fact{
                      check_id: ^check_id_2,
                      name: ^not_configured_fact_name,
                      value: "some fact value"
                    },
-                   %ExecutionFact{
+                   %Fact{
                      check_id: ^check_id_2,
                      name: ^fact_name2,
                      value: %{"property1" => %{"some_sub_prop" => 15}}
                    }
                  ],
                  ^agent_id_2 => [
-                   %ExecutionFact{
+                   %Fact{
                      check_id: ^check_id_2,
                      name: ^not_configured_fact_name,
                      value: "some fact value"
                    },
-                   %ExecutionFact{
+                   %Fact{
                      check_id: ^check_id_2,
                      name: ^fact_name2,
                      value: %{"property2" => %{"some_sub_prop" => 60}}
                    }
                  ],
                  ^agent_id_3 => [
-                   %ExecutionFact{
+                   %Fact{
                      check_id: ^check_id_2,
                      name: ^not_configured_fact_name,
                      value: "some fact value"
                    },
-                   %ExecutionFact{
+                   %Fact{
                      check_id: ^check_id_2,
                      name: ^fact_name2,
                      value: %{"property3" => %{"some_sub_prop" => 60}}
                    }
                  ],
                  ^not_configured_target_id => [
-                   %ExecutionFact{
+                   %Fact{
                      check_id: ^check_id_2,
                      name: ^not_configured_fact_name,
                      value: "some fact value"
                    },
-                   %ExecutionFact{
+                   %Fact{
                      check_id: ^check_id_2,
                      name: ^fact_name2,
                      value: "some fact value"
@@ -123,30 +131,90 @@ defmodule Wanda.Executions.FakeGatheredFactsTest do
                },
                ^check_id_3 => %{
                  ^agent_id_1 => [
-                   %ExecutionFact{
+                   %Fact{
                      check_id: ^check_id_3,
                      name: ^fact_name3,
                      value: "/dev/sdb;/dev/sdc;dev/sdg"
                    }
                  ],
                  ^agent_id_2 => [
-                   %ExecutionFact{
+                   %Fact{
                      check_id: ^check_id_3,
                      name: ^fact_name3,
                      value: "some fact value"
                    }
                  ],
                  ^agent_id_3 => [
-                   %ExecutionFact{
+                   %Fact{
                      check_id: ^check_id_3,
                      name: ^fact_name3,
                      value: "/dev/sdb;/dev/sdc;dev/sdg"
                    }
                  ],
                  ^not_configured_target_id => [
-                   %ExecutionFact{
+                   %Fact{
                      check_id: ^check_id_3,
                      name: ^fact_name3,
+                     value: "some fact value"
+                   }
+                 ]
+               }
+             } = FakeGatheredFacts.get_demo_gathered_facts(checks, targets)
+    end
+
+    test "get_demo_gathered_facts generates fake gathered facts with default values when yaml config can't be read" do
+      Application.put_env(:wanda, Wanda.Executions.FakeGatheredFacts,
+        demo_facts_config: "path/to/not-existent/fake_facts.yaml"
+      )
+
+      check_id_1 = "CHECK1"
+      check_id_2 = "CHECK2"
+      agent_id_1 = "0a055c90-4cb6-54ce-ac9c-ae3fedaf40d4"
+      agent_id_2 = "13e8c25c-3180-5a9a-95c8-51ec38e50cfc"
+      fact_name1 = "fact_name1"
+      fact_name2 = "fact_name2"
+      check1_facts = build_list(1, :catalog_fact, name: fact_name1)
+      check2_facts = build_list(1, :catalog_fact, name: fact_name2)
+
+      checks = [
+        build(:check, id: check_id_1, facts: check1_facts),
+        build(:check, id: check_id_2, facts: check2_facts)
+      ]
+
+      targets = [
+        build(:target, agent_id: agent_id_1, checks: [check_id_1, check_id_2]),
+        build(:target, agent_id: agent_id_2, checks: [check_id_1, check_id_2])
+      ]
+
+      assert %{
+               ^check_id_1 => %{
+                 ^agent_id_1 => [
+                   %Fact{
+                     check_id: ^check_id_1,
+                     name: ^fact_name1,
+                     value: "some fact value"
+                   }
+                 ],
+                 ^agent_id_2 => [
+                   %Fact{
+                     check_id: ^check_id_1,
+                     name: ^fact_name1,
+                     value: "some fact value"
+                   }
+                 ]
+               },
+               ^check_id_2 => %{
+                 ^agent_id_1 => [
+                   %Fact{
+                     check_id: ^check_id_2,
+                     name: ^fact_name2,
+                     value: "some fact value"
+                   }
+                 ],
+                 ^agent_id_2 => [
+                   %Fact{
+                     check_id: ^check_id_2,
+                     name: ^fact_name2,
                      value: "some fact value"
                    }
                  ]
