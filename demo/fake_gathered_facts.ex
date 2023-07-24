@@ -38,7 +38,6 @@ defmodule Wanda.Executions.FakeGatheredFacts do
       fact_value
     else
       {:error, _reason} ->
-        # add logger later
         @fallback_fact_value
     end
   end
