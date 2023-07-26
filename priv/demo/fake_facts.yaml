@@ -2,9 +2,10 @@ targets:
   target1: 0a055c90-4cb6-54ce-ac9c-ae3fedaf40d4
   target2: 13e8c25c-3180-5a9a-95c8-51ec38e50cfc
   target3: 99cf8a3a-48d6-57a4-b302-6e4482227ab6
-  target4: 9cd46919-5f19-59aa-993e-cf3736c71053
-  target5: b767b3e9-e802-587e-a442-541d093b86b9
-  target6: e0c182db-32ff-55c6-a9eb-2b82dd21bc8b
+  target4: e0c182db-32ff-55c6-a9eb-2b82dd21bc8b
+  target5: 9cd46919-5f19-59aa-993e-cf3736c71053
+  target6: b767b3e9-e802-587e-a442-541d093b86b9
+
 
 facts:
   "C620DC":
@@ -15,7 +16,7 @@ facts:
       target4: 2
       target5: 2
       target6: 2
-
+      
   "845CC9":
     corosync_max_messages:
       target1: 20
