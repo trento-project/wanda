@@ -235,11 +235,17 @@ To implement new checks and test them:
 - locate the newly created Check in the Catalog directory `./priv/catalog/`
 - test the execution as [previously described](#testing-executions)
 
-# Installing a development environment
+# Running a local Wanda instance
 
-To set up a local development environment for hacking on Wanda, you need to follow the instructions provided in [hack on wanda](./guides/development/hack_on_wanda.md).
+## Running a Development Environment
 
-This guide walks you through the process of installing and configuring the necessary dependencies, as well as setting up a local development environment.
+To set up a local development environment for Wanda, follow the instructions provided in [how to hack on wanda](./guides/development/hack_on_wanda.md).
+
+This guide walks through the process of installing and configuring the necessary dependencies, as well as setting up a local development environment.
+
+## Running a Demo Environment
+
+The demo mode of Wanda allows to showcase checks evaluation without the full setup with actual agents on the host. To run a demo instance, follow the instructions provided in [how to run wanda demo guide](./guides/development/demo.md).
 
 # Support
 

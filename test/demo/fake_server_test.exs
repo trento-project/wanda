@@ -19,7 +19,7 @@ defmodule Wanda.Executions.FakeServerTest do
   test "start_execution publishes execution started and completed messages" do
     execution_id = UUID.uuid4()
     group_id = UUID.uuid4()
-    targets = build_list(2, :target)
+    targets = build_list(2, :target, checks: ["expect_check"])
     env = build(:env)
 
     expect(Wanda.Messaging.Adapters.Mock, :publish, 2, fn

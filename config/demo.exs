@@ -8,3 +8,5 @@ config :wanda, WandaWeb.Endpoint,
   server: true
 
 config :logger, level: :debug
+
+config :wanda, Wanda.Executions.FakeGatheredFacts, demo_facts_config: "priv/demo/fake_facts.yaml"
