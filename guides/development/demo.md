@@ -61,9 +61,9 @@ targets:
   <target_reference>: <target_id>
 ```
 
-<target_reference>: A user-defined handle or reference for a target.
+`<target_reference>`: A user-defined handle or reference for a target.
 
-<target_id>: The UUID or identifier of the target.
+`<target_id>`: The UUID or identifier of the target.
 
 Add as many new target entries as required:
 
