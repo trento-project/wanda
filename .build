@@ -18,7 +18,7 @@ Wanda.Executions.ExpectationEvaluationError.html
 Wanda.Executions.ExpectationResult.html
 Wanda.Executions.Fact.html
 Wanda.Executions.FactError.html
-Wanda.Executions.FakeEvaluation.html
+Wanda.Executions.FakeGatheredFacts.html
 Wanda.Executions.FakeServer.html
 Wanda.Executions.Gathering.html
 Wanda.Executions.Result.html
@@ -68,6 +68,7 @@ api-reference.html
 assets/logo.svg
 changelog.html
 contributing.html
+demo.html
 dist/handlebars.runtime-NWIB6V2M.js
 dist/handlebars.templates-NBND3S2D.js
 dist/html-CGDDOCMI.js
@@ -95,8 +96,8 @@ dist/merriweather-latin-ext-300-normal-K6L27CZ5.woff2
 dist/merriweather-vietnamese-300-italic-EHHNZPUO.woff2
 dist/merriweather-vietnamese-300-normal-U376L4Z4.woff2
 dist/remixicon-NKANDIL5.woff2
-dist/search_data-BC809CBC.js
-dist/sidebar_items-AF6066E9.js
+dist/search_data-06B5AD1E.js
+dist/sidebar_items-3943B02E.js
 expression_language.html
 gatherers.html
 hack_on_wanda.html

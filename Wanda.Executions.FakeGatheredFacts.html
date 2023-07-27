@@ -7,13 +7,13 @@
     <meta name="generator" content="ExDoc v0.30.3">
     <meta name="project" content="Wanda v1.0.0">
 
-    <title>Wanda.Executions.FakeEvaluation — Wanda v1.0.0</title>
+    <title>Wanda.Executions.FakeGatheredFacts — Wanda v1.0.0</title>
     <link rel="stylesheet" href="dist/html-elixir-P5GXSCHE.css" />
 
 
     <script src="dist/handlebars.runtime-NWIB6V2M.js"></script>
     <script src="dist/handlebars.templates-NBND3S2D.js"></script>
-    <script src="dist/sidebar_items-AF6066E9.js"></script>
+    <script src="dist/sidebar_items-3943B02E.js"></script>
 
       <script src="docs_config.js"></script>
 
@@ -100,19 +100,19 @@ Wanda
 </button>
 
 
-    <a href="https://github.com/trento-project/wanda/blob/main/demo/fake_evaluation.ex#L1" title="View Source" class="icon-action" rel="help">
+    <a href="https://github.com/trento-project/wanda/blob/main/demo/fake_gathered_facts.ex#L1" title="View Source" class="icon-action" rel="help">
       <i class="ri-code-s-slash-line" aria-hidden="true"></i>
       <span class="sr-only">View Source</span>
     </a>
 
-  <span translate="no">Wanda.Executions.FakeEvaluation</span> 
+  <span translate="no">Wanda.Executions.FakeGatheredFacts</span> 
   <small class="app-vsn" translate="no">(Wanda v1.0.0)</small>
 
 </h1>
 
 
   <section id="moduledoc">
-<p>Fake evaluation functional core.</p>
+<p>Module responsible to generate the fake gathered facts from targets</p>
   </section>
 
 
@@ -130,7 +130,7 @@ Wanda
 
     <div class="summary-row">
       <div class="summary-signature">
-        <a href="#complete_fake_execution/4" translate="no">complete_fake_execution(execution_id, group_id, targets, checks)</a>
+        <a href="#get_demo_gathered_facts/2" translate="no">get_demo_gathered_facts(checks, targets)</a>
 
       </div>
 
@@ -149,16 +149,16 @@ Functions
       </a>
     </h1>
     <div class="functions-list">
-<section class="detail" id="complete_fake_execution/4">
+<section class="detail" id="get_demo_gathered_facts/2">
 
   <div class="detail-header">
-    <a href="#complete_fake_execution/4" class="detail-link" title="Link to this function">
+    <a href="#get_demo_gathered_facts/2" class="detail-link" title="Link to this function">
       <i class="ri-link-m" aria-hidden="true"></i>
       <span class="sr-only">Link to this function</span>
     </a>
-    <h1 class="signature" translate="no">complete_fake_execution(execution_id, group_id, targets, checks)</h1>
+    <h1 class="signature" translate="no">get_demo_gathered_facts(checks, targets)</h1>
 
-      <a href="https://github.com/trento-project/wanda/blob/main/demo/fake_evaluation.ex#L14" class="icon-action" rel="help" title="View Source">
+      <a href="https://github.com/trento-project/wanda/blob/main/demo/fake_gathered_facts.ex#L12" class="icon-action" rel="help" title="View Source">
        <i class="ri-code-s-slash-line" aria-hidden="true"></i>
        <span class="sr-only">View Source</span>
      </a>
@@ -167,17 +167,6 @@ Functions
   </div>
 
   <section class="docstring">
-
-      <div class="specs">
-
-          <pre translate="no"><span class="attribute">@spec</span> complete_fake_execution(
-  <a href="https://hexdocs.pm/elixir/String.html#t:t/0">String.t</a>(),
-  <a href="https://hexdocs.pm/elixir/String.html#t:t/0">String.t</a>(),
-  [<a href="Wanda.Executions.Target.html#t:t/0">Wanda.Executions.Target.t</a>()],
-  [<a href="Wanda.Catalog.Check.html#t:t/0">Wanda.Catalog.Check.t</a>()]
-) :: <a href="Wanda.Executions.Result.html#t:t/0">Wanda.Executions.Result.t</a>()</pre>
-
-      </div>
 
 
   </section>

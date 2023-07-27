@@ -1,0 +1,267 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="x-ua-compatible" content="ie=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="generator" content="ExDoc v0.30.3">
+    <meta name="project" content="Wanda v1.0.0">
+
+    <title>Wanda Demo — Wanda v1.0.0</title>
+    <link rel="stylesheet" href="dist/html-elixir-P5GXSCHE.css" />
+
+
+    <script src="dist/handlebars.runtime-NWIB6V2M.js"></script>
+    <script src="dist/handlebars.templates-NBND3S2D.js"></script>
+    <script src="dist/sidebar_items-3943B02E.js"></script>
+
+      <script src="docs_config.js"></script>
+
+    <script async src="dist/html-CGDDOCMI.js"></script>
+
+
+  </head>
+  <body data-type="extras" class="page-extra">
+    <script>
+
+      try {
+        var settings = JSON.parse(localStorage.getItem('ex_doc:settings') || '{}');
+
+        if (settings.theme === 'dark' ||
+           ((settings.theme === 'system' || settings.theme == null) &&
+             window.matchMedia('(prefers-color-scheme: dark)').matches)
+           ) {
+          document.body.classList.add('dark')
+        }
+      } catch (error) { }
+    </script>
+
+<div class="main">
+
+<button class="sidebar-button sidebar-toggle" aria-label="toggle sidebar">
+  <i class="ri-menu-line ri-lg" title="Collapse/expand sidebar"></i>
+</button>
+
+<section class="sidebar">
+  <form class="sidebar-search" action="search.html">
+    <button type="submit" class="search-button" aria-label="Submit Search">
+      <i class="ri-search-2-line" aria-hidden="true" title="Submit search"></i>
+    </button>
+    <button type="button" tabindex="-1" class="search-close-button" aria-label="Cancel Search">
+      <i class="ri-close-line ri-lg" aria-hidden="true" title="Cancel search"></i>
+    </button>
+    <label class="search-label">
+      <p class="sr-only">Search</p>
+      <input name="q" type="text" class="search-input" placeholder="Search..." aria-label="Input your search terms" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" />
+    </label>
+  </form>
+
+  <div class="autocomplete">
+    <div class="autocomplete-results">
+    </div>
+  </div>
+
+  <div class="sidebar-header">
+
+      <a href="readme.html">
+        <img src="assets/logo.svg" alt="Wanda" class="sidebar-projectImage">
+      </a>
+
+    <div class="sidebar-projectDetails">
+      <a href="readme.html" class="sidebar-projectName" translate="no">
+Wanda
+      </a>
+      <div class="sidebar-projectVersion" translate="no">
+        v1.0.0
+      </div>
+    </div>
+    <ul class="sidebar-listNav">
+      <li><a id="extras-list-link" href="#full-list">GUIDES</a></li>
+
+        <li><a id="modules-list-link" href="#full-list">Modules</a></li>
+
+
+    </ul>
+  </div>
+
+  <div class="gradient"></div>
+  <ul id="full-list"></ul>
+</section>
+
+<section class="content">
+  <output role="status" id="toast"></output>
+  <div class="content-outer">
+    <div id="content" class="content-inner">
+
+<h1>
+<button class="icon-action display-settings">
+  <i class="ri-settings-3-line"></i>
+  <span class="sr-only">Settings</span>
+</button>
+
+
+    <a href="https://github.com/trento-project/wanda/blob/main/guides/development/demo.md#L1" title="View Source" class="icon-action" rel="help">
+      <i class="ri-code-s-slash-line" aria-hidden="true"></i>
+      <span class="sr-only">View Source</span>
+    </a>
+
+
+  <span>Wanda Demo</span>
+</h1>
+
+<h2 id="introduction" class="section-heading">
+  <a href="#introduction">
+    <i class="ri-link-m" aria-hidden="true"></i>
+    Introduction
+  </a>
+</h2>
+<p>Wanda's demo mode provides a simulated environment where targets' gathered facts are faked via a configuration yaml file. This empowers showcasing Trento's capabilities, and eases the development of the platform. The user is able to run check executions from the web, and wanda's fake server returns faked gathered facts.</p><h2 id="how-to-setup-wanda-in-demo-mode" class="section-heading">
+  <a href="#how-to-setup-wanda-in-demo-mode">
+    <i class="ri-link-m" aria-hidden="true"></i>
+    How to setup Wanda in demo mode?
+  </a>
+</h2>
+<p>First set up the <a href="hack_on_wanda.html">local environment</a> and run the following command to start Wanda in demo mode, instead of the usual <code class="inline">iex -S mix phx.server</code></p><pre><code class="makeup bash" translate="no"><span class="gp unselectable">$ </span><span class="">DATABASE_URL=ecto://postgres:postgres@localhost:5434/wanda_dev \
+</span><span class="">  AMQP_URL=amqp://wanda:wanda@localhost:5674 \
+</span><span class="">  SECRET_KEY_BASE=Tbp26GilFTZOXafb7FNVqt4dFQdeb7FAJ++am7ItYx2sMzYaPSB9SwUczdJu6AhQ \
+</span><span class="">  CORS_ORIGIN=http://localhost:4000 \
+</span><span class="">  ACCESS_TOKEN_ENC_SECRET=s2ZdE+3+ke1USHEJ5O45KT364KiXPYaB9cJPdH3p60t8yT0nkLexLBNw8TFSzC7k \
+</span><span class="">  PORT=4001 \
+</span><span class="">  MIX_ENV=demo \
+</span><span class="">  iex -S mix phx.server
+</span></code></pre><h3 id="explanation-of-environment-variables" class="section-heading">
+  <a href="#explanation-of-environment-variables">
+    <i class="ri-link-m" aria-hidden="true"></i>
+    Explanation of environment variables:
+  </a>
+</h3>
+<ul><li>DATABASE_URL: The URL to connect to the Postgres database running in the Docker container.</li><li>AMQP_URL: The URL for RabbitMQ, used for message exchange.</li><li>SECRET_KEY_BASE: The secret key for Wanda.</li><li>CORS_ORIGIN: The origin URL from where API requests are allowed (pointing to web).</li><li>ACCESS_TOKEN_ENC_SECRET: Secret key for encrypting access tokens.</li><li>PORT: The port on which Wanda will run (4001 in this case).</li><li>MIX_ENV: The environment in which Wanda will run (set to &quot;demo&quot; for the demo environment).</li></ul><h2 id="modify-demo-facts-configuration" class="section-heading">
+  <a href="#modify-demo-facts-configuration">
+    <i class="ri-link-m" aria-hidden="true"></i>
+    Modify demo facts configuration
+  </a>
+</h2>
+<p>In the Wanda demo environment, configure fake facts by editing the <a href="https://github.com/trento-project/wanda/blob/main/priv/demo/fake_facts.yaml">fake_facts configuration</a>. Define or modify custom facts for different targets and checks.</p><h3 id="yaml-structure" class="section-heading">
+  <a href="#yaml-structure">
+    <i class="ri-link-m" aria-hidden="true"></i>
+    YAML Structure
+  </a>
+</h3>
+<p>The Configuration is saved in <a href="https://github.com/trento-project/wanda/blob/main/priv/demo/fake_facts.yaml">fake_facts.yaml</a> file, which follows a specific structure with two main sections: <code class="inline">targets</code> and <code class="inline">facts</code>.</p><p>Example:</p><pre><code class="yaml">targets:
+  target1: 0a055c90-4cb6-54ce-ac9c-ae3fedaf40d4
+  target2: 13e8c25c-3180-5a9a-95c8-51ec38e50cfc
+facts:
+  check_1:
+    fact_name1:
+      target1: 2
+      target2: 3</code></pre><h3 id="targets" class="section-heading">
+  <a href="#targets">
+    <i class="ri-link-m" aria-hidden="true"></i>
+    Targets
+  </a>
+</h3>
+<p>The targets section allows defining handles for targets' UUIDs, providing a reference that can be used through the configuration.</p><p>Format:</p><pre><code class="yaml">targets:
+  &lt;target_reference&gt;: &lt;target_id&gt;</code></pre><target_reference>: A user-defined handle or reference for a target.<target_id>: The UUID or identifier of the target.
+Add as many new target entries as required:
+
+```yaml
+targets:
+  target1: 0a055c90-4cb6-54ce-ac9c-ae3fedaf40d4
+  target2: 13e8c25c-3180-5a9a-95c8-51ec38e50cfc
+  <target_reference>: <new_target_id>
+```
+
+### Facts:
+
+The facts section allows specifying what fact value a target should return for a specific check.
+
+The format for the facts section is as follows:
+
+```yaml
+facts:
+  <check_id>:
+    <fact_name>:
+      <target_reference>: <fact value>
+      <target_reference2>: <fact value>
+```
+
+- There can be as many <check_id> as needed.
+- Each <check_id> there can be as many <fact_name> configured as needed.
+- Each <fact_name> can be instrumented to have a specific <fact value> on a <target_reference>.
+
+Example:
+
+```yaml
+targets:
+  target1: 0a055c90-4cb6-54ce-ac9c-ae3fedaf40d4
+  target2: 13e8c25c-3180-5a9a-95c8-51ec38e50cfc
+  target3: 3f16cb32-57fb-46cc-9bf1-cd8d72d7eb9a
+
+facts:
+.......existing facts..........
+  new_check_id:
+    new_fact_name:
+      target1: <fact value>
+      target2: <fact value>
+      target3: <fact value>
+```
+
+## FAQ
+
+### What happens with unmapped targets, facts or checks?
+
+Wanda will still evaluate and return a default fallback fact value "some fact value" for a check's execution. This means when a new check is added to wanda, changing the the configuration is optional.
+
+### How to know what's the correct return value of a fact?
+
+Every Fact Gatherer has specific return values. To get an overview of all gatherers, refer to [Wanda's gatherers guide](../gatherers.md).
+Determining the correct return value of a fact requires inspecting the specific check itself.
+Visit the [Checks Catalog](https://github.com/trento-project/wanda/blob/main/priv/catalog) to find out which gatherer is used for the specific check and which values are expected.</target_reference>
+<div class="bottom-actions">
+  <div class="bottom-actions-item">
+
+      <a href="hack_on_wanda.html" class="bottom-actions-button" rel="prev">
+        <span class="subheader">
+          ← Previous Page
+        </span>
+        <span class="title">
+Hack on Wanda
+        </span>
+      </a>
+
+  </div>
+  <div class="bottom-actions-item">
+
+  </div>
+</div>
+      <footer class="footer">
+        <p>
+
+          <span class="line">
+            <button class="a-main footer-button display-quick-switch" title="Search HexDocs packages">
+              Search HexDocs
+            </button>
+
+              <a href="Wanda.epub" title="ePub version">
+                Download ePub version
+              </a>
+
+          </span>
+        </p>
+
+        <p class="built-using">
+          Built using
+          <a href="https://github.com/elixir-lang/ex_doc" title="ExDoc" target="_blank" rel="help noopener" translate="no">ExDoc</a> (v0.30.3) for the
+
+            <a href="https://elixir-lang.org" title="Elixir" target="_blank" translate="no">Elixir programming language</a>
+
+        </p>
+      </footer>
+    </div>
+  </div>
+</section>
+</div>
+
+
+  </body>
+</html>
