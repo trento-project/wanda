@@ -13,7 +13,7 @@
 
     <script src="dist/handlebars.runtime-NWIB6V2M.js"></script>
     <script src="dist/handlebars.templates-NBND3S2D.js"></script>
-    <script src="dist/sidebar_items-3943B02E.js"></script>
+    <script src="dist/sidebar_items-1E00A91C.js"></script>
 
       <script src="docs_config.js"></script>
 
@@ -161,38 +161,20 @@ facts:
   </a>
 </h3>
 <p>The targets section allows defining handles for targets' UUIDs, providing a reference that can be used through the configuration.</p><p>Format:</p><pre><code class="yaml">targets:
-  &lt;target_reference&gt;: &lt;target_id&gt;</code></pre><target_reference>: A user-defined handle or reference for a target.<target_id>: The UUID or identifier of the target.
-Add as many new target entries as required:
-
-```yaml
-targets:
+  &lt;target_reference&gt;: &lt;target_id&gt;</code></pre><p><code class="inline">&lt;target_reference&gt;</code>: A user-defined handle or reference for a target.</p><p><code class="inline">&lt;target_id&gt;</code>: The UUID or identifier of the target.</p><p>Add as many new target entries as required:</p><pre><code class="yaml">targets:
   target1: 0a055c90-4cb6-54ce-ac9c-ae3fedaf40d4
   target2: 13e8c25c-3180-5a9a-95c8-51ec38e50cfc
-  <target_reference>: <new_target_id>
-```
-
-### Facts:
-
-The facts section allows specifying what fact value a target should return for a specific check.
-
-The format for the facts section is as follows:
-
-```yaml
-facts:
-  <check_id>:
-    <fact_name>:
-      <target_reference>: <fact value>
-      <target_reference2>: <fact value>
-```
-
-- There can be as many <check_id> as needed.
-- Each <check_id> there can be as many <fact_name> configured as needed.
-- Each <fact_name> can be instrumented to have a specific <fact value> on a <target_reference>.
-
-Example:
-
-```yaml
-targets:
+  &lt;target_reference&gt;: &lt;new_target_id&gt;</code></pre><h3 id="facts" class="section-heading">
+  <a href="#facts">
+    <i class="ri-link-m" aria-hidden="true"></i>
+    Facts:
+  </a>
+</h3>
+<p>The facts section allows specifying what fact value a target should return for a specific check.</p><p>The format for the facts section is as follows:</p><pre><code class="yaml">facts:
+  &lt;check_id&gt;:
+    &lt;fact_name&gt;:
+      &lt;target_reference&gt;: &lt;fact value&gt;
+      &lt;target_reference2&gt;: &lt;fact value&gt;</code></pre><ul><li>There can be as many &lt;check_id&gt; as needed.</li><li>Each &lt;check_id&gt; there can be as many &lt;fact_name&gt; configured as needed.</li><li>Each &lt;fact_name&gt; can be instrumented to have a specific &lt;fact value&gt; on a &lt;target_reference&gt;.</li></ul><p>Example:</p><pre><code class="yaml">targets:
   target1: 0a055c90-4cb6-54ce-ac9c-ae3fedaf40d4
   target2: 13e8c25c-3180-5a9a-95c8-51ec38e50cfc
   target3: 3f16cb32-57fb-46cc-9bf1-cd8d72d7eb9a
@@ -201,22 +183,29 @@ facts:
 .......existing facts..........
   new_check_id:
     new_fact_name:
-      target1: <fact value>
-      target2: <fact value>
-      target3: <fact value>
-```
-
-## FAQ
-
-### What happens with unmapped targets, facts or checks?
-
-Wanda will still evaluate and return a default fallback fact value "some fact value" for a check's execution. This means when a new check is added to wanda, changing the the configuration is optional.
-
-### How to know what's the correct return value of a fact?
-
-Every Fact Gatherer has specific return values. To get an overview of all gatherers, refer to [Wanda's gatherers guide](../gatherers.md).
+      target1: &lt;fact value&gt;
+      target2: &lt;fact value&gt;
+      target3: &lt;fact value&gt;</code></pre><h2 id="faq" class="section-heading">
+  <a href="#faq">
+    <i class="ri-link-m" aria-hidden="true"></i>
+    FAQ
+  </a>
+</h2>
+<h3 id="what-happens-with-unmapped-targets-facts-or-checks" class="section-heading">
+  <a href="#what-happens-with-unmapped-targets-facts-or-checks">
+    <i class="ri-link-m" aria-hidden="true"></i>
+    What happens with unmapped targets, facts or checks?
+  </a>
+</h3>
+<p>Wanda will still evaluate and return a default fallback fact value &quot;some fact value&quot; for a check's execution. This means when a new check is added to wanda, changing the the configuration is optional.</p><h3 id="how-to-know-what-s-the-correct-return-value-of-a-fact" class="section-heading">
+  <a href="#how-to-know-what-s-the-correct-return-value-of-a-fact">
+    <i class="ri-link-m" aria-hidden="true"></i>
+    How to know what's the correct return value of a fact?
+  </a>
+</h3>
+<p>Every Fact Gatherer has specific return values. To get an overview of all gatherers, refer to <a href="gatherers.html">Wanda's gatherers guide</a>.
 Determining the correct return value of a fact requires inspecting the specific check itself.
-Visit the [Checks Catalog](https://github.com/trento-project/wanda/blob/main/priv/catalog) to find out which gatherer is used for the specific check and which values are expected.</target_reference>
+Visit the <a href="https://github.com/trento-project/wanda/blob/main/priv/catalog">Checks Catalog</a> to find out which gatherer is used for the specific check and which values are expected.</p>
 <div class="bottom-actions">
   <div class="bottom-actions-item">
 
