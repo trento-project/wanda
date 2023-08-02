@@ -1,5 +1,42 @@
 # Changelog
 
+## [1.1.0](https://github.com/trento-project/wanda/tree/1.1.0) (2023-08-02)
+
+[Full Changelog](https://github.com/trento-project/wanda/compare/1.0.0...1.1.0)
+
+**Implemented enhancements:**
+
+- Refactor demo server [\#271](https://github.com/trento-project/wanda/pull/271) ([EMaksy](https://github.com/EMaksy))
+- initial checks for VMware vSphere \(jsc\#TRNT-1682\) [\#259](https://github.com/trento-project/wanda/pull/259) ([yeoldegrove](https://github.com/yeoldegrove))
+- update reference section to clarify the package version decision [\#255](https://github.com/trento-project/wanda/pull/255) ([angelabriel](https://github.com/angelabriel))
+- Add when conditions for resource types, propagate the resource type in the ExecutionCompleted event [\#253](https://github.com/trento-project/wanda/pull/253) ([dottorblaster](https://github.com/dottorblaster))
+- Add user friendly failure message \(jsc\#TRNT-1825\) [\#237](https://github.com/trento-project/wanda/pull/237) ([angelabriel](https://github.com/angelabriel))
+
+**Fixed bugs:**
+
+- Fix formatting in demo guide [\#275](https://github.com/trento-project/wanda/pull/275) ([EMaksy](https://github.com/EMaksy))
+- fixes found by checks-checker [\#260](https://github.com/trento-project/wanda/pull/260) ([yeoldegrove](https://github.com/yeoldegrove))
+- Add default failure message for expect\_same expectations [\#243](https://github.com/trento-project/wanda/pull/243) ([nelsonkopliku](https://github.com/nelsonkopliku))
+
+**Merged pull requests:**
+
+- Bump rhai\_rustler to v1.0.2 [\#276](https://github.com/trento-project/wanda/pull/276) ([fabriziosestito](https://github.com/fabriziosestito))
+- Bump rhai\_rustler from 1.0.0 to 1.0.1 [\#270](https://github.com/trento-project/wanda/pull/270) ([dependabot[bot]](https://github.com/apps/dependabot))
+- Bump ex\_doc from 0.30.2 to 0.30.3 [\#269](https://github.com/trento-project/wanda/pull/269) ([dependabot[bot]](https://github.com/apps/dependabot))
+- Bump jason from 1.4.0 to 1.4.1 [\#266](https://github.com/trento-project/wanda/pull/266) ([dependabot[bot]](https://github.com/apps/dependabot))
+- Bump ex\_doc from 0.29.4 to 0.30.2 [\#265](https://github.com/trento-project/wanda/pull/265) ([dependabot[bot]](https://github.com/apps/dependabot))
+- Bump rhai\_rustler to v1.0.0 [\#264](https://github.com/trento-project/wanda/pull/264) ([fabriziosestito](https://github.com/fabriziosestito))
+- Update contracts usage [\#258](https://github.com/trento-project/wanda/pull/258) ([nelsonkopliku](https://github.com/nelsonkopliku))
+- Document target\_type inside env [\#256](https://github.com/trento-project/wanda/pull/256) ([dottorblaster](https://github.com/dottorblaster))
+- Bump phoenix\_ecto from 4.4.0 to 4.4.2 [\#252](https://github.com/trento-project/wanda/pull/252) ([dependabot[bot]](https://github.com/apps/dependabot))
+- Bump docker/login-action from 2.1.0 to 2.2.0 [\#251](https://github.com/trento-project/wanda/pull/251) ([dependabot[bot]](https://github.com/apps/dependabot))
+- Document cluster type support [\#248](https://github.com/trento-project/wanda/pull/248) ([arbulu89](https://github.com/arbulu89))
+- Bump open\_api\_spex from 3.16.1 to 3.17.3 [\#246](https://github.com/trento-project/wanda/pull/246) ([dependabot[bot]](https://github.com/apps/dependabot))
+- Update copyright year to 2023 [\#240](https://github.com/trento-project/wanda/pull/240) ([EMaksy](https://github.com/EMaksy))
+- Bump docker/metadata-action from 4.3.0 to 4.4.0 [\#234](https://github.com/trento-project/wanda/pull/234) ([dependabot[bot]](https://github.com/apps/dependabot))
+- Bump dialyxir from 1.2.0 to 1.3.0 [\#232](https://github.com/trento-project/wanda/pull/232) ([dependabot[bot]](https://github.com/apps/dependabot))
+- Bump excoveralls from 0.16.0 to 0.16.1 [\#231](https://github.com/trento-project/wanda/pull/231) ([dependabot[bot]](https://github.com/apps/dependabot))
+
 ## [1.0.0](https://github.com/trento-project/wanda/tree/1.0.0) (2023-04-26)
 
 [Full Changelog](https://github.com/trento-project/wanda/compare/0.1.0...1.0.0)
