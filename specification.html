@@ -5,15 +5,15 @@
     <meta http-equiv="x-ua-compatible" content="ie=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="generator" content="ExDoc v0.30.3">
-    <meta name="project" content="Wanda v1.0.0">
+    <meta name="project" content="Wanda v1.1.0">
 
-    <title>Checks Specification — Wanda v1.0.0</title>
+    <title>Checks Specification — Wanda v1.1.0</title>
     <link rel="stylesheet" href="dist/html-elixir-P5GXSCHE.css" />
 
 
     <script src="dist/handlebars.runtime-NWIB6V2M.js"></script>
     <script src="dist/handlebars.templates-NBND3S2D.js"></script>
-    <script src="dist/sidebar_items-1E00A91C.js"></script>
+    <script src="dist/sidebar_items-27F8CF46.js"></script>
 
       <script src="docs_config.js"></script>
 
@@ -72,7 +72,7 @@
 Wanda
       </a>
       <div class="sidebar-projectVersion" translate="no">
-        v1.0.0
+        v1.1.0
       </div>
     </div>
     <ul class="sidebar-listNav">
@@ -424,12 +424,12 @@ For example, the next example should be avoided, as the <code class="inline">fac
     </span><span class="o">-</span><span class="w"> </span><span class="ss">name</span><span class="p">:</span><span class="w"> </span><span class="n">bar_expectation</span><span class="w">
       </span><span class="ss">expect</span><span class="p">:</span><span class="w"> </span><span class="n">facts</span><span class="o">.</span><span class="n">bar</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="n">values</span><span class="o">.</span><span class="n">expected_bar</span></code></pre></li><li><p>Pipe the expression language functions vertically in order to provide a better visual output of the code.<br/>So this:</p><pre><code class="makeup elixir" translate="no"><span class="w">  </span><span class="ss">expectations</span><span class="p">:</span><span class="w">
     </span><span class="o">-</span><span class="w"> </span><span class="ss">name</span><span class="p">:</span><span class="w"> </span><span class="n">some_expectation</span><span class="w">
-      </span><span class="ss">expect</span><span class="p">:</span><span class="w"> </span><span class="n">facts</span><span class="o">.</span><span class="n">foo</span><span class="o">.</span><span class="n">find</span><span class="p" data-group-id="7071668815-1">(</span><span class="o">|</span><span class="n">item</span><span class="o">|</span><span class="w"> </span><span class="n">item</span><span class="o">.</span><span class="n">id</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="s">&quot;super&quot;</span><span class="p" data-group-id="7071668815-1">)</span><span class="o">.</span><span class="n">properties</span><span class="o">.</span><span class="n">find</span><span class="p" data-group-id="7071668815-2">(</span><span class="o">|</span><span class="n">prop</span><span class="o">|</span><span class="w"> </span><span class="n">prop</span><span class="o">.</span><span class="n">name</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="s">&quot;good&quot;</span><span class="p" data-group-id="7071668815-2">)</span><span class="o">.</span><span class="n">value</span></code></pre><p>would be:</p><pre><code class="makeup elixir" translate="no"><span class="w">  </span><span class="ss">expectations</span><span class="p">:</span><span class="w">
+      </span><span class="ss">expect</span><span class="p">:</span><span class="w"> </span><span class="n">facts</span><span class="o">.</span><span class="n">foo</span><span class="o">.</span><span class="n">find</span><span class="p" data-group-id="1616537064-1">(</span><span class="o">|</span><span class="n">item</span><span class="o">|</span><span class="w"> </span><span class="n">item</span><span class="o">.</span><span class="n">id</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="s">&quot;super&quot;</span><span class="p" data-group-id="1616537064-1">)</span><span class="o">.</span><span class="n">properties</span><span class="o">.</span><span class="n">find</span><span class="p" data-group-id="1616537064-2">(</span><span class="o">|</span><span class="n">prop</span><span class="o">|</span><span class="w"> </span><span class="n">prop</span><span class="o">.</span><span class="n">name</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="s">&quot;good&quot;</span><span class="p" data-group-id="1616537064-2">)</span><span class="o">.</span><span class="n">value</span></code></pre><p>would be:</p><pre><code class="makeup elixir" translate="no"><span class="w">  </span><span class="ss">expectations</span><span class="p">:</span><span class="w">
     </span><span class="o">-</span><span class="w"> </span><span class="ss">name</span><span class="p">:</span><span class="w"> </span><span class="n">some_expectation</span><span class="w">
       </span><span class="ss">expect</span><span class="p">:</span><span class="w"> </span><span class="o">|</span><span class="w">
         </span><span class="n">facts</span><span class="o">.</span><span class="n">foo</span><span class="w">
-        </span><span class="o">.</span><span class="n">find</span><span class="p" data-group-id="3518812663-1">(</span><span class="o">|</span><span class="n">item</span><span class="o">|</span><span class="w"> </span><span class="n">item</span><span class="o">.</span><span class="n">id</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="s">&quot;super&quot;</span><span class="p" data-group-id="3518812663-1">)</span><span class="o">.</span><span class="n">properties</span><span class="w">
-        </span><span class="o">.</span><span class="n">find</span><span class="p" data-group-id="3518812663-2">(</span><span class="o">|</span><span class="n">prop</span><span class="o">|</span><span class="w"> </span><span class="n">prop</span><span class="o">.</span><span class="n">name</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="s">&quot;good&quot;</span><span class="p" data-group-id="3518812663-2">)</span><span class="o">.</span><span class="n">value</span></code></pre><blockquote><p>Note: Keep in mind that some functions such as <code class="inline">sort</code> and <code class="inline">drain</code> run in-place modifications, so they cannot be piped.</p></blockquote></li></ul>
+        </span><span class="o">.</span><span class="n">find</span><span class="p" data-group-id="9957696222-1">(</span><span class="o">|</span><span class="n">item</span><span class="o">|</span><span class="w"> </span><span class="n">item</span><span class="o">.</span><span class="n">id</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="s">&quot;super&quot;</span><span class="p" data-group-id="9957696222-1">)</span><span class="o">.</span><span class="n">properties</span><span class="w">
+        </span><span class="o">.</span><span class="n">find</span><span class="p" data-group-id="9957696222-2">(</span><span class="o">|</span><span class="n">prop</span><span class="o">|</span><span class="w"> </span><span class="n">prop</span><span class="o">.</span><span class="n">name</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="s">&quot;good&quot;</span><span class="p" data-group-id="9957696222-2">)</span><span class="o">.</span><span class="n">value</span></code></pre><blockquote><p>Note: Keep in mind that some functions such as <code class="inline">sort</code> and <code class="inline">drain</code> run in-place modifications, so they cannot be piped.</p></blockquote></li></ul>
 <div class="bottom-actions">
   <div class="bottom-actions-item">
 
