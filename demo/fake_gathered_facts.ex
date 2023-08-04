@@ -7,6 +7,8 @@ defmodule Wanda.Executions.FakeGatheredFacts do
   alias Wanda.Executions.Fact, as: ExecutionFact
   alias Wanda.Executions.Target
 
+  require Logger
+
   @fallback_fact_value "some fact value"
 
   def get_demo_gathered_facts(checks, targets) do
@@ -37,15 +39,26 @@ defmodule Wanda.Executions.FakeGatheredFacts do
          {:ok, fact_value} <- get_fake_value_from_map(fake_facts, check_id, fact_name, target_ref) do
       fact_value
     else
-      {:error, _reason} ->
+      {:error, reason} ->
+        Logger.warn(
+          "Could not get fact '#{fact_name}'. Falling back to default value.",
+          check_id: inspect(check_id),
+          fact_name: inspect(fact_name),
+          agent_id: inspect(agent_id),
+          reason: inspect(reason)
+        )
+
         @fallback_fact_value
     end
   end
 
   defp read_from_yaml_config do
     case YamlElixir.read_from_file(get_fake_gathered_facts_config()) do
-      {:ok, %{"targets" => target_refs, "facts" => fake_facts}} -> {:ok, target_refs, fake_facts}
-      error -> error
+      {:ok, %{"targets" => target_refs, "facts" => fake_facts}} ->
+        {:ok, target_refs, fake_facts}
+
+      error ->
+        error
     end
   end
 
@@ -61,8 +74,11 @@ defmodule Wanda.Executions.FakeGatheredFacts do
 
   defp get_target_reference(target_refs, agent_id) do
     case Enum.find(target_refs, fn {_, target_id} -> target_id == agent_id end) do
-      nil -> {:error, :target_ref_not_found}
-      found_target -> {:ok, elem(found_target, 0)}
+      nil ->
+        {:error, :target_ref_not_found}
+
+      found_target ->
+        {:ok, elem(found_target, 0)}
     end
   end
 
