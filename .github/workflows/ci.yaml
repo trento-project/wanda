@@ -78,7 +78,7 @@ jobs:
 
   static-code-analysis:
     name: Static Code Analysis
-    needs: elixir-deps
+    needs: [elixir-deps, api-bc-check]
     runs-on: ubuntu-20.04
     steps:
       - name: Cancel Previous Runs
@@ -117,7 +117,7 @@ jobs:
 
   test:
     name: Test (Elixir ${{ matrix.elixir }}, OTP ${{ matrix.otp }})
-    needs: elixir-deps
+    needs: [elixir-deps, api-bc-check]
     runs-on: ubuntu-20.04
     strategy:
       matrix:
@@ -176,6 +176,74 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: mix coveralls.github --warnings-as-errors --color --trace
+
+  api-bc-check:
+    name: API bc check
+    needs: [elixir-deps]
+    runs-on: ubuntu-20.04
+    strategy:
+      matrix:
+        include:
+          - version: V1
+    steps:
+      - name: Cancel Previous Runs
+        uses: styfle/cancel-workflow-action@0.11.0
+        with:
+          access_token: ${{ github.token }}
+      - name: Set up Elixir
+        uses: erlef/setup-beam@v1
+        with:
+          elixir-version: ${{ env.ELIXIR_VERSION }}
+          otp-version: ${{ env.OTP_VERSION }}
+      - name: Checkout current branch
+        uses: actions/checkout@v3
+      - name: Retrieve Cached Dependencies - current branch
+        uses: actions/cache@v3
+        id: mix-cache-current
+        with:
+          path: |
+            deps
+            _build/test
+            priv/plts
+          key: ${{ runner.os }}-${{ env.OTP_VERSION }}-${{ env.ELIXIR_VERSION }}-${{ hashFiles('mix.lock') }}
+      - name: Generate current openapi.json
+        run: |
+          mix openapi.spec.json --start-app=false --spec WandaWeb.ApiSpec /tmp/specs/current-spec.json
+
+      - name: Checkout main branch
+        uses: actions/checkout@v3
+        with:
+          ref: main
+      - name: Retrieve Cached Dependencies - main branch
+        uses: actions/cache@v3
+        id: mix-cache-main
+        with:
+          path: |
+            deps
+            _build/test
+            priv/plts
+          key: ${{ runner.os }}-${{ env.OTP_VERSION }}-${{ env.ELIXIR_VERSION }}-${{ hashFiles('mix.lock') }}
+      - name: Generate main openapi.json
+        run: |
+          mix openapi.spec.json --start-app=false --spec WandaWeb.ApiSpec /tmp/specs/main-spec.json
+      - name: Locate generated specs
+        run: mv /tmp/specs .
+      - name: Find difference between OpenAPI specifications
+        run: |
+          docker run -v "$(pwd)/specs:/specs" --rm openapitools/openapi-diff:2.0.1 \
+            /specs/main-spec.json \
+            /specs/current-spec.json \
+            --fail-on-incompatible \
+            --markdown /specs/changes.md \
+            --json /specs/changes.json \
+            --text /specs/changes.txt \
+            --html /specs/changes.html
+      - name: Upload OpenAPI diff report
+        uses: actions/upload-artifact@v3
+        if: failure()
+        with:
+          name: openapi-diff-report-${{ matrix.version }}
+          path: specs/
 
   build-and-push-container-images:
     name: Build and push container images
