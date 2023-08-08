@@ -105,3 +105,15 @@ if config_env() in [:prod, :demo] do
         )
       )
 end
+
+if config_env() === :demo do
+  config :wanda, Wanda.Executions.FakeGatheredFacts,
+    demo_facts_config:
+      System.get_env(
+        "DEMO_FAKE_FACTS",
+        Application.app_dir(
+          :wanda,
+          "priv/demo/fake_facts.yaml"
+        )
+      )
+end
