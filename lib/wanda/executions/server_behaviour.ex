@@ -9,6 +9,7 @@ defmodule Wanda.Executions.ServerBehaviour do
               execution_id :: String.t(),
               group_id :: String.t(),
               targets :: [Target.t()],
+              target_type :: String.t() | nil,
               env :: %{String.t() => boolean() | number() | String.t()}
             ) :: :ok | {:error, :no_checks_selected} | {:error, :already_running}
 
@@ -16,6 +17,7 @@ defmodule Wanda.Executions.ServerBehaviour do
               execution_id :: String.t(),
               group_id :: String.t(),
               targets :: [Target.t()],
+              target_type :: String.t() | nil,
               env :: %{String.t() => boolean() | number() | String.t()},
               config :: Keyword.t()
             ) :: :ok | {:error, any}

@@ -20,13 +20,19 @@ defmodule Wanda.Policy do
   end
 
   defp handle(%ExecutionRequested{} = message) do
-    %{execution_id: execution_id, group_id: group_id, targets: targets, env: env} =
-      Mapper.from_execution_requested(message)
+    %{
+      execution_id: execution_id,
+      group_id: group_id,
+      targets: targets,
+      env: env,
+      target_type: target_type
+    } = Mapper.from_execution_requested(message)
 
     execution_server_impl().start_execution(
       execution_id,
       group_id,
       targets,
+      target_type,
       env
     )
   end

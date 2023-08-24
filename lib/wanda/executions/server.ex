@@ -37,9 +37,8 @@ defmodule Wanda.Executions.Server do
   If non-existing check IDs are provided inside a target, they will get filtered away.
   """
   @impl true
-  def start_execution(execution_id, group_id, targets, env, config \\ []) do
-    # TODO: this should be removed when web properly sets the target type in ExecutionRequested event
-    env = Map.put(env, "target_type", @default_target_type)
+  def start_execution(execution_id, group_id, targets, target_type, env, config \\ []) do
+    env = Map.put(env, "target_type", target_type)
 
     checks =
       targets

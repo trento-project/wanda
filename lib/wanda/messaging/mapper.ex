@@ -59,18 +59,21 @@ defmodule Wanda.Messaging.Mapper do
           execution_id: String.t(),
           group_id: String.t(),
           targets: [Target.t()],
+          target_type: String.t() | nil,
           env: %{String.t() => boolean() | number() | String.t() | nil}
         }
   def from_execution_requested(%ExecutionRequested{
         execution_id: execution_id,
         group_id: group_id,
         targets: targets,
+        target_type: target_type,
         env: env
       }) do
     %{
       execution_id: execution_id,
       group_id: group_id,
       targets: Target.map_targets(targets),
+      target_type: target_type,
       env: Map.new(env, fn {key, %{kind: value}} -> {key, map_env_entry(value)} end)
     }
   end
