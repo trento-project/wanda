@@ -19,6 +19,7 @@ defmodule Wanda.Executions.FakeServerTest do
   test "start_execution publishes execution started and completed messages" do
     execution_id = UUID.uuid4()
     group_id = UUID.uuid4()
+    target_type = Faker.Person.first_name()
     targets = build_list(2, :target, checks: ["expect_check"])
     env = build(:env)
 
@@ -30,7 +31,10 @@ defmodule Wanda.Executions.FakeServerTest do
         :ok
     end)
 
-    assert :ok = FakeServer.start_execution(execution_id, group_id, targets, env, sleep: 0)
+    assert :ok =
+             FakeServer.start_execution(execution_id, group_id, targets, target_type, env,
+               sleep: 0
+             )
 
     assert %Execution{execution_id: ^execution_id, status: :completed} = Repo.one!(Execution)
   end
