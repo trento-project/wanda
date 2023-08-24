@@ -45,6 +45,7 @@ defmodule WandaWeb.Schemas.StartExecutionRequest do
         type: :array,
         items: Target
       },
+      target_type: %Schema{type: :string, description: "Execution target type"},
       env: Env
     },
     required: [:execution_id, :group_id, :targets]
