@@ -1,0 +1,29 @@
+id: "TRNT01"
+name: A host check
+group: Trento
+description: |
+  Trento agent service is enabled and running
+remediation: |
+  ## Abstract
+  If not enabled, trento-agent service will not start automatically after reboots, affecting Trento's functionalities.
+
+  To enable the service, run:
+  ```
+  systemctl enable trento-agent
+  ```
+
+when: env.target_type == "host"
+
+facts:
+  - name: trento_agent_service_state
+    gatherer: systemd
+    argument: trento-agent
+
+values:
+  - name: expected_trento_agent_service_state
+    default: active
+
+expectations:
+  - name: trento_agent_service_state_active
+    expect: facts.trento_agent_service_state == values.expected_trento_agent_service_state
+    failure_message: Trento agent service was expected to be active (enabled and running) but returned value is '${facts.trento_agent_service_state}'
