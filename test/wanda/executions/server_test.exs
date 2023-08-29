@@ -112,7 +112,7 @@ defmodule Wanda.Executions.ServerTest do
       )
 
       assert {:error, :already_running} =
-               Server.start_execution(UUID.uuid4(), group_id, targets, %{})
+               Server.start_execution(UUID.uuid4(), group_id, targets, "cluster", %{})
     end
 
     test "should exit when all facts are sent by all agents", context do
@@ -267,7 +267,13 @@ defmodule Wanda.Executions.ServerTest do
       targets = build_list(2, :target, checks: [])
 
       assert {:error, :no_checks_selected} =
-               Server.start_execution(UUID.uuid4(), UUID.uuid4(), targets, %{})
+               Server.start_execution(
+                 UUID.uuid4(),
+                 UUID.uuid4(),
+                 targets,
+                 Faker.Person.first_name(),
+                 %{}
+               )
     end
 
     test "should execute existing checks if non-existent checks are selected" do
@@ -279,7 +285,14 @@ defmodule Wanda.Executions.ServerTest do
           build(:target, checks: ["expect_same_check", "non_existing"])
         ]
 
-      assert :ok = Server.start_execution(UUID.uuid4(), group_id, targets, %{})
+      assert :ok =
+               Server.start_execution(
+                 UUID.uuid4(),
+                 group_id,
+                 targets,
+                 Faker.Person.first_name(),
+                 %{}
+               )
 
       pid = :global.whereis_name({Server, group_id})
       %{targets: actual_targets} = :sys.get_state(pid)

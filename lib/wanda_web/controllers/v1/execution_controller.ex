@@ -115,13 +115,16 @@ defmodule WandaWeb.V1.ExecutionController do
       group_id: group_id,
       targets: targets,
       env: env
-    } = Map.get(conn, :body_params)
+    } = body_params = Map.get(conn, :body_params)
+
+    target_type = Map.get(body_params, :target_type)
 
     with :ok <-
            execution_server_impl().start_execution(
              execution_id,
              group_id,
              Target.map_targets(targets),
+             target_type,
              env
            ) do
       conn

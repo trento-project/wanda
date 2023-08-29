@@ -16,6 +16,7 @@ defmodule Wanda.PolicyTest do
     execution_id = UUID.uuid4()
     group_id = UUID.uuid4()
     agent_id = UUID.uuid4()
+    target_type = Faker.Person.first_name()
 
     expect(Wanda.Executions.ServerMock, :start_execution, fn ^execution_id,
                                                              ^group_id,
@@ -25,6 +26,7 @@ defmodule Wanda.PolicyTest do
                                                                  checks: ["check_id"]
                                                                }
                                                              ],
+                                                             ^target_type,
                                                              %{
                                                                "key" => "value",
                                                                "other_key" => "other_value"
@@ -37,6 +39,7 @@ defmodule Wanda.PolicyTest do
                execution_id: execution_id,
                group_id: group_id,
                targets: [%{agent_id: agent_id, checks: ["check_id"]}],
+               target_type: target_type,
                env: %{
                  "key" => %{kind: {:string_value, "value"}},
                  "other_key" => %{kind: {:string_value, "other_value"}}

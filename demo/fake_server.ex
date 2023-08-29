@@ -16,9 +16,15 @@ defmodule Wanda.Executions.FakeServer do
 
   @default_config [sleep: 2_000]
   @impl true
-  def start_execution(execution_id, group_id, targets, env, config \\ @default_config) do
-    default_target_type = "cluster"
-    env = Map.put(env, "target_type", default_target_type)
+  def start_execution(
+        execution_id,
+        group_id,
+        targets,
+        target_type,
+        env,
+        config \\ @default_config
+      ) do
+    env = Map.put(env, "target_type", target_type)
 
     checks =
       targets
@@ -48,8 +54,7 @@ defmodule Wanda.Executions.FakeServer do
       evaluation_result
     )
 
-    execution_completed =
-      Messaging.Mapper.to_execution_completed(evaluation_result, default_target_type)
+    execution_completed = Messaging.Mapper.to_execution_completed(evaluation_result, target_type)
 
     :ok = Messaging.publish("results", execution_completed)
   end

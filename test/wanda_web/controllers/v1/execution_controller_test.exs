@@ -182,6 +182,7 @@ defmodule WandaWeb.V1.ExecutionControllerTest do
     test "should start an execution", %{conn: conn} do
       execution_id = UUID.uuid4()
       group_id = UUID.uuid4()
+      target_type = Faker.Person.first_name()
 
       targets = [
         %{
@@ -200,6 +201,7 @@ defmodule WandaWeb.V1.ExecutionControllerTest do
                                                                    checks: ^checks
                                                                  }
                                                                ],
+                                                               ^target_type,
                                                                ^env ->
         :ok
       end)
@@ -211,6 +213,7 @@ defmodule WandaWeb.V1.ExecutionControllerTest do
           "execution_id" => execution_id,
           "group_id" => group_id,
           "targets" => targets,
+          "target_type" => target_type,
           "env" => env
         })
         |> json_response(202)
@@ -224,6 +227,7 @@ defmodule WandaWeb.V1.ExecutionControllerTest do
     } do
       execution_id = UUID.uuid4()
       group_id = UUID.uuid4()
+      target_type = Faker.Person.first_name()
 
       targets = [
         %{
@@ -242,6 +246,7 @@ defmodule WandaWeb.V1.ExecutionControllerTest do
                                                                    checks: ^checks
                                                                  }
                                                                ],
+                                                               ^target_type,
                                                                ^env ->
         {:error, :already_running}
       end)
@@ -253,6 +258,7 @@ defmodule WandaWeb.V1.ExecutionControllerTest do
           "execution_id" => execution_id,
           "group_id" => group_id,
           "targets" => targets,
+          "target_type" => target_type,
           "env" => env
         })
         |> json_response(422)
@@ -265,7 +271,7 @@ defmodule WandaWeb.V1.ExecutionControllerTest do
     end
 
     test "should return an error if no checks were selected", %{conn: conn} do
-      expect(Wanda.Executions.ServerMock, :start_execution, fn _, _, _, _ ->
+      expect(Wanda.Executions.ServerMock, :start_execution, fn _, _, _, _, _ ->
         {:error, :no_checks_selected}
       end)
 
@@ -281,6 +287,7 @@ defmodule WandaWeb.V1.ExecutionControllerTest do
               checks: []
             }
           ],
+          "target_type" => Faker.Person.first_name(),
           "env" => build(:env)
         })
         |> json_response(422)
