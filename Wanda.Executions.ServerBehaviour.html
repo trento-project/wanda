@@ -13,7 +13,7 @@
 
     <script src="dist/handlebars.runtime-NWIB6V2M.js"></script>
     <script src="dist/handlebars.templates-KDPBTEPL.js"></script>
-    <script src="dist/sidebar_items-27F8CF46.js"></script>
+    <script src="dist/sidebar_items-E53B19A0.js"></script>
 
       <script src="docs_config.js"></script>
 
@@ -137,7 +137,7 @@ Wanda
 
     <div class="summary-row">
       <div class="summary-signature">
-        <a href="#c:start_execution/4" translate="no">start_execution(execution_id, group_id, targets, env)</a>
+        <a href="#c:start_execution/5" translate="no">start_execution(execution_id, group_id, targets, target_type, env)</a>
 
       </div>
 
@@ -145,7 +145,7 @@ Wanda
 
     <div class="summary-row">
       <div class="summary-signature">
-        <a href="#c:start_execution/5" translate="no">start_execution(execution_id, group_id, targets, env, config)</a>
+        <a href="#c:start_execution/6" translate="no">start_execution(execution_id, group_id, targets, target_type, env, config)</a>
 
       </div>
 
@@ -173,7 +173,7 @@ Callbacks
     </a>
     <h1 class="signature" translate="no">receive_facts(execution_id, group_id, agent_id, facts)</h1>
 
-      <a href="https://github.com/trento-project/wanda/blob/main/lib/wanda/executions/server_behaviour.ex#L28" class="icon-action" rel="help" title="View Source">
+      <a href="https://github.com/trento-project/wanda/blob/main/lib/wanda/executions/server_behaviour.ex#L30" class="icon-action" rel="help" title="View Source">
        <i class="ri-code-s-slash-line" aria-hidden="true"></i>
        <span class="sr-only">View Source</span>
      </a>
@@ -197,16 +197,16 @@ Callbacks
 
   </section>
 </section>
-<section class="detail" id="c:start_execution/4">
+<section class="detail" id="c:start_execution/5">
 
   <div class="detail-header">
-    <a href="#c:start_execution/4" class="detail-link" title="Link to this callback">
+    <a href="#c:start_execution/5" class="detail-link" title="Link to this callback">
       <i class="ri-link-m" aria-hidden="true"></i>
       <span class="sr-only">Link to this callback</span>
     </a>
-    <h1 class="signature" translate="no">start_execution(execution_id, group_id, targets, env)</h1>
+    <h1 class="signature" translate="no">start_execution(execution_id, group_id, targets, target_type, env)</h1>
 
-      <a href="https://github.com/trento-project/wanda/blob/main/lib/wanda/executions/server_behaviour.ex#L13" class="icon-action" rel="help" title="View Source">
+      <a href="https://github.com/trento-project/wanda/blob/main/lib/wanda/executions/server_behaviour.ex#L14" class="icon-action" rel="help" title="View Source">
        <i class="ri-code-s-slash-line" aria-hidden="true"></i>
        <span class="sr-only">View Source</span>
      </a>
@@ -222,6 +222,7 @@ Callbacks
   execution_id :: <a href="https://hexdocs.pm/elixir/String.html#t:t/0">String.t</a>(),
   group_id :: <a href="https://hexdocs.pm/elixir/String.html#t:t/0">String.t</a>(),
   targets :: [<a href="Wanda.Executions.Target.html#t:t/0">Wanda.Executions.Target.t</a>()],
+  target_type :: <a href="https://hexdocs.pm/elixir/String.html#t:t/0">String.t</a>() | nil,
   env :: %{required(<a href="https://hexdocs.pm/elixir/String.html#t:t/0">String.t</a>()) =&gt; <a href="https://hexdocs.pm/elixir/typespecs.html#built-in-types">boolean</a>() | <a href="https://hexdocs.pm/elixir/typespecs.html#built-in-types">number</a>() | <a href="https://hexdocs.pm/elixir/String.html#t:t/0">String.t</a>()}
 ) :: :ok | {:error, :no_checks_selected} | {:error, :already_running}</pre>
 
@@ -230,16 +231,16 @@ Callbacks
 
   </section>
 </section>
-<section class="detail" id="c:start_execution/5">
+<section class="detail" id="c:start_execution/6">
 
   <div class="detail-header">
-    <a href="#c:start_execution/5" class="detail-link" title="Link to this callback">
+    <a href="#c:start_execution/6" class="detail-link" title="Link to this callback">
       <i class="ri-link-m" aria-hidden="true"></i>
       <span class="sr-only">Link to this callback</span>
     </a>
-    <h1 class="signature" translate="no">start_execution(execution_id, group_id, targets, env, config)</h1>
+    <h1 class="signature" translate="no">start_execution(execution_id, group_id, targets, target_type, env, config)</h1>
 
-      <a href="https://github.com/trento-project/wanda/blob/main/lib/wanda/executions/server_behaviour.ex#L21" class="icon-action" rel="help" title="View Source">
+      <a href="https://github.com/trento-project/wanda/blob/main/lib/wanda/executions/server_behaviour.ex#L23" class="icon-action" rel="help" title="View Source">
        <i class="ri-code-s-slash-line" aria-hidden="true"></i>
        <span class="sr-only">View Source</span>
      </a>
@@ -255,6 +256,7 @@ Callbacks
   execution_id :: <a href="https://hexdocs.pm/elixir/String.html#t:t/0">String.t</a>(),
   group_id :: <a href="https://hexdocs.pm/elixir/String.html#t:t/0">String.t</a>(),
   targets :: [<a href="Wanda.Executions.Target.html#t:t/0">Wanda.Executions.Target.t</a>()],
+  target_type :: <a href="https://hexdocs.pm/elixir/String.html#t:t/0">String.t</a>() | nil,
   env :: %{required(<a href="https://hexdocs.pm/elixir/String.html#t:t/0">String.t</a>()) =&gt; <a href="https://hexdocs.pm/elixir/typespecs.html#built-in-types">boolean</a>() | <a href="https://hexdocs.pm/elixir/typespecs.html#built-in-types">number</a>() | <a href="https://hexdocs.pm/elixir/String.html#t:t/0">String.t</a>()},
   config :: <a href="https://hexdocs.pm/elixir/Keyword.html#t:t/0">Keyword.t</a>()
 ) :: :ok | {:error, <a href="https://hexdocs.pm/elixir/typespecs.html#basic-types">any</a>()}</pre>
