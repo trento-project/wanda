@@ -32,7 +32,7 @@ jobs:
         with:
           access_token: ${{ github.token }}
       - name: Checkout
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
         with:
           fetch-depth: 0
       - name: Setup
@@ -70,7 +70,7 @@ jobs:
         - ${{ github.workspace }}:/data
     steps:
       - name: Checkout
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
         with:
           fetch-depth: 0
       - name: Run TLint
@@ -86,7 +86,7 @@ jobs:
         with:
           access_token: ${{ github.token }}
       - name: Checkout
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
         with:
           fetch-depth: 0
       - name: Setup
@@ -153,7 +153,7 @@ jobs:
         with:
           access_token: ${{ github.token }}
       - name: Checkout
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
         with:
           fetch-depth: 0
       - name: Setup
@@ -196,7 +196,7 @@ jobs:
           elixir-version: ${{ env.ELIXIR_VERSION }}
           otp-version: ${{ env.OTP_VERSION }}
       - name: Checkout current branch
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
       - name: Retrieve Cached Dependencies - current branch
         uses: actions/cache@v3
         id: mix-cache-current
@@ -211,7 +211,7 @@ jobs:
           mix openapi.spec.json --start-app=false --spec WandaWeb.ApiSpec /tmp/specs/current-spec.json
 
       - name: Checkout main branch
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
         with:
           ref: main
       - name: Retrieve Cached Dependencies - main branch
@@ -258,7 +258,7 @@ jobs:
       IMAGE_REPOSITORY: ghcr.io/${{ github.repository_owner }}/trento-wanda
       IMAGE_TAG: "${{ (github.event_name == 'release' && github.event.release.tag_name) || (github.event_name == 'push' && github.ref_name == 'main' && 'rolling') || github.sha }}"
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
         with:
           fetch-depth: 0
       - uses: docker/setup-buildx-action@v2
@@ -296,7 +296,7 @@ jobs:
       REGISTRY: ghcr.io
       IMAGE_REPOSITORY: ghcr.io/${{ github.repository_owner }}/trento-wanda
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
         with:
           fetch-depth: 0
       - uses: docker/setup-buildx-action@v2
@@ -333,7 +333,7 @@ jobs:
     runs-on: ubuntu-20.04
     if: github.event_name == 'push' && github.ref_name == 'main'
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
       - name: Set up Elixir
         uses: erlef/setup-beam@v1
         with:
@@ -386,7 +386,7 @@ jobs:
         with:
           access_token: ${{ github.token }}
       - name: Checkout
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
       - uses: actions-ecosystem/action-get-latest-tag@v1
         id: latest-tag
         with:
