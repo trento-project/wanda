@@ -30,6 +30,7 @@ Here's a collection of built-in gatherers, with information about how to use the
 | [`sbd_dump`](#sbd_dump)                 | [trento-project/agent/../gatherers/sbddump.go](https://github.com/trento-project/agent/blob/main/internal/factsengine/gatherers/sbddump.go)                 |
 | [`systemd`](#systemd)                   | [trento-project/agent/../gatherers/systemd.go](https://github.com/trento-project/agent/blob/main/internal/factsengine/gatherers/systemd.go)                 |
 | [`verify_password`](#verify_password)   | [trento-project/agent/../gatherers/verifypassword.go](https://github.com/trento-project/agent/blob/main/internal/factsengine/gatherers/verifypassword.go)   |
+| [`groups`](#groups)   | [trento-project/agent/../gatherers/groups.go](https://github.com/trento-project/agent/blob/main/internal/factsengine/gatherers/groups.go)
 
 ### cibadmin
 
@@ -611,4 +612,36 @@ Example output (in Rhai):
 ```ts
 // hacluster_has_default_password
 true;
+```
+
+### groups
+
+**Argument required**: no.
+
+This gatherer allows access to the /etc/group file, returning all entries available at the file.
+
+Example specification:
+
+```yaml
+facts:
+  - name: groups
+    gatherer: groups
+```
+
+Example output (in Rhai):
+
+```ts
+[
+    #{
+        "name": "root",
+        "gid": 0,
+        "users": [],
+    },
+    #{
+        "name": "adm",
+        "gid": 1,
+        "users": ["trento"],
+    }
+  ...
+];
 ```
