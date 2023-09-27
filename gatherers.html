@@ -114,13 +114,13 @@ Wanda
     Introduction
   </a>
 </h2>
-<p>Gatherers can be thought of as functions:</p><ul><li>they have a name</li><li>they accept argument(s)</li><li>they return a value, the gathered <a href="specification.html#facts">Fact</a></li></ul><p>Facts Gathering process in a nutshell</p><pre><code class="makeup elixir" translate="no"><span class="n">fact</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">gatherer</span><span class="p" data-group-id="9723648218-1">(</span><span class="n">argument</span><span class="p" data-group-id="9723648218-1">)</span></code></pre><h2 id="available-gatherers" class="section-heading">
+<p>Gatherers can be thought of as functions:</p><ul><li>they have a name</li><li>they accept argument(s)</li><li>they return a value, the gathered <a href="specification.html#facts">Fact</a></li></ul><p>Facts Gathering process in a nutshell</p><pre><code class="makeup elixir" translate="no"><span class="n">fact</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">gatherer</span><span class="p" data-group-id="0351713784-1">(</span><span class="n">argument</span><span class="p" data-group-id="0351713784-1">)</span></code></pre><h2 id="available-gatherers" class="section-heading">
   <a href="#available-gatherers">
     <i class="ri-link-m" aria-hidden="true"></i>
     Available Gatherers
   </a>
 </h2>
-<p>Here's a collection of built-in gatherers, with information about how to use them.</p><table><thead><tr><th style="text-align: left;">Name</th><th style="text-align: left;">Implementation</th></tr></thead><tbody><tr><td style="text-align: left;"><a href="#cibadmin"><code class="inline">cibadmin</code></a></td><td style="text-align: left;"><a href="https://github.com/trento-project/agent/blob/main/internal/factsengine/gatherers/cibadmin.go">trento-project/agent/../gatherers/cibadmin.go</a></td></tr><tr><td style="text-align: left;"><a href="#corosyncconf"><code class="inline">corosync.conf</code></a></td><td style="text-align: left;"><a href="https://github.com/trento-project/agent/blob/main/internal/factsengine/gatherers/corosyncconf.go">trento-project/agent/../gatherers/corosyncconf.go</a></td></tr><tr><td style="text-align: left;"><a href="#corosync-cmapctl"><code class="inline">corosync-cmapctl</code></a></td><td style="text-align: left;"><a href="https://github.com/trento-project/agent/blob/main/internal/factsengine/gatherers/corosynccmapctl.go">trento-project/agent/../gatherers/corosynccmapctl.go</a></td></tr><tr><td style="text-align: left;"><a href="#hosts-etchosts"><code class="inline">hosts</code></a></td><td style="text-align: left;"><a href="https://github.com/trento-project/agent/blob/main/internal/factsengine/gatherers/hostsfile.go">trento-project/agent/../gatherers/hostsfile.go</a></td></tr><tr><td style="text-align: left;"><a href="#package_version"><code class="inline">package_version</code></a></td><td style="text-align: left;"><a href="https://github.com/trento-project/agent/blob/main/internal/factsengine/gatherers/packageversion.go">trento-project/agent/../gatherers/packageversion.go</a></td></tr><tr><td style="text-align: left;"><a href="#saphostctrl"><code class="inline">saphostctrl</code></a></td><td style="text-align: left;"><a href="https://github.com/trento-project/agent/blob/main/internal/factsengine/gatherers/saphostctrl.go">trento-project/agent/../gatherers/saphostctrl.go</a></td></tr><tr><td style="text-align: left;"><a href="#sbd_config"><code class="inline">sbd_config</code></a></td><td style="text-align: left;"><a href="https://github.com/trento-project/agent/blob/main/internal/factsengine/gatherers/sbd.go">trento-project/agent/../gatherers/sbd.go</a></td></tr><tr><td style="text-align: left;"><a href="#sbd_dump"><code class="inline">sbd_dump</code></a></td><td style="text-align: left;"><a href="https://github.com/trento-project/agent/blob/main/internal/factsengine/gatherers/sbddump.go">trento-project/agent/../gatherers/sbddump.go</a></td></tr><tr><td style="text-align: left;"><a href="#systemd"><code class="inline">systemd</code></a></td><td style="text-align: left;"><a href="https://github.com/trento-project/agent/blob/main/internal/factsengine/gatherers/systemd.go">trento-project/agent/../gatherers/systemd.go</a></td></tr><tr><td style="text-align: left;"><a href="#verify_password"><code class="inline">verify_password</code></a></td><td style="text-align: left;"><a href="https://github.com/trento-project/agent/blob/main/internal/factsengine/gatherers/verifypassword.go">trento-project/agent/../gatherers/verifypassword.go</a></td></tr></tbody></table><h3 id="cibadmin" class="section-heading">
+<p>Here's a collection of built-in gatherers, with information about how to use them.</p><table><thead><tr><th style="text-align: left;">Name</th><th style="text-align: left;">Implementation</th></tr></thead><tbody><tr><td style="text-align: left;"><a href="#cibadmin"><code class="inline">cibadmin</code></a></td><td style="text-align: left;"><a href="https://github.com/trento-project/agent/blob/main/internal/factsengine/gatherers/cibadmin.go">trento-project/agent/../gatherers/cibadmin.go</a></td></tr><tr><td style="text-align: left;"><a href="#corosyncconf"><code class="inline">corosync.conf</code></a></td><td style="text-align: left;"><a href="https://github.com/trento-project/agent/blob/main/internal/factsengine/gatherers/corosyncconf.go">trento-project/agent/../gatherers/corosyncconf.go</a></td></tr><tr><td style="text-align: left;"><a href="#corosync-cmapctl"><code class="inline">corosync-cmapctl</code></a></td><td style="text-align: left;"><a href="https://github.com/trento-project/agent/blob/main/internal/factsengine/gatherers/corosynccmapctl.go">trento-project/agent/../gatherers/corosynccmapctl.go</a></td></tr><tr><td style="text-align: left;"><a href="#hosts-etchosts"><code class="inline">hosts</code></a></td><td style="text-align: left;"><a href="https://github.com/trento-project/agent/blob/main/internal/factsengine/gatherers/hostsfile.go">trento-project/agent/../gatherers/hostsfile.go</a></td></tr><tr><td style="text-align: left;"><a href="#package_version"><code class="inline">package_version</code></a></td><td style="text-align: left;"><a href="https://github.com/trento-project/agent/blob/main/internal/factsengine/gatherers/packageversion.go">trento-project/agent/../gatherers/packageversion.go</a></td></tr><tr><td style="text-align: left;"><a href="#passwd"><code class="inline">passwd</code></a></td><td style="text-align: left;"><a href="https://github.com/trento-project/agent/blob/main/internal/factsengine/gatherers/passwd.go">trento-project/agent/../gatherers/passwd.go</a></td></tr><tr><td style="text-align: left;"><a href="#saphostctrl"><code class="inline">saphostctrl</code></a></td><td style="text-align: left;"><a href="https://github.com/trento-project/agent/blob/main/internal/factsengine/gatherers/saphostctrl.go">trento-project/agent/../gatherers/saphostctrl.go</a></td></tr><tr><td style="text-align: left;"><a href="#sbd_config"><code class="inline">sbd_config</code></a></td><td style="text-align: left;"><a href="https://github.com/trento-project/agent/blob/main/internal/factsengine/gatherers/sbd.go">trento-project/agent/../gatherers/sbd.go</a></td></tr><tr><td style="text-align: left;"><a href="#sbd_dump"><code class="inline">sbd_dump</code></a></td><td style="text-align: left;"><a href="https://github.com/trento-project/agent/blob/main/internal/factsengine/gatherers/sbddump.go">trento-project/agent/../gatherers/sbddump.go</a></td></tr><tr><td style="text-align: left;"><a href="#systemd"><code class="inline">systemd</code></a></td><td style="text-align: left;"><a href="https://github.com/trento-project/agent/blob/main/internal/factsengine/gatherers/systemd.go">trento-project/agent/../gatherers/systemd.go</a></td></tr><tr><td style="text-align: left;"><a href="#verify_password"><code class="inline">verify_password</code></a></td><td style="text-align: left;"><a href="https://github.com/trento-project/agent/blob/main/internal/factsengine/gatherers/verifypassword.go">trento-project/agent/../gatherers/verifypassword.go</a></td></tr></tbody></table><h3 id="cibadmin" class="section-heading">
   <a href="#cibadmin">
     <i class="ri-link-m" aria-hidden="true"></i>
     cibadmin
@@ -368,7 +368,41 @@ expectations:
 ]
 
 // compare_package_corosync
-0</code></pre><h3 id="saphostctrl" class="section-heading">
+0</code></pre><h3 id="passwd" class="section-heading">
+  <a href="#passwd">
+    <i class="ri-link-m" aria-hidden="true"></i>
+    passwd
+  </a>
+</h3>
+<p><strong>Argument required</strong>: no.</p><p>This gatherer allows access to the /etc/passwd file, returning all entries available at the file.</p><p>Example specification:</p><pre><code class="yaml">facts:
+  - name: passwd
+    gatherer: passwd</code></pre><p>Example output (in Rhai):</p><pre><code class="ts">[
+    #{
+        &quot;description&quot;: &quot;bin&quot;,
+        &quot;gid&quot;: 1,
+        &quot;home&quot;: &quot;/bin&quot;,
+        &quot;shell&quot;: &quot;/sbin/nologin&quot;,
+        &quot;uid&quot;: 1,
+        &quot;user&quot;: &quot;bin&quot;
+    },
+    #{
+        &quot;description&quot;: &quot;Chrony Daemon&quot;,
+        &quot;gid&quot;: 475,
+        &quot;home&quot;: &quot;/var/lib/chrony&quot;,
+        &quot;shell&quot;: &quot;/bin/false&quot;,
+        &quot;uid&quot;: 474,
+        &quot;user&quot;: &quot;chrony&quot;
+    },
+    #{
+        &quot;description&quot;: &quot;Daemon&quot;,
+        &quot;gid&quot;: 2,
+        &quot;home&quot;: &quot;/sbin&quot;,
+        &quot;shell&quot;: &quot;/sbin/nologin&quot;,
+        &quot;uid&quot;: 2,
+        &quot;user&quot;: &quot;daemon&quot;
+    },
+  ...
+];</code></pre><h3 id="saphostctrl" class="section-heading">
   <a href="#saphostctrl">
     <i class="ri-link-m" aria-hidden="true"></i>
     saphostctrl
