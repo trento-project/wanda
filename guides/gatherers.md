@@ -25,6 +25,7 @@ Here's a collection of built-in gatherers, with information about how to use the
 | [`corosync-cmapctl`](#corosync-cmapctl) | [trento-project/agent/../gatherers/corosynccmapctl.go](https://github.com/trento-project/agent/blob/main/internal/factsengine/gatherers/corosynccmapctl.go) |
 | [`hosts`](#hosts-etchosts)              | [trento-project/agent/../gatherers/hostsfile.go](https://github.com/trento-project/agent/blob/main/internal/factsengine/gatherers/hostsfile.go)             |
 | [`package_version`](#package_version)   | [trento-project/agent/../gatherers/packageversion.go](https://github.com/trento-project/agent/blob/main/internal/factsengine/gatherers/packageversion.go)   |
+| [`passwd`](#passwd)                     | [trento-project/agent/../gatherers/passwd.go](https://github.com/trento-project/agent/blob/main/internal/factsengine/gatherers/passwd.go)                   |
 | [`saphostctrl`](#saphostctrl)           | [trento-project/agent/../gatherers/saphostctrl.go](https://github.com/trento-project/agent/blob/main/internal/factsengine/gatherers/saphostctrl.go)         |
 | [`sbd_config`](#sbd_config)             | [trento-project/agent/../gatherers/sbd.go](https://github.com/trento-project/agent/blob/main/internal/factsengine/gatherers/sbd.go)                         |
 | [`sbd_dump`](#sbd_dump)                 | [trento-project/agent/../gatherers/sbddump.go](https://github.com/trento-project/agent/blob/main/internal/factsengine/gatherers/sbddump.go)                 |
@@ -413,6 +414,52 @@ Example output (in Rhai):
 
 // compare_package_corosync
 0
+```
+
+### passwd
+
+**Argument required**: no.
+
+This gatherer allows access to the /etc/passwd file, returning all entries available at the file.
+
+Example specification:
+
+```yaml
+facts:
+  - name: passwd
+    gatherer: passwd
+```
+
+Example output (in Rhai):
+
+```ts
+[
+    #{
+        "description": "bin",
+        "gid": 1,
+        "home": "/bin",
+        "shell": "/sbin/nologin",
+        "uid": 1,
+        "user": "bin"
+    },
+    #{
+        "description": "Chrony Daemon",
+        "gid": 475,
+        "home": "/var/lib/chrony",
+        "shell": "/bin/false",
+        "uid": 474,
+        "user": "chrony"
+    },
+    #{
+        "description": "Daemon",
+        "gid": 2,
+        "home": "/sbin",
+        "shell": "/sbin/nologin",
+        "uid": 2,
+        "user": "daemon"
+    },
+  ...
+];
 ```
 
 ### saphostctrl
