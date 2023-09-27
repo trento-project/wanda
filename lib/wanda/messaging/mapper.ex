@@ -148,6 +148,10 @@ defmodule Wanda.Messaging.Mapper do
     if truncated == value, do: truncated, else: value
   end
 
+  defp map_value(%{kind: {:null_value, _}}) do
+    nil
+  end
+
   defp map_value(%{kind: {_, value}}) do
     value
   end
