@@ -114,13 +114,13 @@ Wanda
     Introduction
   </a>
 </h2>
-<p>Gatherers can be thought of as functions:</p><ul><li>they have a name</li><li>they accept argument(s)</li><li>they return a value, the gathered <a href="specification.html#facts">Fact</a></li></ul><p>Facts Gathering process in a nutshell</p><pre><code class="makeup elixir" translate="no"><span class="n">fact</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">gatherer</span><span class="p" data-group-id="4075743163-1">(</span><span class="n">argument</span><span class="p" data-group-id="4075743163-1">)</span></code></pre><h2 id="available-gatherers" class="section-heading">
+<p>Gatherers can be thought of as functions:</p><ul><li>they have a name</li><li>they accept argument(s)</li><li>they return a value, the gathered <a href="specification.html#facts">Fact</a></li></ul><p>Facts Gathering process in a nutshell</p><pre><code class="makeup elixir" translate="no"><span class="n">fact</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">gatherer</span><span class="p" data-group-id="6003137510-1">(</span><span class="n">argument</span><span class="p" data-group-id="6003137510-1">)</span></code></pre><h2 id="available-gatherers" class="section-heading">
   <a href="#available-gatherers">
     <i class="ri-link-m" aria-hidden="true"></i>
     Available Gatherers
   </a>
 </h2>
-<p>Here's a collection of built-in gatherers, with information about how to use them.</p><table><thead><tr><th style="text-align: left;">Name</th><th style="text-align: left;">Implementation</th></tr></thead><tbody><tr><td style="text-align: left;"><a href="#cibadmin"><code class="inline">cibadmin</code></a></td><td style="text-align: left;"><a href="https://github.com/trento-project/agent/blob/main/internal/factsengine/gatherers/cibadmin.go">trento-project/agent/../gatherers/cibadmin.go</a></td></tr><tr><td style="text-align: left;"><a href="#corosyncconf"><code class="inline">corosync.conf</code></a></td><td style="text-align: left;"><a href="https://github.com/trento-project/agent/blob/main/internal/factsengine/gatherers/corosyncconf.go">trento-project/agent/../gatherers/corosyncconf.go</a></td></tr><tr><td style="text-align: left;"><a href="#corosync-cmapctl"><code class="inline">corosync-cmapctl</code></a></td><td style="text-align: left;"><a href="https://github.com/trento-project/agent/blob/main/internal/factsengine/gatherers/corosynccmapctl.go">trento-project/agent/../gatherers/corosynccmapctl.go</a></td></tr><tr><td style="text-align: left;"><a href="#hosts-etchosts"><code class="inline">hosts</code></a></td><td style="text-align: left;"><a href="https://github.com/trento-project/agent/blob/main/internal/factsengine/gatherers/hostsfile.go">trento-project/agent/../gatherers/hostsfile.go</a></td></tr><tr><td style="text-align: left;"><a href="#package_version"><code class="inline">package_version</code></a></td><td style="text-align: left;"><a href="https://github.com/trento-project/agent/blob/main/internal/factsengine/gatherers/packageversion.go">trento-project/agent/../gatherers/packageversion.go</a></td></tr><tr><td style="text-align: left;"><a href="#passwd"><code class="inline">passwd</code></a></td><td style="text-align: left;"><a href="https://github.com/trento-project/agent/blob/main/internal/factsengine/gatherers/passwd.go">trento-project/agent/../gatherers/passwd.go</a></td></tr><tr><td style="text-align: left;"><a href="#saphostctrl"><code class="inline">saphostctrl</code></a></td><td style="text-align: left;"><a href="https://github.com/trento-project/agent/blob/main/internal/factsengine/gatherers/saphostctrl.go">trento-project/agent/../gatherers/saphostctrl.go</a></td></tr><tr><td style="text-align: left;"><a href="#sbd_config"><code class="inline">sbd_config</code></a></td><td style="text-align: left;"><a href="https://github.com/trento-project/agent/blob/main/internal/factsengine/gatherers/sbd.go">trento-project/agent/../gatherers/sbd.go</a></td></tr><tr><td style="text-align: left;"><a href="#sbd_dump"><code class="inline">sbd_dump</code></a></td><td style="text-align: left;"><a href="https://github.com/trento-project/agent/blob/main/internal/factsengine/gatherers/sbddump.go">trento-project/agent/../gatherers/sbddump.go</a></td></tr><tr><td style="text-align: left;"><a href="#systemd"><code class="inline">systemd</code></a></td><td style="text-align: left;"><a href="https://github.com/trento-project/agent/blob/main/internal/factsengine/gatherers/systemd.go">trento-project/agent/../gatherers/systemd.go</a></td></tr><tr><td style="text-align: left;"><a href="#verify_password"><code class="inline">verify_password</code></a></td><td style="text-align: left;"><a href="https://github.com/trento-project/agent/blob/main/internal/factsengine/gatherers/verifypassword.go">trento-project/agent/../gatherers/verifypassword.go</a></td></tr></tbody></table><h3 id="cibadmin" class="section-heading">
+<p>Here's a collection of built-in gatherers, with information about how to use them.</p><table><thead><tr><th style="text-align: left;">Name</th><th style="text-align: left;">Implementation</th></tr></thead><tbody><tr><td style="text-align: left;"><a href="#cibadmin"><code class="inline">cibadmin</code></a></td><td style="text-align: left;"><a href="https://github.com/trento-project/agent/blob/main/internal/factsengine/gatherers/cibadmin.go">trento-project/agent/../gatherers/cibadmin.go</a></td></tr><tr><td style="text-align: left;"><a href="#corosyncconf"><code class="inline">corosync.conf</code></a></td><td style="text-align: left;"><a href="https://github.com/trento-project/agent/blob/main/internal/factsengine/gatherers/corosyncconf.go">trento-project/agent/../gatherers/corosyncconf.go</a></td></tr><tr><td style="text-align: left;"><a href="#corosync-cmapctl"><code class="inline">corosync-cmapctl</code></a></td><td style="text-align: left;"><a href="https://github.com/trento-project/agent/blob/main/internal/factsengine/gatherers/corosynccmapctl.go">trento-project/agent/../gatherers/corosynccmapctl.go</a></td></tr><tr><td style="text-align: left;"><a href="#hosts-etchosts"><code class="inline">hosts</code></a></td><td style="text-align: left;"><a href="https://github.com/trento-project/agent/blob/main/internal/factsengine/gatherers/hostsfile.go">trento-project/agent/../gatherers/hostsfile.go</a></td></tr><tr><td style="text-align: left;"><a href="#package_version"><code class="inline">package_version</code></a></td><td style="text-align: left;"><a href="https://github.com/trento-project/agent/blob/main/internal/factsengine/gatherers/packageversion.go">trento-project/agent/../gatherers/packageversion.go</a></td></tr><tr><td style="text-align: left;"><a href="#passwd"><code class="inline">passwd</code></a></td><td style="text-align: left;"><a href="https://github.com/trento-project/agent/blob/main/internal/factsengine/gatherers/passwd.go">trento-project/agent/../gatherers/passwd.go</a></td></tr><tr><td style="text-align: left;"><a href="#saphostctrl"><code class="inline">saphostctrl</code></a></td><td style="text-align: left;"><a href="https://github.com/trento-project/agent/blob/main/internal/factsengine/gatherers/saphostctrl.go">trento-project/agent/../gatherers/saphostctrl.go</a></td></tr><tr><td style="text-align: left;"><a href="#saptune"><code class="inline">saptune</code></a></td><td style="text-align: left;"><a href="https://github.com/trento-project/agent/blob/main/internal/factsengine/gatherers/saptune.go">trento-project/agent/../gatherers/saptune.go</a></td></tr><tr><td style="text-align: left;"><a href="#sbd_config"><code class="inline">sbd_config</code></a></td><td style="text-align: left;"><a href="https://github.com/trento-project/agent/blob/main/internal/factsengine/gatherers/sbd.go">trento-project/agent/../gatherers/sbd.go</a></td></tr><tr><td style="text-align: left;"><a href="#sbd_dump"><code class="inline">sbd_dump</code></a></td><td style="text-align: left;"><a href="https://github.com/trento-project/agent/blob/main/internal/factsengine/gatherers/sbddump.go">trento-project/agent/../gatherers/sbddump.go</a></td></tr><tr><td style="text-align: left;"><a href="#systemd"><code class="inline">systemd</code></a></td><td style="text-align: left;"><a href="https://github.com/trento-project/agent/blob/main/internal/factsengine/gatherers/systemd.go">trento-project/agent/../gatherers/systemd.go</a></td></tr><tr><td style="text-align: left;"><a href="#verify_password"><code class="inline">verify_password</code></a></td><td style="text-align: left;"><a href="https://github.com/trento-project/agent/blob/main/internal/factsengine/gatherers/verifypassword.go">trento-project/agent/../gatherers/verifypassword.go</a></td></tr></tbody></table><h3 id="cibadmin" class="section-heading">
   <a href="#cibadmin">
     <i class="ri-link-m" aria-hidden="true"></i>
     cibadmin
@@ -429,7 +429,65 @@ which webmethod should be called. This webmethod is passed to the <code class="i
         &quot;sapkernel&quot;: 753,
         &quot;system&quot;: &quot;PRD&quot;
     }
-];</code></pre><h3 id="sbd_config" class="section-heading">
+];</code></pre><h3 id="saptune" class="section-heading">
+  <a href="#saptune">
+    <i class="ri-link-m" aria-hidden="true"></i>
+    saptune
+  </a>
+</h3>
+<p><strong>Argument required</strong>: yes.</p><p>This gatherer allows access to certain commands that <code class="inline">saptune</code> implements. An argument is required to specify
+which argument should be used when calling <code class="inline">saptune</code>.</p><blockquote><p>Note: the gatherer will return the same JSON objects returned by saptune. The only transformation it applies is the snake casing of the keys.</p></blockquote><p>Supported arguments:</p><ul><li><code class="inline">status</code> (maps to <code class="inline">saptune --format json status --non-compliance-check</code>)</li><li><code class="inline">solution-verify</code> (maps to <code class="inline">saptune --format json solution verify</code>)</li><li><code class="inline">solution-list</code> (maps to <code class="inline">saptune --format json solution list</code>)</li><li><code class="inline">note-verify</code> (maps to <code class="inline">saptune --format json note verify</code>)</li><li><code class="inline">note-list</code> (maps to <code class="inline">saptune --format json note list</code>)</li></ul><p>A <code class="inline">status</code> call with a successful return should look like this:</p><p>Example specification:</p><pre><code class="yaml">facts:
+  - name: status
+    gatherer: saptune
+    argument: status</code></pre><p>Example output (in Rhai):</p><pre><code class="ts">// status
+#{
+  &quot;$schema&quot;: &quot;file:///usr/share/saptune/schemas/1.0/saptune_status.schema.json&quot;,
+  &quot;argv&quot;: &quot;saptune --format json status&quot;,
+  &quot;command&quot;: &quot;status&quot;,
+  &quot;exit_code&quot;: 1,
+  &quot;messages&quot;: [
+    #{
+      &quot;message&quot;: &quot;actions.go:85: ATTENTION: You are running a test version&quot;,
+      &quot;priority&quot;: &quot;NOTICE&quot;
+    }
+  ],
+  &quot;pid&quot;: 6593,
+  &quot;publish_time&quot;: &quot;2023-09-15 15:15:14.599&quot;,
+  &quot;result&quot;: #{
+    &quot;configured_version&quot;: &quot;3&quot;,
+    &quot;notes_applied&quot;: [
+      &quot;1410736&quot;
+    ],
+    &quot;notes_applied_by_solution&quot;: [],
+    &quot;notes_enabled&quot;: [
+      &quot;1410736&quot;
+    ],
+    &quot;notes_enabled_additionally&quot;: [
+      &quot;1410736&quot;
+    ],
+    &quot;notes_enabled_by_solution&quot;: [],
+    &quot;package_version&quot;: &quot;3.1.0&quot;,
+    &quot;remember_message&quot;: &quot;This is a reminder&quot;,
+    &quot;services&quot;: #{
+      &quot;sapconf&quot;: [],
+      &quot;saptune&quot;: [
+        &quot;disabled&quot;,
+        &quot;inactive&quot;
+      ],
+      &quot;tuned&quot;: []
+    },
+    &quot;solution_applied&quot;: [],
+    &quot;solution_enabled&quot;: [],
+    &quot;staging&quot;: #{
+      &quot;notes_staged&quot;: [],
+      &quot;solutions_staged&quot;: [],
+      &quot;staging_enabled&quot;: false
+    },
+    &quot;systemd_system_state&quot;: &quot;degraded&quot;,
+    &quot;tuning_state&quot;: &quot;compliant&quot;,
+    &quot;virtualization&quot;: &quot;kvm&quot;
+  }
+}</code></pre><h3 id="sbd_config" class="section-heading">
   <a href="#sbd_config">
     <i class="ri-link-m" aria-hidden="true"></i>
     sbd_config
