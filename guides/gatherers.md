@@ -27,6 +27,7 @@ Here's a collection of built-in gatherers, with information about how to use the
 | [`package_version`](#package_version)   | [trento-project/agent/../gatherers/packageversion.go](https://github.com/trento-project/agent/blob/main/internal/factsengine/gatherers/packageversion.go)   |
 | [`passwd`](#passwd)                     | [trento-project/agent/../gatherers/passwd.go](https://github.com/trento-project/agent/blob/main/internal/factsengine/gatherers/passwd.go)                   |
 | [`saphostctrl`](#saphostctrl)           | [trento-project/agent/../gatherers/saphostctrl.go](https://github.com/trento-project/agent/blob/main/internal/factsengine/gatherers/saphostctrl.go)         |
+| [`saptune`](#saptune)                   | [trento-project/agent/../gatherers/saptune.go](https://github.com/trento-project/agent/blob/main/internal/factsengine/gatherers/saptune.go)                 |
 | [`sbd_config`](#sbd_config)             | [trento-project/agent/../gatherers/sbd.go](https://github.com/trento-project/agent/blob/main/internal/factsengine/gatherers/sbd.go)                         |
 | [`sbd_dump`](#sbd_dump)                 | [trento-project/agent/../gatherers/sbddump.go](https://github.com/trento-project/agent/blob/main/internal/factsengine/gatherers/sbddump.go)                 |
 | [`systemd`](#systemd)                   | [trento-project/agent/../gatherers/systemd.go](https://github.com/trento-project/agent/blob/main/internal/factsengine/gatherers/systemd.go)                 |
@@ -360,7 +361,7 @@ Example arguments:
 | Name                 | Return value                                                                  |
 | :------------------- | :---------------------------------------------------------------------------- |
 | `package_name`       | a list containing information about the installed versions of the rpm package |
-| `package_name,2.4.5` | an integer with a value of `-1`, `0` or `1` (see above)                      |
+| `package_name,2.4.5` | an integer with a value of `-1`, `0` or `1` (see above)                       |
 
 Example specification:
 
@@ -506,6 +507,88 @@ Example output (in Rhai):
         "system": "PRD"
     }
 ];
+```
+
+### saptune
+
+**Argument required**: yes.
+
+This gatherer allows access to certain commands that `saptune` implements. An argument is required to specify
+which argument should be used when calling `saptune`.
+
+> Note: the gatherer will return the same JSON objects returned by saptune. The only transformation it applies is the snake casing of the keys.
+
+Supported arguments:
+
+- `status` (maps to `saptune --format json status --non-compliance-check`)
+- `solution-verify` (maps to `saptune --format json solution verify`)
+- `solution-list` (maps to `saptune --format json solution list`)
+- `note-verify` (maps to `saptune --format json note verify`)
+- `note-list` (maps to `saptune --format json note list`)
+
+A `status` call with a successful return should look like this:
+
+Example specification:
+
+```yaml
+facts:
+  - name: status
+    gatherer: saptune
+    argument: status
+```
+
+Example output (in Rhai):
+
+```ts
+// status
+#{
+  "$schema": "file:///usr/share/saptune/schemas/1.0/saptune_status.schema.json",
+  "argv": "saptune --format json status",
+  "command": "status",
+  "exit_code": 1,
+  "messages": [
+    #{
+      "message": "actions.go:85: ATTENTION: You are running a test version",
+      "priority": "NOTICE"
+    }
+  ],
+  "pid": 6593,
+  "publish_time": "2023-09-15 15:15:14.599",
+  "result": #{
+    "configured_version": "3",
+    "notes_applied": [
+      "1410736"
+    ],
+    "notes_applied_by_solution": [],
+    "notes_enabled": [
+      "1410736"
+    ],
+    "notes_enabled_additionally": [
+      "1410736"
+    ],
+    "notes_enabled_by_solution": [],
+    "package_version": "3.1.0",
+    "remember_message": "This is a reminder",
+    "services": #{
+      "sapconf": [],
+      "saptune": [
+        "disabled",
+        "inactive"
+      ],
+      "tuned": []
+    },
+    "solution_applied": [],
+    "solution_enabled": [],
+    "staging": #{
+      "notes_staged": [],
+      "solutions_staged": [],
+      "staging_enabled": false
+    },
+    "systemd_system_state": "degraded",
+    "tuning_state": "compliant",
+    "virtualization": "kvm"
+  }
+}
 ```
 
 ### sbd_config
