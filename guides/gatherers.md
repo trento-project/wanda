@@ -23,6 +23,7 @@ Here's a collection of built-in gatherers, with information about how to use the
 | [`cibadmin`](#cibadmin)                 | [trento-project/agent/../gatherers/cibadmin.go](https://github.com/trento-project/agent/blob/main/internal/factsengine/gatherers/cibadmin.go)               |
 | [`corosync.conf`](#corosyncconf)        | [trento-project/agent/../gatherers/corosyncconf.go](https://github.com/trento-project/agent/blob/main/internal/factsengine/gatherers/corosyncconf.go)       |
 | [`corosync-cmapctl`](#corosync-cmapctl) | [trento-project/agent/../gatherers/corosynccmapctl.go](https://github.com/trento-project/agent/blob/main/internal/factsengine/gatherers/corosynccmapctl.go) |
+| [`groups`](#groups)   | [trento-project/agent/../gatherers/groups.go](https://github.com/trento-project/agent/blob/main/internal/factsengine/gatherers/groups.go) |
 | [`hosts`](#hosts-etchosts)              | [trento-project/agent/../gatherers/hostsfile.go](https://github.com/trento-project/agent/blob/main/internal/factsengine/gatherers/hostsfile.go)             |
 | [`package_version`](#package_version)   | [trento-project/agent/../gatherers/packageversion.go](https://github.com/trento-project/agent/blob/main/internal/factsengine/gatherers/packageversion.go)   |
 | [`saphostctrl`](#saphostctrl)           | [trento-project/agent/../gatherers/saphostctrl.go](https://github.com/trento-project/agent/blob/main/internal/factsengine/gatherers/saphostctrl.go)         |
@@ -30,7 +31,7 @@ Here's a collection of built-in gatherers, with information about how to use the
 | [`sbd_dump`](#sbd_dump)                 | [trento-project/agent/../gatherers/sbddump.go](https://github.com/trento-project/agent/blob/main/internal/factsengine/gatherers/sbddump.go)                 |
 | [`systemd`](#systemd)                   | [trento-project/agent/../gatherers/systemd.go](https://github.com/trento-project/agent/blob/main/internal/factsengine/gatherers/systemd.go)                 |
 | [`verify_password`](#verify_password)   | [trento-project/agent/../gatherers/verifypassword.go](https://github.com/trento-project/agent/blob/main/internal/factsengine/gatherers/verifypassword.go)   |
-| [`groups`](#groups)   | [trento-project/agent/../gatherers/groups.go](https://github.com/trento-project/agent/blob/main/internal/factsengine/gatherers/groups.go)
+
 
 ### cibadmin
 
@@ -235,6 +236,38 @@ Example output (in Rhai):
 
 // second_node
 #{ nodeid: 2, ring0_addr: "10.80.1.12" };
+```
+
+### groups
+
+**Argument required**: no.
+
+This gatherer allows access to the /etc/group file, returning all entries available at the file.
+
+Example specification:
+
+```yaml
+facts:
+  - name: groups
+    gatherer: groups
+```
+
+Example output (in Rhai):
+
+```ts
+[
+    #{
+        "name": "root",
+        "gid": 0,
+        "users": [],
+    },
+    #{
+        "name": "adm",
+        "gid": 1,
+        "users": ["trento"],
+    }
+  ...
+];
 ```
 
 ### hosts (/etc/hosts)
@@ -612,36 +645,4 @@ Example output (in Rhai):
 ```ts
 // hacluster_has_default_password
 true;
-```
-
-### groups
-
-**Argument required**: no.
-
-This gatherer allows access to the /etc/group file, returning all entries available at the file.
-
-Example specification:
-
-```yaml
-facts:
-  - name: groups
-    gatherer: groups
-```
-
-Example output (in Rhai):
-
-```ts
-[
-    #{
-        "name": "root",
-        "gid": 0,
-        "users": [],
-    },
-    #{
-        "name": "adm",
-        "gid": 1,
-        "users": ["trento"],
-    }
-  ...
-];
 ```
