@@ -466,12 +466,12 @@ Example output (in Rhai):
 
 **Argument required**: yes.
 
-This gatherer allows access to certain subcommands that `saptune` implements. An argument is required to specify
+This gatherer allows access to certain commands that `saptune` implements. An argument is required to specify
 which argument should be used when calling `saptune`.
 
 > Note: the gatherer will return the same JSON objects returned by saptune. The only transformation it applies is the snake casing of the keys.
 
-Supported webmethods:
+Supported arguments:
 
 - `status` (maps to `saptune --format json status --non-compliance-check`)
 - `solution-verify` (maps to `saptune --format json solution verify`)
