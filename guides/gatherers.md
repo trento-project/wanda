@@ -23,6 +23,7 @@ Here's a collection of built-in gatherers, with information about how to use the
 | [`cibadmin`](#cibadmin)                 | [trento-project/agent/../gatherers/cibadmin.go](https://github.com/trento-project/agent/blob/main/internal/factsengine/gatherers/cibadmin.go)               |
 | [`corosync.conf`](#corosyncconf)        | [trento-project/agent/../gatherers/corosyncconf.go](https://github.com/trento-project/agent/blob/main/internal/factsengine/gatherers/corosyncconf.go)       |
 | [`corosync-cmapctl`](#corosync-cmapctl) | [trento-project/agent/../gatherers/corosynccmapctl.go](https://github.com/trento-project/agent/blob/main/internal/factsengine/gatherers/corosynccmapctl.go) |
+| [`fstab`](#fstab) | [trento-project/agent/../gatherers/fstab.go](https://github.com/trento-project/agent/blob/main/internal/factsengine/gatherers/fstab.go) |
 | [`groups`](#groups)   | [trento-project/agent/../gatherers/groups.go](https://github.com/trento-project/agent/blob/main/internal/factsengine/gatherers/groups.go) |
 | [`hosts`](#hosts-etchosts)              | [trento-project/agent/../gatherers/hostsfile.go](https://github.com/trento-project/agent/blob/main/internal/factsengine/gatherers/hostsfile.go)             |
 | [`package_version`](#package_version)   | [trento-project/agent/../gatherers/packageversion.go](https://github.com/trento-project/agent/blob/main/internal/factsengine/gatherers/packageversion.go)   |
@@ -240,6 +241,43 @@ Example output (in Rhai):
 #{ nodeid: 2, ring0_addr: "10.80.1.12" };
 ```
 
+### fstab
+
+**Argument required**: no.
+
+This gatherer allows access to the /etc/fstab file, returning all entries available at the file.
+
+Example specification:
+
+```yaml
+facts:
+  - name: fstab
+    gatherer: fstab
+```
+
+Example output (in Rhai):
+
+```ts
+[
+    #{
+        "device": "/dev/system/root",
+        "mount_point": "/",
+        "file_system_type": "btrfs",
+        "options": [],
+        "backup": 0,
+        "check_order": 1,
+    },
+    #{
+        "device": "/dev/system/root",
+        "mount_point": "/home",
+        "file_system_type": "ext4",
+        "options": ["defaults"],
+        "backup": 0,
+        "check_order": 1,
+    },
+  ...
+];
+```
 ### groups
 
 **Argument required**: no.
