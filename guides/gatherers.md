@@ -33,9 +33,9 @@ Here's a collection of built-in gatherers, with information about how to use the
 | [`saptune`](#saptune)                   | [trento-project/agent/../gatherers/saptune.go](https://github.com/trento-project/agent/blob/main/internal/factsengine/gatherers/saptune.go)                 |
 | [`sbd_config`](#sbd_config)             | [trento-project/agent/../gatherers/sbd.go](https://github.com/trento-project/agent/blob/main/internal/factsengine/gatherers/sbd.go)                         |
 | [`sbd_dump`](#sbd_dump)                 | [trento-project/agent/../gatherers/sbddump.go](https://github.com/trento-project/agent/blob/main/internal/factsengine/gatherers/sbddump.go)                 |
+| [`sysctl`](#sysctl)                     | [trento-project/agent/../gatherers/sysctl.go](https://github.com/trento-project/agent/blob/main/internal/factsengine/gatherers/sysctl.go)                   |
 | [`systemd`](#systemd)                   | [trento-project/agent/../gatherers/systemd.go](https://github.com/trento-project/agent/blob/main/internal/factsengine/gatherers/systemd.go)                 |
 | [`verify_password`](#verify_password)   | [trento-project/agent/../gatherers/verifypassword.go](https://github.com/trento-project/agent/blob/main/internal/factsengine/gatherers/verifypassword.go)   |
-
 
 ### cibadmin
 
@@ -279,6 +279,7 @@ Example output (in Rhai):
   ...
 ];
 ```
+
 ### groups
 
 **Argument required**: no.
@@ -370,26 +371,30 @@ Example output (in Rhai):
 **Argument required**: yes.
 
 This gatherer supports two usecases:
- - get information about the installed versions of the specified package.
- - compare a given version string against the latest installed version of a given package.
+
+- get information about the installed versions of the specified package.
+- compare a given version string against the latest installed version of a given package.
 
 In the first usecase a list of objects is returned, where each object carries relevant information about an installed version of a package.
 
 > Note:
+>
 > - a list of one element is often expected since usually the installed version would be only one
 > - detected installed versions list is ordered by descending installation time: **latest installed versions come first**
 > - operating on the latest installed version requires accessing the first element in the list via `package_fact_name[0]` or `package_fact_name.first()`
 
 In the second usecase, the return value is as follows (see additional details [here](https://fedoraproject.org/wiki/Archive:Tools/RPM/VersionComparison#The_rpmvercmp_algorithm)):
- - A value of `0` if the provided version string matches the installed package version for the requested package.
- - A value of `-1` if the provided version string is older that what's currently installed.
- - A value of `1` if the provided version string is newer than what's currently installed.
+
+- A value of `0` if the provided version string matches the installed package version for the requested package.
+- A value of `-1` if the provided version string is older that what's currently installed.
+- A value of `1` if the provided version string is newer than what's currently installed.
 
 > The latest detected installed version is used for comparison
 
 Naming the facts / expectations accordingly is specially important here to avoid confusion.
- - We suggest using a `compare_` prefix for package version comparisons and `package_` to retrieve
-   a package version
+
+- We suggest using a `compare_` prefix for package version comparisons and `package_` to retrieve
+  a package version
 
 Additionally, when using the version comparison, it increases readability to explicitly mention
 the values to compare against:
@@ -403,7 +408,7 @@ facts:
   - name: package_corosync
     gatherer: package_version
     argument: corosync
-  
+
   - name: package_sbd
     gatherer: package_version
     argument: sbd
@@ -421,7 +426,7 @@ values:
 expectations:
   - name: compare_package_corosync
     expect: facts.compare_package_corosync == values.greater_than_installed
-  
+
   - name: package_corosync_is_the_expected_one
     expect: facts.package_corosync.first().version == values.expected_corosync_version
 
@@ -447,7 +452,7 @@ facts:
   - name: package_pacemaker
     gatherer: package_version
     argument: pacemaker
-  
+
   - name: multiple_sbd_versions_installed
     gatherer: package_version
     argument: sbd
@@ -642,7 +647,7 @@ Example output (in Rhai):
       ...
     ]
   }
-} 
+}
 ```
 
 ### saptune
@@ -813,6 +818,43 @@ Example output (in Rhai):
 ```
 
 For extra information refer to [trento-project/agent/../gatherers/sbddump_test.go](https://github.com/trento-project/agent/blob/main/internal/factsengine/gatherers/sbddump_test.go)
+
+### syssysctltemd
+
+**Argument required**: yes.
+
+Gather sysctl output. It takes a sysctl key as argument and it returns the value of the requested key or a map if a partial key is provided.
+
+Example arguments:
+
+| Name            | Return value                                          |
+| :-------------- | :---------------------------------------------------- |
+| `vm.swappiness` | corresponding value returned by sysctl                |
+| `debug`         | a map containing all the keys starting with `debug.`` |
+
+```yaml
+facts:
+  - name: vm_swapiness
+    gatherer: sysctl
+    argument: vm.swapiness
+
+  - name: debug
+    gatherer: sysctl
+    argument: debug
+```
+
+Example output (in Rhai):
+
+```ts
+// vm_swapiness
+60;
+
+// debug
+#{
+  "exception-trace": 1,
+  "kprobes-optimization": 1
+};
+```
 
 ### systemd
 
