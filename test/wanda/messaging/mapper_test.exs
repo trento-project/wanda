@@ -231,6 +231,11 @@ defmodule Wanda.Messaging.MapperTest do
         },
         %{
           check_id: "check4",
+          name: "nil_value",
+          fact_value: {:value, %{kind: {:null_value, :NULL_VALUE}}}
+        },
+        %{
+          check_id: "check5",
           name: "list_value",
           fact_value:
             {:value,
@@ -254,7 +259,7 @@ defmodule Wanda.Messaging.MapperTest do
              }}
         },
         %{
-          check_id: "check5",
+          check_id: "check6",
           name: "struct_value",
           fact_value:
             {:value,
@@ -278,7 +283,7 @@ defmodule Wanda.Messaging.MapperTest do
              }}
         },
         %{
-          check_id: "check6",
+          check_id: "check7",
           name: "fact_error",
           fact_value: {:error_value, %{type: "error_type", message: "Error!"}}
         }
@@ -294,14 +299,15 @@ defmodule Wanda.Messaging.MapperTest do
                %Executions.Fact{check_id: "check2", name: "integer_value", value: 10},
                %Executions.Fact{check_id: "check2", name: "float_value", value: 10.2},
                %Executions.Fact{check_id: "check3", name: "boolean_value", value: true},
-               %Executions.Fact{check_id: "check4", name: "list_value", value: [10, [true]]},
+               %Executions.Fact{check_id: "check4", name: "nil_value", value: nil},
+               %Executions.Fact{check_id: "check5", name: "list_value", value: [10, [true]]},
                %Executions.Fact{
-                 check_id: "check5",
+                 check_id: "check6",
                  name: "struct_value",
                  value: %{some_key: %{other_key: 10, third_key: 15}}
                },
                %Executions.FactError{
-                 check_id: "check6",
+                 check_id: "check7",
                  name: "fact_error",
                  type: "error_type",
                  message: "Error!"
