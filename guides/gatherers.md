@@ -819,7 +819,7 @@ Example output (in Rhai):
 
 For extra information refer to [trento-project/agent/../gatherers/sbddump_test.go](https://github.com/trento-project/agent/blob/main/internal/factsengine/gatherers/sbddump_test.go)
 
-### syssysctltemd
+### sysctl
 
 **Argument required**: yes.
 
@@ -834,9 +834,9 @@ Example arguments:
 
 ```yaml
 facts:
-  - name: vm_swapiness
+  - name: vm_swappiness
     gatherer: sysctl
-    argument: vm.swapiness
+    argument: vm.swappiness
 
   - name: debug
     gatherer: sysctl
