@@ -28,7 +28,7 @@ jobs:
             otp: 22
     steps:
       - name: Cancel Previous Runs
-        uses: styfle/cancel-workflow-action@0.11.0
+        uses: styfle/cancel-workflow-action@0.12.0
         with:
           access_token: ${{ github.token }}
       - name: Checkout
@@ -82,7 +82,7 @@ jobs:
     runs-on: ubuntu-20.04
     steps:
       - name: Cancel Previous Runs
-        uses: styfle/cancel-workflow-action@0.11.0
+        uses: styfle/cancel-workflow-action@0.12.0
         with:
           access_token: ${{ github.token }}
       - name: Checkout
@@ -149,7 +149,7 @@ jobs:
           - 5674:5672
     steps:
       - name: Cancel Previous Runs
-        uses: styfle/cancel-workflow-action@0.11.0
+        uses: styfle/cancel-workflow-action@0.12.0
         with:
           access_token: ${{ github.token }}
       - name: Checkout
@@ -182,7 +182,7 @@ jobs:
     runs-on: ubuntu-20.04
     steps:
       - name: Cancel Previous Runs
-        uses: styfle/cancel-workflow-action@0.11.0
+        uses: styfle/cancel-workflow-action@0.12.0
         if: github.ref_name != 'main'
         with:
           access_token: ${{ github.token }}
@@ -227,7 +227,7 @@ jobs:
           - version: V1
     steps:
       - name: Cancel Previous Runs
-        uses: styfle/cancel-workflow-action@0.11.0
+        uses: styfle/cancel-workflow-action@0.12.0
         with:
           access_token: ${{ github.token }}
       - name: Set up Elixir
@@ -422,7 +422,7 @@ jobs:
       options: -u 0:0
     steps:
       - name: Cancel Previous Runs
-        uses: styfle/cancel-workflow-action@0.11.0
+        uses: styfle/cancel-workflow-action@0.12.0
         with:
           access_token: ${{ github.token }}
       - name: Checkout
