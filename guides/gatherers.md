@@ -23,12 +23,13 @@ Here's a collection of built-in gatherers, with information about how to use the
 | [`cibadmin`](#cibadmin)                 | [trento-project/agent/../gatherers/cibadmin.go](https://github.com/trento-project/agent/blob/main/internal/factsengine/gatherers/cibadmin.go)               |
 | [`corosync.conf`](#corosyncconf)        | [trento-project/agent/../gatherers/corosyncconf.go](https://github.com/trento-project/agent/blob/main/internal/factsengine/gatherers/corosyncconf.go)       |
 | [`corosync-cmapctl`](#corosync-cmapctl) | [trento-project/agent/../gatherers/corosynccmapctl.go](https://github.com/trento-project/agent/blob/main/internal/factsengine/gatherers/corosynccmapctl.go) |
-| [`fstab`](#fstab) | [trento-project/agent/../gatherers/fstab.go](https://github.com/trento-project/agent/blob/main/internal/factsengine/gatherers/fstab.go) |
-| [`groups`](#groups)   | [trento-project/agent/../gatherers/groups.go](https://github.com/trento-project/agent/blob/main/internal/factsengine/gatherers/groups.go) |
+| [`fstab`](#fstab)                       | [trento-project/agent/../gatherers/fstab.go](https://github.com/trento-project/agent/blob/main/internal/factsengine/gatherers/fstab.go)                     |
+| [`groups`](#groups)                     | [trento-project/agent/../gatherers/groups.go](https://github.com/trento-project/agent/blob/main/internal/factsengine/gatherers/groups.go)                   |
 | [`hosts`](#hosts-etchosts)              | [trento-project/agent/../gatherers/hostsfile.go](https://github.com/trento-project/agent/blob/main/internal/factsengine/gatherers/hostsfile.go)             |
 | [`package_version`](#package_version)   | [trento-project/agent/../gatherers/packageversion.go](https://github.com/trento-project/agent/blob/main/internal/factsengine/gatherers/packageversion.go)   |
 | [`passwd`](#passwd)                     | [trento-project/agent/../gatherers/passwd.go](https://github.com/trento-project/agent/blob/main/internal/factsengine/gatherers/passwd.go)                   |
 | [`saphostctrl`](#saphostctrl)           | [trento-project/agent/../gatherers/saphostctrl.go](https://github.com/trento-project/agent/blob/main/internal/factsengine/gatherers/saphostctrl.go)         |
+| [`sap_profiles`](#sap_profiles)         | [trento-project/agent/../gatherers/sapprofiles.go](https://github.com/trento-project/agent/blob/main/internal/factsengine/gatherers/sapprofiles.go)         |
 | [`saptune`](#saptune)                   | [trento-project/agent/../gatherers/saptune.go](https://github.com/trento-project/agent/blob/main/internal/factsengine/gatherers/saptune.go)                 |
 | [`sbd_config`](#sbd_config)             | [trento-project/agent/../gatherers/sbd.go](https://github.com/trento-project/agent/blob/main/internal/factsengine/gatherers/sbd.go)                         |
 | [`sbd_dump`](#sbd_dump)                 | [trento-project/agent/../gatherers/sbddump.go](https://github.com/trento-project/agent/blob/main/internal/factsengine/gatherers/sbddump.go)                 |
@@ -579,6 +580,69 @@ Example output (in Rhai):
         "system": "PRD"
     }
 ];
+```
+
+### sap_profiles
+
+**Argument required**: no.
+
+This gatherer allows access to the latest SAP profile files content stored in `/sapmnt/<SID>/profile`.
+The "latest" profile means that backed up files like `DEFAULT.1.PFL` or `some_profile.1` are excluded.
+It returns the profile files and content grouped by SID in a key\value way.
+
+Example specification:
+
+```yaml
+facts:
+  - name: sap_profiles
+    gatherer: sap_profiles
+```
+
+Example output (in Rhai):
+
+```ts
+#{
+  "NWP": #{
+    "profiles": [
+      #{
+        "content": #{
+          "SAPDBHOST": "10.80.1.13",
+          "SAPGLOBALHOST": "sapnwpas",
+          "SAPSYSTEMNAME": "NWP",
+          ...
+        },
+        "name": "DEFAULT.PFL",
+        "path": "/sapmnt/NWP/profile/DEFAULT.PFL"
+      },
+      #{
+        "content": #{
+          "DIR_CT_RUN": "$(DIR_EXE_ROOT)$(DIR_SEP)$(OS_UNICODE)$(DIR_SEP)linuxx86_64",
+          "DIR_EXECUTABLE": "$(DIR_INSTANCE)/exe",
+          "DIR_PROFILE": "$(DIR_INSTALL)$(DIR_SEP)profile",
+          ...
+        },
+        "name": "NWP_ASCS00_sapnwpas",
+        "path": "/sapmnt/NWP/profile/NWP_ASCS00_sapnwpas"
+      },
+      ...
+    ]
+  },
+  "NWD": #{
+    "profiles": [
+      #{
+        "content": #{
+          "SAPDBHOST": "10.85.1.13",
+          "SAPGLOBALHOST": "sapnwdas",
+          "SAPSYSTEMNAME": "NWD",
+          ...
+        },
+        "name": "DEFAULT.PFL",
+        "path": "/sapmnt/NWD/profile/DEFAULT.PFL"
+      },
+      ...
+    ]
+  }
+} 
 ```
 
 ### saptune
