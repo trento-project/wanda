@@ -23,7 +23,7 @@ Here's a collection of built-in gatherers, with information about how to use the
 | [`cibadmin`](#cibadmin)                 | [trento-project/agent/../gatherers/cibadmin.go](https://github.com/trento-project/agent/blob/main/internal/factsengine/gatherers/cibadmin.go)               |
 | [`corosync.conf`](#corosyncconf)        | [trento-project/agent/../gatherers/corosyncconf.go](https://github.com/trento-project/agent/blob/main/internal/factsengine/gatherers/corosyncconf.go)       |
 | [`corosync-cmapctl`](#corosync-cmapctl) | [trento-project/agent/../gatherers/corosynccmapctl.go](https://github.com/trento-project/agent/blob/main/internal/factsengine/gatherers/corosynccmapctl.go) |
-| [`dir_scan`](#dir_scan)                       | [trento-project/agent/../gatherers/dir_scan.go](https://github.com/trento-project/agent/blob/main/internal/factsengine/gatherers/dir_scan.go)        
+| [`dir_scan`](#dir_scan)                 | [trento-project/agent/../gatherers/dir_scan.go](https://github.com/trento-project/agent/blob/main/internal/factsengine/gatherers/dir_scan.go)               |
 | [`fstab`](#fstab)                       | [trento-project/agent/../gatherers/fstab.go](https://github.com/trento-project/agent/blob/main/internal/factsengine/gatherers/fstab.go)                     |
 | [`groups`](#groups)                     | [trento-project/agent/../gatherers/groups.go](https://github.com/trento-project/agent/blob/main/internal/factsengine/gatherers/groups.go)                   |
 | [`hosts`](#hosts-etchosts)              | [trento-project/agent/../gatherers/hostsfile.go](https://github.com/trento-project/agent/blob/main/internal/factsengine/gatherers/hostsfile.go)             |
@@ -203,7 +203,7 @@ facts:
   - name: node_list
     gatherer: corosync-cmapctl
     argument: nodelist.node
-
+ 
   - name: second_node
     gatherer: corosync-cmapctl
     argument: nodelist.node.1
@@ -245,15 +245,15 @@ Example output (in Rhai):
 
 ### dir_scan
 
-**Argument required**: Yes, a glob pattern for directory/files scanning
+**Argument required**: Yes
+
+This gatherer allows to scan directories with a glob pattern provided as argument.
+The gatherer returns a list of files matched by the pattern with group/user information associated to each file.
 
 Example argument:
 
 - `/usr/sap/[A-Z][A-Z0-9][A-Z0-9]/ERS[0-9][0-9]`
-- `etc/polkit-1/rules.d/[0-9][0-9]-SAP[A-Z][A-Z0-9][A-Z0-9]-[0-9][0-9].rules`
-
-This gatherer allows to scan directories due to a glob pattern provided as argument.
-The gatherer returns a list of files matched by the pattern with group/user information associated to each file.
+- `/etc/polkit-1/rules.d/[0-9][0-9]-SAP[A-Z][A-Z0-9][A-Z0-9]-[0-9][0-9].rules`
 
 Example specification:
 
@@ -269,17 +269,18 @@ Example output (in Rhai):
 ```ts
   [
     #{
-      "name": "/etc/sap/X/Y",
+      "name": "/usr/sap/PRD/ERS01",
       "owner": "trento",
       "group": "trento"
     },
      #{
-      "name": "/etc/sap/X/Z",
+      "name": "/usr/sap/QAS/ERS02",
       "owner": "trento",
       "group": "trento"
     },
   ]
 ```
+
 ### fstab
 
 **Argument required**: no.
