@@ -64,7 +64,7 @@ defmodule Wanda.Catalog do
         {:error, _} -> []
       end
     end)
-    |> Enum.filter(&when_condition(&1, env))
+    |> Enum.filter(fn check -> when_condition(check, env) && match_metadata(check, env) end)
   end
 
   defp when_condition(_, env) when env == %{}, do: true
@@ -78,6 +78,15 @@ defmodule Wanda.Catalog do
       {:ok, true} -> true
       _ -> false
     end
+  end
+
+  defp match_metadata(_, env) when env == %{}, do: true
+
+  defp match_metadata(%Check{metadata: nil}, _), do: true
+
+  defp match_metadata(%Check{metadata: metadata}, env) do
+    meta_map_set = MapSet.new(metadata)
+    env |> MapSet.new() |> MapSet.subset?(meta_map_set)
   end
 
   defp get_catalog_path do
