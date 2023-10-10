@@ -29,6 +29,7 @@ Here's a collection of built-in gatherers, with information about how to use the
 | [`hosts`](#hosts-etchosts)              | [trento-project/agent/../gatherers/hostsfile.go](https://github.com/trento-project/agent/blob/main/internal/factsengine/gatherers/hostsfile.go)             |
 | [`package_version`](#package_version)   | [trento-project/agent/../gatherers/packageversion.go](https://github.com/trento-project/agent/blob/main/internal/factsengine/gatherers/packageversion.go)   |
 | [`passwd`](#passwd)                     | [trento-project/agent/../gatherers/passwd.go](https://github.com/trento-project/agent/blob/main/internal/factsengine/gatherers/passwd.go)                   |
+| [`sapcontrol`](#sapcontrol)             | [trento-project/agent/../gatherers/sapcontrol.go](https://github.com/trento-project/agent/blob/main/internal/factsengine/gatherers/sapcontrol.go)           |
 | [`saphostctrl`](#saphostctrl)           | [trento-project/agent/../gatherers/saphostctrl.go](https://github.com/trento-project/agent/blob/main/internal/factsengine/gatherers/saphostctrl.go)         |
 | [`sap_profiles`](#sap_profiles)         | [trento-project/agent/../gatherers/sapprofiles.go](https://github.com/trento-project/agent/blob/main/internal/factsengine/gatherers/sapprofiles.go)         |
 | [`saptune`](#saptune)                   | [trento-project/agent/../gatherers/saptune.go](https://github.com/trento-project/agent/blob/main/internal/factsengine/gatherers/saptune.go)                 |
@@ -578,6 +579,168 @@ Example output (in Rhai):
     },
   ...
 ];
+```
+
+### sapcontrol
+
+**Argument required**: yes.
+
+This gatherer allows access to certain webmethods that `sapcontrol` implements. An argument is required to specify which webmethod should be called. This webmethod is passed to `sapcontrol` opening a SOAP web connection using the file `/tmp/.sapstream5xx13`, through a unix socket. The return value is grouped by discovered SIDs, which include the list of command outputs for each instance in this system.
+
+Supported webmethods:
+
+- `GetProcessList`
+- `GetSystemInstanceList`
+- `GetVersionInfo`
+- `HACheckConfig`
+- `HAGetFailoverConfig`
+
+The [Sapcontrol Web Service Interface](https://www.sap.com/documents/2016/09/0a40e60d-8b7c-0010-82c7-eda71af511fa.html) documentation shows all the possible values each of the fields could have, specifically helpful for enumerators like `dispstatus` in `GetProcessList` and `state/category` in `HACheckConfig` webmethod.
+
+Example specification:
+
+```yaml
+facts:
+  - name: processes
+    gatherer: sapcontrol
+    argument: GetProcessList
+
+  - name: instances
+    gatherer: sapcontrol
+    argument: GetSystemInstanceList
+```
+
+Example output (in Rhai):
+
+```ts
+// GetProcessList
+#{
+  "NWP": [
+    #{
+      "instance_nr": "10",
+      "name": "ERS10",
+      "output": [
+        #{
+          "description": "EnqueueReplicator",
+          "dispstatus": "SAPControl-GREEN",
+          "elapsedtime": "266:08:15",
+          "name": "enrepserver",
+          "pid": 7221,
+          "starttime": "2023 09 29 09:41:41",
+          "textstatus": "Running"
+        }
+      ]
+    }
+  ]
+} 
+
+// GetSystemInstanceList
+#{
+  "NWP": [
+    #{
+      "instance_nr": "10",
+      "name": "ERS10",
+      "output": [
+        #{
+          "dispstatus": "SAPControl-GREEN",
+          "features": "MESSAGESERVER|ENQUE",
+          "hostname": "sapnwpas",
+          "http_port": 50013,
+          "https_port": 50014,
+          "instance_nr": 0,
+          "start_priority": "1"
+        },
+        #{
+          "dispstatus": "SAPControl-GREEN",
+          "features": "ENQREP",
+          "hostname": "sapnwper",
+          "http_port": 51013,
+          "https_port": 51014,
+          "instance_nr": 10,
+          "start_priority": "0.5"
+        },
+        ...
+      ]
+    }
+  ]
+} 
+
+// GetVersionInfo
+#{
+  "NWP": [
+    #{
+      "instance_nr": "10",
+      "name": "ERS10",
+      "output": [
+        #{
+          "architecture": "linuxx86_64",
+          "build": "optU (Oct 16 2021, 00:03:15)",
+          "changelist": "2094654",
+          "filename": "/usr/sap/NWP/ERS10/exe/sapstartsrv",
+          "patch": "900",
+          "rks_compatibility_level": "1",
+          "sap_kernel": "753",
+          "time": "2021 10 15 22:14:31"
+        },
+        #{
+          "architecture": "linuxx86_64",
+          "build": "optU (Oct 16 2021, 00:03:15)",
+          "changelist": "2094654",
+          "filename": "/usr/sap/NWP/ERS10/exe/gwrd",
+          "patch": "900",
+          "rks_compatibility_level": "1",
+          "sap_kernel": "753",
+          "time": "2021 10 15 22:04:14"
+        },
+        ...
+      ]
+    }
+  ]
+}
+
+// HACheckConfig
+#{
+  "NWP": [
+    #{
+      "instance_nr": "10",
+      "name": "ERS10",
+      "output": [
+        #{
+          "category": "SAPControl-SAP-CONFIGURATION",
+          "comment": "2 ABAP instances detected",
+          "description": "Redundant ABAP instance configuration",
+          "state": "SAPControl-HA-SUCCESS"
+        },
+        #{
+          "category": "SAPControl-SAP-CONFIGURATION",
+          "comment": "0 Java instances detected",
+          "description": "Redundant Java instance configuration",
+          "state": "SAPControl-HA-SUCCESS"
+        },
+        ...
+      ]
+    }
+  ]
+}
+
+//HAGetFailoverConfig
+#{
+  "NWP": [
+    #{
+      "instance_nr": "10",
+      "name": "ERS10",
+      "output": #{
+        "ha_active": false,
+        "ha_active_nodes": "",
+        "ha_documentation": "",
+        "ha_nodes": [],
+        "ha_product_version": "",
+        "ha_sap_interface_version": ""
+      }
+    }
+  ]
+}
+
 ```
 
 ### saphostctrl
