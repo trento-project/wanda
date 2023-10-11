@@ -585,7 +585,9 @@ Example output (in Rhai):
 
 **Argument required**: yes.
 
-This gatherer allows access to certain webmethods that `sapcontrol` implements. An argument is required to specify which webmethod should be called. This webmethod is passed to `sapcontrol` opening a SOAP web connection using the file `/tmp/.sapstream5xx13`, through a unix socket. The return value is grouped by discovered SIDs, which include the list of command outputs for each instance in this system.
+This gatherer allows access to certain webmethods that `sapcontrol` implements. An argument is required to specify which webmethod should be called. The communication with `sapcontrol` is created opening a unix socket connection using the file `/tmp/.sapstream5xx13`. The [Sapcontrol Web Service Interface](https://www.sap.com/documents/2016/09/0a40e60d-8b7c-0010-82c7-eda71af511fa.html) documents the SOAP API interface, including all the possible values each of the fields could have, specifically helpful for enumerators like `dispstatus` in `GetProcessList` and `state/category` in `HACheckConfig` webmethod.
+
+The return value is grouped by discovered SIDs, which include the list of command outputs for each instance in this system.
 
 Supported webmethods:
 
@@ -595,7 +597,7 @@ Supported webmethods:
 - `HACheckConfig`
 - `HAGetFailoverConfig`
 
-The [Sapcontrol Web Service Interface](https://www.sap.com/documents/2016/09/0a40e60d-8b7c-0010-82c7-eda71af511fa.html) documentation shows all the possible values each of the fields could have, specifically helpful for enumerators like `dispstatus` in `GetProcessList` and `state/category` in `HACheckConfig` webmethod.
+
 
 Example specification:
 
