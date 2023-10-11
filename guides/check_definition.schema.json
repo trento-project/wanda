@@ -18,6 +18,9 @@
       "when": {
         "type": "string"
       },
+      "metadata": {
+        "$ref": "#/definitions/Metadata"
+      },
       "description": {
         "type": "string"
       },
@@ -152,6 +155,40 @@
         "required": [
           "name"
         ]
+      },
+      "Metadata": {
+        "title": "Metadata",
+        "type": "object",
+        "minProperties": 1,
+        "additionalProperties": false,
+        "patternProperties": {
+          "[a-zA-Z0-9]+.*$": {
+            "anyOf": [
+              {
+                "type": "number"
+              },
+              {
+                "type": "string"
+              },
+              {
+                "type": "boolean"
+              },
+              {
+                "type": "array",
+                "items": {
+                  "anyOf": [
+                    {
+                      "type": "number"
+                    },
+                    {
+                      "type": "string"
+                    }
+                  ]
+                }
+              }
+            ]
+          }
+        }
       }
     }
-  }
+}
