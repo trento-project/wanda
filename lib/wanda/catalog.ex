@@ -85,9 +85,21 @@ defmodule Wanda.Catalog do
   defp match_metadata(%Check{metadata: nil}, _), do: true
 
   defp match_metadata(%Check{metadata: metadata}, env) do
-    meta_map_set = MapSet.new(metadata)
-    env |> MapSet.new() |> MapSet.subset?(meta_map_set)
+    env
+    |> Map.to_list()
+    |> Enum.all?(fn {key, env_value} ->
+      metadata_value = Map.get(metadata, key)
+
+      match_metadata_value?(env_value, metadata_value)
+    end)
   end
+
+  defp match_metadata_value?(_env_value, nil), do: true
+
+  defp match_metadata_value?(env_value, metadata_value) when is_list(metadata_value),
+    do: Enum.any?(metadata_value, fn value -> match_metadata_value?(env_value, value) end)
+
+  defp match_metadata_value?(env_value, metadata_value), do: env_value === metadata_value
 
   defp get_catalog_path do
     Application.fetch_env!(:wanda, Wanda.Catalog)[:catalog_path]

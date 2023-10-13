@@ -61,6 +61,15 @@ defmodule Wanda.CatalogTest do
       assert Enum.any?(catalog, fn %Check{id: id} -> id == "with_metadata" end)
     end
 
+    test "should not filter out checks if the provided env includes just different keys" do
+      complete_catalog = Catalog.get_catalog(%{"some" => "kind"})
+      catalog = Catalog.get_catalog(%{"wow" => "carbonara"})
+
+      assert length(complete_catalog) == length(catalog)
+
+      assert Enum.any?(catalog, fn %Check{id: id} -> id == "with_metadata" end)
+    end
+
     test "should load a check from a yaml file properly" do
       assert {:ok,
               %Check{
