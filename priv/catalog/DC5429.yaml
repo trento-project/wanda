@@ -19,7 +19,7 @@ when: env.target_type == "cluster"
 
 facts:
   - name: compare_corosync_version
-    gatherer: package_version
+    gatherer: package_version@v1
     argument: corosync,2.4.5
 
 expectations:

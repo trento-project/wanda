@@ -41,7 +41,7 @@ when: env.target_type == "cluster"
 
 facts:
   - name: hacluster_has_default_password
-    gatherer: verify_password
+    gatherer: verify_password@v1
     argument: hacluster
 
 expectations:

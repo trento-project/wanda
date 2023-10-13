@@ -17,7 +17,7 @@ when: env.target_type == "cluster"
 
 facts:
   - name: compare_sles_sap_version
-    gatherer: package_version
+    gatherer: package_version@v1
     argument: SLES_SAP-release,15.1
 
 expectations:

@@ -50,7 +50,7 @@ when: env.target_type == "cluster"
 
 facts:
   - name: runtime_join
-    gatherer: corosync-cmapctl
+    gatherer: corosync-cmapctl@v1
     argument: runtime.config.totem.join
 
 values:

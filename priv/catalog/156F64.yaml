@@ -51,7 +51,7 @@ when: env.target_type == "cluster"
 
 facts:
   - name: corosync_token_timeout
-    gatherer: corosync.conf
+    gatherer: corosync.conf@v1
     argument: totem.token
 
 values:

@@ -46,7 +46,7 @@ when: env.target_type == "cluster"
 
 facts:
   - name: corosync_join_timeout
-    gatherer: corosync.conf
+    gatherer: corosync.conf@v1
     argument: totem.join
 
 values:

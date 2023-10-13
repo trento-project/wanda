@@ -50,7 +50,7 @@ when: env.target_type == "cluster"
 
 facts:
   - name: max_messages
-    gatherer: corosync-cmapctl
+    gatherer: corosync-cmapctl@v1
     argument: runtime.config.totem.max_messages
 
 values:

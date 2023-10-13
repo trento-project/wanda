@@ -17,7 +17,7 @@ when: env.target_type == "cluster"
 
 facts:
   - name: exclude_package_pacemaker
-    gatherer: package_version
+    gatherer: package_version@v1
     argument: pacemaker,2.0.3+20200511.2b248d828
 
 expectations:

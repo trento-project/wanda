@@ -49,7 +49,7 @@ when: env.target_type == "cluster"
 
 facts:
   - name: corosync_expected_votes
-    gatherer: corosync.conf
+    gatherer: corosync.conf@v1
     argument: quorum.expected_votes
 
 values:

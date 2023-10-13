@@ -32,7 +32,7 @@ when: env.target_type == "cluster" && env.provider !in ["gcp", "aws"]
 
 facts:
   - name: sbd_multiple_sbd_device
-    gatherer: sbd_config
+    gatherer: sbd_config@v1
     argument: SBD_DEVICE
 
 values:

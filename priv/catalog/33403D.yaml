@@ -69,7 +69,7 @@ when: env.target_type == "cluster"
 
 facts:
   - name: corosync_transport_protocol
-    gatherer: corosync.conf
+    gatherer: corosync.conf@v1
     argument: totem.transport
 
 values:
