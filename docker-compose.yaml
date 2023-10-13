@@ -2,7 +2,7 @@ version: "3.7"
 
 services:
   rabbitmq:
-    image: rabbitmq:3.10.5-management-alpine
+    image: rabbitmq:3.12.6-management-alpine
     ports:
       - 5674:5672
       - 15674:15672
