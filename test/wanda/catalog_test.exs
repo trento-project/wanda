@@ -52,6 +52,15 @@ defmodule Wanda.CatalogTest do
       refute Enum.any?(catalog, fn %Check{id: id} -> id == "with_metadata" end)
     end
 
+    test "should match metadata when value is in a list" do
+      complete_catalog = Catalog.get_catalog(%{"some" => "kind"})
+      catalog = Catalog.get_catalog(%{"list" => "this"})
+
+      assert length(complete_catalog) == length(catalog)
+
+      assert Enum.any?(catalog, fn %Check{id: id} -> id == "with_metadata" end)
+    end
+
     test "should load a check from a yaml file properly" do
       assert {:ok,
               %Check{
