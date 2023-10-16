@@ -4,20 +4,20 @@
     <meta charset="utf-8">
     <meta http-equiv="x-ua-compatible" content="ie=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="generator" content="ExDoc v0.30.6">
+    <meta name="generator" content="ExDoc v0.30.7">
     <meta name="project" content="Wanda v1.1.0">
 
     <title>How to contribute — Wanda v1.1.0</title>
-    <link rel="stylesheet" href="dist/html-elixir-M3TQBNKO.css" />
+    <link rel="stylesheet" href="dist/html-elixir-XFYN5IVA.css" />
 
 
     <script src="dist/handlebars.runtime-NWIB6V2M.js"></script>
-    <script src="dist/handlebars.templates-KDPBTEPL.js"></script>
+    <script src="dist/handlebars.templates-EPF2X7PV.js"></script>
     <script src="dist/sidebar_items-E53B19A0.js"></script>
 
       <script src="docs_config.js"></script>
 
-    <script async src="dist/html-CP2A7WXZ.js"></script>
+    <script async src="dist/html-J2ASZTQE.js"></script>
 
 
   </head>
@@ -38,22 +38,22 @@
 
 <div class="main">
 
-<button class="sidebar-button sidebar-toggle" aria-label="toggle sidebar">
+<button class="sidebar-button sidebar-toggle" aria-label="toggle sidebar" aria-controls="sidebar">
   <i class="ri-menu-line ri-lg" title="Collapse/expand sidebar"></i>
 </button>
 
-<section class="sidebar">
+<nav id="sidebar" class="sidebar">
   <form class="sidebar-search" action="search.html">
+    <label class="search-label">
+      <span class="sr-only">Search documentation of Wanda</span>
+      <input name="q" type="text" class="search-input" placeholder="Search..." autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" />
+    </label>
     <button type="submit" class="search-button" aria-label="Submit Search">
       <i class="ri-search-2-line" aria-hidden="true" title="Submit search"></i>
     </button>
-    <button type="button" tabindex="-1" class="search-close-button" aria-label="Cancel Search">
-      <i class="ri-close-line ri-lg" aria-hidden="true" title="Cancel search"></i>
+    <button type="button" tabindex="-1" class="search-close-button" aria-hidden="true">
+      <i class="ri-close-line ri-lg" title="Cancel search"></i>
     </button>
-    <label class="search-label">
-      <p class="sr-only">Search</p>
-      <input name="q" type="text" class="search-input" placeholder="Search..." aria-label="Input your search terms" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" />
-    </label>
   </form>
 
   <div class="autocomplete">
@@ -75,19 +75,35 @@ Wanda
         v1.1.0
       </div>
     </div>
-    <ul class="sidebar-listNav">
-      <li><a id="extras-list-link" href="#full-list">GUIDES</a></li>
+    <ul id="sidebar-listNav" class="sidebar-listNav" role="tablist">
+      <li>
+        <button id="extras-list-tab-button" role="tab" data-type="extras" aria-controls="extras-tab-panel" aria-selected="true" tabindex="0">
+GUIDES
+        </button>
+      </li>
 
-        <li><a id="modules-list-link" href="#full-list">Modules</a></li>
+        <li>
+          <button id="modules-list-tab-button" role="tab" data-type="modules" aria-controls="modules-tab-panel" aria-selected="false" tabindex="-1">
+            Modules
+          </button>
+        </li>
 
 
     </ul>
   </div>
 
-  <ul id="full-list"></ul>
-</section>
+  <div id="extras-tab-panel" class="sidebar-tabpanel" role="tabpanel" aria-labelledby="extras-list-tab-button">
+    <ul id="extras-full-list" class="full-list"></ul>
+  </div>
 
-<section class="content">
+    <div id="modules-tab-panel" class="sidebar-tabpanel" role="tabpanel" aria-labelledby="modules-list-tab-button" hidden>
+      <ul id="modules-full-list" class="full-list"></ul>
+    </div>
+
+
+</nav>
+
+<main class="content">
   <output role="status" id="toast"></output>
   <div class="content-outer">
     <div id="content" class="content-inner">
@@ -111,26 +127,26 @@ Wanda
 <p>Thanks for showing interest and sharing your time to contribute to this project!</p><p>This guide is meant to be used as a general guideline for creating issues or
 pull requests. We encourage all first-time contributors to give this a read to avoid
 common mistakes and improve the quality of all contributions.</p><h2 id="opening-issues" class="section-heading">
-  <a href="#opening-issues">
+  <a href="#opening-issues" class="hover-link">
     <i class="ri-link-m" aria-hidden="true"></i>
-    Opening issues
   </a>
+  <span class="text">Opening issues</span>
 </h2>
 <p>Before creating a new issue make sure you use the search functionality to confirm
 that a similar issue doesn't already exist. Next, make sure you properly label
 the issue as per our <a href="https://github.com/trento-project/wanda/labels">labels</a></p><p>If you are reporting a <code class="inline">bug</code>, please share a file generated using the
 <code class="inline">trento-support.sh</code> script with the following params:</p><pre><code class="makeup elixir" translate="no"><span class="c1"># trento-support.sh --collect all --output file-tgz</span></code></pre><p>and include the output in your issue. The script should remove sensitive data
 automatically but please make sure you are not sharing any sensitive data of your own.</p><h2 id="submitting-changes" class="section-heading">
-  <a href="#submitting-changes">
+  <a href="#submitting-changes" class="hover-link">
     <i class="ri-link-m" aria-hidden="true"></i>
-    Submitting changes
   </a>
+  <span class="text">Submitting changes</span>
 </h2>
 <p>Always refer to the <a href="https://github.com/trento-project/docs">docs repository</a> for coding standards and general guidelines.</p><h3 id="pull-requests-guideline" class="section-heading">
-  <a href="#pull-requests-guideline">
+  <a href="#pull-requests-guideline" class="hover-link">
     <i class="ri-link-m" aria-hidden="true"></i>
-    Pull Requests guideline
   </a>
+  <span class="text">Pull Requests guideline</span>
 </h3>
 <p>Reviews are hard. These few points will help us to reduce the time and effort required and allow us to merge your changes faster.</p><ol><li><p>Only touch relevant files.</p></li><li><p>We have a PR template to aid you in completing the required details. Be
 sure to complete it and remove the non-relevant parts.</p></li><li><p>Keep PRs as small as possible. When the PR gets too big, consider splitting it into multiple parts. A PR should ideally be between 100 and 500 additions.</p></li><li><p>Check that the tests are passing.</p></li><li><p>Check that your code is not generating new warnings.</p></li><li><p>Check that any dependent changes have been merged and published in downstream modules</p></li><li><p>Commit history should be short and group changes that otherwise wouldn't
@@ -141,10 +157,10 @@ A paragraph describing what changed and its impact.&quot;</span></code></pre></l
 creating the PR.</p></li><li><p>If the PR adds functionality, please add some tests and documentation
 to support it.</p></li><li><p>Each PR needs 1 approval to be merged. Select a reviewer in particular if
 you are looking for specific feedback from someone.</p></li></ol><h3 id="reviewers-guideline" class="section-heading">
-  <a href="#reviewers-guideline">
+  <a href="#reviewers-guideline" class="hover-link">
     <i class="ri-link-m" aria-hidden="true"></i>
-    Reviewers guideline
   </a>
+  <span class="text">Reviewers guideline</span>
 </h3>
 <ol><li>Opinionated comments are welcome but don't expect them always to be
 addressed. Be ready for discussion but also open to conceding.
@@ -193,7 +209,7 @@ Rhai expressions cheatsheet
 
         <p class="built-using">
           Built using
-          <a href="https://github.com/elixir-lang/ex_doc" title="ExDoc" target="_blank" rel="help noopener" translate="no">ExDoc</a> (v0.30.6) for the
+          <a href="https://github.com/elixir-lang/ex_doc" title="ExDoc" target="_blank" rel="help noopener" translate="no">ExDoc</a> (v0.30.7) for the
 
             <a href="https://elixir-lang.org" title="Elixir" target="_blank" translate="no">Elixir programming language</a>
 
@@ -201,7 +217,7 @@ Rhai expressions cheatsheet
       </footer>
     </div>
   </div>
-</section>
+</main>
 </div>
 
 

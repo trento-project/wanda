@@ -4,22 +4,22 @@
     <meta charset="utf-8">
     <meta http-equiv="x-ua-compatible" content="ie=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="generator" content="ExDoc v0.30.6">
+    <meta name="generator" content="ExDoc v0.30.7">
     <meta name="project" content="Wanda v1.1.0">
 
     <title>Rhai expressions cheatsheet — Wanda v1.1.0</title>
-    <link rel="stylesheet" href="dist/html-elixir-M3TQBNKO.css" />
+    <link rel="stylesheet" href="dist/html-elixir-XFYN5IVA.css" />
 
       <style>@media print { @page { size: landscape; } }</style>
 
 
     <script src="dist/handlebars.runtime-NWIB6V2M.js"></script>
-    <script src="dist/handlebars.templates-KDPBTEPL.js"></script>
+    <script src="dist/handlebars.templates-EPF2X7PV.js"></script>
     <script src="dist/sidebar_items-E53B19A0.js"></script>
 
       <script src="docs_config.js"></script>
 
-    <script async src="dist/html-CP2A7WXZ.js"></script>
+    <script async src="dist/html-J2ASZTQE.js"></script>
 
 
   </head>
@@ -40,22 +40,22 @@
 
 <div class="main">
 
-<button class="sidebar-button sidebar-toggle" aria-label="toggle sidebar">
+<button class="sidebar-button sidebar-toggle" aria-label="toggle sidebar" aria-controls="sidebar">
   <i class="ri-menu-line ri-lg" title="Collapse/expand sidebar"></i>
 </button>
 
-<section class="sidebar">
+<nav id="sidebar" class="sidebar">
   <form class="sidebar-search" action="search.html">
+    <label class="search-label">
+      <span class="sr-only">Search documentation of Wanda</span>
+      <input name="q" type="text" class="search-input" placeholder="Search..." autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" />
+    </label>
     <button type="submit" class="search-button" aria-label="Submit Search">
       <i class="ri-search-2-line" aria-hidden="true" title="Submit search"></i>
     </button>
-    <button type="button" tabindex="-1" class="search-close-button" aria-label="Cancel Search">
-      <i class="ri-close-line ri-lg" aria-hidden="true" title="Cancel search"></i>
+    <button type="button" tabindex="-1" class="search-close-button" aria-hidden="true">
+      <i class="ri-close-line ri-lg" title="Cancel search"></i>
     </button>
-    <label class="search-label">
-      <p class="sr-only">Search</p>
-      <input name="q" type="text" class="search-input" placeholder="Search..." aria-label="Input your search terms" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" />
-    </label>
   </form>
 
   <div class="autocomplete">
@@ -77,19 +77,35 @@ Wanda
         v1.1.0
       </div>
     </div>
-    <ul class="sidebar-listNav">
-      <li><a id="extras-list-link" href="#full-list">GUIDES</a></li>
+    <ul id="sidebar-listNav" class="sidebar-listNav" role="tablist">
+      <li>
+        <button id="extras-list-tab-button" role="tab" data-type="extras" aria-controls="extras-tab-panel" aria-selected="true" tabindex="0">
+GUIDES
+        </button>
+      </li>
 
-        <li><a id="modules-list-link" href="#full-list">Modules</a></li>
+        <li>
+          <button id="modules-list-tab-button" role="tab" data-type="modules" aria-controls="modules-tab-panel" aria-selected="false" tabindex="-1">
+            Modules
+          </button>
+        </li>
 
 
     </ul>
   </div>
 
-  <ul id="full-list"></ul>
-</section>
+  <div id="extras-tab-panel" class="sidebar-tabpanel" role="tabpanel" aria-labelledby="extras-list-tab-button">
+    <ul id="extras-full-list" class="full-list"></ul>
+  </div>
 
-<section class="content">
+    <div id="modules-tab-panel" class="sidebar-tabpanel" role="tabpanel" aria-labelledby="modules-list-tab-button" hidden>
+      <ul id="modules-full-list" class="full-list"></ul>
+    </div>
+
+
+</nav>
+
+<main class="content">
   <output role="status" id="toast"></output>
   <div class="content-outer">
     <div id="content" class="content-inner">
@@ -116,16 +132,16 @@ Wanda
 </h1>
 
 <p>In this cheatsheet are grouped the most frequent manipulations that can be done through Rhai, for convenience.</p><section class="h2 col-2"><h2 id="cheatsheet" class="col-2 section-heading">
-  <a href="#cheatsheet">
+  <a href="#cheatsheet" class="hover-link">
     <i class="ri-link-m" aria-hidden="true"></i>
-    Cheatsheet
   </a>
+  <span class="text">Cheatsheet</span>
 </h2>
 <section class="h3"><h3 id="arrays" class="section-heading">
-  <a href="#arrays">
+  <a href="#arrays" class="hover-link">
     <i class="ri-link-m" aria-hidden="true"></i>
-    Arrays
   </a>
+  <span class="text">Arrays</span>
 </h3>
 <h4>Filtering an array</h4><pre><code class="ts">[1, 2, 3].filter(|value| value % 2 == 0)
 =&gt; [2]</code></pre><h4>Finding the index of an element inside an array</h4><pre><code class="ts">[&quot;wow&quot;, &quot;check&quot;].index_of(|value| value == &quot;check&quot;)
@@ -137,10 +153,10 @@ Wanda
 nodelist.find(|value| value.resource_id == 5)
 =&gt; #{&quot;name&quot;: &quot;foo&quot;, &quot;resource_id&quot;: 5}</code></pre><h4>Checking if an expression is true for every element of an array</h4><pre><code class="ts">[2, 4, 6].all(|value| value % 2 == 0)
 =&gt; true</code></pre></section><section class="h3"><h3 id="maps" class="section-heading">
-  <a href="#maps">
+  <a href="#maps" class="hover-link">
     <i class="ri-link-m" aria-hidden="true"></i>
-    Maps
   </a>
+  <span class="text">Maps</span>
 </h3>
 <h4>Get only keys (returns an array)</h4><pre><code class="ts">#{a: 1, b: 2}.keys()
 =&gt; [&quot;a&quot;, &quot;b&quot;]</code></pre><h4>Get only values (returns an array)</h4><pre><code class="ts">#{a: 1, b: 2}.values()
@@ -154,10 +170,10 @@ nodelist.find(|value| value.resource_id == 5)
 
 map.keys().filter(|prop| prop.starts_with(&quot;ring&quot;)).len() &gt;= 5
 =&gt; true</code></pre></section><section class="h3"><h3 id="strings" class="section-heading">
-  <a href="#strings">
+  <a href="#strings" class="hover-link">
     <i class="ri-link-m" aria-hidden="true"></i>
-    Strings
   </a>
+  <span class="text">Strings</span>
 </h3>
 <h4>Splitting a string</h4><pre><code class="ts">&quot;a;b;c&quot;.split(&quot;;&quot;)
 =&gt; [&quot;a&quot;, &quot;b&quot;, &quot;c&quot;]</code></pre></section></section>
@@ -204,7 +220,7 @@ Checks Specification
 
         <p class="built-using">
           Built using
-          <a href="https://github.com/elixir-lang/ex_doc" title="ExDoc" target="_blank" rel="help noopener" translate="no">ExDoc</a> (v0.30.6) for the
+          <a href="https://github.com/elixir-lang/ex_doc" title="ExDoc" target="_blank" rel="help noopener" translate="no">ExDoc</a> (v0.30.7) for the
 
             <a href="https://elixir-lang.org" title="Elixir" target="_blank" translate="no">Elixir programming language</a>
 
@@ -212,7 +228,7 @@ Checks Specification
       </footer>
     </div>
   </div>
-</section>
+</main>
 </div>
 
 
