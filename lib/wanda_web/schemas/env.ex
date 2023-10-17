@@ -11,10 +11,10 @@ defmodule WandaWeb.Schemas.Env do
       description: "Contextual Environment for the current execution",
       type: :object,
       additionalProperties: %Schema{
-        oneOf: [
-          %Schema{type: :string},
+        anyOf: [
           %Schema{type: :integer},
           %Schema{type: :boolean},
+          %Schema{type: :string},
           %Schema{type: :array, items: __MODULE__}
         ]
       }
