@@ -71,7 +71,7 @@ when: env.target_type == "cluster"
 
 facts:
   - name: runtime_transport
-    gatherer: corosync-cmapctl
+    gatherer: corosync-cmapctl@v1
     argument: totem.transport
 
 values:

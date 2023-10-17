@@ -52,7 +52,7 @@ when: env.target_type == "cluster"
 
 facts:
   - name: token_timeout
-    gatherer: corosync-cmapctl
+    gatherer: corosync-cmapctl@v1
     argument: runtime.config.totem.token
 
 values:

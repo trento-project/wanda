@@ -18,7 +18,7 @@ when: env.target_type == "cluster"
 
 facts:
   - name: compare_python3_version
-    gatherer: package_version
+    gatherer: package_version@v1
     argument: python3,3.6.5
 
 expectations:

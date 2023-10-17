@@ -50,7 +50,7 @@ when: env.target_type == "cluster"
 
 facts:
   - name: corosync_twonode
-    gatherer: corosync.conf
+    gatherer: corosync.conf@v1
     argument: quorum.two_node
 
 values:

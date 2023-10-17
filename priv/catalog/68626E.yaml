@@ -29,7 +29,7 @@ when: env.target_type == "cluster" && env.provider !in ["gcp", "aws"]
 
 facts:
   - name: dump_sbd_devices
-    gatherer: sbd_dump
+    gatherer: sbd_dump@v1
 
 expectations:
   - name: expectations_sbd_msgwait_timeout

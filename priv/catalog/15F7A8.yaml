@@ -50,7 +50,7 @@ when: env.target_type == "cluster"
 
 facts:
   - name: token_retransmits
-    gatherer: corosync-cmapctl
+    gatherer: corosync-cmapctl@v1
     argument: runtime.config.totem.token_retransmits_before_loss_const
 
 values:

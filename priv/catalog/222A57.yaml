@@ -17,7 +17,7 @@ when: env.target_type == "cluster" && env.provider !in ["gcp", "aws"]
 
 facts:
   - name: compare_sbd_version
-    gatherer: package_version
+    gatherer: package_version@v1
     argument: sbd,1.4.0
 
 expectations:

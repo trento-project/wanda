@@ -46,10 +46,10 @@ when: env.target_type == "cluster"
 
 facts:
   - name: crm_config_properties
-    gatherer: cibadmin
+    gatherer: cibadmin@v1
     argument: cib.configuration.crm_config.cluster_property_set
   - name: resources_primitives
-    gatherer: cibadmin
+    gatherer: cibadmin@v1
     argument: cib.configuration.resources.primitive
 
 values:

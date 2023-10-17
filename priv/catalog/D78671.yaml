@@ -51,7 +51,7 @@ when: env.target_type == "cluster"
 
 facts:
   - name: runtime_two_node
-    gatherer: corosync-cmapctl
+    gatherer: corosync-cmapctl@v1
     argument: runtime.votequorum.two_node
 
 values:

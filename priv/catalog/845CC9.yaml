@@ -51,7 +51,7 @@ when: env.target_type == "cluster"
 
 facts:
   - name: corosync_max_messages
-    gatherer: corosync.conf
+    gatherer: corosync.conf@v1
     argument: totem.max_messages
 
 values:

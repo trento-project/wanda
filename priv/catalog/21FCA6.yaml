@@ -51,7 +51,7 @@ when: env.target_type == "cluster"
 
 facts:
   - name: corosync_token_retransmits_before_loss_const
-    gatherer: corosync.conf
+    gatherer: corosync.conf@v1
     argument: totem.token_retransmits_before_loss_const
 
 values:

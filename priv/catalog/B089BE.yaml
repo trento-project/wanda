@@ -30,7 +30,7 @@ when: env.target_type == "cluster" && env.provider !in ["gcp", "aws"]
 
 facts:
   - name: dump_sbd_devices
-    gatherer: sbd_dump
+    gatherer: sbd_dump@v1
 
 values:
   - name: expected_watchdog_timeout
