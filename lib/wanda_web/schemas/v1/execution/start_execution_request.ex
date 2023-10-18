@@ -1,4 +1,4 @@
-defmodule WandaWeb.Schemas.StartExecutionRequest do
+defmodule WandaWeb.Schemas.V1.StartExecutionRequest do
   @moduledoc """
   The request to be sent to start an execution
   """

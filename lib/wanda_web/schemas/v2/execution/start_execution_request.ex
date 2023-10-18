@@ -1,10 +1,10 @@
-defmodule WandaWeb.Schemas.StartExecutionRequest do
+defmodule WandaWeb.Schemas.V2.StartExecutionRequest do
   @moduledoc """
   The request to be sent to start an execution
   """
 
   alias OpenApiSpex.Schema
-  alias WandaWeb.Schemas.V1.Env
+  alias WandaWeb.Schemas.V2.Env
 
   require OpenApiSpex
 

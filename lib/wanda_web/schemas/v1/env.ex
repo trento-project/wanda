@@ -1,4 +1,4 @@
-defmodule WandaWeb.Schemas.Env do
+defmodule WandaWeb.Schemas.V1.Env do
   @moduledoc false
 
   alias OpenApiSpex.Schema
@@ -11,10 +11,10 @@ defmodule WandaWeb.Schemas.Env do
       description: "Contextual Environment for the current execution",
       type: :object,
       additionalProperties: %Schema{
-        anyOf: [
+        oneOf: [
+          %Schema{type: :string},
           %Schema{type: :integer},
           %Schema{type: :boolean},
-          %Schema{type: :string},
           %Schema{type: :array, items: __MODULE__}
         ]
       }

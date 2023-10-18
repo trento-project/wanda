@@ -1,7 +1,7 @@
 defmodule WandaWeb.Router do
   use WandaWeb, :router
 
-  @latest_api_version "v1"
+  @latest_api_version "v2"
 
   pipeline :api do
     plug :accepts, ["json"]
@@ -21,6 +21,15 @@ defmodule WandaWeb.Router do
 
         resources "/executions", ExecutionController, only: [:index, :show]
         get "/groups/:id/executions/last", ExecutionController, :last
+        post "/executions/start", ExecutionController, :start
+        get "/catalog", CatalogController, :catalog
+      end
+    end
+
+    scope "/v2", WandaWeb.V2 do
+      scope "/checks" do
+        pipe_through [:api, :protected_api]
+
         post "/executions/start", ExecutionController, :start
         get "/catalog", CatalogController, :catalog
       end
