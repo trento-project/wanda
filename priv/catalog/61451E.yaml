@@ -28,7 +28,10 @@ remediation: |
 
 severity: warning
 
-when: env.target_type == "cluster" && env.provider !in ["gcp", "aws"]
+metadata:
+  target_type: cluster
+  cluster_type: hana_scale_up
+  provider: [azure, nutanix, kvm, vmware]
 
 facts:
   - name: sbd_multiple_sbd_device

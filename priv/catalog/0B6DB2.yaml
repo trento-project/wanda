@@ -47,7 +47,10 @@ remediation: |
     - https://documentation.suse.com/sle-ha/15-SP5/single-html/SLE-HA-administration/#cha-ha-storage-protect
     - https://documentation.suse.com/sbp/all/single-html/SLES4SAP-hana-sr-guide-PerfOpt-15/#id-adapting-the-sbd-configuration
 
-when: env.target_type == "cluster" && env.provider !in ["gcp", "aws"]
+metadata:
+  target_type: cluster
+  cluster_type: hana_scale_up
+  provider: [azure, nutanix, kvm, vmware]
 
 facts:
   - name: sbd_pacemaker

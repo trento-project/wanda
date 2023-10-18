@@ -13,7 +13,10 @@ remediation: |
   ## Reference
   - https://documentation.suse.com/sbp/all/single-html/SLES4SAP-hana-sr-guide-PerfOpt-15/
 
-when: env.target_type == "cluster" && env.provider !in ["gcp", "aws"]
+metadata:
+  target_type: cluster
+  cluster_type: hana_scale_up
+  provider: [azure, nutanix, kvm, vmware]
 
 facts:
   - name: compare_sbd_version

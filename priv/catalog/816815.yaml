@@ -31,7 +31,10 @@ remediation: |
 
     - https://documentation.suse.com/sle-ha/15-SP5/single-html/SLE-HA-administration/#pro-ha-storage-protect-sbd-config
 
-when: env.target_type == "cluster" && env.provider !in ["gcp", "aws"]
+metadata:
+  target_type: cluster
+  cluster_type: hana_scale_up
+  provider: [azure, nutanix, kvm, vmware]
 
 facts:
   - name: sbd_service_state

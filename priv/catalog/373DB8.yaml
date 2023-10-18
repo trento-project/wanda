@@ -42,7 +42,9 @@ remediation: |
 
     - https://documentation.suse.com/sbp/all/single-html/SLES4SAP-hana-sr-guide-PerfOpt-15/#id-cluster-bootstrap-and-more
 
-when: env.target_type == "cluster"
+metadata:
+  target_type: cluster
+  cluster_type: hana_scale_up
 
 facts:
   - name: crm_config_properties
