@@ -74,6 +74,13 @@ remediation: |
   ## Remediation
   Adjust the corosync `token` timeout as recommended...
 
+severity: warning
+
+metadata:
+  target_type: cluster
+  cluster_type: hana_scale_up
+  provider: [azure, nutanix, kvm, vmware]
+
 facts:
   - name: corosync_token_timeout
     gatherer: corosync.conf
@@ -234,6 +241,74 @@ Sets the check as premium
 
 ```yaml
 premium: true
+```
+
+#### metadata
+
+A key-value map that enriches the Check being declared by providing extra information about when to consider it as applicable given a specific [env](#env)
+
+- keys must be non empty strings (`foo`, `bar`, `foo_bar`, `qux1`)
+- values can be any of the following types `string`, `number`, `boolean`, `string[]` (list of strings)
+
+Example:
+
+```yaml
+metadata:
+  foo: bar
+  bar: 42
+  baz: true
+  qux: [foo, bar, baz]
+```
+
+Metadata is used when:
+- querying checks from the catalog
+- loading relevant checks for an execution (when requesting an execution to start either via the rest API or via a message through the message broker)
+
+#### How does the matching work?
+
+For each of the metadata key-value the system checks whether a matching key is present in the current context (catalog or execution env) and if so, whether the value matches the one declared in the check.
+
+For a check to be considered applicable all the metadata key-value pairs should match something in the env.
+
+Any extra key in the env not having a corresponding one in the check metadata is ignored.
+
+Notes:
+- a string in the env (ie `env.qux` being `baz`) can match either a plain string as in `qux: baz` and a string contained in a list as in `qux: [foo, bar, baz]`
+- an empty env always matches any metadata
+- an empty metadata always matches any env
+
+**Matching example**
+```ts
+let env = #{
+  foo: "bar",
+  qux: "baz"
+}
+```
+
+```yaml
+metadata:
+  foo: bar
+  bar: 42
+  baz: true
+  qux: baz
+```
+
+**Not matching example**
+
+```ts
+let env = #{
+  foo: "bar",
+  qux: "baz",
+  baz: false
+}
+```
+
+```yaml
+metadata:
+  foo: bar
+  bar: 42
+  baz: true
+  qux: [foo, bar, baz]
 ```
 
 #### Facts, Values, Expectations
