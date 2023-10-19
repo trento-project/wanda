@@ -1101,11 +1101,11 @@ Example output (in Rhai):
 
 Gather systemd units information. It returns an object with multiple fields about the systemd unit.
 
-The provided service name must include the extension, such as `.service` or `.mount`.
+The provided unit name must include the extension, such as `.service` or `.mount`.
 
-Only a subset of properties are returned. The information about them is available in
+Only a subset of properties are returned. Additional information about these is available in
 the [systemd](https://www.man7.org/linux/man-pages/man5/org.freedesktop.systemd1.5.html#UNIT_OBJECTS) man pages, 
-with some additional details in the `Properties` sub-chapter.
+with some detailed description in the `Properties` sub-chapter.
 
 Example arguments:
 
