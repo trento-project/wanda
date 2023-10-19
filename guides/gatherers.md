@@ -41,6 +41,7 @@ Here's a collection of built-in gatherers, with information about how to use the
 | [`corosync.conf@v1`](#corosyncconfv1)                                  | [trento-project/agent/../gatherers/corosyncconf.go](https://github.com/trento-project/agent/blob/main/internal/factsengine/gatherers/corosyncconf.go)                               |
 | [`corosync-cmapctl@v1`](#corosync-cmapctlv1)                           | [trento-project/agent/../gatherers/corosynccmapctl.go](https://github.com/trento-project/agent/blob/main/internal/factsengine/gatherers/corosynccmapctl.go)                         |
 | [`dir_scan@v1`](#dir_scanv1)                                           | [trento-project/agent/../gatherers/dir_scan.go](https://github.com/trento-project/agent/blob/main/internal/factsengine/gatherers/dir_scan.go)                                       |
+| [`disp+work@v1`](#dispworkv1)                                          | [trento-project/agent/../gatherers/dispwork.go](https://github.com/trento-project/agent/blob/main/internal/factsengine/gatherers/dispwork.go)                                       |
 | [`fstab@v1`](#fstabv1)                                                 | [trento-project/agent/../gatherers/fstab.go](https://github.com/trento-project/agent/blob/main/internal/factsengine/gatherers/fstab.go)                                             |
 | [`groups@v1`](#groupsv1)                                               | [trento-project/agent/../gatherers/groups.go](https://github.com/trento-project/agent/blob/main/internal/factsengine/gatherers/groups.go)                                           |
 | [`hosts@v1`](#hostsv1)                                                 | [trento-project/agent/../gatherers/hostsfile.go](https://github.com/trento-project/agent/blob/main/internal/factsengine/gatherers/hostsfile.go)                                     |
@@ -307,6 +308,51 @@ Example output (in Rhai):
       "group": "trento"
     },
   ]
+```
+
+<span id="dispworkv1"></span
+
+### disp+work@v1
+
+**Argument required**: No
+
+This gatherer allows access to the `disp+work` command output and returns some fields available there.
+The command is executed for all installed SAP systems, accessing it with the `<sid>adm` user. The fields for
+each system are returned in a map using the SAP sid as key.
+
+If the `disp+work` command execution fails, the fields are returned with an empty string value.
+
+The available fields are `compilation_mode`, `kernel_release` and `patch_number`.
+
+Example specification:
+
+```yaml
+facts:
+  - name: dispwork
+    gatherer: disp+work
+```
+
+Example output (in Rhai):
+
+```ts
+#{
+  "NWP": #{
+    "compilation_mode": "UNICODE",
+    "kernel_release": "753",
+    "patch_number": "900"
+  },
+  // failed execution
+  "NWQ": #{
+    "compilation_mode": "",
+    "kernel_release": "",
+    "patch_number": ""
+  },
+  "NWD": #{
+    "compilation_mode": "UNICODE",
+    "kernel_release": "753",
+    "patch_number": "910"
+  }
+} 
 ```
 
 <span id="fstabv1"></span>
