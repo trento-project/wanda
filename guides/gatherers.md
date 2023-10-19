@@ -37,7 +37,7 @@ Here's a collection of built-in gatherers, with information about how to use the
 | [`sbd_dump`](#sbd_dump)                 | [trento-project/agent/../gatherers/sbddump.go](https://github.com/trento-project/agent/blob/main/internal/factsengine/gatherers/sbddump.go)                 |
 | [`sysctl`](#sysctl)                     | [trento-project/agent/../gatherers/sysctl.go](https://github.com/trento-project/agent/blob/main/internal/factsengine/gatherers/sysctl.go)                   |
 | [`systemd`](#systemd)                   | [trento-project/agent/../gatherers/systemd.go](https://github.com/trento-project/agent/blob/main/internal/factsengine/gatherers/systemd.go)                 |
-| [`systemd@v2`](#systemdv2)              | [trento-project/agent/../gatherers/systemd_v2.go](https://github.com/trento-project/agent/blob/main/internal/factsengine/gatherers/systemd_v2.go)           |
+| [`systemd@v2`](#systemd-v2)             | [trento-project/agent/../gatherers/systemd_v2.go](https://github.com/trento-project/agent/blob/main/internal/factsengine/gatherers/systemd_v2.go)           |
 | [`verify_password`](#verify_password)   | [trento-project/agent/../gatherers/verifypassword.go](https://github.com/trento-project/agent/blob/main/internal/factsengine/gatherers/verifypassword.go)   |
 
 ### cibadmin
@@ -1095,6 +1095,7 @@ Example output (in Rhai):
 "inactive";
 ```
 
+<span id="systemd-v2"></span>
 ### systemd@v2
 
 **Argument required**: yes.
