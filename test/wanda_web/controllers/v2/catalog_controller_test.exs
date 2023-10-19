@@ -1,4 +1,4 @@
-defmodule WandaWeb.V1.CatalogControllerTest do
+defmodule WandaWeb.V2.CatalogControllerTest do
   use WandaWeb.ConnCase, async: true
   import OpenApiSpex.TestAssertions
 
@@ -8,7 +8,7 @@ defmodule WandaWeb.V1.CatalogControllerTest do
     test "listing the checks catalog produces a CatalogResponse", %{conn: conn} do
       json =
         conn
-        |> get("/api/v1/checks/catalog")
+        |> get("/api/v2/checks/catalog")
         |> json_response(200)
 
       api_spec = ApiSpec.spec()
@@ -18,7 +18,7 @@ defmodule WandaWeb.V1.CatalogControllerTest do
     test "listing the checks catalog produces a CatalogResponse when filtered", %{conn: conn} do
       json =
         conn
-        |> get("/api/v1/checks/catalog?provider=azure&foo=bar")
+        |> get("/api/v2/checks/catalog?provider=azure&foo=bar")
         |> json_response(200)
 
       assert %{

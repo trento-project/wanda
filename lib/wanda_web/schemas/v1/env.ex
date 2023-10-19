@@ -1,4 +1,4 @@
-defmodule WandaWeb.Schemas.Env do
+defmodule WandaWeb.Schemas.V1.Env do
   @moduledoc false
 
   alias OpenApiSpex.Schema

@@ -64,7 +64,7 @@ defmodule Wanda.Catalog do
         {:error, _} -> []
       end
     end)
-    |> Enum.filter(&when_condition(&1, env))
+    |> Enum.filter(fn check -> when_condition(check, env) && match_metadata(check, env) end)
   end
 
   defp when_condition(_, env) when env == %{}, do: true
@@ -79,6 +79,27 @@ defmodule Wanda.Catalog do
       _ -> false
     end
   end
+
+  defp match_metadata(_, env) when env == %{}, do: true
+
+  defp match_metadata(%Check{metadata: nil}, _), do: true
+
+  defp match_metadata(%Check{metadata: metadata}, env) do
+    env
+    |> Map.to_list()
+    |> Enum.all?(fn {key, env_value} ->
+      metadata_value = Map.get(metadata, key)
+
+      match_metadata_value?(env_value, metadata_value)
+    end)
+  end
+
+  defp match_metadata_value?(_env_value, nil), do: true
+
+  defp match_metadata_value?(env_value, metadata_value) when is_list(metadata_value),
+    do: Enum.any?(metadata_value, fn value -> match_metadata_value?(env_value, value) end)
+
+  defp match_metadata_value?(env_value, metadata_value), do: env_value === metadata_value
 
   defp get_catalog_path do
     Application.fetch_env!(:wanda, Wanda.Catalog)[:catalog_path]
@@ -102,6 +123,7 @@ defmodule Wanda.Catalog do
        group: group,
        description: description,
        remediation: remediation,
+       metadata: Map.get(check, "metadata"),
        when: Map.get(check, "when"),
        premium: Map.get(check, "premium", false),
        severity: map_severity(check),
