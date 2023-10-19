@@ -37,6 +37,7 @@ Here's a collection of built-in gatherers, with information about how to use the
 | [`sbd_dump`](#sbd_dump)                 | [trento-project/agent/../gatherers/sbddump.go](https://github.com/trento-project/agent/blob/main/internal/factsengine/gatherers/sbddump.go)                 |
 | [`sysctl`](#sysctl)                     | [trento-project/agent/../gatherers/sysctl.go](https://github.com/trento-project/agent/blob/main/internal/factsengine/gatherers/sysctl.go)                   |
 | [`systemd`](#systemd)                   | [trento-project/agent/../gatherers/systemd.go](https://github.com/trento-project/agent/blob/main/internal/factsengine/gatherers/systemd.go)                 |
+| [`systemd@v2`](#systemd-v2)             | [trento-project/agent/../gatherers/systemd_v2.go](https://github.com/trento-project/agent/blob/main/internal/factsengine/gatherers/systemd_v2.go)           |
 | [`verify_password`](#verify_password)   | [trento-project/agent/../gatherers/verifypassword.go](https://github.com/trento-project/agent/blob/main/internal/factsengine/gatherers/verifypassword.go)   |
 
 ### cibadmin
@@ -1092,6 +1093,63 @@ Example output (in Rhai):
 
 // corosync_state
 "inactive";
+```
+
+<span id="systemd-v2"></span>
+### systemd@v2
+
+**Argument required**: yes.
+
+Gather systemd units information. It returns an object with multiple fields about the systemd unit.
+
+The provided unit name must include the extension, such as `.service` or `.mount`.
+
+Only a subset of properties are returned. Additional information about these is available in
+the [systemd](https://www.man7.org/linux/man-pages/man5/org.freedesktop.systemd1.5.html#UNIT_OBJECTS) man pages, 
+with some detailed description in the `Properties` sub-chapter.
+
+Example arguments:
+
+| Name                   | Return value              |
+| :--------------------- | :------------------------ |
+| `trento-agent.service` | systemd unit information  |
+
+```yaml
+facts:
+  - name: corosync
+    gatherer: systemd@v2
+    argument: corosync.service
+
+  - name: not_found
+    gatherer: systemd@v2
+    argument: unknown.service
+```
+
+Example output (in Rhai):
+
+```ts
+// corosync
+#{
+  "active_state": "inactive",
+  "description": "Corosync Cluster Engine",
+  "id": "corosync.service",
+  "load_state": "loaded",
+  "need_daemon_reload": false,
+  "unit_file_preset": "disabled",
+  "unit_file_state": "disabled"
+}
+
+// not_found
+#{
+  "active_state": "inactive",
+  "description": "unknown.service",
+  "id": "unknown.service",
+  "load_state": "not-found",
+  "need_daemon_reload": false,
+  "unit_file_preset": "",
+  "unit_file_state": ""
+} 
+
 ```
 
 ### verify_password
