@@ -14,7 +14,9 @@ remediation: |
   The recommended minimal version 3.6.5 of the python3 package is the system python version for SLE15 (long term version). 3.6.5-3.11.1 is the *first* version supported with SUSE Linux Enterprise Server for SAP Applications 15 SP1.
   - https://documentation.suse.com/sbp/all/single-html/SLES4SAP-hana-sr-guide-PerfOpt-15/
 
-when: env.target_type == "cluster"
+metadata:
+  target_type: cluster
+  cluster_type: hana_scale_up
 
 facts:
   - name: compare_python3_version
