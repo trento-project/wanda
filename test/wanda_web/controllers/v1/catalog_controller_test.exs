@@ -34,5 +34,23 @@ defmodule WandaWeb.V1.CatalogControllerTest do
       api_spec = ApiSpec.spec()
       assert_schema(json, "CatalogResponse", api_spec)
     end
+
+    test "does not accept different types inside the env", %{conn: conn} do
+      json =
+        conn
+        |> get("/api/v1/checks/catalog?provider=azure&foo=true")
+        |> json_response(422)
+
+      assert %{
+               "errors" => [
+                 %{
+                   "detail" => _,
+                   "title" => _,
+                   "source" => _
+                 }
+                 | _
+               ]
+             } = json
+    end
   end
 end

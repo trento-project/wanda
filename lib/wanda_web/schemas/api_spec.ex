@@ -35,28 +35,15 @@ defmodule WandaWeb.Schemas.ApiSpec do
           ],
           info: %Info{
             title: "Wanda",
-            description: to_string(Application.spec(:trento, :description)),
-            version: to_string(Application.spec(:trento, :vsn))
+            description: to_string(Application.spec(:wanda, :description)),
+            version: to_string(Application.spec(:wanda, :vsn))
           },
           components: %Components{
             securitySchemes: %{"authorization" => %SecurityScheme{type: "http", scheme: "bearer"}}
           },
           security: [%{"authorization" => []}],
           paths: build_paths_for_version(unquote(api_version), router),
-          tags: [
-            %Tag{
-              name: "Target Infrastructure",
-              description: "Providing access to the discovered target infrastructure"
-            },
-            %Tag{
-              name: "Checks",
-              description: "Providing Checks related feature"
-            },
-            %Tag{
-              name: "Platform",
-              description: "Providing access to Trento Platform features"
-            }
-          ]
+          tags: []
         })
       end
 
