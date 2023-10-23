@@ -886,8 +886,8 @@ Example output (in Rhai):
 
 **Argument required**: no.
 
-This gatherer uses the filesystem to search for sap systems using the discovered profile file names to get the virtual hostnames associated to each
-instance of the sap system. It will then attempt to resolve those hostnames to confirm that they are resolvable and afterwards it will attempt a ping
+This gatherer uses the filesystem to search for SAP systems using the discovered profile file names to get the virtual hostnames associated to each
+instance of the sap system. It then attempts to resolve those hostnames to confirm that they are resolvable and afterwards it will attempt a ping
 to those hostnames. Keep in mind that ping could be disallowed through firewall rules so it should only be used for networks in which we know this is
 not true.
 
@@ -902,7 +902,19 @@ facts:
 Example output (in Rhai):
 
 ```ts
+
+// 2 resolvable & 1 non-resolvable hosts
 #{
+  "NWP": [
+    #{
+      "addresses": [
+        "2.1.1.82"
+      ],
+      "hostname": "sapnwpas",
+      "instance_name": "ASCS00",
+      "reachability": true
+    }
+  ],
   "QAS": [
     #{
       "addresses": [
@@ -917,16 +929,6 @@ Example output (in Rhai):
       "hostname": "sapwaser",
       "instance_name": "ERS00",
       "reachability": false
-    }
-  ],
-  "NWP": [
-    #{
-      "addresses": [
-        "2.1.1.82"
-      ],
-      "hostname": "sapnwpas",
-      "instance_name": "ASCS00",
-      "reachability": true
     }
   ]
 }
