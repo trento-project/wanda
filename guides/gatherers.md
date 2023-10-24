@@ -35,27 +35,28 @@ the agent to the latest version to ensure that the required gatherers are also u
 
 Here's a collection of built-in gatherers, with information about how to use them.
 
-| Name                                         | Implementation                                                                                                                                              |
-| :------------------------------------------- | :---------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| [`cibadmin@v1`](#cibadminv1)                 | [trento-project/agent/../gatherers/cibadmin.go](https://github.com/trento-project/agent/blob/main/internal/factsengine/gatherers/cibadmin.go)               |
-| [`corosync.conf@v1`](#corosyncconfv1)        | [trento-project/agent/../gatherers/corosyncconf.go](https://github.com/trento-project/agent/blob/main/internal/factsengine/gatherers/corosyncconf.go)       |
-| [`corosync-cmapctl@v1`](#corosync-cmapctlv1) | [trento-project/agent/../gatherers/corosynccmapctl.go](https://github.com/trento-project/agent/blob/main/internal/factsengine/gatherers/corosynccmapctl.go) |
-| [`dir_scan@v1`](#dir_scanv1)                 | [trento-project/agent/../gatherers/dir_scan.go](https://github.com/trento-project/agent/blob/main/internal/factsengine/gatherers/dir_scan.go)               |
-| [`fstab@v1`](#fstabv1)                       | [trento-project/agent/../gatherers/fstab.go](https://github.com/trento-project/agent/blob/main/internal/factsengine/gatherers/fstab.go)                     |
-| [`groups@v1`](#groupsv1)                     | [trento-project/agent/../gatherers/groups.go](https://github.com/trento-project/agent/blob/main/internal/factsengine/gatherers/groups.go)                   |
-| [`hosts@v1`](#hostsv1)                       | [trento-project/agent/../gatherers/hostsfile.go](https://github.com/trento-project/agent/blob/main/internal/factsengine/gatherers/hostsfile.go)             |
-| [`package_version@v1`](#package_versionv1)   | [trento-project/agent/../gatherers/packageversion.go](https://github.com/trento-project/agent/blob/main/internal/factsengine/gatherers/packageversion.go)   |
-| [`passwd@v1`](#passwdv1)                     | [trento-project/agent/../gatherers/passwd.go](https://github.com/trento-project/agent/blob/main/internal/factsengine/gatherers/passwd.go)                   |
-| [`sapcontrol@v1`](#sapcontrolv1)             | [trento-project/agent/../gatherers/sapcontrol.go](https://github.com/trento-project/agent/blob/main/internal/factsengine/gatherers/sapcontrol.go)           |
-| [`saphostctrl@v1`](#saphostctrlv1)           | [trento-project/agent/../gatherers/saphostctrl.go](https://github.com/trento-project/agent/blob/main/internal/factsengine/gatherers/saphostctrl.go)         |
-| [`sap_profiles@v1`](#sap_profilesv1)         | [trento-project/agent/../gatherers/sapprofiles.go](https://github.com/trento-project/agent/blob/main/internal/factsengine/gatherers/sapprofiles.go)         |
-| [`saptune@v1`](#saptunev1)                   | [trento-project/agent/../gatherers/saptune.go](https://github.com/trento-project/agent/blob/main/internal/factsengine/gatherers/saptune.go)                 |
-| [`sbd_config@v1`](#sbd_configv1)             | [trento-project/agent/../gatherers/sbd.go](https://github.com/trento-project/agent/blob/main/internal/factsengine/gatherers/sbd.go)                         |
-| [`sbd_dump@v1`](#sbd_dumpv1)                 | [trento-project/agent/../gatherers/sbddump.go](https://github.com/trento-project/agent/blob/main/internal/factsengine/gatherers/sbddump.go)                 |
-| [`sysctl@v1`](#sysctlv1)                     | [trento-project/agent/../gatherers/sysctl.go](https://github.com/trento-project/agent/blob/main/internal/factsengine/gatherers/sysctl.go)                   |
-| [`systemd@v1`](#systemdv1)                   | [trento-project/agent/../gatherers/systemd.go](https://github.com/trento-project/agent/blob/main/internal/factsengine/gatherers/systemd.go)                 |
-| [`systemd@v2`](#systemdv2)                   | [trento-project/agent/../gatherers/systemd_v2.go](https://github.com/trento-project/agent/blob/main/internal/factsengine/gatherers/systemd_v2.go)           |
-| [`verify_password@v1`](#verify_passwordv1)   | [trento-project/agent/../gatherers/verifypassword.go](https://github.com/trento-project/agent/blob/main/internal/factsengine/gatherers/verifypassword.go)   |
+| Name                                                                   | Implementation                                                                                                                                                                      |
+| :--------------------------------------------------------------------- | :---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| [`cibadmin@v1`](#cibadminv1)                                           | [trento-project/agent/../gatherers/cibadmin.go](https://github.com/trento-project/agent/blob/main/internal/factsengine/gatherers/cibadmin.go)                                       |
+| [`corosync.conf@v1`](#corosyncconfv1)                                  | [trento-project/agent/../gatherers/corosyncconf.go](https://github.com/trento-project/agent/blob/main/internal/factsengine/gatherers/corosyncconf.go)                               |
+| [`corosync-cmapctl@v1`](#corosync-cmapctlv1)                           | [trento-project/agent/../gatherers/corosynccmapctl.go](https://github.com/trento-project/agent/blob/main/internal/factsengine/gatherers/corosynccmapctl.go)                         |
+| [`dir_scan@v1`](#dir_scanv1)                                           | [trento-project/agent/../gatherers/dir_scan.go](https://github.com/trento-project/agent/blob/main/internal/factsengine/gatherers/dir_scan.go)                                       |
+| [`fstab@v1`](#fstabv1)                                                 | [trento-project/agent/../gatherers/fstab.go](https://github.com/trento-project/agent/blob/main/internal/factsengine/gatherers/fstab.go)                                             |
+| [`groups@v1`](#groupsv1)                                               | [trento-project/agent/../gatherers/groups.go](https://github.com/trento-project/agent/blob/main/internal/factsengine/gatherers/groups.go)                                           |
+| [`hosts@v1`](#hostsv1)                                                 | [trento-project/agent/../gatherers/hostsfile.go](https://github.com/trento-project/agent/blob/main/internal/factsengine/gatherers/hostsfile.go)                                     |
+| [`package_version@v1`](#package_versionv1)                             | [trento-project/agent/../gatherers/packageversion.go](https://github.com/trento-project/agent/blob/main/internal/factsengine/gatherers/packageversion.go)                           |
+| [`passwd@v1`](#passwdv1)                                               | [trento-project/agent/../gatherers/passwd.go](https://github.com/trento-project/agent/blob/main/internal/factsengine/gatherers/passwd.go)                                           |
+| [`sapcontrol@v1`](#sapcontrolv1)                                       | [trento-project/agent/../gatherers/sapcontrol.go](https://github.com/trento-project/agent/blob/main/internal/factsengine/gatherers/sapcontrol.go)                                   |
+| [`saphostctrl@v1`](#saphostctrlv1)                                     | [trento-project/agent/../gatherers/saphostctrl.go](https://github.com/trento-project/agent/blob/main/internal/factsengine/gatherers/saphostctrl.go)                                 |
+| [`sap_profiles@v1`](#sap_profilesv1)                                   | [trento-project/agent/../gatherers/sapprofiles.go](https://github.com/trento-project/agent/blob/main/internal/factsengine/gatherers/sapprofiles.go)                                 |
+| [`sapinstance_hostname_resolver@v1`](#sapinstance_hostname_resolverv1) | [trento-project/agent/../gatherers/sapinstancehostnameresolver.go](https://github.com/trento-project/agent/blob/main/internal/factsengine/gatherers/sapinstancehostnameresolver.go) |
+| [`saptune@v1`](#saptunev1)                                             | [trento-project/agent/../gatherers/saptune.go](https://github.com/trento-project/agent/blob/main/internal/factsengine/gatherers/saptune.go)                                         |
+| [`sbd_config@v1`](#sbd_configv1)                                       | [trento-project/agent/../gatherers/sbd.go](https://github.com/trento-project/agent/blob/main/internal/factsengine/gatherers/sbd.go)                                                 |
+| [`sbd_dump@v1`](#sbd_dumpv1)                                           | [trento-project/agent/../gatherers/sbddump.go](https://github.com/trento-project/agent/blob/main/internal/factsengine/gatherers/sbddump.go)                                         |
+| [`sysctl@v1`](#sysctlv1)                                               | [trento-project/agent/../gatherers/sysctl.go](https://github.com/trento-project/agent/blob/main/internal/factsengine/gatherers/sysctl.go)                                           |
+| [`systemd@v1`](#systemdv1)                                             | [trento-project/agent/../gatherers/systemd.go](https://github.com/trento-project/agent/blob/main/internal/factsengine/gatherers/systemd.go)                                         |
+| [`systemd@v2`](#systemdv2)                                             | [trento-project/agent/../gatherers/systemd_v2.go](https://github.com/trento-project/agent/blob/main/internal/factsengine/gatherers/systemd_v2.go)                                   |
+| [`verify_password@v1`](#verify_passwordv1)                             | [trento-project/agent/../gatherers/verifypassword.go](https://github.com/trento-project/agent/blob/main/internal/factsengine/gatherers/verifypassword.go)                           |
 
 <span id="cibadminv1"></span>
 
@@ -827,6 +828,110 @@ Example output (in Rhai):
         "system": "PRD"
     }
 ];
+```
+
+<span id="sapinstance_hostname_resolverv1"></span>
+
+### sapinstance_hostname_resolver@v1
+
+**Argument required**: no.
+
+This gatherer uses the filesystem to search for sap systems using the discovered profile file names to get the virtual hostnames associated to each
+instance of the sap system. It will then attempt to resolve those hostnames to confirm that they are resolvable and afterwards it will attempt a ping
+to those hostnames. Keep in mind that ping could be disallowed through firewall rules so it should only be used for networks in which we know this is
+not true.
+
+Example specification:
+
+```yaml
+facts:
+  - name: resolvability_check
+    gatherer: sapinstance_hostname_resolver
+```
+
+Example output (in Rhai):
+
+```ts
+#{
+  "QAS": [
+    #{
+      "addresses": [
+        "1.1.1.82"
+      ],
+      "hostname": "sapqasas",
+      "instance_name": "ASCS00",
+      "reachability": true
+    },
+    #{
+      "addresses": (),
+      "hostname": "sapwaser",
+      "instance_name": "ERS00",
+      "reachability": false
+    }
+  ],
+  "NWP": [
+    #{
+      "addresses": [
+        "2.1.1.82"
+      ],
+      "hostname": "sapnwpas",
+      "instance_name": "ASCS00",
+      "reachability": true
+    }
+  ]
+}
+```
+
+### sapinstance_hostname_resolver
+
+**Argument required**: no.
+
+This gatherer uses the filesystem to search for SAP systems using the discovered profile file names to get the virtual hostnames associated to each
+instance of the sap system. It then attempts to resolve those hostnames to confirm that they are resolvable and afterwards it will attempt a ping
+to those hostnames. Keep in mind that ping could be disallowed through firewall rules so it should only be used for networks in which we know this is
+not true.
+
+Example specification:
+
+```yaml
+facts:
+  - name: resolvability_check
+    gatherer: sapinstance_hostname_resolver
+```
+
+Example output (in Rhai):
+
+```ts
+
+// 2 resolvable & 1 non-resolvable hosts
+#{
+  "NWP": [
+    #{
+      "addresses": [
+        "2.1.1.82"
+      ],
+      "hostname": "sapnwpas",
+      "instance_name": "ASCS00",
+      "reachability": true
+    }
+  ],
+  "QAS": [
+    #{
+      "addresses": [
+        "1.1.1.82"
+      ],
+      "hostname": "sapqasas",
+      "instance_name": "ASCS00",
+      "reachability": true
+    },
+    #{
+      "addresses": (),
+      "hostname": "sapwaser",
+      "instance_name": "ERS00",
+      "reachability": false
+    }
+  ]
+}
 ```
 
 <span id="sap_profilesv1"></span>
