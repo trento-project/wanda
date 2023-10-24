@@ -82,15 +82,15 @@ Example specification:
 ```yaml
 facts:
   - name: cib_configuration
-    gatherer: cibadmin
+    gatherer: cibadmin@v1
     argument: cib.configuration
 
   - name: first_primitive
-    gatherer: cibadmin
+    gatherer: cibadmin@v1
     argument: cib.configuration.resources.primitive.0
 
   - name: first_cluster_property_set_second_nvpair
-    gatherer: cibadmin
+    gatherer: cibadmin@v1
     argument: cib.configuration.crm_config.cluster_property_set.0.nvpair.1
 ```
 
@@ -142,23 +142,23 @@ Example specification:
 ```yaml
 facts:
   - name: corosync_token_timeout
-    gatherer: corosync.conf
+    gatherer: corosync.conf@v1
     argument: totem.token
 
   - name: corosync_join
-    gatherer: corosync.conf
+    gatherer: corosync.conf@v1
     argument: totem.join
 
   - name: corosync_node_id_0
-    gatherer: corosync.conf
+    gatherer: corosync.conf@v1
     argument: nodelist.node.0.nodeid
 
   - name: corosync_node_id_1
-    gatherer: corosync.conf
+    gatherer: corosync.conf@v1
     argument: nodelist.node.1.nodeid
 
   - name: corosync_nodes
-    gatherer: corosync.conf
+    gatherer: corosync.conf@v1
     argument: nodelist.node
 ```
 
@@ -208,31 +208,31 @@ Example specification:
 ```yaml
 facts:
   - name: totem_token
-    gatherer: corosync-cmapctl
+    gatherer: corosync-cmapctl@v1
     argument: totem.token
 
   - name: runtime_totem_token
-    gatherer: corosync-cmapctl
+    gatherer: corosync-cmapctl@v1
     argument: runtime.config.totem.token
 
   - name: totem_transport
-    gatherer: corosync-cmapctl
+    gatherer: corosync-cmapctl@v1
     argument: totem.transport
 
   - name: totem_max_messages
-    gatherer: corosync-cmapctl
+    gatherer: corosync-cmapctl@v1
     argument: runtime.config.totem.max_messages
 
   - name: node_0_ring0addr
-    gatherer: corosync-cmapctl
+    gatherer: corosync-cmapctl@v1
     argument: nodelist.node.0.ring0_addr
 
   - name: node_list
-    gatherer: corosync-cmapctl
+    gatherer: corosync-cmapctl@v1
     argument: nodelist.node
 
   - name: second_node
-    gatherer: corosync-cmapctl
+    gatherer: corosync-cmapctl@v1
     argument: nodelist.node.1
 ```
 
@@ -289,7 +289,7 @@ Example specification:
 ```yaml
 facts:
   - name: dir_scan
-    gatherer: dir_scan
+    gatherer: dir_scan@v1
     argument: "/usr/sap/[A-Z][A-Z0-9][A-Z0-9]/ERS[0-9][0-9]"
 ```
 
@@ -329,7 +329,7 @@ Example specification:
 ```yaml
 facts:
   - name: dispwork
-    gatherer: disp+work
+    gatherer: disp+work@v1
 ```
 
 Example output (in Rhai):
@@ -368,7 +368,7 @@ Example specification:
 ```yaml
 facts:
   - name: fstab
-    gatherer: fstab
+    gatherer: fstab@v1
 ```
 
 Example output (in Rhai):
@@ -408,7 +408,7 @@ Example specification:
 ```yaml
 facts:
   - name: groups
-    gatherer: groups
+    gatherer: groups@v1
 ```
 
 Example output (in Rhai):
@@ -456,15 +456,15 @@ Example specification:
 ```yaml
 facts:
   - name: hosts_node1
-    gatherer: hosts
+    gatherer: hosts@v1
     argument: node1
 
   - name: hosts_node2
-    gatherer: hosts
+    gatherer: hosts@v1
     argument: node2
 
   - name: hosts_all
-    gatherer: hosts
+    gatherer: hosts@v1
 ```
 
 Example output (in Rhai):
@@ -523,15 +523,15 @@ the values to compare against:
 ```yaml
 facts:
   - name: compare_package_corosync
-    gatherer: package_version
+    gatherer: package_version@v1
     argument: corosync,2.4.5
 
   - name: package_corosync
-    gatherer: package_version
+    gatherer: package_version@v1
     argument: corosync
 
   - name: package_sbd
-    gatherer: package_version
+    gatherer: package_version@v1
     argument: sbd
 
 values:
@@ -567,19 +567,19 @@ Example specification:
 ```yaml
 facts:
   - name: package_corosync
-    gatherer: package_version
+    gatherer: package_version@v1
     argument: corosync
 
   - name: package_pacemaker
-    gatherer: package_version
+    gatherer: package_version@v1
     argument: pacemaker
 
   - name: multiple_sbd_versions_installed
-    gatherer: package_version
+    gatherer: package_version@v1
     argument: sbd
 
   - name: compare_package_corosync
-    gatherer: package_version
+    gatherer: package_version@v1
     argument: corosync,2.4.5
 
   ...
@@ -629,7 +629,7 @@ Example specification:
 ```yaml
 facts:
   - name: passwd
-    gatherer: passwd
+    gatherer: passwd@v1
 ```
 
 Example output (in Rhai):
@@ -687,11 +687,11 @@ Example specification:
 ```yaml
 facts:
   - name: processes
-    gatherer: sapcontrol
+    gatherer: sapcontrol@v1
     argument: GetProcessList
 
   - name: instances
-    gatherer: sapcontrol
+    gatherer: sapcontrol@v1
     argument: GetSystemInstanceList
 ```
 
@@ -849,11 +849,11 @@ Example specification:
 ```yaml
 facts:
   - name: ping
-    gatherer: saphostctrl
+    gatherer: saphostctrl@v1
     argument: Ping
 
   - name: list_instances
-    gatherer: saphostctrl
+    gatherer: saphostctrl@v1
     argument: ListInstances
 ```
 
@@ -892,7 +892,7 @@ Example specification:
 ```yaml
 facts:
   - name: resolvability_check
-    gatherer: sapinstance_hostname_resolver
+    gatherer: sapinstance_hostname_resolver@v1
 ```
 
 Example output (in Rhai):
@@ -944,7 +944,7 @@ Example specification:
 ```yaml
 facts:
   - name: sap_profiles
-    gatherer: sap_profiles
+    gatherer: sap_profiles@v1
 ```
 
 Example output (in Rhai):
@@ -1020,7 +1020,7 @@ Example specification:
 ```yaml
 facts:
   - name: status
-    gatherer: saptune
+    gatherer: saptune@v1
     argument: status
 ```
 
@@ -1099,15 +1099,15 @@ Example specification:
 ```yaml
 facts:
   - name: sbd_pacemaker
-    gatherer: sbd_config
+    gatherer: sbd_config@v1
     argument: SBD_PACEMAKER
 
   - name: sbd_startmode
-    gatherer: sbd_config
+    gatherer: sbd_config@v1
     argument: SBD_STARTMODE
 
   - name: sbd_device
-    gatherer: sbd_config
+    gatherer: sbd_config@v1
     argument: SBD_DEVICE
 ```
 
@@ -1146,7 +1146,7 @@ Example specification:
 ```yaml
 facts:
   - name: sbd_devices_dump
-    gatherer: sbd_dump
+    gatherer: sbd_dump@v1
 ```
 
 Example output (in Rhai):
@@ -1187,7 +1187,7 @@ Example arguments:
 ```yaml
 facts:
   - name: vm_swappiness
-    gatherer: sysctl
+    gatherer: sysctl@v1
     argument: vm.swappiness
 
   - name: debug
@@ -1226,11 +1226,11 @@ Example arguments:
 ```yaml
 facts:
   - name: sbd_state
-    gatherer: systemd
+    gatherer: systemd@v1
     argument: sbd
 
   - name: corosync_state
-    gatherer: systemd
+    gatherer: systemd@v1
     argument: corosync
 ```
 
@@ -1316,7 +1316,7 @@ Specification examples:
 ```yaml
 facts:
   - name: hacluster_has_default_password
-    gatherer: verify_password
+    gatherer: verify_password@v1
     argument: hacluster
 ```
 
