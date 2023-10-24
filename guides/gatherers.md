@@ -310,7 +310,7 @@ Example output (in Rhai):
   ]
 ```
 
-<span id="dispworkv1"></span
+<span id="dispworkv1"></span>
 
 ### disp+work@v1
 
