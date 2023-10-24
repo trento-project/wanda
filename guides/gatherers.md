@@ -352,7 +352,7 @@ Example output (in Rhai):
     "kernel_release": "753",
     "patch_number": "910"
   }
-} 
+}
 ```
 
 <span id="fstabv1"></span>
@@ -882,58 +882,8 @@ Example output (in Rhai):
 
 **Argument required**: no.
 
-This gatherer uses the filesystem to search for sap systems using the discovered profile file names to get the virtual hostnames associated to each
-instance of the sap system. It will then attempt to resolve those hostnames to confirm that they are resolvable and afterwards it will attempt a ping
-to those hostnames. Keep in mind that ping could be disallowed through firewall rules so it should only be used for networks in which we know this is
-not true.
-
-Example specification:
-
-```yaml
-facts:
-  - name: resolvability_check
-    gatherer: sapinstance_hostname_resolver
-```
-
-Example output (in Rhai):
-
-```ts
-#{
-  "QAS": [
-    #{
-      "addresses": [
-        "1.1.1.82"
-      ],
-      "hostname": "sapqasas",
-      "instance_name": "ASCS00",
-      "reachability": true
-    },
-    #{
-      "addresses": (),
-      "hostname": "sapwaser",
-      "instance_name": "ERS00",
-      "reachability": false
-    }
-  ],
-  "NWP": [
-    #{
-      "addresses": [
-        "2.1.1.82"
-      ],
-      "hostname": "sapnwpas",
-      "instance_name": "ASCS00",
-      "reachability": true
-    }
-  ]
-}
-```
-
-### sapinstance_hostname_resolver
-
-**Argument required**: no.
-
 This gatherer uses the filesystem to search for SAP systems using the discovered profile file names to get the virtual hostnames associated to each
-instance of the sap system. It then attempts to resolve those hostnames to confirm that they are resolvable and afterwards it will attempt a ping
+instance of the sap system. It then attempts to resolve those hostnames to confirm that they are resolvable and afterwards a ping is attempted
 to those hostnames. Keep in mind that ping could be disallowed through firewall rules so it should only be used for networks in which we know this is
 not true.
 
@@ -948,7 +898,6 @@ facts:
 Example output (in Rhai):
 
 ```ts
-
 // 2 resolvable & 1 non-resolvable hosts
 #{
   "NWP": [
