@@ -130,7 +130,7 @@ GUIDES
   </a>
   <span class="text">Introduction</span>
 </h2>
-<p>Gatherers can be thought of as functions:</p><ul><li>they have a name</li><li>they accept argument(s)</li><li>they return a value, the gathered <a href="specification.html#facts">Fact</a></li></ul><p>Facts Gathering process in a nutshell</p><pre><code class="makeup elixir" translate="no"><span class="n">fact</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">gatherer</span><span class="p" data-group-id="6142805394-1">(</span><span class="n">argument</span><span class="p" data-group-id="6142805394-1">)</span></code></pre><h2 id="gatherers-versioning" class="section-heading">
+<p>Gatherers can be thought of as functions:</p><ul><li>they have a name</li><li>they accept argument(s)</li><li>they return a value, the gathered <a href="specification.html#facts">Fact</a></li></ul><p>Facts Gathering process in a nutshell</p><pre><code class="makeup elixir" translate="no"><span class="n">fact</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">gatherer</span><span class="p" data-group-id="3797796379-1">(</span><span class="n">argument</span><span class="p" data-group-id="3797796379-1">)</span></code></pre><h2 id="gatherers-versioning" class="section-heading">
   <a href="#gatherers-versioning" class="hover-link">
     <i class="ri-link-m" aria-hidden="true"></i>
   </a>
@@ -307,150 +307,87 @@ The gatherer returns a list of files matched by the pattern with group/user info
       &quot;owner&quot;: &quot;trento&quot;,
       &quot;group&quot;: &quot;trento&quot;
     },
-  ]</code></pre><span id="dispworkv1"></span
-### disp+work@v1
-
-**Argument required**: No
-
-This gatherer allows access to the `disp+work` command output and returns some fields available there.
-The command is executed for all installed SAP systems, accessing it with the `<sid>adm` user. The fields for
-each system are returned in a map using the SAP sid as key.
-
-If the `disp+work` command execution fails, the fields are returned with an empty string value.
-
-The available fields are `compilation_mode`, `kernel_release` and `patch_number`.
-
-Example specification:
-
-```yaml
-facts:
+  ]</code></pre><span id="dispworkv1"></span><h3 id="disp-work-v1" class="section-heading">
+  <a href="#disp-work-v1" class="hover-link">
+    <i class="ri-link-m" aria-hidden="true"></i>
+  </a>
+  <span class="text">disp+work@v1</span>
+</h3>
+<p><strong>Argument required</strong>: No</p><p>This gatherer allows access to the <code class="inline">disp+work</code> command output and returns some fields available there.
+The command is executed for all installed SAP systems, accessing it with the <code class="inline">&lt;sid&gt;adm</code> user. The fields for
+each system are returned in a map using the SAP sid as key.</p><p>If the <code class="inline">disp+work</code> command execution fails, the fields are returned with an empty string value.</p><p>The available fields are <code class="inline">compilation_mode</code>, <code class="inline">kernel_release</code> and <code class="inline">patch_number</code>.</p><p>Example specification:</p><pre><code class="yaml">facts:
   - name: dispwork
-    gatherer: disp+work
-```
-
-Example output (in Rhai):
-
-```ts
-#{
-  "NWP": #{
-    "compilation_mode": "UNICODE",
-    "kernel_release": "753",
-    "patch_number": "900"
+    gatherer: disp+work</code></pre><p>Example output (in Rhai):</p><pre><code class="ts">#{
+  &quot;NWP&quot;: #{
+    &quot;compilation_mode&quot;: &quot;UNICODE&quot;,
+    &quot;kernel_release&quot;: &quot;753&quot;,
+    &quot;patch_number&quot;: &quot;900&quot;
   },
   // failed execution
-  "NWQ": #{
-    "compilation_mode": "",
-    "kernel_release": "",
-    "patch_number": ""
+  &quot;NWQ&quot;: #{
+    &quot;compilation_mode&quot;: &quot;&quot;,
+    &quot;kernel_release&quot;: &quot;&quot;,
+    &quot;patch_number&quot;: &quot;&quot;
   },
-  "NWD": #{
-    "compilation_mode": "UNICODE",
-    "kernel_release": "753",
-    "patch_number": "910"
+  &quot;NWD&quot;: #{
+    &quot;compilation_mode&quot;: &quot;UNICODE&quot;,
+    &quot;kernel_release&quot;: &quot;753&quot;,
+    &quot;patch_number&quot;: &quot;910&quot;
   }
-} 
-```
-
-<span id="fstabv1"></span>
-
-### fstab@v1
-
-**Argument required**: no.
-
-This gatherer allows access to the /etc/fstab file, returning all entries available at the file.
-
-Example specification:
-
-```yaml
-facts:
+} </code></pre><span id="fstabv1"></span><h3 id="fstab-v1" class="section-heading">
+  <a href="#fstab-v1" class="hover-link">
+    <i class="ri-link-m" aria-hidden="true"></i>
+  </a>
+  <span class="text">fstab@v1</span>
+</h3>
+<p><strong>Argument required</strong>: no.</p><p>This gatherer allows access to the /etc/fstab file, returning all entries available at the file.</p><p>Example specification:</p><pre><code class="yaml">facts:
   - name: fstab
-    gatherer: fstab
-```
-
-Example output (in Rhai):
-
-```ts
-[
+    gatherer: fstab</code></pre><p>Example output (in Rhai):</p><pre><code class="ts">[
     #{
-        "device": "/dev/system/root",
-        "mount_point": "/",
-        "file_system_type": "btrfs",
-        "options": [],
-        "backup": 0,
-        "check_order": 1,
+        &quot;device&quot;: &quot;/dev/system/root&quot;,
+        &quot;mount_point&quot;: &quot;/&quot;,
+        &quot;file_system_type&quot;: &quot;btrfs&quot;,
+        &quot;options&quot;: [],
+        &quot;backup&quot;: 0,
+        &quot;check_order&quot;: 1,
     },
     #{
-        "device": "/dev/system/root",
-        "mount_point": "/home",
-        "file_system_type": "ext4",
-        "options": ["defaults"],
-        "backup": 0,
-        "check_order": 1,
+        &quot;device&quot;: &quot;/dev/system/root&quot;,
+        &quot;mount_point&quot;: &quot;/home&quot;,
+        &quot;file_system_type&quot;: &quot;ext4&quot;,
+        &quot;options&quot;: [&quot;defaults&quot;],
+        &quot;backup&quot;: 0,
+        &quot;check_order&quot;: 1,
     },
   ...
-];
-```
-
-<span id="groupsv1"></span>
-
-### groups@v1
-
-**Argument required**: no.
-
-This gatherer allows access to the /etc/group file, returning all entries available at the file.
-
-Example specification:
-
-```yaml
-facts:
+];</code></pre><span id="groupsv1"></span><h3 id="groups-v1" class="section-heading">
+  <a href="#groups-v1" class="hover-link">
+    <i class="ri-link-m" aria-hidden="true"></i>
+  </a>
+  <span class="text">groups@v1</span>
+</h3>
+<p><strong>Argument required</strong>: no.</p><p>This gatherer allows access to the /etc/group file, returning all entries available at the file.</p><p>Example specification:</p><pre><code class="yaml">facts:
   - name: groups
-    gatherer: groups
-```
-
-Example output (in Rhai):
-
-```ts
-[
+    gatherer: groups</code></pre><p>Example output (in Rhai):</p><pre><code class="ts">[
     #{
-        "name": "root",
-        "gid": 0,
-        "users": [],
+        &quot;name&quot;: &quot;root&quot;,
+        &quot;gid&quot;: 0,
+        &quot;users&quot;: [],
     },
     #{
-        "name": "adm",
-        "gid": 1,
-        "users": ["trento"],
+        &quot;name&quot;: &quot;adm&quot;,
+        &quot;gid&quot;: 1,
+        &quot;users&quot;: [&quot;trento&quot;],
     }
   ...
-];
-```
-
-<span id="hostsv1"></span>
-
-### hosts@v1
-
-**Argument required**: no.
-
-This gatherer allows accessing the hostnames that are resolvable through `/etc/hosts`. It
-does **not** use domain resolution in any way but instead directly parses the file.
-
-It allows one argument to be specified or none at all:
-
-- When a hostname is provided as an argument, the gatherer will return an array of IPv4 and/or IPv6 addresses.
-- When no argument is provided, the gatherer will return a map with hostname as keys and arrays with IPv4 and/or IPv6 addresses.
-
-Example arguments:
-
-| Name                   | Return value                        |
-| :--------------------- | :---------------------------------- |
-| `localhost`            | list of IPs resolving               |
-| `node1`                | list of IPs resolving               |
-| `no argument provided` | map with hostnames and IP addresses |
-
-Example specification:
-
-```yaml
-facts:
+];</code></pre><span id="hostsv1"></span><h3 id="hosts-v1" class="section-heading">
+  <a href="#hosts-v1" class="hover-link">
+    <i class="ri-link-m" aria-hidden="true"></i>
+  </a>
+  <span class="text">hosts@v1</span>
+</h3>
+<p><strong>Argument required</strong>: no.</p><p>This gatherer allows accessing the hostnames that are resolvable through <code class="inline">/etc/hosts</code>. It
+does <strong>not</strong> use domain resolution in any way but instead directly parses the file.</p><p>It allows one argument to be specified or none at all:</p><ul><li>When a hostname is provided as an argument, the gatherer will return an array of IPv4 and/or IPv6 addresses.</li><li>When no argument is provided, the gatherer will return a map with hostname as keys and arrays with IPv4 and/or IPv6 addresses.</li></ul><p>Example arguments:</p><table><thead><tr><th style="text-align: left;">Name</th><th style="text-align: left;">Return value</th></tr></thead><tbody><tr><td style="text-align: left;"><code class="inline">localhost</code></td><td style="text-align: left;">list of IPs resolving</td></tr><tr><td style="text-align: left;"><code class="inline">node1</code></td><td style="text-align: left;">list of IPs resolving</td></tr><tr><td style="text-align: left;"><code class="inline">no argument provided</code></td><td style="text-align: left;">map with hostnames and IP addresses</td></tr></tbody></table><p>Example specification:</p><pre><code class="yaml">facts:
   - name: hosts_node1
     gatherer: hosts
     argument: node1
@@ -460,64 +397,27 @@ facts:
     argument: node2
 
   - name: hosts_all
-    gatherer: hosts
-```
-
-Example output (in Rhai):
-
-```ts
-// hosts_node1
-["127.0.0.1", "::1"];
+    gatherer: hosts</code></pre><p>Example output (in Rhai):</p><pre><code class="ts">// hosts_node1
+[&quot;127.0.0.1&quot;, &quot;::1&quot;];
 
 // hosts_node2
-["192.168.157.11"];
+[&quot;192.168.157.11&quot;];
 
 // hosts_all
 #{
-  "localhost": ["127.0.0.1", "::1"],
-  "node1": ["192.168.157.10"],
-  "node2": ["192.168.157.11"],
+  &quot;localhost&quot;: [&quot;127.0.0.1&quot;, &quot;::1&quot;],
+  &quot;node1&quot;: [&quot;192.168.157.10&quot;],
+  &quot;node2&quot;: [&quot;192.168.157.11&quot;],
   ...
-};
-```
-
-<span id="package_versionv1"></span>
-
-### package_version@v1
-
-**Argument required**: yes.
-
-This gatherer supports two usecases:
-
-- get information about the installed versions of the specified package.
-- compare a given version string against the latest installed version of a given package.
-
-In the first usecase a list of objects is returned, where each object carries relevant information about an installed version of a package.
-
-> Note:
->
-> - a list of one element is often expected since usually the installed version would be only one
-> - detected installed versions list is ordered by descending installation time: **latest installed versions come first**
-> - operating on the latest installed version requires accessing the first element in the list via `package_fact_name[0]` or `package_fact_name.first()`
-
-In the second usecase, the return value is as follows (see additional details [here](https://fedoraproject.org/wiki/Archive:Tools/RPM/VersionComparison#The_rpmvercmp_algorithm)):
-
-- A value of `0` if the provided version string matches the installed package version for the requested package.
-- A value of `-1` if the provided version string is older that what's currently installed.
-- A value of `1` if the provided version string is newer than what's currently installed.
-
-> The latest detected installed version is used for comparison
-
-Naming the facts / expectations accordingly is specially important here to avoid confusion.
-
-- We suggest using a `compare_` prefix for package version comparisons and `package_` to retrieve
-  a package version
-
-Additionally, when using the version comparison, it increases readability to explicitly mention
-the values to compare against:
-
-```yaml
-facts:
+};</code></pre><span id="package_versionv1"></span><h3 id="package_version-v1" class="section-heading">
+  <a href="#package_version-v1" class="hover-link">
+    <i class="ri-link-m" aria-hidden="true"></i>
+  </a>
+  <span class="text">package_version@v1</span>
+</h3>
+<p><strong>Argument required</strong>: yes.</p><p>This gatherer supports two usecases:</p><ul><li>get information about the installed versions of the specified package.</li><li>compare a given version string against the latest installed version of a given package.</li></ul><p>In the first usecase a list of objects is returned, where each object carries relevant information about an installed version of a package.</p><blockquote><p>Note:</p><ul><li>a list of one element is often expected since usually the installed version would be only one</li><li>detected installed versions list is ordered by descending installation time: <strong>latest installed versions come first</strong></li><li>operating on the latest installed version requires accessing the first element in the list via <code class="inline">package_fact_name[0]</code> or <code class="inline">package_fact_name.first()</code></li></ul></blockquote><p>In the second usecase, the return value is as follows (see additional details <a href="https://fedoraproject.org/wiki/Archive:Tools/RPM/VersionComparison#The_rpmvercmp_algorithm">here</a>):</p><ul><li>A value of <code class="inline">0</code> if the provided version string matches the installed package version for the requested package.</li><li>A value of <code class="inline">-1</code> if the provided version string is older that what's currently installed.</li><li>A value of <code class="inline">1</code> if the provided version string is newer than what's currently installed.</li></ul><blockquote><p>The latest detected installed version is used for comparison</p></blockquote><p>Naming the facts / expectations accordingly is specially important here to avoid confusion.</p><ul><li>We suggest using a <code class="inline">compare_</code> prefix for package version comparisons and <code class="inline">package_</code> to retrieve
+a package version</li></ul><p>Additionally, when using the version comparison, it increases readability to explicitly mention
+the values to compare against:</p><pre><code class="yaml">facts:
   - name: compare_package_corosync
     gatherer: package_version
     argument: corosync,2.4.5
@@ -538,7 +438,7 @@ values:
   - name: same_as_installed
     default: 0
   - name: expected_corosync_version
-    default: "2.4.5"
+    default: &quot;2.4.5&quot;
 
 expectations:
   - name: compare_package_corosync
@@ -548,20 +448,7 @@ expectations:
     expect: facts.package_corosync.first().version == values.expected_corosync_version
 
   - name: sbd_version_same_on_all_hosts
-    expect_same: facts.package_sbd.first().version
-```
-
-Example arguments:
-
-| Name                 | Return value                                                                  |
-| :------------------- | :---------------------------------------------------------------------------- |
-| `package_name`       | a list containing information about the installed versions of the rpm package |
-| `package_name,2.4.5` | an integer with a value of `-1`, `0` or `1` (see above)                       |
-
-Example specification:
-
-```yaml
-facts:
+    expect_same: facts.package_sbd.first().version</code></pre><p>Example arguments:</p><table><thead><tr><th style="text-align: left;">Name</th><th style="text-align: left;">Return value</th></tr></thead><tbody><tr><td style="text-align: left;"><code class="inline">package_name</code></td><td style="text-align: left;">a list containing information about the installed versions of the rpm package</td></tr><tr><td style="text-align: left;"><code class="inline">package_name,2.4.5</code></td><td style="text-align: left;">an integer with a value of <code class="inline">-1</code>, <code class="inline">0</code> or <code class="inline">1</code> (see above)</td></tr></tbody></table><p>Example specification:</p><pre><code class="yaml">facts:
   - name: package_corosync
     gatherer: package_version
     argument: corosync
@@ -578,137 +465,93 @@ facts:
     gatherer: package_version
     argument: corosync,2.4.5
 
-  ...
-```
-
-Example output (in Rhai):
-
-```ts
-// package_corosync
+  ...</code></pre><p>Example output (in Rhai):</p><pre><code class="ts">// package_corosync
 [
   #{
-    "version": "2.4.5"
+    &quot;version&quot;: &quot;2.4.5&quot;
   }
 ]
 
 // package_pacemaker
 [
   #{
-    "version": "2.0.4+20200616.2deceaa3a"
+    &quot;version&quot;: &quot;2.0.4+20200616.2deceaa3a&quot;
   }
 ]
 
 // multiple_sbd_versions_installed
 [
   #{
-    "version": "1.5.1" // latest installed version, not necessarily the newest one
+    &quot;version&quot;: &quot;1.5.1&quot; // latest installed version, not necessarily the newest one
   },
   #{
-    "version": "1.5.2"
+    &quot;version&quot;: &quot;1.5.2&quot;
   }
 ]
 
 // compare_package_corosync
-0
-```
-
-<span id="passwdv1"></span>
-
-### passwd@v1
-
-**Argument required**: no.
-
-This gatherer allows access to the /etc/passwd file, returning all entries available at the file.
-
-Example specification:
-
-```yaml
-facts:
+0</code></pre><span id="passwdv1"></span><h3 id="passwd-v1" class="section-heading">
+  <a href="#passwd-v1" class="hover-link">
+    <i class="ri-link-m" aria-hidden="true"></i>
+  </a>
+  <span class="text">passwd@v1</span>
+</h3>
+<p><strong>Argument required</strong>: no.</p><p>This gatherer allows access to the /etc/passwd file, returning all entries available at the file.</p><p>Example specification:</p><pre><code class="yaml">facts:
   - name: passwd
-    gatherer: passwd
-```
-
-Example output (in Rhai):
-
-```ts
-[
+    gatherer: passwd</code></pre><p>Example output (in Rhai):</p><pre><code class="ts">[
     #{
-        "description": "bin",
-        "gid": 1,
-        "home": "/bin",
-        "shell": "/sbin/nologin",
-        "uid": 1,
-        "user": "bin"
+        &quot;description&quot;: &quot;bin&quot;,
+        &quot;gid&quot;: 1,
+        &quot;home&quot;: &quot;/bin&quot;,
+        &quot;shell&quot;: &quot;/sbin/nologin&quot;,
+        &quot;uid&quot;: 1,
+        &quot;user&quot;: &quot;bin&quot;
     },
     #{
-        "description": "Chrony Daemon",
-        "gid": 475,
-        "home": "/var/lib/chrony",
-        "shell": "/bin/false",
-        "uid": 474,
-        "user": "chrony"
+        &quot;description&quot;: &quot;Chrony Daemon&quot;,
+        &quot;gid&quot;: 475,
+        &quot;home&quot;: &quot;/var/lib/chrony&quot;,
+        &quot;shell&quot;: &quot;/bin/false&quot;,
+        &quot;uid&quot;: 474,
+        &quot;user&quot;: &quot;chrony&quot;
     },
     #{
-        "description": "Daemon",
-        "gid": 2,
-        "home": "/sbin",
-        "shell": "/sbin/nologin",
-        "uid": 2,
-        "user": "daemon"
+        &quot;description&quot;: &quot;Daemon&quot;,
+        &quot;gid&quot;: 2,
+        &quot;home&quot;: &quot;/sbin&quot;,
+        &quot;shell&quot;: &quot;/sbin/nologin&quot;,
+        &quot;uid&quot;: 2,
+        &quot;user&quot;: &quot;daemon&quot;
     },
   ...
-];
-```
-
-<span id="sapcontrolv1"></span>
-
-### sapcontrol@v1
-
-**Argument required**: yes.
-
-This gatherer allows access to certain webmethods that `sapcontrol` implements. An argument is required to specify which webmethod should be called. The communication with `sapcontrol` is created opening a unix socket connection using the file `/tmp/.sapstream5xx13`. The [Sapcontrol Web Service Interface](https://www.sap.com/documents/2016/09/0a40e60d-8b7c-0010-82c7-eda71af511fa.html) documents the SOAP API interface, including all the possible values each of the fields could have, specifically helpful for enumerators like `dispstatus` in `GetProcessList` and `state/category` in `HACheckConfig` webmethod.
-
-The return value is grouped by discovered SIDs, which include the list of command outputs for each instance in this system.
-
-Supported webmethods:
-
-- `GetProcessList`
-- `GetSystemInstanceList`
-- `GetVersionInfo`
-- `HACheckConfig`
-- `HAGetFailoverConfig`
-
-Example specification:
-
-```yaml
-facts:
+];</code></pre><span id="sapcontrolv1"></span><h3 id="sapcontrol-v1" class="section-heading">
+  <a href="#sapcontrol-v1" class="hover-link">
+    <i class="ri-link-m" aria-hidden="true"></i>
+  </a>
+  <span class="text">sapcontrol@v1</span>
+</h3>
+<p><strong>Argument required</strong>: yes.</p><p>This gatherer allows access to certain webmethods that <code class="inline">sapcontrol</code> implements. An argument is required to specify which webmethod should be called. The communication with <code class="inline">sapcontrol</code> is created opening a unix socket connection using the file <code class="inline">/tmp/.sapstream5xx13</code>. The <a href="https://www.sap.com/documents/2016/09/0a40e60d-8b7c-0010-82c7-eda71af511fa.html">Sapcontrol Web Service Interface</a> documents the SOAP API interface, including all the possible values each of the fields could have, specifically helpful for enumerators like <code class="inline">dispstatus</code> in <code class="inline">GetProcessList</code> and <code class="inline">state/category</code> in <code class="inline">HACheckConfig</code> webmethod.</p><p>The return value is grouped by discovered SIDs, which include the list of command outputs for each instance in this system.</p><p>Supported webmethods:</p><ul><li><code class="inline">GetProcessList</code></li><li><code class="inline">GetSystemInstanceList</code></li><li><code class="inline">GetVersionInfo</code></li><li><code class="inline">HACheckConfig</code></li><li><code class="inline">HAGetFailoverConfig</code></li></ul><p>Example specification:</p><pre><code class="yaml">facts:
   - name: processes
     gatherer: sapcontrol
     argument: GetProcessList
 
   - name: instances
     gatherer: sapcontrol
-    argument: GetSystemInstanceList
-```
-
-Example output (in Rhai):
-
-```ts
-// GetProcessList
+    argument: GetSystemInstanceList</code></pre><p>Example output (in Rhai):</p><pre><code class="ts">// GetProcessList
 #{
-  "NWP": [
+  &quot;NWP&quot;: [
     #{
-      "instance_nr": "10",
-      "name": "ERS10",
-      "output": [
+      &quot;instance_nr&quot;: &quot;10&quot;,
+      &quot;name&quot;: &quot;ERS10&quot;,
+      &quot;output&quot;: [
         #{
-          "description": "EnqueueReplicator",
-          "dispstatus": "SAPControl-GREEN",
-          "elapsedtime": "266:08:15",
-          "name": "enrepserver",
-          "pid": 7221,
-          "starttime": "2023 09 29 09:41:41",
-          "textstatus": "Running"
+          &quot;description&quot;: &quot;EnqueueReplicator&quot;,
+          &quot;dispstatus&quot;: &quot;SAPControl-GREEN&quot;,
+          &quot;elapsedtime&quot;: &quot;266:08:15&quot;,
+          &quot;name&quot;: &quot;enrepserver&quot;,
+          &quot;pid&quot;: 7221,
+          &quot;starttime&quot;: &quot;2023 09 29 09:41:41&quot;,
+          &quot;textstatus&quot;: &quot;Running&quot;
         }
       ]
     }
@@ -717,28 +560,28 @@ Example output (in Rhai):
 
 // GetSystemInstanceList
 #{
-  "NWP": [
+  &quot;NWP&quot;: [
     #{
-      "instance_nr": "10",
-      "name": "ERS10",
-      "output": [
+      &quot;instance_nr&quot;: &quot;10&quot;,
+      &quot;name&quot;: &quot;ERS10&quot;,
+      &quot;output&quot;: [
         #{
-          "dispstatus": "SAPControl-GREEN",
-          "features": "MESSAGESERVER|ENQUE",
-          "hostname": "sapnwpas",
-          "http_port": 50013,
-          "https_port": 50014,
-          "instance_nr": 0,
-          "start_priority": "1"
+          &quot;dispstatus&quot;: &quot;SAPControl-GREEN&quot;,
+          &quot;features&quot;: &quot;MESSAGESERVER|ENQUE&quot;,
+          &quot;hostname&quot;: &quot;sapnwpas&quot;,
+          &quot;http_port&quot;: 50013,
+          &quot;https_port&quot;: 50014,
+          &quot;instance_nr&quot;: 0,
+          &quot;start_priority&quot;: &quot;1&quot;
         },
         #{
-          "dispstatus": "SAPControl-GREEN",
-          "features": "ENQREP",
-          "hostname": "sapnwper",
-          "http_port": 51013,
-          "https_port": 51014,
-          "instance_nr": 10,
-          "start_priority": "0.5"
+          &quot;dispstatus&quot;: &quot;SAPControl-GREEN&quot;,
+          &quot;features&quot;: &quot;ENQREP&quot;,
+          &quot;hostname&quot;: &quot;sapnwper&quot;,
+          &quot;http_port&quot;: 51013,
+          &quot;https_port&quot;: 51014,
+          &quot;instance_nr&quot;: 10,
+          &quot;start_priority&quot;: &quot;0.5&quot;
         },
         ...
       ]
@@ -748,30 +591,30 @@ Example output (in Rhai):
 
 // GetVersionInfo
 #{
-  "NWP": [
+  &quot;NWP&quot;: [
     #{
-      "instance_nr": "10",
-      "name": "ERS10",
-      "output": [
+      &quot;instance_nr&quot;: &quot;10&quot;,
+      &quot;name&quot;: &quot;ERS10&quot;,
+      &quot;output&quot;: [
         #{
-          "architecture": "linuxx86_64",
-          "build": "optU (Oct 16 2021, 00:03:15)",
-          "changelist": "2094654",
-          "filename": "/usr/sap/NWP/ERS10/exe/sapstartsrv",
-          "patch": "900",
-          "rks_compatibility_level": "1",
-          "sap_kernel": "753",
-          "time": "2021 10 15 22:14:31"
+          &quot;architecture&quot;: &quot;linuxx86_64&quot;,
+          &quot;build&quot;: &quot;optU (Oct 16 2021, 00:03:15)&quot;,
+          &quot;changelist&quot;: &quot;2094654&quot;,
+          &quot;filename&quot;: &quot;/usr/sap/NWP/ERS10/exe/sapstartsrv&quot;,
+          &quot;patch&quot;: &quot;900&quot;,
+          &quot;rks_compatibility_level&quot;: &quot;1&quot;,
+          &quot;sap_kernel&quot;: &quot;753&quot;,
+          &quot;time&quot;: &quot;2021 10 15 22:14:31&quot;
         },
         #{
-          "architecture": "linuxx86_64",
-          "build": "optU (Oct 16 2021, 00:03:15)",
-          "changelist": "2094654",
-          "filename": "/usr/sap/NWP/ERS10/exe/gwrd",
-          "patch": "900",
-          "rks_compatibility_level": "1",
-          "sap_kernel": "753",
-          "time": "2021 10 15 22:04:14"
+          &quot;architecture&quot;: &quot;linuxx86_64&quot;,
+          &quot;build&quot;: &quot;optU (Oct 16 2021, 00:03:15)&quot;,
+          &quot;changelist&quot;: &quot;2094654&quot;,
+          &quot;filename&quot;: &quot;/usr/sap/NWP/ERS10/exe/gwrd&quot;,
+          &quot;patch&quot;: &quot;900&quot;,
+          &quot;rks_compatibility_level&quot;: &quot;1&quot;,
+          &quot;sap_kernel&quot;: &quot;753&quot;,
+          &quot;time&quot;: &quot;2021 10 15 22:04:14&quot;
         },
         ...
       ]
@@ -781,22 +624,22 @@ Example output (in Rhai):
 
 // HACheckConfig
 #{
-  "NWP": [
+  &quot;NWP&quot;: [
     #{
-      "instance_nr": "10",
-      "name": "ERS10",
-      "output": [
+      &quot;instance_nr&quot;: &quot;10&quot;,
+      &quot;name&quot;: &quot;ERS10&quot;,
+      &quot;output&quot;: [
         #{
-          "category": "SAPControl-SAP-CONFIGURATION",
-          "comment": "2 ABAP instances detected",
-          "description": "Redundant ABAP instance configuration",
-          "state": "SAPControl-HA-SUCCESS"
+          &quot;category&quot;: &quot;SAPControl-SAP-CONFIGURATION&quot;,
+          &quot;comment&quot;: &quot;2 ABAP instances detected&quot;,
+          &quot;description&quot;: &quot;Redundant ABAP instance configuration&quot;,
+          &quot;state&quot;: &quot;SAPControl-HA-SUCCESS&quot;
         },
         #{
-          "category": "SAPControl-SAP-CONFIGURATION",
-          "comment": "0 Java instances detected",
-          "description": "Redundant Java instance configuration",
-          "state": "SAPControl-HA-SUCCESS"
+          &quot;category&quot;: &quot;SAPControl-SAP-CONFIGURATION&quot;,
+          &quot;comment&quot;: &quot;0 Java instances detected&quot;,
+          &quot;description&quot;: &quot;Redundant Java instance configuration&quot;,
+          &quot;state&quot;: &quot;SAPControl-HA-SUCCESS&quot;
         },
         ...
       ]
@@ -806,345 +649,242 @@ Example output (in Rhai):
 
 //HAGetFailoverConfig
 #{
-  "NWP": [
+  &quot;NWP&quot;: [
     #{
-      "instance_nr": "10",
-      "name": "ERS10",
-      "output": #{
-        "ha_active": false,
-        "ha_active_nodes": "",
-        "ha_documentation": "",
-        "ha_nodes": [],
-        "ha_product_version": "",
-        "ha_sap_interface_version": ""
+      &quot;instance_nr&quot;: &quot;10&quot;,
+      &quot;name&quot;: &quot;ERS10&quot;,
+      &quot;output&quot;: #{
+        &quot;ha_active&quot;: false,
+        &quot;ha_active_nodes&quot;: &quot;&quot;,
+        &quot;ha_documentation&quot;: &quot;&quot;,
+        &quot;ha_nodes&quot;: [],
+        &quot;ha_product_version&quot;: &quot;&quot;,
+        &quot;ha_sap_interface_version&quot;: &quot;&quot;
       }
     }
   ]
 }
-
-```
-
-<span id="saphostctrlv1"></span>
-
-### saphostctrl@v1
-
-**Argument required**: yes.
-
-This gatherer allows access to certain webmethods that `saphostctrl` implements. An argument is required to specify
-which webmethod should be called. This webmethod is passed to the `saphostctrl` command-line tool through the `-function` argument.
-
-Supported webmethods:
-
-- `Ping`
-- `ListInstances`
-
-A `Ping` call with a successful return should look like this:
-
-Example specification:
-
-```yaml
-facts:
+</code></pre><span id="saphostctrlv1"></span><h3 id="saphostctrl-v1" class="section-heading">
+  <a href="#saphostctrl-v1" class="hover-link">
+    <i class="ri-link-m" aria-hidden="true"></i>
+  </a>
+  <span class="text">saphostctrl@v1</span>
+</h3>
+<p><strong>Argument required</strong>: yes.</p><p>This gatherer allows access to certain webmethods that <code class="inline">saphostctrl</code> implements. An argument is required to specify
+which webmethod should be called. This webmethod is passed to the <code class="inline">saphostctrl</code> command-line tool through the <code class="inline">-function</code> argument.</p><p>Supported webmethods:</p><ul><li><code class="inline">Ping</code></li><li><code class="inline">ListInstances</code></li></ul><p>A <code class="inline">Ping</code> call with a successful return should look like this:</p><p>Example specification:</p><pre><code class="yaml">facts:
   - name: ping
     gatherer: saphostctrl
     argument: Ping
 
   - name: list_instances
     gatherer: saphostctrl
-    argument: ListInstances
-```
-
-Example output (in Rhai):
-
-```ts
-// ping
-#{elapsed: 579770.0, status: "SUCCESS"}
+    argument: ListInstances</code></pre><p>Example output (in Rhai):</p><pre><code class="ts">// ping
+#{elapsed: 579770.0, status: &quot;SUCCESS&quot;}
 
 // list_instances
 [
     #{
-        "changelist": 1908545,
-        "hostname": "vmhana01",
-        "instance": "00",
-        "patch": 410,
-        "sapkernel": 753,
-        "system": "PRD"
+        &quot;changelist&quot;: 1908545,
+        &quot;hostname&quot;: &quot;vmhana01&quot;,
+        &quot;instance&quot;: &quot;00&quot;,
+        &quot;patch&quot;: 410,
+        &quot;sapkernel&quot;: 753,
+        &quot;system&quot;: &quot;PRD&quot;
     }
-];
-```
-
-<span id="sapinstance_hostname_resolverv1"></span>
-
-### sapinstance_hostname_resolver@v1
-
-**Argument required**: no.
-
-This gatherer uses the filesystem to search for sap systems using the discovered profile file names to get the virtual hostnames associated to each
+];</code></pre><span id="sapinstance_hostname_resolverv1"></span><h3 id="sapinstance_hostname_resolver-v1" class="section-heading">
+  <a href="#sapinstance_hostname_resolver-v1" class="hover-link">
+    <i class="ri-link-m" aria-hidden="true"></i>
+  </a>
+  <span class="text">sapinstance_hostname_resolver@v1</span>
+</h3>
+<p><strong>Argument required</strong>: no.</p><p>This gatherer uses the filesystem to search for sap systems using the discovered profile file names to get the virtual hostnames associated to each
 instance of the sap system. It will then attempt to resolve those hostnames to confirm that they are resolvable and afterwards it will attempt a ping
 to those hostnames. Keep in mind that ping could be disallowed through firewall rules so it should only be used for networks in which we know this is
-not true.
-
-Example specification:
-
-```yaml
-facts:
+not true.</p><p>Example specification:</p><pre><code class="yaml">facts:
   - name: resolvability_check
-    gatherer: sapinstance_hostname_resolver
-```
-
-Example output (in Rhai):
-
-```ts
-#{
-  "QAS": [
+    gatherer: sapinstance_hostname_resolver</code></pre><p>Example output (in Rhai):</p><pre><code class="ts">#{
+  &quot;QAS&quot;: [
     #{
-      "addresses": [
-        "1.1.1.82"
+      &quot;addresses&quot;: [
+        &quot;1.1.1.82&quot;
       ],
-      "hostname": "sapqasas",
-      "instance_name": "ASCS00",
-      "reachability": true
+      &quot;hostname&quot;: &quot;sapqasas&quot;,
+      &quot;instance_name&quot;: &quot;ASCS00&quot;,
+      &quot;reachability&quot;: true
     },
     #{
-      "addresses": (),
-      "hostname": "sapwaser",
-      "instance_name": "ERS00",
-      "reachability": false
+      &quot;addresses&quot;: (),
+      &quot;hostname&quot;: &quot;sapwaser&quot;,
+      &quot;instance_name&quot;: &quot;ERS00&quot;,
+      &quot;reachability&quot;: false
     }
   ],
-  "NWP": [
+  &quot;NWP&quot;: [
     #{
-      "addresses": [
-        "2.1.1.82"
+      &quot;addresses&quot;: [
+        &quot;2.1.1.82&quot;
       ],
-      "hostname": "sapnwpas",
-      "instance_name": "ASCS00",
-      "reachability": true
+      &quot;hostname&quot;: &quot;sapnwpas&quot;,
+      &quot;instance_name&quot;: &quot;ASCS00&quot;,
+      &quot;reachability&quot;: true
     }
   ]
-}
-```
-
-### sapinstance_hostname_resolver
-
-**Argument required**: no.
-
-This gatherer uses the filesystem to search for SAP systems using the discovered profile file names to get the virtual hostnames associated to each
+}</code></pre><h3 id="sapinstance_hostname_resolver" class="section-heading">
+  <a href="#sapinstance_hostname_resolver" class="hover-link">
+    <i class="ri-link-m" aria-hidden="true"></i>
+  </a>
+  <span class="text">sapinstance_hostname_resolver</span>
+</h3>
+<p><strong>Argument required</strong>: no.</p><p>This gatherer uses the filesystem to search for SAP systems using the discovered profile file names to get the virtual hostnames associated to each
 instance of the sap system. It then attempts to resolve those hostnames to confirm that they are resolvable and afterwards it will attempt a ping
 to those hostnames. Keep in mind that ping could be disallowed through firewall rules so it should only be used for networks in which we know this is
-not true.
-
-Example specification:
-
-```yaml
-facts:
+not true.</p><p>Example specification:</p><pre><code class="yaml">facts:
   - name: resolvability_check
-    gatherer: sapinstance_hostname_resolver
-```
-
-Example output (in Rhai):
-
-```ts
-
-// 2 resolvable & 1 non-resolvable hosts
+    gatherer: sapinstance_hostname_resolver</code></pre><p>Example output (in Rhai):</p><pre><code class="ts">
+// 2 resolvable &amp; 1 non-resolvable hosts
 #{
-  "NWP": [
+  &quot;NWP&quot;: [
     #{
-      "addresses": [
-        "2.1.1.82"
+      &quot;addresses&quot;: [
+        &quot;2.1.1.82&quot;
       ],
-      "hostname": "sapnwpas",
-      "instance_name": "ASCS00",
-      "reachability": true
+      &quot;hostname&quot;: &quot;sapnwpas&quot;,
+      &quot;instance_name&quot;: &quot;ASCS00&quot;,
+      &quot;reachability&quot;: true
     }
   ],
-  "QAS": [
+  &quot;QAS&quot;: [
     #{
-      "addresses": [
-        "1.1.1.82"
+      &quot;addresses&quot;: [
+        &quot;1.1.1.82&quot;
       ],
-      "hostname": "sapqasas",
-      "instance_name": "ASCS00",
-      "reachability": true
+      &quot;hostname&quot;: &quot;sapqasas&quot;,
+      &quot;instance_name&quot;: &quot;ASCS00&quot;,
+      &quot;reachability&quot;: true
     },
     #{
-      "addresses": (),
-      "hostname": "sapwaser",
-      "instance_name": "ERS00",
-      "reachability": false
+      &quot;addresses&quot;: (),
+      &quot;hostname&quot;: &quot;sapwaser&quot;,
+      &quot;instance_name&quot;: &quot;ERS00&quot;,
+      &quot;reachability&quot;: false
     }
   ]
-}
-```
-
-<span id="sap_profilesv1"></span>
-
-### sap_profiles@v1
-
-**Argument required**: no.
-
-This gatherer allows access to the latest SAP profile files content stored in `/sapmnt/<SID>/profile`.
-The "latest" profile means that backed up files like `DEFAULT.1.PFL` or `some_profile.1` are excluded.
-It returns the profile files and content grouped by SID in a key\value way.
-
-Example specification:
-
-```yaml
-facts:
+}</code></pre><span id="sap_profilesv1"></span><h3 id="sap_profiles-v1" class="section-heading">
+  <a href="#sap_profiles-v1" class="hover-link">
+    <i class="ri-link-m" aria-hidden="true"></i>
+  </a>
+  <span class="text">sap_profiles@v1</span>
+</h3>
+<p><strong>Argument required</strong>: no.</p><p>This gatherer allows access to the latest SAP profile files content stored in <code class="inline">/sapmnt/&lt;SID&gt;/profile</code>.
+The &quot;latest&quot; profile means that backed up files like <code class="inline">DEFAULT.1.PFL</code> or <code class="inline">some_profile.1</code> are excluded.
+It returns the profile files and content grouped by SID in a key\value way.</p><p>Example specification:</p><pre><code class="yaml">facts:
   - name: sap_profiles
-    gatherer: sap_profiles
-```
-
-Example output (in Rhai):
-
-```ts
-#{
-  "NWP": #{
-    "profiles": [
+    gatherer: sap_profiles</code></pre><p>Example output (in Rhai):</p><pre><code class="ts">#{
+  &quot;NWP&quot;: #{
+    &quot;profiles&quot;: [
       #{
-        "content": #{
-          "SAPDBHOST": "10.80.1.13",
-          "SAPGLOBALHOST": "sapnwpas",
-          "SAPSYSTEMNAME": "NWP",
+        &quot;content&quot;: #{
+          &quot;SAPDBHOST&quot;: &quot;10.80.1.13&quot;,
+          &quot;SAPGLOBALHOST&quot;: &quot;sapnwpas&quot;,
+          &quot;SAPSYSTEMNAME&quot;: &quot;NWP&quot;,
           ...
         },
-        "name": "DEFAULT.PFL",
-        "path": "/sapmnt/NWP/profile/DEFAULT.PFL"
+        &quot;name&quot;: &quot;DEFAULT.PFL&quot;,
+        &quot;path&quot;: &quot;/sapmnt/NWP/profile/DEFAULT.PFL&quot;
       },
       #{
-        "content": #{
-          "DIR_CT_RUN": "$(DIR_EXE_ROOT)$(DIR_SEP)$(OS_UNICODE)$(DIR_SEP)linuxx86_64",
-          "DIR_EXECUTABLE": "$(DIR_INSTANCE)/exe",
-          "DIR_PROFILE": "$(DIR_INSTALL)$(DIR_SEP)profile",
+        &quot;content&quot;: #{
+          &quot;DIR_CT_RUN&quot;: &quot;$(DIR_EXE_ROOT)$(DIR_SEP)$(OS_UNICODE)$(DIR_SEP)linuxx86_64&quot;,
+          &quot;DIR_EXECUTABLE&quot;: &quot;$(DIR_INSTANCE)/exe&quot;,
+          &quot;DIR_PROFILE&quot;: &quot;$(DIR_INSTALL)$(DIR_SEP)profile&quot;,
           ...
         },
-        "name": "NWP_ASCS00_sapnwpas",
-        "path": "/sapmnt/NWP/profile/NWP_ASCS00_sapnwpas"
+        &quot;name&quot;: &quot;NWP_ASCS00_sapnwpas&quot;,
+        &quot;path&quot;: &quot;/sapmnt/NWP/profile/NWP_ASCS00_sapnwpas&quot;
       },
       ...
     ]
   },
-  "NWD": #{
-    "profiles": [
+  &quot;NWD&quot;: #{
+    &quot;profiles&quot;: [
       #{
-        "content": #{
-          "SAPDBHOST": "10.85.1.13",
-          "SAPGLOBALHOST": "sapnwdas",
-          "SAPSYSTEMNAME": "NWD",
+        &quot;content&quot;: #{
+          &quot;SAPDBHOST&quot;: &quot;10.85.1.13&quot;,
+          &quot;SAPGLOBALHOST&quot;: &quot;sapnwdas&quot;,
+          &quot;SAPSYSTEMNAME&quot;: &quot;NWD&quot;,
           ...
         },
-        "name": "DEFAULT.PFL",
-        "path": "/sapmnt/NWD/profile/DEFAULT.PFL"
+        &quot;name&quot;: &quot;DEFAULT.PFL&quot;,
+        &quot;path&quot;: &quot;/sapmnt/NWD/profile/DEFAULT.PFL&quot;
       },
       ...
     ]
   }
-}
-```
-
-<span id="saptunev1"></span>
-
-### saptune@v1
-
-**Argument required**: yes.
-
-This gatherer allows access to certain commands that `saptune` implements. An argument is required to specify
-which argument should be used when calling `saptune`.
-
-> Note: the gatherer will return the same JSON objects returned by saptune. The only transformation it applies is the snake casing of the keys.
-
-Supported arguments:
-
-- `status` (maps to `saptune --format json status --non-compliance-check`)
-- `solution-verify` (maps to `saptune --format json solution verify`)
-- `solution-list` (maps to `saptune --format json solution list`)
-- `note-verify` (maps to `saptune --format json note verify`)
-- `note-list` (maps to `saptune --format json note list`)
-
-A `status` call with a successful return should look like this:
-
-Example specification:
-
-```yaml
-facts:
+}</code></pre><span id="saptunev1"></span><h3 id="saptune-v1" class="section-heading">
+  <a href="#saptune-v1" class="hover-link">
+    <i class="ri-link-m" aria-hidden="true"></i>
+  </a>
+  <span class="text">saptune@v1</span>
+</h3>
+<p><strong>Argument required</strong>: yes.</p><p>This gatherer allows access to certain commands that <code class="inline">saptune</code> implements. An argument is required to specify
+which argument should be used when calling <code class="inline">saptune</code>.</p><blockquote><p>Note: the gatherer will return the same JSON objects returned by saptune. The only transformation it applies is the snake casing of the keys.</p></blockquote><p>Supported arguments:</p><ul><li><code class="inline">status</code> (maps to <code class="inline">saptune --format json status --non-compliance-check</code>)</li><li><code class="inline">solution-verify</code> (maps to <code class="inline">saptune --format json solution verify</code>)</li><li><code class="inline">solution-list</code> (maps to <code class="inline">saptune --format json solution list</code>)</li><li><code class="inline">note-verify</code> (maps to <code class="inline">saptune --format json note verify</code>)</li><li><code class="inline">note-list</code> (maps to <code class="inline">saptune --format json note list</code>)</li></ul><p>A <code class="inline">status</code> call with a successful return should look like this:</p><p>Example specification:</p><pre><code class="yaml">facts:
   - name: status
     gatherer: saptune
-    argument: status
-```
-
-Example output (in Rhai):
-
-```ts
-// status
+    argument: status</code></pre><p>Example output (in Rhai):</p><pre><code class="ts">// status
 #{
-  "$schema": "file:///usr/share/saptune/schemas/1.0/saptune_status.schema.json",
-  "argv": "saptune --format json status",
-  "command": "status",
-  "exit_code": 1,
-  "messages": [
+  &quot;$schema&quot;: &quot;file:///usr/share/saptune/schemas/1.0/saptune_status.schema.json&quot;,
+  &quot;argv&quot;: &quot;saptune --format json status&quot;,
+  &quot;command&quot;: &quot;status&quot;,
+  &quot;exit_code&quot;: 1,
+  &quot;messages&quot;: [
     #{
-      "message": "actions.go:85: ATTENTION: You are running a test version",
-      "priority": "NOTICE"
+      &quot;message&quot;: &quot;actions.go:85: ATTENTION: You are running a test version&quot;,
+      &quot;priority&quot;: &quot;NOTICE&quot;
     }
   ],
-  "pid": 6593,
-  "publish_time": "2023-09-15 15:15:14.599",
-  "result": #{
-    "configured_version": "3",
-    "notes_applied": [
-      "1410736"
+  &quot;pid&quot;: 6593,
+  &quot;publish_time&quot;: &quot;2023-09-15 15:15:14.599&quot;,
+  &quot;result&quot;: #{
+    &quot;configured_version&quot;: &quot;3&quot;,
+    &quot;notes_applied&quot;: [
+      &quot;1410736&quot;
     ],
-    "notes_applied_by_solution": [],
-    "notes_enabled": [
-      "1410736"
+    &quot;notes_applied_by_solution&quot;: [],
+    &quot;notes_enabled&quot;: [
+      &quot;1410736&quot;
     ],
-    "notes_enabled_additionally": [
-      "1410736"
+    &quot;notes_enabled_additionally&quot;: [
+      &quot;1410736&quot;
     ],
-    "notes_enabled_by_solution": [],
-    "package_version": "3.1.0",
-    "remember_message": "This is a reminder",
-    "services": #{
-      "sapconf": [],
-      "saptune": [
-        "disabled",
-        "inactive"
+    &quot;notes_enabled_by_solution&quot;: [],
+    &quot;package_version&quot;: &quot;3.1.0&quot;,
+    &quot;remember_message&quot;: &quot;This is a reminder&quot;,
+    &quot;services&quot;: #{
+      &quot;sapconf&quot;: [],
+      &quot;saptune&quot;: [
+        &quot;disabled&quot;,
+        &quot;inactive&quot;
       ],
-      "tuned": []
+      &quot;tuned&quot;: []
     },
-    "solution_applied": [],
-    "solution_enabled": [],
-    "staging": #{
-      "notes_staged": [],
-      "solutions_staged": [],
-      "staging_enabled": false
+    &quot;solution_applied&quot;: [],
+    &quot;solution_enabled&quot;: [],
+    &quot;staging&quot;: #{
+      &quot;notes_staged&quot;: [],
+      &quot;solutions_staged&quot;: [],
+      &quot;staging_enabled&quot;: false
     },
-    "systemd_system_state": "degraded",
-    "tuning_state": "compliant",
-    "virtualization": "kvm"
+    &quot;systemd_system_state&quot;: &quot;degraded&quot;,
+    &quot;tuning_state&quot;: &quot;compliant&quot;,
+    &quot;virtualization&quot;: &quot;kvm&quot;
   }
-}
-```
-
-<span id="sbd_configv1"></span>
-
-### sbd_config@v1
-
-**Argument required**: yes.
-
-This gatherer allows accessing the information contained in `/etc/sysconfig/sbd`
-
-Example arguments:
-
-| Name            | Return value                    |
-| :-------------- | :------------------------------ |
-| `SBD_PACEMAKER` | extracted value from the config |
-| `SBD_STARTMODE` | extracted value from the config |
-| `SBD_DEVICE`    | extracted value from the config |
-
-Example specification:
-
-```yaml
-facts:
+}</code></pre><span id="sbd_configv1"></span><h3 id="sbd_config-v1" class="section-heading">
+  <a href="#sbd_config-v1" class="hover-link">
+    <i class="ri-link-m" aria-hidden="true"></i>
+  </a>
+  <span class="text">sbd_config@v1</span>
+</h3>
+<p><strong>Argument required</strong>: yes.</p><p>This gatherer allows accessing the information contained in <code class="inline">/etc/sysconfig/sbd</code></p><p>Example arguments:</p><table><thead><tr><th style="text-align: left;">Name</th><th style="text-align: left;">Return value</th></tr></thead><tbody><tr><td style="text-align: left;"><code class="inline">SBD_PACEMAKER</code></td><td style="text-align: left;">extracted value from the config</td></tr><tr><td style="text-align: left;"><code class="inline">SBD_STARTMODE</code></td><td style="text-align: left;">extracted value from the config</td></tr><tr><td style="text-align: left;"><code class="inline">SBD_DEVICE</code></td><td style="text-align: left;">extracted value from the config</td></tr></tbody></table><p>Example specification:</p><pre><code class="yaml">facts:
   - name: sbd_pacemaker
     gatherer: sbd_config
     argument: SBD_PACEMAKER
@@ -1155,53 +895,24 @@ facts:
 
   - name: sbd_device
     gatherer: sbd_config
-    argument: SBD_DEVICE
-```
-
-Example output (in Rhai):
-
-```ts
-// sbd_pacemaker
-"yes";
+    argument: SBD_DEVICE</code></pre><p>Example output (in Rhai):</p><pre><code class="ts">// sbd_pacemaker
+&quot;yes&quot;;
 
 // sbd_startmode
-"always";
+&quot;always&quot;;
 
 // sbd_device
-"/dev/vdc;/dev/vdb";
-```
-
-<span id="sbd_dumpv1"></span>
-
-### sbd_dump@v1
-
-**Argument required**: no.
-
-This gatherer allows accessing the sbd dump command output data.
-
-It executes the `sbd -d <device> dump` command in all devices configured in the `SBD_DEVICE` field on `/etc/sysconfig/sbd` and aggregates results in only one fact.
-
-Note that:
-
-- no arguments are required
-- if any of the dumps fail, a fact error is returned
-
-Dumped keys (`Timeout (watchdog)`, `Timeout (msgwait)`, `Number of slots`, etc) are sanitized to simplify their access and usage in the expression language.
-
-Example specification:
-
-```yaml
-facts:
+&quot;/dev/vdc;/dev/vdb&quot;;</code></pre><span id="sbd_dumpv1"></span><h3 id="sbd_dump-v1" class="section-heading">
+  <a href="#sbd_dump-v1" class="hover-link">
+    <i class="ri-link-m" aria-hidden="true"></i>
+  </a>
+  <span class="text">sbd_dump@v1</span>
+</h3>
+<p><strong>Argument required</strong>: no.</p><p>This gatherer allows accessing the sbd dump command output data.</p><p>It executes the <code class="inline">sbd -d &lt;device&gt; dump</code> command in all devices configured in the <code class="inline">SBD_DEVICE</code> field on <code class="inline">/etc/sysconfig/sbd</code> and aggregates results in only one fact.</p><p>Note that:</p><ul><li>no arguments are required</li><li>if any of the dumps fail, a fact error is returned</li></ul><p>Dumped keys (<code class="inline">Timeout (watchdog)</code>, <code class="inline">Timeout (msgwait)</code>, <code class="inline">Number of slots</code>, etc) are sanitized to simplify their access and usage in the expression language.</p><p>Example specification:</p><pre><code class="yaml">facts:
   - name: sbd_devices_dump
-    gatherer: sbd_dump
-```
-
-Example output (in Rhai):
-
-```ts
-// sbd_devices_dump
+    gatherer: sbd_dump</code></pre><p>Example output (in Rhai):</p><pre><code class="ts">// sbd_devices_dump
 #{
-    "/dev/vdc": #{
+    &quot;/dev/vdc&quot;: #{
         header_version: 2.1,
         number_of_slots: 255,
         sector_size: 512,
@@ -1209,178 +920,94 @@ Example output (in Rhai):
         timeout_loop: 1,
         timeout_msgwait: 10,
         timeout_watchdog: 5,
-        uuid: "69048391-c647-4b34-a03a-f704f5cc2258"
+        uuid: &quot;69048391-c647-4b34-a03a-f704f5cc2258&quot;
     }
-};
-```
-
-For extra information refer to [trento-project/agent/../gatherers/sbddump_test.go](https://github.com/trento-project/agent/blob/main/internal/factsengine/gatherers/sbddump_test.go)
-
-<span id="sysctlv1"></span>
-
-### sysctl@v1
-
-**Argument required**: yes.
-
-Gather sysctl output. It takes a sysctl key as argument and it returns the value of the requested key or a map if a partial key is provided.
-
-Example arguments:
-
-| Name            | Return value                                          |
-| :-------------- | :---------------------------------------------------- |
-| `vm.swappiness` | corresponding value returned by sysctl                |
-| `debug`         | a map containing all the keys starting with `debug.`` |
-
-```yaml
-facts:
+};</code></pre><p>For extra information refer to <a href="https://github.com/trento-project/agent/blob/main/internal/factsengine/gatherers/sbddump_test.go">trento-project/agent/../gatherers/sbddump_test.go</a></p><span id="sysctlv1"></span><h3 id="sysctl-v1" class="section-heading">
+  <a href="#sysctl-v1" class="hover-link">
+    <i class="ri-link-m" aria-hidden="true"></i>
+  </a>
+  <span class="text">sysctl@v1</span>
+</h3>
+<p><strong>Argument required</strong>: yes.</p><p>Gather sysctl output. It takes a sysctl key as argument and it returns the value of the requested key or a map if a partial key is provided.</p><p>Example arguments:</p><table><thead><tr><th style="text-align: left;">Name</th><th style="text-align: left;">Return value</th></tr></thead><tbody><tr><td style="text-align: left;"><code class="inline">vm.swappiness</code></td><td style="text-align: left;">corresponding value returned by sysctl</td></tr><tr><td style="text-align: left;"><code class="inline">debug</code></td><td style="text-align: left;">a map containing all the keys starting with `debug.``</td></tr></tbody></table><pre><code class="yaml">facts:
   - name: vm_swappiness
     gatherer: sysctl
     argument: vm.swappiness
 
   - name: debug
     gatherer: sysctl
-    argument: debug
-```
-
-Example output (in Rhai):
-
-```ts
-// vm_swapiness
+    argument: debug</code></pre><p>Example output (in Rhai):</p><pre><code class="ts">// vm_swapiness
 60;
 
 // debug
 #{
-  "exception-trace": 1,
-  "kprobes-optimization": 1
-};
-```
-
-<span id="systemdv1"></span>
-
-### systemd@v1
-
-**Argument required**: yes.
-
-Gather systemd units state. It returns an `active/inactive` string.
-If the service is disabled or it does not exist, `inactive` is returned.
-
-Example arguments:
-
-| Name           | Return value              |
-| :------------- | :------------------------ |
-| `trento-agent` | state of the systemd unit |
-
-```yaml
-facts:
+  &quot;exception-trace&quot;: 1,
+  &quot;kprobes-optimization&quot;: 1
+};</code></pre><span id="systemdv1"></span><h3 id="systemd-v1" class="section-heading">
+  <a href="#systemd-v1" class="hover-link">
+    <i class="ri-link-m" aria-hidden="true"></i>
+  </a>
+  <span class="text">systemd@v1</span>
+</h3>
+<p><strong>Argument required</strong>: yes.</p><p>Gather systemd units state. It returns an <code class="inline">active/inactive</code> string.
+If the service is disabled or it does not exist, <code class="inline">inactive</code> is returned.</p><p>Example arguments:</p><table><thead><tr><th style="text-align: left;">Name</th><th style="text-align: left;">Return value</th></tr></thead><tbody><tr><td style="text-align: left;"><code class="inline">trento-agent</code></td><td style="text-align: left;">state of the systemd unit</td></tr></tbody></table><pre><code class="yaml">facts:
   - name: sbd_state
     gatherer: systemd
     argument: sbd
 
   - name: corosync_state
     gatherer: systemd
-    argument: corosync
-```
-
-Example output (in Rhai):
-
-```ts
-// sbd_state
-"active";
+    argument: corosync</code></pre><p>Example output (in Rhai):</p><pre><code class="ts">// sbd_state
+&quot;active&quot;;
 
 // corosync_state
-"inactive";
-```
-
-<span id="systemdv2"></span>
-
-### systemd@v2
-
-**Argument required**: yes.
-
-Gather systemd units information. It returns an object with multiple fields about the systemd unit.
-
-The provided unit name must include the extension, such as `.service` or `.mount`.
-
-Only a subset of properties are returned. Additional information about these is available in
-the [systemd](https://www.man7.org/linux/man-pages/man5/org.freedesktop.systemd1.5.html#UNIT_OBJECTS) man pages,
-with some detailed description in the `Properties` sub-chapter.
-
-Example arguments:
-
-| Name                   | Return value             |
-| :--------------------- | :----------------------- |
-| `trento-agent.service` | systemd unit information |
-
-```yaml
-facts:
+&quot;inactive&quot;;</code></pre><span id="systemdv2"></span><h3 id="systemd-v2" class="section-heading">
+  <a href="#systemd-v2" class="hover-link">
+    <i class="ri-link-m" aria-hidden="true"></i>
+  </a>
+  <span class="text">systemd@v2</span>
+</h3>
+<p><strong>Argument required</strong>: yes.</p><p>Gather systemd units information. It returns an object with multiple fields about the systemd unit.</p><p>The provided unit name must include the extension, such as <code class="inline">.service</code> or <code class="inline">.mount</code>.</p><p>Only a subset of properties are returned. Additional information about these is available in
+the <a href="https://www.man7.org/linux/man-pages/man5/org.freedesktop.systemd1.5.html#UNIT_OBJECTS">systemd</a> man pages,
+with some detailed description in the <code class="inline">Properties</code> sub-chapter.</p><p>Example arguments:</p><table><thead><tr><th style="text-align: left;">Name</th><th style="text-align: left;">Return value</th></tr></thead><tbody><tr><td style="text-align: left;"><code class="inline">trento-agent.service</code></td><td style="text-align: left;">systemd unit information</td></tr></tbody></table><pre><code class="yaml">facts:
   - name: corosync
     gatherer: systemd@v2
     argument: corosync.service
 
   - name: not_found
     gatherer: systemd@v2
-    argument: unknown.service
-```
-
-Example output (in Rhai):
-
-```ts
-// corosync
+    argument: unknown.service</code></pre><p>Example output (in Rhai):</p><pre><code class="ts">// corosync
 #{
-  "active_state": "inactive",
-  "description": "Corosync Cluster Engine",
-  "id": "corosync.service",
-  "load_state": "loaded",
-  "need_daemon_reload": false,
-  "unit_file_preset": "disabled",
-  "unit_file_state": "disabled"
+  &quot;active_state&quot;: &quot;inactive&quot;,
+  &quot;description&quot;: &quot;Corosync Cluster Engine&quot;,
+  &quot;id&quot;: &quot;corosync.service&quot;,
+  &quot;load_state&quot;: &quot;loaded&quot;,
+  &quot;need_daemon_reload&quot;: false,
+  &quot;unit_file_preset&quot;: &quot;disabled&quot;,
+  &quot;unit_file_state&quot;: &quot;disabled&quot;
 }
 
 // not_found
 #{
-  "active_state": "inactive",
-  "description": "unknown.service",
-  "id": "unknown.service",
-  "load_state": "not-found",
-  "need_daemon_reload": false,
-  "unit_file_preset": "",
-  "unit_file_state": ""
+  &quot;active_state&quot;: &quot;inactive&quot;,
+  &quot;description&quot;: &quot;unknown.service&quot;,
+  &quot;id&quot;: &quot;unknown.service&quot;,
+  &quot;load_state&quot;: &quot;not-found&quot;,
+  &quot;need_daemon_reload&quot;: false,
+  &quot;unit_file_preset&quot;: &quot;&quot;,
+  &quot;unit_file_state&quot;: &quot;&quot;
 }
-
-```
-
-<span id="verify_passwordv1"></span>
-
-### verify_password@v1
-
-**Argument required**: yes.
-
-This gatherer determines whether a given user has its password still set to an unsafe password.
-It returns `true` if the password matches a password in the list of unsafe passwords, `false` otherwise.
-
-Specification examples:
-
-```yaml
-facts:
+</code></pre><span id="verify_passwordv1"></span><h3 id="verify_password-v1" class="section-heading">
+  <a href="#verify_password-v1" class="hover-link">
+    <i class="ri-link-m" aria-hidden="true"></i>
+  </a>
+  <span class="text">verify_password@v1</span>
+</h3>
+<p><strong>Argument required</strong>: yes.</p><p>This gatherer determines whether a given user has its password still set to an unsafe password.
+It returns <code class="inline">true</code> if the password matches a password in the list of unsafe passwords, <code class="inline">false</code> otherwise.</p><p>Specification examples:</p><pre><code class="yaml">facts:
   - name: hacluster_has_default_password
     gatherer: verify_password
-    argument: hacluster
-```
-
-For the argument, only whitelisted users are allowed. Currently whitelisted usernames:
-
-- `hacluster`
-
-List of unsafe passwords:
-
-- `linux`
-
-Example output (in Rhai):
-
-```ts
-// hacluster_has_default_password
-true;
-```</span>
+    argument: hacluster</code></pre><p>For the argument, only whitelisted users are allowed. Currently whitelisted usernames:</p><ul><li><code class="inline">hacluster</code></li></ul><p>List of unsafe passwords:</p><ul><li><code class="inline">linux</code></li></ul><p>Example output (in Rhai):</p><pre><code class="ts">// hacluster_has_default_password
+true;</code></pre>
 <div class="bottom-actions">
   <div class="bottom-actions-item">
 
