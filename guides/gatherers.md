@@ -1144,7 +1144,7 @@ Example output (in Rhai):
 "inactive";
 ```
 
-<span id="systemd-v2"></span>
+<span id="systemdv2"></span>
 
 ### systemd@v2
 
@@ -1201,6 +1201,8 @@ Example output (in Rhai):
 }
 
 ```
+
+<span id="verify_passwordv1"></span>
 
 ### verify_password@v1
 
