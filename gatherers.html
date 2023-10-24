@@ -13,7 +13,7 @@
 
     <script src="dist/handlebars.runtime-NWIB6V2M.js"></script>
     <script src="dist/handlebars.templates-EPF2X7PV.js"></script>
-    <script src="dist/sidebar_items-93DE7D7E.js"></script>
+    <script src="dist/sidebar_items-05B55562.js"></script>
 
       <script src="docs_config.js"></script>
 
@@ -130,17 +130,29 @@ GUIDES
   </a>
   <span class="text">Introduction</span>
 </h2>
-<p>Gatherers can be thought of as functions:</p><ul><li>they have a name</li><li>they accept argument(s)</li><li>they return a value, the gathered <a href="specification.html#facts">Fact</a></li></ul><p>Facts Gathering process in a nutshell</p><pre><code class="makeup elixir" translate="no"><span class="n">fact</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">gatherer</span><span class="p" data-group-id="7700459818-1">(</span><span class="n">argument</span><span class="p" data-group-id="7700459818-1">)</span></code></pre><h2 id="available-gatherers" class="section-heading">
+<p>Gatherers can be thought of as functions:</p><ul><li>they have a name</li><li>they accept argument(s)</li><li>they return a value, the gathered <a href="specification.html#facts">Fact</a></li></ul><p>Facts Gathering process in a nutshell</p><pre><code class="makeup elixir" translate="no"><span class="n">fact</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">gatherer</span><span class="p" data-group-id="3994451890-1">(</span><span class="n">argument</span><span class="p" data-group-id="3994451890-1">)</span></code></pre><h2 id="gatherers-versioning" class="section-heading">
+  <a href="#gatherers-versioning" class="hover-link">
+    <i class="ri-link-m" aria-hidden="true"></i>
+  </a>
+  <span class="text">Gatherers versioning</span>
+</h2>
+<p>The gatherers implementation supports a versioning mechanism in order to enable non-backwards compatibility changes in any of them. When an update to
+the trento-agent includes a non-backwards compatible change in a gatherer (e.g., changes to the Rhai output format), its version is
+bumped by incrementing the @vN suffix that follows the gatherer's name, where 'N' represents the new version of that gatherer.
+Example:</p><ul><li><code class="inline">systemd@v1</code> -&gt; Represents the first version of the systemd gatherer</li><li><code class="inline">systemd@v2</code> -&gt; Represents the second version of the systemd gatherer</li></ul><p>Note that when writing a check, if no tag is specified (e.g. <code class="inline">systemd</code>), the latest version is used. It is <strong>strongly</strong> recommended to always pin your
+checks to a specific version of a gatherer.</p><p>Not all changes in a released gatherer get a new version tag. A new version tag is released only for breaking changes, while non-breaking changes such
+as additional fields in the Rhai output reuse the latest existing tag. To use a check that relies on a newer field introduced after an update, upgrade
+the agent to the latest version to ensure that the required gatherers are also up-to-date.</p><h2 id="available-gatherers" class="section-heading">
   <a href="#available-gatherers" class="hover-link">
     <i class="ri-link-m" aria-hidden="true"></i>
   </a>
   <span class="text">Available Gatherers</span>
 </h2>
-<p>Here's a collection of built-in gatherers, with information about how to use them.</p><table><thead><tr><th style="text-align: left;">Name</th><th style="text-align: left;">Implementation</th></tr></thead><tbody><tr><td style="text-align: left;"><a href="#cibadmin"><code class="inline">cibadmin</code></a></td><td style="text-align: left;"><a href="https://github.com/trento-project/agent/blob/main/internal/factsengine/gatherers/cibadmin.go">trento-project/agent/../gatherers/cibadmin.go</a></td></tr><tr><td style="text-align: left;"><a href="#corosyncconf"><code class="inline">corosync.conf</code></a></td><td style="text-align: left;"><a href="https://github.com/trento-project/agent/blob/main/internal/factsengine/gatherers/corosyncconf.go">trento-project/agent/../gatherers/corosyncconf.go</a></td></tr><tr><td style="text-align: left;"><a href="#corosync-cmapctl"><code class="inline">corosync-cmapctl</code></a></td><td style="text-align: left;"><a href="https://github.com/trento-project/agent/blob/main/internal/factsengine/gatherers/corosynccmapctl.go">trento-project/agent/../gatherers/corosynccmapctl.go</a></td></tr><tr><td style="text-align: left;"><a href="#dir_scan"><code class="inline">dir_scan</code></a></td><td style="text-align: left;"><a href="https://github.com/trento-project/agent/blob/main/internal/factsengine/gatherers/dir_scan.go">trento-project/agent/../gatherers/dir_scan.go</a></td></tr><tr><td style="text-align: left;"><a href="#fstab"><code class="inline">fstab</code></a></td><td style="text-align: left;"><a href="https://github.com/trento-project/agent/blob/main/internal/factsengine/gatherers/fstab.go">trento-project/agent/../gatherers/fstab.go</a></td></tr><tr><td style="text-align: left;"><a href="#groups"><code class="inline">groups</code></a></td><td style="text-align: left;"><a href="https://github.com/trento-project/agent/blob/main/internal/factsengine/gatherers/groups.go">trento-project/agent/../gatherers/groups.go</a></td></tr><tr><td style="text-align: left;"><a href="#hosts-etchosts"><code class="inline">hosts</code></a></td><td style="text-align: left;"><a href="https://github.com/trento-project/agent/blob/main/internal/factsengine/gatherers/hostsfile.go">trento-project/agent/../gatherers/hostsfile.go</a></td></tr><tr><td style="text-align: left;"><a href="#package_version"><code class="inline">package_version</code></a></td><td style="text-align: left;"><a href="https://github.com/trento-project/agent/blob/main/internal/factsengine/gatherers/packageversion.go">trento-project/agent/../gatherers/packageversion.go</a></td></tr><tr><td style="text-align: left;"><a href="#passwd"><code class="inline">passwd</code></a></td><td style="text-align: left;"><a href="https://github.com/trento-project/agent/blob/main/internal/factsengine/gatherers/passwd.go">trento-project/agent/../gatherers/passwd.go</a></td></tr><tr><td style="text-align: left;"><a href="#sapcontrol"><code class="inline">sapcontrol</code></a></td><td style="text-align: left;"><a href="https://github.com/trento-project/agent/blob/main/internal/factsengine/gatherers/sapcontrol.go">trento-project/agent/../gatherers/sapcontrol.go</a></td></tr><tr><td style="text-align: left;"><a href="#saphostctrl"><code class="inline">saphostctrl</code></a></td><td style="text-align: left;"><a href="https://github.com/trento-project/agent/blob/main/internal/factsengine/gatherers/saphostctrl.go">trento-project/agent/../gatherers/saphostctrl.go</a></td></tr><tr><td style="text-align: left;"><a href="#sap_profiles"><code class="inline">sap_profiles</code></a></td><td style="text-align: left;"><a href="https://github.com/trento-project/agent/blob/main/internal/factsengine/gatherers/sapprofiles.go">trento-project/agent/../gatherers/sapprofiles.go</a></td></tr><tr><td style="text-align: left;"><a href="#saptune"><code class="inline">saptune</code></a></td><td style="text-align: left;"><a href="https://github.com/trento-project/agent/blob/main/internal/factsengine/gatherers/saptune.go">trento-project/agent/../gatherers/saptune.go</a></td></tr><tr><td style="text-align: left;"><a href="#sbd_config"><code class="inline">sbd_config</code></a></td><td style="text-align: left;"><a href="https://github.com/trento-project/agent/blob/main/internal/factsengine/gatherers/sbd.go">trento-project/agent/../gatherers/sbd.go</a></td></tr><tr><td style="text-align: left;"><a href="#sbd_dump"><code class="inline">sbd_dump</code></a></td><td style="text-align: left;"><a href="https://github.com/trento-project/agent/blob/main/internal/factsengine/gatherers/sbddump.go">trento-project/agent/../gatherers/sbddump.go</a></td></tr><tr><td style="text-align: left;"><a href="#sysctl"><code class="inline">sysctl</code></a></td><td style="text-align: left;"><a href="https://github.com/trento-project/agent/blob/main/internal/factsengine/gatherers/sysctl.go">trento-project/agent/../gatherers/sysctl.go</a></td></tr><tr><td style="text-align: left;"><a href="#systemd"><code class="inline">systemd</code></a></td><td style="text-align: left;"><a href="https://github.com/trento-project/agent/blob/main/internal/factsengine/gatherers/systemd.go">trento-project/agent/../gatherers/systemd.go</a></td></tr><tr><td style="text-align: left;"><a href="#systemd-v2"><code class="inline">systemd@v2</code></a></td><td style="text-align: left;"><a href="https://github.com/trento-project/agent/blob/main/internal/factsengine/gatherers/systemd_v2.go">trento-project/agent/../gatherers/systemd_v2.go</a></td></tr><tr><td style="text-align: left;"><a href="#verify_password"><code class="inline">verify_password</code></a></td><td style="text-align: left;"><a href="https://github.com/trento-project/agent/blob/main/internal/factsengine/gatherers/verifypassword.go">trento-project/agent/../gatherers/verifypassword.go</a></td></tr></tbody></table><h3 id="cibadmin" class="section-heading">
-  <a href="#cibadmin" class="hover-link">
+<p>Here's a collection of built-in gatherers, with information about how to use them.</p><table><thead><tr><th style="text-align: left;">Name</th><th style="text-align: left;">Implementation</th></tr></thead><tbody><tr><td style="text-align: left;"><a href="#cibadminv1"><code class="inline">cibadmin@v1</code></a></td><td style="text-align: left;"><a href="https://github.com/trento-project/agent/blob/main/internal/factsengine/gatherers/cibadmin.go">trento-project/agent/../gatherers/cibadmin.go</a></td></tr><tr><td style="text-align: left;"><a href="#corosyncconfv1"><code class="inline">corosync.conf@v1</code></a></td><td style="text-align: left;"><a href="https://github.com/trento-project/agent/blob/main/internal/factsengine/gatherers/corosyncconf.go">trento-project/agent/../gatherers/corosyncconf.go</a></td></tr><tr><td style="text-align: left;"><a href="#corosync-cmapctlv1"><code class="inline">corosync-cmapctl@v1</code></a></td><td style="text-align: left;"><a href="https://github.com/trento-project/agent/blob/main/internal/factsengine/gatherers/corosynccmapctl.go">trento-project/agent/../gatherers/corosynccmapctl.go</a></td></tr><tr><td style="text-align: left;"><a href="#dir_scanv1"><code class="inline">dir_scan@v1</code></a></td><td style="text-align: left;"><a href="https://github.com/trento-project/agent/blob/main/internal/factsengine/gatherers/dir_scan.go">trento-project/agent/../gatherers/dir_scan.go</a></td></tr><tr><td style="text-align: left;"><a href="#fstabv1"><code class="inline">fstab@v1</code></a></td><td style="text-align: left;"><a href="https://github.com/trento-project/agent/blob/main/internal/factsengine/gatherers/fstab.go">trento-project/agent/../gatherers/fstab.go</a></td></tr><tr><td style="text-align: left;"><a href="#groupsv1"><code class="inline">groups@v1</code></a></td><td style="text-align: left;"><a href="https://github.com/trento-project/agent/blob/main/internal/factsengine/gatherers/groups.go">trento-project/agent/../gatherers/groups.go</a></td></tr><tr><td style="text-align: left;"><a href="#hostsv1"><code class="inline">hosts@v1</code></a></td><td style="text-align: left;"><a href="https://github.com/trento-project/agent/blob/main/internal/factsengine/gatherers/hostsfile.go">trento-project/agent/../gatherers/hostsfile.go</a></td></tr><tr><td style="text-align: left;"><a href="#package_versionv1"><code class="inline">package_version@v1</code></a></td><td style="text-align: left;"><a href="https://github.com/trento-project/agent/blob/main/internal/factsengine/gatherers/packageversion.go">trento-project/agent/../gatherers/packageversion.go</a></td></tr><tr><td style="text-align: left;"><a href="#passwdv1"><code class="inline">passwd@v1</code></a></td><td style="text-align: left;"><a href="https://github.com/trento-project/agent/blob/main/internal/factsengine/gatherers/passwd.go">trento-project/agent/../gatherers/passwd.go</a></td></tr><tr><td style="text-align: left;"><a href="#sapcontrolv1"><code class="inline">sapcontrol@v1</code></a></td><td style="text-align: left;"><a href="https://github.com/trento-project/agent/blob/main/internal/factsengine/gatherers/sapcontrol.go">trento-project/agent/../gatherers/sapcontrol.go</a></td></tr><tr><td style="text-align: left;"><a href="#saphostctrlv1"><code class="inline">saphostctrl@v1</code></a></td><td style="text-align: left;"><a href="https://github.com/trento-project/agent/blob/main/internal/factsengine/gatherers/saphostctrl.go">trento-project/agent/../gatherers/saphostctrl.go</a></td></tr><tr><td style="text-align: left;"><a href="#sap_profilesv1"><code class="inline">sap_profiles@v1</code></a></td><td style="text-align: left;"><a href="https://github.com/trento-project/agent/blob/main/internal/factsengine/gatherers/sapprofiles.go">trento-project/agent/../gatherers/sapprofiles.go</a></td></tr><tr><td style="text-align: left;"><a href="#saptunev1"><code class="inline">saptune@v1</code></a></td><td style="text-align: left;"><a href="https://github.com/trento-project/agent/blob/main/internal/factsengine/gatherers/saptune.go">trento-project/agent/../gatherers/saptune.go</a></td></tr><tr><td style="text-align: left;"><a href="#sbd_configv1"><code class="inline">sbd_config@v1</code></a></td><td style="text-align: left;"><a href="https://github.com/trento-project/agent/blob/main/internal/factsengine/gatherers/sbd.go">trento-project/agent/../gatherers/sbd.go</a></td></tr><tr><td style="text-align: left;"><a href="#sbd_dumpv1"><code class="inline">sbd_dump@v1</code></a></td><td style="text-align: left;"><a href="https://github.com/trento-project/agent/blob/main/internal/factsengine/gatherers/sbddump.go">trento-project/agent/../gatherers/sbddump.go</a></td></tr><tr><td style="text-align: left;"><a href="#sysctlv1"><code class="inline">sysctl@v1</code></a></td><td style="text-align: left;"><a href="https://github.com/trento-project/agent/blob/main/internal/factsengine/gatherers/sysctl.go">trento-project/agent/../gatherers/sysctl.go</a></td></tr><tr><td style="text-align: left;"><a href="#systemdv1"><code class="inline">systemd@v1</code></a></td><td style="text-align: left;"><a href="https://github.com/trento-project/agent/blob/main/internal/factsengine/gatherers/systemd.go">trento-project/agent/../gatherers/systemd.go</a></td></tr><tr><td style="text-align: left;"><a href="#systemdv2"><code class="inline">systemd@v2</code></a></td><td style="text-align: left;"><a href="https://github.com/trento-project/agent/blob/main/internal/factsengine/gatherers/systemd_v2.go">trento-project/agent/../gatherers/systemd_v2.go</a></td></tr><tr><td style="text-align: left;"><a href="#verify_passwordv1"><code class="inline">verify_password@v1</code></a></td><td style="text-align: left;"><a href="https://github.com/trento-project/agent/blob/main/internal/factsengine/gatherers/verifypassword.go">trento-project/agent/../gatherers/verifypassword.go</a></td></tr></tbody></table><span id="cibadminv1"></span><h3 id="cibadmin-v1" class="section-heading">
+  <a href="#cibadmin-v1" class="hover-link">
     <i class="ri-link-m" aria-hidden="true"></i>
   </a>
-  <span class="text">cibadmin</span>
+  <span class="text">cibadmin@v1</span>
 </h3>
 <p><strong>Argument required</strong>: no.</p><p>This gatherer allows accessing Pacemaker's CIB information, the output of the <code class="inline">cibadmin</code> command more precisely.
 As the <code class="inline">cibadmin</code> command output is in XML format, the gatherer converts it to map/dictionary type format, so the fields are available with the normal dot access way.
@@ -175,11 +187,11 @@ Some specific fields, such as <code class="inline">primitive</code>, <code class
     id: &quot;cib-bootstrap-options-dc-version&quot;,
     name: &quot;dc-version&quot;,
     value: &quot;2.0.4+20200616.2deceaa3a-3.12.1-2.0.4+20200616.2deceaa3a&quot;
-};</code></pre><h3 id="corosync-conf" class="section-heading">
-  <a href="#corosync-conf" class="hover-link">
+};</code></pre><span id="corosyncconfv1"></span><h3 id="corosync-conf-v1" class="section-heading">
+  <a href="#corosync-conf-v1" class="hover-link">
     <i class="ri-link-m" aria-hidden="true"></i>
   </a>
-  <span class="text">corosync.conf</span>
+  <span class="text">corosync.conf@v1</span>
 </h3>
 <p><strong>Argument required</strong>: no.</p><p>This gatherer allows accessing the information contained in <code class="inline">/etc/corosync/corosync.conf</code></p><p>Example arguments:</p><table><thead><tr><th style="text-align: left;">Name</th><th style="text-align: left;">Return value</th></tr></thead><tbody><tr><td style="text-align: left;"><code class="inline">totem.token</code></td><td style="text-align: left;">extracted value from the config</td></tr><tr><td style="text-align: left;"><code class="inline">totem.join</code></td><td style="text-align: left;">extracted value from the config</td></tr><tr><td style="text-align: left;"><code class="inline">nodelist.node.&lt;node_index&gt;.nodeid</code></td><td style="text-align: left;">extracted value from the config</td></tr><tr><td style="text-align: left;"><code class="inline">nodelist.node</code></td><td style="text-align: left;">list of objects representing the nodes</td></tr></tbody></table><p>Example specification:</p><pre><code class="yaml">facts:
   - name: corosync_token_timeout
@@ -213,11 +225,11 @@ Some specific fields, such as <code class="inline">primitive</code>, <code class
 2;
 
 // corosync_nodes
-[#{nodeid: 1, ring0_addr: &quot;192.168.157.10&quot;}, #{nodeid: 2, ring0_addr: &quot;192.168.157.11&quot;}];</code></pre><p>For extra information refer to <a href="https://github.com/trento-project/agent/blob/main/internal/factsengine/gatherers/corosyncconf_test.go">trento-project/agent/../gatherers/corosyncconf_test.go</a></p><h3 id="corosync-cmapctl" class="section-heading">
-  <a href="#corosync-cmapctl" class="hover-link">
+[#{nodeid: 1, ring0_addr: &quot;192.168.157.10&quot;}, #{nodeid: 2, ring0_addr: &quot;192.168.157.11&quot;}];</code></pre><p>For extra information refer to <a href="https://github.com/trento-project/agent/blob/main/internal/factsengine/gatherers/corosyncconf_test.go">trento-project/agent/../gatherers/corosyncconf_test.go</a></p><span id="corosync-cmapctlv1"></span><h3 id="corosync-cmapctl-v1" class="section-heading">
+  <a href="#corosync-cmapctl-v1" class="hover-link">
     <i class="ri-link-m" aria-hidden="true"></i>
   </a>
-  <span class="text">corosync-cmapctl</span>
+  <span class="text">corosync-cmapctl@v1</span>
 </h3>
 <p><strong>Argument required</strong>: yes.</p><p>This gatherer allows accessing the output of the <code class="inline">corosync-cmapctl</code> tool. It supports all of the keys returned by it to be queried.</p><p>Example arguments:</p><table><thead><tr><th style="text-align: left;">Name</th><th style="text-align: left;">Return value</th></tr></thead><tbody><tr><td style="text-align: left;"><code class="inline">totem.token</code></td><td style="text-align: left;">extracted value from the command</td></tr><tr><td style="text-align: left;"><code class="inline">runtime.config.totem.token</code></td><td style="text-align: left;">extracted value from the command</td></tr><tr><td style="text-align: left;"><code class="inline">totem.transport</code></td><td style="text-align: left;">extracted value from the command</td></tr><tr><td style="text-align: left;"><code class="inline">runtime.config.totem.max_messages</code></td><td style="text-align: left;">extracted value from the command</td></tr><tr><td style="text-align: left;"><code class="inline">nodelist.node.0.ring0_addr</code></td><td style="text-align: left;">extracted value from the command</td></tr><tr><td style="text-align: left;"><code class="inline">nodelist.node</code></td><td style="text-align: left;">extracted value from the command</td></tr><tr><td style="text-align: left;"><code class="inline">nodelist.node.1</code></td><td style="text-align: left;">extracted value from the command</td></tr></tbody></table><p>Example specification:</p><pre><code class="yaml">facts:
   - name: totem_token
@@ -243,7 +255,7 @@ Some specific fields, such as <code class="inline">primitive</code>, <code class
   - name: node_list
     gatherer: corosync-cmapctl
     argument: nodelist.node
- 
+
   - name: second_node
     gatherer: corosync-cmapctl
     argument: nodelist.node.1</code></pre><p>Example output (in Rhai):</p><pre><code class="ts">// totem_token
@@ -274,11 +286,11 @@ Some specific fields, such as <code class="inline">primitive</code>, <code class
 };
 
 // second_node
-#{ nodeid: 2, ring0_addr: &quot;10.80.1.12&quot; };</code></pre><h3 id="dir_scan" class="section-heading">
-  <a href="#dir_scan" class="hover-link">
+#{ nodeid: 2, ring0_addr: &quot;10.80.1.12&quot; };</code></pre><span id="dir_scanv1"></span><h3 id="dir_scan-v1" class="section-heading">
+  <a href="#dir_scan-v1" class="hover-link">
     <i class="ri-link-m" aria-hidden="true"></i>
   </a>
-  <span class="text">dir_scan</span>
+  <span class="text">dir_scan@v1</span>
 </h3>
 <p><strong>Argument required</strong>: Yes</p><p>This gatherer allows to scan directories with a glob pattern provided as argument.
 The gatherer returns a list of files matched by the pattern with group/user information associated to each file.</p><p>Example argument:</p><ul><li><code class="inline">/usr/sap/[A-Z][A-Z0-9][A-Z0-9]/ERS[0-9][0-9]</code></li><li><code class="inline">/etc/polkit-1/rules.d/[0-9][0-9]-SAP[A-Z][A-Z0-9][A-Z0-9]-[0-9][0-9].rules</code></li></ul><p>Example specification:</p><pre><code class="yaml">facts:
@@ -295,11 +307,11 @@ The gatherer returns a list of files matched by the pattern with group/user info
       &quot;owner&quot;: &quot;trento&quot;,
       &quot;group&quot;: &quot;trento&quot;
     },
-  ]</code></pre><h3 id="fstab" class="section-heading">
-  <a href="#fstab" class="hover-link">
+  ]</code></pre><span id="fstabv1"></span><h3 id="fstab-v1" class="section-heading">
+  <a href="#fstab-v1" class="hover-link">
     <i class="ri-link-m" aria-hidden="true"></i>
   </a>
-  <span class="text">fstab</span>
+  <span class="text">fstab@v1</span>
 </h3>
 <p><strong>Argument required</strong>: no.</p><p>This gatherer allows access to the /etc/fstab file, returning all entries available at the file.</p><p>Example specification:</p><pre><code class="yaml">facts:
   - name: fstab
@@ -321,11 +333,11 @@ The gatherer returns a list of files matched by the pattern with group/user info
         &quot;check_order&quot;: 1,
     },
   ...
-];</code></pre><h3 id="groups" class="section-heading">
-  <a href="#groups" class="hover-link">
+];</code></pre><span id="groupsv1"></span><h3 id="groups-v1" class="section-heading">
+  <a href="#groups-v1" class="hover-link">
     <i class="ri-link-m" aria-hidden="true"></i>
   </a>
-  <span class="text">groups</span>
+  <span class="text">groups@v1</span>
 </h3>
 <p><strong>Argument required</strong>: no.</p><p>This gatherer allows access to the /etc/group file, returning all entries available at the file.</p><p>Example specification:</p><pre><code class="yaml">facts:
   - name: groups
@@ -341,11 +353,11 @@ The gatherer returns a list of files matched by the pattern with group/user info
         &quot;users&quot;: [&quot;trento&quot;],
     }
   ...
-];</code></pre><h3 id="hosts-etc-hosts" class="section-heading">
-  <a href="#hosts-etc-hosts" class="hover-link">
+];</code></pre><span id="hostsv1"></span><h3 id="hosts-v1" class="section-heading">
+  <a href="#hosts-v1" class="hover-link">
     <i class="ri-link-m" aria-hidden="true"></i>
   </a>
-  <span class="text">hosts (/etc/hosts)</span>
+  <span class="text">hosts@v1</span>
 </h3>
 <p><strong>Argument required</strong>: no.</p><p>This gatherer allows accessing the hostnames that are resolvable through <code class="inline">/etc/hosts</code>. It
 does <strong>not</strong> use domain resolution in any way but instead directly parses the file.</p><p>It allows one argument to be specified or none at all:</p><ul><li>When a hostname is provided as an argument, the gatherer will return an array of IPv4 and/or IPv6 addresses.</li><li>When no argument is provided, the gatherer will return a map with hostname as keys and arrays with IPv4 and/or IPv6 addresses.</li></ul><p>Example arguments:</p><table><thead><tr><th style="text-align: left;">Name</th><th style="text-align: left;">Return value</th></tr></thead><tbody><tr><td style="text-align: left;"><code class="inline">localhost</code></td><td style="text-align: left;">list of IPs resolving</td></tr><tr><td style="text-align: left;"><code class="inline">node1</code></td><td style="text-align: left;">list of IPs resolving</td></tr><tr><td style="text-align: left;"><code class="inline">no argument provided</code></td><td style="text-align: left;">map with hostnames and IP addresses</td></tr></tbody></table><p>Example specification:</p><pre><code class="yaml">facts:
@@ -370,11 +382,11 @@ does <strong>not</strong> use domain resolution in any way but instead directly 
   &quot;node1&quot;: [&quot;192.168.157.10&quot;],
   &quot;node2&quot;: [&quot;192.168.157.11&quot;],
   ...
-};</code></pre><h3 id="package_version" class="section-heading">
-  <a href="#package_version" class="hover-link">
+};</code></pre><span id="package_versionv1"></span><h3 id="package_version-v1" class="section-heading">
+  <a href="#package_version-v1" class="hover-link">
     <i class="ri-link-m" aria-hidden="true"></i>
   </a>
-  <span class="text">package_version</span>
+  <span class="text">package_version@v1</span>
 </h3>
 <p><strong>Argument required</strong>: yes.</p><p>This gatherer supports two usecases:</p><ul><li>get information about the installed versions of the specified package.</li><li>compare a given version string against the latest installed version of a given package.</li></ul><p>In the first usecase a list of objects is returned, where each object carries relevant information about an installed version of a package.</p><blockquote><p>Note:</p><ul><li>a list of one element is often expected since usually the installed version would be only one</li><li>detected installed versions list is ordered by descending installation time: <strong>latest installed versions come first</strong></li><li>operating on the latest installed version requires accessing the first element in the list via <code class="inline">package_fact_name[0]</code> or <code class="inline">package_fact_name.first()</code></li></ul></blockquote><p>In the second usecase, the return value is as follows (see additional details <a href="https://fedoraproject.org/wiki/Archive:Tools/RPM/VersionComparison#The_rpmvercmp_algorithm">here</a>):</p><ul><li>A value of <code class="inline">0</code> if the provided version string matches the installed package version for the requested package.</li><li>A value of <code class="inline">-1</code> if the provided version string is older that what's currently installed.</li><li>A value of <code class="inline">1</code> if the provided version string is newer than what's currently installed.</li></ul><blockquote><p>The latest detected installed version is used for comparison</p></blockquote><p>Naming the facts / expectations accordingly is specially important here to avoid confusion.</p><ul><li>We suggest using a <code class="inline">compare_</code> prefix for package version comparisons and <code class="inline">package_</code> to retrieve
 a package version</li></ul><p>Additionally, when using the version comparison, it increases readability to explicitly mention
@@ -451,11 +463,11 @@ expectations:
 ]
 
 // compare_package_corosync
-0</code></pre><h3 id="passwd" class="section-heading">
-  <a href="#passwd" class="hover-link">
+0</code></pre><span id="passwdv1"></span><h3 id="passwd-v1" class="section-heading">
+  <a href="#passwd-v1" class="hover-link">
     <i class="ri-link-m" aria-hidden="true"></i>
   </a>
-  <span class="text">passwd</span>
+  <span class="text">passwd@v1</span>
 </h3>
 <p><strong>Argument required</strong>: no.</p><p>This gatherer allows access to the /etc/passwd file, returning all entries available at the file.</p><p>Example specification:</p><pre><code class="yaml">facts:
   - name: passwd
@@ -485,11 +497,11 @@ expectations:
         &quot;user&quot;: &quot;daemon&quot;
     },
   ...
-];</code></pre><h3 id="sapcontrol" class="section-heading">
-  <a href="#sapcontrol" class="hover-link">
+];</code></pre><span id="sapcontrolv1"></span><h3 id="sapcontrol-v1" class="section-heading">
+  <a href="#sapcontrol-v1" class="hover-link">
     <i class="ri-link-m" aria-hidden="true"></i>
   </a>
-  <span class="text">sapcontrol</span>
+  <span class="text">sapcontrol@v1</span>
 </h3>
 <p><strong>Argument required</strong>: yes.</p><p>This gatherer allows access to certain webmethods that <code class="inline">sapcontrol</code> implements. An argument is required to specify which webmethod should be called. The communication with <code class="inline">sapcontrol</code> is created opening a unix socket connection using the file <code class="inline">/tmp/.sapstream5xx13</code>. The <a href="https://www.sap.com/documents/2016/09/0a40e60d-8b7c-0010-82c7-eda71af511fa.html">Sapcontrol Web Service Interface</a> documents the SOAP API interface, including all the possible values each of the fields could have, specifically helpful for enumerators like <code class="inline">dispstatus</code> in <code class="inline">GetProcessList</code> and <code class="inline">state/category</code> in <code class="inline">HACheckConfig</code> webmethod.</p><p>The return value is grouped by discovered SIDs, which include the list of command outputs for each instance in this system.</p><p>Supported webmethods:</p><ul><li><code class="inline">GetProcessList</code></li><li><code class="inline">GetSystemInstanceList</code></li><li><code class="inline">GetVersionInfo</code></li><li><code class="inline">HACheckConfig</code></li><li><code class="inline">HAGetFailoverConfig</code></li></ul><p>Example specification:</p><pre><code class="yaml">facts:
   - name: processes
@@ -517,7 +529,7 @@ expectations:
       ]
     }
   ]
-} 
+}
 
 // GetSystemInstanceList
 #{
@@ -548,7 +560,7 @@ expectations:
       ]
     }
   ]
-} 
+}
 
 // GetVersionInfo
 #{
@@ -625,11 +637,11 @@ expectations:
     }
   ]
 }
-</code></pre><h3 id="saphostctrl" class="section-heading">
-  <a href="#saphostctrl" class="hover-link">
+</code></pre><span id="saphostctrlv1"></span><h3 id="saphostctrl-v1" class="section-heading">
+  <a href="#saphostctrl-v1" class="hover-link">
     <i class="ri-link-m" aria-hidden="true"></i>
   </a>
-  <span class="text">saphostctrl</span>
+  <span class="text">saphostctrl@v1</span>
 </h3>
 <p><strong>Argument required</strong>: yes.</p><p>This gatherer allows access to certain webmethods that <code class="inline">saphostctrl</code> implements. An argument is required to specify
 which webmethod should be called. This webmethod is passed to the <code class="inline">saphostctrl</code> command-line tool through the <code class="inline">-function</code> argument.</p><p>Supported webmethods:</p><ul><li><code class="inline">Ping</code></li><li><code class="inline">ListInstances</code></li></ul><p>A <code class="inline">Ping</code> call with a successful return should look like this:</p><p>Example specification:</p><pre><code class="yaml">facts:
@@ -652,11 +664,11 @@ which webmethod should be called. This webmethod is passed to the <code class="i
         &quot;sapkernel&quot;: 753,
         &quot;system&quot;: &quot;PRD&quot;
     }
-];</code></pre><h3 id="sap_profiles" class="section-heading">
-  <a href="#sap_profiles" class="hover-link">
+];</code></pre><span id="sap_profilesv1"></span><h3 id="sap_profiles-v1" class="section-heading">
+  <a href="#sap_profiles-v1" class="hover-link">
     <i class="ri-link-m" aria-hidden="true"></i>
   </a>
-  <span class="text">sap_profiles</span>
+  <span class="text">sap_profiles@v1</span>
 </h3>
 <p><strong>Argument required</strong>: no.</p><p>This gatherer allows access to the latest SAP profile files content stored in <code class="inline">/sapmnt/&lt;SID&gt;/profile</code>.
 The &quot;latest&quot; profile means that backed up files like <code class="inline">DEFAULT.1.PFL</code> or <code class="inline">some_profile.1</code> are excluded.
@@ -703,11 +715,11 @@ It returns the profile files and content grouped by SID in a key\value way.</p><
       ...
     ]
   }
-}</code></pre><h3 id="saptune" class="section-heading">
-  <a href="#saptune" class="hover-link">
+}</code></pre><span id="saptunev1"></span><h3 id="saptune-v1" class="section-heading">
+  <a href="#saptune-v1" class="hover-link">
     <i class="ri-link-m" aria-hidden="true"></i>
   </a>
-  <span class="text">saptune</span>
+  <span class="text">saptune@v1</span>
 </h3>
 <p><strong>Argument required</strong>: yes.</p><p>This gatherer allows access to certain commands that <code class="inline">saptune</code> implements. An argument is required to specify
 which argument should be used when calling <code class="inline">saptune</code>.</p><blockquote><p>Note: the gatherer will return the same JSON objects returned by saptune. The only transformation it applies is the snake casing of the keys.</p></blockquote><p>Supported arguments:</p><ul><li><code class="inline">status</code> (maps to <code class="inline">saptune --format json status --non-compliance-check</code>)</li><li><code class="inline">solution-verify</code> (maps to <code class="inline">saptune --format json solution verify</code>)</li><li><code class="inline">solution-list</code> (maps to <code class="inline">saptune --format json solution list</code>)</li><li><code class="inline">note-verify</code> (maps to <code class="inline">saptune --format json note verify</code>)</li><li><code class="inline">note-list</code> (maps to <code class="inline">saptune --format json note list</code>)</li></ul><p>A <code class="inline">status</code> call with a successful return should look like this:</p><p>Example specification:</p><pre><code class="yaml">facts:
@@ -761,11 +773,11 @@ which argument should be used when calling <code class="inline">saptune</code>.<
     &quot;tuning_state&quot;: &quot;compliant&quot;,
     &quot;virtualization&quot;: &quot;kvm&quot;
   }
-}</code></pre><h3 id="sbd_config" class="section-heading">
-  <a href="#sbd_config" class="hover-link">
+}</code></pre><span id="sbd_configv1"></span><h3 id="sbd_config-v1" class="section-heading">
+  <a href="#sbd_config-v1" class="hover-link">
     <i class="ri-link-m" aria-hidden="true"></i>
   </a>
-  <span class="text">sbd_config</span>
+  <span class="text">sbd_config@v1</span>
 </h3>
 <p><strong>Argument required</strong>: yes.</p><p>This gatherer allows accessing the information contained in <code class="inline">/etc/sysconfig/sbd</code></p><p>Example arguments:</p><table><thead><tr><th style="text-align: left;">Name</th><th style="text-align: left;">Return value</th></tr></thead><tbody><tr><td style="text-align: left;"><code class="inline">SBD_PACEMAKER</code></td><td style="text-align: left;">extracted value from the config</td></tr><tr><td style="text-align: left;"><code class="inline">SBD_STARTMODE</code></td><td style="text-align: left;">extracted value from the config</td></tr><tr><td style="text-align: left;"><code class="inline">SBD_DEVICE</code></td><td style="text-align: left;">extracted value from the config</td></tr></tbody></table><p>Example specification:</p><pre><code class="yaml">facts:
   - name: sbd_pacemaker
@@ -785,11 +797,11 @@ which argument should be used when calling <code class="inline">saptune</code>.<
 &quot;always&quot;;
 
 // sbd_device
-&quot;/dev/vdc;/dev/vdb&quot;;</code></pre><h3 id="sbd_dump" class="section-heading">
-  <a href="#sbd_dump" class="hover-link">
+&quot;/dev/vdc;/dev/vdb&quot;;</code></pre><span id="sbd_dumpv1"></span><h3 id="sbd_dump-v1" class="section-heading">
+  <a href="#sbd_dump-v1" class="hover-link">
     <i class="ri-link-m" aria-hidden="true"></i>
   </a>
-  <span class="text">sbd_dump</span>
+  <span class="text">sbd_dump@v1</span>
 </h3>
 <p><strong>Argument required</strong>: no.</p><p>This gatherer allows accessing the sbd dump command output data.</p><p>It executes the <code class="inline">sbd -d &lt;device&gt; dump</code> command in all devices configured in the <code class="inline">SBD_DEVICE</code> field on <code class="inline">/etc/sysconfig/sbd</code> and aggregates results in only one fact.</p><p>Note that:</p><ul><li>no arguments are required</li><li>if any of the dumps fail, a fact error is returned</li></ul><p>Dumped keys (<code class="inline">Timeout (watchdog)</code>, <code class="inline">Timeout (msgwait)</code>, <code class="inline">Number of slots</code>, etc) are sanitized to simplify their access and usage in the expression language.</p><p>Example specification:</p><pre><code class="yaml">facts:
   - name: sbd_devices_dump
@@ -805,11 +817,11 @@ which argument should be used when calling <code class="inline">saptune</code>.<
         timeout_watchdog: 5,
         uuid: &quot;69048391-c647-4b34-a03a-f704f5cc2258&quot;
     }
-};</code></pre><p>For extra information refer to <a href="https://github.com/trento-project/agent/blob/main/internal/factsengine/gatherers/sbddump_test.go">trento-project/agent/../gatherers/sbddump_test.go</a></p><h3 id="sysctl" class="section-heading">
-  <a href="#sysctl" class="hover-link">
+};</code></pre><p>For extra information refer to <a href="https://github.com/trento-project/agent/blob/main/internal/factsengine/gatherers/sbddump_test.go">trento-project/agent/../gatherers/sbddump_test.go</a></p><span id="sysctlv1"></span><h3 id="sysctl-v1" class="section-heading">
+  <a href="#sysctl-v1" class="hover-link">
     <i class="ri-link-m" aria-hidden="true"></i>
   </a>
-  <span class="text">sysctl</span>
+  <span class="text">sysctl@v1</span>
 </h3>
 <p><strong>Argument required</strong>: yes.</p><p>Gather sysctl output. It takes a sysctl key as argument and it returns the value of the requested key or a map if a partial key is provided.</p><p>Example arguments:</p><table><thead><tr><th style="text-align: left;">Name</th><th style="text-align: left;">Return value</th></tr></thead><tbody><tr><td style="text-align: left;"><code class="inline">vm.swappiness</code></td><td style="text-align: left;">corresponding value returned by sysctl</td></tr><tr><td style="text-align: left;"><code class="inline">debug</code></td><td style="text-align: left;">a map containing all the keys starting with `debug.``</td></tr></tbody></table><pre><code class="yaml">facts:
   - name: vm_swappiness
@@ -825,11 +837,11 @@ which argument should be used when calling <code class="inline">saptune</code>.<
 #{
   &quot;exception-trace&quot;: 1,
   &quot;kprobes-optimization&quot;: 1
-};</code></pre><h3 id="systemd" class="section-heading">
-  <a href="#systemd" class="hover-link">
+};</code></pre><span id="systemdv1"></span><h3 id="systemd-v1" class="section-heading">
+  <a href="#systemd-v1" class="hover-link">
     <i class="ri-link-m" aria-hidden="true"></i>
   </a>
-  <span class="text">systemd</span>
+  <span class="text">systemd@v1</span>
 </h3>
 <p><strong>Argument required</strong>: yes.</p><p>Gather systemd units state. It returns an <code class="inline">active/inactive</code> string.
 If the service is disabled or it does not exist, <code class="inline">inactive</code> is returned.</p><p>Example arguments:</p><table><thead><tr><th style="text-align: left;">Name</th><th style="text-align: left;">Return value</th></tr></thead><tbody><tr><td style="text-align: left;"><code class="inline">trento-agent</code></td><td style="text-align: left;">state of the systemd unit</td></tr></tbody></table><pre><code class="yaml">facts:
@@ -843,14 +855,14 @@ If the service is disabled or it does not exist, <code class="inline">inactive</
 &quot;active&quot;;
 
 // corosync_state
-&quot;inactive&quot;;</code></pre><span id="systemd-v2"></span><h3 id="systemd-v2" class="section-heading">
+&quot;inactive&quot;;</code></pre><span id="systemdv2"></span><h3 id="systemd-v2" class="section-heading">
   <a href="#systemd-v2" class="hover-link">
     <i class="ri-link-m" aria-hidden="true"></i>
   </a>
   <span class="text">systemd@v2</span>
 </h3>
 <p><strong>Argument required</strong>: yes.</p><p>Gather systemd units information. It returns an object with multiple fields about the systemd unit.</p><p>The provided unit name must include the extension, such as <code class="inline">.service</code> or <code class="inline">.mount</code>.</p><p>Only a subset of properties are returned. Additional information about these is available in
-the <a href="https://www.man7.org/linux/man-pages/man5/org.freedesktop.systemd1.5.html#UNIT_OBJECTS">systemd</a> man pages, 
+the <a href="https://www.man7.org/linux/man-pages/man5/org.freedesktop.systemd1.5.html#UNIT_OBJECTS">systemd</a> man pages,
 with some detailed description in the <code class="inline">Properties</code> sub-chapter.</p><p>Example arguments:</p><table><thead><tr><th style="text-align: left;">Name</th><th style="text-align: left;">Return value</th></tr></thead><tbody><tr><td style="text-align: left;"><code class="inline">trento-agent.service</code></td><td style="text-align: left;">systemd unit information</td></tr></tbody></table><pre><code class="yaml">facts:
   - name: corosync
     gatherer: systemd@v2
@@ -878,12 +890,12 @@ with some detailed description in the <code class="inline">Properties</code> sub
   &quot;need_daemon_reload&quot;: false,
   &quot;unit_file_preset&quot;: &quot;&quot;,
   &quot;unit_file_state&quot;: &quot;&quot;
-} 
-</code></pre><h3 id="verify_password" class="section-heading">
-  <a href="#verify_password" class="hover-link">
+}
+</code></pre><span id="verify_passwordv1"></span><h3 id="verify_password-v1" class="section-heading">
+  <a href="#verify_password-v1" class="hover-link">
     <i class="ri-link-m" aria-hidden="true"></i>
   </a>
-  <span class="text">verify_password</span>
+  <span class="text">verify_password@v1</span>
 </h3>
 <p><strong>Argument required</strong>: yes.</p><p>This gatherer determines whether a given user has its password still set to an unsafe password.
 It returns <code class="inline">true</code> if the password matches a password in the list of unsafe passwords, <code class="inline">false</code> otherwise.</p><p>Specification examples:</p><pre><code class="yaml">facts:
