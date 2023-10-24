@@ -16,7 +16,8 @@ fact = gatherer(argument)
 
 ## Gatherers versioning
 
-When an update to the trento-agent includes a non-backwards compatible change in a gatherer (e.g., changes to the Rhai output format), its version is
+The gatherers implementation supports a versioning mechanism in order to enable non-backwards compatibility changes in any of them. When an update to
+the trento-agent includes a non-backwards compatible change in a gatherer (e.g., changes to the Rhai output format), its version is
 bumped by incrementing the @vN suffix that follows the gatherer's name, where 'N' represents the new version of that gatherer.
 Example:
 
@@ -26,9 +27,9 @@ Example:
 Note that when writing a check, if no tag is specified (e.g. `systemd`), the latest version is used. It is **strongly** recommended to always pin your
 checks to a specific version of a gatherer.
 
-Also note that not all changes in a released gatherer get a new version tag. A new version tag is released only for breaking changes,
-while non-breaking changes such as additional fields in the Rhai output reuse the latest existing tag. To use a check that relies on a newer
-field introduced after an update, upgrade the agent to the latest version to ensure that the required gatherers are also up-to-date.
+Not all changes in a released gatherer get a new version tag. A new version tag is released only for breaking changes, while non-breaking changes such
+as additional fields in the Rhai output reuse the latest existing tag. To use a check that relies on a newer field introduced after an update, upgrade
+the agent to the latest version to ensure that the required gatherers are also up-to-date.
 
 ## Available Gatherers
 
@@ -56,7 +57,7 @@ Here's a collection of built-in gatherers, with information about how to use the
 | [`systemd@v2`](#systemdv2)                   | [trento-project/agent/../gatherers/systemd_v2.go](https://github.com/trento-project/agent/blob/main/internal/factsengine/gatherers/systemd_v2.go)           |
 | [`verify_password@v1`](#verify_passwordv1)   | [trento-project/agent/../gatherers/verifypassword.go](https://github.com/trento-project/agent/blob/main/internal/factsengine/gatherers/verifypassword.go)   |
 
-<span id="cibadmin-v1"></span>
+<span id="cibadminv1"></span>
 
 ### cibadmin@v1
 
@@ -117,7 +118,7 @@ Example output (in Rhai):
 };
 ```
 
-<span id="corosyncconf-v1"></span>
+<span id="corosyncconfv1"></span>
 
 ### corosync.conf@v1
 
@@ -180,7 +181,7 @@ Example output (in Rhai):
 
 For extra information refer to [trento-project/agent/../gatherers/corosyncconf_test.go](https://github.com/trento-project/agent/blob/main/internal/factsengine/gatherers/corosyncconf_test.go)
 
-<span id="corosync-cmapctl-v1"></span>
+<span id="corosync-cmapctlv1"></span>
 
 ### corosync-cmapctl@v1
 
@@ -267,7 +268,7 @@ Example output (in Rhai):
 #{ nodeid: 2, ring0_addr: "10.80.1.12" };
 ```
 
-<span id="dir_scan-v1"></span>
+<span id="dir_scanv1"></span>
 
 ### dir_scan@v1
 
@@ -307,7 +308,7 @@ Example output (in Rhai):
   ]
 ```
 
-<span id="fstab-v1"></span>
+<span id="fstabv1"></span>
 
 ### fstab@v1
 
@@ -347,7 +348,7 @@ Example output (in Rhai):
 ];
 ```
 
-<span id="groups-v1"></span>
+<span id="groupsv1"></span>
 
 ### groups@v1
 
@@ -381,7 +382,7 @@ Example output (in Rhai):
 ];
 ```
 
-<span id="hosts-v1"></span>
+<span id="hostsv1"></span>
 
 ### hosts@v1
 
@@ -437,7 +438,7 @@ Example output (in Rhai):
 };
 ```
 
-<span id="package_version-v1"></span>
+<span id="package_versionv1"></span>
 
 ### package_version@v1
 
@@ -568,7 +569,7 @@ Example output (in Rhai):
 0
 ```
 
-<span id="passwd-v1"></span>
+<span id="passwdv1"></span>
 
 ### passwd@v1
 
@@ -616,7 +617,7 @@ Example output (in Rhai):
 ];
 ```
 
-<span id="sapcontrol-v1"></span>
+<span id="sapcontrolv1"></span>
 
 ### sapcontrol@v1
 
@@ -780,7 +781,7 @@ Example output (in Rhai):
 
 ```
 
-<span id="saphostctrl-v1"></span>
+<span id="saphostctrlv1"></span>
 
 ### saphostctrl@v1
 
@@ -828,7 +829,7 @@ Example output (in Rhai):
 ];
 ```
 
-<span id="sap_profiles-v1"></span>
+<span id="sap_profilesv1"></span>
 
 ### sap_profiles@v1
 
@@ -893,7 +894,7 @@ Example output (in Rhai):
 }
 ```
 
-<span id="saptune-v1"></span>
+<span id="saptunev1"></span>
 
 ### saptune@v1
 
@@ -977,7 +978,7 @@ Example output (in Rhai):
 }
 ```
 
-<span id="sbd_config-v1"></span>
+<span id="sbd_configv1"></span>
 
 ### sbd_config@v1
 
@@ -1023,7 +1024,7 @@ Example output (in Rhai):
 "/dev/vdc;/dev/vdb";
 ```
 
-<span id="sbd_dump-v1"></span>
+<span id="sbd_dumpv1"></span>
 
 ### sbd_dump@v1
 
@@ -1068,7 +1069,7 @@ Example output (in Rhai):
 
 For extra information refer to [trento-project/agent/../gatherers/sbddump_test.go](https://github.com/trento-project/agent/blob/main/internal/factsengine/gatherers/sbddump_test.go)
 
-<span id="sysctl-v1"></span>
+<span id="sysctlv1"></span>
 
 ### sysctl@v1
 
@@ -1107,7 +1108,7 @@ Example output (in Rhai):
 };
 ```
 
-<span id="systemd-v1"></span>
+<span id="systemdv1"></span>
 
 ### systemd@v1
 
