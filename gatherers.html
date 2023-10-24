@@ -130,7 +130,7 @@ GUIDES
   </a>
   <span class="text">Introduction</span>
 </h2>
-<p>Gatherers can be thought of as functions:</p><ul><li>they have a name</li><li>they accept argument(s)</li><li>they return a value, the gathered <a href="specification.html#facts">Fact</a></li></ul><p>Facts Gathering process in a nutshell</p><pre><code class="makeup elixir" translate="no"><span class="n">fact</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">gatherer</span><span class="p" data-group-id="3797796379-1">(</span><span class="n">argument</span><span class="p" data-group-id="3797796379-1">)</span></code></pre><h2 id="gatherers-versioning" class="section-heading">
+<p>Gatherers can be thought of as functions:</p><ul><li>they have a name</li><li>they accept argument(s)</li><li>they return a value, the gathered <a href="specification.html#facts">Fact</a></li></ul><p>Facts Gathering process in a nutshell</p><pre><code class="makeup elixir" translate="no"><span class="n">fact</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">gatherer</span><span class="p" data-group-id="9887136210-1">(</span><span class="n">argument</span><span class="p" data-group-id="9887136210-1">)</span></code></pre><h2 id="gatherers-versioning" class="section-heading">
   <a href="#gatherers-versioning" class="hover-link">
     <i class="ri-link-m" aria-hidden="true"></i>
   </a>
@@ -158,15 +158,15 @@ the agent to the latest version to ensure that the required gatherers are also u
 As the <code class="inline">cibadmin</code> command output is in XML format, the gatherer converts it to map/dictionary type format, so the fields are available with the normal dot access way.
 Some specific fields, such as <code class="inline">primitive</code>, <code class="inline">clone</code>, <code class="inline">master</code>, etc (find the complete list <a href="https://github.com/trento-project/agent/blob/main/internal/factsengine/gatherers/cibadmin.go#L48">here</a>) are converted to lists, in order to avoid differences when the field appears one or multiple times.</p><p>Example arguments:</p><table><thead><tr><th style="text-align: left;">Name</th><th style="text-align: left;">Return value</th></tr></thead><tbody><tr><td style="text-align: left;"><code class="inline">cib.configuration</code></td><td style="text-align: left;">complete cib configuration entry as a map</td></tr><tr><td style="text-align: left;"><code class="inline">cib.configuration.resources.primitive.0</code></td><td style="text-align: left;">first available primitive resource</td></tr><tr><td style="text-align: left;"><code class="inline">cib.configuration.crm_config.cluster_property_set.0.nvpair.1</code></td><td style="text-align: left;">second nvpair value from the first element of cluster_property_set</td></tr></tbody></table><p>Example specification:</p><pre><code class="yaml">facts:
   - name: cib_configuration
-    gatherer: cibadmin
+    gatherer: cibadmin@v1
     argument: cib.configuration
 
   - name: first_primitive
-    gatherer: cibadmin
+    gatherer: cibadmin@v1
     argument: cib.configuration.resources.primitive.0
 
   - name: first_cluster_property_set_second_nvpair
-    gatherer: cibadmin
+    gatherer: cibadmin@v1
     argument: cib.configuration.crm_config.cluster_property_set.0.nvpair.1</code></pre><p>Example output (in Rhai):</p><pre><code class="ts">// first_primitive
 #{
     class: &quot;stonith&quot;,
@@ -195,23 +195,23 @@ Some specific fields, such as <code class="inline">primitive</code>, <code class
 </h3>
 <p><strong>Argument required</strong>: no.</p><p>This gatherer allows accessing the information contained in <code class="inline">/etc/corosync/corosync.conf</code></p><p>Example arguments:</p><table><thead><tr><th style="text-align: left;">Name</th><th style="text-align: left;">Return value</th></tr></thead><tbody><tr><td style="text-align: left;"><code class="inline">totem.token</code></td><td style="text-align: left;">extracted value from the config</td></tr><tr><td style="text-align: left;"><code class="inline">totem.join</code></td><td style="text-align: left;">extracted value from the config</td></tr><tr><td style="text-align: left;"><code class="inline">nodelist.node.&lt;node_index&gt;.nodeid</code></td><td style="text-align: left;">extracted value from the config</td></tr><tr><td style="text-align: left;"><code class="inline">nodelist.node</code></td><td style="text-align: left;">list of objects representing the nodes</td></tr></tbody></table><p>Example specification:</p><pre><code class="yaml">facts:
   - name: corosync_token_timeout
-    gatherer: corosync.conf
+    gatherer: corosync.conf@v1
     argument: totem.token
 
   - name: corosync_join
-    gatherer: corosync.conf
+    gatherer: corosync.conf@v1
     argument: totem.join
 
   - name: corosync_node_id_0
-    gatherer: corosync.conf
+    gatherer: corosync.conf@v1
     argument: nodelist.node.0.nodeid
 
   - name: corosync_node_id_1
-    gatherer: corosync.conf
+    gatherer: corosync.conf@v1
     argument: nodelist.node.1.nodeid
 
   - name: corosync_nodes
-    gatherer: corosync.conf
+    gatherer: corosync.conf@v1
     argument: nodelist.node</code></pre><p>Example output (in Rhai):</p><pre><code class="ts">// corosync_token_timeout
 30000;
 
@@ -233,31 +233,31 @@ Some specific fields, such as <code class="inline">primitive</code>, <code class
 </h3>
 <p><strong>Argument required</strong>: yes.</p><p>This gatherer allows accessing the output of the <code class="inline">corosync-cmapctl</code> tool. It supports all of the keys returned by it to be queried.</p><p>Example arguments:</p><table><thead><tr><th style="text-align: left;">Name</th><th style="text-align: left;">Return value</th></tr></thead><tbody><tr><td style="text-align: left;"><code class="inline">totem.token</code></td><td style="text-align: left;">extracted value from the command</td></tr><tr><td style="text-align: left;"><code class="inline">runtime.config.totem.token</code></td><td style="text-align: left;">extracted value from the command</td></tr><tr><td style="text-align: left;"><code class="inline">totem.transport</code></td><td style="text-align: left;">extracted value from the command</td></tr><tr><td style="text-align: left;"><code class="inline">runtime.config.totem.max_messages</code></td><td style="text-align: left;">extracted value from the command</td></tr><tr><td style="text-align: left;"><code class="inline">nodelist.node.0.ring0_addr</code></td><td style="text-align: left;">extracted value from the command</td></tr><tr><td style="text-align: left;"><code class="inline">nodelist.node</code></td><td style="text-align: left;">extracted value from the command</td></tr><tr><td style="text-align: left;"><code class="inline">nodelist.node.1</code></td><td style="text-align: left;">extracted value from the command</td></tr></tbody></table><p>Example specification:</p><pre><code class="yaml">facts:
   - name: totem_token
-    gatherer: corosync-cmapctl
+    gatherer: corosync-cmapctl@v1
     argument: totem.token
 
   - name: runtime_totem_token
-    gatherer: corosync-cmapctl
+    gatherer: corosync-cmapctl@v1
     argument: runtime.config.totem.token
 
   - name: totem_transport
-    gatherer: corosync-cmapctl
+    gatherer: corosync-cmapctl@v1
     argument: totem.transport
 
   - name: totem_max_messages
-    gatherer: corosync-cmapctl
+    gatherer: corosync-cmapctl@v1
     argument: runtime.config.totem.max_messages
 
   - name: node_0_ring0addr
-    gatherer: corosync-cmapctl
+    gatherer: corosync-cmapctl@v1
     argument: nodelist.node.0.ring0_addr
 
   - name: node_list
-    gatherer: corosync-cmapctl
+    gatherer: corosync-cmapctl@v1
     argument: nodelist.node
 
   - name: second_node
-    gatherer: corosync-cmapctl
+    gatherer: corosync-cmapctl@v1
     argument: nodelist.node.1</code></pre><p>Example output (in Rhai):</p><pre><code class="ts">// totem_token
 30000;
 
@@ -295,7 +295,7 @@ Some specific fields, such as <code class="inline">primitive</code>, <code class
 <p><strong>Argument required</strong>: Yes</p><p>This gatherer allows to scan directories with a glob pattern provided as argument.
 The gatherer returns a list of files matched by the pattern with group/user information associated to each file.</p><p>Example argument:</p><ul><li><code class="inline">/usr/sap/[A-Z][A-Z0-9][A-Z0-9]/ERS[0-9][0-9]</code></li><li><code class="inline">/etc/polkit-1/rules.d/[0-9][0-9]-SAP[A-Z][A-Z0-9][A-Z0-9]-[0-9][0-9].rules</code></li></ul><p>Example specification:</p><pre><code class="yaml">facts:
   - name: dir_scan
-    gatherer: dir_scan
+    gatherer: dir_scan@v1
     argument: &quot;/usr/sap/[A-Z][A-Z0-9][A-Z0-9]/ERS[0-9][0-9]&quot;</code></pre><p>Example output (in Rhai):</p><pre><code class="ts">  [
     #{
       &quot;name&quot;: &quot;/usr/sap/PRD/ERS01&quot;,
@@ -317,7 +317,7 @@ The gatherer returns a list of files matched by the pattern with group/user info
 The command is executed for all installed SAP systems, accessing it with the <code class="inline">&lt;sid&gt;adm</code> user. The fields for
 each system are returned in a map using the SAP sid as key.</p><p>If the <code class="inline">disp+work</code> command execution fails, the fields are returned with an empty string value.</p><p>The available fields are <code class="inline">compilation_mode</code>, <code class="inline">kernel_release</code> and <code class="inline">patch_number</code>.</p><p>Example specification:</p><pre><code class="yaml">facts:
   - name: dispwork
-    gatherer: disp+work</code></pre><p>Example output (in Rhai):</p><pre><code class="ts">#{
+    gatherer: disp+work@v1</code></pre><p>Example output (in Rhai):</p><pre><code class="ts">#{
   &quot;NWP&quot;: #{
     &quot;compilation_mode&quot;: &quot;UNICODE&quot;,
     &quot;kernel_release&quot;: &quot;753&quot;,
@@ -334,7 +334,7 @@ each system are returned in a map using the SAP sid as key.</p><p>If the <code c
     &quot;kernel_release&quot;: &quot;753&quot;,
     &quot;patch_number&quot;: &quot;910&quot;
   }
-} </code></pre><span id="fstabv1"></span><h3 id="fstab-v1" class="section-heading">
+}</code></pre><span id="fstabv1"></span><h3 id="fstab-v1" class="section-heading">
   <a href="#fstab-v1" class="hover-link">
     <i class="ri-link-m" aria-hidden="true"></i>
   </a>
@@ -342,7 +342,7 @@ each system are returned in a map using the SAP sid as key.</p><p>If the <code c
 </h3>
 <p><strong>Argument required</strong>: no.</p><p>This gatherer allows access to the /etc/fstab file, returning all entries available at the file.</p><p>Example specification:</p><pre><code class="yaml">facts:
   - name: fstab
-    gatherer: fstab</code></pre><p>Example output (in Rhai):</p><pre><code class="ts">[
+    gatherer: fstab@v1</code></pre><p>Example output (in Rhai):</p><pre><code class="ts">[
     #{
         &quot;device&quot;: &quot;/dev/system/root&quot;,
         &quot;mount_point&quot;: &quot;/&quot;,
@@ -368,7 +368,7 @@ each system are returned in a map using the SAP sid as key.</p><p>If the <code c
 </h3>
 <p><strong>Argument required</strong>: no.</p><p>This gatherer allows access to the /etc/group file, returning all entries available at the file.</p><p>Example specification:</p><pre><code class="yaml">facts:
   - name: groups
-    gatherer: groups</code></pre><p>Example output (in Rhai):</p><pre><code class="ts">[
+    gatherer: groups@v1</code></pre><p>Example output (in Rhai):</p><pre><code class="ts">[
     #{
         &quot;name&quot;: &quot;root&quot;,
         &quot;gid&quot;: 0,
@@ -389,15 +389,15 @@ each system are returned in a map using the SAP sid as key.</p><p>If the <code c
 <p><strong>Argument required</strong>: no.</p><p>This gatherer allows accessing the hostnames that are resolvable through <code class="inline">/etc/hosts</code>. It
 does <strong>not</strong> use domain resolution in any way but instead directly parses the file.</p><p>It allows one argument to be specified or none at all:</p><ul><li>When a hostname is provided as an argument, the gatherer will return an array of IPv4 and/or IPv6 addresses.</li><li>When no argument is provided, the gatherer will return a map with hostname as keys and arrays with IPv4 and/or IPv6 addresses.</li></ul><p>Example arguments:</p><table><thead><tr><th style="text-align: left;">Name</th><th style="text-align: left;">Return value</th></tr></thead><tbody><tr><td style="text-align: left;"><code class="inline">localhost</code></td><td style="text-align: left;">list of IPs resolving</td></tr><tr><td style="text-align: left;"><code class="inline">node1</code></td><td style="text-align: left;">list of IPs resolving</td></tr><tr><td style="text-align: left;"><code class="inline">no argument provided</code></td><td style="text-align: left;">map with hostnames and IP addresses</td></tr></tbody></table><p>Example specification:</p><pre><code class="yaml">facts:
   - name: hosts_node1
-    gatherer: hosts
+    gatherer: hosts@v1
     argument: node1
 
   - name: hosts_node2
-    gatherer: hosts
+    gatherer: hosts@v1
     argument: node2
 
   - name: hosts_all
-    gatherer: hosts</code></pre><p>Example output (in Rhai):</p><pre><code class="ts">// hosts_node1
+    gatherer: hosts@v1</code></pre><p>Example output (in Rhai):</p><pre><code class="ts">// hosts_node1
 [&quot;127.0.0.1&quot;, &quot;::1&quot;];
 
 // hosts_node2
@@ -419,15 +419,15 @@ does <strong>not</strong> use domain resolution in any way but instead directly 
 a package version</li></ul><p>Additionally, when using the version comparison, it increases readability to explicitly mention
 the values to compare against:</p><pre><code class="yaml">facts:
   - name: compare_package_corosync
-    gatherer: package_version
+    gatherer: package_version@v1
     argument: corosync,2.4.5
 
   - name: package_corosync
-    gatherer: package_version
+    gatherer: package_version@v1
     argument: corosync
 
   - name: package_sbd
-    gatherer: package_version
+    gatherer: package_version@v1
     argument: sbd
 
 values:
@@ -450,19 +450,19 @@ expectations:
   - name: sbd_version_same_on_all_hosts
     expect_same: facts.package_sbd.first().version</code></pre><p>Example arguments:</p><table><thead><tr><th style="text-align: left;">Name</th><th style="text-align: left;">Return value</th></tr></thead><tbody><tr><td style="text-align: left;"><code class="inline">package_name</code></td><td style="text-align: left;">a list containing information about the installed versions of the rpm package</td></tr><tr><td style="text-align: left;"><code class="inline">package_name,2.4.5</code></td><td style="text-align: left;">an integer with a value of <code class="inline">-1</code>, <code class="inline">0</code> or <code class="inline">1</code> (see above)</td></tr></tbody></table><p>Example specification:</p><pre><code class="yaml">facts:
   - name: package_corosync
-    gatherer: package_version
+    gatherer: package_version@v1
     argument: corosync
 
   - name: package_pacemaker
-    gatherer: package_version
+    gatherer: package_version@v1
     argument: pacemaker
 
   - name: multiple_sbd_versions_installed
-    gatherer: package_version
+    gatherer: package_version@v1
     argument: sbd
 
   - name: compare_package_corosync
-    gatherer: package_version
+    gatherer: package_version@v1
     argument: corosync,2.4.5
 
   ...</code></pre><p>Example output (in Rhai):</p><pre><code class="ts">// package_corosync
@@ -498,7 +498,7 @@ expectations:
 </h3>
 <p><strong>Argument required</strong>: no.</p><p>This gatherer allows access to the /etc/passwd file, returning all entries available at the file.</p><p>Example specification:</p><pre><code class="yaml">facts:
   - name: passwd
-    gatherer: passwd</code></pre><p>Example output (in Rhai):</p><pre><code class="ts">[
+    gatherer: passwd@v1</code></pre><p>Example output (in Rhai):</p><pre><code class="ts">[
     #{
         &quot;description&quot;: &quot;bin&quot;,
         &quot;gid&quot;: 1,
@@ -532,11 +532,11 @@ expectations:
 </h3>
 <p><strong>Argument required</strong>: yes.</p><p>This gatherer allows access to certain webmethods that <code class="inline">sapcontrol</code> implements. An argument is required to specify which webmethod should be called. The communication with <code class="inline">sapcontrol</code> is created opening a unix socket connection using the file <code class="inline">/tmp/.sapstream5xx13</code>. The <a href="https://www.sap.com/documents/2016/09/0a40e60d-8b7c-0010-82c7-eda71af511fa.html">Sapcontrol Web Service Interface</a> documents the SOAP API interface, including all the possible values each of the fields could have, specifically helpful for enumerators like <code class="inline">dispstatus</code> in <code class="inline">GetProcessList</code> and <code class="inline">state/category</code> in <code class="inline">HACheckConfig</code> webmethod.</p><p>The return value is grouped by discovered SIDs, which include the list of command outputs for each instance in this system.</p><p>Supported webmethods:</p><ul><li><code class="inline">GetProcessList</code></li><li><code class="inline">GetSystemInstanceList</code></li><li><code class="inline">GetVersionInfo</code></li><li><code class="inline">HACheckConfig</code></li><li><code class="inline">HAGetFailoverConfig</code></li></ul><p>Example specification:</p><pre><code class="yaml">facts:
   - name: processes
-    gatherer: sapcontrol
+    gatherer: sapcontrol@v1
     argument: GetProcessList
 
   - name: instances
-    gatherer: sapcontrol
+    gatherer: sapcontrol@v1
     argument: GetSystemInstanceList</code></pre><p>Example output (in Rhai):</p><pre><code class="ts">// GetProcessList
 #{
   &quot;NWP&quot;: [
@@ -673,11 +673,11 @@ expectations:
 <p><strong>Argument required</strong>: yes.</p><p>This gatherer allows access to certain webmethods that <code class="inline">saphostctrl</code> implements. An argument is required to specify
 which webmethod should be called. This webmethod is passed to the <code class="inline">saphostctrl</code> command-line tool through the <code class="inline">-function</code> argument.</p><p>Supported webmethods:</p><ul><li><code class="inline">Ping</code></li><li><code class="inline">ListInstances</code></li></ul><p>A <code class="inline">Ping</code> call with a successful return should look like this:</p><p>Example specification:</p><pre><code class="yaml">facts:
   - name: ping
-    gatherer: saphostctrl
+    gatherer: saphostctrl@v1
     argument: Ping
 
   - name: list_instances
-    gatherer: saphostctrl
+    gatherer: saphostctrl@v1
     argument: ListInstances</code></pre><p>Example output (in Rhai):</p><pre><code class="ts">// ping
 #{elapsed: 579770.0, status: &quot;SUCCESS&quot;}
 
@@ -697,51 +697,12 @@ which webmethod should be called. This webmethod is passed to the <code class="i
   </a>
   <span class="text">sapinstance_hostname_resolver@v1</span>
 </h3>
-<p><strong>Argument required</strong>: no.</p><p>This gatherer uses the filesystem to search for sap systems using the discovered profile file names to get the virtual hostnames associated to each
-instance of the sap system. It will then attempt to resolve those hostnames to confirm that they are resolvable and afterwards it will attempt a ping
-to those hostnames. Keep in mind that ping could be disallowed through firewall rules so it should only be used for networks in which we know this is
-not true.</p><p>Example specification:</p><pre><code class="yaml">facts:
-  - name: resolvability_check
-    gatherer: sapinstance_hostname_resolver</code></pre><p>Example output (in Rhai):</p><pre><code class="ts">#{
-  &quot;QAS&quot;: [
-    #{
-      &quot;addresses&quot;: [
-        &quot;1.1.1.82&quot;
-      ],
-      &quot;hostname&quot;: &quot;sapqasas&quot;,
-      &quot;instance_name&quot;: &quot;ASCS00&quot;,
-      &quot;reachability&quot;: true
-    },
-    #{
-      &quot;addresses&quot;: (),
-      &quot;hostname&quot;: &quot;sapwaser&quot;,
-      &quot;instance_name&quot;: &quot;ERS00&quot;,
-      &quot;reachability&quot;: false
-    }
-  ],
-  &quot;NWP&quot;: [
-    #{
-      &quot;addresses&quot;: [
-        &quot;2.1.1.82&quot;
-      ],
-      &quot;hostname&quot;: &quot;sapnwpas&quot;,
-      &quot;instance_name&quot;: &quot;ASCS00&quot;,
-      &quot;reachability&quot;: true
-    }
-  ]
-}</code></pre><h3 id="sapinstance_hostname_resolver" class="section-heading">
-  <a href="#sapinstance_hostname_resolver" class="hover-link">
-    <i class="ri-link-m" aria-hidden="true"></i>
-  </a>
-  <span class="text">sapinstance_hostname_resolver</span>
-</h3>
 <p><strong>Argument required</strong>: no.</p><p>This gatherer uses the filesystem to search for SAP systems using the discovered profile file names to get the virtual hostnames associated to each
-instance of the sap system. It then attempts to resolve those hostnames to confirm that they are resolvable and afterwards it will attempt a ping
+instance of the sap system. It then attempts to resolve those hostnames to confirm that they are resolvable and afterwards a ping is attempted
 to those hostnames. Keep in mind that ping could be disallowed through firewall rules so it should only be used for networks in which we know this is
 not true.</p><p>Example specification:</p><pre><code class="yaml">facts:
   - name: resolvability_check
-    gatherer: sapinstance_hostname_resolver</code></pre><p>Example output (in Rhai):</p><pre><code class="ts">
-// 2 resolvable &amp; 1 non-resolvable hosts
+    gatherer: sapinstance_hostname_resolver@v1</code></pre><p>Example output (in Rhai):</p><pre><code class="ts">// 2 resolvable &amp; 1 non-resolvable hosts
 #{
   &quot;NWP&quot;: [
     #{
@@ -779,7 +740,7 @@ not true.</p><p>Example specification:</p><pre><code class="yaml">facts:
 The &quot;latest&quot; profile means that backed up files like <code class="inline">DEFAULT.1.PFL</code> or <code class="inline">some_profile.1</code> are excluded.
 It returns the profile files and content grouped by SID in a key\value way.</p><p>Example specification:</p><pre><code class="yaml">facts:
   - name: sap_profiles
-    gatherer: sap_profiles</code></pre><p>Example output (in Rhai):</p><pre><code class="ts">#{
+    gatherer: sap_profiles@v1</code></pre><p>Example output (in Rhai):</p><pre><code class="ts">#{
   &quot;NWP&quot;: #{
     &quot;profiles&quot;: [
       #{
@@ -829,7 +790,7 @@ It returns the profile files and content grouped by SID in a key\value way.</p><
 <p><strong>Argument required</strong>: yes.</p><p>This gatherer allows access to certain commands that <code class="inline">saptune</code> implements. An argument is required to specify
 which argument should be used when calling <code class="inline">saptune</code>.</p><blockquote><p>Note: the gatherer will return the same JSON objects returned by saptune. The only transformation it applies is the snake casing of the keys.</p></blockquote><p>Supported arguments:</p><ul><li><code class="inline">status</code> (maps to <code class="inline">saptune --format json status --non-compliance-check</code>)</li><li><code class="inline">solution-verify</code> (maps to <code class="inline">saptune --format json solution verify</code>)</li><li><code class="inline">solution-list</code> (maps to <code class="inline">saptune --format json solution list</code>)</li><li><code class="inline">note-verify</code> (maps to <code class="inline">saptune --format json note verify</code>)</li><li><code class="inline">note-list</code> (maps to <code class="inline">saptune --format json note list</code>)</li></ul><p>A <code class="inline">status</code> call with a successful return should look like this:</p><p>Example specification:</p><pre><code class="yaml">facts:
   - name: status
-    gatherer: saptune
+    gatherer: saptune@v1
     argument: status</code></pre><p>Example output (in Rhai):</p><pre><code class="ts">// status
 #{
   &quot;$schema&quot;: &quot;file:///usr/share/saptune/schemas/1.0/saptune_status.schema.json&quot;,
@@ -886,15 +847,15 @@ which argument should be used when calling <code class="inline">saptune</code>.<
 </h3>
 <p><strong>Argument required</strong>: yes.</p><p>This gatherer allows accessing the information contained in <code class="inline">/etc/sysconfig/sbd</code></p><p>Example arguments:</p><table><thead><tr><th style="text-align: left;">Name</th><th style="text-align: left;">Return value</th></tr></thead><tbody><tr><td style="text-align: left;"><code class="inline">SBD_PACEMAKER</code></td><td style="text-align: left;">extracted value from the config</td></tr><tr><td style="text-align: left;"><code class="inline">SBD_STARTMODE</code></td><td style="text-align: left;">extracted value from the config</td></tr><tr><td style="text-align: left;"><code class="inline">SBD_DEVICE</code></td><td style="text-align: left;">extracted value from the config</td></tr></tbody></table><p>Example specification:</p><pre><code class="yaml">facts:
   - name: sbd_pacemaker
-    gatherer: sbd_config
+    gatherer: sbd_config@v1
     argument: SBD_PACEMAKER
 
   - name: sbd_startmode
-    gatherer: sbd_config
+    gatherer: sbd_config@v1
     argument: SBD_STARTMODE
 
   - name: sbd_device
-    gatherer: sbd_config
+    gatherer: sbd_config@v1
     argument: SBD_DEVICE</code></pre><p>Example output (in Rhai):</p><pre><code class="ts">// sbd_pacemaker
 &quot;yes&quot;;
 
@@ -910,7 +871,7 @@ which argument should be used when calling <code class="inline">saptune</code>.<
 </h3>
 <p><strong>Argument required</strong>: no.</p><p>This gatherer allows accessing the sbd dump command output data.</p><p>It executes the <code class="inline">sbd -d &lt;device&gt; dump</code> command in all devices configured in the <code class="inline">SBD_DEVICE</code> field on <code class="inline">/etc/sysconfig/sbd</code> and aggregates results in only one fact.</p><p>Note that:</p><ul><li>no arguments are required</li><li>if any of the dumps fail, a fact error is returned</li></ul><p>Dumped keys (<code class="inline">Timeout (watchdog)</code>, <code class="inline">Timeout (msgwait)</code>, <code class="inline">Number of slots</code>, etc) are sanitized to simplify their access and usage in the expression language.</p><p>Example specification:</p><pre><code class="yaml">facts:
   - name: sbd_devices_dump
-    gatherer: sbd_dump</code></pre><p>Example output (in Rhai):</p><pre><code class="ts">// sbd_devices_dump
+    gatherer: sbd_dump@v1</code></pre><p>Example output (in Rhai):</p><pre><code class="ts">// sbd_devices_dump
 #{
     &quot;/dev/vdc&quot;: #{
         header_version: 2.1,
@@ -930,7 +891,7 @@ which argument should be used when calling <code class="inline">saptune</code>.<
 </h3>
 <p><strong>Argument required</strong>: yes.</p><p>Gather sysctl output. It takes a sysctl key as argument and it returns the value of the requested key or a map if a partial key is provided.</p><p>Example arguments:</p><table><thead><tr><th style="text-align: left;">Name</th><th style="text-align: left;">Return value</th></tr></thead><tbody><tr><td style="text-align: left;"><code class="inline">vm.swappiness</code></td><td style="text-align: left;">corresponding value returned by sysctl</td></tr><tr><td style="text-align: left;"><code class="inline">debug</code></td><td style="text-align: left;">a map containing all the keys starting with `debug.``</td></tr></tbody></table><pre><code class="yaml">facts:
   - name: vm_swappiness
-    gatherer: sysctl
+    gatherer: sysctl@v1
     argument: vm.swappiness
 
   - name: debug
@@ -951,11 +912,11 @@ which argument should be used when calling <code class="inline">saptune</code>.<
 <p><strong>Argument required</strong>: yes.</p><p>Gather systemd units state. It returns an <code class="inline">active/inactive</code> string.
 If the service is disabled or it does not exist, <code class="inline">inactive</code> is returned.</p><p>Example arguments:</p><table><thead><tr><th style="text-align: left;">Name</th><th style="text-align: left;">Return value</th></tr></thead><tbody><tr><td style="text-align: left;"><code class="inline">trento-agent</code></td><td style="text-align: left;">state of the systemd unit</td></tr></tbody></table><pre><code class="yaml">facts:
   - name: sbd_state
-    gatherer: systemd
+    gatherer: systemd@v1
     argument: sbd
 
   - name: corosync_state
-    gatherer: systemd
+    gatherer: systemd@v1
     argument: corosync</code></pre><p>Example output (in Rhai):</p><pre><code class="ts">// sbd_state
 &quot;active&quot;;
 
@@ -1005,7 +966,7 @@ with some detailed description in the <code class="inline">Properties</code> sub
 <p><strong>Argument required</strong>: yes.</p><p>This gatherer determines whether a given user has its password still set to an unsafe password.
 It returns <code class="inline">true</code> if the password matches a password in the list of unsafe passwords, <code class="inline">false</code> otherwise.</p><p>Specification examples:</p><pre><code class="yaml">facts:
   - name: hacluster_has_default_password
-    gatherer: verify_password
+    gatherer: verify_password@v1
     argument: hacluster</code></pre><p>For the argument, only whitelisted users are allowed. Currently whitelisted usernames:</p><ul><li><code class="inline">hacluster</code></li></ul><p>List of unsafe passwords:</p><ul><li><code class="inline">linux</code></li></ul><p>Example output (in Rhai):</p><pre><code class="ts">// hacluster_has_default_password
 true;</code></pre>
 <div class="bottom-actions">
