@@ -14,33 +14,52 @@ Facts Gathering process in a nutshell
 fact = gatherer(argument)
 ```
 
+## Gatherers versioning
+
+The gatherers implementation supports a versioning mechanism in order to enable non-backwards compatibility changes in any of them. When an update to
+the trento-agent includes a non-backwards compatible change in a gatherer (e.g., changes to the Rhai output format), its version is
+bumped by incrementing the @vN suffix that follows the gatherer's name, where 'N' represents the new version of that gatherer.
+Example:
+
+- `systemd@v1` -> Represents the first version of the systemd gatherer
+- `systemd@v2` -> Represents the second version of the systemd gatherer
+
+Note that when writing a check, if no tag is specified (e.g. `systemd`), the latest version is used. It is **strongly** recommended to always pin your
+checks to a specific version of a gatherer.
+
+Not all changes in a released gatherer get a new version tag. A new version tag is released only for breaking changes, while non-breaking changes such
+as additional fields in the Rhai output reuse the latest existing tag. To use a check that relies on a newer field introduced after an update, upgrade
+the agent to the latest version to ensure that the required gatherers are also up-to-date.
+
 ## Available Gatherers
 
 Here's a collection of built-in gatherers, with information about how to use them.
 
-| Name                                    | Implementation                                                                                                                                              |
-| :-------------------------------------- | :---------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| [`cibadmin`](#cibadmin)                 | [trento-project/agent/../gatherers/cibadmin.go](https://github.com/trento-project/agent/blob/main/internal/factsengine/gatherers/cibadmin.go)               |
-| [`corosync.conf`](#corosyncconf)        | [trento-project/agent/../gatherers/corosyncconf.go](https://github.com/trento-project/agent/blob/main/internal/factsengine/gatherers/corosyncconf.go)       |
-| [`corosync-cmapctl`](#corosync-cmapctl) | [trento-project/agent/../gatherers/corosynccmapctl.go](https://github.com/trento-project/agent/blob/main/internal/factsengine/gatherers/corosynccmapctl.go) |
-| [`dir_scan`](#dir_scan)                 | [trento-project/agent/../gatherers/dir_scan.go](https://github.com/trento-project/agent/blob/main/internal/factsengine/gatherers/dir_scan.go)               |
-| [`fstab`](#fstab)                       | [trento-project/agent/../gatherers/fstab.go](https://github.com/trento-project/agent/blob/main/internal/factsengine/gatherers/fstab.go)                     |
-| [`groups`](#groups)                     | [trento-project/agent/../gatherers/groups.go](https://github.com/trento-project/agent/blob/main/internal/factsengine/gatherers/groups.go)                   |
-| [`hosts`](#hosts-etchosts)              | [trento-project/agent/../gatherers/hostsfile.go](https://github.com/trento-project/agent/blob/main/internal/factsengine/gatherers/hostsfile.go)             |
-| [`package_version`](#package_version)   | [trento-project/agent/../gatherers/packageversion.go](https://github.com/trento-project/agent/blob/main/internal/factsengine/gatherers/packageversion.go)   |
-| [`passwd`](#passwd)                     | [trento-project/agent/../gatherers/passwd.go](https://github.com/trento-project/agent/blob/main/internal/factsengine/gatherers/passwd.go)                   |
-| [`sapcontrol`](#sapcontrol)             | [trento-project/agent/../gatherers/sapcontrol.go](https://github.com/trento-project/agent/blob/main/internal/factsengine/gatherers/sapcontrol.go)           |
-| [`saphostctrl`](#saphostctrl)           | [trento-project/agent/../gatherers/saphostctrl.go](https://github.com/trento-project/agent/blob/main/internal/factsengine/gatherers/saphostctrl.go)         |
-| [`sap_profiles`](#sap_profiles)         | [trento-project/agent/../gatherers/sapprofiles.go](https://github.com/trento-project/agent/blob/main/internal/factsengine/gatherers/sapprofiles.go)         |
-| [`saptune`](#saptune)                   | [trento-project/agent/../gatherers/saptune.go](https://github.com/trento-project/agent/blob/main/internal/factsengine/gatherers/saptune.go)                 |
-| [`sbd_config`](#sbd_config)             | [trento-project/agent/../gatherers/sbd.go](https://github.com/trento-project/agent/blob/main/internal/factsengine/gatherers/sbd.go)                         |
-| [`sbd_dump`](#sbd_dump)                 | [trento-project/agent/../gatherers/sbddump.go](https://github.com/trento-project/agent/blob/main/internal/factsengine/gatherers/sbddump.go)                 |
-| [`sysctl`](#sysctl)                     | [trento-project/agent/../gatherers/sysctl.go](https://github.com/trento-project/agent/blob/main/internal/factsengine/gatherers/sysctl.go)                   |
-| [`systemd`](#systemd)                   | [trento-project/agent/../gatherers/systemd.go](https://github.com/trento-project/agent/blob/main/internal/factsengine/gatherers/systemd.go)                 |
-| [`systemd@v2`](#systemd-v2)             | [trento-project/agent/../gatherers/systemd_v2.go](https://github.com/trento-project/agent/blob/main/internal/factsengine/gatherers/systemd_v2.go)           |
-| [`verify_password`](#verify_password)   | [trento-project/agent/../gatherers/verifypassword.go](https://github.com/trento-project/agent/blob/main/internal/factsengine/gatherers/verifypassword.go)   |
+| Name                                         | Implementation                                                                                                                                              |
+| :------------------------------------------- | :---------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| [`cibadmin@v1`](#cibadminv1)                 | [trento-project/agent/../gatherers/cibadmin.go](https://github.com/trento-project/agent/blob/main/internal/factsengine/gatherers/cibadmin.go)               |
+| [`corosync.conf@v1`](#corosyncconfv1)        | [trento-project/agent/../gatherers/corosyncconf.go](https://github.com/trento-project/agent/blob/main/internal/factsengine/gatherers/corosyncconf.go)       |
+| [`corosync-cmapctl@v1`](#corosync-cmapctlv1) | [trento-project/agent/../gatherers/corosynccmapctl.go](https://github.com/trento-project/agent/blob/main/internal/factsengine/gatherers/corosynccmapctl.go) |
+| [`dir_scan@v1`](#dir_scanv1)                 | [trento-project/agent/../gatherers/dir_scan.go](https://github.com/trento-project/agent/blob/main/internal/factsengine/gatherers/dir_scan.go)               |
+| [`fstab@v1`](#fstabv1)                       | [trento-project/agent/../gatherers/fstab.go](https://github.com/trento-project/agent/blob/main/internal/factsengine/gatherers/fstab.go)                     |
+| [`groups@v1`](#groupsv1)                     | [trento-project/agent/../gatherers/groups.go](https://github.com/trento-project/agent/blob/main/internal/factsengine/gatherers/groups.go)                   |
+| [`hosts@v1`](#hostsv1)                       | [trento-project/agent/../gatherers/hostsfile.go](https://github.com/trento-project/agent/blob/main/internal/factsengine/gatherers/hostsfile.go)             |
+| [`package_version@v1`](#package_versionv1)   | [trento-project/agent/../gatherers/packageversion.go](https://github.com/trento-project/agent/blob/main/internal/factsengine/gatherers/packageversion.go)   |
+| [`passwd@v1`](#passwdv1)                     | [trento-project/agent/../gatherers/passwd.go](https://github.com/trento-project/agent/blob/main/internal/factsengine/gatherers/passwd.go)                   |
+| [`sapcontrol@v1`](#sapcontrolv1)             | [trento-project/agent/../gatherers/sapcontrol.go](https://github.com/trento-project/agent/blob/main/internal/factsengine/gatherers/sapcontrol.go)           |
+| [`saphostctrl@v1`](#saphostctrlv1)           | [trento-project/agent/../gatherers/saphostctrl.go](https://github.com/trento-project/agent/blob/main/internal/factsengine/gatherers/saphostctrl.go)         |
+| [`sap_profiles@v1`](#sap_profilesv1)         | [trento-project/agent/../gatherers/sapprofiles.go](https://github.com/trento-project/agent/blob/main/internal/factsengine/gatherers/sapprofiles.go)         |
+| [`saptune@v1`](#saptunev1)                   | [trento-project/agent/../gatherers/saptune.go](https://github.com/trento-project/agent/blob/main/internal/factsengine/gatherers/saptune.go)                 |
+| [`sbd_config@v1`](#sbd_configv1)             | [trento-project/agent/../gatherers/sbd.go](https://github.com/trento-project/agent/blob/main/internal/factsengine/gatherers/sbd.go)                         |
+| [`sbd_dump@v1`](#sbd_dumpv1)                 | [trento-project/agent/../gatherers/sbddump.go](https://github.com/trento-project/agent/blob/main/internal/factsengine/gatherers/sbddump.go)                 |
+| [`sysctl@v1`](#sysctlv1)                     | [trento-project/agent/../gatherers/sysctl.go](https://github.com/trento-project/agent/blob/main/internal/factsengine/gatherers/sysctl.go)                   |
+| [`systemd@v1`](#systemdv1)                   | [trento-project/agent/../gatherers/systemd.go](https://github.com/trento-project/agent/blob/main/internal/factsengine/gatherers/systemd.go)                 |
+| [`systemd@v2`](#systemdv2)                   | [trento-project/agent/../gatherers/systemd_v2.go](https://github.com/trento-project/agent/blob/main/internal/factsengine/gatherers/systemd_v2.go)           |
+| [`verify_password@v1`](#verify_passwordv1)   | [trento-project/agent/../gatherers/verifypassword.go](https://github.com/trento-project/agent/blob/main/internal/factsengine/gatherers/verifypassword.go)   |
 
-### cibadmin
+<span id="cibadminv1"></span>
+
+### cibadmin@v1
 
 **Argument required**: no.
 
@@ -99,7 +118,9 @@ Example output (in Rhai):
 };
 ```
 
-### corosync.conf
+<span id="corosyncconfv1"></span>
+
+### corosync.conf@v1
 
 **Argument required**: no.
 
@@ -160,7 +181,9 @@ Example output (in Rhai):
 
 For extra information refer to [trento-project/agent/../gatherers/corosyncconf_test.go](https://github.com/trento-project/agent/blob/main/internal/factsengine/gatherers/corosyncconf_test.go)
 
-### corosync-cmapctl
+<span id="corosync-cmapctlv1"></span>
+
+### corosync-cmapctl@v1
 
 **Argument required**: yes.
 
@@ -205,7 +228,7 @@ facts:
   - name: node_list
     gatherer: corosync-cmapctl
     argument: nodelist.node
- 
+
   - name: second_node
     gatherer: corosync-cmapctl
     argument: nodelist.node.1
@@ -245,7 +268,9 @@ Example output (in Rhai):
 #{ nodeid: 2, ring0_addr: "10.80.1.12" };
 ```
 
-### dir_scan
+<span id="dir_scanv1"></span>
+
+### dir_scan@v1
 
 **Argument required**: Yes
 
@@ -283,7 +308,9 @@ Example output (in Rhai):
   ]
 ```
 
-### fstab
+<span id="fstabv1"></span>
+
+### fstab@v1
 
 **Argument required**: no.
 
@@ -321,7 +348,9 @@ Example output (in Rhai):
 ];
 ```
 
-### groups
+<span id="groupsv1"></span>
+
+### groups@v1
 
 **Argument required**: no.
 
@@ -353,7 +382,9 @@ Example output (in Rhai):
 ];
 ```
 
-### hosts (/etc/hosts)
+<span id="hostsv1"></span>
+
+### hosts@v1
 
 **Argument required**: no.
 
@@ -407,7 +438,9 @@ Example output (in Rhai):
 };
 ```
 
-### package_version
+<span id="package_versionv1"></span>
+
+### package_version@v1
 
 **Argument required**: yes.
 
@@ -536,7 +569,9 @@ Example output (in Rhai):
 0
 ```
 
-### passwd
+<span id="passwdv1"></span>
+
+### passwd@v1
 
 **Argument required**: no.
 
@@ -582,7 +617,9 @@ Example output (in Rhai):
 ];
 ```
 
-### sapcontrol
+<span id="sapcontrolv1"></span>
+
+### sapcontrol@v1
 
 **Argument required**: yes.
 
@@ -597,8 +634,6 @@ Supported webmethods:
 - `GetVersionInfo`
 - `HACheckConfig`
 - `HAGetFailoverConfig`
-
-
 
 Example specification:
 
@@ -635,7 +670,7 @@ Example output (in Rhai):
       ]
     }
   ]
-} 
+}
 
 // GetSystemInstanceList
 #{
@@ -666,7 +701,7 @@ Example output (in Rhai):
       ]
     }
   ]
-} 
+}
 
 // GetVersionInfo
 #{
@@ -746,7 +781,9 @@ Example output (in Rhai):
 
 ```
 
-### saphostctrl
+<span id="saphostctrlv1"></span>
+
+### saphostctrl@v1
 
 **Argument required**: yes.
 
@@ -792,7 +829,9 @@ Example output (in Rhai):
 ];
 ```
 
-### sap_profiles
+<span id="sap_profilesv1"></span>
+
+### sap_profiles@v1
 
 **Argument required**: no.
 
@@ -855,7 +894,9 @@ Example output (in Rhai):
 }
 ```
 
-### saptune
+<span id="saptunev1"></span>
+
+### saptune@v1
 
 **Argument required**: yes.
 
@@ -937,7 +978,9 @@ Example output (in Rhai):
 }
 ```
 
-### sbd_config
+<span id="sbd_configv1"></span>
+
+### sbd_config@v1
 
 **Argument required**: yes.
 
@@ -981,7 +1024,9 @@ Example output (in Rhai):
 "/dev/vdc;/dev/vdb";
 ```
 
-### sbd_dump
+<span id="sbd_dumpv1"></span>
+
+### sbd_dump@v1
 
 **Argument required**: no.
 
@@ -1024,7 +1069,9 @@ Example output (in Rhai):
 
 For extra information refer to [trento-project/agent/../gatherers/sbddump_test.go](https://github.com/trento-project/agent/blob/main/internal/factsengine/gatherers/sbddump_test.go)
 
-### sysctl
+<span id="sysctlv1"></span>
+
+### sysctl@v1
 
 **Argument required**: yes.
 
@@ -1061,7 +1108,9 @@ Example output (in Rhai):
 };
 ```
 
-### systemd
+<span id="systemdv1"></span>
+
+### systemd@v1
 
 **Argument required**: yes.
 
@@ -1095,7 +1144,8 @@ Example output (in Rhai):
 "inactive";
 ```
 
-<span id="systemd-v2"></span>
+<span id="systemdv2"></span>
+
 ### systemd@v2
 
 **Argument required**: yes.
@@ -1105,14 +1155,14 @@ Gather systemd units information. It returns an object with multiple fields abou
 The provided unit name must include the extension, such as `.service` or `.mount`.
 
 Only a subset of properties are returned. Additional information about these is available in
-the [systemd](https://www.man7.org/linux/man-pages/man5/org.freedesktop.systemd1.5.html#UNIT_OBJECTS) man pages, 
+the [systemd](https://www.man7.org/linux/man-pages/man5/org.freedesktop.systemd1.5.html#UNIT_OBJECTS) man pages,
 with some detailed description in the `Properties` sub-chapter.
 
 Example arguments:
 
-| Name                   | Return value              |
-| :--------------------- | :------------------------ |
-| `trento-agent.service` | systemd unit information  |
+| Name                   | Return value             |
+| :--------------------- | :----------------------- |
+| `trento-agent.service` | systemd unit information |
 
 ```yaml
 facts:
@@ -1148,11 +1198,13 @@ Example output (in Rhai):
   "need_daemon_reload": false,
   "unit_file_preset": "",
   "unit_file_state": ""
-} 
+}
 
 ```
 
-### verify_password
+<span id="verify_passwordv1"></span>
+
+### verify_password@v1
 
 **Argument required**: yes.
 
