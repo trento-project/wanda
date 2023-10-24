@@ -130,7 +130,7 @@ GUIDES
   </a>
   <span class="text">Introduction</span>
 </h2>
-<p>Gatherers can be thought of as functions:</p><ul><li>they have a name</li><li>they accept argument(s)</li><li>they return a value, the gathered <a href="specification.html#facts">Fact</a></li></ul><p>Facts Gathering process in a nutshell</p><pre><code class="makeup elixir" translate="no"><span class="n">fact</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">gatherer</span><span class="p" data-group-id="3994451890-1">(</span><span class="n">argument</span><span class="p" data-group-id="3994451890-1">)</span></code></pre><h2 id="gatherers-versioning" class="section-heading">
+<p>Gatherers can be thought of as functions:</p><ul><li>they have a name</li><li>they accept argument(s)</li><li>they return a value, the gathered <a href="specification.html#facts">Fact</a></li></ul><p>Facts Gathering process in a nutshell</p><pre><code class="makeup elixir" translate="no"><span class="n">fact</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">gatherer</span><span class="p" data-group-id="4192378007-1">(</span><span class="n">argument</span><span class="p" data-group-id="4192378007-1">)</span></code></pre><h2 id="gatherers-versioning" class="section-heading">
   <a href="#gatherers-versioning" class="hover-link">
     <i class="ri-link-m" aria-hidden="true"></i>
   </a>
@@ -148,7 +148,7 @@ the agent to the latest version to ensure that the required gatherers are also u
   </a>
   <span class="text">Available Gatherers</span>
 </h2>
-<p>Here's a collection of built-in gatherers, with information about how to use them.</p><table><thead><tr><th style="text-align: left;">Name</th><th style="text-align: left;">Implementation</th></tr></thead><tbody><tr><td style="text-align: left;"><a href="#cibadminv1"><code class="inline">cibadmin@v1</code></a></td><td style="text-align: left;"><a href="https://github.com/trento-project/agent/blob/main/internal/factsengine/gatherers/cibadmin.go">trento-project/agent/../gatherers/cibadmin.go</a></td></tr><tr><td style="text-align: left;"><a href="#corosyncconfv1"><code class="inline">corosync.conf@v1</code></a></td><td style="text-align: left;"><a href="https://github.com/trento-project/agent/blob/main/internal/factsengine/gatherers/corosyncconf.go">trento-project/agent/../gatherers/corosyncconf.go</a></td></tr><tr><td style="text-align: left;"><a href="#corosync-cmapctlv1"><code class="inline">corosync-cmapctl@v1</code></a></td><td style="text-align: left;"><a href="https://github.com/trento-project/agent/blob/main/internal/factsengine/gatherers/corosynccmapctl.go">trento-project/agent/../gatherers/corosynccmapctl.go</a></td></tr><tr><td style="text-align: left;"><a href="#dir_scanv1"><code class="inline">dir_scan@v1</code></a></td><td style="text-align: left;"><a href="https://github.com/trento-project/agent/blob/main/internal/factsengine/gatherers/dir_scan.go">trento-project/agent/../gatherers/dir_scan.go</a></td></tr><tr><td style="text-align: left;"><a href="#fstabv1"><code class="inline">fstab@v1</code></a></td><td style="text-align: left;"><a href="https://github.com/trento-project/agent/blob/main/internal/factsengine/gatherers/fstab.go">trento-project/agent/../gatherers/fstab.go</a></td></tr><tr><td style="text-align: left;"><a href="#groupsv1"><code class="inline">groups@v1</code></a></td><td style="text-align: left;"><a href="https://github.com/trento-project/agent/blob/main/internal/factsengine/gatherers/groups.go">trento-project/agent/../gatherers/groups.go</a></td></tr><tr><td style="text-align: left;"><a href="#hostsv1"><code class="inline">hosts@v1</code></a></td><td style="text-align: left;"><a href="https://github.com/trento-project/agent/blob/main/internal/factsengine/gatherers/hostsfile.go">trento-project/agent/../gatherers/hostsfile.go</a></td></tr><tr><td style="text-align: left;"><a href="#package_versionv1"><code class="inline">package_version@v1</code></a></td><td style="text-align: left;"><a href="https://github.com/trento-project/agent/blob/main/internal/factsengine/gatherers/packageversion.go">trento-project/agent/../gatherers/packageversion.go</a></td></tr><tr><td style="text-align: left;"><a href="#passwdv1"><code class="inline">passwd@v1</code></a></td><td style="text-align: left;"><a href="https://github.com/trento-project/agent/blob/main/internal/factsengine/gatherers/passwd.go">trento-project/agent/../gatherers/passwd.go</a></td></tr><tr><td style="text-align: left;"><a href="#sapcontrolv1"><code class="inline">sapcontrol@v1</code></a></td><td style="text-align: left;"><a href="https://github.com/trento-project/agent/blob/main/internal/factsengine/gatherers/sapcontrol.go">trento-project/agent/../gatherers/sapcontrol.go</a></td></tr><tr><td style="text-align: left;"><a href="#saphostctrlv1"><code class="inline">saphostctrl@v1</code></a></td><td style="text-align: left;"><a href="https://github.com/trento-project/agent/blob/main/internal/factsengine/gatherers/saphostctrl.go">trento-project/agent/../gatherers/saphostctrl.go</a></td></tr><tr><td style="text-align: left;"><a href="#sap_profilesv1"><code class="inline">sap_profiles@v1</code></a></td><td style="text-align: left;"><a href="https://github.com/trento-project/agent/blob/main/internal/factsengine/gatherers/sapprofiles.go">trento-project/agent/../gatherers/sapprofiles.go</a></td></tr><tr><td style="text-align: left;"><a href="#saptunev1"><code class="inline">saptune@v1</code></a></td><td style="text-align: left;"><a href="https://github.com/trento-project/agent/blob/main/internal/factsengine/gatherers/saptune.go">trento-project/agent/../gatherers/saptune.go</a></td></tr><tr><td style="text-align: left;"><a href="#sbd_configv1"><code class="inline">sbd_config@v1</code></a></td><td style="text-align: left;"><a href="https://github.com/trento-project/agent/blob/main/internal/factsengine/gatherers/sbd.go">trento-project/agent/../gatherers/sbd.go</a></td></tr><tr><td style="text-align: left;"><a href="#sbd_dumpv1"><code class="inline">sbd_dump@v1</code></a></td><td style="text-align: left;"><a href="https://github.com/trento-project/agent/blob/main/internal/factsengine/gatherers/sbddump.go">trento-project/agent/../gatherers/sbddump.go</a></td></tr><tr><td style="text-align: left;"><a href="#sysctlv1"><code class="inline">sysctl@v1</code></a></td><td style="text-align: left;"><a href="https://github.com/trento-project/agent/blob/main/internal/factsengine/gatherers/sysctl.go">trento-project/agent/../gatherers/sysctl.go</a></td></tr><tr><td style="text-align: left;"><a href="#systemdv1"><code class="inline">systemd@v1</code></a></td><td style="text-align: left;"><a href="https://github.com/trento-project/agent/blob/main/internal/factsengine/gatherers/systemd.go">trento-project/agent/../gatherers/systemd.go</a></td></tr><tr><td style="text-align: left;"><a href="#systemdv2"><code class="inline">systemd@v2</code></a></td><td style="text-align: left;"><a href="https://github.com/trento-project/agent/blob/main/internal/factsengine/gatherers/systemd_v2.go">trento-project/agent/../gatherers/systemd_v2.go</a></td></tr><tr><td style="text-align: left;"><a href="#verify_passwordv1"><code class="inline">verify_password@v1</code></a></td><td style="text-align: left;"><a href="https://github.com/trento-project/agent/blob/main/internal/factsengine/gatherers/verifypassword.go">trento-project/agent/../gatherers/verifypassword.go</a></td></tr></tbody></table><span id="cibadminv1"></span><h3 id="cibadmin-v1" class="section-heading">
+<p>Here's a collection of built-in gatherers, with information about how to use them.</p><table><thead><tr><th style="text-align: left;">Name</th><th style="text-align: left;">Implementation</th></tr></thead><tbody><tr><td style="text-align: left;"><a href="#cibadminv1"><code class="inline">cibadmin@v1</code></a></td><td style="text-align: left;"><a href="https://github.com/trento-project/agent/blob/main/internal/factsengine/gatherers/cibadmin.go">trento-project/agent/../gatherers/cibadmin.go</a></td></tr><tr><td style="text-align: left;"><a href="#corosyncconfv1"><code class="inline">corosync.conf@v1</code></a></td><td style="text-align: left;"><a href="https://github.com/trento-project/agent/blob/main/internal/factsengine/gatherers/corosyncconf.go">trento-project/agent/../gatherers/corosyncconf.go</a></td></tr><tr><td style="text-align: left;"><a href="#corosync-cmapctlv1"><code class="inline">corosync-cmapctl@v1</code></a></td><td style="text-align: left;"><a href="https://github.com/trento-project/agent/blob/main/internal/factsengine/gatherers/corosynccmapctl.go">trento-project/agent/../gatherers/corosynccmapctl.go</a></td></tr><tr><td style="text-align: left;"><a href="#dir_scanv1"><code class="inline">dir_scan@v1</code></a></td><td style="text-align: left;"><a href="https://github.com/trento-project/agent/blob/main/internal/factsengine/gatherers/dir_scan.go">trento-project/agent/../gatherers/dir_scan.go</a></td></tr><tr><td style="text-align: left;"><a href="#fstabv1"><code class="inline">fstab@v1</code></a></td><td style="text-align: left;"><a href="https://github.com/trento-project/agent/blob/main/internal/factsengine/gatherers/fstab.go">trento-project/agent/../gatherers/fstab.go</a></td></tr><tr><td style="text-align: left;"><a href="#groupsv1"><code class="inline">groups@v1</code></a></td><td style="text-align: left;"><a href="https://github.com/trento-project/agent/blob/main/internal/factsengine/gatherers/groups.go">trento-project/agent/../gatherers/groups.go</a></td></tr><tr><td style="text-align: left;"><a href="#hostsv1"><code class="inline">hosts@v1</code></a></td><td style="text-align: left;"><a href="https://github.com/trento-project/agent/blob/main/internal/factsengine/gatherers/hostsfile.go">trento-project/agent/../gatherers/hostsfile.go</a></td></tr><tr><td style="text-align: left;"><a href="#package_versionv1"><code class="inline">package_version@v1</code></a></td><td style="text-align: left;"><a href="https://github.com/trento-project/agent/blob/main/internal/factsengine/gatherers/packageversion.go">trento-project/agent/../gatherers/packageversion.go</a></td></tr><tr><td style="text-align: left;"><a href="#passwdv1"><code class="inline">passwd@v1</code></a></td><td style="text-align: left;"><a href="https://github.com/trento-project/agent/blob/main/internal/factsengine/gatherers/passwd.go">trento-project/agent/../gatherers/passwd.go</a></td></tr><tr><td style="text-align: left;"><a href="#sapcontrolv1"><code class="inline">sapcontrol@v1</code></a></td><td style="text-align: left;"><a href="https://github.com/trento-project/agent/blob/main/internal/factsengine/gatherers/sapcontrol.go">trento-project/agent/../gatherers/sapcontrol.go</a></td></tr><tr><td style="text-align: left;"><a href="#saphostctrlv1"><code class="inline">saphostctrl@v1</code></a></td><td style="text-align: left;"><a href="https://github.com/trento-project/agent/blob/main/internal/factsengine/gatherers/saphostctrl.go">trento-project/agent/../gatherers/saphostctrl.go</a></td></tr><tr><td style="text-align: left;"><a href="#sap_profilesv1"><code class="inline">sap_profiles@v1</code></a></td><td style="text-align: left;"><a href="https://github.com/trento-project/agent/blob/main/internal/factsengine/gatherers/sapprofiles.go">trento-project/agent/../gatherers/sapprofiles.go</a></td></tr><tr><td style="text-align: left;"><a href="#sapinstance_hostname_resolverv1"><code class="inline">sapinstance_hostname_resolver@v1</code></a></td><td style="text-align: left;"><a href="https://github.com/trento-project/agent/blob/main/internal/factsengine/gatherers/sapinstancehostnameresolver.go">trento-project/agent/../gatherers/sapinstancehostnameresolver.go</a></td></tr><tr><td style="text-align: left;"><a href="#saptunev1"><code class="inline">saptune@v1</code></a></td><td style="text-align: left;"><a href="https://github.com/trento-project/agent/blob/main/internal/factsengine/gatherers/saptune.go">trento-project/agent/../gatherers/saptune.go</a></td></tr><tr><td style="text-align: left;"><a href="#sbd_configv1"><code class="inline">sbd_config@v1</code></a></td><td style="text-align: left;"><a href="https://github.com/trento-project/agent/blob/main/internal/factsengine/gatherers/sbd.go">trento-project/agent/../gatherers/sbd.go</a></td></tr><tr><td style="text-align: left;"><a href="#sbd_dumpv1"><code class="inline">sbd_dump@v1</code></a></td><td style="text-align: left;"><a href="https://github.com/trento-project/agent/blob/main/internal/factsengine/gatherers/sbddump.go">trento-project/agent/../gatherers/sbddump.go</a></td></tr><tr><td style="text-align: left;"><a href="#sysctlv1"><code class="inline">sysctl@v1</code></a></td><td style="text-align: left;"><a href="https://github.com/trento-project/agent/blob/main/internal/factsengine/gatherers/sysctl.go">trento-project/agent/../gatherers/sysctl.go</a></td></tr><tr><td style="text-align: left;"><a href="#systemdv1"><code class="inline">systemd@v1</code></a></td><td style="text-align: left;"><a href="https://github.com/trento-project/agent/blob/main/internal/factsengine/gatherers/systemd.go">trento-project/agent/../gatherers/systemd.go</a></td></tr><tr><td style="text-align: left;"><a href="#systemdv2"><code class="inline">systemd@v2</code></a></td><td style="text-align: left;"><a href="https://github.com/trento-project/agent/blob/main/internal/factsengine/gatherers/systemd_v2.go">trento-project/agent/../gatherers/systemd_v2.go</a></td></tr><tr><td style="text-align: left;"><a href="#verify_passwordv1"><code class="inline">verify_password@v1</code></a></td><td style="text-align: left;"><a href="https://github.com/trento-project/agent/blob/main/internal/factsengine/gatherers/verifypassword.go">trento-project/agent/../gatherers/verifypassword.go</a></td></tr></tbody></table><span id="cibadminv1"></span><h3 id="cibadmin-v1" class="section-heading">
   <a href="#cibadmin-v1" class="hover-link">
     <i class="ri-link-m" aria-hidden="true"></i>
   </a>
@@ -664,7 +664,85 @@ which webmethod should be called. This webmethod is passed to the <code class="i
         &quot;sapkernel&quot;: 753,
         &quot;system&quot;: &quot;PRD&quot;
     }
-];</code></pre><span id="sap_profilesv1"></span><h3 id="sap_profiles-v1" class="section-heading">
+];</code></pre><span id="sapinstance_hostname_resolverv1"></span><h3 id="sapinstance_hostname_resolver-v1" class="section-heading">
+  <a href="#sapinstance_hostname_resolver-v1" class="hover-link">
+    <i class="ri-link-m" aria-hidden="true"></i>
+  </a>
+  <span class="text">sapinstance_hostname_resolver@v1</span>
+</h3>
+<p><strong>Argument required</strong>: no.</p><p>This gatherer uses the filesystem to search for sap systems using the discovered profile file names to get the virtual hostnames associated to each
+instance of the sap system. It will then attempt to resolve those hostnames to confirm that they are resolvable and afterwards it will attempt a ping
+to those hostnames. Keep in mind that ping could be disallowed through firewall rules so it should only be used for networks in which we know this is
+not true.</p><p>Example specification:</p><pre><code class="yaml">facts:
+  - name: resolvability_check
+    gatherer: sapinstance_hostname_resolver</code></pre><p>Example output (in Rhai):</p><pre><code class="ts">#{
+  &quot;QAS&quot;: [
+    #{
+      &quot;addresses&quot;: [
+        &quot;1.1.1.82&quot;
+      ],
+      &quot;hostname&quot;: &quot;sapqasas&quot;,
+      &quot;instance_name&quot;: &quot;ASCS00&quot;,
+      &quot;reachability&quot;: true
+    },
+    #{
+      &quot;addresses&quot;: (),
+      &quot;hostname&quot;: &quot;sapwaser&quot;,
+      &quot;instance_name&quot;: &quot;ERS00&quot;,
+      &quot;reachability&quot;: false
+    }
+  ],
+  &quot;NWP&quot;: [
+    #{
+      &quot;addresses&quot;: [
+        &quot;2.1.1.82&quot;
+      ],
+      &quot;hostname&quot;: &quot;sapnwpas&quot;,
+      &quot;instance_name&quot;: &quot;ASCS00&quot;,
+      &quot;reachability&quot;: true
+    }
+  ]
+}</code></pre><h3 id="sapinstance_hostname_resolver" class="section-heading">
+  <a href="#sapinstance_hostname_resolver" class="hover-link">
+    <i class="ri-link-m" aria-hidden="true"></i>
+  </a>
+  <span class="text">sapinstance_hostname_resolver</span>
+</h3>
+<p><strong>Argument required</strong>: no.</p><p>This gatherer uses the filesystem to search for SAP systems using the discovered profile file names to get the virtual hostnames associated to each
+instance of the sap system. It then attempts to resolve those hostnames to confirm that they are resolvable and afterwards it will attempt a ping
+to those hostnames. Keep in mind that ping could be disallowed through firewall rules so it should only be used for networks in which we know this is
+not true.</p><p>Example specification:</p><pre><code class="yaml">facts:
+  - name: resolvability_check
+    gatherer: sapinstance_hostname_resolver</code></pre><p>Example output (in Rhai):</p><pre><code class="ts">
+// 2 resolvable &amp; 1 non-resolvable hosts
+#{
+  &quot;NWP&quot;: [
+    #{
+      &quot;addresses&quot;: [
+        &quot;2.1.1.82&quot;
+      ],
+      &quot;hostname&quot;: &quot;sapnwpas&quot;,
+      &quot;instance_name&quot;: &quot;ASCS00&quot;,
+      &quot;reachability&quot;: true
+    }
+  ],
+  &quot;QAS&quot;: [
+    #{
+      &quot;addresses&quot;: [
+        &quot;1.1.1.82&quot;
+      ],
+      &quot;hostname&quot;: &quot;sapqasas&quot;,
+      &quot;instance_name&quot;: &quot;ASCS00&quot;,
+      &quot;reachability&quot;: true
+    },
+    #{
+      &quot;addresses&quot;: (),
+      &quot;hostname&quot;: &quot;sapwaser&quot;,
+      &quot;instance_name&quot;: &quot;ERS00&quot;,
+      &quot;reachability&quot;: false
+    }
+  ]
+}</code></pre><span id="sap_profilesv1"></span><h3 id="sap_profiles-v1" class="section-heading">
   <a href="#sap_profiles-v1" class="hover-link">
     <i class="ri-link-m" aria-hidden="true"></i>
   </a>
