@@ -392,7 +392,7 @@ jobs:
       - name: Build docs
         uses: lee-dohm/generate-elixir-docs@v1
       - name: Generate openapi.json
-        run: mix openapi.spec.json --start-app=false --spec WandaWeb.ApiSpec
+        run: mix openapi.spec.json --start-app=false --spec WandaWeb.Schemas.V1.ApiSpec
       - name: Generate Swagger UI
         uses: Legion2/swagger-ui-action@v1
         with:
