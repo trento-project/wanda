@@ -225,6 +225,7 @@ jobs:
       matrix:
         include:
           - version: V1
+          - version: V2
     steps:
       - name: Cancel Previous Runs
         uses: styfle/cancel-workflow-action@0.12.0
@@ -248,7 +249,7 @@ jobs:
           key: ${{ runner.os }}-${{ env.OTP_VERSION }}-${{ env.ELIXIR_VERSION }}-${{ hashFiles('mix.lock') }}
       - name: Generate current openapi.json
         run: |
-          mix openapi.spec.json --start-app=false --spec WandaWeb.ApiSpec /tmp/specs/current-spec.json
+          mix openapi.spec.json --start-app=false --spec WandaWeb.Schemas.${{ matrix.version }}.ApiSpec /tmp/specs/current-spec.json
 
       - name: Checkout main branch
         uses: actions/checkout@v4
@@ -265,7 +266,7 @@ jobs:
           key: ${{ runner.os }}-${{ env.OTP_VERSION }}-${{ env.ELIXIR_VERSION }}-${{ hashFiles('mix.lock') }}
       - name: Generate main openapi.json
         run: |
-          mix openapi.spec.json --start-app=false --spec WandaWeb.ApiSpec /tmp/specs/main-spec.json
+          mix openapi.spec.json --start-app=false --spec WandaWeb.Schemas.${{ matrix.version }}.ApiSpec /tmp/specs/main-spec.json
       - name: Locate generated specs
         run: mv /tmp/specs .
       - name: Find difference between OpenAPI specifications
