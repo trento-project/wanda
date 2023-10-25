@@ -2,7 +2,7 @@ defmodule WandaWeb.V1.CatalogControllerTest do
   use WandaWeb.ConnCase, async: true
   import OpenApiSpex.TestAssertions
 
-  alias WandaWeb.ApiSpec
+  alias WandaWeb.Schemas.V1.ApiSpec
 
   describe "CatalogController" do
     test "listing the checks catalog produces a CatalogResponse", %{conn: conn} do
