@@ -1,11 +1,28 @@
 defmodule WandaWeb.Router do
   use WandaWeb, :router
 
-  @latest_api_version "v2"
+  # From newest to oldest
+  @available_api_versions ["v2", "v1"]
+
+  pipeline :browser do
+    plug :accepts, ["html"]
+    plug :fetch_session
+    plug :protect_from_forgery
+    plug :put_secure_browser_headers
+  end
 
   pipeline :api do
     plug :accepts, ["json"]
-    plug OpenApiSpex.Plug.PutApiSpec, module: WandaWeb.ApiSpec
+  end
+
+  pipeline :api_v1 do
+    plug :api
+    plug OpenApiSpex.Plug.PutApiSpec, module: WandaWeb.Schemas.V1.ApiSpec
+  end
+
+  pipeline :api_v2 do
+    plug :api
+    plug OpenApiSpex.Plug.PutApiSpec, module: WandaWeb.Schemas.V2.ApiSpec
   end
 
   pipeline :protected_api do
@@ -14,10 +31,21 @@ defmodule WandaWeb.Router do
       do: WandaWeb.Auth.JWTAuthPlug
   end
 
+  scope "/" do
+    pipe_through :browser
+
+    get "/api/doc", OpenApiSpex.Plug.SwaggerUI,
+      path: "/api/v1/openapi",
+      urls: [
+        %{url: "/api/v1/openapi", name: "Version 1"},
+        %{url: "/api/v2/openapi", name: "Version 2"}
+      ]
+  end
+
   scope "/api" do
     scope "/v1", WandaWeb.V1 do
       scope "/checks" do
-        pipe_through [:api, :protected_api]
+        pipe_through [:api_v1, :protected_api]
 
         resources "/executions", ExecutionController, only: [:index, :show]
         get "/groups/:id/executions/last", ExecutionController, :last
@@ -28,7 +56,7 @@ defmodule WandaWeb.Router do
 
     scope "/v2", WandaWeb.V2 do
       scope "/checks" do
-        pipe_through [:api, :protected_api]
+        pipe_through [:api_v2, :protected_api]
 
         post "/executions/start", ExecutionController, :start
         get "/catalog", CatalogController, :catalog
@@ -38,7 +66,16 @@ defmodule WandaWeb.Router do
 
   scope "/api" do
     pipe_through :api
-    get "/openapi", OpenApiSpex.Plug.RenderSpec, []
+
+    scope "/v1" do
+      pipe_through :api_v1
+      get "/openapi", OpenApiSpex.Plug.RenderSpec, []
+    end
+
+    scope "/v2" do
+      pipe_through :api_v2
+      get "/openapi", OpenApiSpex.Plug.RenderSpec, []
+    end
   end
 
   scope "/api", WandaWeb do
@@ -51,11 +88,9 @@ defmodule WandaWeb.Router do
     pipe_through :api
 
     match :*, "/*path/", WandaWeb.Plugs.ApiRedirector,
-      latest_version: @latest_api_version,
+      available_api_versions: @available_api_versions,
       router: __MODULE__
   end
 
-  get "/swaggerui", OpenApiSpex.Plug.SwaggerUI,
-    path: "/api/openapi",
-    urls: [%{url: "/api/openapi", name: "Version 1"}]
+  def available_api_versions, do: @available_api_versions
 end

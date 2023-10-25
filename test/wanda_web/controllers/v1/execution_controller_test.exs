@@ -5,7 +5,7 @@ defmodule WandaWeb.V1.ExecutionControllerTest do
   import OpenApiSpex.TestAssertions
   import Wanda.Factory
 
-  alias WandaWeb.ApiSpec
+  alias WandaWeb.Schemas.V1.ApiSpec
 
   alias Wanda.Executions.Target
 
