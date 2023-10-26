@@ -45,6 +45,7 @@ Here's a collection of built-in gatherers, with information about how to use the
 | [`fstab@v1`](#fstabv1)                                                 | [trento-project/agent/../gatherers/fstab.go](https://github.com/trento-project/agent/blob/main/internal/factsengine/gatherers/fstab.go)                                             |
 | [`groups@v1`](#groupsv1)                                               | [trento-project/agent/../gatherers/groups.go](https://github.com/trento-project/agent/blob/main/internal/factsengine/gatherers/groups.go)                                           |
 | [`hosts@v1`](#hostsv1)                                                 | [trento-project/agent/../gatherers/hostsfile.go](https://github.com/trento-project/agent/blob/main/internal/factsengine/gatherers/hostsfile.go)                                     |
+| [`mount_info@v1`](#mount_infov1)                                        | [trento-project/agent/../gatherers/mountinfo.go](https://github.com/trento-project/agent/blob/main/internal/factsengine/gatherers/mountinfo.go)                                     |
 | [`package_version@v1`](#package_versionv1)                             | [trento-project/agent/../gatherers/packageversion.go](https://github.com/trento-project/agent/blob/main/internal/factsengine/gatherers/packageversion.go)                           |
 | [`passwd@v1`](#passwdv1)                                               | [trento-project/agent/../gatherers/passwd.go](https://github.com/trento-project/agent/blob/main/internal/factsengine/gatherers/passwd.go)                                           |
 | [`sapcontrol@v1`](#sapcontrolv1)                                       | [trento-project/agent/../gatherers/sapcontrol.go](https://github.com/trento-project/agent/blob/main/internal/factsengine/gatherers/sapcontrol.go)                                   |
@@ -483,6 +484,64 @@ Example output (in Rhai):
   "node2": ["192.168.157.11"],
   ...
 };
+```
+
+<span id="mount_infov1"></span>
+
+### mount_info@v1
+
+**Argument required**: yes.
+
+This gatherer allows accessing the OS file system mount points. It returns information about the mount point of a given path.
+Besides of the mount information, if the mount is done in a local block device, it returns the UUID of the block (coming from the `blkid` command).
+If the given path is not mounted, all the fields are returned with empty strings.
+
+Example specification:
+
+```yaml
+facts:
+  - name: not_mounted
+    gatherer: mount_info@v1
+    argument: /usr/sap
+
+  - name: shared_nfs
+    gatherer: mount_info@v1
+    argument: /sapmnt
+
+  - name: mounted_locally
+    gatherer: mount_info@v1
+    argument: /hana/data
+```
+
+Example output (in Rhai):
+
+```ts
+// not_mounted
+#{
+  "block_uuid": "",
+  "fs_type": "",
+  "mount_point": "",
+  "options": "",
+  "source": ""
+} 
+
+// shared_nfs
+#{
+  "block_uuid": "",
+  "fs_type": "nfs4",
+  "mount_point": "/sapmnt",
+  "options": "rw,relatime",
+  "source": "10.1.1.10://sapmnt"
+}
+
+// mounted_locally
+#{
+  "block_uuid": "f45cf408-efgh-abcd-88ec-2f9269a12f07",
+  "fs_type": "xfs",
+  "mount_point": "/hana/data",
+  "options": "rw,relatime",
+  "source": "/dev/mapper/vg_hana-lv_hana_data"
+} 
 ```
 
 <span id="package_versionv1"></span>
