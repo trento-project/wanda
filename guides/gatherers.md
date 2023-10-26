@@ -51,6 +51,7 @@ Here's a collection of built-in gatherers, with information about how to use the
 | [`saphostctrl@v1`](#saphostctrlv1)                                     | [trento-project/agent/../gatherers/saphostctrl.go](https://github.com/trento-project/agent/blob/main/internal/factsengine/gatherers/saphostctrl.go)                                 |
 | [`sap_profiles@v1`](#sap_profilesv1)                                   | [trento-project/agent/../gatherers/sapprofiles.go](https://github.com/trento-project/agent/blob/main/internal/factsengine/gatherers/sapprofiles.go)                                 |
 | [`sapinstance_hostname_resolver@v1`](#sapinstance_hostname_resolverv1) | [trento-project/agent/../gatherers/sapinstancehostnameresolver.go](https://github.com/trento-project/agent/blob/main/internal/factsengine/gatherers/sapinstancehostnameresolver.go) |
+| [`sapservices@v1`](#sapservicesv1)                                     | [trento-project/agent/../gatherers/sapservices.go](https://github.com/trento-project/agent/blob/main/internal/factsengine/gatherers/sapservices.go)                                 |
 | [`saptune@v1`](#saptunev1)                                             | [trento-project/agent/../gatherers/saptune.go](https://github.com/trento-project/agent/blob/main/internal/factsengine/gatherers/saptune.go)                                         |
 | [`sbd_config@v1`](#sbd_configv1)                                       | [trento-project/agent/../gatherers/sbd.go](https://github.com/trento-project/agent/blob/main/internal/factsengine/gatherers/sbd.go)                                                 |
 | [`sbd_dump@v1`](#sbd_dumpv1)                                           | [trento-project/agent/../gatherers/sbddump.go](https://github.com/trento-project/agent/blob/main/internal/factsengine/gatherers/sbddump.go)                                         |
@@ -992,6 +993,41 @@ Example output (in Rhai):
     ]
   }
 }
+```
+
+<span id="sapservicesv1"></span>
+
+### sapservices@v1
+
+**Argument required**: no.
+
+This gatherer allows access to the SAP services file content stored in `/usr/sap/sapservices`.
+Each entry in the file is returned as a map, containing the SID, the raw line content of the entry and
+the kind of system used for startup, `systemctl` or `sapstartsrv`.
+
+Example specification:
+
+```yaml
+facts:
+  - name: sapservices
+    gatherer: sapservices@v1
+```
+
+Example output (in Rhai):
+
+```ts
+[
+  #{
+    "sid": "HS1",
+    "kind": "sapstartsrv",
+    "content": "LD_LIBRARY_PATH=/usr/sap/HS1/HDB11/exe:$LD_LIBRARY_PATH;export LD_LIBRARY_PATH;/usr/sap/HS1/HDB11/exe/sapstartsrv pf=/usr/sap/HS1/SYS/profile/HS1_HDB11_s41db -D -u hs1adm"
+  },
+  #{
+    "sid": "S41",
+    "kind": "systemctl",
+    "content": "systemctl --no-ask-password start SAPS41_40"
+  },
+]
 ```
 
 <span id="saptunev1"></span>
