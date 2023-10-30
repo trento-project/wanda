@@ -45,7 +45,8 @@ Here's a collection of built-in gatherers, with information about how to use the
 | [`fstab@v1`](#fstabv1)                                                 | [trento-project/agent/../gatherers/fstab.go](https://github.com/trento-project/agent/blob/main/internal/factsengine/gatherers/fstab.go)                                             |
 | [`groups@v1`](#groupsv1)                                               | [trento-project/agent/../gatherers/groups.go](https://github.com/trento-project/agent/blob/main/internal/factsengine/gatherers/groups.go)                                           |
 | [`hosts@v1`](#hostsv1)                                                 | [trento-project/agent/../gatherers/hostsfile.go](https://github.com/trento-project/agent/blob/main/internal/factsengine/gatherers/hostsfile.go)                                     |
-| [`mount_info@v1`](#mount_infov1)                                        | [trento-project/agent/../gatherers/mountinfo.go](https://github.com/trento-project/agent/blob/main/internal/factsengine/gatherers/mountinfo.go)                                     |
+| [`mount_info@v1`](#mount_infov1)                                       | [trento-project/agent/../gatherers/mountinfo.go](https://github.com/trento-project/agent/blob/main/internal/factsengine/gatherers/mountinfo.go)                                     |
+| [`os-release@v1`](#os-releasev1)                                       | [trento-project/agent/../gatherers/osrelease.go](https://github.com/trento-project/agent/blob/main/internal/factsengine/gatherers/osrelease.go)                                     |
 | [`package_version@v1`](#package_versionv1)                             | [trento-project/agent/../gatherers/packageversion.go](https://github.com/trento-project/agent/blob/main/internal/factsengine/gatherers/packageversion.go)                           |
 | [`passwd@v1`](#passwdv1)                                               | [trento-project/agent/../gatherers/passwd.go](https://github.com/trento-project/agent/blob/main/internal/factsengine/gatherers/passwd.go)                                           |
 | [`sapcontrol@v1`](#sapcontrolv1)                                       | [trento-project/agent/../gatherers/sapcontrol.go](https://github.com/trento-project/agent/blob/main/internal/factsengine/gatherers/sapcontrol.go)                                   |
@@ -524,7 +525,7 @@ Example output (in Rhai):
   "mount_point": "",
   "options": "",
   "source": ""
-} 
+}
 
 // shared_nfs
 #{
@@ -542,7 +543,42 @@ Example output (in Rhai):
   "mount_point": "/hana/data",
   "options": "rw,relatime",
   "source": "/dev/mapper/vg_hana-lv_hana_data"
-} 
+}
+```
+
+<span id="os-releasev1"></span>
+
+### os-release@v1
+
+**Argument required**: no.
+
+This gatherer allows access to the distribution details in `/etc/os-release`. This file contains operating system identification data, such as the
+vendor of the distribution, the name of the distribution, the version and the ID of the distribution, as well as many other details.
+
+Example specification:
+
+```yaml
+facts:
+  - name: os_release
+    gatherer: os-release@v1
+```
+
+Example output (in Rhai):
+
+```ts
+// output from openSUSE Leap 15.2
+#{
+  "ANSI_COLOR": "0;32",
+  "BUG_REPORT_URL": "https://bugs.opensuse.org",
+  "CPE_NAME": "cpe:/o:opensuse:leap:15.2",
+  "HOME_URL": "https://www.opensuse.org/",
+  "ID": "opensuse-leap",
+  "ID_LIKE": "suse opensuse",
+  "NAME": "openSUSE Leap",
+  "PRETTY_NAME": "openSUSE Leap 15.2",
+  "VERSION": "15.2",
+  "VERSION_ID": "15.2"
+}
 ```
 
 <span id="package_versionv1"></span>
