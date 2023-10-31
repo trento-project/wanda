@@ -49,6 +49,7 @@ Here's a collection of built-in gatherers, with information about how to use the
 | [`os-release@v1`](#os-releasev1)                                       | [trento-project/agent/../gatherers/osrelease.go](https://github.com/trento-project/agent/blob/main/internal/factsengine/gatherers/osrelease.go)                                     |
 | [`package_version@v1`](#package_versionv1)                             | [trento-project/agent/../gatherers/packageversion.go](https://github.com/trento-project/agent/blob/main/internal/factsengine/gatherers/packageversion.go)                           |
 | [`passwd@v1`](#passwdv1)                                               | [trento-project/agent/../gatherers/passwd.go](https://github.com/trento-project/agent/blob/main/internal/factsengine/gatherers/passwd.go)                                           |
+| [`products@v1`](#productsv1)                                           | [trento-project/agent/../gatherers/products.go](https://github.com/trento-project/agent/blob/main/internal/factsengine/gatherers/products.go)                                       |
 | [`sapcontrol@v1`](#sapcontrolv1)                                       | [trento-project/agent/../gatherers/sapcontrol.go](https://github.com/trento-project/agent/blob/main/internal/factsengine/gatherers/sapcontrol.go)                                   |
 | [`saphostctrl@v1`](#saphostctrlv1)                                     | [trento-project/agent/../gatherers/saphostctrl.go](https://github.com/trento-project/agent/blob/main/internal/factsengine/gatherers/saphostctrl.go)                                 |
 | [`sap_profiles@v1`](#sap_profilesv1)                                   | [trento-project/agent/../gatherers/sapprofiles.go](https://github.com/trento-project/agent/blob/main/internal/factsengine/gatherers/sapprofiles.go)                                 |
@@ -758,6 +759,62 @@ Example output (in Rhai):
     },
   ...
 ];
+```
+
+<span id="productsv1"></span>
+
+### products@v1
+
+**Argument required**: no.
+
+This gatherer allows access to the /etc/products.d/ folder files content. It returns the file contents mapped using the file name.
+The XML content is returned as-is, just converted to a rhai object.
+
+Example specification:
+
+```yaml
+facts:
+  - name: products
+    gatherer: products@v1
+```
+
+Example output (in Rhai):
+
+```ts
+#{
+  "Leap.prod": #{
+    "product": #{
+      "arch": "x86_64",
+      ...
+      "codestream": #{
+        "endoflife": "2024-11-30",
+        "name": "openSUSE Leap 15"
+      },
+      ...
+      "name": "Leap",
+      "productline": "Leap",
+      ...
+      "vendor": "openSUSE",
+      "version": "15.3"
+    }
+  },
+  "baseproduct": #{
+    "product": #{
+      "arch": "x86_64",
+      ...
+      "codestream": #{
+        "endoflife": "2024-11-30",
+        "name": "openSUSE Leap 15"
+      },
+     ...
+      "name": "Leap",
+      "productline": "Leap",
+      ...
+      "vendor": "openSUSE",
+      "version": "15.3"
+    }
+  }
+} 
 ```
 
 <span id="sapcontrolv1"></span>
