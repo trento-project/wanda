@@ -1,5 +1,73 @@
 # Changelog
 
+## [1.2.0](https://github.com/trento-project/wanda/tree/1.2.0) (2023-11-14)
+
+[Full Changelog](https://github.com/trento-project/wanda/compare/1.1.0...1.2.0)
+
+**Implemented enhancements:**
+
+- Restrict SUSE Dockerfile target arch to x86\_64 [\#340](https://github.com/trento-project/wanda/pull/340) ([rtorrero](https://github.com/rtorrero))
+- Add products gatherer docs [\#338](https://github.com/trento-project/wanda/pull/338) ([arbulu89](https://github.com/arbulu89))
+- Port execution view to v2 and cover execution controller with tests [\#337](https://github.com/trento-project/wanda/pull/337) ([dottorblaster](https://github.com/dottorblaster))
+- Add os-release gatherer docs [\#335](https://github.com/trento-project/wanda/pull/335) ([rtorrero](https://github.com/rtorrero))
+- Add mount\_info gatherer docs [\#334](https://github.com/trento-project/wanda/pull/334) ([arbulu89](https://github.com/arbulu89))
+- Add docs for sapservices gatherer [\#333](https://github.com/trento-project/wanda/pull/333) ([CDimonaco](https://github.com/CDimonaco))
+- Fix CI openapi generation [\#332](https://github.com/trento-project/wanda/pull/332) ([dottorblaster](https://github.com/dottorblaster))
+- Remove legacy api schema [\#331](https://github.com/trento-project/wanda/pull/331) ([dottorblaster](https://github.com/dottorblaster))
+- Api versioning plug [\#326](https://github.com/trento-project/wanda/pull/326) ([dottorblaster](https://github.com/dottorblaster))
+- Add missing metadata reference in Structure section [\#324](https://github.com/trento-project/wanda/pull/324) ([nelsonkopliku](https://github.com/nelsonkopliku))
+- Disp work gatherer docs [\#323](https://github.com/trento-project/wanda/pull/323) ([arbulu89](https://github.com/arbulu89))
+- Add versioning info to gatherers docs [\#322](https://github.com/trento-project/wanda/pull/322) ([rtorrero](https://github.com/rtorrero))
+- Add metadata documentation [\#321](https://github.com/trento-project/wanda/pull/321) ([nelsonkopliku](https://github.com/nelsonkopliku))
+- Add sapinstance-hostname-resolver gatherer doc [\#320](https://github.com/trento-project/wanda/pull/320) ([rtorrero](https://github.com/rtorrero))
+- Add systemd@v2 gatherer documentation [\#319](https://github.com/trento-project/wanda/pull/319) ([arbulu89](https://github.com/arbulu89))
+- Pin all the gatherer version in checks to v1 [\#317](https://github.com/trento-project/wanda/pull/317) ([CDimonaco](https://github.com/CDimonaco))
+- Update rabbitmq image in docker-compose [\#315](https://github.com/trento-project/wanda/pull/315) ([dottorblaster](https://github.com/dottorblaster))
+- Update checks definition schema [\#312](https://github.com/trento-project/wanda/pull/312) ([nelsonkopliku](https://github.com/nelsonkopliku))
+- Add sapcontrol gatherer documentation [\#311](https://github.com/trento-project/wanda/pull/311) ([arbulu89](https://github.com/arbulu89))
+- Add metadata support [\#309](https://github.com/trento-project/wanda/pull/309) ([dottorblaster](https://github.com/dottorblaster))
+- Refactor checks from when to metadata [\#308](https://github.com/trento-project/wanda/pull/308) ([nelsonkopliku](https://github.com/nelsonkopliku))
+- dir\_scan gatherer docs [\#307](https://github.com/trento-project/wanda/pull/307) ([CDimonaco](https://github.com/CDimonaco))
+- Add documentation for sysctl gatherer [\#304](https://github.com/trento-project/wanda/pull/304) ([rtorrero](https://github.com/rtorrero))
+- Add fstab gatherer docs [\#301](https://github.com/trento-project/wanda/pull/301) ([CDimonaco](https://github.com/CDimonaco))
+- Add saptune gatherer documentation [\#299](https://github.com/trento-project/wanda/pull/299) ([rtorrero](https://github.com/rtorrero))
+- Add groups gatherer docs [\#298](https://github.com/trento-project/wanda/pull/298) ([CDimonaco](https://github.com/CDimonaco))
+- Add passwd gatherer documentation [\#296](https://github.com/trento-project/wanda/pull/296) ([arbulu89](https://github.com/arbulu89))
+- Add a pipeline step that checks for APIs changes compatibility [\#280](https://github.com/trento-project/wanda/pull/280) ([nelsonkopliku](https://github.com/nelsonkopliku))
+- Load fake facts config from proper location [\#279](https://github.com/trento-project/wanda/pull/279) ([nelsonkopliku](https://github.com/nelsonkopliku))
+
+**Fixed bugs:**
+
+- Fix redirection when a query string is involved [\#330](https://github.com/trento-project/wanda/pull/330) ([nelsonkopliku](https://github.com/nelsonkopliku))
+- Missed versioning changes [\#329](https://github.com/trento-project/wanda/pull/329) ([rtorrero](https://github.com/rtorrero))
+- Fix typo in html tag [\#328](https://github.com/trento-project/wanda/pull/328) ([arbulu89](https://github.com/arbulu89))
+-  Fix CI behaviour when on main branch [\#302](https://github.com/trento-project/wanda/pull/302) ([jamie-suse](https://github.com/jamie-suse))
+- Fix cache-miss in CI pipeline [\#300](https://github.com/trento-project/wanda/pull/300) ([jamie-suse](https://github.com/jamie-suse))
+- Handle gathered fact nil value [\#297](https://github.com/trento-project/wanda/pull/297) ([arbulu89](https://github.com/arbulu89))
+
+**Merged pull requests:**
+
+- Bump dialyxir from 1.4.1 to 1.4.2 [\#327](https://github.com/trento-project/wanda/pull/327) ([dependabot[bot]](https://github.com/apps/dependabot))
+- Bump ex\_doc from 0.30.8 to 0.30.9 [\#325](https://github.com/trento-project/wanda/pull/325) ([dependabot[bot]](https://github.com/apps/dependabot))
+- Bump ex\_doc from 0.30.7 to 0.30.8 [\#318](https://github.com/trento-project/wanda/pull/318) ([dependabot[bot]](https://github.com/apps/dependabot))
+- Bump ex\_doc from 0.30.6 to 0.30.7 [\#316](https://github.com/trento-project/wanda/pull/316) ([dependabot[bot]](https://github.com/apps/dependabot))
+- Bump styfle/cancel-workflow-action from 0.11.0 to 0.12.0 [\#306](https://github.com/trento-project/wanda/pull/306) ([dependabot[bot]](https://github.com/apps/dependabot))
+- Add sap\_profiles gatherer documentation [\#305](https://github.com/trento-project/wanda/pull/305) ([arbulu89](https://github.com/arbulu89))
+- Bump credo from 1.7.0 to 1.7.1 [\#303](https://github.com/trento-project/wanda/pull/303) ([dependabot[bot]](https://github.com/apps/dependabot))
+- Bump mox from 1.0.2 to 1.1.0 [\#295](https://github.com/trento-project/wanda/pull/295) ([dependabot[bot]](https://github.com/apps/dependabot))
+- Bump docker/build-push-action from 4 to 5 [\#294](https://github.com/trento-project/wanda/pull/294) ([dependabot[bot]](https://github.com/apps/dependabot))
+- Bump docker/metadata-action from 4.6.0 to 5.0.0 [\#293](https://github.com/trento-project/wanda/pull/293) ([dependabot[bot]](https://github.com/apps/dependabot))
+- Bump docker/setup-buildx-action from 2 to 3 [\#292](https://github.com/trento-project/wanda/pull/292) ([dependabot[bot]](https://github.com/apps/dependabot))
+- Bump docker/login-action from 2.2.0 to 3.0.0 [\#291](https://github.com/trento-project/wanda/pull/291) ([dependabot[bot]](https://github.com/apps/dependabot))
+- Bump actions/checkout from 3 to 4 [\#290](https://github.com/trento-project/wanda/pull/290) ([dependabot[bot]](https://github.com/apps/dependabot))
+- Bump dialyxir from 1.3.0 to 1.4.1 [\#289](https://github.com/trento-project/wanda/pull/289) ([dependabot[bot]](https://github.com/apps/dependabot))
+- Bump ex\_doc from 0.30.5 to 0.30.6 [\#286](https://github.com/trento-project/wanda/pull/286) ([dependabot[bot]](https://github.com/apps/dependabot))
+- Bump open\_api\_spex from 3.17.3 to 3.18.0 [\#285](https://github.com/trento-project/wanda/pull/285) ([dependabot[bot]](https://github.com/apps/dependabot))
+- Add target\_type [\#284](https://github.com/trento-project/wanda/pull/284) ([dottorblaster](https://github.com/dottorblaster))
+- Bump ex\_doc from 0.30.4 to 0.30.5 [\#282](https://github.com/trento-project/wanda/pull/282) ([dependabot[bot]](https://github.com/apps/dependabot))
+- Bump ex\_doc from 0.30.3 to 0.30.4 [\#278](https://github.com/trento-project/wanda/pull/278) ([dependabot[bot]](https://github.com/apps/dependabot))
+- Bump docker/metadata-action from 4.4.0 to 4.6.0 [\#254](https://github.com/trento-project/wanda/pull/254) ([dependabot[bot]](https://github.com/apps/dependabot))
+
 ## [1.1.0](https://github.com/trento-project/wanda/tree/1.1.0) (2023-08-02)
 
 [Full Changelog](https://github.com/trento-project/wanda/compare/1.0.0...1.1.0)
