@@ -3,6 +3,7 @@
 #!BuildTag: trento/trento-wanda:%%VERSION%%
 #!BuildTag: trento/trento-wanda:%%VERSION%%-build%RELEASE%
 #!UseOBSRepositories
+#!ExclusiveArch: x86_64
 
 FROM bci/rust:1.66 AS release
 ADD wanda.tar.gz premium-checks.tar.gz* /build/
