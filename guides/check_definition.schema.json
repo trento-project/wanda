@@ -161,6 +161,11 @@
         "type": "object",
         "minProperties": 1,
         "additionalProperties": false,
+        "properties": {
+          "target_type": {
+            "type": "string"
+          }
+        },
         "patternProperties": {
           "[a-zA-Z0-9]+.*$": {
             "anyOf": [
@@ -188,7 +193,10 @@
               }
             ]
           }
-        }
+        },
+        "required": [
+          "target_type"
+        ]
       }
     }
 }
