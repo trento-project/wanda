@@ -163,7 +163,8 @@
       "additionalProperties": false,
       "properties": {
         "target_type": {
-          "type": "string"
+          "type": "string",
+          "enum": ["host", "cluster"]
         }
       },
       "patternProperties": {
