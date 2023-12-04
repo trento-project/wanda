@@ -1,202 +1,202 @@
 {
-    "$schema": "http://json-schema.org/draft-07/schema#",
-    "title": "Trento Check Definition Schema",
-    "additionalProperties": false,
-    "properties": {
-      "id": {
-        "type": "string"
-      },
-      "severity": {
-        "type": "string"
-      },
-      "name": {
-        "type": "string"
-      },
-      "group": {
-        "type": "string"
-      },
-      "when": {
-        "type": "string"
-      },
-      "metadata": {
-        "$ref": "#/definitions/Metadata"
-      },
-      "description": {
-        "type": "string"
-      },
-      "remediation": {
-        "type": "string"
-      },
-      "premium": {
-        "type": "boolean"
-      },
-      "facts": {
-        "type": "array",
-        "items": {
-          "$ref": "#/definitions/Fact"
-        }
-      },
-      "values": {
-        "type": "array",
-        "items": {
-          "$ref": "#/definitions/Value"
-        }
-      },
-      "expectations": {
-        "type": "array",
-        "items": {
-          "$ref": "#/definitions/Expectation"
-        }
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "Trento Check Definition Schema",
+  "additionalProperties": false,
+  "properties": {
+    "id": {
+      "type": "string"
+    },
+    "severity": {
+      "type": "string"
+    },
+    "name": {
+      "type": "string"
+    },
+    "group": {
+      "type": "string"
+    },
+    "when": {
+      "type": "string"
+    },
+    "metadata": {
+      "$ref": "#/definitions/Metadata"
+    },
+    "description": {
+      "type": "string"
+    },
+    "remediation": {
+      "type": "string"
+    },
+    "premium": {
+      "type": "boolean"
+    },
+    "facts": {
+      "type": "array",
+      "items": {
+        "$ref": "#/definitions/Fact"
       }
     },
-    "required": [
-      "id",
-      "name",
-      "group",
-      "description",
-      "remediation",
-      "facts",
-      "expectations"
-    ],
-    "definitions": {
-      "Fact": {
-        "title": "Fact",
-        "type": "object",
-        "additionalProperties": false,
-        "properties": {
-          "name": {
-            "type": "string"
-          },
-          "gatherer": {
-            "type": "string"
-          },
-          "argument": {
-            "type": "string"
-          }
-        },
-        "required": [
-          "gatherer",
-          "name"
-        ]
-      },
-      "Value": {
-        "title": "Value",
-        "type": "object",
-        "additionalProperties": false,
-        "properties": {
-          "name": {
-            "type": "string"
-          },
-          "default": {
-            "anyOf": [
-              {
-                "type": "integer"
-              },
-              {
-                "type": "string"
-              }
-            ]
-          },
-          "conditions": {
-            "type": "array",
-            "items": {
-              "$ref": "#/definitions/Condition"
-            }
-          }
-        },
-        "required": [
-          "name",
-          "default"
-        ]
-      },
-      "Condition": {
-        "title": "Condition",
-        "type": "object",
-        "additionalProperties": false,
-        "properties": {
-          "value": {
-            "anyOf": [
-              {
-                "type": "integer"
-              },
-              {
-                "type": "string"
-              }
-            ]
-          },
-          "when": {
-            "type": "string"
-          }
-        },
-        "required": [
-          "value",
-          "when"
-        ]
-      },
-      "Expectation": {
-        "title": "Expectation",
-        "type": "object",
-        "additionalProperties": false,
-        "minProperties": 2,
-        "maxProperties": 3,
-        "properties": {
-          "name": {
-            "type": "string"
-          },
-          "failure_message": {
-            "type": "string"
-          }
-        },
-        "patternProperties": {
-          "^expect$|^expect_same$": {
-            "type": "string"
-          }
-        },
-        "required": [
-          "name"
-        ]
-      },
-      "Metadata": {
-        "title": "Metadata",
-        "type": "object",
-        "minProperties": 1,
-        "additionalProperties": false,
-        "properties": {
-          "target_type": {
-            "type": "string"
-          }
-        },
-        "patternProperties": {
-          "[a-zA-Z0-9]+.*$": {
-            "anyOf": [
-              {
-                "type": "number"
-              },
-              {
-                "type": "string"
-              },
-              {
-                "type": "boolean"
-              },
-              {
-                "type": "array",
-                "items": {
-                  "anyOf": [
-                    {
-                      "type": "number"
-                    },
-                    {
-                      "type": "string"
-                    }
-                  ]
-                }
-              }
-            ]
-          }
-        },
-        "required": [
-          "target_type"
-        ]
+    "values": {
+      "type": "array",
+      "items": {
+        "$ref": "#/definitions/Value"
+      }
+    },
+    "expectations": {
+      "type": "array",
+      "items": {
+        "$ref": "#/definitions/Expectation"
       }
     }
+  },
+  "required": [
+    "id",
+    "name",
+    "group",
+    "description",
+    "remediation",
+    "facts",
+    "expectations"
+  ],
+  "definitions": {
+    "Fact": {
+      "title": "Fact",
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "name": {
+          "type": "string"
+        },
+        "gatherer": {
+          "type": "string"
+        },
+        "argument": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "gatherer",
+        "name"
+      ]
+    },
+    "Value": {
+      "title": "Value",
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "name": {
+          "type": "string"
+        },
+        "default": {
+          "anyOf": [
+            {
+              "type": "integer"
+            },
+            {
+              "type": "string"
+            }
+          ]
+        },
+        "conditions": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/Condition"
+          }
+        }
+      },
+      "required": [
+        "name",
+        "default"
+      ]
+    },
+    "Condition": {
+      "title": "Condition",
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "value": {
+          "anyOf": [
+            {
+              "type": "integer"
+            },
+            {
+              "type": "string"
+            }
+          ]
+        },
+        "when": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "value",
+        "when"
+      ]
+    },
+    "Expectation": {
+      "title": "Expectation",
+      "type": "object",
+      "additionalProperties": false,
+      "minProperties": 2,
+      "maxProperties": 3,
+      "properties": {
+        "name": {
+          "type": "string"
+        },
+        "failure_message": {
+          "type": "string"
+        }
+      },
+      "patternProperties": {
+        "^expect$|^expect_same$": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "name"
+      ]
+    },
+    "Metadata": {
+      "title": "Metadata",
+      "type": "object",
+      "minProperties": 1,
+      "additionalProperties": false,
+      "properties": {
+        "target_type": {
+          "type": "string"
+        }
+      },
+      "patternProperties": {
+        "[a-zA-Z0-9]+.*$": {
+          "anyOf": [
+            {
+              "type": "number"
+            },
+            {
+              "type": "string"
+            },
+            {
+              "type": "boolean"
+            },
+            {
+              "type": "array",
+              "items": {
+                "anyOf": [
+                  {
+                    "type": "number"
+                  },
+                  {
+                    "type": "string"
+                  }
+                ]
+              }
+            }
+          ]
+        }
+      },
+      "required": [
+        "target_type"
+      ]
+    }
+  }
 }
