@@ -250,13 +250,13 @@ A key-value map that enriches the Check being declared by providing extra inform
 
 - keys must be non empty strings (`foo`, `bar`, `foo_bar`, `qux1`)
 - values can be any of the following types `string`, `number`, `boolean`, `string[]` (list of strings)
-- `target_type` is a **required** key of the `metadata` map. It's value can be either a `host` or `cluster`.
+- `target_type` is a **required** key of the `metadata` map. It's value is  a `string`.
 
 Example:
 
 ```yaml
 metadata:
-  target_type: host
+  target_type: example_target
   foo: bar
   bar: 42
   baz: true
