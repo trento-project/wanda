@@ -34,17 +34,20 @@ remediation: |
 
   Nutanix:
 
-    - https://documentation.suse.com/sle-ha/15-SP5/single-html/SLE-HA-administration/#cha-ha-storage-protect
+    - https://documentation.suse.com/sle-ha/15-SP5/single-html/SLE-HA-administration/#pro-ha-storage-protect-sbd-config
+    - https://documentation.suse.com/sle-ha/15-SP5/single-html/SLE-HA-administration/#pro-ha-storage-protect-confdiskless
     - https://documentation.suse.com/sbp/all/single-html/SLES4SAP-hana-sr-guide-PerfOpt-15/#id-adapting-the-sbd-configuration
 
   SUSE / KVM:
 
-    - https://documentation.suse.com/sle-ha/15-SP5/single-html/SLE-HA-administration/#cha-ha-storage-protect
+    - https://documentation.suse.com/sle-ha/15-SP5/single-html/SLE-HA-administration/#pro-ha-storage-protect-sbd-config
+    - https://documentation.suse.com/sle-ha/15-SP5/single-html/SLE-HA-administration/#pro-ha-storage-protect-confdiskless
     - https://documentation.suse.com/sbp/all/single-html/SLES4SAP-hana-sr-guide-PerfOpt-15/#id-adapting-the-sbd-configuration
 
   VMware:
 
-    - https://documentation.suse.com/sle-ha/15-SP5/single-html/SLE-HA-administration/#cha-ha-storage-protect
+    - https://documentation.suse.com/sle-ha/15-SP5/single-html/SLE-HA-administration/#pro-ha-storage-protect-sbd-config
+    - https://documentation.suse.com/sle-ha/15-SP5/single-html/SLE-HA-administration/#pro-ha-storage-protect-confdiskless
     - https://documentation.suse.com/sbp/all/single-html/SLES4SAP-hana-sr-guide-PerfOpt-15/#id-adapting-the-sbd-configuration
 
 metadata:

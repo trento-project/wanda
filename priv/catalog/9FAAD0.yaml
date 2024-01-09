@@ -5,13 +5,11 @@ description: |
   Pacemaker version is not the recommended value
 remediation: |
   ## Abstract
-  Installed Pacemaker version must not be equal than the recommended value
+  Installed Pacemaker version must not be equal to version 2.0.3+20200511.2b248d828
 
   ## Remediation
   Install or upgrade to a supported Pacemaker version
 
-  ## Reference
-  - https://documentation.suse.com/sbp/all/single-html/SLES4SAP-hana-sr-guide-PerfOpt-15/
 
 metadata:
   target_type: cluster

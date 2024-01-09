@@ -11,7 +11,7 @@ remediation: |
   Please install or upgrade to a supported OS version
 
   ## Reference
-  - https://documentation.suse.com/sbp/all/single-html/SLES4SAP-hana-sr-guide-PerfOpt-15/
+  - https://documentation.suse.com/sbp/all/single-html/SLES4SAP-hana-sr-guide-PerfOpt-15/#cha.hana-sr.scope
 
 metadata:
   target_type: cluster

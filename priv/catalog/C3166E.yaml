@@ -5,13 +5,10 @@ description: |
   SBD version is not the recommended value
 remediation: |
   ## Abstract
-  Installed SBD version must not be equal than the recommended value
+  Installed SBD version must not be equal to version 1.4.0+20190326.c38c5e6
 
   ## Remediation
   Install or upgrade to a supported SBD version
-
-  ## Reference
-  - https://documentation.suse.com/sbp/all/single-html/SLES4SAP-hana-sr-guide-PerfOpt-15/
 
 metadata:
   target_type: cluster
