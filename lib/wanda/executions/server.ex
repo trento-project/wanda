@@ -120,7 +120,8 @@ defmodule Wanda.Executions.Server do
     if Gathering.target?(targets, agent_id) do
       continue_or_complete_execution(state, agent_id, facts)
     else
-      Logger.warn("Received facts for agent #{agent_id} but it is not a target of this execution",
+      Logger.warning(
+        "Received facts for agent #{agent_id} but it is not a target of this execution",
         facts: inspect(facts)
       )
 
