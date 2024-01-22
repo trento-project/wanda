@@ -57,6 +57,8 @@ defmodule Wanda.Executions.ServerTest do
                )
 
       assert pid == :global.whereis_name({Server, group_id})
+
+      stop_supervised(Server)
     end
   end
 
@@ -92,6 +94,8 @@ defmodule Wanda.Executions.ServerTest do
       assert_receive :toniolorian
 
       assert %Execution{execution_id: ^execution_id, status: :running} = Repo.one!(Execution)
+
+      stop_supervised(Server)
     end
 
     test "should not start an execution if an execution for that specific group_id is running" do
@@ -113,6 +117,8 @@ defmodule Wanda.Executions.ServerTest do
 
       assert {:error, :already_running} =
                Server.start_execution(UUID.uuid4(), group_id, targets, "cluster", %{})
+
+      stop_supervised(Server)
     end
 
     test "should exit when all facts are sent by all agents", context do
