@@ -114,10 +114,8 @@ defmodule Wanda.MixProject do
     [
       {:rhai_rustler, "~> 1.0.2"},
       {:rustler, ">= 0.0.0", optional: true},
+      # project has been archived by its github maintainer
       {:gen_rmq, "~> 4.0"},
-      # this is pinned since the 3.1.0 version requires OTP 23.2
-      # overrides gen_rmq dependency
-      {:credentials_obfuscation, "3.0.0", override: true},
       {:jason, "~> 1.3"},
       {:yaml_elixir, "~> 2.9"},
       {:trento_contracts,
@@ -143,7 +141,10 @@ defmodule Wanda.MixProject do
       {:plug_cowboy, "~> 2.5"},
       {:open_api_spex, "~> 3.13"},
       {:cors_plug, "~> 3.0"},
-      {:joken, "~> 2.6.0"}
+      {:joken, "~> 2.6.0"},
+      # required overrides to upgrade to elixir 1.15.7 and erlang otp 26
+      # https://stackoverflow.com/questions/76562092/hi-i-had-created-elixir-project-with-phoenix-framework-there-is-yaml-file-when
+      {:ecto, "~> 3.10", override: true}
     ]
   end
 
