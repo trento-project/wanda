@@ -40,7 +40,7 @@ defmodule Wanda.Executions.FakeGatheredFacts do
       fact_value
     else
       {:error, reason} ->
-        Logger.warn(
+        Logger.warning(
           "Could not get fact '#{fact_name}'. Falling back to default value.",
           check_id: inspect(check_id),
           fact_name: inspect(fact_name),
