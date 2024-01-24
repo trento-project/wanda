@@ -17,7 +17,7 @@ ENV MIX_ENV=$MIX_ENV
 RUN mix phx.digest
 RUN mix release
 
-FROM registry.suse.com/bci/bci-base:15.4 AS wanda
+FROM opensuse/tumbleweed AS wanda
 LABEL org.opencontainers.image.source="https://github.com/trento-project/wanda"
 ARG MIX_ENV=prod
 ENV MIX_ENV=$MIX_ENV
