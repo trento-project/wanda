@@ -71,18 +71,18 @@ values:
 expectations:
   - name: expectations_fencing_timeout
     expect: |
-      let fencing_timeout=
+      let fencing_timeout =
           facts.crm_config_properties
                .find(|item| item.id == "cib-bootstrap-options").nvpair
-               .find(|prop| prop.name == "stonith-timeout").value;
+               .find(|prop| prop.name == "stonith-timeout");
 
-      let fence_azure_arm_detected=
+      let fence_azure_arm_detected =
           facts.resources_primitives
                .filter(|item| item.type == "fence_azure_arm").len() != 0;
 
       if fence_azure_arm_detected {
-        fencing_timeout == values.expected_azure_fencing_timeout;
+        fencing_timeout != () && fencing_timeout.value == values.expected_azure_fencing_timeout;
       } else {
-        fencing_timeout >= values.expected_fencing_timeout;
+        fencing_timeout != () && fencing_timeout.value >= values.expected_fencing_timeout;
       }
     failure_message: Cluster fencing timeout 'stonith-timeout' is not configured correctly
