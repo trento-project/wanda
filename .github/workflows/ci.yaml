@@ -359,7 +359,7 @@ jobs:
           cache-to: type=gha,mode=max
           build-args: MIX_ENV=${{ env.MIX_ENV }}
       - name: Remotely trigger trento-web demo deployment
-        uses: peter-evans/repository-dispatch@v2
+        uses: peter-evans/repository-dispatch@v3
         with:
           token: ${{ secrets.PAT }}
           repository: ${{ github.repository_owner }}/web
