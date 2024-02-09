@@ -414,7 +414,7 @@ jobs:
         OBS_USER: ${{ secrets.OBS_USER }}
         OBS_PASS: ${{ secrets.OBS_PASS }}
         OBS_PROJECT: ${{ secrets.OBS_PROJECT }}
-        FOLDER: packaging/suse
+        FOLDER: packaging/suse/container
         REPOSITORY: ${{ github.repository }}
       options: -u 0:0
     steps:
@@ -463,12 +463,12 @@ jobs:
           VERSION=$(./hack/get_version_from_git.sh)
           # "+" character is not allowed in OBS dockerfile version strings
           VERSION=${VERSION//[+]/-}
-          sed -i 's~%%VERSION%%~'"${VERSION}"'~' packaging/suse/Dockerfile
+          sed -i 's~%%VERSION%%~'"${VERSION}"'~' $FOLDER/Dockerfile
       - name: Commit on OBS
         run: |
           OBS_PACKAGE=$OBS_PROJECT/$NAME
           osc checkout $OBS_PACKAGE -o $DEST_FOLDER
-          cp -r packaging/suse/* $DEST_FOLDER
+          cp -r $FOLDER/* $DEST_FOLDER
           tar --transform 's,^./,/wanda/,' -zcvf $DEST_FOLDER/wanda.tar.gz --exclude=./.git ./*
           cd $DEST_FOLDER
           osc ar
