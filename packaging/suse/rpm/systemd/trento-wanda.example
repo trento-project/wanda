@@ -1,0 +1,5 @@
+CORS_ORIGIN=localhost
+SECRET_KEY_BASE=<secret-key-base>
+ACCESS_TOKEN_ENC_SECRET=<access-token-enc-secret>
+AMQP_URL=amqp://trento_user:trento_user_password@rabbitmq-host/vhost
+DATABASE_URL=ecto://wanda_user:wanda_password@postgres-host/wanda
