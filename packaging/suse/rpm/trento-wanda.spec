@@ -24,7 +24,7 @@ URL:            https://github.com/trento-project/wanda
 Source:         %{name}-%{version}.tar.gz
 Source1:        deps.tar.gz
 Group:          System/Monitoring
-BuildRequires:  elixir, elixir-hex, erlang-rebar3, git-core, local-npm-registry
+BuildRequires:  elixir, elixir-hex, erlang-rebar3, git-core, cargo-packaging
 
 %description
 Trento is an open cloud-native web application for SAP Applications administrators.
@@ -46,8 +46,8 @@ mix phx.digest
 mix release
 
 %install
-mkdir -p %{buildroot}/usr/lib/trento
-cp -a _build/prod/rel/trento %{buildroot}/usr/lib
+mkdir -p %{buildroot}/usr/lib/wanda
+cp -a _build/prod/rel/wanda %{buildroot}/usr/lib
 install -D -m 0644 packaging/suse/rpm/systemd/trento-wanda.service %{buildroot}%{_unitdir}/trento-wanda.service
 install -D -m 0600 packaging/suse/rpm/systemd/trento-wanda.example %{buildroot}/etc/trento/trento-wanda.example
 
@@ -64,7 +64,7 @@ install -D -m 0600 packaging/suse/rpm/systemd/trento-wanda.example %{buildroot}/
 %service_del_postun trento-wanda.service  
 
 %files
-/usr/lib/trento
+/usr/lib/wanda
 %{_unitdir}/trento-wanda.service
 /etc/trento
 /etc/trento/trento-wanda.example
