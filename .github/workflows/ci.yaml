@@ -401,7 +401,7 @@ jobs:
           publish_dir: ./doc
 
   obs-commit:
-    name: Commit the project on OBS
+    name: Commit the container image on OBS
     runs-on: ubuntu-20.04
     if: github.event_name == 'release' || (github.event_name == 'push' && github.ref_name == 'main') || github.event_name == 'workflow_dispatch'
     needs: [static-code-analysis, test]
@@ -475,6 +475,7 @@ jobs:
           osc commit -m "New development version of $NAME released"
 
   obs-commit-rpm:
+    name: Commit the RPM package on OBS
     needs: [static-code-analysis, test]
     runs-on: ubuntu-20.04
     if: github.event_name == 'release' || (github.event_name == 'push' && github.ref_name == 'main') || github.event_name == 'workflow_dispatch'
