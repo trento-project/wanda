@@ -4,7 +4,7 @@ Description=Trento Wanda service
 [Service]
 ExecStart=/usr/lib/wanda/bin/wanda start
 ExecStartPre=/usr/lib/wanda/bin/wanda eval 'Wanda.Release.init()'
-EnvironmentFile=/etc/wanda/trento-wanda
+EnvironmentFile=/etc/trento/trento-wanda
 Type=simple
 User=root
 Restart=on-failure
