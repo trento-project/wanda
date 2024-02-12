@@ -527,7 +527,7 @@ jobs:
           osc checkout $OBS_PROJECT trento-wanda -o $OSC_CHECKOUT_DIR
           cp $FOLDER/_service $OSC_CHECKOUT_DIR
           cp $FOLDER/trento-wanda.spec $OSC_CHECKOUT_DIR
-          rm -v $OSC_CHECKOUT_DIR/*.tar.gz
+          rm -vf $OSC_CHECKOUT_DIR/*.tar.gz
           pushd $OSC_CHECKOUT_DIR 
           osc service manualrun
           cp  /__w/wanda/wanda/deps.tar.gz .
