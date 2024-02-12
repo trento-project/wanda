@@ -1,0 +1,22 @@
+id: "mixed_ensa_opt2"
+name: Check not differentiating on ensa version
+group: Sapcontrol - HA
+description: Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla nec odio nec nunc tincidunt tincidunt
+remediation: |
+  ## Abstract
+
+metadata:
+  target_type: cluster
+  cluster_type: ascs_ers
+  fs_type: 
+    - classic
+    - simplemount
+
+facts:
+  - name: jedi
+    gatherer: wandalorian
+    argument: -o
+
+expectations:
+  - name: some_expectation
+    expect: facts.jedi == values.expected_value

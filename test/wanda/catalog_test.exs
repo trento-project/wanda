@@ -70,6 +70,30 @@ defmodule Wanda.CatalogTest do
       assert Enum.any?(catalog, fn %Check{id: id} -> id == "with_metadata" end)
     end
 
+    test "this should find mixed_ensa_opt1 but it does not" do
+      catalog =
+        Catalog.get_catalog(%{
+          "target_type" => "cluster",
+          "cluster_type" => "ascs_ers",
+          "ensa_version" => "mixed_versions",
+          "filesystem_type" => "resource_managed"
+        })
+
+      refute Enum.any?(catalog, fn %Check{id: id} -> id == "mixed_ensa_opt1" end)
+    end
+
+    test "option without ensa versions defined working" do
+      catalog =
+        Catalog.get_catalog(%{
+          "target_type" => "cluster",
+          "cluster_type" => "ascs_ers",
+          "ensa_version" => "mixed_versions",
+          "filesystem_type" => "resource_managed"
+        })
+
+      assert Enum.any?(catalog, fn %Check{id: id} -> id == "mixed_ensa_opt2" end)
+    end
+
     test "should load a check from a yaml file properly" do
       assert {:ok,
               %Check{
