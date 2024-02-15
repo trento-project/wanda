@@ -1,0 +1,14 @@
+[Unit]
+Description=Trento Wanda service
+
+[Service]
+ExecStart=/usr/lib/wanda/bin/wanda start
+ExecStartPre=/usr/lib/wanda/bin/wanda eval 'Wanda.Release.init()'
+EnvironmentFile=/etc/trento/trento-wanda
+Type=simple
+User=root
+Restart=on-failure
+RestartSec=5
+
+[Install]
+WantedBy=multi-user.target
