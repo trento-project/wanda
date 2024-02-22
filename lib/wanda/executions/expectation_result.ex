@@ -13,7 +13,7 @@ defmodule Wanda.Executions.ExpectationResult do
 
   @type t :: %__MODULE__{
           name: String.t(),
-          result: boolean(),
+          result: :passing | :warning | :critical,
           type: :expect | :expect_same,
           failure_message: String.t() | nil
         }

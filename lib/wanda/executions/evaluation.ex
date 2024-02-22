@@ -179,7 +179,8 @@ defmodule Wanda.Executions.Evaluation do
            name: name,
            type: type,
            expression: expression,
-           failure_message: failure_message
+           failure_message: failure_message,
+           warning_message: warning_message
          },
          evaluation_scope,
          engine
@@ -190,9 +191,10 @@ defmodule Wanda.Executions.Evaluation do
           %ExpectationEvaluation{
             name: name,
             type: type,
-            return_value: return_value
+            return_value: normalize_return_value(type, return_value)
           },
           failure_message,
+          warning_message,
           evaluation_scope,
           engine
         )
@@ -206,8 +208,15 @@ defmodule Wanda.Executions.Evaluation do
     end
   end
 
+  defp normalize_return_value(:expect, "passing"), do: :passing
+  defp normalize_return_value(:expect, "warning"), do: :warning
+  defp normalize_return_value(:expect, true), do: :passing
+  defp normalize_return_value(:expect, _), do: :critical
+  defp normalize_return_value(:expect_same, return_value), do: return_value
+
   defp maybe_add_failure_message(
-         %ExpectationEvaluation{type: :expect, return_value: false} = expectation_evaluation,
+         %ExpectationEvaluation{type: :expect, return_value: :critical} = expectation_evaluation,
+         nil,
          nil,
          _evaluation_scope,
          _
@@ -216,23 +225,31 @@ defmodule Wanda.Executions.Evaluation do
   end
 
   defp maybe_add_failure_message(
-         %ExpectationEvaluation{type: :expect, return_value: false} = expectation_evaluation,
+         %ExpectationEvaluation{type: :expect, return_value: :critical} = expectation_evaluation,
          failure_message,
+         _warning_message,
          evaluation_scope,
          engine
        ) do
-    message =
-      case EvaluationEngine.eval(engine, "`#{failure_message}`", evaluation_scope) do
-        {:ok, interpolated_failure_message} -> interpolated_failure_message
-        _ -> @default_failure_message
-      end
+    message = interpolate_message(failure_message, evaluation_scope, engine)
+    %ExpectationEvaluation{expectation_evaluation | failure_message: message}
+  end
 
+  defp maybe_add_failure_message(
+         %ExpectationEvaluation{type: :expect, return_value: :warning} = expectation_evaluation,
+         _failure_message,
+         warning_message,
+         evaluation_scope,
+         engine
+       ) do
+    message = interpolate_message(warning_message, evaluation_scope, engine)
     %ExpectationEvaluation{expectation_evaluation | failure_message: message}
   end
 
   defp maybe_add_failure_message(
          %ExpectationResult{type: :expect_same, result: false} = expectation_result,
          nil,
+         _warning_message,
          _evaluation_scope,
          _
        ) do
@@ -242,13 +259,21 @@ defmodule Wanda.Executions.Evaluation do
   defp maybe_add_failure_message(
          %ExpectationResult{type: :expect_same, result: false} = expectation_result,
          failure_message,
+         _warning_message,
          _evaluation_scope,
          _
        ) do
     %ExpectationResult{expectation_result | failure_message: failure_message}
   end
 
-  defp maybe_add_failure_message(expectation, _, _, _), do: expectation
+  defp maybe_add_failure_message(expectation_evaluation, _, _, _, _), do: expectation_evaluation
+
+  defp interpolate_message(message, evaluation_scope, engine) do
+    case EvaluationEngine.eval(engine, "`#{message}`", evaluation_scope) do
+      {:ok, interpolated_failure_message} -> interpolated_failure_message
+      _ -> @default_failure_message
+    end
+  end
 
   defp add_expectation_results(
          %CheckResult{agents_check_results: agents_check_results} = result,
@@ -285,6 +310,7 @@ defmodule Wanda.Executions.Evaluation do
               )
           },
           failure_message,
+          nil,
           %{},
           engine
         )
@@ -310,13 +336,20 @@ defmodule Wanda.Executions.Evaluation do
   end
 
   defp eval_expectation_result(:expect_same, expectation_evaluations) do
-    expectation_evaluations
-    |> Enum.uniq_by(& &1.return_value)
-    |> Kernel.length() == 1
+    return_value =
+      expectation_evaluations
+      |> Enum.uniq_by(& &1.return_value)
+      |> Kernel.length() == 1
+
+    normalize_return_value(:expect, return_value)
   end
 
   defp eval_expectation_result(:expect, expectations_evaluations) do
-    Enum.all?(expectations_evaluations, &(&1.return_value == true))
+    expectations_evaluations
+    |> Enum.map(&{&1, result_weight(&1.return_value)})
+    |> Enum.max_by(fn {_, weight} -> weight end)
+    |> elem(0)
+    |> Map.get(:return_value)
   end
 
   defp aggregate_check_result(
@@ -327,14 +360,17 @@ defmodule Wanda.Executions.Evaluation do
          severity
        ) do
     result =
-      if Enum.all?(expectation_results, &(&1.result == true)) and
-           not errors?(agents_check_results) do
-        :passing
-      else
+      if errors?(agents_check_results) do
         Enum.find_value(agents_check_results, severity, fn
           %AgentCheckError{type: :timeout} -> :critical
           _ -> false
         end)
+      else
+        expectation_results
+        |> Enum.map(& &1.result)
+        |> Enum.map(&{&1, result_weight(&1)})
+        |> Enum.max_by(fn {_, weight} -> weight end)
+        |> elem(0)
       end
 
     %CheckResult{check_result | result: result}

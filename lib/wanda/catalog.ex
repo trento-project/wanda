@@ -144,7 +144,8 @@ defmodule Wanda.Catalog do
       name: name,
       type: :expect,
       expression: expression,
-      failure_message: Map.get(expectation, "failure_message")
+      failure_message: Map.get(expectation, "failure_message"),
+      warning_message: Map.get(expectation, "warning_message")
     }
   end
 
