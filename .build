@@ -59,7 +59,6 @@ WandaWeb.Schemas.Health.html
 WandaWeb.Schemas.ListExecutionsResponse.html
 WandaWeb.Schemas.NotFound.html
 WandaWeb.Schemas.Ready.html
-WandaWeb.Schemas.StartExecutionRequest.html
 WandaWeb.Schemas.V1.ApiSpec.html
 WandaWeb.Schemas.V1.StartExecutionRequest.html
 WandaWeb.Schemas.V2.ApiSpec.html
@@ -105,8 +104,8 @@ dist/merriweather-latin-ext-300-normal-K6L27CZ5.woff2
 dist/merriweather-vietnamese-300-italic-EHHNZPUO.woff2
 dist/merriweather-vietnamese-300-normal-U376L4Z4.woff2
 dist/remixicon-NKANDIL5.woff2
-dist/search_data-82C2E54B.js
-dist/sidebar_items-B02CF330.js
+dist/search_data-B946A59E.js
+dist/sidebar_items-43F1590F.js
 expression_language.html
 gatherers.html
 hack_on_wanda.html
