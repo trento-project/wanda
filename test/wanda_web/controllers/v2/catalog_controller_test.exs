@@ -24,6 +24,7 @@ defmodule WandaWeb.V2.CatalogControllerTest do
       assert %{
                "items" => [
                  %{"id" => "expect_check"},
+                 %{"id" => "expect_enum_check"},
                  %{"id" => "expect_same_check"},
                  %{"id" => "warning_severity_check"},
                  %{"id" => "when_condition_check"},
@@ -44,6 +45,7 @@ defmodule WandaWeb.V2.CatalogControllerTest do
       assert %{
                "items" => [
                  %{"id" => "expect_check"},
+                 %{"id" => "expect_enum_check"},
                  %{"id" => "expect_same_check"},
                  %{"id" => "warning_severity_check"},
                  %{"id" => "when_condition_check"},
