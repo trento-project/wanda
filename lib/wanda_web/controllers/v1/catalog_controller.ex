@@ -3,7 +3,7 @@ defmodule WandaWeb.V1.CatalogController do
   use OpenApiSpex.ControllerSpecs
 
   alias Wanda.Catalog
-  alias WandaWeb.Schemas.CatalogResponse
+  alias WandaWeb.Schemas.V1.Catalog.CatalogResponse
   alias WandaWeb.Schemas.V1.Env
 
   plug OpenApiSpex.Plug.CastAndValidate, json_render_error_v2: true
