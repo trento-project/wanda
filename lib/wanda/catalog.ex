@@ -157,16 +157,6 @@ defmodule Wanda.Catalog do
     }
   end
 
-  defp map_expectation(%{"name" => name, "expect_enum" => expression} = expectation) do
-    %Expectation{
-      name: name,
-      type: :expect_enum,
-      expression: expression,
-      failure_message: Map.get(expectation, "failure_message"),
-      warning_message: Map.get(expectation, "warning_message")
-    }
-  end
-
   defp map_fact(%{"name" => name, "gatherer" => gatherer} = fact) do
     %Fact{
       name: name,
