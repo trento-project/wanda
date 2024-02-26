@@ -57,7 +57,7 @@ defmodule Wanda.Factory do
   def catalog_expectation_factory do
     %Catalog.Expectation{
       name: Faker.StarWars.character(),
-      type: Enum.random([:expect, :expect_same]),
+      type: Enum.random([:expect, :expect_same, :expect_enum]),
       expression: Faker.StarWars.quote()
     }
   end
