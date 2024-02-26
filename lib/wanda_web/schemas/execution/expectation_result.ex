@@ -14,7 +14,7 @@ defmodule WandaWeb.Schemas.ExecutionResponse.ExpectationResult do
       result: %Schema{type: :boolean, description: "Result of the expectation condition"},
       type: %Schema{
         type: :string,
-        enum: ["expect", "expect_same"],
+        enum: [:unknown, :expect, :expect_same],
         description: "Evaluation type"
       },
       failure_message: %Schema{

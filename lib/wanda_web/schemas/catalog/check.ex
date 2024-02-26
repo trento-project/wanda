@@ -84,7 +84,7 @@ defmodule WandaWeb.Schemas.CatalogResponse.Check do
             type: %Schema{
               type: :string,
               description: "Expectation type",
-              enum: [:expect, :expect_same]
+              enum: [:unknown, :expect, :expect_same]
             },
             expression: %Schema{
               type: :string,

@@ -17,7 +17,7 @@ defmodule WandaWeb.Schemas.ExecutionResponse.ExpectationEvaluation do
       },
       type: %Schema{
         type: :string,
-        enum: ["expect", "expect_same"],
+        enum: [:unknown, :expect, :expect_same],
         description: "Evaluation type"
       },
       failure_message: %Schema{
