@@ -14,7 +14,7 @@ defmodule Wanda.Executions.ExpectationEvaluation do
   @type t :: %__MODULE__{
           name: String.t(),
           return_value: number() | boolean() | String.t() | :passing | :warning | :critical,
-          type: :expect | :expect_same,
+          type: :expect | :expect_same | :expect_enum,
           failure_message: String.t() | nil
         }
 end

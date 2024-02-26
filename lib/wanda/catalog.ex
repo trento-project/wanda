@@ -144,8 +144,7 @@ defmodule Wanda.Catalog do
       name: name,
       type: :expect,
       expression: expression,
-      failure_message: Map.get(expectation, "failure_message"),
-      warning_message: Map.get(expectation, "warning_message")
+      failure_message: Map.get(expectation, "failure_message")
     }
   end
 
@@ -155,6 +154,16 @@ defmodule Wanda.Catalog do
       type: :expect_same,
       expression: expression,
       failure_message: Map.get(expectation, "failure_message")
+    }
+  end
+
+  defp map_expectation(%{"name" => name, "expect_enum" => expression} = expectation) do
+    %Expectation{
+      name: name,
+      type: :expect_enum,
+      expression: expression,
+      failure_message: Map.get(expectation, "failure_message"),
+      warning_message: Map.get(expectation, "warning_message")
     }
   end
 

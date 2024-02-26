@@ -8,7 +8,7 @@ defmodule Wanda.Catalog.Expectation do
 
   @type t :: %__MODULE__{
           name: String.t(),
-          type: :expect | :expect_same,
+          type: :expect | :expect_same | :expect_enum,
           expression: String.t(),
           failure_message: String.t(),
           warning_message: String.t()

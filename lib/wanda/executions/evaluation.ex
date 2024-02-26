@@ -208,43 +208,82 @@ defmodule Wanda.Executions.Evaluation do
     end
   end
 
-  defp normalize_return_value(:expect, "passing"), do: :passing
-  defp normalize_return_value(:expect, "warning"), do: :warning
-  defp normalize_return_value(:expect, true), do: :passing
-  defp normalize_return_value(:expect, _), do: :critical
-  defp normalize_return_value(:expect_same, return_value), do: return_value
+  defp normalize_return_value(:expect_enum, "passing"), do: :passing
+  defp normalize_return_value(:expect_enum, "warning"), do: :warning
+  defp normalize_return_value(:expect_enum, _), do: :critical
+  defp normalize_return_value(_, return_value), do: return_value
 
   defp maybe_add_failure_message(
-         %ExpectationEvaluation{type: :expect, return_value: :critical} = expectation_evaluation,
+         %ExpectationEvaluation{type: :expect, return_value: false} = expectation_evaluation,
          nil,
-         nil,
+         _warning_message,
          _evaluation_scope,
          _
-       ) do
-    %ExpectationEvaluation{expectation_evaluation | failure_message: @default_failure_message}
-  end
+       ),
+       do: %ExpectationEvaluation{
+         expectation_evaluation
+         | failure_message: @default_failure_message
+       }
 
   defp maybe_add_failure_message(
-         %ExpectationEvaluation{type: :expect, return_value: :critical} = expectation_evaluation,
+         %ExpectationEvaluation{type: :expect, return_value: false} = expectation_evaluation,
          failure_message,
          _warning_message,
          evaluation_scope,
          engine
-       ) do
-    message = interpolate_message(failure_message, evaluation_scope, engine)
-    %ExpectationEvaluation{expectation_evaluation | failure_message: message}
-  end
+       ),
+       do: %ExpectationEvaluation{
+         expectation_evaluation
+         | failure_message: interpolate_message(failure_message, evaluation_scope, engine)
+       }
 
   defp maybe_add_failure_message(
-         %ExpectationEvaluation{type: :expect, return_value: :warning} = expectation_evaluation,
+         %ExpectationEvaluation{type: :expect_enum, return_value: :passing} =
+           expectation_evaluation,
+         _,
+         _,
+         _evaluation_scope,
+         _
+       ),
+       do: expectation_evaluation
+
+  defp maybe_add_failure_message(
+         %ExpectationEvaluation{type: :expect_enum} = expectation_evaluation,
+         nil,
+         nil,
+         _evaluation_scope,
+         _
+       ),
+       do: %ExpectationEvaluation{
+         expectation_evaluation
+         | failure_message: @default_failure_message
+       }
+
+  defp maybe_add_failure_message(
+         %ExpectationEvaluation{type: :expect_enum, return_value: :critical} =
+           expectation_evaluation,
+         failure_message,
+         _warning_message,
+         evaluation_scope,
+         engine
+       ),
+       do: %ExpectationEvaluation{
+         expectation_evaluation
+         | failure_message: interpolate_message(failure_message, evaluation_scope, engine)
+       }
+
+  defp maybe_add_failure_message(
+         %ExpectationEvaluation{type: :expect_enum, return_value: :warning} =
+           expectation_evaluation,
          _failure_message,
          warning_message,
          evaluation_scope,
          engine
-       ) do
-    message = interpolate_message(warning_message, evaluation_scope, engine)
-    %ExpectationEvaluation{expectation_evaluation | failure_message: message}
-  end
+       ),
+       do: %ExpectationEvaluation{
+         expectation_evaluation
+         | failure_message: interpolate_message(warning_message, evaluation_scope, engine)
+       }
 
   defp maybe_add_failure_message(
          %ExpectationResult{type: :expect_same, result: false} = expectation_result,
@@ -252,9 +291,8 @@ defmodule Wanda.Executions.Evaluation do
          _warning_message,
          _evaluation_scope,
          _
-       ) do
-    %ExpectationResult{expectation_result | failure_message: @default_failure_message}
-  end
+       ),
+       do: %ExpectationResult{expectation_result | failure_message: @default_failure_message}
 
   defp maybe_add_failure_message(
          %ExpectationResult{type: :expect_same, result: false} = expectation_result,
@@ -262,9 +300,8 @@ defmodule Wanda.Executions.Evaluation do
          _warning_message,
          _evaluation_scope,
          _
-       ) do
-    %ExpectationResult{expectation_result | failure_message: failure_message}
-  end
+       ),
+       do: %ExpectationResult{expectation_result | failure_message: failure_message}
 
   defp maybe_add_failure_message(expectation_evaluation, _, _, _, _), do: expectation_evaluation
 
@@ -336,20 +373,20 @@ defmodule Wanda.Executions.Evaluation do
   end
 
   defp eval_expectation_result(:expect_same, expectation_evaluations) do
-    return_value =
-      expectation_evaluations
-      |> Enum.uniq_by(& &1.return_value)
-      |> Kernel.length() == 1
-
-    normalize_return_value(:expect, return_value)
+    expectation_evaluations
+    |> Enum.uniq_by(& &1.return_value)
+    |> Kernel.length() == 1
   end
 
   defp eval_expectation_result(:expect, expectations_evaluations) do
+    Enum.all?(expectations_evaluations, &(&1.return_value == true))
+  end
+
+  defp eval_expectation_result(:expect_enum, expectations_evaluations) do
     expectations_evaluations
-    |> Enum.map(&{&1, result_weight(&1.return_value)})
+    |> Enum.map(&{&1.return_value, result_weight(&1.return_value)})
     |> Enum.max_by(fn {_, weight} -> weight end)
     |> elem(0)
-    |> Map.get(:return_value)
   end
 
   defp aggregate_check_result(
@@ -367,7 +404,7 @@ defmodule Wanda.Executions.Evaluation do
         end)
       else
         expectation_results
-        |> Enum.map(& &1.result)
+        |> Enum.map(&normalize_expectation_result(&1.result, severity))
         |> Enum.map(&{&1, result_weight(&1)})
         |> Enum.max_by(fn {_, weight} -> weight end)
         |> elem(0)
@@ -375,6 +412,10 @@ defmodule Wanda.Executions.Evaluation do
 
     %CheckResult{check_result | result: result}
   end
+
+  defp normalize_expectation_result(true, _), do: :passing
+  defp normalize_expectation_result(false, severity), do: severity
+  defp normalize_expectation_result(result, _), do: result
 
   defp errors?(agents_check_results),
     do:
