@@ -222,6 +222,7 @@ jobs:
         include:
           - version: V1
           - version: V2
+          - version: V3
     steps:
       - name: Cancel Previous Runs
         uses: styfle/cancel-workflow-action@0.12.1

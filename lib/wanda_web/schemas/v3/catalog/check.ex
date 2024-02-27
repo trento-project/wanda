@@ -1,4 +1,4 @@
-defmodule WandaWeb.Schemas.V2.Catalog.Check do
+defmodule WandaWeb.Schemas.V3.Catalog.Check do
   @moduledoc """
   Individual check of the catalog response API spec
   """
@@ -84,7 +84,7 @@ defmodule WandaWeb.Schemas.V2.Catalog.Check do
             type: %Schema{
               type: :string,
               description: "Expectation type",
-              enum: [:unknown, :expect, :expect_same]
+              enum: [:unknown, :expect, :expect_same, :expect_enum]
             },
             expression: %Schema{
               type: :string,
@@ -94,6 +94,12 @@ defmodule WandaWeb.Schemas.V2.Catalog.Check do
               type: :string,
               nullable: true,
               description: "Message returned when the check fails"
+            },
+            warning_message: %Schema{
+              type: :string,
+              nullable: true,
+              description:
+                "Message returned when the check return value is warning. Only available for `expect_enum` expectations"
             }
           },
           required: [:name, :type, :expression]
