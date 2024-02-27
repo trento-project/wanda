@@ -1,4 +1,4 @@
-defmodule WandaWeb.Schemas.ExecutionResponse.ExpectationEvaluation do
+defmodule WandaWeb.Schemas.V1.Execution.ExpectationEvaluation do
   @moduledoc false
 
   alias OpenApiSpex.Schema

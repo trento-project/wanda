@@ -10,12 +10,14 @@ defmodule WandaWeb.V1.ExecutionController do
   alias WandaWeb.Schemas.{
     AcceptedExecutionResponse,
     BadRequest,
-    ExecutionResponse,
-    ListExecutionsResponse,
     NotFound
   }
 
-  alias WandaWeb.Schemas.V1.StartExecutionRequest
+  alias WandaWeb.Schemas.V1.Execution.{
+    ExecutionResponse,
+    ListExecutionsResponse,
+    StartExecutionRequest
+  }
 
   plug OpenApiSpex.Plug.CastAndValidate, json_render_error_v2: true
   action_fallback WandaWeb.FallbackController

@@ -1,9 +1,9 @@
-defmodule WandaWeb.Schemas.ExecutionResponse.AgentCheckError do
+defmodule WandaWeb.Schemas.V1.Execution.AgentCheckError do
   @moduledoc false
 
   alias OpenApiSpex.Schema
 
-  alias WandaWeb.Schemas.ExecutionResponse.{Fact, FactError}
+  alias WandaWeb.Schemas.V1.Execution.{Fact, FactError}
 
   require OpenApiSpex
 
