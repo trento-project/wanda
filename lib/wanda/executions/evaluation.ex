@@ -403,6 +403,8 @@ defmodule Wanda.Executions.Evaluation do
           _ -> false
         end)
       else
+        # Normalize the expectation results to passing/warning/critical and weight them
+        # If the expectation is expect/expect_same use the severity in case of false result
         expectation_results
         |> Enum.map(&normalize_expectation_result(&1.result, severity))
         |> Enum.map(&{&1, result_weight(&1)})
