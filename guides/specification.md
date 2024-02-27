@@ -483,6 +483,7 @@ An Expectation declaration contains:
 - the expectation name
 - the expectation expression itself with [access](#evaluation-scope) to gathered [facts](#facts-1) and [resolved values](#values-1)
 - an optional [failure message](#failure-message)
+- an optional [warning message](#warning-message), only available in [expect_enum](#expect_enum) expectations
 
 ```yaml
 expectations:
@@ -500,7 +501,7 @@ expectations:
 Extra considerations:
 
 - there can be many expectations for a single Check
-- an expectation can be one of two types [`expect`](#expect) or [`expect_same`](#expect_same)
+- an expectation can be one of three types: [`expect`](#expect), [`expect_same`](#expect_same) or [`expect_enum`](#expect_enum)
 - a Check passes when all the expectations are satisfied
 
 Example
@@ -594,6 +595,61 @@ Considering the previous scenario what happens is that:
 >     expect_same: facts.installed_rpm_version
 > ```
 
+### expect_enum
+
+This type of expectation is satisfied when, after facts gathering, the expression returns `passing`, `warning` or `critical`.
+If no value is returned, the result defaults to `critical`.
+The final result of this expectation is the aggretation of all the expectation evaluations gathered in all the involved targets.
+
+The aggregation returns:
+- `passing` if all the targets evaluation is `passing`
+- `warning` if any of the evaluations is `warning` and there is not any `critical` result
+- `critical` if any of the evaluations is `critical`
+
+In this expectation type the [severity](#severity) field of the check is ignored.
+
+> Execution Scenario:
+>
+> - 2 targets [`A`, `B`]
+> - selected Checks [`sbd_check`]
+> - some environment (context)
+>
+> ```yaml
+> facts:
+>   - name: sbd_devices
+>     gatherer: sbd_config@v1
+>     argument: SBD_DEVICE
+>
+> values: ...
+>
+> expectations:
+>   - name: multiple_sbd_devices_configured
+>     expect_enum: |
+>       if facts.sbd_devices > values.passing_sbd_devices_count {
+>        "passing"
+>       } else if facts.sbd_devices == values.warning_sbd_devices_count {
+>        "warning"
+>       } else {
+>        "critical"
+>       }
+>
+>   - name: multiple_sbd_devices_configured_simple
+>     expect_enum: |
+>       if facts.sbd_devices > values.passing_sbd_devices_count {
+>        "passing"
+>       } else if facts.sbd_devices == values.warning_sbd_devices_count {
+>        "warning"
+>       }
+>
+> ```
+
+Considering the previous scenario what happens is that:
+
+- the fact `sbd_devices` is gathered on all targets (`A` and `B` in this case)
+- the expectation expression gets executed against the `sbd_devices` fact gathered on every targets.
+- the evaluated value is exactly what the expression returns. If there is not any returned value, `critical` is returned, as in the 2nd expectation example.
+- the evaluation result of all the targets is aggregated to compose the final expectation result.
+
 ### failure_message
 
 An optional failure message can be declared for every expectation.
@@ -619,6 +675,26 @@ expectations:
 ```
 
 This plain string is available in `ExpectationResult` inside the API response.
+
+### warning_message
+
+An optional warning message that works exactly as the previous [failure message](#failure-message).
+This field is only available for [expect_enum](#expect-enum) expectations, and it is interpolated when the expectation outcome is `warning`.
+
+```yaml
+expectations:
+  - name: awesome_expectation
+    expect_enum: |
+      if values.passing_value == facts.awesome_fact {
+        "passing"
+      } else if values.warning_value == facts.awesome_fact {
+        "warning"
+      }
+    failure_message: Critical!
+    warning_message: Warning!
+```
+
+The outcome of the interpolation is available in `ExpectationEvaluation` inside the API response, the same field that the `failure_message` is sent.
 
 ## Expression Language
 
