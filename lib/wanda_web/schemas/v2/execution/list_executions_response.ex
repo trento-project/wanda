@@ -1,11 +1,11 @@
-defmodule WandaWeb.Schemas.ListExecutionsResponse do
+defmodule WandaWeb.Schemas.V2.Execution.ListExecutionsResponse do
   @moduledoc """
   Execution list response API spec
   """
 
   alias OpenApiSpex.Schema
 
-  alias WandaWeb.Schemas.ExecutionResponse
+  alias WandaWeb.Schemas.V2.Execution.ExecutionResponse
 
   require OpenApiSpex
 
