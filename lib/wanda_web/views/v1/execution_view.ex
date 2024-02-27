@@ -63,8 +63,11 @@ defmodule WandaWeb.V1.ExecutionView do
 
   defp map_check_results(:running, _), do: nil
 
-  defp map_check_results(:completed, %{"check_results" => check_results}),
-    do: Enum.map(check_results, &strip_nil_failure_messages/1)
+  defp map_check_results(:completed, %{"check_results" => check_results}) do
+    check_results
+    |> Enum.map(&strip_nil_failure_messages/1)
+    |> Enum.map(&adapt_v1/1)
+  end
 
   defp count_results(:running, _, _), do: nil
 
@@ -89,4 +92,45 @@ defmodule WandaWeb.V1.ExecutionView do
     do: Enum.map(param, &strip_nil_failure_messages/1)
 
   defp strip_nil_failure_messages(value), do: value
+
+  defp adapt_v1(
+         %{
+           "agents_check_results" => agents_check_results,
+           "expectation_results" => expectation_results
+         } = check_result
+       ) do
+    adapted_agents_check_results =
+      Enum.map(
+        agents_check_results,
+        &adapt_v1_agent_check_results(&1)
+      )
+
+    adapted_expectation_results = adapt_v1_expect_type(expectation_results)
+
+    %{
+      check_result
+      | "agents_check_results" => adapted_agents_check_results,
+        "expectation_results" => adapted_expectation_results
+    }
+  end
+
+  defp adapt_v1(check_result), do: check_result
+
+  defp adapt_v1_agent_check_results(
+         %{"expectation_evaluations" => expectation_evaluations} = agent_check_results
+       ) do
+    %{
+      agent_check_results
+      | "expectation_evaluations" => adapt_v1_expect_type(expectation_evaluations)
+    }
+  end
+
+  defp adapt_v1_agent_check_results(agent_check_results), do: agent_check_results
+
+  defp adapt_v1_expect_type(expectations) do
+    Enum.map(expectations, fn
+      %{"type" => "expect_enum"} = expectation -> Map.put(expectation, "type", "unknown")
+      expectation -> expectation
+    end)
+  end
 end

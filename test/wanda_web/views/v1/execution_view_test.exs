@@ -246,4 +246,45 @@ defmodule WandaWeb.V1.ExecutionViewTest do
              }
     end
   end
+
+  describe "adapt to V1 version" do
+    test "should set expect_enum expectations to unknown" do
+      agents_check_results =
+        build_list(
+          1,
+          :agent_check_result,
+          expectation_evaluations: build_list(1, :expectation_evaluation, type: :expect_enum)
+        )
+
+      expectation_results = build_list(1, :expectation_result, type: :expect_enum)
+
+      check_results =
+        build_list(1, :check_result,
+          agents_check_results: agents_check_results,
+          expectation_results: expectation_results
+        )
+
+      result = build(:result, check_results: check_results)
+
+      execution =
+        :execution
+        |> build(
+          result: result,
+          completed_at: DateTime.utc_now(),
+          status: :completed
+        )
+        |> insert(returning: true)
+
+      assert %{
+               check_results: [
+                 %{
+                   "agents_check_results" => [
+                     %{"expectation_evaluations" => [%{"type" => "unknown"}]}
+                   ],
+                   "expectation_results" => [%{"type" => "unknown"}]
+                 }
+               ]
+             } = render(WandaWeb.V1.ExecutionView, "show.json", execution: execution)
+    end
+  end
 end
