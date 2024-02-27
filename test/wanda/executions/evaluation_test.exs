@@ -686,6 +686,317 @@ defmodule Wanda.Executions.EvaluationTest do
     end
   end
 
+  describe "expect_enum" do
+    test "should weight properly the return values", %{engine: engine} do
+      [
+        %Catalog.Fact{name: fact_1_name},
+        %Catalog.Fact{name: fact_2_name}
+      ] = catalog_facts = build_list(2, :catalog_fact)
+
+      expression_1 = """
+      if facts.#{fact_1_name} == 10 {
+        "passing"
+      } else if facts.#{fact_1_name} == 5 {
+        "warning"
+      }
+      """
+
+      expression_2 = """
+      if facts.#{fact_2_name} == 20 {
+        "passing"
+      } else if facts.#{fact_2_name} == 15 {
+        "warning"
+      }
+      """
+
+      scenarios = [
+        %{
+          facts: [
+            %{agent_1: 10, agent_2: 10},
+            %{agent_1: 20, agent_2: 20}
+          ],
+          expectation_1_result: :passing,
+          expectation_2_result: :passing,
+          result: :passing
+        },
+        %{
+          facts: [
+            %{agent_1: 5, agent_2: 10},
+            %{agent_1: 20, agent_2: 20}
+          ],
+          expectation_1_result: :warning,
+          expectation_2_result: :passing,
+          result: :warning
+        },
+        %{
+          facts: [
+            %{agent_1: 3, agent_2: 10},
+            %{agent_1: 20, agent_2: 20}
+          ],
+          expectation_1_result: :critical,
+          expectation_2_result: :passing,
+          result: :critical
+        },
+        %{
+          facts: [
+            %{agent_1: 3, agent_2: 10},
+            %{agent_1: 20, agent_2: 15}
+          ],
+          expectation_1_result: :critical,
+          expectation_2_result: :warning,
+          result: :critical
+        }
+      ]
+
+      Enum.each(scenarios, fn %{
+                                facts: [
+                                  %{
+                                    agent_1: agent_1_fact_1_value,
+                                    agent_2: agent_2_fact_1_value
+                                  },
+                                  %{
+                                    agent_1: agent_1_fact_2_value,
+                                    agent_2: agent_2_fact_2_value
+                                  }
+                                ],
+                                expectation_1_result: expectation_1_result,
+                                expectation_2_result: expectation_2_result,
+                                result: result
+                              } ->
+        expectations = [
+          build(:catalog_expectation,
+            name: "expectation_1",
+            type: :expect_enum,
+            expression: expression_1
+          ),
+          build(:catalog_expectation,
+            name: "expectation_2",
+            type: :expect_enum,
+            expression: expression_2
+          )
+        ]
+
+        [%Catalog.Check{id: check_id}] =
+          checks =
+          build_list(1, :check, facts: catalog_facts, values: [], expectations: expectations)
+
+        facts_agent_1 = [
+          build(:fact, name: fact_1_name, check_id: check_id, value: agent_1_fact_1_value),
+          build(:fact, name: fact_2_name, check_id: check_id, value: agent_1_fact_2_value)
+        ]
+
+        facts_agent_2 = [
+          build(:fact, name: fact_1_name, check_id: check_id, value: agent_2_fact_1_value),
+          build(:fact, name: fact_2_name, check_id: check_id, value: agent_2_fact_2_value)
+        ]
+
+        gathered_facts = %{
+          check_id => %{
+            "agent_1" => facts_agent_1,
+            "agent_2" => facts_agent_2
+          }
+        }
+
+        assert %Result{
+                 result: ^result,
+                 check_results: [
+                   %CheckResult{
+                     result: ^result,
+                     expectation_results: [
+                       %ExpectationResult{
+                         name: "expectation_1",
+                         result: ^expectation_1_result,
+                         type: :expect_enum
+                       },
+                       %ExpectationResult{
+                         name: "expectation_2",
+                         result: ^expectation_2_result,
+                         type: :expect_enum
+                       }
+                     ]
+                   }
+                 ]
+               } =
+                 Evaluation.execute(
+                   UUID.uuid4(),
+                   UUID.uuid4(),
+                   checks,
+                   gathered_facts,
+                   %{},
+                   engine
+                 )
+      end)
+    end
+
+    test "should set to critical unknown return values", %{engine: engine} do
+      [%Catalog.Fact{name: fact_name}] = catalog_facts = build_list(1, :catalog_fact)
+
+      expectations =
+        build_list(1, :catalog_expectation,
+          name: "some_expectation",
+          type: :expect_enum,
+          expression: """
+          if facts.#{fact_name} == "unknown" {
+            "unknown"
+          }
+          """
+        )
+
+      [%Catalog.Check{id: check_id}] =
+        checks =
+        build_list(1, :check, facts: catalog_facts, values: [], expectations: expectations)
+
+      facts = build_list(1, :fact, name: fact_name, check_id: check_id, value: "unknown")
+
+      gathered_facts = %{
+        check_id => %{
+          "agent" => facts
+        }
+      }
+
+      assert %Result{
+               result: :critical,
+               check_results: [
+                 %CheckResult{
+                   result: :critical,
+                   agents_check_results: [
+                     %AgentCheckResult{
+                       expectation_evaluations: [
+                         %ExpectationEvaluation{
+                           name: "some_expectation",
+                           return_value: :critical,
+                           type: :expect_enum,
+                           failure_message: "Expectation not met"
+                         }
+                       ]
+                     }
+                   ],
+                   expectation_results: [
+                     %ExpectationResult{
+                       name: "some_expectation",
+                       result: :critical,
+                       type: :expect_enum
+                     }
+                   ]
+                 }
+               ]
+             } =
+               Evaluation.execute(UUID.uuid4(), UUID.uuid4(), checks, gathered_facts, %{}, engine)
+    end
+
+    test "should interpolate the correct failure message", %{engine: engine} do
+      [%Catalog.Fact{name: fact_name}] = catalog_facts = build_list(1, :catalog_fact)
+      fact_value = 10
+
+      scenarios = [
+        %{
+          return_value: :warning,
+          warning_message: "warning message: fact value ${facts.#{fact_name}}",
+          failure_message: "failure message: fact value ${facts.#{fact_name}}",
+          message: "warning message: fact value #{fact_value}"
+        },
+        %{
+          return_value: :critical,
+          warning_message: "warning message: fact value ${facts.#{fact_name}}",
+          failure_message: "failure message: fact value ${facts.#{fact_name}}",
+          message: "failure message: fact value #{fact_value}"
+        },
+        %{
+          return_value: :warning,
+          warning_message: nil,
+          failure_message: nil,
+          message: "Expectation not met"
+        },
+        %{
+          return_value: :critical,
+          warning_message: nil,
+          failure_message: nil,
+          message: "Expectation not met"
+        },
+        %{
+          return_value: :warning,
+          warning_message: nil,
+          failure_message: "failure message: fact value ${facts.#{fact_name}}",
+          message: "Expectation not met"
+        },
+        %{
+          return_value: :critical,
+          warning_message: "warning message: fact value ${facts.#{fact_name}}",
+          failure_message: nil,
+          message: "Expectation not met"
+        }
+      ]
+
+      Enum.each(scenarios, fn %{
+                                return_value: return_value,
+                                failure_message: failure_message,
+                                warning_message: warning_mesasge,
+                                message: message
+                              } ->
+        expectations =
+          build_list(1, :catalog_expectation,
+            name: "some_expectation",
+            type: :expect_enum,
+            expression: """
+            if facts.#{fact_name} == #{fact_value} {
+              "#{Atom.to_string(return_value)}"
+            }
+            """,
+            failure_message: failure_message,
+            warning_message: warning_mesasge
+          )
+
+        [%Catalog.Check{id: check_id}] =
+          checks =
+          build_list(1, :check, facts: catalog_facts, values: [], expectations: expectations)
+
+        facts = build_list(1, :fact, name: fact_name, check_id: check_id, value: fact_value)
+
+        gathered_facts = %{
+          check_id => %{
+            "agent" => facts
+          }
+        }
+
+        assert %Result{
+                 result: ^return_value,
+                 check_results: [
+                   %CheckResult{
+                     result: ^return_value,
+                     agents_check_results: [
+                       %AgentCheckResult{
+                         expectation_evaluations: [
+                           %ExpectationEvaluation{
+                             name: "some_expectation",
+                             return_value: ^return_value,
+                             type: :expect_enum,
+                             failure_message: ^message
+                           }
+                         ]
+                       }
+                     ],
+                     expectation_results: [
+                       %ExpectationResult{
+                         name: "some_expectation",
+                         result: ^return_value,
+                         type: :expect_enum
+                       }
+                     ]
+                   }
+                 ]
+               } =
+                 Evaluation.execute(
+                   UUID.uuid4(),
+                   UUID.uuid4(),
+                   checks,
+                   gathered_facts,
+                   %{},
+                   engine
+                 )
+      end)
+    end
+  end
+
   describe "expressions with arrays" do
     test "should return a passing result", %{engine: engine} do
       [value | _] =

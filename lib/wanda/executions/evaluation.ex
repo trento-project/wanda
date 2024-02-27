@@ -179,7 +179,8 @@ defmodule Wanda.Executions.Evaluation do
            name: name,
            type: type,
            expression: expression,
-           failure_message: failure_message
+           failure_message: failure_message,
+           warning_message: warning_message
          },
          evaluation_scope,
          engine
@@ -190,9 +191,10 @@ defmodule Wanda.Executions.Evaluation do
           %ExpectationEvaluation{
             name: name,
             type: type,
-            return_value: return_value
+            return_value: normalize_return_value(type, return_value)
           },
           failure_message,
+          warning_message,
           evaluation_scope,
           engine
         )
@@ -206,49 +208,113 @@ defmodule Wanda.Executions.Evaluation do
     end
   end
 
+  defp normalize_return_value(:expect_enum, "passing"), do: :passing
+  defp normalize_return_value(:expect_enum, "warning"), do: :warning
+  defp normalize_return_value(:expect_enum, _), do: :critical
+  defp normalize_return_value(_, return_value), do: return_value
+
   defp maybe_add_failure_message(
          %ExpectationEvaluation{type: :expect, return_value: false} = expectation_evaluation,
          nil,
+         _warning_message,
          _evaluation_scope,
          _
-       ) do
-    %ExpectationEvaluation{expectation_evaluation | failure_message: @default_failure_message}
-  end
+       ),
+       do: %ExpectationEvaluation{
+         expectation_evaluation
+         | failure_message: @default_failure_message
+       }
 
   defp maybe_add_failure_message(
          %ExpectationEvaluation{type: :expect, return_value: false} = expectation_evaluation,
          failure_message,
+         _warning_message,
          evaluation_scope,
          engine
-       ) do
-    message =
-      case EvaluationEngine.eval(engine, "`#{failure_message}`", evaluation_scope) do
-        {:ok, interpolated_failure_message} -> interpolated_failure_message
-        _ -> @default_failure_message
-      end
+       ),
+       do: %ExpectationEvaluation{
+         expectation_evaluation
+         | failure_message: interpolate_message(failure_message, evaluation_scope, engine)
+       }
 
-    %ExpectationEvaluation{expectation_evaluation | failure_message: message}
-  end
+  defp maybe_add_failure_message(
+         %ExpectationEvaluation{type: :expect_enum, return_value: :critical} =
+           expectation_evaluation,
+         nil,
+         _warning_message,
+         _evaluation_scope,
+         _
+       ),
+       do: %ExpectationEvaluation{
+         expectation_evaluation
+         | failure_message: @default_failure_message
+       }
+
+  defp maybe_add_failure_message(
+         %ExpectationEvaluation{type: :expect_enum, return_value: :critical} =
+           expectation_evaluation,
+         failure_message,
+         _warning_message,
+         evaluation_scope,
+         engine
+       ),
+       do: %ExpectationEvaluation{
+         expectation_evaluation
+         | failure_message: interpolate_message(failure_message, evaluation_scope, engine)
+       }
+
+  defp maybe_add_failure_message(
+         %ExpectationEvaluation{type: :expect_enum, return_value: :warning} =
+           expectation_evaluation,
+         _failure_message,
+         nil,
+         _evaluation_scope,
+         _
+       ),
+       do: %ExpectationEvaluation{
+         expectation_evaluation
+         | failure_message: @default_failure_message
+       }
+
+  defp maybe_add_failure_message(
+         %ExpectationEvaluation{type: :expect_enum, return_value: :warning} =
+           expectation_evaluation,
+         _failure_message,
+         warning_message,
+         evaluation_scope,
+         engine
+       ),
+       do: %ExpectationEvaluation{
+         expectation_evaluation
+         | failure_message: interpolate_message(warning_message, evaluation_scope, engine)
+       }
 
   defp maybe_add_failure_message(
          %ExpectationResult{type: :expect_same, result: false} = expectation_result,
          nil,
+         _warning_message,
          _evaluation_scope,
          _
-       ) do
-    %ExpectationResult{expectation_result | failure_message: @default_failure_message}
-  end
+       ),
+       do: %ExpectationResult{expectation_result | failure_message: @default_failure_message}
 
   defp maybe_add_failure_message(
          %ExpectationResult{type: :expect_same, result: false} = expectation_result,
          failure_message,
+         _warning_message,
          _evaluation_scope,
          _
-       ) do
-    %ExpectationResult{expectation_result | failure_message: failure_message}
-  end
+       ),
+       do: %ExpectationResult{expectation_result | failure_message: failure_message}
 
-  defp maybe_add_failure_message(expectation, _, _, _), do: expectation
+  defp maybe_add_failure_message(expectation, _, _, _, _), do: expectation
+
+  defp interpolate_message(message, evaluation_scope, engine) do
+    case EvaluationEngine.eval(engine, "`#{message}`", evaluation_scope) do
+      {:ok, interpolated_failure_message} -> interpolated_failure_message
+      _ -> @default_failure_message
+    end
+  end
 
   defp add_expectation_results(
          %CheckResult{agents_check_results: agents_check_results} = result,
@@ -285,6 +351,7 @@ defmodule Wanda.Executions.Evaluation do
               )
           },
           failure_message,
+          nil,
           %{},
           engine
         )
@@ -319,6 +386,13 @@ defmodule Wanda.Executions.Evaluation do
     Enum.all?(expectations_evaluations, &(&1.return_value == true))
   end
 
+  defp eval_expectation_result(:expect_enum, expectations_evaluations) do
+    expectations_evaluations
+    |> Enum.map(&{&1.return_value, result_weight(&1.return_value)})
+    |> Enum.max_by(fn {_, weight} -> weight end)
+    |> elem(0)
+  end
+
   defp aggregate_check_result(
          %CheckResult{
            expectation_results: expectation_results,
@@ -327,18 +401,27 @@ defmodule Wanda.Executions.Evaluation do
          severity
        ) do
     result =
-      if Enum.all?(expectation_results, &(&1.result == true)) and
-           not errors?(agents_check_results) do
-        :passing
-      else
+      if errors?(agents_check_results) do
         Enum.find_value(agents_check_results, severity, fn
           %AgentCheckError{type: :timeout} -> :critical
           _ -> false
         end)
+      else
+        # Normalize the expectation results to passing/warning/critical and weight them
+        # If the expectation is expect/expect_same use the severity in case of false result
+        expectation_results
+        |> Enum.map(&normalize_expectation_result(&1.result, severity))
+        |> Enum.map(&{&1, result_weight(&1)})
+        |> Enum.max_by(fn {_, weight} -> weight end)
+        |> elem(0)
       end
 
     %CheckResult{check_result | result: result}
   end
+
+  defp normalize_expectation_result(true, _), do: :passing
+  defp normalize_expectation_result(false, severity), do: severity
+  defp normalize_expectation_result(result, _), do: result
 
   defp errors?(agents_check_results),
     do:
