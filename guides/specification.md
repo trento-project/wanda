@@ -482,8 +482,8 @@ An Expectation declaration contains:
 
 - the expectation name
 - the expectation expression itself with [access](#evaluation-scope) to gathered [facts](#facts-1) and [resolved values](#values-1)
-- an optional [failure message](#failure-message)
-- an optional [warning message](#warning-message), only available in [expect_enum](#expect_enum) expectations
+- an optional [failure message](#failure_message)
+- an optional [warning message](#warning_message), only available in [expect_enum](#expect_enum) expectations
 
 ```yaml
 expectations:
@@ -678,8 +678,8 @@ This plain string is available in `ExpectationResult` inside the API response.
 
 ### warning_message
 
-An optional warning message that works exactly as the previous [failure message](#failure-message).
-This field is only available for [expect_enum](#expect-enum) expectations, and it is interpolated when the expectation outcome is `warning`.
+An optional warning message that works exactly as the previous [failure message](#failure_message).
+This field is only available for [expect_enum](#expect_enum) expectations, and it is interpolated when the expectation outcome is `warning`.
 
 ```yaml
 expectations:
@@ -694,7 +694,7 @@ expectations:
     warning_message: Warning!
 ```
 
-The outcome of the interpolation is available in `ExpectationEvaluation` inside the API response, the same field that the `failure_message` is sent.
+The outcome of the interpolation is available in `ExpectationEvaluation` inside the API response, in the `failure_message` field.
 
 ## Expression Language
 
