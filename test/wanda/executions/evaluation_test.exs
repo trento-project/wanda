@@ -891,15 +891,48 @@ defmodule Wanda.Executions.EvaluationTest do
       scenarios = [
         %{
           return_value: :warning,
+          warning_message: "warning message: fact value ${facts.#{fact_name}}",
+          failure_message: "failure message: fact value ${facts.#{fact_name}}",
           message: "warning message: fact value #{fact_value}"
         },
         %{
           return_value: :critical,
+          warning_message: "warning message: fact value ${facts.#{fact_name}}",
+          failure_message: "failure message: fact value ${facts.#{fact_name}}",
           message: "failure message: fact value #{fact_value}"
+        },
+        %{
+          return_value: :warning,
+          warning_message: nil,
+          failure_message: nil,
+          message: "Expectation not met"
+        },
+        %{
+          return_value: :critical,
+          warning_message: nil,
+          failure_message: nil,
+          message: "Expectation not met"
+        },
+        %{
+          return_value: :warning,
+          warning_message: nil,
+          failure_message: "failure message: fact value ${facts.#{fact_name}}",
+          message: "Expectation not met"
+        },
+        %{
+          return_value: :critical,
+          warning_message: "warning message: fact value ${facts.#{fact_name}}",
+          failure_message: nil,
+          message: "Expectation not met"
         }
       ]
 
-      Enum.each(scenarios, fn %{return_value: return_value, message: message} ->
+      Enum.each(scenarios, fn %{
+                                return_value: return_value,
+                                failure_message: failure_message,
+                                warning_message: warning_mesasge,
+                                message: message
+                              } ->
         expectations =
           build_list(1, :catalog_expectation,
             name: "some_expectation",
@@ -909,8 +942,8 @@ defmodule Wanda.Executions.EvaluationTest do
               "#{Atom.to_string(return_value)}"
             }
             """,
-            warning_message: "warning message: fact value ${facts.#{fact_name}}",
-            failure_message: "failure message: fact value ${facts.#{fact_name}}"
+            failure_message: failure_message,
+            warning_message: warning_mesasge
           )
 
         [%Catalog.Check{id: check_id}] =

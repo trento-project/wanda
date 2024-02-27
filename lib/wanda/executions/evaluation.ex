@@ -238,19 +238,10 @@ defmodule Wanda.Executions.Evaluation do
        }
 
   defp maybe_add_failure_message(
-         %ExpectationEvaluation{type: :expect_enum, return_value: :passing} =
+         %ExpectationEvaluation{type: :expect_enum, return_value: :critical} =
            expectation_evaluation,
-         _,
-         _,
-         _evaluation_scope,
-         _
-       ),
-       do: expectation_evaluation
-
-  defp maybe_add_failure_message(
-         %ExpectationEvaluation{type: :expect_enum} = expectation_evaluation,
          nil,
-         nil,
+         _warning_message,
          _evaluation_scope,
          _
        ),
@@ -270,6 +261,19 @@ defmodule Wanda.Executions.Evaluation do
        do: %ExpectationEvaluation{
          expectation_evaluation
          | failure_message: interpolate_message(failure_message, evaluation_scope, engine)
+       }
+
+  defp maybe_add_failure_message(
+         %ExpectationEvaluation{type: :expect_enum, return_value: :warning} =
+           expectation_evaluation,
+         _failure_message,
+         nil,
+         _evaluation_scope,
+         _
+       ),
+       do: %ExpectationEvaluation{
+         expectation_evaluation
+         | failure_message: @default_failure_message
        }
 
   defp maybe_add_failure_message(
@@ -303,7 +307,7 @@ defmodule Wanda.Executions.Evaluation do
        ),
        do: %ExpectationResult{expectation_result | failure_message: failure_message}
 
-  defp maybe_add_failure_message(expectation_evaluation, _, _, _, _), do: expectation_evaluation
+  defp maybe_add_failure_message(expectation, _, _, _, _), do: expectation
 
   defp interpolate_message(message, evaluation_scope, engine) do
     case EvaluationEngine.eval(engine, "`#{message}`", evaluation_scope) do
