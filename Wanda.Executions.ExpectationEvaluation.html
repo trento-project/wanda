@@ -194,8 +194,9 @@ GUIDES
           <pre translate="no"><span class="attribute">@type</span> t() :: %Wanda.Executions.ExpectationEvaluation{
   failure_message: <a href="https://hexdocs.pm/elixir/String.html#t:t/0">String.t</a>() | nil,
   name: <a href="https://hexdocs.pm/elixir/String.html#t:t/0">String.t</a>(),
-  return_value: <a href="https://hexdocs.pm/elixir/typespecs.html#built-in-types">number</a>() | <a href="https://hexdocs.pm/elixir/typespecs.html#built-in-types">boolean</a>() | <a href="https://hexdocs.pm/elixir/String.html#t:t/0">String.t</a>(),
-  type: :expect | :expect_same
+  return_value:
+    <a href="https://hexdocs.pm/elixir/typespecs.html#built-in-types">number</a>() | <a href="https://hexdocs.pm/elixir/typespecs.html#built-in-types">boolean</a>() | <a href="https://hexdocs.pm/elixir/String.html#t:t/0">String.t</a>() | :passing | :warning | :critical,
+  type: :expect | :expect_same | :expect_enum
 }</pre>
 
       </div>
