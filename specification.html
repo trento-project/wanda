@@ -331,7 +331,7 @@ expectations:
   </a>
   <span class="text">Expectations</span>
 </h2>
-<p>Expectations are assertions on the state of a target infrastructure for a given scenario. By using fact and values they are able to determine if a check passes or not.</p><p>An Expectation declaration contains:</p><ul><li>the expectation name</li><li>the expectation expression itself with <a href="#evaluation-scope">access</a> to gathered <a href="#facts-1">facts</a> and <a href="#values-1">resolved values</a></li><li>an optional <a href="#failure-message">failure message</a></li></ul><pre><code class="yaml">expectations:
+<p>Expectations are assertions on the state of a target infrastructure for a given scenario. By using fact and values they are able to determine if a check passes or not.</p><p>An Expectation declaration contains:</p><ul><li>the expectation name</li><li>the expectation expression itself with <a href="#evaluation-scope">access</a> to gathered <a href="#facts-1">facts</a> and <a href="#values-1">resolved values</a></li><li>an optional <a href="#failure_message">failure message</a></li><li>an optional <a href="#warning_message">warning message</a>, only available in <a href="#expect_enum">expect_enum</a> expectations</li></ul><pre><code class="yaml">expectations:
   - name: &lt;expectation_name&gt;
     expect: &lt;expectation_expression&gt;
 
@@ -340,7 +340,7 @@ expectations:
     failure_message: &lt;something_went_wrong&gt;
 
   - name: &lt;yet_another_expectation_name&gt;
-    expect_same: &lt;yet_another_expectation_expression&gt;</code></pre><p>Extra considerations:</p><ul><li>there can be many expectations for a single Check</li><li>an expectation can be one of two types <a href="#expect"><code class="inline">expect</code></a> or <a href="#expect_same"><code class="inline">expect_same</code></a></li><li>a Check passes when all the expectations are satisfied</li></ul><p>Example</p><pre><code class="yaml">expectations:
+    expect_same: &lt;yet_another_expectation_expression&gt;</code></pre><p>Extra considerations:</p><ul><li>there can be many expectations for a single Check</li><li>an expectation can be one of three types: <a href="#expect"><code class="inline">expect</code></a>, <a href="#expect_same"><code class="inline">expect_same</code></a> or <a href="#expect_enum"><code class="inline">expect_enum</code></a></li><li>a Check passes when all the expectations are satisfied</li></ul><p>Example</p><pre><code class="yaml">expectations:
   - name: token_timeout
     expect: facts.corosync_token_timeout == values.expected_token_timeout
 
@@ -377,7 +377,40 @@ expectations:
 
 expectations:
   - name: installed_rpm_version_must_be_the_same_on_all_targets
-    expect_same: facts.installed_rpm_version</code></pre></blockquote><h3 id="failure_message" class="section-heading">
+    expect_same: facts.installed_rpm_version</code></pre></blockquote><h3 id="expect_enum" class="section-heading">
+  <a href="#expect_enum" class="hover-link">
+    <i class="ri-link-m" aria-hidden="true"></i>
+  </a>
+  <span class="text">expect_enum</span>
+</h3>
+<p>This type of expectation is satisfied when, after facts gathering, the expression returns <code class="inline">passing</code>, <code class="inline">warning</code> or <code class="inline">critical</code>.
+If no value is returned, the result defaults to <code class="inline">critical</code>.
+The final result of this expectation is the aggretation of all the expectation evaluations gathered in all the involved targets.</p><p>The aggregation returns:</p><ul><li><code class="inline">passing</code> if all the targets evaluation is <code class="inline">passing</code></li><li><code class="inline">warning</code> if any of the evaluations is <code class="inline">warning</code> and there is not any <code class="inline">critical</code> result</li><li><code class="inline">critical</code> if any of the evaluations is <code class="inline">critical</code></li></ul><p>In this expectation type the <a href="#severity">severity</a> field of the check is ignored.</p><blockquote><p>Execution Scenario:</p><ul><li>2 targets [<code class="inline">A</code>, <code class="inline">B</code>]</li><li>selected Checks [<code class="inline">sbd_check</code>]</li><li>some environment (context)</li></ul><pre><code class="yaml">facts:
+  - name: sbd_devices
+    gatherer: sbd_config@v1
+    argument: SBD_DEVICE
+
+values: ...
+
+expectations:
+  - name: multiple_sbd_devices_configured
+    expect_enum: |
+      if facts.sbd_devices &gt; values.passing_sbd_devices_count {
+       &quot;passing&quot;
+      } else if facts.sbd_devices == values.warning_sbd_devices_count {
+       &quot;warning&quot;
+      } else {
+       &quot;critical&quot;
+      }
+
+  - name: multiple_sbd_devices_configured_simple
+    expect_enum: |
+      if facts.sbd_devices &gt; values.passing_sbd_devices_count {
+       &quot;passing&quot;
+      } else if facts.sbd_devices == values.warning_sbd_devices_count {
+       &quot;warning&quot;
+      }
+</code></pre></blockquote><p>Considering the previous scenario what happens is that:</p><ul><li>the fact <code class="inline">sbd_devices</code> is gathered on all targets (<code class="inline">A</code> and <code class="inline">B</code> in this case)</li><li>the expectation expression gets executed against the <code class="inline">sbd_devices</code> fact gathered on every targets.</li><li>the evaluated value is exactly what the expression returns. If there is not any returned value, <code class="inline">critical</code> is returned, as in the 2nd expectation example.</li><li>the evaluation result of all the targets is aggregated to compose the final expectation result.</li></ul><h3 id="failure_message" class="section-heading">
   <a href="#failure_message" class="hover-link">
     <i class="ri-link-m" aria-hidden="true"></i>
   </a>
@@ -389,7 +422,23 @@ expectations:
     failure_message: The expectation did not match ${values.awesome_constant_value}</code></pre><p>The outcome of the interpolation is available in <code class="inline">ExpectationEvaluation</code> inside the API response.</p><p>In case of an <code class="inline">expect_same</code> one, the failure message has to be a plain string:</p><pre><code class="yaml">expectations:
   - name: awesome_expectation
     expect_same: facts.awesome_fact
-    failure_message: Boom!</code></pre><p>This plain string is available in <code class="inline">ExpectationResult</code> inside the API response.</p><h2 id="expression-language" class="section-heading">
+    failure_message: Boom!</code></pre><p>This plain string is available in <code class="inline">ExpectationResult</code> inside the API response.</p><h3 id="warning_message" class="section-heading">
+  <a href="#warning_message" class="hover-link">
+    <i class="ri-link-m" aria-hidden="true"></i>
+  </a>
+  <span class="text">warning_message</span>
+</h3>
+<p>An optional warning message that works exactly as the previous <a href="#failure_message">failure message</a>.
+This field is only available for <a href="#expect_enum">expect_enum</a> expectations, and it is interpolated when the expectation outcome is <code class="inline">warning</code>.</p><pre><code class="yaml">expectations:
+  - name: awesome_expectation
+    expect_enum: |
+      if values.passing_value == facts.awesome_fact {
+        &quot;passing&quot;
+      } else if values.warning_value == facts.awesome_fact {
+        &quot;warning&quot;
+      }
+    failure_message: Critical!
+    warning_message: Warning!</code></pre><p>The outcome of the interpolation is available in <code class="inline">ExpectationEvaluation</code> inside the API response, in the <code class="inline">failure_message</code> field.</p><h2 id="expression-language" class="section-heading">
   <a href="#expression-language" class="hover-link">
     <i class="ri-link-m" aria-hidden="true"></i>
   </a>
@@ -472,12 +521,12 @@ For example, the next example should be avoided, as the <code class="inline">fac
   </span><span class="o">-</span><span class="w"> </span><span class="ss">name</span><span class="p">:</span><span class="w"> </span><span class="n">bar_expectation</span><span class="w">
     </span><span class="ss">expect</span><span class="p">:</span><span class="w"> </span><span class="n">facts</span><span class="o">.</span><span class="n">bar</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="n">values</span><span class="o">.</span><span class="n">expected_bar</span></code></pre></li><li><p>Pipe the expression language functions vertically in order to provide a better visual output of the code.<br/>So this:</p><pre><code class="makeup elixir" translate="no"><span class="ss">expectations</span><span class="p">:</span><span class="w">
   </span><span class="o">-</span><span class="w"> </span><span class="ss">name</span><span class="p">:</span><span class="w"> </span><span class="n">some_expectation</span><span class="w">
-    </span><span class="ss">expect</span><span class="p">:</span><span class="w"> </span><span class="n">facts</span><span class="o">.</span><span class="n">foo</span><span class="o">.</span><span class="n">find</span><span class="p" data-group-id="2390162525-1">(</span><span class="o">|</span><span class="n">item</span><span class="o">|</span><span class="w"> </span><span class="n">item</span><span class="o">.</span><span class="n">id</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="s">&quot;super&quot;</span><span class="p" data-group-id="2390162525-1">)</span><span class="o">.</span><span class="n">properties</span><span class="o">.</span><span class="n">find</span><span class="p" data-group-id="2390162525-2">(</span><span class="o">|</span><span class="n">prop</span><span class="o">|</span><span class="w"> </span><span class="n">prop</span><span class="o">.</span><span class="n">name</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="s">&quot;good&quot;</span><span class="p" data-group-id="2390162525-2">)</span><span class="o">.</span><span class="n">value</span></code></pre><p>would be:</p><pre><code class="makeup elixir" translate="no"><span class="ss">expectations</span><span class="p">:</span><span class="w">
+    </span><span class="ss">expect</span><span class="p">:</span><span class="w"> </span><span class="n">facts</span><span class="o">.</span><span class="n">foo</span><span class="o">.</span><span class="n">find</span><span class="p" data-group-id="9701428825-1">(</span><span class="o">|</span><span class="n">item</span><span class="o">|</span><span class="w"> </span><span class="n">item</span><span class="o">.</span><span class="n">id</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="s">&quot;super&quot;</span><span class="p" data-group-id="9701428825-1">)</span><span class="o">.</span><span class="n">properties</span><span class="o">.</span><span class="n">find</span><span class="p" data-group-id="9701428825-2">(</span><span class="o">|</span><span class="n">prop</span><span class="o">|</span><span class="w"> </span><span class="n">prop</span><span class="o">.</span><span class="n">name</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="s">&quot;good&quot;</span><span class="p" data-group-id="9701428825-2">)</span><span class="o">.</span><span class="n">value</span></code></pre><p>would be:</p><pre><code class="makeup elixir" translate="no"><span class="ss">expectations</span><span class="p">:</span><span class="w">
   </span><span class="o">-</span><span class="w"> </span><span class="ss">name</span><span class="p">:</span><span class="w"> </span><span class="n">some_expectation</span><span class="w">
     </span><span class="ss">expect</span><span class="p">:</span><span class="w"> </span><span class="o">|</span><span class="w">
       </span><span class="n">facts</span><span class="o">.</span><span class="n">foo</span><span class="w">
-      </span><span class="o">.</span><span class="n">find</span><span class="p" data-group-id="1462177725-1">(</span><span class="o">|</span><span class="n">item</span><span class="o">|</span><span class="w"> </span><span class="n">item</span><span class="o">.</span><span class="n">id</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="s">&quot;super&quot;</span><span class="p" data-group-id="1462177725-1">)</span><span class="o">.</span><span class="n">properties</span><span class="w">
-      </span><span class="o">.</span><span class="n">find</span><span class="p" data-group-id="1462177725-2">(</span><span class="o">|</span><span class="n">prop</span><span class="o">|</span><span class="w"> </span><span class="n">prop</span><span class="o">.</span><span class="n">name</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="s">&quot;good&quot;</span><span class="p" data-group-id="1462177725-2">)</span><span class="o">.</span><span class="n">value</span></code></pre><blockquote><p>Note: Keep in mind that some functions such as <code class="inline">sort</code> and <code class="inline">drain</code> run in-place modifications, so they cannot be piped.</p></blockquote></li></ul>
+      </span><span class="o">.</span><span class="n">find</span><span class="p" data-group-id="3367354557-1">(</span><span class="o">|</span><span class="n">item</span><span class="o">|</span><span class="w"> </span><span class="n">item</span><span class="o">.</span><span class="n">id</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="s">&quot;super&quot;</span><span class="p" data-group-id="3367354557-1">)</span><span class="o">.</span><span class="n">properties</span><span class="w">
+      </span><span class="o">.</span><span class="n">find</span><span class="p" data-group-id="3367354557-2">(</span><span class="o">|</span><span class="n">prop</span><span class="o">|</span><span class="w"> </span><span class="n">prop</span><span class="o">.</span><span class="n">name</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="s">&quot;good&quot;</span><span class="p" data-group-id="3367354557-2">)</span><span class="o">.</span><span class="n">value</span></code></pre><blockquote><p>Note: Keep in mind that some functions such as <code class="inline">sort</code> and <code class="inline">drain</code> run in-place modifications, so they cannot be piped.</p></blockquote></li></ul>
 <div class="bottom-actions">
   <div class="bottom-actions-item">
 
