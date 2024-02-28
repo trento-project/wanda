@@ -361,7 +361,7 @@ jobs:
       - name: Remotely trigger trento-web demo deployment
         uses: peter-evans/repository-dispatch@v3
         with:
-          token: ${{ secrets.PAT }}
+          token: ${{ secrets.WEB_REPO_DISPATCH_PAT }}
           repository: ${{ github.repository_owner }}/web
           event-type: deploy-demo
 
