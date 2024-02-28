@@ -157,6 +157,17 @@
       },
       "required": [
         "name"
+      ],
+      "oneOf": [
+        {
+          "required": ["expect"]
+        },
+        {
+          "required": ["expect_same"]
+        },
+        {
+          "required": ["expect_enum"]
+        }
       ]
     },
     "Metadata": {
