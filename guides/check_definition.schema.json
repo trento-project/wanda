@@ -138,17 +138,20 @@
       "type": "object",
       "additionalProperties": false,
       "minProperties": 2,
-      "maxProperties": 3,
+      "maxProperties": 4,
       "properties": {
         "name": {
           "type": "string"
         },
         "failure_message": {
           "type": "string"
+        },
+        "warning_message": {
+          "type": "string"
         }
       },
       "patternProperties": {
-        "^expect$|^expect_same$": {
+        "^expect$|^expect_same|^expect_enum$": {
           "type": "string"
         }
       },
