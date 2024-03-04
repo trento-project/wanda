@@ -1,10 +1,10 @@
-defmodule WandaWeb.V1.CatalogViewTest do
+defmodule WandaWeb.V2.CatalogViewTest do
   use WandaWeb.ConnCase, async: true
 
   import Phoenix.View
   import Wanda.Factory
 
-  alias WandaWeb.V1.CatalogView
+  alias WandaWeb.V2.CatalogView
 
   describe "CatalogView" do
     test "renders catalog.json" do
@@ -19,7 +19,7 @@ defmodule WandaWeb.V1.CatalogViewTest do
     end
   end
 
-  describe "adapt to V1 version" do
+  describe "adapt to V2 version" do
     test "should remove checks with expect_enum expectations" do
       checks =
         build_list(1, :check,

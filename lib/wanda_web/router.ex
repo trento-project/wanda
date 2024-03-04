@@ -2,7 +2,7 @@ defmodule WandaWeb.Router do
   use WandaWeb, :router
 
   # From newest to oldest
-  @available_api_versions ["v2", "v1"]
+  @available_api_versions ["v3", "v2", "v1"]
 
   pipeline :browser do
     plug :accepts, ["html"]
@@ -25,6 +25,11 @@ defmodule WandaWeb.Router do
     plug OpenApiSpex.Plug.PutApiSpec, module: WandaWeb.Schemas.V2.ApiSpec
   end
 
+  pipeline :api_v3 do
+    plug :api
+    plug OpenApiSpex.Plug.PutApiSpec, module: WandaWeb.Schemas.V3.ApiSpec
+  end
+
   pipeline :protected_api do
     plug Unplug,
       if: {Unplug.Predicates.AppConfigEquals, {:wanda, :jwt_authentication_enabled, true}},
@@ -38,7 +43,8 @@ defmodule WandaWeb.Router do
       path: "/api/v1/openapi",
       urls: [
         %{url: "/api/v1/openapi", name: "Version 1"},
-        %{url: "/api/v2/openapi", name: "Version 2"}
+        %{url: "/api/v2/openapi", name: "Version 2"},
+        %{url: "/api/v3/openapi", name: "Version 3"}
       ]
   end
 
@@ -62,6 +68,14 @@ defmodule WandaWeb.Router do
         get "/catalog", CatalogController, :catalog
       end
     end
+
+    scope "/v3", WandaWeb.V3 do
+      scope "/checks" do
+        pipe_through [:api_v3, :protected_api]
+
+        get "/catalog", CatalogController, :catalog
+      end
+    end
   end
 
   scope "/api" do
@@ -74,6 +88,11 @@ defmodule WandaWeb.Router do
 
     scope "/v2" do
       pipe_through :api_v2
+      get "/openapi", OpenApiSpex.Plug.RenderSpec, []
+    end
+
+    scope "/v3" do
+      pipe_through :api_v3
       get "/openapi", OpenApiSpex.Plug.RenderSpec, []
     end
   end

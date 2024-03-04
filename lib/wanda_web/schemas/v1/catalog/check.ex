@@ -1,4 +1,4 @@
-defmodule WandaWeb.Schemas.CatalogResponse.Check do
+defmodule WandaWeb.Schemas.V1.Catalog.Check do
   @moduledoc """
   Individual check of the catalog response API spec
   """
@@ -80,7 +80,7 @@ defmodule WandaWeb.Schemas.CatalogResponse.Check do
         items: %Schema{
           type: :object,
           properties: %{
-            name: %Schema{type: :string, description: "Expecation name"},
+            name: %Schema{type: :string, description: "Expectation name"},
             type: %Schema{
               type: :string,
               description: "Expectation type",

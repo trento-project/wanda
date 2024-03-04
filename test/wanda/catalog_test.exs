@@ -140,6 +140,39 @@ defmodule Wanda.CatalogTest do
               }} = Catalog.get_check("expect_same_check")
     end
 
+    test "should load a expect_enum expectation type" do
+      assert {:ok,
+              %Check{
+                values: [
+                  %Value{
+                    default: 5,
+                    name: "expected_passing_value"
+                  },
+                  %Value{
+                    default: 3,
+                    name: "expected_warning_value"
+                  }
+                ],
+                expectations: [
+                  %Expectation{
+                    name: "some_expectation",
+                    type: :expect_enum,
+                    expression: """
+                    if facts.jedi == values.expected_passing_value {
+                      "passing"
+                    } else if facts.jedi == values.expected_warning_value {
+                      "warning"
+                    } else {
+                      "critical"
+                    }
+                    """,
+                    failure_message: "some failure message ${facts.jedi}",
+                    warning_message: "some warning message ${facts.jedi}"
+                  }
+                ]
+              }} = Catalog.get_check("expect_enum_check")
+    end
+
     test "should load a warning severity" do
       assert {:ok, %Check{severity: :warning}} = Catalog.get_check("warning_severity_check")
     end

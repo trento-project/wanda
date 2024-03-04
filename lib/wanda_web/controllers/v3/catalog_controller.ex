@@ -1,10 +1,10 @@
-defmodule WandaWeb.V2.CatalogController do
+defmodule WandaWeb.V3.CatalogController do
   use WandaWeb, :controller
   use OpenApiSpex.ControllerSpecs
 
   alias Wanda.Catalog
-  alias WandaWeb.Schemas.V1.Catalog.CatalogResponse
   alias WandaWeb.Schemas.V2.Env
+  alias WandaWeb.Schemas.V3.Catalog.CatalogResponse
 
   plug OpenApiSpex.Plug.CastAndValidate, json_render_error_v2: true
 

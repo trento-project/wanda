@@ -1,10 +1,10 @@
-defmodule WandaWeb.Schemas.CatalogResponse do
+defmodule WandaWeb.Schemas.V3.Catalog.CatalogResponse do
   @moduledoc """
   Checks catalog response API spec
   """
 
   alias OpenApiSpex.Schema
-  alias WandaWeb.Schemas.CatalogResponse.Check
+  alias WandaWeb.Schemas.V3.Catalog.Check
 
   require OpenApiSpex
 
