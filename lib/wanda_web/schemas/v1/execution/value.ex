@@ -1,4 +1,4 @@
-defmodule WandaWeb.Schemas.ExecutionResponse.Value do
+defmodule WandaWeb.Schemas.V1.Execution.Value do
   @moduledoc false
 
   alias OpenApiSpex.Schema
