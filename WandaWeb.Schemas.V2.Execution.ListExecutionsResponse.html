@@ -8,13 +8,13 @@
     <meta name="project" content="Wanda v1.2.0">
 
 
-    <title>WandaWeb.Schemas.V1.StartExecutionRequest — Wanda v1.2.0</title>
+    <title>WandaWeb.Schemas.V2.Execution.ListExecutionsResponse — Wanda v1.2.0</title>
     <link rel="stylesheet" href="dist/html-elixir-FM2CSD74.css" />
 
 
     <script src="dist/handlebars.runtime-NWIB6V2M.js"></script>
     <script src="dist/handlebars.templates-43PMFBC7.js"></script>
-    <script src="dist/sidebar_items-48D5288E.js"></script>
+    <script src="dist/sidebar_items-0AB4DAC0.js"></script>
 
       <script src="docs_config.js"></script>
 
@@ -121,19 +121,19 @@ GUIDES
 
 <h1>
 
-    <a href="https://github.com/trento-project/wanda/blob/main/lib/wanda_web/schemas/v1/execution/start_execution_request.ex#L1" title="View Source" class="icon-action" rel="help">
+    <a href="https://github.com/trento-project/wanda/blob/main/lib/wanda_web/schemas/v2/execution/list_executions_response.ex#L1" title="View Source" class="icon-action" rel="help">
       <i class="ri-code-s-slash-line" aria-hidden="true"></i>
       <span class="sr-only">View Source</span>
     </a>
 
-  <span translate="no">WandaWeb.Schemas.V1.StartExecutionRequest</span> 
+  <span translate="no">WandaWeb.Schemas.V2.Execution.ListExecutionsResponse</span> 
   <small class="app-vsn" translate="no">(Wanda v1.2.0)</small>
 
 </h1>
 
 
   <section id="moduledoc">
-<p>The request to be sent to start an execution</p>
+<p>Execution list response API spec</p>
   </section>
 
 
@@ -195,7 +195,7 @@ GUIDES
     </a>
     <h1 class="signature" translate="no">t()</h1>
 
-      <a href="https://github.com/trento-project/wanda/blob/main/lib/wanda_web/schemas/v1/execution/start_execution_request.ex#L36" class="icon-action" rel="help" title="View Source">
+      <a href="https://github.com/trento-project/wanda/blob/main/lib/wanda_web/schemas/v2/execution/list_executions_response.ex#L12" class="icon-action" rel="help" title="View Source">
        <i class="ri-code-s-slash-line" aria-hidden="true"></i>
        <span class="sr-only">View Source</span>
      </a>
@@ -207,12 +207,9 @@ GUIDES
 
       <div class="specs">
 
-          <pre translate="no"><span class="attribute">@type</span> t() :: %WandaWeb.Schemas.V1.StartExecutionRequest{
-  env: <a href="https://hexdocs.pm/elixir/typespecs.html#built-in-types">term</a>(),
-  execution_id: <a href="https://hexdocs.pm/elixir/typespecs.html#built-in-types">term</a>(),
-  group_id: <a href="https://hexdocs.pm/elixir/typespecs.html#built-in-types">term</a>(),
-  target_type: <a href="https://hexdocs.pm/elixir/typespecs.html#built-in-types">term</a>(),
-  targets: <a href="https://hexdocs.pm/elixir/typespecs.html#built-in-types">term</a>()
+          <pre translate="no"><span class="attribute">@type</span> t() :: %WandaWeb.Schemas.V2.Execution.ListExecutionsResponse{
+  items: <a href="https://hexdocs.pm/elixir/typespecs.html#built-in-types">term</a>(),
+  total_count: <a href="https://hexdocs.pm/elixir/typespecs.html#built-in-types">term</a>()
 }</pre>
 
       </div>
@@ -241,7 +238,7 @@ GUIDES
     </a>
     <h1 class="signature" translate="no">schema()</h1>
 
-      <a href="https://github.com/trento-project/wanda/blob/main/lib/wanda_web/schemas/v1/execution/start_execution_request.ex#L36" class="icon-action" rel="help" title="View Source">
+      <a href="https://github.com/trento-project/wanda/blob/main/lib/wanda_web/schemas/v2/execution/list_executions_response.ex#L12" class="icon-action" rel="help" title="View Source">
        <i class="ri-code-s-slash-line" aria-hidden="true"></i>
        <span class="sr-only">View Source</span>
      </a>

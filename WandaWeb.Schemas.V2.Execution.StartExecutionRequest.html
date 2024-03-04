@@ -8,7 +8,7 @@
     <meta name="project" content="Wanda v1.2.0">
 
 
-    <title>Wanda.Executions.Evaluation — Wanda v1.2.0</title>
+    <title>WandaWeb.Schemas.V2.Execution.StartExecutionRequest — Wanda v1.2.0</title>
     <link rel="stylesheet" href="dist/html-elixir-FM2CSD74.css" />
 
 
@@ -121,19 +121,19 @@ GUIDES
 
 <h1>
 
-    <a href="https://github.com/trento-project/wanda/blob/main/lib/wanda/executions/evaluation.ex#L1" title="View Source" class="icon-action" rel="help">
+    <a href="https://github.com/trento-project/wanda/blob/main/lib/wanda_web/schemas/v2/execution/start_execution_request.ex#L1" title="View Source" class="icon-action" rel="help">
       <i class="ri-code-s-slash-line" aria-hidden="true"></i>
       <span class="sr-only">View Source</span>
     </a>
 
-  <span translate="no">Wanda.Executions.Evaluation</span> 
+  <span translate="no">WandaWeb.Schemas.V2.Execution.StartExecutionRequest</span> 
   <small class="app-vsn" translate="no">(Wanda v1.2.0)</small>
 
 </h1>
 
 
   <section id="moduledoc">
-<p>Evaluation functional core.</p>
+<p>The request to be sent to start an execution</p>
   </section>
 
 
@@ -144,6 +144,20 @@ GUIDES
       </a>
       <span class="text">Summary</span>
     </h1>
+<div class="summary-types summary">
+  <h2>
+    <a href="#types">Types</a>
+  </h2>
+
+    <div class="summary-row">
+      <div class="summary-signature">
+        <a href="#t:t/0" translate="no">t()</a>
+
+      </div>
+
+    </div>
+
+</div>
 <div class="summary-functions summary">
   <h2>
     <a href="#functions">Functions</a>
@@ -151,17 +165,11 @@ GUIDES
 
     <div class="summary-row">
       <div class="summary-signature">
-        <a href="#execute/7" translate="no">execute(execution_id, group_id, checks, gathered_facts, env, timeouts \\ [], engine)</a>
+        <a href="#schema/0" translate="no">schema()</a>
 
       </div>
 
-    </div>
-
-    <div class="summary-row">
-      <div class="summary-signature">
-        <a href="#has_some_fact_gathering_error?/1" translate="no">has_some_fact_gathering_error?(facts)</a>
-
-      </div>
+        <div class="summary-synopsis"><p>Callback implementation for <a href="https://hexdocs.pm/open_api_spex/3.18.1/OpenApiSpex.Schema.html#c:schema/0"><code class="inline">OpenApiSpex.Schema.schema/0</code></a>.</p></div>
 
     </div>
 
@@ -170,26 +178,24 @@ GUIDES
   </section>
 
 
-  <section id="functions" class="details-list">
+  <section id="types" class="details-list">
     <h1 class="section-heading">
-      <a class="hover-link" href="#functions">
+      <a class="hover-link" href="#types">
         <i class="ri-link-m" aria-hidden="true"></i>
       </a>
-      <span class="text">Functions</span>
+      <span class="text">Types</span>
     </h1>
-    <div class="functions-list">
-<section class="detail" id="execute/7">
-
-    <span id="execute/6"></span>
+    <div class="types-list">
+<section class="detail" id="t:t/0">
 
   <div class="detail-header">
-    <a href="#execute/7" class="detail-link" title="Link to this function">
+    <a href="#t:t/0" class="detail-link" title="Link to this type">
       <i class="ri-link-m" aria-hidden="true"></i>
-      <span class="sr-only">Link to this function</span>
+      <span class="sr-only">Link to this type</span>
     </a>
-    <h1 class="signature" translate="no">execute(execution_id, group_id, checks, gathered_facts, env, timeouts \\ [], engine)</h1>
+    <h1 class="signature" translate="no">t()</h1>
 
-      <a href="https://github.com/trento-project/wanda/blob/main/lib/wanda/executions/evaluation.ex#L34" class="icon-action" rel="help" title="View Source">
+      <a href="https://github.com/trento-project/wanda/blob/main/lib/wanda_web/schemas/v2/execution/start_execution_request.ex#L36" class="icon-action" rel="help" title="View Source">
        <i class="ri-code-s-slash-line" aria-hidden="true"></i>
        <span class="sr-only">View Source</span>
      </a>
@@ -201,31 +207,41 @@ GUIDES
 
       <div class="specs">
 
-          <pre translate="no"><span class="attribute">@spec</span> execute(
-  <a href="https://hexdocs.pm/elixir/String.html#t:t/0">String.t</a>(),
-  <a href="https://hexdocs.pm/elixir/String.html#t:t/0">String.t</a>(),
-  [<a href="Wanda.Catalog.Check.html#t:t/0">Wanda.Catalog.Check.t</a>()],
-  <a href="https://hexdocs.pm/elixir/typespecs.html#basic-types">map</a>(),
-  %{required(<a href="https://hexdocs.pm/elixir/String.html#t:t/0">String.t</a>()) =&gt; <a href="https://hexdocs.pm/elixir/typespecs.html#built-in-types">boolean</a>() | <a href="https://hexdocs.pm/elixir/typespecs.html#built-in-types">number</a>() | <a href="https://hexdocs.pm/elixir/String.html#t:t/0">String.t</a>()},
-  [<a href="https://hexdocs.pm/elixir/String.html#t:t/0">String.t</a>()],
-  <a href="https://hexdocs.pm/rhai_rustler/1.0.2/Rhai.Engine.html#t:t/0">Rhai.Engine.t</a>()
-) :: <a href="Wanda.Executions.Result.html#t:t/0">Wanda.Executions.Result.t</a>()</pre>
+          <pre translate="no"><span class="attribute">@type</span> t() :: %WandaWeb.Schemas.V2.Execution.StartExecutionRequest{
+  env: <a href="https://hexdocs.pm/elixir/typespecs.html#built-in-types">term</a>(),
+  execution_id: <a href="https://hexdocs.pm/elixir/typespecs.html#built-in-types">term</a>(),
+  group_id: <a href="https://hexdocs.pm/elixir/typespecs.html#built-in-types">term</a>(),
+  target_type: <a href="https://hexdocs.pm/elixir/typespecs.html#built-in-types">term</a>(),
+  targets: <a href="https://hexdocs.pm/elixir/typespecs.html#built-in-types">term</a>()
+}</pre>
 
       </div>
 
 
   </section>
 </section>
-<section class="detail" id="has_some_fact_gathering_error?/1">
+
+    </div>
+  </section>
+
+  <section id="functions" class="details-list">
+    <h1 class="section-heading">
+      <a class="hover-link" href="#functions">
+        <i class="ri-link-m" aria-hidden="true"></i>
+      </a>
+      <span class="text">Functions</span>
+    </h1>
+    <div class="functions-list">
+<section class="detail" id="schema/0">
 
   <div class="detail-header">
-    <a href="#has_some_fact_gathering_error?/1" class="detail-link" title="Link to this function">
+    <a href="#schema/0" class="detail-link" title="Link to this function">
       <i class="ri-link-m" aria-hidden="true"></i>
       <span class="sr-only">Link to this function</span>
     </a>
-    <h1 class="signature" translate="no">has_some_fact_gathering_error?(facts)</h1>
+    <h1 class="signature" translate="no">schema()</h1>
 
-      <a href="https://github.com/trento-project/wanda/blob/main/lib/wanda/executions/evaluation.ex#L128" class="icon-action" rel="help" title="View Source">
+      <a href="https://github.com/trento-project/wanda/blob/main/lib/wanda_web/schemas/v2/execution/start_execution_request.ex#L36" class="icon-action" rel="help" title="View Source">
        <i class="ri-code-s-slash-line" aria-hidden="true"></i>
        <span class="sr-only">View Source</span>
      </a>
@@ -235,7 +251,7 @@ GUIDES
 
   <section class="docstring">
 
-
+<p>Callback implementation for <a href="https://hexdocs.pm/open_api_spex/3.18.1/OpenApiSpex.Schema.html#c:schema/0"><code class="inline">OpenApiSpex.Schema.schema/0</code></a>.</p>
   </section>
 </section>
 
