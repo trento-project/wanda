@@ -8,7 +8,7 @@
     <meta name="project" content="Wanda v1.2.0">
 
 
-    <title>Wanda.Messaging.Adapters.AMQP.Consumer — Wanda v1.2.0</title>
+    <title>WandaWeb.V3.CatalogView — Wanda v1.2.0</title>
     <link rel="stylesheet" href="dist/html-elixir-FM2CSD74.css" />
 
 
@@ -121,20 +121,16 @@ GUIDES
 
 <h1>
 
-    <a href="https://github.com/trento-project/wanda/blob/main/lib/wanda/messaging/adapters/amqp/consumer.ex#L1" title="View Source" class="icon-action" rel="help">
+    <a href="https://github.com/trento-project/wanda/blob/main/lib/wanda_web/views/v3/catalog_view.ex#L1" title="View Source" class="icon-action" rel="help">
       <i class="ri-code-s-slash-line" aria-hidden="true"></i>
       <span class="sr-only">View Source</span>
     </a>
 
-  <span translate="no">Wanda.Messaging.Adapters.AMQP.Consumer</span> 
+  <span translate="no">WandaWeb.V3.CatalogView</span> 
   <small class="app-vsn" translate="no">(Wanda v1.2.0)</small>
 
 </h1>
 
-
-  <section id="moduledoc">
-<p>AMQP consumer.</p>
-  </section>
 
 
   <section id="summary" class="details-list">
@@ -151,17 +147,33 @@ GUIDES
 
     <div class="summary-row">
       <div class="summary-signature">
-        <a href="#child_spec/1" translate="no">child_spec(opts)</a>
+        <a href="#__resource__/0" translate="no">__resource__()</a>
 
       </div>
+
+        <div class="summary-synopsis"><p>The resource name, as an atom, for this view</p></div>
 
     </div>
 
     <div class="summary-row">
       <div class="summary-signature">
-        <a href="#start_link/1" translate="no">start_link(opts)</a>
+        <a href="#render/2" translate="no">render(template, assigns \\ %{})</a>
 
       </div>
+
+        <div class="summary-synopsis"><p>Renders the given template locally.</p></div>
+
+    </div>
+
+    <div class="summary-row">
+      <div class="summary-signature">
+        <a href="#template_not_found/2" translate="no">template_not_found(template, assigns)</a>
+
+      </div>
+
+        <div class="summary-synopsis"><p>Callback invoked when no template is found.
+By default it raises but can be customized
+to render a particular template.</p></div>
 
     </div>
 
@@ -178,16 +190,16 @@ GUIDES
       <span class="text">Functions</span>
     </h1>
     <div class="functions-list">
-<section class="detail" id="child_spec/1">
+<section class="detail" id="__resource__/0">
 
   <div class="detail-header">
-    <a href="#child_spec/1" class="detail-link" title="Link to this function">
+    <a href="#__resource__/0" class="detail-link" title="Link to this function">
       <i class="ri-link-m" aria-hidden="true"></i>
       <span class="sr-only">Link to this function</span>
     </a>
-    <h1 class="signature" translate="no">child_spec(opts)</h1>
+    <h1 class="signature" translate="no">__resource__()</h1>
 
-      <a href="https://github.com/trento-project/wanda/blob/main/lib/wanda/messaging/adapters/amqp/consumer.ex#L38" class="icon-action" rel="help" title="View Source">
+      <a href="https://github.com/trento-project/wanda/blob/main/lib/wanda_web/views/v3/catalog_view.ex#L2" class="icon-action" rel="help" title="View Source">
        <i class="ri-code-s-slash-line" aria-hidden="true"></i>
        <span class="sr-only">View Source</span>
      </a>
@@ -197,19 +209,43 @@ GUIDES
 
   <section class="docstring">
 
-
+<p>The resource name, as an atom, for this view</p>
   </section>
 </section>
-<section class="detail" id="start_link/1">
+<section class="detail" id="render/2">
+
+    <span id="render/1"></span>
 
   <div class="detail-header">
-    <a href="#start_link/1" class="detail-link" title="Link to this function">
+    <a href="#render/2" class="detail-link" title="Link to this function">
       <i class="ri-link-m" aria-hidden="true"></i>
       <span class="sr-only">Link to this function</span>
     </a>
-    <h1 class="signature" translate="no">start_link(opts)</h1>
+    <h1 class="signature" translate="no">render(template, assigns \\ %{})</h1>
 
-      <a href="https://github.com/trento-project/wanda/blob/main/lib/wanda/messaging/adapters/amqp/consumer.ex#L18" class="icon-action" rel="help" title="View Source">
+      <a href="https://github.com/trento-project/wanda/blob/main/lib/wanda_web/views/v3/catalog_view.ex#L2" class="icon-action" rel="help" title="View Source">
+       <i class="ri-code-s-slash-line" aria-hidden="true"></i>
+       <span class="sr-only">View Source</span>
+     </a>
+
+
+  </div>
+
+  <section class="docstring">
+
+<p>Renders the given template locally.</p>
+  </section>
+</section>
+<section class="detail" id="template_not_found/2">
+
+  <div class="detail-header">
+    <a href="#template_not_found/2" class="detail-link" title="Link to this function">
+      <i class="ri-link-m" aria-hidden="true"></i>
+      <span class="sr-only">Link to this function</span>
+    </a>
+    <h1 class="signature" translate="no">template_not_found(template, assigns)</h1>
+
+      <a href="https://github.com/trento-project/wanda/blob/main/lib/wanda_web/views/v3/catalog_view.ex#L2" class="icon-action" rel="help" title="View Source">
        <i class="ri-code-s-slash-line" aria-hidden="true"></i>
        <span class="sr-only">View Source</span>
      </a>
@@ -221,11 +257,13 @@ GUIDES
 
       <div class="specs">
 
-          <pre translate="no"><span class="attribute">@spec</span> start_link(<a href="https://hexdocs.pm/elixir/typespecs.html#basic-types">any</a>()) :: {:error, <a href="https://hexdocs.pm/elixir/typespecs.html#basic-types">any</a>()} | {:ok, <a href="https://hexdocs.pm/elixir/typespecs.html#basic-types">pid</a>()}</pre>
+          <pre translate="no"><span class="attribute">@spec</span> template_not_found(<a href="https://hexdocs.pm/elixir/typespecs.html#built-in-types">binary</a>(), <a href="https://hexdocs.pm/elixir/typespecs.html#basic-types">map</a>()) :: <a href="https://hexdocs.pm/elixir/typespecs.html#built-in-types">no_return</a>()</pre>
 
       </div>
 
-
+<p>Callback invoked when no template is found.
+By default it raises but can be customized
+to render a particular template.</p>
   </section>
 </section>
 

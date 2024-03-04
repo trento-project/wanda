@@ -8,13 +8,13 @@
     <meta name="project" content="Wanda v1.2.0">
 
 
-    <title>WandaWeb.Schemas.CatalogResponse.Check — Wanda v1.2.0</title>
+    <title>WandaWeb.V3.CatalogController — Wanda v1.2.0</title>
     <link rel="stylesheet" href="dist/html-elixir-FM2CSD74.css" />
 
 
     <script src="dist/handlebars.runtime-NWIB6V2M.js"></script>
     <script src="dist/handlebars.templates-43PMFBC7.js"></script>
-    <script src="dist/sidebar_items-43F1590F.js"></script>
+    <script src="dist/sidebar_items-48D5288E.js"></script>
 
       <script src="docs_config.js"></script>
 
@@ -121,20 +121,16 @@ GUIDES
 
 <h1>
 
-    <a href="https://github.com/trento-project/wanda/blob/main/lib/wanda_web/schemas/catalog/check.ex#L1" title="View Source" class="icon-action" rel="help">
+    <a href="https://github.com/trento-project/wanda/blob/main/lib/wanda_web/controllers/v3/catalog_controller.ex#L1" title="View Source" class="icon-action" rel="help">
       <i class="ri-code-s-slash-line" aria-hidden="true"></i>
       <span class="sr-only">View Source</span>
     </a>
 
-  <span translate="no">WandaWeb.Schemas.CatalogResponse.Check</span> 
+  <span translate="no">WandaWeb.V3.CatalogController</span> 
   <small class="app-vsn" translate="no">(Wanda v1.2.0)</small>
 
 </h1>
 
-
-  <section id="moduledoc">
-<p>Individual check of the catalog response API spec</p>
-  </section>
 
 
   <section id="summary" class="details-list">
@@ -144,20 +140,6 @@ GUIDES
       </a>
       <span class="text">Summary</span>
     </h1>
-<div class="summary-types summary">
-  <h2>
-    <a href="#types">Types</a>
-  </h2>
-
-    <div class="summary-row">
-      <div class="summary-signature">
-        <a href="#t:t/0" translate="no">t()</a>
-
-      </div>
-
-    </div>
-
-</div>
 <div class="summary-functions summary">
   <h2>
     <a href="#functions">Functions</a>
@@ -165,11 +147,33 @@ GUIDES
 
     <div class="summary-row">
       <div class="summary-signature">
-        <a href="#schema/0" translate="no">schema()</a>
+        <a href="#catalog/2" translate="no">catalog(conn, params)</a>
 
       </div>
 
-        <div class="summary-synopsis"><p>Callback implementation for <a href="https://hexdocs.pm/open_api_spex/3.18.1/OpenApiSpex.Schema.html#c:schema/0"><code class="inline">OpenApiSpex.Schema.schema/0</code></a>.</p></div>
+    </div>
+
+    <div class="summary-row">
+      <div class="summary-signature">
+        <a href="#open_api_operation/1" translate="no">open_api_operation(action)</a>
+
+      </div>
+
+    </div>
+
+    <div class="summary-row">
+      <div class="summary-signature">
+        <a href="#shared_security/0" translate="no">shared_security()</a>
+
+      </div>
+
+    </div>
+
+    <div class="summary-row">
+      <div class="summary-signature">
+        <a href="#shared_tags/0" translate="no">shared_tags()</a>
+
+      </div>
 
     </div>
 
@@ -178,24 +182,46 @@ GUIDES
   </section>
 
 
-  <section id="types" class="details-list">
+  <section id="functions" class="details-list">
     <h1 class="section-heading">
-      <a class="hover-link" href="#types">
+      <a class="hover-link" href="#functions">
         <i class="ri-link-m" aria-hidden="true"></i>
       </a>
-      <span class="text">Types</span>
+      <span class="text">Functions</span>
     </h1>
-    <div class="types-list">
-<section class="detail" id="t:t/0">
+    <div class="functions-list">
+<section class="detail" id="catalog/2">
 
   <div class="detail-header">
-    <a href="#t:t/0" class="detail-link" title="Link to this type">
+    <a href="#catalog/2" class="detail-link" title="Link to this function">
       <i class="ri-link-m" aria-hidden="true"></i>
-      <span class="sr-only">Link to this type</span>
+      <span class="sr-only">Link to this function</span>
     </a>
-    <h1 class="signature" translate="no">t()</h1>
+    <h1 class="signature" translate="no">catalog(conn, params)</h1>
 
-      <a href="https://github.com/trento-project/wanda/blob/main/lib/wanda_web/schemas/catalog/check.ex#L10" class="icon-action" rel="help" title="View Source">
+      <a href="https://github.com/trento-project/wanda/blob/main/lib/wanda_web/controllers/v3/catalog_controller.ex#L27" class="icon-action" rel="help" title="View Source">
+       <i class="ri-code-s-slash-line" aria-hidden="true"></i>
+       <span class="sr-only">View Source</span>
+     </a>
+
+
+  </div>
+
+  <section class="docstring">
+
+
+  </section>
+</section>
+<section class="detail" id="open_api_operation/1">
+
+  <div class="detail-header">
+    <a href="#open_api_operation/1" class="detail-link" title="Link to this function">
+      <i class="ri-link-m" aria-hidden="true"></i>
+      <span class="sr-only">Link to this function</span>
+    </a>
+    <h1 class="signature" translate="no">open_api_operation(action)</h1>
+
+      <a href="https://github.com/trento-project/wanda/blob/main/lib/wanda_web/controllers/v3/catalog_controller.ex#L11" class="icon-action" rel="help" title="View Source">
        <i class="ri-code-s-slash-line" aria-hidden="true"></i>
        <span class="sr-only">View Source</span>
      </a>
@@ -207,44 +233,23 @@ GUIDES
 
       <div class="specs">
 
-          <pre translate="no"><span class="attribute">@type</span> t() :: %WandaWeb.Schemas.CatalogResponse.Check{
-  expectations: <a href="https://hexdocs.pm/elixir/typespecs.html#built-in-types">term</a>(),
-  facts: <a href="https://hexdocs.pm/elixir/typespecs.html#built-in-types">term</a>(),
-  id: <a href="https://hexdocs.pm/elixir/typespecs.html#built-in-types">term</a>(),
-  name: <a href="https://hexdocs.pm/elixir/typespecs.html#built-in-types">term</a>(),
-  premium: <a href="https://hexdocs.pm/elixir/typespecs.html#built-in-types">term</a>(),
-  severity: <a href="https://hexdocs.pm/elixir/typespecs.html#built-in-types">term</a>(),
-  values: <a href="https://hexdocs.pm/elixir/typespecs.html#built-in-types">term</a>(),
-  when: <a href="https://hexdocs.pm/elixir/typespecs.html#built-in-types">term</a>()
-}</pre>
+          <pre translate="no"><span class="attribute">@spec</span> open_api_operation(<a href="https://hexdocs.pm/elixir/typespecs.html#basic-types">atom</a>()) :: <a href="https://hexdocs.pm/open_api_spex/3.18.1/OpenApiSpex.Operation.html#t:t/0">OpenApiSpex.Operation.t</a>()</pre>
 
       </div>
 
 
   </section>
 </section>
-
-    </div>
-  </section>
-
-  <section id="functions" class="details-list">
-    <h1 class="section-heading">
-      <a class="hover-link" href="#functions">
-        <i class="ri-link-m" aria-hidden="true"></i>
-      </a>
-      <span class="text">Functions</span>
-    </h1>
-    <div class="functions-list">
-<section class="detail" id="schema/0">
+<section class="detail" id="shared_security/0">
 
   <div class="detail-header">
-    <a href="#schema/0" class="detail-link" title="Link to this function">
+    <a href="#shared_security/0" class="detail-link" title="Link to this function">
       <i class="ri-link-m" aria-hidden="true"></i>
       <span class="sr-only">Link to this function</span>
     </a>
-    <h1 class="signature" translate="no">schema()</h1>
+    <h1 class="signature" translate="no">shared_security()</h1>
 
-      <a href="https://github.com/trento-project/wanda/blob/main/lib/wanda_web/schemas/catalog/check.ex#L10" class="icon-action" rel="help" title="View Source">
+      <a href="https://github.com/trento-project/wanda/blob/main/lib/wanda_web/controllers/v3/catalog_controller.ex#L1" class="icon-action" rel="help" title="View Source">
        <i class="ri-code-s-slash-line" aria-hidden="true"></i>
        <span class="sr-only">View Source</span>
      </a>
@@ -254,7 +259,29 @@ GUIDES
 
   <section class="docstring">
 
-<p>Callback implementation for <a href="https://hexdocs.pm/open_api_spex/3.18.1/OpenApiSpex.Schema.html#c:schema/0"><code class="inline">OpenApiSpex.Schema.schema/0</code></a>.</p>
+
+  </section>
+</section>
+<section class="detail" id="shared_tags/0">
+
+  <div class="detail-header">
+    <a href="#shared_tags/0" class="detail-link" title="Link to this function">
+      <i class="ri-link-m" aria-hidden="true"></i>
+      <span class="sr-only">Link to this function</span>
+    </a>
+    <h1 class="signature" translate="no">shared_tags()</h1>
+
+      <a href="https://github.com/trento-project/wanda/blob/main/lib/wanda_web/controllers/v3/catalog_controller.ex#L1" class="icon-action" rel="help" title="View Source">
+       <i class="ri-code-s-slash-line" aria-hidden="true"></i>
+       <span class="sr-only">View Source</span>
+     </a>
+
+
+  </div>
+
+  <section class="docstring">
+
+
   </section>
 </section>
 
