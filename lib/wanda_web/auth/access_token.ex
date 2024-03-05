@@ -7,7 +7,7 @@ defmodule WandaWeb.Auth.AccessToken do
   use Joken.Config, default_signer: :access_token_signer
 
   @iss "https://github.com/trento-project/web"
-  @aud "trento-project"
+  @aud "trento_app"
 
   @impl true
   def token_config do
