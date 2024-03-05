@@ -22,7 +22,7 @@ defmodule WandaWeb.Auth.JWTAuthPlugTest do
 
     test "should return the connection with the user_id as subject" do
       jwt =
-        "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJhdWQiOiJ0cmVudG8tcHJvamVjdCIsImV4cCI6MTY3MTcxNjU5MiwiaWF0IjoxNjcxNzE1OTkyLCJpc3MiOiJodHRwczovL2dpdGh1Yi5jb20vdHJlbnRvLXByb2plY3Qvd2ViIiwianRpIjoiMnN0bW9wOTY5b3RrOTNpNjU0MDAwYmViIiwibmJmIjoxNjcxNzE1OTkyLCJzdWIiOjEsInR5cCI6IkJlYXJlciJ9.KnUXDdH2IHd5hDJFrc-KXzXrRmWwotc26t9L2CksQs4"
+        "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJhdWQiOiJ0cmVudG9fYXBwIiwiZXhwIjoxNjcxNzE2NTkyLCJpYXQiOjE2NzE3MTU5OTIsImlzcyI6Imh0dHBzOi8vZ2l0aHViLmNvbS90cmVudG8tcHJvamVjdC93ZWIiLCJqdGkiOiIyc3Rtb3A5NjlvdGs5M2k2NTQwMDBiZWIiLCJuYmYiOjE2NzE3MTU5OTIsInN1YiI6MSwidHlwIjoiQmVhcmVyIn0.AjZHul_2OArfDEanRIorpV85Ii4h15yRhdjJpZBMZRI"
 
       conn =
         build_conn()
