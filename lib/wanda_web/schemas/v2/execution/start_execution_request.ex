@@ -15,6 +15,7 @@ defmodule WandaWeb.Schemas.V2.Execution.StartExecutionRequest do
       title: "Target",
       description: "Target Agent on which facts gathering should happen",
       type: :object,
+      additionalProperties: false,
       properties: %{
         agent_id: %Schema{
           type: :string,
