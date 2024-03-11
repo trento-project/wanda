@@ -10,6 +10,7 @@ defmodule WandaWeb.Schemas.NotFound do
   OpenApiSpex.schema(%{
     title: "NotFound",
     type: :object,
+    additionalProperties: false,
     properties: %{
       errors: %Schema{
         type: :array,
