@@ -9,6 +9,7 @@ defmodule WandaWeb.Schemas.V1.Execution.Target do
     title: "Target",
     description: "Target where execution facts are gathered",
     type: :object,
+    additionalProperties: false,
     properties: %{
       agent_id: %Schema{type: :string, format: :uuid, description: "Agent ID"},
       checks: %Schema{

@@ -23,11 +23,25 @@ defmodule Wanda.Factory do
     %Catalog.Check{
       id: UUID.uuid4(),
       name: Faker.StarWars.character(),
+      group: Faker.Company.name() ,
+      description:  Faker.Lorem.sentence(),
+      remediation: Faker.Lorem.sentence(),
+      metadata: build(:catalog_metadata),
       severity: Enum.random([:critical, :warning, :passing]),
       facts: build_list(10, :catalog_fact),
       values: build_list(10, :catalog_value),
       expectations: build_list(10, :catalog_expectation),
-      premium: Enum.random([false, true])
+      when: nil,
+      premium: Enum.random([false, true]),
+    
+    }
+  end
+
+  def catalog_metadata_factory do
+    %{
+      target_type: Faker.StarWars.character(),
+      cluster_type: Faker.StarWars.character(),
+      provider: Enum.take_random(["azure", "nutanix", "kvm", "vmware, gcp, aws"], Enum.random(1..6))
     }
   end
 

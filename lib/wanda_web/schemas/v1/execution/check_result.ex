@@ -14,6 +14,7 @@ defmodule WandaWeb.Schemas.V1.Execution.CheckResult do
   OpenApiSpex.schema(%{
     title: "CheckResult",
     description: "The result of a check",
+    additionalProperties: false,
     type: :object,
     properties: %{
       check_id: %Schema{type: :string, description: "Check ID"},

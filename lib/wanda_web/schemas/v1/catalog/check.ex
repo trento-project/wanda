@@ -11,9 +11,19 @@ defmodule WandaWeb.Schemas.V1.Catalog.Check do
     title: "Check",
     description: "A single check from the catalog",
     type: :object,
+    additionalProperties: false,
     properties: %{
       id: %Schema{type: :string, description: "Check ID"},
       name: %Schema{type: :string, description: "Check name"},
+      group: %Schema{type: :string, description: "Check group"},
+      description: %Schema{type: :string, description: "Check description"},
+      remediation: %Schema{type: :string, description: "Check remediation"},
+      metadata: %Schema{
+        type: :object,
+        nullable: true,
+        description: "Optional metadata for the check"
+      },
+
       when: %Schema{
         type: :string,
         description: "Expression to determine whether a check should run",

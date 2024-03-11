@@ -9,6 +9,7 @@ defmodule WandaWeb.Schemas.V1.Execution.ExpectationEvaluationError do
     title: "ExpectationEvaluationError",
     description: "An error occurred during the evaluation of an expectation",
     type: :object,
+    additionalProperties: false,
     properties: %{
       name: %Schema{type: :string, description: "Expectation name"},
       message: %Schema{type: :string, description: "Error message"},

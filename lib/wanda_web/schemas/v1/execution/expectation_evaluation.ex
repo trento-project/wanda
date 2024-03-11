@@ -9,6 +9,7 @@ defmodule WandaWeb.Schemas.V1.Execution.ExpectationEvaluation do
     title: "ExpectationEvaluation",
     description: "Evaluation of an expectation",
     type: :object,
+    additionalProperties: false,
     properties: %{
       name: %Schema{type: :string, description: "Name"},
       return_value: %Schema{

@@ -9,6 +9,7 @@ defmodule WandaWeb.Schemas.V1.Execution.Fact do
     title: "Fact",
     description: "The result of a check",
     type: :object,
+    additionalProperties: false,
     properties: %{
       check_id: %Schema{type: :string, description: "Check ID"},
       name: %Schema{type: :string, description: "Name"},

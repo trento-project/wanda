@@ -6,6 +6,7 @@ defmodule WandaWeb.V1.CatalogView do
   alias Wanda.Catalog.Check
 
   def render("catalog.json", %{catalog: catalog}) do
+    IO.inspect(catalog, label: " view render catalog")
     %{items: render_many(catalog, CatalogView, "check.json", as: :check)}
   end
 
