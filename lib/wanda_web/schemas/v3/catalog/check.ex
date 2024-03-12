@@ -21,7 +21,12 @@ defmodule WandaWeb.Schemas.V3.Catalog.Check do
       metadata: %Schema{
         type: :object,
         nullable: true,
-        description: "Optional metadata for the check"
+        description: "Optional metadata for the check",
+        properties: %{
+          target_type: %Schema{type: :string, description: "Target type"},
+          cluster_type: %Schema{type: :string, description: "Cluster type"},
+          provider: %Schema{type: :string, description: "Supported provider"}
+        },
       },
       when: %Schema{
         type: :string,
@@ -115,6 +120,6 @@ defmodule WandaWeb.Schemas.V3.Catalog.Check do
         }
       }
     },
-    required: [:id, :name, :severity, :facts, :values, :expectations]
+    required: [:id, :name, :group, :description, :remediation, :metadata, :severity, :facts, :values, :expectations, :premium]
   })
 end

@@ -3,7 +3,7 @@ defmodule Wanda.Catalog.Check do
   Represents a check.
   """
 
-  alias Wanda.Catalog.{Expectation, Fact, Value}
+  alias Wanda.Catalog.{Expectation, Fact, Value, Metadata}
 
   @derive Jason.Encoder
   defstruct [
@@ -27,7 +27,7 @@ defmodule Wanda.Catalog.Check do
           group: String.t(),
           description: String.t(),
           remediation: String.t(),
-          metadata: map(),
+          metadata: Metadata.t(),
           severity: :warning | :critical,
           facts: [Fact.t()],
           values: [Value.t()],
