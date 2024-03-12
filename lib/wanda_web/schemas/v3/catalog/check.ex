@@ -26,7 +26,7 @@ defmodule WandaWeb.Schemas.V3.Catalog.Check do
           target_type: %Schema{type: :string, description: "Target type"},
           cluster_type: %Schema{type: :string, description: "Cluster type"},
           provider: %Schema{type: :string, description: "Supported provider"}
-        },
+        }
       },
       when: %Schema{
         type: :string,
@@ -120,6 +120,18 @@ defmodule WandaWeb.Schemas.V3.Catalog.Check do
         }
       }
     },
-    required: [:id, :name, :group, :description, :remediation, :metadata, :severity, :facts, :values, :expectations, :premium]
+    required: [
+      :id,
+      :name,
+      :group,
+      :description,
+      :remediation,
+      :metadata,
+      :severity,
+      :facts,
+      :values,
+      :expectations,
+      :premium
+    ]
   })
 end

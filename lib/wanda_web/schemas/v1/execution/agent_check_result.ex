@@ -31,7 +31,6 @@ defmodule WandaWeb.Schemas.V1.Execution.AgentCheckResult do
         description: "Result of the single expectation evaluation"
       }
     },
-   
     required: [:agent_id, :facts, :expectation_evaluations, :values]
   })
 end

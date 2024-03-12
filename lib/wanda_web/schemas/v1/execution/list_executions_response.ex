@@ -11,7 +11,7 @@ defmodule WandaWeb.Schemas.V1.Execution.ListExecutionsResponse do
 
   OpenApiSpex.schema(%{
     title: "ListExecutionsResponse",
-    description: "The paginated list of executions",     
+    description: "The paginated list of executions",
     additionalProperties: false,
     type: :object,
     properties: %{

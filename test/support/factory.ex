@@ -32,7 +32,7 @@ defmodule Wanda.Factory do
       values: build_list(10, :catalog_value),
       expectations: build_list(10, :catalog_expectation),
       when: nil,
-      premium: Enum.random([false, true]),
+      premium: Enum.random([false, true])
     }
   end
 
