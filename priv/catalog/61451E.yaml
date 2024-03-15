@@ -5,7 +5,9 @@ description: |
   Multiple SBD devices are configured
 remediation: |
   ## Abstract
-  It is recommended to configure 3 SBD devices for production environments.
+  It is recommended to configure **3 SBD** devices for production environments.
+
+  Attention: Please do not use consecutive semicolons in the **SBD_DEVICE** variable in the SBD configuration file. This can cause problems in the cluster functionality as ``sbd`` ignores consecutive semicolons, but the ``fencing agent`` does not. Therefore they should be avoided.
 
   The SBD is not used in GCP or AWS environments.
 
@@ -44,5 +46,14 @@ values:
 
 expectations:
   - name: expectations_multiple_sbd_device
-    expect: facts.sbd_multiple_sbd_device.split(";").len() == values.expected_multiple_sbd_device
-    failure_message: SBD devices count was expected to be '${values.expected_multiple_sbd_device}' but configured value is '${facts.sbd_multiple_sbd_device.split(";").len()}'
+    expect_enum: |
+      if ! facts.sbd_multiple_sbd_device.split(";").all(|entry| entry != "") {
+         "critical"
+      } else if facts.sbd_multiple_sbd_device.split(";").len() != values.expected_multiple_sbd_device {
+         "warning"
+      } else {
+         "passing"
+      }
+
+    warning_message: SBD devices count was expected to be '${values.expected_multiple_sbd_device}' but configured value is '${facts.sbd_multiple_sbd_device.split(";").len()}'
+    failure_message: Critical - check syntax of SBD_DEVICE entries in the configuration
