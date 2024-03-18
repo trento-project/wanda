@@ -13,8 +13,23 @@ defmodule WandaWeb.V2.CatalogViewTest do
         build(:check, expectations: build_list(3, :catalog_expectation, type: :expect_same))
       ]
 
+      updated_checks =
+        Enum.map(checks, fn check ->
+          updated_expectations =
+            Enum.map(check.expectations, fn %{
+                                              name: name,
+                                              type: type,
+                                              expression: expression,
+                                              failure_message: failure_message
+                                            } ->
+              %{name: name, type: type, expression: expression, failure_message: failure_message}
+            end)
+
+          %{check | expectations: updated_expectations}
+        end)
+
       assert %{
-               items: ^checks
+               items: ^updated_checks
              } = render(CatalogView, "catalog.json", catalog: checks)
     end
   end

@@ -9,14 +9,41 @@ defmodule WandaWeb.V1.CatalogViewTest do
   describe "CatalogView" do
     test "renders catalog.json" do
       checks = [
-        build(:check, expectations: build_list(3, :catalog_expectation, type: :expect)),
-        build(:check, expectations: build_list(3, :catalog_expectation, type: :expect_same))
+        build(:check, expectations: build_list(2, :catalog_expectation, type: :expect)),
+        build(:check, expectations: build_list(2, :catalog_expectation, type: :expect_same))
       ]
 
+      updated_checks =
+        Enum.map(checks, fn check ->
+          updated_expectations =
+            Enum.map(check.expectations, fn %{
+                                              name: name,
+                                              type: type,
+                                              expression: expression,
+                                              failure_message: failure_message
+                                            } ->
+              %{name: name, type: type, expression: expression, failure_message: failure_message}
+            end)
+
+          %{check | expectations: updated_expectations}
+        end)
+
+      rendered_catalog = render(CatalogView, "catalog.json", catalog: checks)
+
       assert %{
-               items: ^checks
-             } = render(CatalogView, "catalog.json", catalog: checks)
+               items: ^updated_checks
+             } = rendered_catalog
     end
+  end
+
+  test "renders catalog.json v1 without additional properties " do
+    checks = [
+      build(:check, expectations: build_list(2, :catalog_expectation, type: :expect)),
+      build(:check, expectations: build_list(2, :catalog_expectation, type: :expect_same))
+    ]
+
+    rendered_catalog = render(CatalogView, "catalog.json", catalog: checks)
+    refute Access.get(rendered_catalog, :warning_message)
   end
 
   describe "adapt to V1 version" do
