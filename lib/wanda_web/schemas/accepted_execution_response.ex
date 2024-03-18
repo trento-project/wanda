@@ -14,6 +14,7 @@ defmodule WandaWeb.Schemas.AcceptedExecutionResponse do
     title: "AcceptedExecutionResponse",
     description: "Identifiers of the recently accepted execution",
     type: :object,
+    additionalProperties: false,
     properties: %{
       execution_id: %Schema{type: :string, format: :uuid},
       group_id: %Schema{type: :string, format: :uuid}

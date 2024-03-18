@@ -12,6 +12,7 @@ defmodule WandaWeb.Schemas.V1.Execution.AgentCheckError do
     description:
       "An error describing that some of the facts could not be gathered on a specific agent eg. gathering failure or timeout",
     type: :object,
+    additionalProperties: false,
     properties: %{
       agent_id: %Schema{type: :string, format: :uuid, description: "Agent ID"},
       facts: %Schema{

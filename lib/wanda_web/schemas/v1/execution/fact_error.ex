@@ -9,6 +9,7 @@ defmodule WandaWeb.Schemas.V1.Execution.FactError do
     title: "FactError",
     description: "An error describing that a fact could not be gathered",
     type: :object,
+    additionalProperties: false,
     properties: %{
       check_id: %Schema{type: :string, description: "Check ID"},
       name: %Schema{type: :string, description: "Fact name"},

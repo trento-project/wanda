@@ -10,11 +10,13 @@ defmodule WandaWeb.Schemas.BadRequest do
   OpenApiSpex.schema(%{
     title: "BadRequest",
     type: :object,
+    additionalProperties: false,
     properties: %{
       errors: %Schema{
         type: :array,
         items: %Schema{
           type: :object,
+          additionalProperties: false,
           properties: %{
             detail: %Schema{
               type: :string,

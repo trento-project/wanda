@@ -13,6 +13,7 @@ defmodule WandaWeb.Schemas.V2.Execution.CheckResult do
     title: "CheckResult",
     description: "The result of a check",
     type: :object,
+    additionalProperties: false,
     properties: %{
       check_id: %Schema{type: :string, description: "Check ID"},
       expectation_results: %Schema{type: :array, items: ExpectationResult},

@@ -15,6 +15,7 @@ defmodule WandaWeb.Schemas.V2.Execution.ExecutionResponse do
     title: "ExecutionResponse",
     description: "The representation of an execution, it may be a running or completed one",
     type: :object,
+    additionalProperties: false,
     properties: %{
       execution_id: %Schema{type: :string, format: :uuid, description: "Execution ID"},
       group_id: %Schema{type: :string, format: :uuid, description: "Group ID"},

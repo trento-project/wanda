@@ -15,6 +15,7 @@ defmodule WandaWeb.Schemas.V2.Execution.StartExecutionRequest do
       title: "Target",
       description: "Target Agent on which facts gathering should happen",
       type: :object,
+      additionalProperties: false,
       properties: %{
         agent_id: %Schema{
           type: :string,
@@ -37,6 +38,7 @@ defmodule WandaWeb.Schemas.V2.Execution.StartExecutionRequest do
     title: "StartExecutionRequest",
     description: "Context to run a Check Execution",
     type: :object,
+    additionalProperties: false,
     properties: %{
       execution_id: %Schema{type: :string, format: :uuid, description: "Execution identifier"},
       group_id: %Schema{type: :string, format: :uuid, description: "Group Execution identifier"},

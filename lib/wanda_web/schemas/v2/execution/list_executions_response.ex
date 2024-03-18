@@ -13,6 +13,7 @@ defmodule WandaWeb.Schemas.V2.Execution.ListExecutionsResponse do
     title: "ListExecutionsResponse",
     description: "The paginated list of executions",
     type: :object,
+    additionalProperties: false,
     properties: %{
       items: %Schema{type: :array, items: ExecutionResponse},
       total_count: %Schema{type: :integer, description: "Total count of executions"}

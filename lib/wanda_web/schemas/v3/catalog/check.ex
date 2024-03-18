@@ -11,12 +11,16 @@ defmodule WandaWeb.Schemas.V3.Catalog.Check do
     title: "Check",
     description: "A single check from the catalog",
     type: :object,
+    additionalProperties: false,
     properties: %{
       id: %Schema{type: :string, description: "Check ID"},
       name: %Schema{type: :string, description: "Check name"},
-      when: %Schema{
-        type: :string,
-        description: "Expression to determine whether a check should run",
+      group: %Schema{type: :string, description: "Check group"},
+      description: %Schema{type: :string, description: "Check description"},
+      remediation: %Schema{type: :string, description: "Check remediation"},
+      metadata: %Schema{
+        type: :object,
+        description: "Check metadata",
         nullable: true
       },
       severity: %Schema{
@@ -24,14 +28,11 @@ defmodule WandaWeb.Schemas.V3.Catalog.Check do
         description: "Check severity: critical|warning",
         enum: [:critical, :warning]
       },
-      premium: %Schema{
-        type: :boolean,
-        description: "Check is Premium or not"
-      },
       facts: %Schema{
         type: :array,
         items: %Schema{
           type: :object,
+          additionalProperties: false,
           properties: %{
             name: %Schema{type: :string, description: "Fact name"},
             gatherer: %Schema{type: :string, description: "Used gatherer"},
@@ -44,6 +45,7 @@ defmodule WandaWeb.Schemas.V3.Catalog.Check do
         type: :array,
         items: %Schema{
           type: :object,
+          additionalProperties: false,
           properties: %{
             name: %Schema{type: :string, description: "Value name"},
             default: %Schema{
@@ -54,6 +56,7 @@ defmodule WandaWeb.Schemas.V3.Catalog.Check do
               type: :array,
               items: %Schema{
                 type: :object,
+                additionalProperties: false,
                 properties: %{
                   value: %Schema{
                     oneOf: [
@@ -79,6 +82,7 @@ defmodule WandaWeb.Schemas.V3.Catalog.Check do
         type: :array,
         items: %Schema{
           type: :object,
+          additionalProperties: false,
           properties: %{
             name: %Schema{type: :string, description: "Expectation name"},
             type: %Schema{
@@ -102,10 +106,32 @@ defmodule WandaWeb.Schemas.V3.Catalog.Check do
                 "Message returned when the check return value is warning. Only available for `expect_enum` expectations"
             }
           },
-          required: [:name, :type, :expression]
+          required: [:name, :type, :expression, :failure_message, :warning_message]
         }
+      },
+      when: %Schema{
+        type: :string,
+        description: "Expression to determine whether a check should run",
+        nullable: true
+      },
+      premium: %Schema{
+        type: :boolean,
+        description: "Check is Premium or not"
       }
     },
-    required: [:id, :name, :severity, :facts, :values, :expectations]
+    required: [
+      :id,
+      :name,
+      :group,
+      :description,
+      :remediation,
+      :metadata,
+      :severity,
+      :facts,
+      :values,
+      :expectations,
+      :when,
+      :premium
+    ]
   })
 end
