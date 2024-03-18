@@ -36,7 +36,7 @@ defmodule WandaWeb.V1.CatalogViewTest do
     end
   end
 
-  test "renders catalog.json v1 without additional properties " do
+  test "renders catalog.json like expected in the v1 schema" do
     checks = [
       build(:check, expectations: build_list(2, :catalog_expectation, type: :expect)),
       build(:check, expectations: build_list(2, :catalog_expectation, type: :expect_same))
