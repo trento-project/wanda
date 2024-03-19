@@ -18,14 +18,7 @@ defmodule WandaWeb.V1.CatalogView do
         %{type: :expect_enum} = expectation -> Map.put(expectation, :type, :unknown)
         expectation -> expectation
       end)
-      |> Enum.map(fn %{
-                       name: name,
-                       type: type,
-                       expression: expression,
-                       failure_message: failure_message
-                     } ->
-        %{name: name, type: type, expression: expression, failure_message: failure_message}
-      end)
+      |> Enum.map(&Map.drop(Map.from_struct(&1), [:warning_message]))
 
     %{check | expectations: adapted_expectations}
   end

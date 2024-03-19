@@ -106,7 +106,7 @@ defmodule WandaWeb.Schemas.V3.Catalog.Check do
                 "Message returned when the check return value is warning. Only available for `expect_enum` expectations"
             }
           },
-          required: [:name, :type, :expression, :failure_message, :warning_message]
+          required: [:name, :type, :expression, :failure_message]
         }
       },
       when: %Schema{

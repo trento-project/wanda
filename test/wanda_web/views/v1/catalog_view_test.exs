@@ -4,6 +4,7 @@ defmodule WandaWeb.V1.CatalogViewTest do
   import Phoenix.View
   import Wanda.Factory
 
+  alias Wanda.Catalog.Check
   alias WandaWeb.V1.CatalogView
 
   describe "CatalogView" do
@@ -13,37 +14,25 @@ defmodule WandaWeb.V1.CatalogViewTest do
         build(:check, expectations: build_list(2, :catalog_expectation, type: :expect_same))
       ]
 
-      updated_checks =
-        Enum.map(checks, fn check ->
-          updated_expectations =
-            Enum.map(check.expectations, fn %{
-                                              name: name,
-                                              type: type,
-                                              expression: expression,
-                                              failure_message: failure_message
-                                            } ->
-              %{name: name, type: type, expression: expression, failure_message: failure_message}
-            end)
-
-          %{check | expectations: updated_expectations}
+      adapted_checks =
+        Enum.map(checks, fn %Check{expectations: expectations} = check ->
+          %{
+            check
+            | expectations:
+                Enum.map(expectations, fn expectation ->
+                  expectation
+                  |> Map.from_struct()
+                  |> Map.drop([:warning_message])
+                end)
+          }
         end)
 
       rendered_catalog = render(CatalogView, "catalog.json", catalog: checks)
 
       assert %{
-               items: ^updated_checks
+               items: ^adapted_checks
              } = rendered_catalog
     end
-  end
-
-  test "renders catalog.json like expected in the v1 schema" do
-    checks = [
-      build(:check, expectations: build_list(2, :catalog_expectation, type: :expect)),
-      build(:check, expectations: build_list(2, :catalog_expectation, type: :expect_same))
-    ]
-
-    rendered_catalog = render(CatalogView, "catalog.json", catalog: checks)
-    refute Access.get(rendered_catalog, :warning_message)
   end
 
   describe "adapt to V1 version" do
@@ -62,6 +51,17 @@ defmodule WandaWeb.V1.CatalogViewTest do
                  }
                ]
              } = render(CatalogView, "catalog.json", catalog: checks)
+    end
+
+    test "should remove warning_message in check expectations" do
+      checks = build_list(1, :check)
+
+      %{
+        items: [%Check{expectations: [expectation | _rest_expectations]}]
+      } =
+        render(CatalogView, "catalog.json", catalog: checks)
+
+      refute Map.has_key?(expectation, :warning_message)
     end
   end
 end
