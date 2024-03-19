@@ -37,6 +37,7 @@ Here's a collection of built-in gatherers, with information about how to use the
 
 | Name                                                                   | Implementation                                                                                                                                                                      |
 | :--------------------------------------------------------------------- | :---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| [`ascsers_cluster@v1`](#ascsers_clusterv1)                             | [trento-project/agent/../gatherers/ascsers_cluster.go](https://github.com/trento-project/agent/blob/main/internal/factsengine/gatherers/ascsers_cluster.go)                                |
 | [`cibadmin@v1`](#cibadminv1)                                           | [trento-project/agent/../gatherers/cibadmin.go](https://github.com/trento-project/agent/blob/main/internal/factsengine/gatherers/cibadmin.go)                                       |
 | [`corosync.conf@v1`](#corosyncconfv1)                                  | [trento-project/agent/../gatherers/corosyncconf.go](https://github.com/trento-project/agent/blob/main/internal/factsengine/gatherers/corosyncconf.go)                               |
 | [`corosync-cmapctl@v1`](#corosync-cmapctlv1)                           | [trento-project/agent/../gatherers/corosynccmapctl.go](https://github.com/trento-project/agent/blob/main/internal/factsengine/gatherers/corosynccmapctl.go)                         |
@@ -62,6 +63,56 @@ Here's a collection of built-in gatherers, with information about how to use the
 | [`systemd@v1`](#systemdv1)                                             | [trento-project/agent/../gatherers/systemd.go](https://github.com/trento-project/agent/blob/main/internal/factsengine/gatherers/systemd.go)                                         |
 | [`systemd@v2`](#systemdv2)                                             | [trento-project/agent/../gatherers/systemd_v2.go](https://github.com/trento-project/agent/blob/main/internal/factsengine/gatherers/systemd_v2.go)                                   |
 | [`verify_password@v1`](#verify_passwordv1)                             | [trento-project/agent/../gatherers/verifypassword.go](https://github.com/trento-project/agent/blob/main/internal/factsengine/gatherers/verifypassword.go)                           |
+
+<span id="ascsers_clusterv1"></span>
+
+### ascsers_cluster@v1
+
+**Argument required**: no.
+
+This gatherer allows accessing ASCS/ERS clusters managed systems most relevant information, such as the ensa version and the installed instances.
+It is really useful to check multi SID environments.
+It doesn't replace the need to use the `cibadmin` gatherer, as this gatherer aims to facilitate complex data manipulations using data from that gatherer.
+The ensa version is obtained running the `GetProcessList` sapcontrol webcommand and parsing the `name` output in each of the installed instances.
+
+Example specification:
+
+```yaml
+facts:
+  - name: ascsers
+    gatherer: ascsers_cluster@v1
+```
+
+Example output (in Rhai):
+
+```ts
+#{
+    "PRD": #{
+      "ensa_version": "ensa1", // available values: ensa1/ensa2/unknown
+      "instances": [
+        #{
+          "resource_group": "grp_PRD_ASCS00",
+          "resource_instance": "rsc_sap_PRD_ASCS00",
+          "name": "ASCS00",
+          "instance_number": "00",
+          "virtual_hostname": "sapascs00",
+          "filesystem_based": true, // if the instance resource group has a FileSystem resource
+          "local": true // if the instance is running locally in this host (sapcontrol returns a positive response for GetProcessList)
+        },
+        #{
+          "resource_group": "grp_PRD_ERS10",
+          "resource_instance": "rsc_sap_PRD_ERS10",
+          "name": "ERS10",
+          ...
+        }
+      ]
+    },
+    "QAS": #{
+      "ensa_version": "ensa2",
+      ...
+    }
+};
+```
 
 <span id="cibadminv1"></span>
 
