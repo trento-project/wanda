@@ -4,33 +4,34 @@ defmodule WandaWeb.V2.CatalogViewTest do
   import Phoenix.View
   import Wanda.Factory
 
+  alias Wanda.Catalog.Check
   alias WandaWeb.V2.CatalogView
 
   describe "CatalogView" do
     test "renders catalog.json" do
       checks = [
-        build(:check, expectations: build_list(3, :catalog_expectation, type: :expect)),
-        build(:check, expectations: build_list(3, :catalog_expectation, type: :expect_same))
+        build(:check, expectations: build_list(2, :catalog_expectation, type: :expect)),
+        build(:check, expectations: build_list(2, :catalog_expectation, type: :expect_same))
       ]
 
-      updated_checks =
-        Enum.map(checks, fn check ->
-          updated_expectations =
-            Enum.map(check.expectations, fn %{
-                                              name: name,
-                                              type: type,
-                                              expression: expression,
-                                              failure_message: failure_message
-                                            } ->
-              %{name: name, type: type, expression: expression, failure_message: failure_message}
-            end)
-
-          %{check | expectations: updated_expectations}
+      adapted_checks =
+        Enum.map(checks, fn %Check{expectations: expectations} = check ->
+          %{
+            check
+            | expectations:
+                Enum.map(expectations, fn expectation ->
+                  expectation
+                  |> Map.from_struct()
+                  |> Map.drop([:warning_message])
+                end)
+          }
         end)
 
+      rendered_catalog = render(CatalogView, "catalog.json", catalog: checks)
+
       assert %{
-               items: ^updated_checks
-             } = render(CatalogView, "catalog.json", catalog: checks)
+               items: ^adapted_checks
+             } = rendered_catalog
     end
   end
 

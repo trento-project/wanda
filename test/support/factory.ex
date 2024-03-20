@@ -28,7 +28,7 @@ defmodule Wanda.Factory do
       remediation: Faker.Lorem.sentence(),
       metadata: %{
         target_type: Enum.random(["cluster", "host"]),
-        cluster_type: Enum.random(["ASCS_ERS", "HANA_SCALE_UP"]),
+        cluster_type: Enum.random(["ascs_ers", "hana_scale_up"]),
         provider:
           Enum.take_random(["azure", "nutanix", "kvm", "vmware, gcp, aws"], Enum.random(1..6))
       },
