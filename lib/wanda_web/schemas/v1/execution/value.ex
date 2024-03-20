@@ -9,6 +9,7 @@ defmodule WandaWeb.Schemas.V1.Execution.Value do
     title: "Value",
     description: "A Value used in the expectations evaluation",
     type: :object,
+    additionalProperties: false,
     properties: %{
       name: %Schema{type: :string, description: "Name"},
       value: %Schema{

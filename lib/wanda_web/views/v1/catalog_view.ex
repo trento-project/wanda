@@ -13,10 +13,12 @@ defmodule WandaWeb.V1.CatalogView do
 
   def adapt_v1(%{expectations: expectations} = check) do
     adapted_expectations =
-      Enum.map(expectations, fn
+      expectations
+      |> Enum.map(fn
         %{type: :expect_enum} = expectation -> Map.put(expectation, :type, :unknown)
         expectation -> expectation
       end)
+      |> Enum.map(&Map.drop(Map.from_struct(&1), [:warning_message]))
 
     %{check | expectations: adapted_expectations}
   end

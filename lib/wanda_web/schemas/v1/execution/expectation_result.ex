@@ -9,6 +9,7 @@ defmodule WandaWeb.Schemas.V1.Execution.ExpectationResult do
     title: "ExpectationResult",
     description: "The result of an expectation",
     type: :object,
+    additionalProperties: false,
     properties: %{
       name: %Schema{type: :string, description: "Expectation name"},
       result: %Schema{type: :boolean, description: "Result of the expectation condition"},

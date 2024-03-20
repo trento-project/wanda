@@ -23,10 +23,20 @@ defmodule Wanda.Factory do
     %Catalog.Check{
       id: UUID.uuid4(),
       name: Faker.StarWars.character(),
+      group: Faker.Company.name(),
+      description: Faker.Lorem.sentence(),
+      remediation: Faker.Lorem.sentence(),
+      metadata: %{
+        target_type: Enum.random(["cluster", "host"]),
+        cluster_type: Enum.random(["ascs_ers", "hana_scale_up"]),
+        provider:
+          Enum.take_random(["azure", "nutanix", "kvm", "vmware, gcp, aws"], Enum.random(1..6))
+      },
       severity: Enum.random([:critical, :warning, :passing]),
       facts: build_list(10, :catalog_fact),
       values: build_list(10, :catalog_value),
       expectations: build_list(10, :catalog_expectation),
+      when: Faker.Lorem.sentence(),
       premium: Enum.random([false, true])
     }
   end
@@ -58,7 +68,9 @@ defmodule Wanda.Factory do
     %Catalog.Expectation{
       name: Faker.StarWars.character(),
       type: Enum.random([:expect, :expect_same, :expect_enum]),
-      expression: Faker.StarWars.quote()
+      expression: Faker.StarWars.quote(),
+      failure_message: Faker.Lorem.sentence(),
+      warning_message: Faker.Lorem.sentence()
     }
   end
 

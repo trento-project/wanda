@@ -839,7 +839,8 @@ defmodule Wanda.Executions.EvaluationTest do
           if facts.#{fact_name} == "unknown" {
             "unknown"
           }
-          """
+          """,
+          failure_message: nil
         )
 
       [%Catalog.Check{id: check_id}] =
@@ -1761,12 +1762,14 @@ defmodule Wanda.Executions.EvaluationTest do
             build(:catalog_expectation,
               name: expectation_name,
               type: :expect_same,
-              expression: "facts.#{fact_name}"
+              expression: "facts.#{fact_name}",
+              failure_message: nil
             ),
             build(:catalog_expectation,
               name: another_expectation_name,
               type: :expect_same,
-              expression: "facts.#{another_fact_name} == \"#{another_fact_value}\""
+              expression: "facts.#{another_fact_name} == \"#{another_fact_value}\"",
+              failure_message: nil
             )
           ]
         )

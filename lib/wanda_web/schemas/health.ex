@@ -10,6 +10,7 @@ defmodule WandaWeb.Schemas.Health do
   OpenApiSpex.schema(%Schema{
     title: "Health",
     type: :object,
+    additionalProperties: false,
     example: %{
       database: "pass"
     },

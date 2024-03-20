@@ -10,6 +10,7 @@ defmodule WandaWeb.Schemas.Ready do
   OpenApiSpex.schema(%Schema{
     title: "Ready",
     type: :object,
+    additionalProperties: false,
     example: %{
       ready: true
     },

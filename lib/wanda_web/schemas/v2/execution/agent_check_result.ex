@@ -16,6 +16,7 @@ defmodule WandaWeb.Schemas.V2.Execution.AgentCheckResult do
     title: "AgentCheckResult",
     description: "The result of check on a specific agent",
     type: :object,
+    additionalProperties: false,
     properties: %{
       agent_id: %Schema{type: :string, format: :uuid, description: "Agent ID"},
       facts: %Schema{type: :array, items: Fact, description: "Facts gathered from the targets"},

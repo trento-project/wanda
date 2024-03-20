@@ -12,6 +12,7 @@ defmodule WandaWeb.Schemas.V3.Catalog.CatalogResponse do
     title: "CatalogResponse",
     description: "Checks catalog listing response",
     type: :object,
+    additionalProperties: false,
     properties: %{
       items: %Schema{type: :array, description: "List of catalog checks", items: Check}
     }
