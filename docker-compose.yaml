@@ -10,7 +10,7 @@ services:
       RABBITMQ_DEFAULT_USER: wanda
       RABBITMQ_DEFAULT_PASS: wanda
   postgres:
-    image: postgres:latest
+    image: postgres:15
     environment:
       POSTGRES_USER: postgres
       POSTGRES_PASSWORD: postgres
