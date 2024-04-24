@@ -39,7 +39,9 @@ severity: warning
 
 metadata:
   target_type: cluster
-  cluster_type: hana_scale_up
+  cluster_type: 
+    - hana_scale_up
+    - ascs_ers
 
 facts:
   - name: totem_interfaces
