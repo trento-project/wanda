@@ -13,7 +13,9 @@ remediation: |
 
 metadata:
   target_type: cluster
-  cluster_type: hana_scale_up
+  cluster_type: 
+    - hana_scale_up
+    - ascs_ers
 
 facts:
   - name: exclude_package_pacemaker
