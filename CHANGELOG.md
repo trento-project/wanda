@@ -1,11 +1,13 @@
 # Changelog
 
-## [1.3.0](https://github.com/trento-project/wanda/tree/1.3.0) (2024-05-13)
+## [1.3.0](https://github.com/trento-project/wanda/tree/1.3.0) (2024-05-22)
 
 [Full Changelog](https://github.com/trento-project/wanda/compare/1.2.0...1.3.0)
 
 **Implemented enhancements:**
 
+- Pin erlang version to 26.2.1 [\#431](https://github.com/trento-project/wanda/pull/431) ([nelsonkopliku](https://github.com/nelsonkopliku))
+- Specify elixir version \>= 1.15 in rpm spec [\#430](https://github.com/trento-project/wanda/pull/430) ([nelsonkopliku](https://github.com/nelsonkopliku))
 - Update execution endpoint schemas to include `expect_enum` expectation [\#373](https://github.com/trento-project/wanda/pull/373) ([arbulu89](https://github.com/arbulu89))
 - Load expect\_enum expectations from catalog [\#371](https://github.com/trento-project/wanda/pull/371) ([arbulu89](https://github.com/arbulu89))
 - Non boolean expectation - expect\_enum [\#369](https://github.com/trento-project/wanda/pull/369) ([arbulu89](https://github.com/arbulu89))
@@ -18,6 +20,8 @@
 
 **Merged pull requests:**
 
+- Require elixir\>=1.15 in dockerfile [\#433](https://github.com/trento-project/wanda/pull/433) ([nelsonkopliku](https://github.com/nelsonkopliku))
+- Release 1.3.0 [\#424](https://github.com/trento-project/wanda/pull/424) ([nelsonkopliku](https://github.com/nelsonkopliku))
 - Check 816815 - enhance check to use systemd gatherer v2 [\#423](https://github.com/trento-project/wanda/pull/423) ([angelabriel](https://github.com/angelabriel))
 - Updated metadata for ASCS ERS cluster usage for check 49591F [\#422](https://github.com/trento-project/wanda/pull/422) ([ksanjeet](https://github.com/ksanjeet))
 - Updated metadata for ASCS ERS cluster usage for check 15F7A8 [\#421](https://github.com/trento-project/wanda/pull/421) ([ksanjeet](https://github.com/ksanjeet))
