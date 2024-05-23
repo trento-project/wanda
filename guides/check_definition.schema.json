@@ -94,6 +94,9 @@
             },
             {
               "type": "string"
+            },
+            {
+              "type": "array"
             }
           ]
         },
@@ -121,6 +124,9 @@
             },
             {
               "type": "string"
+            },
+            {
+              "type": "array"
             }
           ]
         },
