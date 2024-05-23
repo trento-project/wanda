@@ -96,7 +96,17 @@
               "type": "string"
             },
             {
-              "type": "array"
+              "type": "array",
+              "items": {
+                "anyOf": [
+                  {
+                    "type": "integer"
+                  },
+                  {
+                    "type": "string"
+                  }
+                ]
+              }
             }
           ]
         },
@@ -126,7 +136,17 @@
               "type": "string"
             },
             {
-              "type": "array"
+              "type": "array",
+              "items": {
+                "anyOf": [
+                  {
+                    "type": "integer"
+                  },
+                  {
+                    "type": "string"
+                  }
+                ]
+              }
             }
           ]
         },
