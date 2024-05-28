@@ -22,19 +22,21 @@ defmodule Wanda.Catalog do
   """
   @spec get_catalog(%{String.t() => String.t()}) :: [Check.t()]
   def get_catalog(env \\ %{}) do
-    get_catalog_path()
-    |> Path.join("/*")
-    |> Path.wildcard()
-    |> Enum.map(&Path.basename(&1, ".yaml"))
-    |> get_checks(env)
+    Enum.flat_map(get_catalog_paths(), fn path ->
+      path
+      |> Path.join("/*")
+      |> Path.wildcard()
+      |> Enum.map(&Path.basename(&1, ".yaml"))
+      |> get_checks(env)
+    end)
   end
 
   @doc """
   Get a check from the catalog.
   """
-  @spec get_check(String.t()) :: {:ok, Check.t()} | {:error, any}
-  def get_check(check_id) do
-    with path <- Path.join(get_catalog_path(), "#{check_id}.yaml"),
+  @spec get_check(String.t(), String.t()) :: {:ok, Check.t()} | {:error, any}
+  def get_check(path, check_id) do
+    with path <- Path.join(path, "#{check_id}.yaml"),
          {:ok, file_content} <- YamlElixir.read_from_file(path),
          {:ok, check} <- map_check(file_content) do
       {:ok, check}
@@ -57,14 +59,20 @@ defmodule Wanda.Catalog do
   """
   @spec get_checks([String.t()], map()) :: [Check.t()]
   def get_checks(checks_id, env) do
-    checks_id
-    |> Enum.flat_map(fn check_id ->
-      case get_check(check_id) do
+    get_catalog_paths()
+    |> Enum.flat_map(fn path ->
+      get_checks_from_path(checks_id, path)
+    end)
+    |> Enum.filter(fn check -> when_condition(check, env) && match_metadata(check, env) end)
+  end
+
+  defp get_checks_from_path(checks_id, path) do
+    Enum.flat_map(checks_id, fn check_id ->
+      case get_check(path, check_id) do
         {:ok, check} -> [check]
         {:error, _} -> []
       end
     end)
-    |> Enum.filter(fn check -> when_condition(check, env) && match_metadata(check, env) end)
   end
 
   defp when_condition(_, env) when env == %{}, do: true
@@ -101,8 +109,8 @@ defmodule Wanda.Catalog do
 
   defp match_metadata_value?(env_value, metadata_value), do: env_value === metadata_value
 
-  defp get_catalog_path do
-    Application.fetch_env!(:wanda, Wanda.Catalog)[:catalog_path]
+  defp get_catalog_paths do
+    Application.fetch_env!(:wanda, Wanda.Catalog)[:catalog_paths]
   end
 
   defp map_check(
