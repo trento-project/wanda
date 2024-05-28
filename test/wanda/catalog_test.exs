@@ -11,12 +11,15 @@ defmodule Wanda.CatalogTest do
     Value
   }
 
+  def catalog_path do
+    catalog_paths = Application.fetch_env!(:wanda, Wanda.Catalog)[:catalog_paths]
+    Enum.at(catalog_paths, 1)
+  end
+
   describe "checks catalog" do
     test "should return the whole catalog" do
-      catalog_path = Application.fetch_env!(:wanda, Wanda.Catalog)[:catalog_path]
-
       valid_files =
-        catalog_path
+        catalog_path()
         |> File.ls!()
         |> Enum.sort()
         |> Enum.filter(fn file -> file != "malformed_check.yaml" end)
@@ -123,7 +126,7 @@ defmodule Wanda.CatalogTest do
                     failure_message: nil
                   }
                 ]
-              }} = Catalog.get_check("expect_check")
+              }} = Catalog.get_check(catalog_path(), "expect_check")
     end
 
     test "should load a expect_same expectation type" do
@@ -137,7 +140,7 @@ defmodule Wanda.CatalogTest do
                     expression: "facts.jedi"
                   }
                 ]
-              }} = Catalog.get_check("expect_same_check")
+              }} = Catalog.get_check(catalog_path(), "expect_same_check")
     end
 
     test "should load a expect_enum expectation type" do
@@ -170,23 +173,25 @@ defmodule Wanda.CatalogTest do
                     warning_message: "some warning message ${facts.jedi}"
                   }
                 ]
-              }} = Catalog.get_check("expect_enum_check")
+              }} = Catalog.get_check(catalog_path(), "expect_enum_check")
     end
 
     test "should load a warning severity" do
-      assert {:ok, %Check{severity: :warning}} = Catalog.get_check("warning_severity_check")
+      assert {:ok, %Check{severity: :warning}} =
+               Catalog.get_check(catalog_path(), "warning_severity_check")
     end
 
     test "should load premium as false by default" do
-      assert {:ok, %Check{premium: false}} = Catalog.get_check("warning_severity_check")
+      assert {:ok, %Check{premium: false}} =
+               Catalog.get_check(catalog_path(), "warning_severity_check")
     end
 
     test "should return an error for non-existent check" do
-      assert {:error, _} = Catalog.get_check("non_existent_check")
+      assert {:error, _} = Catalog.get_check(catalog_path(), "non_existent_check")
     end
 
     test "should return an error for malformed check" do
-      assert {:error, :malformed_check} = Catalog.get_check("malformed_check")
+      assert {:error, :malformed_check} = Catalog.get_check(catalog_path(), "malformed_check")
     end
 
     test "should load multiple checks" do
