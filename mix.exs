@@ -8,7 +8,7 @@ defmodule Wanda.MixProject do
     [
       app: :wanda,
       version: @version,
-      elixir: "~> 1.13",
+      elixir: "~> 1.15",
       elixirc_paths: elixirc_paths(Mix.env()),
       start_permanent: Mix.env() == :prod,
       aliases: aliases(),
@@ -132,7 +132,8 @@ defmodule Wanda.MixProject do
       {:faker, "~> 0.17", only: [:demo, :test]},
       {:excoveralls, "~> 0.10", only: :test},
       # phoenix deps
-      {:phoenix, "~> 1.6.12"},
+      {:phoenix, "~> 1.7"},
+      {:phoenix_view, "~> 2.0"},
       {:phoenix_ecto, "~> 4.4"},
       {:ecto_sql, "~> 3.6"},
       {:postgrex, ">= 0.0.0"},
