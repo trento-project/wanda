@@ -47,7 +47,6 @@ WandaWeb.FallbackController.html
 WandaWeb.HealthController.html
 WandaWeb.HealthView.html
 WandaWeb.Plugs.ApiRedirector.html
-WandaWeb.Router.Helpers.html
 WandaWeb.Router.html
 WandaWeb.Schemas.AcceptedExecutionResponse.html
 WandaWeb.Schemas.ApiSpec.html
@@ -111,8 +110,8 @@ dist/merriweather-latin-ext-300-normal-K6L27CZ5.woff2
 dist/merriweather-vietnamese-300-italic-EHHNZPUO.woff2
 dist/merriweather-vietnamese-300-normal-U376L4Z4.woff2
 dist/remixicon-NKANDIL5.woff2
-dist/search_data-2BC5E086.js
-dist/sidebar_items-E5F9892A.js
+dist/search_data-BF3FB102.js
+dist/sidebar_items-7DACBE2E.js
 expression_language.html
 gatherers.html
 hack_on_wanda.html
