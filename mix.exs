@@ -112,7 +112,7 @@ defmodule Wanda.MixProject do
   # Run "mix help deps" to learn about dependencies.
   defp deps do
     [
-      {:rhai_rustler, "~> 1.0.2"},
+      {:rhai_rustler, "~> 1.1.1"},
       {:rustler, ">= 0.0.0", optional: true},
       # project has been archived by its github maintainer
       {:gen_rmq, "~> 4.0"},
