@@ -1205,7 +1205,7 @@ Example output (in Rhai):
 **Argument required**: no.
 
 This gatherer allows access to the SAP services file content stored in `/usr/sap/sapservices`.
-Each entry in the file is returned as a map, containing the SID, the raw line content of the entry and
+Each entry in the file is returned as a map, containing the SID, the instance number, the raw line content of the entry and
 the kind of system used for startup, `systemctl` or `sapstartsrv`.
 
 Example specification:
@@ -1223,12 +1223,14 @@ Example output (in Rhai):
   #{
     "sid": "HS1",
     "kind": "sapstartsrv",
-    "content": "LD_LIBRARY_PATH=/usr/sap/HS1/HDB11/exe:$LD_LIBRARY_PATH;export LD_LIBRARY_PATH;/usr/sap/HS1/HDB11/exe/sapstartsrv pf=/usr/sap/HS1/SYS/profile/HS1_HDB11_s41db -D -u hs1adm"
+    "content": "LD_LIBRARY_PATH=/usr/sap/HS1/HDB11/exe:$LD_LIBRARY_PATH;export LD_LIBRARY_PATH;/usr/sap/HS1/HDB11/exe/sapstartsrv pf=/usr/sap/HS1/SYS/profile/HS1_HDB11_s41db -D -u hs1adm",
+    "instance_nr": "11"
   },
   #{
     "sid": "S41",
     "kind": "systemctl",
-    "content": "systemctl --no-ask-password start SAPS41_40"
+    "content": "systemctl --no-ask-password start SAPS41_40",
+    "instance_nr": "40"
   },
 ]
 ```
