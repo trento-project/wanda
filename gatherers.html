@@ -136,7 +136,7 @@ GUIDES
   </a>
   <span class="text">Introduction</span>
 </h2>
-<p>Gatherers can be thought of as functions:</p><ul><li>they have a name</li><li>they accept argument(s)</li><li>they return a value, the gathered <a href="specification.html#facts">Fact</a></li></ul><p>Facts Gathering process in a nutshell</p><pre><code class="makeup elixir" translate="no"><span class="n">fact</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">gatherer</span><span class="p" data-group-id="2026487370-1">(</span><span class="n">argument</span><span class="p" data-group-id="2026487370-1">)</span></code></pre><h2 id="gatherers-versioning" class="section-heading">
+<p>Gatherers can be thought of as functions:</p><ul><li>they have a name</li><li>they accept argument(s)</li><li>they return a value, the gathered <a href="specification.html#facts">Fact</a></li></ul><p>Facts Gathering process in a nutshell</p><pre><code class="makeup elixir" translate="no"><span class="n">fact</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">gatherer</span><span class="p" data-group-id="2086036873-1">(</span><span class="n">argument</span><span class="p" data-group-id="2086036873-1">)</span></code></pre><h2 id="gatherers-versioning" class="section-heading">
   <a href="#gatherers-versioning" class="hover-link">
     <i class="ri-link-m" aria-hidden="true"></i>
   </a>
@@ -937,19 +937,21 @@ It returns the profile files and content grouped by SID in a key\value way.</p><
   <span class="text">sapservices@v1</span>
 </h3>
 <p><strong>Argument required</strong>: no.</p><p>This gatherer allows access to the SAP services file content stored in <code class="inline">/usr/sap/sapservices</code>.
-Each entry in the file is returned as a map, containing the SID, the raw line content of the entry and
+Each entry in the file is returned as a map, containing the SID, the instance number, the raw line content of the entry and
 the kind of system used for startup, <code class="inline">systemctl</code> or <code class="inline">sapstartsrv</code>.</p><p>Example specification:</p><pre><code class="yaml">facts:
   - name: sapservices
     gatherer: sapservices@v1</code></pre><p>Example output (in Rhai):</p><pre><code class="ts">[
   #{
     &quot;sid&quot;: &quot;HS1&quot;,
     &quot;kind&quot;: &quot;sapstartsrv&quot;,
-    &quot;content&quot;: &quot;LD_LIBRARY_PATH=/usr/sap/HS1/HDB11/exe:$LD_LIBRARY_PATH;export LD_LIBRARY_PATH;/usr/sap/HS1/HDB11/exe/sapstartsrv pf=/usr/sap/HS1/SYS/profile/HS1_HDB11_s41db -D -u hs1adm&quot;
+    &quot;content&quot;: &quot;LD_LIBRARY_PATH=/usr/sap/HS1/HDB11/exe:$LD_LIBRARY_PATH;export LD_LIBRARY_PATH;/usr/sap/HS1/HDB11/exe/sapstartsrv pf=/usr/sap/HS1/SYS/profile/HS1_HDB11_s41db -D -u hs1adm&quot;,
+    &quot;instance_nr&quot;: &quot;11&quot;
   },
   #{
     &quot;sid&quot;: &quot;S41&quot;,
     &quot;kind&quot;: &quot;systemctl&quot;,
-    &quot;content&quot;: &quot;systemctl --no-ask-password start SAPS41_40&quot;
+    &quot;content&quot;: &quot;systemctl --no-ask-password start SAPS41_40&quot;,
+    &quot;instance_nr&quot;: &quot;40&quot;
   },
 ]</code></pre><span id="saptunev1"></span><h3 id="saptune-v1" class="section-heading">
   <a href="#saptune-v1" class="hover-link">
