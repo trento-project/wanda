@@ -49,18 +49,36 @@ remediation: |
 
 metadata:
   target_type: cluster
-  cluster_type: hana_scale_up
+  cluster_type: 
+    - hana_scale_up
+    - ascs_ers
 
 facts:
   - name: runtime_two_node
     gatherer: corosync-cmapctl@v1
     argument: runtime.votequorum.two_node
 
+  - name: corosync_num_nodes
+    gatherer: corosync.conf@v1
+    argument: nodelist.node
+
+  - name: cib_num_nodes
+    gatherer: cibadmin@v1
+    argument: cib.configuration.nodes.node      
+
 values:
   - name: expected_runtime_two_node
     default: 1
 
+  - name: expected_runtime_threeormore
+    default: 0
+
 expectations:
+  - name: num_nodes_equal_in_corosync_and_cib
+    expect: facts.corosync_num_nodes.len == facts.cib_num_nodes.len
+    failure_message: Number of nodes mentioned in corosync.conf and cib.xml are not equal
+  
   - name: expectations_two_node
-    expect: facts.runtime_two_node == values.expected_runtime_two_node
-    failure_message: Corosync 'two_node' value was expected to be '${values.expected_runtime_two_node}' but value of running config is '${facts.runtime_two_node}'
+    expect: |
+     if facts.corosync_num_nodes.len == 2 { facts.runtime_two_node == values.expected_runtime_two_node } else if facts.corosync_num_nodes.len >= 3 { facts.runtime_two_node == values.expected_runtime_threeormore }
+    failure_message: Corosync 'two_node' value was expected to be 1 when there are 2 nodes and 0 when there 3 or more nodes but configured value is '${facts.runtime_two_node}' when there are '${facts.corosync_num_nodes.len}' number of nodes    
