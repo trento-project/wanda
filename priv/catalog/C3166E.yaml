@@ -14,6 +14,7 @@ metadata:
   target_type: cluster
   cluster_type: 
     - hana_scale_up
+    - hana_scale_out
     - ascs_ers
   provider: [azure, nutanix, kvm, vmware]
 
