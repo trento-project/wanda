@@ -25,7 +25,11 @@ Source:         %{name}-%{version}.tar.gz
 Source1:        deps.tar.gz
 Source2:        premium-checks.tar.gz
 Group:          System/Monitoring
-BuildRequires:  elixir >= 1.15, elixir-hex, erlang-rebar3, git-core, cargo-packaging, rust >= 1.66
+BuildRequires:  elixir >= 1.15
+BuildRequires:  elixir-hex
+BuildRequires:  erlang-rebar3
+BuildRequires:  git-core
+BuildRequires:  rust+cargo >= 1.66
 
 %description
 Trento is an open cloud-native web application for SAP Applications administrators.
