@@ -741,9 +741,10 @@ Examples of entries in the scope. What is actually available during the executio
 
 | name | Type | Reference
 | ---- | -----| ----------
-| `env.provider` | one of `azure`, `aws`, `gcp`,`kvm`,`nutanix`, `vmware`, `unknown` | [Providers](https://github.com/trento-project/web/blob/main/lib/trento/domain/enums/provider.ex)
-| `env.cluster_type` | one of `hana_scale_up`, `hana_scale_out`, `ascs_ers`, `unknown` | [Cluster types](https://github.com/trento-project/web/blob/main/lib/trento/domain/enums/cluster_type.ex)
+| `env.provider` | one of `azure`, `aws`, `gcp`,`kvm`,`nutanix`, `vmware`, `unknown` | [Providers](https://github.com/trento-project/web/blob/main/lib/trento/enums/provider.ex)
+| `env.cluster_type` | one of `hana_scale_up`, `hana_scale_out`, `ascs_ers`, `unknown` | [Cluster types](https://github.com/trento-project/web/blob/main/lib/trento/clusters/enums/cluster_type.ex)
 | `env.target_type` | one of `cluster`, `host` | No enum available
+| `env.architecture_type` | one of `classic`, `angi` | [Architecture types](https://github.com/trento-project/web/blob/main/lib/trento/clusters/enums/hana_architecture_type.ex)
 
 #### **facts**
 
