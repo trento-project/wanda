@@ -739,12 +739,12 @@ Scopes are namespaced and access to items in the scope is name based.
 
 Examples of entries in the scope. What is actually available during the execution depends on the scenario. Find the updated values in the reference column link.
 
-| name | Type | Reference
-| ---- | -----| ----------
-| `env.provider` | one of `azure`, `aws`, `gcp`,`kvm`,`nutanix`, `vmware`, `unknown` | [Providers](https://github.com/trento-project/web/blob/main/lib/trento/enums/provider.ex)
-| `env.cluster_type` | one of `hana_scale_up`, `hana_scale_out`, `ascs_ers`, `unknown` | [Cluster types](https://github.com/trento-project/web/blob/main/lib/trento/clusters/enums/cluster_type.ex)
-| `env.target_type` | one of `cluster`, `host` | No enum available
-| `env.architecture_type` | one of `classic`, `angi` | [Architecture types](https://github.com/trento-project/web/blob/main/lib/trento/clusters/enums/hana_architecture_type.ex)
+| name | Type | Reference | Applicable
+| ---- | -----| --------- | -----------
+| `env.target_type` | one of `cluster`, `host` | No enum available | All
+| `env.provider` | one of `azure`, `aws`, `gcp`,`kvm`,`nutanix`, `vmware`, `unknown` | [Providers](https://github.com/trento-project/web/blob/main/lib/trento/enums/provider.ex) | All
+| `env.cluster_type` | one of `hana_scale_up`, `hana_scale_out`, `ascs_ers`, `unknown` | [Cluster types](https://github.com/trento-project/web/blob/main/lib/trento/clusters/enums/cluster_type.ex) | `target_type` is `cluster`
+| `env.architecture_type` | one of `classic`, `angi` | [Architecture types](https://github.com/trento-project/web/blob/main/lib/trento/clusters/enums/hana_architecture_type.ex) | `cluster_type` is one of `hana_scale_up`, `hana_scale_out`
 
 #### **facts**
 
