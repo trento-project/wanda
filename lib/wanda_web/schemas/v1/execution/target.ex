@@ -5,18 +5,21 @@ defmodule WandaWeb.Schemas.V1.Execution.Target do
 
   require OpenApiSpex
 
-  OpenApiSpex.schema(%{
-    title: "Target",
-    description: "Target where execution facts are gathered",
-    type: :object,
-    additionalProperties: false,
-    properties: %{
-      agent_id: %Schema{type: :string, format: :uuid, description: "Agent ID"},
-      checks: %Schema{
-        type: :array,
-        items: %Schema{type: :string, description: "Check ID"}
-      }
+  OpenApiSpex.schema(
+    %{
+      title: "Target",
+      description: "Target where execution facts are gathered",
+      type: :object,
+      additionalProperties: false,
+      properties: %{
+        agent_id: %Schema{type: :string, format: :uuid, description: "Agent ID"},
+        checks: %Schema{
+          type: :array,
+          items: %Schema{type: :string, description: "Check ID"}
+        }
+      },
+      required: [:agent_id, :checks]
     },
-    required: [:agent_id, :checks]
-  })
+    struct?: false
+  )
 end

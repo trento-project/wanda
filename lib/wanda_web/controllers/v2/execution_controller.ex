@@ -117,10 +117,9 @@ defmodule WandaWeb.V2.ExecutionController do
       execution_id: execution_id,
       group_id: group_id,
       targets: targets,
-      env: env
-    } = body_params = Map.get(conn, :body_params)
-
-    target_type = Map.get(body_params, :target_type)
+      env: env,
+      target_type: target_type
+    } = OpenApiSpex.body_params(conn)
 
     with :ok <-
            execution_server_impl().start_execution(

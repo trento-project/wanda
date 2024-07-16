@@ -7,21 +7,24 @@ defmodule WandaWeb.Schemas.Health do
 
   require OpenApiSpex
 
-  OpenApiSpex.schema(%Schema{
-    title: "Health",
-    type: :object,
-    additionalProperties: false,
-    example: %{
-      database: "pass"
-    },
-    properties: %{
-      database: %Schema{
-        description: "The status of the database connection",
-        type: :string,
-        enum: ["pass", "fail"]
+  OpenApiSpex.schema(
+    %Schema{
+      title: "Health",
+      type: :object,
+      additionalProperties: false,
+      example: %{
+        database: "pass"
+      },
+      properties: %{
+        database: %Schema{
+          description: "The status of the database connection",
+          type: :string,
+          enum: ["pass", "fail"]
+        }
       }
-    }
-  })
+    },
+    struct?: false
+  )
 
   def response do
     Operation.response(

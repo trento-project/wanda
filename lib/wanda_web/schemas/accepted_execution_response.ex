@@ -10,14 +10,17 @@ defmodule WandaWeb.Schemas.AcceptedExecutionResponse do
 
   require OpenApiSpex
 
-  OpenApiSpex.schema(%{
-    title: "AcceptedExecutionResponse",
-    description: "Identifiers of the recently accepted execution",
-    type: :object,
-    additionalProperties: false,
-    properties: %{
-      execution_id: %Schema{type: :string, format: :uuid},
-      group_id: %Schema{type: :string, format: :uuid}
-    }
-  })
+  OpenApiSpex.schema(
+    %{
+      title: "AcceptedExecutionResponse",
+      description: "Identifiers of the recently accepted execution",
+      type: :object,
+      additionalProperties: false,
+      properties: %{
+        execution_id: %Schema{type: :string, format: :uuid},
+        group_id: %Schema{type: :string, format: :uuid}
+      }
+    },
+    struct?: false
+  )
 end

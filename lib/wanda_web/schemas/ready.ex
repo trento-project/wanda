@@ -7,20 +7,23 @@ defmodule WandaWeb.Schemas.Ready do
 
   require OpenApiSpex
 
-  OpenApiSpex.schema(%Schema{
-    title: "Ready",
-    type: :object,
-    additionalProperties: false,
-    example: %{
-      ready: true
-    },
-    properties: %{
-      ready: %Schema{
-        description: "Wanda platform ready",
-        type: :boolean
+  OpenApiSpex.schema(
+    %Schema{
+      title: "Ready",
+      type: :object,
+      additionalProperties: false,
+      example: %{
+        ready: true
+      },
+      properties: %{
+        ready: %Schema{
+          description: "Wanda platform ready",
+          type: :boolean
+        }
       }
-    }
-  })
+    },
+    struct?: false
+  )
 
   def response do
     Operation.response(

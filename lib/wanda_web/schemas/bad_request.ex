@@ -7,27 +7,30 @@ defmodule WandaWeb.Schemas.BadRequest do
 
   require OpenApiSpex
 
-  OpenApiSpex.schema(%{
-    title: "BadRequest",
-    type: :object,
-    additionalProperties: false,
-    properties: %{
-      errors: %Schema{
-        type: :array,
-        items: %Schema{
-          type: :object,
-          additionalProperties: false,
-          properties: %{
-            detail: %Schema{
-              type: :string,
-              example: "Invalid request payload."
-            },
-            title: %Schema{type: :string, example: "Bad Request"}
+  OpenApiSpex.schema(
+    %{
+      title: "BadRequest",
+      type: :object,
+      additionalProperties: false,
+      properties: %{
+        errors: %Schema{
+          type: :array,
+          items: %Schema{
+            type: :object,
+            additionalProperties: false,
+            properties: %{
+              detail: %Schema{
+                type: :string,
+                example: "Invalid request payload."
+              },
+              title: %Schema{type: :string, example: "Bad Request"}
+            }
           }
         }
       }
-    }
-  })
+    },
+    struct?: false
+  )
 
   def response do
     Operation.response(
