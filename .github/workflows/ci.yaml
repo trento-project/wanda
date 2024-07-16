@@ -192,6 +192,7 @@ jobs:
 
   api-bc-check:
     name: API bc check
+    if: ${{ always() }}
     needs: [elixir-deps, main-branch-deps]
     runs-on: ubuntu-20.04
     strategy:
@@ -221,7 +222,6 @@ jobs:
       - name: Generate current openapi.json
         run: |
           mix openapi.spec.json --start-app=false --spec WandaWeb.Schemas.${{ matrix.version }}.ApiSpec /tmp/specs/current-spec.json
-
       - name: Checkout main branch
         uses: actions/checkout@v4
         with:

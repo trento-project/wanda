@@ -57,7 +57,6 @@ jobs:
           hack/gh_release_to_obs_changeset.py $REPOSITORY -a shap-staff@suse.de -t $VERSION -f $FOLDER/$CHANGES_FILE
       - name: Set version
         run: |
-          git config --global --add safe.directory /__w/wanda/wanda
           VERSION=$(./hack/get_version_from_git.sh)
           # "+" character is not allowed in OBS dockerfile version strings
           VERSION=${VERSION//[+]/-}
