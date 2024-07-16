@@ -158,22 +158,24 @@ jobs:
 
   main-branch-deps:
     name: Rebuild main branch dependencies
-    if: github.ref_name != 'main'
     runs-on: ubuntu-20.04
     steps:
       - name: Checkout main branch
         uses: actions/checkout@v4
+        if: github.ref_name != 'main' # repeated on all steps to satisfy job dependency
         with:
           ref: main
       - name: Set up Elixir
         id: setup-elixir
         uses: erlef/setup-beam@v1
+        if: github.ref_name != 'main'
         with:
           version-file: .tool-versions
-          version-type: strict 
+          version-type: strict
       - name: Retrieve Cached Dependencies - main branch
         uses: actions/cache@v4
         id: mix-cache-main
+        if: github.ref_name != 'main'
         with:
           path: |
             deps
@@ -181,7 +183,7 @@ jobs:
             priv/plts
           key: ${{ runner.os }}-${{ steps.setup-elixir.outputs.otp-version }}-${{ steps.setup-elixir.outputs.elixir-version }}-${{ hashFiles('mix.lock') }}
       - name: Install missing dependencies
-        if: steps.mix-cache-main.outputs.cache-hit != 'true'
+        if: steps.mix-cache-main.outputs.cache-hit != 'true' && github.ref_name != 'main'
         run: |
           mkdir -p priv/plts
           mix local.rebar --force
@@ -192,7 +194,6 @@ jobs:
 
   api-bc-check:
     name: API bc check
-    if: ${{ always() }}
     needs: [elixir-deps, main-branch-deps]
     runs-on: ubuntu-20.04
     strategy:
