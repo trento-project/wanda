@@ -13,15 +13,15 @@ on:
 env:
   MIX_ENV: test
 
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
 jobs:
   elixir-deps:
     name: Elixir dependencies
     runs-on: ubuntu-20.04
     steps:
-      - name: Cancel Previous Runs
-        uses: styfle/cancel-workflow-action@0.12.1
-        with:
-          access_token: ${{ github.token }}
       - name: Checkout
         uses: actions/checkout@v4
         with:
@@ -73,10 +73,6 @@ jobs:
     needs: [elixir-deps, api-bc-check]
     runs-on: ubuntu-20.04
     steps:
-      - name: Cancel Previous Runs
-        uses: styfle/cancel-workflow-action@0.12.1
-        with:
-          access_token: ${{ github.token }}
       - name: Checkout
         uses: actions/checkout@v4
         with:
@@ -134,10 +130,6 @@ jobs:
         ports:
           - 5674:5672
     steps:
-      - name: Cancel Previous Runs
-        uses: styfle/cancel-workflow-action@0.12.1
-        with:
-          access_token: ${{ github.token }}
       - name: Checkout
         uses: actions/checkout@v4
         with:
@@ -166,29 +158,22 @@ jobs:
 
   main-branch-deps:
     name: Rebuild main branch dependencies
+    if: github.ref_name != 'main'
     runs-on: ubuntu-20.04
     steps:
-      - name: Cancel Previous Runs
-        uses: styfle/cancel-workflow-action@0.12.1
-        if: github.ref_name != 'main'
-        with:
-          access_token: ${{ github.token }}
       - name: Checkout main branch
         uses: actions/checkout@v4
-        if: github.ref_name != 'main'
         with:
           ref: main
       - name: Set up Elixir
         id: setup-elixir
         uses: erlef/setup-beam@v1
-        if: github.ref_name != 'main'
         with:
           version-file: .tool-versions
           version-type: strict 
       - name: Retrieve Cached Dependencies - main branch
         uses: actions/cache@v4
         id: mix-cache-main
-        if: github.ref_name != 'main'
         with:
           path: |
             deps
@@ -196,7 +181,7 @@ jobs:
             priv/plts
           key: ${{ runner.os }}-${{ steps.setup-elixir.outputs.otp-version }}-${{ steps.setup-elixir.outputs.elixir-version }}-${{ hashFiles('mix.lock') }}
       - name: Install missing dependencies
-        if: steps.mix-cache-main.outputs.cache-hit != 'true' && github.ref_name != 'main'
+        if: steps.mix-cache-main.outputs.cache-hit != 'true'
         run: |
           mkdir -p priv/plts
           mix local.rebar --force
@@ -216,10 +201,6 @@ jobs:
           - version: V2
           - version: V3
     steps:
-      - name: Cancel Previous Runs
-        uses: styfle/cancel-workflow-action@0.12.1
-        with:
-          access_token: ${{ github.token }}
       - name: Checkout current branch
         uses: actions/checkout@v4
       - name: Set up Elixir
@@ -395,148 +376,3 @@ jobs:
           github_token: ${{ secrets.GITHUB_TOKEN }}
           publish_dir: ./doc
 
-  obs-commit:
-    name: Commit the container image on OBS
-    runs-on: ubuntu-20.04
-    if: github.event_name == 'release' || (github.event_name == 'push' && github.ref_name == 'main') || github.event_name == 'workflow_dispatch'
-    needs: [static-code-analysis, test]
-    container:
-      image: ghcr.io/trento-project/continuous-delivery:main
-      env:
-        GITHUB_OAUTH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        DEST_FOLDER: "/tmp/osc_project"
-        NAME: trento-wanda-image
-        OBS_USER: ${{ secrets.OBS_USER }}
-        OBS_PASS: ${{ secrets.OBS_PASS }}
-        OBS_PROJECT: ${{ secrets.OBS_PROJECT }}
-        FOLDER: packaging/suse/container
-        REPOSITORY: ${{ github.repository }}
-      options: -u 0:0
-    steps:
-      - name: Cancel Previous Runs
-        uses: styfle/cancel-workflow-action@0.12.1
-        with:
-          access_token: ${{ github.token }}
-      - name: Checkout
-        uses: actions/checkout@v4
-      - uses: actions-ecosystem/action-get-latest-tag@v1
-        id: latest-tag
-        with:
-          semver_only: true
-          initial_version: 0.0.1
-      - name: Setup rust
-        uses: actions-rs/toolchain@v1
-        with:
-          toolchain: 1.66
-      - name: Get mix deps
-        run: mix local.hex --force && mix local.rebar --force && mix deps.clean --all && mix deps.get
-      - name: cargo vendor
-        run: |
-          cd deps/rhai_rustler/native/rhai_rustler
-          cargo vendor
-          printf '\n\n[source.crates-io]\nreplace-with = "vendored-sources"\n\n[source.vendored-sources]\ndirectory = "vendor"\n' >> .cargo/config
-      - name: Configure OSC
-        # OSC credentials must be configured beforehand as the HOME variables cannot be changed from /github/home
-        # that is used to run osc commands
-        run: |
-          mkdir -p $HOME/.config/osc
-          cp /home/osc/.config/osc/oscrc $HOME/.config/osc
-          /scripts/init_osc_creds.sh
-      - name: Prepare .changes file
-        # The .changes file is updated only in release creation. This current task should be improved
-        # in order to add the current rolling release notes
-        if: github.event_name == 'release'
-        run: |
-          CHANGES_FILE=$NAME.changes
-          osc checkout $OBS_PROJECT $NAME $CHANGES_FILE
-          mv $CHANGES_FILE $FOLDER
-          VERSION=${{ steps.latest-tag.outputs.tag }}
-          hack/gh_release_to_obs_changeset.py $REPOSITORY -a shap-staff@suse.de -t $VERSION -f $FOLDER/$CHANGES_FILE
-      - name: Set version
-        run: |
-          git config --global --add safe.directory /__w/wanda/wanda
-          VERSION=$(./hack/get_version_from_git.sh)
-          # "+" character is not allowed in OBS dockerfile version strings
-          VERSION=${VERSION//[+]/-}
-          sed -i 's~%%VERSION%%~'"${VERSION}"'~' $FOLDER/Dockerfile
-      - name: Commit on OBS
-        run: |
-          OBS_PACKAGE=$OBS_PROJECT/$NAME
-          osc checkout $OBS_PACKAGE -o $DEST_FOLDER
-          cp -r $FOLDER/* $DEST_FOLDER
-          tar --transform 's,^./,/wanda/,' -zcvf $DEST_FOLDER/wanda.tar.gz --exclude=./.git ./*
-          cd $DEST_FOLDER
-          osc ar
-          osc commit -m "New development version of $NAME released"
-
-  obs-commit-rpm:
-    name: Commit the RPM package on OBS
-    needs: [static-code-analysis, test]
-    runs-on: ubuntu-20.04
-    if: github.event_name == 'release' || (github.event_name == 'push' && github.ref_name == 'main') || github.event_name == 'workflow_dispatch'
-    container:
-      image: ghcr.io/trento-project/continuous-delivery:main
-      env:
-        OBS_USER: ${{ secrets.OBS_USER }}
-        OBS_PASS: ${{ secrets.OBS_PASS }}
-        OBS_PROJECT: ${{ secrets.OBS_PROJECT }}
-        OSC_CHECKOUT_DIR: /tmp/trento-wanda-package
-        REPOSITORY: ${{ github.repository }}
-        FOLDER: packaging/suse/rpm
-      options: -u 0:0
-    steps:
-      - name: Cancel Previous Runs
-        uses: styfle/cancel-workflow-action@0.12.1
-        with:
-          access_token: ${{ github.token }}
-      - uses: actions/checkout@v4
-        with:
-          fetch-depth: 0
-      - name: Configure OSC
-        run: |
-          mkdir -p $HOME/.config/osc
-          cp /home/osc/.config/osc/oscrc $HOME/.config/osc
-          /scripts/init_osc_creds.sh
-      - name: Prepare _service file
-        run: |
-          git config --global --add safe.directory /__w/wanda/wanda
-          VERSION=$(./hack/get_version_from_git.sh)
-          sed -i 's~%%REVISION%%~${{ github.sha }}~' $FOLDER/_service && \
-          sed -i 's~%%REPOSITORY%%~'"${REPOSITORY}"'~' $FOLDER/_service && \
-          sed -i 's~%%VERSION%%~'"${VERSION}"'~' $FOLDER/_service
-      - name: Setup rust
-        uses: actions-rs/toolchain@v1
-        with:
-          toolchain: 1.66
-      - name: Get mix deps
-        run: mix local.hex --force && mix deps.clean --all && mix deps.get
-      - name: Cargo vendor
-        run: |
-          cd deps/rhai_rustler/native/rhai_rustler
-          cargo vendor
-          printf '\n\n[source.crates-io]\nreplace-with = "vendored-sources"\n\n[source.vendored-sources]\ndirectory = "vendor"\n' >> .cargo/config
-      - name: Create deps tarball
-        run: tar -c deps | gzip -n > deps.tar.gz          
-      - name: Checkout and prepare OBS package
-        run: |
-          osc checkout $OBS_PROJECT trento-wanda -o $OSC_CHECKOUT_DIR
-          cp $FOLDER/_service $OSC_CHECKOUT_DIR
-          cp $FOLDER/trento-wanda.spec $OSC_CHECKOUT_DIR
-          rm -vf $OSC_CHECKOUT_DIR/*.tar.gz
-          pushd $OSC_CHECKOUT_DIR 
-          osc service manualrun
-          cp  /__w/wanda/wanda/deps.tar.gz .
-      - name: Prepare trento-wanda.changes file
-        # The .changes file is updated only in release creation. This current task should be improved
-        # in order to add the current rolling release notes
-        if: github.event_name == 'release'
-        run: |
-          git config --global --add safe.directory /__w/wanda/wanda
-          VERSION=$(./hack/get_version_from_git.sh)
-          TAG=$(echo $VERSION | cut -f1 -d+)
-          hack/gh_release_to_obs_changeset.py $REPOSITORY -a shap-staff@suse.de -t $TAG -f $OSC_CHECKOUT_DIR/trento-wanda.changes
-      - name: Commit changes into OBS
-        run: |
-          pushd $OSC_CHECKOUT_DIR
-          osc ar
-          osc commit -m "GitHub Actions automated update to reference ${{ github.sha }}"
