@@ -70,7 +70,7 @@ jobs:
 
   static-code-analysis:
     name: Static Code Analysis
-    needs: [elixir-deps, api-bc-check]
+    needs: [elixir-deps]
     runs-on: ubuntu-20.04
     steps:
       - name: Checkout
@@ -106,7 +106,7 @@ jobs:
 
   test:
     name: Test
-    needs: [elixir-deps, api-bc-check]
+    needs: [elixir-deps]
     runs-on: ubuntu-20.04
     services:
       postgres:
@@ -261,7 +261,7 @@ jobs:
     name: Build and push container images
     runs-on: ubuntu-20.04
     if: github.event_name == 'release' || (github.event_name == 'push' && github.ref_name == 'main') || github.event_name == 'workflow_dispatch'
-    needs: [static-code-analysis, test]
+    needs: [static-code-analysis, test, api-bc-check]
     permissions:
       contents: read
       packages: write
@@ -299,7 +299,7 @@ jobs:
     name: Build the docker image for the demo environment
     runs-on: ubuntu-20.04
     if: vars.DEPLOY_DEMO == 'true' && (github.event_name == 'release' || (github.event_name == 'push' && github.ref_name == 'main') || github.event_name == 'workflow_dispatch')
-    needs: [static-code-analysis, test]
+    needs: [static-code-analysis, test, api-bc-check]
     permissions:
       contents: read
       packages: write
