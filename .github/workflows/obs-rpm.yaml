@@ -20,7 +20,7 @@ jobs:
       env:
         OBS_USER: ${{ secrets.OBS_USER }}
         OBS_PASS: ${{ secrets.OBS_PASS }}
-        OBS_PROJECT: ${{ secrets.OBS_PROJECT }}
+        OBS_PROJECT: ${{ vars.OBS_PROJECT }}
         OSC_CHECKOUT_DIR: /tmp/trento-wanda-package
         REPOSITORY: ${{ github.repository }}
         FOLDER: packaging/suse/rpm
