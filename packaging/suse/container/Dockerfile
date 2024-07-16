@@ -14,7 +14,7 @@ LABEL org.opencontainers.image.description="Container image for Trento Wanda ser
 LABEL org.opencontainers.image.url="https://www.trento-project.io"
 LABEL org.opencontainers.image.source="https://github.com/trento-project/wanda"
 LABEL org.opencontainers.image.version="%%VERSION%%-build%RELEASE%"
-# endendlabelprefix
+# endlabelprefix
 
 ENV LANG en_US.UTF-8
 ENV LANGUAGE en_US:en
