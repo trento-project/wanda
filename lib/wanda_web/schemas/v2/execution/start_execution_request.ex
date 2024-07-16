@@ -11,45 +11,51 @@ defmodule WandaWeb.Schemas.V2.Execution.StartExecutionRequest do
   defmodule Target do
     @moduledoc false
 
-    OpenApiSpex.schema(%{
-      title: "Target",
-      description: "Target Agent on which facts gathering should happen",
+    OpenApiSpex.schema(
+      %{
+        title: "Target",
+        description: "Target Agent on which facts gathering should happen",
+        type: :object,
+        additionalProperties: false,
+        properties: %{
+          agent_id: %Schema{
+            type: :string,
+            format: :uuid,
+            description: "Target Agent identifier"
+          },
+          checks: %Schema{
+            title: "ChecksSelection",
+            description:
+              "Selection of checks to be executed on this specific target, in current execution",
+            type: :array,
+            items: %Schema{type: :string}
+          }
+        },
+        required: [:agent_id, :checks]
+      },
+      struct?: false
+    )
+  end
+
+  OpenApiSpex.schema(
+    %{
+      title: "StartExecutionRequest",
+      description: "Context to run a Check Execution",
       type: :object,
       additionalProperties: false,
       properties: %{
-        agent_id: %Schema{
-          type: :string,
-          format: :uuid,
-          description: "Target Agent identifier"
-        },
-        checks: %Schema{
-          title: "ChecksSelection",
-          description:
-            "Selection of checks to be executed on this specific target, in current execution",
+        execution_id: %Schema{type: :string, format: :uuid, description: "Execution identifier"},
+        group_id: %Schema{type: :string, format: :uuid, description: "Group Execution identifier"},
+        targets: %Schema{
+          title: "Targets",
           type: :array,
-          items: %Schema{type: :string}
-        }
+          items: Target
+        },
+        target_type: %Schema{type: :string, description: "Execution target type"},
+        env: Env
       },
-      required: [:agent_id, :checks]
-    })
-  end
-
-  OpenApiSpex.schema(%{
-    title: "StartExecutionRequest",
-    description: "Context to run a Check Execution",
-    type: :object,
-    additionalProperties: false,
-    properties: %{
-      execution_id: %Schema{type: :string, format: :uuid, description: "Execution identifier"},
-      group_id: %Schema{type: :string, format: :uuid, description: "Group Execution identifier"},
-      targets: %Schema{
-        title: "Targets",
-        type: :array,
-        items: Target
-      },
-      target_type: %Schema{type: :string, description: "Execution target type"},
-      env: Env
+      required: [:execution_id, :group_id, :targets]
     },
-    required: [:execution_id, :group_id, :targets]
-  })
+    struct?: false
+  )
 end
