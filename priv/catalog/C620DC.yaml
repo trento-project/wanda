@@ -47,18 +47,28 @@ remediation: |
 
 metadata:
   target_type: cluster
-  cluster_type: hana_scale_up
+  cluster_type: 
+    - hana_scale_up
+    - ascs_ers
 
 facts:
   - name: corosync_expected_votes
     gatherer: corosync.conf@v1
     argument: quorum.expected_votes
 
-values:
-  - name: expected_expected_votes
-    default: 2
+  - name: corosync_num_nodes
+    gatherer: corosync.conf@v1
+    argument: nodelist.node
+
+  - name: cib_num_nodes
+    gatherer: cibadmin@v1
+    argument: cib.configuration.nodes.node    
 
 expectations:
+  - name: num_nodes_equal_in_corosync_and_cib
+    expect: facts.corosync_num_nodes.len == facts.cib_num_nodes.len
+    failure_message: Number of nodes mentioned in corosync.conf is not equal to number of nodes in cib.xml
+
   - name: expected_votes
-    expect: facts.corosync_expected_votes == values.expected_expected_votes
-    failure_message: Corosync 'expected_votes' value was expected to be '${values.expected_expected_votes}' but configured value is '${facts.corosync_expected_votes}'
+    expect: facts.corosync_expected_votes == facts.corosync_num_nodes.len
+    failure_message: Corosync 'expected_votes' value was expected to be number of nodes in the cluster but configured value is '${facts.corosync_expected_votes}'
