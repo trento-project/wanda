@@ -80,5 +80,11 @@ expectations:
   
   - name: expectations_two_node
     expect: |
-     if facts.corosync_num_nodes.len == 2 { facts.runtime_two_node == values.expected_runtime_two_node } else if facts.corosync_num_nodes.len >= 3 { facts.runtime_two_node == values.expected_runtime_threeormore }
+     if facts.corosync_num_nodes.len == 2 { 
+       facts.runtime_two_node == values.expected_runtime_two_node 
+     } else if facts.corosync_num_nodes.len >= 3 { 
+       facts.runtime_two_node == values.expected_runtime_threeormore 
+     } else {
+       false
+     }
     failure_message: Corosync 'two_node' value was expected to be 1 when there are 2 nodes and 0 when there 3 or more nodes but configured value is '${facts.runtime_two_node}' when there are '${facts.corosync_num_nodes.len}' number of nodes    
