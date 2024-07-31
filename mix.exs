@@ -140,7 +140,7 @@ defmodule Wanda.MixProject do
       {:telemetry_metrics, "~> 0.6"},
       {:telemetry_poller, "~> 1.0"},
       {:plug_cowboy, "~> 2.5"},
-      {:open_api_spex, "~> 3.19.1"},
+      {:open_api_spex, "~> 3.20.1"},
       {:cors_plug, "~> 3.0"},
       {:joken, "~> 2.6.0"},
       # required overrides to upgrade to elixir 1.15.7 and erlang otp 26
