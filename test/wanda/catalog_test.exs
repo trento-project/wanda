@@ -22,7 +22,9 @@ defmodule Wanda.CatalogTest do
         catalog_path()
         |> File.ls!()
         |> Enum.sort()
-        |> Enum.filter(fn file -> file != "malformed_check.yaml" end)
+        |> Enum.filter(fn file ->
+          file != "malformed_check.yaml" and file != "malformed_file.yaml"
+        end)
 
       catalog = Catalog.get_catalog()
       assert length(valid_files) == length(catalog)
@@ -35,6 +37,17 @@ defmodule Wanda.CatalogTest do
 
         assert %Check{id: ^file_name} = check
       end)
+    end
+
+    test "should read the whole catalog and throw no errors with malformed files" do
+      files =
+        catalog_path()
+        |> File.ls!()
+        |> Enum.sort()
+
+      catalog = Catalog.get_catalog()
+
+      assert length(files) == length(catalog) + 2
     end
 
     test "should filter out checks if the when clause doesn't match" do

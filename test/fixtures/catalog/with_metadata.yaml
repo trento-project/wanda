@@ -10,6 +10,7 @@ metadata:
     - that
 description: |
   Just a check
+severity: critical
 remediation: |
   ## Remediation
   Remediation text
