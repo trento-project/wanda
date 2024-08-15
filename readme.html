@@ -4,22 +4,19 @@
     <meta charset="utf-8">
     <meta http-equiv="x-ua-compatible" content="ie=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="generator" content="ExDoc v0.31.1">
+    <meta name="generator" content="ExDoc v0.34.2">
     <meta name="project" content="Wanda v1.3.0">
 
 
     <title>Wanda — Wanda v1.3.0</title>
-    <link rel="stylesheet" href="dist/html-elixir-FM2CSD74.css" />
+    <link rel="stylesheet" href="dist/html-elixir-F2VRIOKR.css" />
 
 
     <script src="dist/handlebars.runtime-NWIB6V2M.js"></script>
-    <script src="dist/handlebars.templates-43PMFBC7.js"></script>
+    <script src="dist/handlebars.templates-K7URE6B4.js"></script>
     <script src="dist/sidebar_items-A3EFE215.js"></script>
-
-      <script src="docs_config.js"></script>
-
-    <script async src="dist/html-L4O5OK2K.js"></script>
-
+    <script src="docs_config.js"></script>
+    <script async src="dist/html-YIPIRHGU.js"></script>
 
   </head>
   <body data-type="extras" class="page-extra">
@@ -37,13 +34,11 @@
       } catch (error) { }
     </script>
 
-<div class="main">
+<div class="body-wrapper">
 
 <button id="sidebar-menu" class="sidebar-button sidebar-toggle" aria-label="toggle sidebar" aria-controls="sidebar">
   <i class="ri-menu-line ri-lg" title="Collapse/expand sidebar"></i>
 </button>
-
-<div class="background-layer"></div>
 
 <nav id="sidebar" class="sidebar">
 
@@ -93,42 +88,42 @@ GUIDES
 
 <main class="content">
   <output role="status" id="toast"></output>
-  <div class="content-outer">
-    <div id="content" class="content-inner">
-      <div class="top-search">
-        <div class="search-settings">
-          <form class="search-bar" action="search.html">
-            <label class="search-label">
-              <span class="sr-only">Search documentation of Wanda</span>
-              <input name="q" type="text" class="search-input" placeholder="Search Documentation (press /)" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" />
-            </label>
-            <button type="submit" class="search-button" aria-label="Submit Search">
-              <i class="ri-search-2-line ri-lg" aria-hidden="true" title="Submit search"></i>
-            </button>
-            <button type="button" tabindex="-1" class="search-close-button" aria-hidden="true">
-              <i class="ri-close-line ri-lg" title="Cancel search"></i>
-            </button>
-          </form>
-          <div class="autocomplete">
-          </div>
-          <button class="icon-settings display-settings">
-            <i class="ri-settings-3-line"></i>
-            <span class="sr-only">Settings</span>
+
+  <div id="content" class="content-inner">
+    <div class="top-search">
+      <div class="search-settings">
+        <form class="search-bar" action="search.html">
+          <label class="search-label">
+            <span class="sr-only">Search documentation of Wanda</span>
+            <input name="q" type="text" class="search-input" placeholder="Press / to search" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" />
+          </label>
+          <button type="submit" class="search-button" aria-label="Submit Search">
+            <i class="ri-search-2-line ri-lg" aria-hidden="true" title="Submit search"></i>
           </button>
+          <button type="button" tabindex="-1" class="search-close-button" aria-hidden="true">
+            <i class="ri-close-line ri-lg" title="Cancel search"></i>
+          </button>
+        </form>
+        <div class="autocomplete">
         </div>
-
+        <button class="icon-settings display-settings">
+          <i class="ri-settings-3-line"></i>
+          <span class="sr-only">Settings</span>
+        </button>
       </div>
+    </div>
 
-<h1>
+<div id="top-content">
+  <h1>
 
-    <a href="https://github.com/trento-project/wanda/blob/main/README.md#L1" title="View Source" class="icon-action" rel="help">
-      <i class="ri-code-s-slash-line" aria-hidden="true"></i>
-      <span class="sr-only">View Source</span>
-    </a>
+      <a href="https://github.com/trento-project/wanda/blob/main/README.md#L1" title="View Source" class="icon-action" rel="help">
+        <i class="ri-code-s-slash-line" aria-hidden="true"></i>
+        <span class="sr-only">View Source</span>
+      </a>
 
 
-  <span>Wanda</span>
-</h1>
+    <span>Wanda</span>
+  </h1>
 
 <p><a href="https://github.com/trento-project/wanda/actions/workflows/ci.yaml"><img src="https://github.com/trento-project/wanda/actions/workflows/ci.yaml/badge.svg" alt="CI"/></a>
 <a href="https://coveralls.io/github/trento-project/wanda?branch=main"><img src="https://coveralls.io/repos/github/trento-project/wanda/badge.svg?branch=main" alt="Coverage Status"/></a>
@@ -272,14 +267,14 @@ The <a href="https://github.com/trento-project/wanda/blob/main/docker-compose.ch
 </h3>
 <p>Often times knowing the returned value of the gathered facts is not a trivial thing, more during the implementation of new checks.</p><p>To better debug the fact gathering process and the returned values, the <code class="inline">facts</code> subcommand of <code class="inline">trento-agent</code> is a really useful tool. This command helps to see in the target itself what the gathered fact looks like. This is specially interesting when the returned value is a complex object or the target under test is modified and the check developer wants to see how this affects the gathered fact.</p><p>The command can be used as:</p><pre><code class="makeup elixir" translate="no"><span class="o">.</span><span class="o">/</span><span class="n">trento</span><span class="o">-</span><span class="n">agent</span><span class="w"> </span><span class="n">facts</span><span class="w"> </span><span class="n">gather</span><span class="w"> </span><span class="o">--</span><span class="n">gatherer</span><span class="w"> </span><span class="n">corosync</span><span class="o">.</span><span class="n">conf</span><span class="w"> </span><span class="o">--</span><span class="n">argument</span><span class="w"> </span><span class="n">totem</span><span class="o">.</span><span class="n">token</span><span class="w">
 </span><span class="c1"># To see the currently available gatherers and their names</span><span class="w">
-</span><span class="c1"># ./trento-agent facts list</span></code></pre><p>Which would return the next where the <code class="inline">Value</code> is the available value in the written check:</p><pre><code class="makeup elixir" translate="no"><span class="p" data-group-id="8485899969-1">{</span><span class="w">
+</span><span class="c1"># ./trento-agent facts list</span></code></pre><p>Which would return the next where the <code class="inline">Value</code> is the available value in the written check:</p><pre><code class="makeup elixir" translate="no"><span class="p" data-group-id="6458215282-1">{</span><span class="w">
   </span><span class="ss">&quot;Name&quot;</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;totem.token&quot;</span><span class="p">,</span><span class="w">
   </span><span class="ss">&quot;CheckID&quot;</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;&quot;</span><span class="p">,</span><span class="w">
-  </span><span class="ss">&quot;Value&quot;</span><span class="p">:</span><span class="w"> </span><span class="p" data-group-id="8485899969-2">{</span><span class="w">
+  </span><span class="ss">&quot;Value&quot;</span><span class="p">:</span><span class="w"> </span><span class="p" data-group-id="6458215282-2">{</span><span class="w">
     </span><span class="ss">&quot;Value&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">30000</span><span class="w">
-  </span><span class="p" data-group-id="8485899969-2">}</span><span class="p">,</span><span class="w">
+  </span><span class="p" data-group-id="6458215282-2">}</span><span class="p">,</span><span class="w">
   </span><span class="ss">&quot;Error&quot;</span><span class="p">:</span><span class="w"> </span><span class="n">null</span><span class="w">
-</span><span class="p" data-group-id="8485899969-1">}</span></code></pre><h2 id="adding-new-checks" class="section-heading">
+</span><span class="p" data-group-id="6458215282-1">}</span></code></pre><h2 id="adding-new-checks" class="section-heading">
   <a href="#adding-new-checks" class="hover-link">
     <i class="ri-link-m" aria-hidden="true"></i>
   </a>
@@ -304,7 +299,9 @@ License at</p><p><a href="https://www.apache.org/licenses/LICENSE-2.0">https://w
 under the License is distributed on an &quot;AS IS&quot; BASIS, WITHOUT WARRANTIES OR
 CONDITIONS OF ANY KIND, either express or implied. See the License for the
 specific language governing permissions and limitations under the License.</p>
-<div class="bottom-actions">
+</div>
+
+<div class="bottom-actions" id="bottom-actions">
   <div class="bottom-actions-item">
 
       <a href="api-reference.html" class="bottom-actions-button" rel="prev">
@@ -330,34 +327,33 @@ Changelog
 
   </div>
 </div>
-      <footer class="footer">
-        <p>
+    <footer class="footer">
+      <p>
 
-          <span class="line">
-            <button class="a-main footer-button display-quick-switch" title="Search HexDocs packages">
-              Search HexDocs
-            </button>
+        <span class="line">
+          <button class="a-main footer-button display-quick-switch" title="Search HexDocs packages">
+            Search HexDocs
+          </button>
 
-              <a href="Wanda.epub" title="ePub version">
-                Download ePub version
-              </a>
+            <a href="Wanda.epub" title="ePub version">
+              Download ePub version
+            </a>
 
-          </span>
-        </p>
+        </span>
+      </p>
 
-        <p class="built-using">
-          Built using
-          <a href="https://github.com/elixir-lang/ex_doc" title="ExDoc" target="_blank" rel="help noopener" translate="no">ExDoc</a> (v0.31.1) for the
+      <p class="built-using">
+        Built using
+        <a href="https://github.com/elixir-lang/ex_doc" title="ExDoc" target="_blank" rel="help noopener" translate="no">ExDoc</a> (v0.34.2) for the
 
-            <a href="https://elixir-lang.org" title="Elixir" target="_blank" translate="no">Elixir programming language</a>
+          <a href="https://elixir-lang.org" title="Elixir" target="_blank" translate="no">Elixir programming language</a>
 
-        </p>
-      </footer>
-    </div>
+      </p>
+
+    </footer>
   </div>
 </main>
 </div>
-
 
   </body>
 </html>
