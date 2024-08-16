@@ -137,7 +137,7 @@ defmodule Wanda.MixProject do
       {:phoenix_ecto, "~> 4.4"},
       {:ecto_sql, "~> 3.6"},
       {:postgrex, ">= 0.0.0"},
-      {:telemetry_metrics, "~> 0.6"},
+      {:telemetry_metrics, "~> 1.0"},
       {:telemetry_poller, "~> 1.0"},
       {:plug_cowboy, "~> 2.5"},
       {:open_api_spex, "~> 3.20.1"},
