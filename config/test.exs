@@ -27,7 +27,7 @@ config :logger, level: :warning
 # Initialize plugs at runtime for faster test compilation
 config :phoenix, :plug_init_mode, :runtime
 
-config :wanda, Wanda.Catalog, catalog_paths: ["/opt/trento-checks", "test/fixtures/catalog"]
+config :wanda, Wanda.Catalog, catalog_paths: ["/usr/share/trento/checks", "test/fixtures/catalog"]
 
 config :wanda, :messaging, adapter: Wanda.Messaging.Adapters.AMQP
 
