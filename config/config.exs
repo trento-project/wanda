@@ -21,7 +21,7 @@ config :wanda, Wanda.Messaging.Adapters.AMQP,
   ],
   processor: Wanda.Messaging.Adapters.AMQP.Processor
 
-config :wanda, Wanda.Catalog, catalog_path: "priv/catalog"
+config :wanda, Wanda.Catalog, catalog_paths: ["priv/catalog"]
 
 config :wanda, Wanda.Policy, execution_server_impl: Wanda.Executions.Server
 

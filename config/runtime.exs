@@ -96,7 +96,8 @@ if config_env() in [:prod, :demo] do
 
   # Update catalog path to the current application dir during runtime
   config :wanda, Wanda.Catalog,
-    catalog_path:
+    catalog_paths: [
+      "/usr/share/trento/checks",
       System.get_env(
         "CATALOG_PATH",
         Application.app_dir(
@@ -104,6 +105,7 @@ if config_env() in [:prod, :demo] do
           "priv/catalog"
         )
       )
+    ]
 end
 
 if config_env() === :demo do
