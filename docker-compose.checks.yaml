@@ -19,6 +19,7 @@ services:
     entrypoint: /bin/sh -c "/app/bin/wanda eval \"Wanda.Release.init()\" && /app/bin/wanda start"
     volumes:
       - ./priv/catalog/:/app/catalog:rw
+      - checks_catalog:/usr/share/trento/checks
 
   rabbitmq:
     image: rabbitmq:3.10.5-management-alpine
@@ -42,3 +43,5 @@ services:
 
 volumes:
   pg_data:
+  checks_catalog:
+
