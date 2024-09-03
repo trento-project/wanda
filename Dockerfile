@@ -26,5 +26,6 @@ ENV LANGUAGE en_US:en
 ENV LC_ALL en_US.UTF-8
 WORKDIR /app
 COPY --from=release /build/_build/$MIX_ENV/rel/wanda .
+VOLUME /usr/share/trento/checks
 EXPOSE 4000/tcp
 ENTRYPOINT ["/app/bin/wanda"]
