@@ -14,12 +14,18 @@ services:
     depends_on:
       - postgres
       - rabbitmq
+      - checks
     ports:
       - 4000:4000
     entrypoint: /bin/sh -c "/app/bin/wanda eval \"Wanda.Release.init()\" && /app/bin/wanda start"
     volumes:
       - ./priv/catalog/:/app/catalog:rw
-      - checks_catalog:/usr/share/trento/checks
+      - checks_catalog:/usr/share/trento/checks:ro
+
+  checks:
+    image: registry.opensuse.org/devel/sap/trento/factory/containers/trento/trento-checks:latest
+    volumes:
+      - checks_catalog:/usr/share/trento/checks:rw
 
   rabbitmq:
     image: rabbitmq:3.10.5-management-alpine
