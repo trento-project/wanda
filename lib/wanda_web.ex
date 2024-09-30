@@ -21,7 +21,7 @@ defmodule WandaWeb do
   def controller do
     quote do
       use Phoenix.Controller,
-        formats: [:html, :json]
+        formats: [:json]
 
       import Plug.Conn
       unquote(verified_routes())
@@ -39,7 +39,7 @@ defmodule WandaWeb do
 
   def router do
     quote do
-      use Phoenix.Router
+      use Phoenix.Router, helpers: false
 
       import Plug.Conn
       import Phoenix.Controller
