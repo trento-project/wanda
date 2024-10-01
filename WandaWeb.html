@@ -14,7 +14,7 @@
 
     <script src="dist/handlebars.runtime-NWIB6V2M.js"></script>
     <script src="dist/handlebars.templates-K7URE6B4.js"></script>
-    <script src="dist/sidebar_items-5519C061.js"></script>
+    <script src="dist/sidebar_items-5BAAF1DC.js"></script>
     <script src="docs_config.js"></script>
     <script async src="dist/html-YIPIRHGU.js"></script>
 
@@ -129,8 +129,7 @@ GUIDES
 
     <section id="moduledoc">
 <p>The entrypoint for defining your web interface, such
-as controllers, views, channels and so on.</p><p>This can be used in your application as:</p><pre><code class="makeup elixir" translate="no"><span class="kn">use</span><span class="w"> </span><span class="nc">WandaWeb</span><span class="p">,</span><span class="w"> </span><span class="ss">:controller</span><span class="w">
-</span><span class="kn">use</span><span class="w"> </span><span class="nc">WandaWeb</span><span class="p">,</span><span class="w"> </span><span class="ss">:view</span></code></pre><p>The definitions below will be executed for every view,
+as controllers, views, channels and so on.</p><p>This can be used in your application as:</p><pre><code class="makeup elixir" translate="no"><span class="kn">use</span><span class="w"> </span><span class="nc">WandaWeb</span><span class="p">,</span><span class="w"> </span><span class="ss">:controller</span></code></pre><p>The definitions below will be executed for every view,
 controller, etc, so keep them short and clean, focused
 on imports, uses and aliases.</p><p>Do NOT define functions inside the quoted expressions
 below. Instead, define any helper function in modules
@@ -187,7 +186,15 @@ and import those modules here.</p>
 
     <div class="summary-row">
       <div class="summary-signature">
-        <a href="#view/0" data-no-tooltip translate="no">view()</a>
+        <a href="#static_paths/0" data-no-tooltip translate="no">static_paths()</a>
+
+      </div>
+
+    </div>
+
+    <div class="summary-row">
+      <div class="summary-signature">
+        <a href="#verified_routes/0" data-no-tooltip translate="no">verified_routes()</a>
 
       </div>
 
@@ -215,7 +222,7 @@ and import those modules here.</p>
     </a>
     <h1 class="signature" translate="no">__using__(which)</h1>
 
-      <a href="https://github.com/trento-project/wanda/blob/main/lib/wanda_web.ex#L72" class="icon-action" rel="help" title="View Source">
+      <a href="https://github.com/trento-project/wanda/blob/main/lib/wanda_web.ex#L58" class="icon-action" rel="help" title="View Source">
        <i class="ri-code-s-slash-line" aria-hidden="true"></i>
        <span class="sr-only">View Source</span>
      </a>
@@ -239,7 +246,7 @@ and import those modules here.</p>
     </a>
     <h1 class="signature" translate="no">channel()</h1>
 
-      <a href="https://github.com/trento-project/wanda/blob/main/lib/wanda_web.ex#L53" class="icon-action" rel="help" title="View Source">
+      <a href="https://github.com/trento-project/wanda/blob/main/lib/wanda_web.ex#L49" class="icon-action" rel="help" title="View Source">
        <i class="ri-code-s-slash-line" aria-hidden="true"></i>
        <span class="sr-only">View Source</span>
      </a>
@@ -261,7 +268,7 @@ and import those modules here.</p>
     </a>
     <h1 class="signature" translate="no">controller()</h1>
 
-      <a href="https://github.com/trento-project/wanda/blob/main/lib/wanda_web.ex#L20" class="icon-action" rel="help" title="View Source">
+      <a href="https://github.com/trento-project/wanda/blob/main/lib/wanda_web.ex#L21" class="icon-action" rel="help" title="View Source">
        <i class="ri-code-s-slash-line" aria-hidden="true"></i>
        <span class="sr-only">View Source</span>
      </a>
@@ -283,7 +290,7 @@ and import those modules here.</p>
     </a>
     <h1 class="signature" translate="no">router()</h1>
 
-      <a href="https://github.com/trento-project/wanda/blob/main/lib/wanda_web.ex#L44" class="icon-action" rel="help" title="View Source">
+      <a href="https://github.com/trento-project/wanda/blob/main/lib/wanda_web.ex#L40" class="icon-action" rel="help" title="View Source">
        <i class="ri-code-s-slash-line" aria-hidden="true"></i>
        <span class="sr-only">View Source</span>
      </a>
@@ -296,16 +303,38 @@ and import those modules here.</p>
 
   </section>
 </section>
-<section class="detail" id="view/0">
+<section class="detail" id="static_paths/0">
 
   <div class="detail-header">
-    <a href="#view/0" class="detail-link" data-no-tooltip title="Link to this function">
+    <a href="#static_paths/0" class="detail-link" data-no-tooltip title="Link to this function">
       <i class="ri-link-m" aria-hidden="true"></i>
       <span class="sr-only">Link to this function</span>
     </a>
-    <h1 class="signature" translate="no">view()</h1>
+    <h1 class="signature" translate="no">static_paths()</h1>
 
-      <a href="https://github.com/trento-project/wanda/blob/main/lib/wanda_web.ex#L29" class="icon-action" rel="help" title="View Source">
+      <a href="https://github.com/trento-project/wanda/blob/main/lib/wanda_web.ex#L19" class="icon-action" rel="help" title="View Source">
+       <i class="ri-code-s-slash-line" aria-hidden="true"></i>
+       <span class="sr-only">View Source</span>
+     </a>
+
+
+  </div>
+
+  <section class="docstring">
+
+
+  </section>
+</section>
+<section class="detail" id="verified_routes/0">
+
+  <div class="detail-header">
+    <a href="#verified_routes/0" class="detail-link" data-no-tooltip title="Link to this function">
+      <i class="ri-link-m" aria-hidden="true"></i>
+      <span class="sr-only">Link to this function</span>
+    </a>
+    <h1 class="signature" translate="no">verified_routes()</h1>
+
+      <a href="https://github.com/trento-project/wanda/blob/main/lib/wanda_web.ex#L31" class="icon-action" rel="help" title="View Source">
        <i class="ri-code-s-slash-line" aria-hidden="true"></i>
        <span class="sr-only">View Source</span>
      </a>
