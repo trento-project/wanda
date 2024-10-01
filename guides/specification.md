@@ -230,20 +230,6 @@ Reports a `critical` When the Check expectations do not pass
 severity: critical
 ```
 
-#### premium
-
-A boolean determining whether the check is premium or not. It doesn't have any real impact in the check execution itself, it is only an informative field, mostly used by the web frontend.
-
-**Default:** if no premium flag is provided, the system would default to `false`
-
-Example:
-
-Sets the check as premium
-
-```yaml
-premium: true
-```
-
 #### metadata
 
 A key-value map that enriches the Check being declared by providing extra information about when to consider it as applicable given a specific [env](#env)

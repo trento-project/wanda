@@ -6,7 +6,6 @@ description: |
 remediation: |
   ## Remediation
   Remediation text
-premium: true
 facts:
   - name: jedi
     gatherer: wandalorian

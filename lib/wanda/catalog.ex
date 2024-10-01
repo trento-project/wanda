@@ -137,7 +137,6 @@ defmodule Wanda.Catalog do
        remediation: remediation,
        metadata: Map.get(check, "metadata"),
        when: Map.get(check, "when"),
-       premium: Map.get(check, "premium", false),
        severity: map_severity(check),
        facts: Enum.map(facts, &map_fact/1),
        values: map_values(check),
