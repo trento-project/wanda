@@ -1,6 +1,6 @@
 defmodule WandaWeb.V1.ExecutionJSON do
   alias Wanda.Executions.Execution
-  alias WandaWeb.V1.ExecutionJSON
+  alias WandaWeb.V2
 
   def index(%{executions: executions, total_count: total_count}) do
     %{
@@ -9,14 +9,8 @@ defmodule WandaWeb.V1.ExecutionJSON do
     }
   end
 
-  def execution(%Execution{} = execution) do
-    execution
-    |> WandaWeb.V2.ExecutionJSON.execution()
-    |> adapt_v1()
-  end
-
   def show(%{execution: execution}) do
-    ExecutionJSON.execution(execution)
+    execution(execution)
   end
 
   def start(%{
@@ -68,6 +62,12 @@ defmodule WandaWeb.V1.ExecutionJSON do
   end
 
   defp adapt_v1_agent_check_results(agent_check_results), do: agent_check_results
+
+  defp execution(%Execution{} = execution) do
+    execution
+    |> V2.ExecutionJSON.execution()
+    |> adapt_v1()
+  end
 
   defp update_expect_enum(expectations) do
     Enum.map(expectations, fn

@@ -1,6 +1,4 @@
 defmodule WandaWeb.V2.ExecutionJSON do
-  alias WandaWeb.V2.ExecutionJSON
-
   alias Wanda.Executions.Execution
 
   def index(%{executions: executions, total_count: total_count}) do
@@ -11,7 +9,7 @@ defmodule WandaWeb.V2.ExecutionJSON do
   end
 
   def show(%{execution: execution}) do
-    ExecutionJSON.execution(execution)
+    execution(execution)
   end
 
   def execution(%Execution{
