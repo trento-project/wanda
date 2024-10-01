@@ -19,15 +19,14 @@ defmodule WandaWeb.ConnCase do
 
   using do
     quote do
+      # The default endpoint for testing
+      @endpoint WandaWeb.Endpoint
+      use WandaWeb, :verified_routes
+
       # Import conveniences for testing with connections
       import Plug.Conn
       import Phoenix.ConnTest
       import WandaWeb.ConnCase
-
-      alias WandaWeb.Router.Helpers, as: Routes
-
-      # The default endpoint for testing
-      @endpoint WandaWeb.Endpoint
     end
   end
 

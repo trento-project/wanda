@@ -1,31 +1,25 @@
-defmodule WandaWeb.V2.ExecutionView do
-  use WandaWeb, :view
-
-  alias WandaWeb.V2.ExecutionView
-
+defmodule WandaWeb.V2.ExecutionJSON do
   alias Wanda.Executions.Execution
 
-  def render("index.json", %{executions: executions, total_count: total_count}) do
+  def index(%{executions: executions, total_count: total_count}) do
     %{
-      items: render_many(executions, ExecutionView, "execution.json"),
+      items: Enum.map(executions, &execution/1),
       total_count: total_count
     }
   end
 
-  def render("show.json", %{execution: execution}) do
-    render_one(execution, ExecutionView, "execution.json")
+  def show(%{execution: execution}) do
+    execution(execution)
   end
 
-  def render("execution.json", %{
-        execution: %Execution{
-          execution_id: execution_id,
-          group_id: group_id,
-          status: status,
-          result: result,
-          targets: targets,
-          started_at: started_at,
-          completed_at: completed_at
-        }
+  def execution(%Execution{
+        execution_id: execution_id,
+        group_id: group_id,
+        status: status,
+        result: result,
+        targets: targets,
+        started_at: started_at,
+        completed_at: completed_at
       }) do
     %{
       check_results: map_check_results(status, result),
@@ -43,7 +37,7 @@ defmodule WandaWeb.V2.ExecutionView do
     }
   end
 
-  def render("start.json", %{
+  def start(%{
         accepted_execution: %{
           execution_id: execution_id,
           group_id: group_id

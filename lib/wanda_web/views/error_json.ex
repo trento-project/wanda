@@ -1,6 +1,4 @@
-defmodule WandaWeb.ErrorView do
-  use WandaWeb, :view
-
+defmodule WandaWeb.ErrorJSON do
   def render("422.json", %{reason: reason}) do
     %{
       errors: [
@@ -23,7 +21,7 @@ defmodule WandaWeb.ErrorView do
     }
   end
 
-  def template_not_found(template, _assigns) do
+  def render(template, _assigns) do
     %{
       errors: [
         %{

@@ -1,13 +1,12 @@
-defmodule WandaWeb.V2.CatalogViewTest do
+defmodule WandaWeb.V2.CatalogJSONTest do
   use WandaWeb.ConnCase, async: true
 
-  import Phoenix.View
   import Wanda.Factory
 
   alias Wanda.Catalog.Check
-  alias WandaWeb.V2.CatalogView
+  alias WandaWeb.V2.CatalogJSON
 
-  describe "CatalogView" do
+  describe "CatalogJSON" do
     test "renders catalog.json" do
       checks = [
         build(:check, expectations: build_list(2, :catalog_expectation, type: :expect)),
@@ -27,7 +26,7 @@ defmodule WandaWeb.V2.CatalogViewTest do
           }
         end)
 
-      rendered_catalog = render(CatalogView, "catalog.json", catalog: checks)
+      rendered_catalog = CatalogJSON.catalog(%{catalog: checks})
 
       assert %{
                items: ^adapted_checks
@@ -50,7 +49,8 @@ defmodule WandaWeb.V2.CatalogViewTest do
                    ]
                  }
                ]
-             } = render(CatalogView, "catalog.json", catalog: checks)
+             } =
+               CatalogJSON.catalog(%{catalog: checks})
     end
   end
 end

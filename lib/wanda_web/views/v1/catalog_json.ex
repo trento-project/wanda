@@ -1,15 +1,11 @@
-defmodule WandaWeb.V1.CatalogView do
-  use WandaWeb, :view
-
-  alias WandaWeb.V1.CatalogView
-
+defmodule WandaWeb.V1.CatalogJSON do
   alias Wanda.Catalog.Check
 
-  def render("catalog.json", %{catalog: catalog}) do
-    %{items: render_many(catalog, CatalogView, "check.json", as: :check)}
+  def catalog(%{catalog: catalog}) do
+    %{items: Enum.map(catalog, &check/1)}
   end
 
-  def render("check.json", %{check: %Check{} = check}), do: adapt_v1(check)
+  def check(%Check{} = check), do: adapt_v1(check)
 
   def adapt_v1(%{expectations: expectations} = check) do
     adapted_expectations =

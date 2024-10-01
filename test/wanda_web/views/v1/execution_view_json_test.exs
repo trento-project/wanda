@@ -1,7 +1,6 @@
-defmodule WandaWeb.V2.ExecutionViewTest do
+defmodule WandaWeb.V1.ExecutionJSONTest do
   use WandaWeb.ConnCase, async: true
 
-  import Phoenix.View
   import Wanda.Factory
 
   alias Wanda.Executions.{
@@ -12,9 +11,9 @@ defmodule WandaWeb.V2.ExecutionViewTest do
     ExpectationResult
   }
 
-  alias WandaWeb.V2.ExecutionView
+  alias WandaWeb.V1.ExecutionJSON
 
-  describe "ExecutionView" do
+  describe "ExecutionJSON" do
     test "renders index.json" do
       started_at = DateTime.utc_now()
 
@@ -44,10 +43,10 @@ defmodule WandaWeb.V2.ExecutionViewTest do
                ],
                total_count: 10
              } =
-               render(ExecutionView, "index.json",
+               ExecutionJSON.index(%{
                  executions: executions,
                  total_count: 10
-               )
+               })
     end
 
     test "renders show.json for a running execution" do
@@ -72,7 +71,7 @@ defmodule WandaWeb.V2.ExecutionViewTest do
                timeout: nil,
                targets: ^targets,
                check_results: nil
-             } = render(ExecutionView, "show.json", execution: execution)
+             } = ExecutionJSON.show(%{execution: execution})
     end
 
     test "renders show.json for a completed execution" do
@@ -137,7 +136,7 @@ defmodule WandaWeb.V2.ExecutionViewTest do
                  %{"check_id" => "check_3"},
                  %{"check_id" => "check_4"}
                ]
-             } = render(ExecutionView, "show.json", execution: execution)
+             } = ExecutionJSON.show(%{execution: execution})
     end
 
     test "renders show.json stripping nil failure_message keys" do
@@ -221,7 +220,7 @@ defmodule WandaWeb.V2.ExecutionViewTest do
             ]
           }
         ]
-      } = render(ExecutionView, "show.json", execution: execution)
+      } = ExecutionJSON.show(%{execution: execution})
 
       Enum.each(critical_expectation_evaluations, fn
         %{
@@ -247,15 +246,46 @@ defmodule WandaWeb.V2.ExecutionViewTest do
                "result" => passing_expectation_result
              }
     end
+  end
 
-    test "renders start.json with a payload" do
-      execution_id = UUID.uuid4()
-      group_id = UUID.uuid4()
+  describe "adapt to V1 version" do
+    test "should set expect_enum expectations to unknown" do
+      agents_check_results =
+        build_list(
+          1,
+          :agent_check_result,
+          expectation_evaluations: build_list(1, :expectation_evaluation, type: :expect_enum)
+        )
 
-      assert %{execution_id: execution_id, group_id: group_id} ==
-               ExecutionView.render("start.json", %{
-                 accepted_execution: %{execution_id: execution_id, group_id: group_id}
-               })
+      expectation_results = build_list(1, :expectation_result, type: :expect_enum)
+
+      check_results =
+        build_list(1, :check_result,
+          agents_check_results: agents_check_results,
+          expectation_results: expectation_results
+        )
+
+      result = build(:result, check_results: check_results)
+
+      execution =
+        :execution
+        |> build(
+          result: result,
+          completed_at: DateTime.utc_now(),
+          status: :completed
+        )
+        |> insert(returning: true)
+
+      assert %{
+               check_results: [
+                 %{
+                   "agents_check_results" => [
+                     %{"expectation_evaluations" => [%{"type" => "unknown"}]}
+                   ],
+                   "expectation_results" => [%{"type" => "unknown"}]
+                 }
+               ]
+             } = ExecutionJSON.show(%{execution: execution})
     end
   end
 end

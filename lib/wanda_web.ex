@@ -6,7 +6,6 @@ defmodule WandaWeb do
   This can be used in your application as:
 
       use WandaWeb, :controller
-      use WandaWeb, :view
 
   The definitions below will be executed for every view,
   controller, etc, so keep them short and clean, focused
@@ -17,33 +16,30 @@ defmodule WandaWeb do
   and import those modules here.
   """
 
+  def static_paths, do: ~w(assets fonts images favicon.ico robots.txt)
+
   def controller do
     quote do
-      use Phoenix.Controller, namespace: WandaWeb
+      use Phoenix.Controller,
+        formats: [:json]
 
       import Plug.Conn
-      alias WandaWeb.Router.Helpers, as: Routes
+      unquote(verified_routes())
     end
   end
 
-  def view do
+  def verified_routes do
     quote do
-      use Phoenix.View,
-        root: "lib/wanda_web/templates",
-        namespace: WandaWeb
-
-      # Import convenience functions from controllers
-      import Phoenix.Controller,
-        only: [get_flash: 1, get_flash: 2, view_module: 1, view_template: 1]
-
-      # Include shared imports and aliases for views
-      unquote(view_helpers())
+      use Phoenix.VerifiedRoutes,
+        endpoint: WandaWeb.Endpoint,
+        router: WandaWeb.Router,
+        statics: WandaWeb.static_paths()
     end
   end
 
   def router do
     quote do
-      use Phoenix.Router
+      use Phoenix.Router, helpers: false
 
       import Plug.Conn
       import Phoenix.Controller
@@ -53,16 +49,6 @@ defmodule WandaWeb do
   def channel do
     quote do
       use Phoenix.Channel
-    end
-  end
-
-  defp view_helpers do
-    quote do
-      # Import basic rendering functionality (render, render_layout, etc)
-      import Phoenix.View
-
-      import WandaWeb.ErrorHelpers
-      alias WandaWeb.Router.Helpers, as: Routes
     end
   end
 

@@ -33,7 +33,10 @@ config :wanda,
 # Configures the endpoint
 config :wanda, WandaWeb.Endpoint,
   url: [host: "localhost"],
-  render_errors: [view: WandaWeb.ErrorView, accepts: ~w(json), layout: false],
+  render_errors: [
+    formats: [json: WandaWeb.ErrorJSON],
+    layout: false
+  ],
   live_view: [signing_salt: "j6kcshS4"]
 
 config :cors_plug,

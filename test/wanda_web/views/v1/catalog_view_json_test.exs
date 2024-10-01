@@ -1,13 +1,12 @@
-defmodule WandaWeb.V1.CatalogViewTest do
+defmodule WandaWeb.V1.CatalogJSONTest do
   use WandaWeb.ConnCase, async: true
 
-  import Phoenix.View
   import Wanda.Factory
 
   alias Wanda.Catalog.Check
-  alias WandaWeb.V1.CatalogView
+  alias WandaWeb.V1.CatalogJSON
 
-  describe "CatalogView" do
+  describe "CatalogJSON" do
     test "renders catalog.json" do
       checks = [
         build(:check, expectations: build_list(2, :catalog_expectation, type: :expect)),
@@ -27,7 +26,7 @@ defmodule WandaWeb.V1.CatalogViewTest do
           }
         end)
 
-      rendered_catalog = render(CatalogView, "catalog.json", catalog: checks)
+      rendered_catalog = CatalogJSON.catalog(%{catalog: checks})
 
       assert %{
                items: ^adapted_checks
@@ -50,7 +49,7 @@ defmodule WandaWeb.V1.CatalogViewTest do
                    ]
                  }
                ]
-             } = render(CatalogView, "catalog.json", catalog: checks)
+             } = CatalogJSON.catalog(%{catalog: checks})
     end
 
     test "should remove warning_message in check expectations" do
@@ -59,7 +58,7 @@ defmodule WandaWeb.V1.CatalogViewTest do
       %{
         items: [%Check{expectations: [expectation | _rest_expectations]}]
       } =
-        render(CatalogView, "catalog.json", catalog: checks)
+        CatalogJSON.catalog(%{catalog: checks})
 
       refute Map.has_key?(expectation, :warning_message)
     end

@@ -20,7 +20,7 @@ defmodule WandaWeb.Plugs.ApiRedirector do
 
   alias Phoenix.Controller
 
-  alias WandaWeb.ErrorView
+  alias WandaWeb.ErrorJSON
 
   @impl true
   def init(opts) do
@@ -45,7 +45,7 @@ defmodule WandaWeb.Plugs.ApiRedirector do
       nil ->
         conn
         |> put_resp_content_type("application/json")
-        |> resp(:not_found, Jason.encode!(ErrorView.render("404.json", %{detail: "Not found"})))
+        |> resp(:not_found, Jason.encode!(ErrorJSON.render("404.json", %{detail: "Not found"})))
         |> halt()
 
       versioned_path ->
