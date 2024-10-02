@@ -3,7 +3,6 @@ defmodule WandaWeb.V1.CatalogJSONTest do
 
   import Wanda.Factory
 
-  alias Wanda.Catalog.Check
   alias WandaWeb.V1.CatalogJSON
 
   describe "CatalogJSON" do
@@ -14,7 +13,7 @@ defmodule WandaWeb.V1.CatalogJSONTest do
       ]
 
       adapted_checks =
-        Enum.map(checks, fn %Check{expectations: expectations} = check ->
+        Enum.map(checks, fn %{expectations: expectations} = check ->
           %{
             check
             | expectations:
@@ -24,6 +23,8 @@ defmodule WandaWeb.V1.CatalogJSONTest do
                   |> Map.drop([:warning_message])
                 end)
           }
+          |> Map.from_struct()
+          |> Map.put(:premium, false)
         end)
 
       rendered_catalog = CatalogJSON.catalog(%{catalog: checks})
@@ -56,7 +57,7 @@ defmodule WandaWeb.V1.CatalogJSONTest do
       checks = build_list(1, :check)
 
       %{
-        items: [%Check{expectations: [expectation | _rest_expectations]}]
+        items: [%{expectations: [expectation | _rest_expectations]}]
       } =
         CatalogJSON.catalog(%{catalog: checks})
 
