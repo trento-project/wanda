@@ -126,7 +126,8 @@ defmodule WandaWeb.Schemas.V1.Catalog.Check do
         :facts,
         :values,
         :expectations,
-        :when
+        :when,
+        :premium
       ]
     },
     struct?: false
