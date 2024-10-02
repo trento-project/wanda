@@ -117,7 +117,8 @@ defmodule WandaWeb.Schemas.V3.Catalog.Check do
         },
         premium: %Schema{
           type: :boolean,
-          description: "Check is Premium or not"
+          description: "Check is Premium or not",
+          deprecated: true
         }
       },
       required: [

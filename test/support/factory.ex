@@ -36,8 +36,7 @@ defmodule Wanda.Factory do
       facts: build_list(10, :catalog_fact),
       values: build_list(10, :catalog_value),
       expectations: build_list(10, :catalog_expectation),
-      when: Faker.Lorem.sentence(),
-      premium: Enum.random([false, true])
+      when: Faker.Lorem.sentence()
     }
   end
 
