@@ -10,6 +10,8 @@ defmodule Wanda.Operations.Server do
 
   alias Wanda.Messaging
 
+  alias Wanda.EvaluationEngine
+
   require Logger
 
   @default_timeout 5 * 60 * 1_000
@@ -72,6 +74,8 @@ defmodule Wanda.Operations.Server do
           targets: targets
         } = state
       ) do
+    engine = EvaluationEngine.new()
+
     operation_started =
       Messaging.Mapper.to_operation_started(operation_id, group_id, operation_type, targets)
 
@@ -81,7 +85,10 @@ defmodule Wanda.Operations.Server do
     # Handle timeout
     # Process.send_after(self(), :timeout, timeout)
 
-    state = initialize_report_results(state)
+    state =
+      state
+      |> Map.put(:engine, engine)
+      |> initialize_report_results()
 
     {:noreply, state, {:continue, :execute_step}}
   end
@@ -105,9 +112,9 @@ defmodule Wanda.Operations.Server do
       %State{pending_targets_on_step: pending_targets} =
       state
       |> predicate_targets_execution(predicate)
-      |> maybe_increase_current_step()
       |> maybe_save_skipped_operation_state()
       |> maybe_request_operation_execution(operator)
+      |> maybe_increase_current_step()
 
     if pending_targets == [] do
       {:noreply, state, {:continue, :execute_step}}
@@ -263,13 +270,14 @@ defmodule Wanda.Operations.Server do
 
   defp predicate_targets_execution(
          %State{
+           engine: engine,
            targets: targets
          } = state,
          predicate
        ) do
     pending_targets =
       Enum.reduce(targets, [], fn %{agent_id: agent_id, arguments: arguments}, acc ->
-        if predicate_is_met(predicate, arguments) do
+        if predicate_is_met(engine, predicate, arguments) do
           [agent_id | acc]
         else
           acc
@@ -279,8 +287,17 @@ defmodule Wanda.Operations.Server do
     %State{state | pending_targets_on_step: pending_targets}
   end
 
-  defp predicate_is_met("*", _), do: true
-  defp predicate_is_met(_predicate, _arguments), do: false
+  defp predicate_is_met(_, "*", _), do: true
+
+  defp predicate_is_met(engine, predicate, arguments) do
+    case EvaluationEngine.eval(engine, predicate, arguments) do
+      {:ok, true} ->
+        true
+
+      _ ->
+        false
+    end
+  end
 
   defp maybe_increase_current_step(
          %State{pending_targets_on_step: [], current_step_index: index} = state
@@ -312,7 +329,8 @@ defmodule Wanda.Operations.Server do
            operation_id: operation_id,
            group_id: group_id,
            current_step_index: step_number,
-           targets: targets
+           targets: targets,
+           pending_targets_on_step: pending_agents
          } = state,
          operator
        ) do
@@ -322,7 +340,7 @@ defmodule Wanda.Operations.Server do
         group_id,
         step_number,
         operator,
-        targets
+        Enum.filter(targets, fn %{agent_id: agent_id} -> agent_id in pending_agents end)
       )
 
     # :ok = Messaging.publish("agents", operator_execution_requested)
@@ -367,10 +385,11 @@ defmodule Wanda.Operations.Server do
     |> elem(0)
   end
 
-  defp result_weight(:failed), do: 3
-  defp result_weight(:rolled_back), do: 2
-  defp result_weight(:updated), do: 1
-  defp result_weight(:not_updated), do: 0
+  defp result_weight(:failed), do: 4
+  defp result_weight(:rolled_back), do: 3
+  defp result_weight(:updated), do: 2
+  defp result_weight(:not_updated), do: 1
+  defp result_weight(:skipped), do: 0
 
   defp publish(queue, message) do
     Logger.info("Publish message in #{queue}, #{inspect(message)}")
