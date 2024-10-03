@@ -8,6 +8,11 @@ defmodule Wanda.Policy do
     FactsGathered
   }
 
+  alias Trento.Operations.V1.{
+    OperationExecutionCompleted,
+    OperationRequested
+  }
+
   alias Wanda.Messaging.Mapper
 
   require Logger
@@ -53,6 +58,43 @@ defmodule Wanda.Policy do
     )
   end
 
+  defp handle(%OperationRequested{} = message) do
+    %{
+      operation_id: operation_id,
+      group_id: group_id,
+      operation_type: operation_type,
+      targets: targets
+    } = Mapper.from_operation_requested(message)
+
+    operation_server_impl().start_operation(
+      operation_id,
+      group_id,
+      operation_type,
+      targets
+    )
+  end
+
+  defp handle(%OperationExecutionCompleted{} = message) do
+    %{
+      operation_id: operation_id,
+      group_id: group_id,
+      step_number: step_number,
+      agent_id: agent_id,
+      operation_result: operation_result
+    } = Mapper.from_operation_execution_completed(message)
+
+    operation_server_impl().receive_operation_reports(
+      operation_id,
+      group_id,
+      step_number,
+      agent_id,
+      operation_result
+    )
+  end
+
   defp execution_server_impl,
     do: Application.fetch_env!(:wanda, Wanda.Policy)[:execution_server_impl]
+
+  defp operation_server_impl,
+    do: Application.fetch_env!(:wanda, Wanda.Policy)[:operation_server_impl]
 end
