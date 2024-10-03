@@ -6,6 +6,7 @@ defmodule Wanda.Operations.State do
   alias Wanda.Operations.{Operation, OperationTarget}
 
   defstruct [
+    :engine,
     :operation_id,
     :group_id,
     :operation,
@@ -17,6 +18,7 @@ defmodule Wanda.Operations.State do
   ]
 
   @type t :: %__MODULE__{
+          engine: Rhai.Engine.t(),
           operation_id: String.t(),
           group_id: String.t(),
           operation: Operation.t(),
