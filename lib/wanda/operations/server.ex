@@ -49,7 +49,8 @@ defmodule Wanda.Operations.Server do
         operation: Keyword.fetch!(opts, :operation),
         targets: Keyword.fetch!(opts, :targets),
         timeout: Keyword.get(config, :timeout, @default_timeout),
-        current_step_index: 0
+        current_step_index: 0,
+        step_failed: false
       },
       name: via_tuple(group_id)
     )
@@ -91,6 +92,39 @@ defmodule Wanda.Operations.Server do
       |> initialize_report_results()
 
     {:noreply, state, {:continue, :execute_step}}
+  end
+
+  @impl true
+  def handle_continue(
+        :execute_step,
+        %State{
+          operation_id: operation_id,
+          group_id: group_id,
+          operation: %Operation{
+            id: operation_type
+          },
+          step_failed: true,
+          agent_reports: agent_reports
+        } = state
+      ) do
+    Logger.debug("Last step failed in some agent. Stopping operation", state: inspect(state))
+    # Maybe start operation rollback?
+
+    evaluated_result = evaluate_result(agent_reports)
+
+    # Store and publish reports
+    operation_completed =
+      Messaging.Mapper.to_operation_completed(
+        operation_id,
+        group_id,
+        operation_type,
+        evaluated_result
+      )
+
+    # :ok = Messaging.publish("results", operation_completed)
+    :ok = publish("results", operation_completed)
+
+    {:stop, :normal, state}
   end
 
   @impl true
@@ -172,8 +206,9 @@ defmodule Wanda.Operations.Server do
 
     state =
       %State{state | pending_targets_on_step: pending_targets}
-      |> maybe_increase_current_step()
       |> update_report_results(step_number, agent_id, operation_result)
+      |> maybe_set_step_failed(operation_result)
+      |> maybe_increase_current_step()
 
     if pending_targets == [] do
       {:noreply, state, {:continue, :execute_step}}
@@ -202,24 +237,6 @@ defmodule Wanda.Operations.Server do
     Logger.error("Operation #{operation_id} does not match for group #{group_id}")
 
     {:noreply, state}
-  end
-
-  defp get_operation(_) do
-    %Operation{
-      id: "abcdef",
-      name: "saptune solution",
-      required_args: ["solution"],
-      steps: [
-        %OperationStep{
-          operator: "saptune solution",
-          predicate: "*"
-        },
-        %OperationStep{
-          operator: "saptune solution 2",
-          predicate: "*"
-        }
-      ]
-    }
   end
 
   defp maybe_start_operation(false, _, _, _, _, _), do: {:error, :arguments_missing}
@@ -299,13 +316,6 @@ defmodule Wanda.Operations.Server do
     end
   end
 
-  defp maybe_increase_current_step(
-         %State{pending_targets_on_step: [], current_step_index: index} = state
-       ),
-       do: %State{state | current_step_index: index + 1}
-
-  defp maybe_increase_current_step(state), do: state
-
   defp maybe_save_skipped_operation_state(
          %State{
            targets: targets,
@@ -349,6 +359,13 @@ defmodule Wanda.Operations.Server do
     state
   end
 
+  defp maybe_increase_current_step(
+         %State{pending_targets_on_step: [], current_step_index: index} = state
+       ),
+       do: %State{state | current_step_index: index + 1}
+
+  defp maybe_increase_current_step(state), do: state
+
   defp update_report_results(
          %State{agent_reports: current_agent_reports} = state,
          step_number,
@@ -375,6 +392,12 @@ defmodule Wanda.Operations.Server do
     %State{state | agent_reports: updated_agent_reports}
   end
 
+  # this should check the response type
+  defp maybe_set_step_failed(state, result) when result in [:failed, :rolled_back],
+    do: %State{state | step_failed: true}
+
+  defp maybe_set_step_failed(state, _), do: state
+
   defp evaluate_result(agent_reports) do
     agent_reports
     |> Enum.flat_map(fn %{agents: agents} ->
@@ -390,6 +413,10 @@ defmodule Wanda.Operations.Server do
   defp result_weight(:updated), do: 2
   defp result_weight(:not_updated), do: 1
   defp result_weight(:skipped), do: 0
+  defp result_weight(:not_executed), do: 0
+
+  defp via_tuple(group_id),
+    do: {:via, :global, {__MODULE__, group_id}}
 
   defp publish(queue, message) do
     Logger.info("Publish message in #{queue}, #{inspect(message)}")
@@ -398,6 +425,21 @@ defmodule Wanda.Operations.Server do
     :ok
   end
 
-  defp via_tuple(group_id),
-    do: {:via, :global, {__MODULE__, group_id}}
+  defp get_operation(_) do
+    %Operation{
+      id: "abcdef",
+      name: "saptune solution",
+      required_args: ["solution"],
+      steps: [
+        %OperationStep{
+          operator: "saptune solution",
+          predicate: "*"
+        },
+        %OperationStep{
+          operator: "saptune solution 2",
+          predicate: "isPrimary == true"
+        }
+      ]
+    }
+  end
 end
