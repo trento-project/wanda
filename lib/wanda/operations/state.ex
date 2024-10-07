@@ -14,7 +14,8 @@ defmodule Wanda.Operations.State do
     targets: [],
     pending_targets_on_step: [],
     current_step_index: 0,
-    agent_reports: %{}
+    agent_reports: %{},
+    step_failed: false
   ]
 
   @type t :: %__MODULE__{
@@ -26,6 +27,7 @@ defmodule Wanda.Operations.State do
           targets: [OperationTarget.t()],
           pending_targets_on_step: [String.t()],
           current_step_index: integer(),
+          step_failed: boolean(),
           timeout: integer()
         }
 end

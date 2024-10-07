@@ -223,6 +223,7 @@ defmodule Wanda.Messaging.Mapper do
   defp map_operation_result(:updated), do: :UPDATED
   defp map_operation_result(:not_updated), do: :NOT_UPDATED
   defp map_operation_result(:skipped), do: :NOT_UPDATED
+  defp map_operation_result(:failed), do: :FAILED
 
   defp map_gathered_fact(check_id, name, {:error_value, %{type: type, message: message}}),
     do: %FactError{check_id: check_id, name: name, type: type, message: message}
