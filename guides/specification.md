@@ -731,6 +731,8 @@ Examples of entries in the scope. What is actually available during the executio
 | `env.provider` | one of `azure`, `aws`, `gcp`,`kvm`,`nutanix`, `vmware`, `unknown` | [Providers](https://github.com/trento-project/web/blob/main/lib/trento/enums/provider.ex) | All
 | `env.cluster_type` | one of `hana_scale_up`, `hana_scale_out`, `ascs_ers`, `unknown` | [Cluster types](https://github.com/trento-project/web/blob/main/lib/trento/clusters/enums/cluster_type.ex) | `target_type` is `cluster`
 | `env.architecture_type` | one of `classic`, `angi` | [Architecture types](https://github.com/trento-project/web/blob/main/lib/trento/clusters/enums/hana_architecture_type.ex) | `cluster_type` is one of `hana_scale_up`, `hana_scale_out`
+| `env.ensa_version` | one of `ensa1`, `ensa2`, `mixed_versions` | [ENSA version](https://github.com/trento-project/web/blob/main/lib/trento/clusters/enums/cluster_ensa_version.ex) | `cluster_type` is `ascs_ers`
+| `env.filesystem_type` | one of `resource_managed`, `simple_mount`, `mixed_fs_types` | [Filesystem type](https://github.com/trento-project/web/blob/main/lib/trento/clusters/enums/filesystem_type.ex) | `cluster_type` is `ascs_ers`
 
 #### **facts**
 
