@@ -27,6 +27,10 @@
     "remediation": {
       "type": "string"
     },
+    "premium": {
+      "type": "boolean",
+      "deprecated": true
+    },
     "facts": {
       "type": "array",
       "items": {
