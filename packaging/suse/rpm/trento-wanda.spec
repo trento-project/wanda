@@ -23,13 +23,13 @@ License:        Apache-2.0
 URL:            https://github.com/trento-project/wanda
 Source:         %{name}-%{version}.tar.gz
 Source1:        deps.tar.gz
-Source2:        premium-checks.tar.gz
 Group:          System/Monitoring
 BuildRequires:  elixir >= 1.15
 BuildRequires:  elixir-hex
 BuildRequires:  erlang-rebar3
 BuildRequires:  git-core
 BuildRequires:  rust+cargo >= 1.66
+Requires:       trento-checks
 
 %description
 Trento is an open cloud-native web application for SAP Applications administrators.
@@ -38,14 +38,6 @@ Within Trento, Wanda is the service responsible to orchestrate Checks executions
 
 %prep
 %autosetup -a1
-
-# Check if premium-checks are present
-if [ -f %{SOURCE2} ]; then
-    tar -xzf %{SOURCE2}
-else
-    echo "Optional premium checks are not available."
-    tar -cf %{SOURCE2} -T /dev/null
-fi
 
 %build
 export LANG=en_US.UTF-8
