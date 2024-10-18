@@ -6,8 +6,7 @@
 #!ExclusiveArch: x86_64
 
 FROM bci/rust:1.66 AS release
-ADD wanda.tar.gz premium-checks.tar.gz* /build/
-RUN mv /build/priv/catalog/* /build/wanda/priv/catalog || true && rm -fr /build/priv/
+ADD wanda.tar.gz /build/
 # Workaround for https://github.com/openSUSE/obs-build/issues/487
 RUN zypper --non-interactive in sles-release
 RUN zypper -n in git-core elixir>=1.15 elixir-hex erlang-rebar3
