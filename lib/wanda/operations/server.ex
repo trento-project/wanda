@@ -420,7 +420,8 @@ defmodule Wanda.Operations.Server do
 
   defp publish(queue, message) do
     Logger.info("Publish message in #{queue}, #{inspect(message)}")
-    Messaging.publish(queue, message)
+    # Messaging.publish(queue, message)
+    Messaging.publish_signed(queue, message)
 
     :ok
   end

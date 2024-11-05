@@ -118,10 +118,13 @@ defmodule Wanda.MixProject do
       {:gen_rmq, "~> 4.0"},
       {:jason, "~> 1.3"},
       {:yaml_elixir, "~> 2.9"},
-      {:trento_contracts,
-       github: "trento-project/contracts",
-       sparse: "elixir",
-       ref: "36efbe7e650bb20e7de6a2ca96aac2a1b70536c9"},
+      {
+        :trento_contracts,
+        #  github: "trento-project/contracts",
+        #  sparse: "elixir",
+        #  ref: "36efbe7e650bb20e7de6a2ca96aac2a1b70536c9"},
+        path: "../contracts/elixir"
+      },
       {:unplug, "~> 1.1.0"},
       # test deps
       {:ex_doc, "~> 0.29", only: [:dev, :test], runtime: false},

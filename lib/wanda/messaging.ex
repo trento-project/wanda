@@ -8,6 +8,11 @@ defmodule Wanda.Messaging do
     adapter().publish(topic, message)
   end
 
+  @spec publish_signed(String.t(), any()) :: :ok | {:error, any()}
+  def publish_signed(topic, message) do
+    adapter().publish_signed(topic, message)
+  end
+
   defp adapter,
     do: Application.fetch_env!(:wanda, :messaging)[:adapter]
 end
