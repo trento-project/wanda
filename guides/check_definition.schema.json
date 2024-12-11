@@ -56,6 +56,7 @@
     "group",
     "description",
     "remediation",
+    "metadata",
     "facts",
     "expectations"
   ],
