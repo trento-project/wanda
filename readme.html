@@ -14,7 +14,7 @@
 
     <script src="dist/handlebars.runtime-NWIB6V2M.js"></script>
     <script src="dist/handlebars.templates-K7URE6B4.js"></script>
-    <script src="dist/sidebar_items-E7DE1AA9.js"></script>
+    <script src="dist/sidebar_items-AD71CA39.js"></script>
     <script src="docs_config.js"></script>
     <script async src="dist/html-YIPIRHGU.js"></script>
 
@@ -267,14 +267,14 @@ The <a href="https://github.com/trento-project/wanda/blob/main/docker-compose.ch
 </h3>
 <p>Often times knowing the returned value of the gathered facts is not a trivial thing, more during the implementation of new checks.</p><p>To better debug the fact gathering process and the returned values, the <code class="inline">facts</code> subcommand of <code class="inline">trento-agent</code> is a really useful tool. This command helps to see in the target itself what the gathered fact looks like. This is specially interesting when the returned value is a complex object or the target under test is modified and the check developer wants to see how this affects the gathered fact.</p><p>The command can be used as:</p><pre><code class="makeup elixir" translate="no"><span class="o">.</span><span class="o">/</span><span class="n">trento</span><span class="o">-</span><span class="n">agent</span><span class="w"> </span><span class="n">facts</span><span class="w"> </span><span class="n">gather</span><span class="w"> </span><span class="o">--</span><span class="n">gatherer</span><span class="w"> </span><span class="n">corosync</span><span class="o">.</span><span class="n">conf</span><span class="w"> </span><span class="o">--</span><span class="n">argument</span><span class="w"> </span><span class="n">totem</span><span class="o">.</span><span class="n">token</span><span class="w">
 </span><span class="c1"># To see the currently available gatherers and their names</span><span class="w">
-</span><span class="c1"># ./trento-agent facts list</span></code></pre><p>Which would return the next where the <code class="inline">Value</code> is the available value in the written check:</p><pre><code class="makeup elixir" translate="no"><span class="p" data-group-id="6637879158-1">{</span><span class="w">
+</span><span class="c1"># ./trento-agent facts list</span></code></pre><p>Which would return the next where the <code class="inline">Value</code> is the available value in the written check:</p><pre><code class="makeup elixir" translate="no"><span class="p" data-group-id="2093467806-1">{</span><span class="w">
   </span><span class="ss">&quot;Name&quot;</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;totem.token&quot;</span><span class="p">,</span><span class="w">
   </span><span class="ss">&quot;CheckID&quot;</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;&quot;</span><span class="p">,</span><span class="w">
-  </span><span class="ss">&quot;Value&quot;</span><span class="p">:</span><span class="w"> </span><span class="p" data-group-id="6637879158-2">{</span><span class="w">
+  </span><span class="ss">&quot;Value&quot;</span><span class="p">:</span><span class="w"> </span><span class="p" data-group-id="2093467806-2">{</span><span class="w">
     </span><span class="ss">&quot;Value&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">30000</span><span class="w">
-  </span><span class="p" data-group-id="6637879158-2">}</span><span class="p">,</span><span class="w">
+  </span><span class="p" data-group-id="2093467806-2">}</span><span class="p">,</span><span class="w">
   </span><span class="ss">&quot;Error&quot;</span><span class="p">:</span><span class="w"> </span><span class="n">null</span><span class="w">
-</span><span class="p" data-group-id="6637879158-1">}</span></code></pre><h2 id="adding-new-checks" class="section-heading">
+</span><span class="p" data-group-id="2093467806-1">}</span></code></pre><h2 id="adding-new-checks" class="section-heading">
   <a href="#adding-new-checks" class="hover-link">
     <i class="ri-link-m" aria-hidden="true"></i>
   </a>
