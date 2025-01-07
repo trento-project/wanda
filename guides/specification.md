@@ -126,7 +126,7 @@ Following are listed the top level properties of a Check definition yaml.
 
 #### id
 
-Uniquely identifies a Check in the Catalog
+Uniquely identifies a Check in the Catalog. The value must be a hexadecimal number formatted as string using quotes.
 
 ie:
 
