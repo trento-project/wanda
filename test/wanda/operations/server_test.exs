@@ -97,6 +97,33 @@ defmodule Wanda.Operations.ServerTest do
       end
     end
 
+    test "should not start opeartion if it is already running for that group_id" do
+      group_id = UUID.uuid4()
+
+      {:ok, _pid} =
+        start_supervised(
+          {Server,
+           [
+             operation_id: UUID.uuid4(),
+             group_id: group_id,
+             operation: build(:operation),
+             targets: build_list(2, :operation_target),
+             timeout: 5,
+             current_step_index: 0,
+             step_failed: false
+           ]}
+        )
+
+      assert {:error, :already_running} =
+               Server.start_operation(
+                 UUID.uuid4(),
+                 group_id,
+                 build(:operation),
+                 build_list(2, :operation_target),
+                 []
+               )
+    end
+
     test "should start operation" do
       group_id = UUID.uuid4()
       operation = build(:operation)
@@ -212,14 +239,11 @@ defmodule Wanda.Operations.ServerTest do
              } = new_state
     end
 
-    test "should request operation" do
-      operation =
-        build(:operation, steps: build_list(1, :operation_step, predicate: "*"))
-
+    test "should request operation", %{engine: engine} do
       pending_agent_id = UUID.uuid4()
 
       state = %State{
-        operation: operation,
+        engine: engine,
         current_step_index: 0,
         pending_targets_on_step: [pending_agent_id],
         targets: build_list(1, :operation_target, agent_id: pending_agent_id),
@@ -231,11 +255,20 @@ defmodule Wanda.Operations.ServerTest do
         ]
       }
 
-      assert {:noreply, ^state} =
-               Server.handle_continue(
-                 :execute_step,
-                 state
-               )
+      predicates = ["*", "", "true == true"]
+
+      for predicate <- predicates do
+        operation =
+          build(:operation, steps: build_list(1, :operation_step, predicate: predicate))
+
+        state = %State{state | operation: operation}
+
+        assert {:noreply, ^state} =
+                 Server.handle_continue(
+                   :execute_step,
+                   state
+                 )
+      end
     end
   end
 
