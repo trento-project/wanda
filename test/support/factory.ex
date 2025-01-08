@@ -19,9 +19,7 @@ defmodule Wanda.Factory do
     Target
   }
 
-  alias Wanda.Operations.{
-    OperationTarget
-  }
+  alias Wanda.Operations.OperationTarget
 
   alias Wanda.Operations.Catalog.{
     Operation,

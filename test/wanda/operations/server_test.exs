@@ -5,7 +5,7 @@ defmodule Wanda.Operations.ServerTest do
 
   alias Wanda.EvaluationEngine
 
-  alias Wanda.Operations.{AgentReport, Server, StepReport, State}
+  alias Wanda.Operations.{AgentReport, Server, State, StepReport}
 
   setup_all do
     engine = EvaluationEngine.new()

@@ -4,6 +4,7 @@ defmodule Wanda.Operations.State do
   """
 
   alias Wanda.Operations.{OperationTarget, StepReport}
+
   alias Wanda.Operations.Catalog.Operation
 
   defstruct [

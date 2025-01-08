@@ -1,5 +1,7 @@
 defmodule Wanda.Operations.Server do
   @moduledoc """
+  Represents the execution of operations in target agents
+  Orchestrates operation executions - issuing operations and receiving back the reports.
   """
 
   @behaviour Wanda.Operations.ServerBehaviour
