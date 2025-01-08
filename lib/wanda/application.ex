@@ -17,7 +17,8 @@ defmodule Wanda.Application do
         WandaWeb.Endpoint,
         # Start a worker by calling: Wanda.Worker.start_link(arg)
         # {Wanda.Worker, arg}
-        {DynamicSupervisor, strategy: :one_for_one, name: Wanda.Executions.Supervisor}
+        {DynamicSupervisor, strategy: :one_for_one, name: Wanda.Executions.Supervisor},
+        {DynamicSupervisor, strategy: :one_for_one, name: Wanda.Operations.Supervisor}
       ] ++ Application.get_env(:wanda, :children, [])
 
     # See https://hexdocs.pm/elixir/Supervisor.html
