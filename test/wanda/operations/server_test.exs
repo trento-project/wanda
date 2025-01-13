@@ -97,7 +97,7 @@ defmodule Wanda.Operations.ServerTest do
       end
     end
 
-    test "should not start opeartion if it is already running for that group_id" do
+    test "should not start operation if it is already running for that group_id" do
       group_id = UUID.uuid4()
 
       {:ok, _pid} =
