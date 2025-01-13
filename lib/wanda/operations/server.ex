@@ -76,9 +76,9 @@ defmodule Wanda.Operations.Server do
         %State{} = state
       ) do
     engine = EvaluationEngine.new()
-    state = initialize_report_results(state)
+    new_state = initialize_report_results(state)
 
-    {:noreply, %State{state | engine: engine}, {:continue, :execute_step}}
+    {:noreply, %State{new_state | engine: engine}, {:continue, :execute_step}}
   end
 
   @impl true
@@ -113,7 +113,7 @@ defmodule Wanda.Operations.Server do
 
     %Step{predicate: predicate, operator: operator} = Enum.at(steps, current_step_index)
 
-    state =
+    new_state =
       %State{pending_targets_on_step: pending_targets} =
       state
       |> predicate_targets_execution(predicate)
@@ -122,9 +122,9 @@ defmodule Wanda.Operations.Server do
       |> maybe_increase_current_step()
 
     if pending_targets == [] do
-      {:noreply, state, {:continue, :execute_step}}
+      {:noreply, new_state, {:continue, :execute_step}}
     else
-      {:noreply, state}
+      {:noreply, new_state}
     end
   end
 
@@ -159,16 +159,16 @@ defmodule Wanda.Operations.Server do
 
     pending_targets = List.delete(targets, agent_id)
 
-    state =
+    new_state =
       %State{state | pending_targets_on_step: pending_targets}
       |> update_report_results(step_number, agent_id, operation_result)
       |> maybe_set_step_failed(operation_result)
       |> maybe_increase_current_step()
 
     if pending_targets == [] do
-      {:noreply, state, {:continue, :execute_step}}
+      {:noreply, new_state, {:continue, :execute_step}}
     else
-      {:noreply, state}
+      {:noreply, new_state}
     end
   end
 
