@@ -34,6 +34,15 @@ Wanda.Messaging.Adapters.AMQP.Publisher.html
 Wanda.Messaging.Adapters.AMQP.html
 Wanda.Messaging.Mapper.html
 Wanda.Messaging.html
+Wanda.Operations.AgentReport.html
+Wanda.Operations.Catalog.Operation.html
+Wanda.Operations.Catalog.Step.html
+Wanda.Operations.OperationTarget.html
+Wanda.Operations.Server.html
+Wanda.Operations.ServerBehaviour.html
+Wanda.Operations.State.html
+Wanda.Operations.StepReport.html
+Wanda.Operations.html
 Wanda.Policy.html
 Wanda.Release.html
 Wanda.Repo.html
@@ -100,8 +109,8 @@ dist/lato-latin-ext-300-normal-VPGGJKJL.woff2
 dist/lato-latin-ext-400-normal-N27NCBWW.woff2
 dist/lato-latin-ext-700-normal-Q2L5DVMW.woff2
 dist/remixicon-NKANDIL5.woff2
-dist/search_data-A1A548A1.js
-dist/sidebar_items-E7DE1AA9.js
+dist/search_data-538482C3.js
+dist/sidebar_items-1078BFA6.js
 expression_language.html
 gatherers.html
 hack_on_wanda.html
