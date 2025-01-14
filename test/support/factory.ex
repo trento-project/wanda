@@ -19,6 +19,13 @@ defmodule Wanda.Factory do
     Target
   }
 
+  alias Wanda.Operations.OperationTarget
+
+  alias Wanda.Operations.Catalog.{
+    Operation,
+    Step
+  }
+
   def check_factory do
     %Catalog.Check{
       id: UUID.uuid4(),
@@ -181,20 +188,6 @@ defmodule Wanda.Factory do
     }
   end
 
-  defp random_env_value do
-    Faker.Util.pick([
-      Faker.Pokemon.name(),
-      Enum.random(1..10),
-      Enum.random([false, true])
-    ])
-  end
-
-  defp random_checks do
-    1..10
-    |> Enum.map(fn _ -> UUID.uuid4() end)
-    |> Enum.take_random(Enum.random(1..5))
-  end
-
   def check_results_from_targets_factory(attrs) do
     targets = Map.get(attrs, :targets, [])
     result = Map.get(attrs, :result, :passing)
@@ -207,6 +200,43 @@ defmodule Wanda.Factory do
       check_targets = Enum.filter(targets, &(check_id in &1.checks))
       check_result_from_target(check_id, check_targets, result, failure_message)
     end)
+  end
+
+  def operation_factory do
+    %Operation{
+      id: UUID.uuid4(),
+      name: Faker.StarWars.character(),
+      required_args: [],
+      steps: build_list(2, :operation_step)
+    }
+  end
+
+  def operation_step_factory do
+    %Step{
+      operator: Faker.StarWars.planet(),
+      predicate: "*"
+    }
+  end
+
+  def operation_target_factory do
+    %OperationTarget{
+      agent_id: UUID.uuid4(),
+      arguments: %{}
+    }
+  end
+
+  defp random_env_value do
+    Faker.Util.pick([
+      Faker.Pokemon.name(),
+      Enum.random(1..10),
+      Enum.random([false, true])
+    ])
+  end
+
+  defp random_checks do
+    1..10
+    |> Enum.map(fn _ -> UUID.uuid4() end)
+    |> Enum.take_random(Enum.random(1..5))
   end
 
   defp check_result_from_target(check_id, check_targets, result, failure_message) do
