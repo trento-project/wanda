@@ -5,6 +5,7 @@ defmodule Wanda.Operations.StepReport do
 
   alias Wanda.Operations.AgentReport
 
+  @derive Jason.Encoder
   defstruct [
     :step_number,
     :agents

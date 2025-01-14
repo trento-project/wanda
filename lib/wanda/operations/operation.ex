@@ -24,6 +24,8 @@ defmodule Wanda.Operations.Operation do
     field :status, Ecto.Enum, values: [:running, :completed]
 
     embeds_many :targets, Target, primary_key: false do
+      @derive Jason.Encoder
+
       field :agent_id, Ecto.UUID, primary_key: true
       field :arguments, :map
     end

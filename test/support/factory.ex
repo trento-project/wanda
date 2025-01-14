@@ -19,12 +19,15 @@ defmodule Wanda.Factory do
     Target
   }
 
-  alias Wanda.Operations.OperationTarget
-
-  alias Wanda.Operations.Catalog.{
+  alias Wanda.Operations.{
+    AgentReport,
     Operation,
-    Step
+    OperationTarget,
+    StepReport
   }
+
+  alias Wanda.Operations.Catalog.Operation, as: CatalogOperation
+  alias Wanda.Operations.Catalog.Step
 
   def check_factory do
     %Catalog.Check{
@@ -202,8 +205,8 @@ defmodule Wanda.Factory do
     end)
   end
 
-  def operation_factory do
-    %Operation{
+  def catalog_operation_factory do
+    %CatalogOperation{
       id: UUID.uuid4(),
       name: Faker.StarWars.character(),
       required_args: [],
@@ -218,10 +221,44 @@ defmodule Wanda.Factory do
     }
   end
 
+  def operation_factory do
+    targets =
+      1..5
+      |> Enum.random()
+      |> build_list(:operation_target)
+      |> Enum.map(fn %{agent_id: id, arguments: args} ->
+        %Operation.Target{agent_id: id, arguments: args}
+      end)
+
+    %Operation{
+      operation_id: UUID.uuid4(),
+      group_id: UUID.uuid4(),
+      result: :not_executed,
+      status: :running,
+      targets: targets,
+      agent_reports: [],
+      started_at: DateTime.utc_now()
+    }
+  end
+
   def operation_target_factory do
     %OperationTarget{
       agent_id: UUID.uuid4(),
       arguments: %{}
+    }
+  end
+
+  def step_report_factory do
+    %StepReport{
+      step_number: Enum.random(1..10),
+      agents: build_list(2, :agent_report)
+    }
+  end
+
+  def agent_report_factory do
+    %AgentReport{
+      agent_id: UUID.uuid4(),
+      result: :updated
     }
   end
 

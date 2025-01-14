@@ -1,5 +1,5 @@
 defmodule Wanda.Operations.ServerTest do
-  use ExUnit.Case
+  use Wanda.DataCase
 
   import Wanda.Factory
 
@@ -16,7 +16,7 @@ defmodule Wanda.Operations.ServerTest do
   describe "start_link/3" do
     test "should accept all required arguments on start" do
       group_id = UUID.uuid4()
-      operation = build(:operation)
+      operation = build(:catalog_operation)
       targets = build_list(2, :operation_target)
 
       assert {:ok, pid} =
@@ -43,7 +43,7 @@ defmodule Wanda.Operations.ServerTest do
     test "should receive operation reports properly" do
       operation_id = UUID.uuid4()
       group_id = UUID.uuid4()
-      operation = build(:operation)
+      operation = build(:catalog_operation)
       targets = build_list(2, :operation_target)
 
       {:ok, _pid} =
@@ -106,7 +106,7 @@ defmodule Wanda.Operations.ServerTest do
            [
              operation_id: UUID.uuid4(),
              group_id: group_id,
-             operation: build(:operation),
+             operation: build(:catalog_operation),
              targets: build_list(2, :operation_target),
              timeout: 5,
              current_step_index: 0,
@@ -118,7 +118,7 @@ defmodule Wanda.Operations.ServerTest do
                Server.start_operation(
                  UUID.uuid4(),
                  group_id,
-                 build(:operation),
+                 build(:catalog_operation),
                  build_list(2, :operation_target),
                  []
                )
@@ -126,7 +126,7 @@ defmodule Wanda.Operations.ServerTest do
 
     test "should start operation" do
       group_id = UUID.uuid4()
-      operation = build(:operation)
+      operation = build(:catalog_operation)
 
       [%{agent_id: agent_id_1}, %{agent_id: agent_id_2}] =
         targets = build_list(2, :operation_target)
