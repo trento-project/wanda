@@ -8,6 +8,8 @@ defmodule Wanda.Operations.Server do
 
   use GenServer, restart: :transient
 
+  alias Wanda.Operations
+
   alias Wanda.Operations.{AgentReport, OperationTarget, State, StepReport, Supervisor}
   alias Wanda.Operations.Catalog.{Operation, Step}
 
@@ -75,10 +77,16 @@ defmodule Wanda.Operations.Server do
   @impl true
   def handle_continue(
         :start_operation,
-        %State{} = state
+        %State{
+          operation_id: operation_id,
+          group_id: group_id,
+          targets: targets
+        } = state
       ) do
     engine = EvaluationEngine.new()
     new_state = initialize_report_results(state)
+
+    Operations.create_operation!(operation_id, group_id, targets)
 
     {:noreply, %State{new_state | engine: engine}, {:continue, :execute_step}}
   end
@@ -87,6 +95,7 @@ defmodule Wanda.Operations.Server do
   def handle_continue(
         :execute_step,
         %State{
+          operation_id: operation_id,
           step_failed: true,
           agent_reports: _agent_reports
         } = state
@@ -95,7 +104,10 @@ defmodule Wanda.Operations.Server do
 
     # Evaluate results using agent_reports
     # Start rollback?
-    # Publish and store results
+    # Publish results
+
+    # Result is failed or rolledback, depending on the evaluation result
+    Operations.complete_operation!(operation_id, :failed)
 
     {:stop, :normal, state}
   end
@@ -122,6 +134,7 @@ defmodule Wanda.Operations.Server do
       |> maybe_save_skipped_operation_state()
       |> maybe_request_operation_execution(operator)
       |> maybe_increase_current_step()
+      |> store_agent_reports()
 
     if pending_targets == [] do
       {:noreply, new_state, {:continue, :execute_step}}
@@ -134,6 +147,7 @@ defmodule Wanda.Operations.Server do
   def handle_continue(
         :execute_step,
         %State{
+          operation_id: operation_id,
           agent_reports: _agent_reports
         } = state
       ) do
@@ -141,6 +155,9 @@ defmodule Wanda.Operations.Server do
 
     # Evaluate results using agent_reports
     # Publish and store results
+
+    # Result based on evaluation result
+    Operations.complete_operation!(operation_id, :updated)
 
     {:stop, :normal, state}
   end
@@ -166,6 +183,7 @@ defmodule Wanda.Operations.Server do
       |> update_report_results(step_number, agent_id, operation_result)
       |> maybe_set_step_failed(operation_result)
       |> maybe_increase_current_step()
+      |> store_agent_reports()
 
     if pending_targets == [] do
       {:noreply, new_state, {:continue, :execute_step}}
@@ -337,6 +355,17 @@ defmodule Wanda.Operations.Server do
       })
 
     %State{state | agent_reports: updated_agent_reports}
+  end
+
+  defp store_agent_reports(
+         %State{
+           operation_id: operation_id,
+           agent_reports: agent_reports
+         } = state
+       ) do
+    Operations.update_agent_reports!(operation_id, agent_reports)
+
+    state
   end
 
   defp maybe_set_step_failed(state, result)
