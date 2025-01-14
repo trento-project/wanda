@@ -5,7 +5,7 @@ defmodule Wanda.Operations.ServerTest do
 
   alias Wanda.EvaluationEngine
 
-  alias Wanda.Operations.{AgentReport, Server, State, StepReport}
+  alias Wanda.Operations.{AgentReport, Operation, Server, State, StepReport}
 
   setup_all do
     engine = EvaluationEngine.new()
@@ -35,7 +35,7 @@ defmodule Wanda.Operations.ServerTest do
 
       assert pid == :global.whereis_name({Server, group_id})
 
-      stop_supervised(Server)
+      stop_supervised!(Server)
     end
   end
 
@@ -62,12 +62,14 @@ defmodule Wanda.Operations.ServerTest do
 
       assert :ok ==
                Server.receive_operation_reports(operation_id, group_id, 1, UUID.uuid4(), :updated)
+
+      stop_supervised!(Server)
     end
   end
 
   describe "start operation" do
     test "should skip operation if required arguments on targets are missing" do
-      operation = build(:operation, required_args: ["arg1", "arg2"])
+      catalog_operation = build(:catalog_operation, required_args: ["arg1", "arg2"])
 
       test_targets = [
         build_list(2, :operation_target),
@@ -90,7 +92,7 @@ defmodule Wanda.Operations.ServerTest do
                  Server.start_operation(
                    UUID.uuid4(),
                    UUID.uuid4(),
-                   operation,
+                   catalog_operation,
                    targets,
                    %{}
                  )
@@ -122,6 +124,8 @@ defmodule Wanda.Operations.ServerTest do
                  build_list(2, :operation_target),
                  []
                )
+
+      stop_supervised!(Server)
     end
 
     test "should start operation" do
@@ -161,12 +165,17 @@ defmodule Wanda.Operations.ServerTest do
       ]
 
       assert agent_reports == expected_agent_reports
+
+      GenServer.stop(pid)
     end
   end
 
   describe "execute_step" do
     test "should stop execution if last step failed" do
+      %Operation{operation_id: operation_id} = insert(:operation)
+
       state = %State{
+        operation_id: operation_id,
         step_failed: true,
         agent_reports: [
           %StepReport{
@@ -184,7 +193,10 @@ defmodule Wanda.Operations.ServerTest do
     end
 
     test "should finish operation if all steps are completed" do
+      %Operation{operation_id: operation_id} = insert(:operation)
+
       state = %State{
+        operation_id: operation_id,
         current_step_index: 1,
         agent_reports: [
           %StepReport{
@@ -202,14 +214,19 @@ defmodule Wanda.Operations.ServerTest do
     end
 
     test "should skip step if none of the agents match the predicate", %{engine: engine} do
-      operation =
-        build(:operation, steps: build_list(1, :operation_step, predicate: "true == false"))
+      %Operation{operation_id: operation_id} = insert(:operation)
+
+      catalog_operation =
+        build(:catalog_operation,
+          steps: build_list(1, :operation_step, predicate: "true == false")
+        )
 
       pending_agent_id = UUID.uuid4()
 
       state = %State{
         engine: engine,
-        operation: operation,
+        operation_id: operation_id,
+        operation: catalog_operation,
         current_step_index: 0,
         pending_targets_on_step: [pending_agent_id],
         targets: build_list(1, :operation_target, agent_id: pending_agent_id),
@@ -240,10 +257,12 @@ defmodule Wanda.Operations.ServerTest do
     end
 
     test "should request operation", %{engine: engine} do
+      %Operation{operation_id: operation_id} = insert(:operation)
       pending_agent_id = UUID.uuid4()
 
       state = %State{
         engine: engine,
+        operation_id: operation_id,
         current_step_index: 0,
         pending_targets_on_step: [pending_agent_id],
         targets: build_list(1, :operation_target, agent_id: pending_agent_id),
@@ -258,10 +277,10 @@ defmodule Wanda.Operations.ServerTest do
       predicates = ["*", "", "true == true"]
 
       for predicate <- predicates do
-        operation =
-          build(:operation, steps: build_list(1, :operation_step, predicate: predicate))
+        catalog_operation =
+          build(:catalog_operation, steps: build_list(1, :operation_step, predicate: predicate))
 
-        state = %State{state | operation: operation}
+        state = %State{state | operation: catalog_operation}
 
         assert {:noreply, ^state} =
                  Server.handle_continue(
@@ -274,8 +293,8 @@ defmodule Wanda.Operations.ServerTest do
 
   describe "receive_reports" do
     test "should continue to next step when last step is completed updating agent result" do
-      operation_id = UUID.uuid4()
-      group_id = UUID.uuid4()
+      %Operation{operation_id: operation_id, group_id: group_id} = insert(:operation)
+
       pending_agent_id = UUID.uuid4()
 
       state = %State{
@@ -313,8 +332,8 @@ defmodule Wanda.Operations.ServerTest do
     end
 
     test "should wait on step if some agent is pending to report" do
-      operation_id = UUID.uuid4()
-      group_id = UUID.uuid4()
+      %Operation{operation_id: operation_id, group_id: group_id} = insert(:operation)
+
       pending_agent_id_1 = UUID.uuid4()
       pending_agent_id_2 = UUID.uuid4()
 
@@ -353,8 +372,7 @@ defmodule Wanda.Operations.ServerTest do
     end
 
     test "should set the step as failed of an agent reports with a failed result" do
-      operation_id = UUID.uuid4()
-      group_id = UUID.uuid4()
+      %Operation{operation_id: operation_id, group_id: group_id} = insert(:operation)
       pending_agent_id = UUID.uuid4()
 
       state = %State{
