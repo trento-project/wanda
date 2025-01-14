@@ -27,6 +27,8 @@ LABEL org.opencontainers.image.source="https://github.com/trento-project/wanda"
 ENV LANG=en_US.UTF-8
 ENV LANGUAGE=en_US:en
 ENV LC_ALL=en_US.UTF-8
+# Erlang runtime dependencies
+RUN zypper -n in libsystemd0 libopenssl1_1
 WORKDIR /app
 COPY --from=release /build/wanda/_build/prod/rel/wanda .
 VOLUME /usr/share/trento/checks
