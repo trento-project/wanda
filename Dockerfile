@@ -1,10 +1,10 @@
-FROM registry.suse.com/bci/bci-base:15.6 AS elixir-build
+FROM registry.suse.com/bci/rust:1.81 AS elixir-build
 ENV LANG=en_US.UTF-8
 ENV LANGUAGE=en_US:en
 ENV LC_ALL=en_US.UTF-8
 RUN zypper ar https://download.opensuse.org/repositories/devel:sap:trento:builddeps/15.6 buildeps
 RUN zypper -n --gpg-auto-import-keys ref
-RUN zypper -n in git-core elixir==1.15 elixir-hex erlang==26 erlang-rebar3 rust cargo
+RUN zypper -n in git-core elixir==1.15 elixir-hex erlang==26 erlang-rebar3
 COPY . /build
 WORKDIR /build
 ARG MIX_ENV=prod
