@@ -8,6 +8,8 @@ defmodule Wanda.Operations.Server do
 
   use GenServer, restart: :transient
 
+  require Wanda.Operations.Enums.Result, as: Result
+
   alias Wanda.Operations.{AgentReport, OperationTarget, State, StepReport, Supervisor}
   alias Wanda.Operations.Catalog.{Operation, Step}
 
@@ -228,7 +230,7 @@ defmodule Wanda.Operations.Server do
        ) do
     not_executed_agent_reports =
       Enum.map(targets, fn %OperationTarget{agent_id: agent_id} ->
-        %AgentReport{agent_id: agent_id, result: :not_executed}
+        %AgentReport{agent_id: agent_id, result: Result.not_executed()}
       end)
 
     agent_reports =
@@ -284,7 +286,7 @@ defmodule Wanda.Operations.Server do
     targets
     |> Enum.filter(fn %OperationTarget{agent_id: agent_id} -> agent_id not in pending_targets end)
     |> Enum.reduce(state, fn %OperationTarget{agent_id: agent_id}, acc ->
-      update_report_results(acc, step_number, agent_id, :skipped)
+      update_report_results(acc, step_number, agent_id, Result.skipped())
     end)
   end
 
@@ -337,8 +339,9 @@ defmodule Wanda.Operations.Server do
     %State{state | agent_reports: updated_agent_reports}
   end
 
-  defp maybe_set_step_failed(state, result) when result in [:failed, :rolled_back],
-    do: %State{state | step_failed: true}
+  defp maybe_set_step_failed(state, result)
+       when result in [Result.failed(), Result.rolled_back()],
+       do: %State{state | step_failed: true}
 
   defp maybe_set_step_failed(state, _), do: state
 

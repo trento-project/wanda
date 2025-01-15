@@ -3,6 +3,8 @@ defmodule Wanda.Operations.ServerBehaviour do
   Operation server API behaviour.
   """
 
+  require Wanda.Operations.Enums.Result, as: Result
+
   alias Wanda.Operations.Catalog.Operation
   alias Wanda.Operations.OperationTarget
 
@@ -34,7 +36,7 @@ defmodule Wanda.Operations.ServerBehaviour do
               group_id :: String.t(),
               step_id :: number(),
               agent_id :: String.t(),
-              operation_result :: :updated | :not_updated | :failed | :rolled_back
+              operation_result :: Result.t()
             ) ::
               :ok | {:error, any}
 end
