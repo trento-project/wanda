@@ -3,6 +3,8 @@ defmodule Wanda.Catalog.Check do
   Represents a check.
   """
 
+  require Wanda.Catalog.Enums.Severity, as: Severity
+
   alias Wanda.Catalog.{Expectation, Fact, Value}
 
   @derive Jason.Encoder
@@ -27,7 +29,7 @@ defmodule Wanda.Catalog.Check do
           description: String.t(),
           remediation: String.t(),
           metadata: map(),
-          severity: :warning | :critical,
+          severity: Severity.t(),
           facts: [Fact.t()],
           values: [Value.t()],
           expectations: [Expectation.t()],
