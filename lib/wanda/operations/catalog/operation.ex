@@ -21,4 +21,14 @@ defmodule Wanda.Operations.Catalog.Operation do
           steps: [Step.t()],
           required_args: [String.t()]
         }
+
+  defmacro __using__(opts) do
+    operation = opts[:operation]
+
+    quote do
+      def operation() do
+        unquote(operation)
+      end
+    end
+  end
 end

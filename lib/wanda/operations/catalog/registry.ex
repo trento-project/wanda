@@ -3,26 +3,12 @@ defmodule Wanda.Operations.Catalog.Registry do
   Operations registry where are available operations are listed
   """
 
-  alias Wanda.Operations.Catalog.{Operation, Step}
+  alias Wanda.Operations.Catalog.Operation
 
-  @saptuneapplysolution_v1 %Operation{
-    id: "saptuneapplysolution@v1",
-    name: "Apply saptune solution",
-    description: """
-    This solution applies a saptune solution in the targets.
-    """,
-    required_args: ["solution"],
-    steps: [
-      %Step{
-        name: "Apply solution",
-        operator: "saptuneapplysolution@v1",
-        predicate: "*"
-      }
-    ]
-  }
+  alias Wanda.Operations.Catalog.SaptuneApplySolutionV1
 
   @registry %{
-    "saptuneapplysolution@v1" => @saptuneapplysolution_v1
+    "saptuneapplysolution@v1" => SaptuneApplySolutionV1.operation()
   }
 
   @doc """
