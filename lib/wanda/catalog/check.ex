@@ -3,9 +3,9 @@ defmodule Wanda.Catalog.Check do
   Represents a check.
   """
 
-  require Wanda.Catalog.Enums.Severity, as: Severity
-
   alias Wanda.Catalog.{Expectation, Fact, Value}
+
+  require Wanda.Catalog.Enums.Severity, as: Severity
 
   @derive Jason.Encoder
   defstruct [

@@ -5,8 +5,6 @@ defmodule Wanda.Executions do
 
   import Ecto.Query
 
-  require Wanda.Executions.Enums.Status, as: Status
-
   alias Wanda.Repo
 
   alias Wanda.Executions.{
@@ -14,6 +12,8 @@ defmodule Wanda.Executions do
     Result,
     Target
   }
+
+  require Wanda.Executions.Enums.Status, as: Status
 
   @doc """
   Create a new execution.

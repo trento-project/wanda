@@ -3,9 +3,6 @@ defmodule Wanda.Executions.Evaluation do
   Evaluation functional core.
   """
 
-  require Wanda.Catalog.Enums.ExpectType, as: ExpectType
-  require Wanda.Executions.Enums.Result, as: ResultEnum
-
   alias Wanda.Catalog.{Check, Condition, Expectation}
   alias Wanda.Catalog.Value, as: CatalogValue
 
@@ -22,6 +19,9 @@ defmodule Wanda.Executions.Evaluation do
   }
 
   alias Wanda.EvaluationEngine
+
+  require Wanda.Catalog.Enums.ExpectType, as: ExpectType
+  require Wanda.Executions.Enums.Result, as: ResultEnum
 
   @default_failure_message "Expectation not met"
 

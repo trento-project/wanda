@@ -8,12 +8,12 @@ defmodule Wanda.Operations.Server do
 
   use GenServer, restart: :transient
 
-  require Wanda.Operations.Enums.Result, as: Result
-
   alias Wanda.Operations.{AgentReport, OperationTarget, State, StepReport, Supervisor}
   alias Wanda.Operations.Catalog.{Operation, Step}
 
   alias Wanda.EvaluationEngine
+
+  require Wanda.Operations.Enums.Result, as: Result
 
   require Logger
 

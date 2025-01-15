@@ -3,9 +3,9 @@ defmodule Wanda.Executions.Result do
   Represents the result of an execution.
   """
 
-  require Wanda.Executions.Enums.Result, as: ResultEnum
-
   alias Wanda.Executions.CheckResult
+
+  require Wanda.Executions.Enums.Result, as: ResultEnum
 
   @derive Jason.Encoder
   defstruct [

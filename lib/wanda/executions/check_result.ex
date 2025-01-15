@@ -3,9 +3,9 @@ defmodule Wanda.Executions.CheckResult do
   Represents the result of a check.
   """
 
-  require Wanda.Executions.Enums.Result, as: Result
-
   alias Wanda.Executions.{AgentCheckError, AgentCheckResult, ExpectationResult}
+
+  require Wanda.Executions.Enums.Result, as: Result
 
   @derive Jason.Encoder
   defstruct [

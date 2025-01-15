@@ -3,10 +3,10 @@ defmodule Wanda.Operations.ServerBehaviour do
   Operation server API behaviour.
   """
 
-  require Wanda.Operations.Enums.Result, as: Result
-
   alias Wanda.Operations.Catalog.Operation
   alias Wanda.Operations.OperationTarget
+
+  require Wanda.Operations.Enums.Result, as: Result
 
   @callback start_operation(
               operation_id :: String.t(),
