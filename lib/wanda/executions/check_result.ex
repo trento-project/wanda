@@ -3,6 +3,8 @@ defmodule Wanda.Executions.CheckResult do
   Represents the result of a check.
   """
 
+  require Wanda.Expectations.Enums.Result, as: Result
+
   alias Wanda.Executions.{AgentCheckError, AgentCheckResult, ExpectationResult}
 
   @derive Jason.Encoder
@@ -17,6 +19,6 @@ defmodule Wanda.Executions.CheckResult do
           check_id: String.t(),
           expectation_results: [ExpectationResult.t()],
           agents_check_results: [AgentCheckResult.t() | AgentCheckError.t()],
-          result: :passing | :warning | :critical
+          result: Result.t()
         }
 end

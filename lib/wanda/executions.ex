@@ -5,6 +5,8 @@ defmodule Wanda.Executions do
 
   import Ecto.Query
 
+  require Wanda.Expectations.Enums.Status, as: Status
+
   alias Wanda.Repo
 
   alias Wanda.Executions.{
@@ -24,7 +26,7 @@ defmodule Wanda.Executions do
     |> Execution.changeset(%{
       execution_id: execution_id,
       group_id: group_id,
-      status: :running,
+      status: Status.running(),
       targets: Enum.map(targets, &Map.from_struct/1)
     })
     |> Repo.insert!(on_conflict: :nothing)
@@ -93,7 +95,7 @@ defmodule Wanda.Executions do
     |> Repo.get!(execution_id)
     |> Execution.changeset(%{
       result: result,
-      status: :completed,
+      status: Status.completed(),
       completed_at: DateTime.utc_now()
     })
     |> Repo.update!()

@@ -3,6 +3,9 @@ defmodule Wanda.Executions.Evaluation do
   Evaluation functional core.
   """
 
+  require Wanda.Catalog.Enums.ExpectType, as: ExpectType
+  require Wanda.Expectations.Enums.Result, as: ResultEnum
+
   alias Wanda.Catalog.{Check, Condition, Expectation}
   alias Wanda.Catalog.Value, as: CatalogValue
 
@@ -208,37 +211,13 @@ defmodule Wanda.Executions.Evaluation do
     end
   end
 
-  defp normalize_return_value(:expect_enum, "passing"), do: :passing
-  defp normalize_return_value(:expect_enum, "warning"), do: :warning
-  defp normalize_return_value(:expect_enum, _), do: :critical
+  defp normalize_return_value(ExpectType.expect_enum(), "passing"), do: ResultEnum.passing()
+  defp normalize_return_value(ExpectType.expect_enum(), "warning"), do: ResultEnum.warning()
+  defp normalize_return_value(ExpectType.expect_enum(), _), do: ResultEnum.critical()
   defp normalize_return_value(_, return_value), do: return_value
 
   defp maybe_add_failure_message(
-         %ExpectationEvaluation{type: :expect, return_value: false} = expectation_evaluation,
-         nil,
-         _warning_message,
-         _evaluation_scope,
-         _
-       ),
-       do: %ExpectationEvaluation{
-         expectation_evaluation
-         | failure_message: @default_failure_message
-       }
-
-  defp maybe_add_failure_message(
-         %ExpectationEvaluation{type: :expect, return_value: false} = expectation_evaluation,
-         failure_message,
-         _warning_message,
-         evaluation_scope,
-         engine
-       ),
-       do: %ExpectationEvaluation{
-         expectation_evaluation
-         | failure_message: interpolate_message(failure_message, evaluation_scope, engine)
-       }
-
-  defp maybe_add_failure_message(
-         %ExpectationEvaluation{type: :expect_enum, return_value: :critical} =
+         %ExpectationEvaluation{type: ExpectType.expect(), return_value: false} =
            expectation_evaluation,
          nil,
          _warning_message,
@@ -251,7 +230,7 @@ defmodule Wanda.Executions.Evaluation do
        }
 
   defp maybe_add_failure_message(
-         %ExpectationEvaluation{type: :expect_enum, return_value: :critical} =
+         %ExpectationEvaluation{type: ExpectType.expect(), return_value: false} =
            expectation_evaluation,
          failure_message,
          _warning_message,
@@ -264,7 +243,42 @@ defmodule Wanda.Executions.Evaluation do
        }
 
   defp maybe_add_failure_message(
-         %ExpectationEvaluation{type: :expect_enum, return_value: :warning} =
+         %ExpectationEvaluation{
+           type: ExpectType.expect_enum(),
+           return_value: ResultEnum.critical()
+         } =
+           expectation_evaluation,
+         nil,
+         _warning_message,
+         _evaluation_scope,
+         _
+       ),
+       do: %ExpectationEvaluation{
+         expectation_evaluation
+         | failure_message: @default_failure_message
+       }
+
+  defp maybe_add_failure_message(
+         %ExpectationEvaluation{
+           type: ExpectType.expect_enum(),
+           return_value: ResultEnum.critical()
+         } =
+           expectation_evaluation,
+         failure_message,
+         _warning_message,
+         evaluation_scope,
+         engine
+       ),
+       do: %ExpectationEvaluation{
+         expectation_evaluation
+         | failure_message: interpolate_message(failure_message, evaluation_scope, engine)
+       }
+
+  defp maybe_add_failure_message(
+         %ExpectationEvaluation{
+           type: ExpectType.expect_enum(),
+           return_value: ResultEnum.warning()
+         } =
            expectation_evaluation,
          _failure_message,
          nil,
@@ -277,7 +291,10 @@ defmodule Wanda.Executions.Evaluation do
        }
 
   defp maybe_add_failure_message(
-         %ExpectationEvaluation{type: :expect_enum, return_value: :warning} =
+         %ExpectationEvaluation{
+           type: ExpectType.expect_enum(),
+           return_value: ResultEnum.warning()
+         } =
            expectation_evaluation,
          _failure_message,
          warning_message,
@@ -290,7 +307,7 @@ defmodule Wanda.Executions.Evaluation do
        }
 
   defp maybe_add_failure_message(
-         %ExpectationResult{type: :expect_same, result: false} = expectation_result,
+         %ExpectationResult{type: ExpectType.expect_same(), result: false} = expectation_result,
          nil,
          _warning_message,
          _evaluation_scope,
@@ -299,7 +316,7 @@ defmodule Wanda.Executions.Evaluation do
        do: %ExpectationResult{expectation_result | failure_message: @default_failure_message}
 
   defp maybe_add_failure_message(
-         %ExpectationResult{type: :expect_same, result: false} = expectation_result,
+         %ExpectationResult{type: ExpectType.expect_same(), result: false} = expectation_result,
          failure_message,
          _warning_message,
          _evaluation_scope,
@@ -376,17 +393,17 @@ defmodule Wanda.Executions.Evaluation do
     end)
   end
 
-  defp eval_expectation_result(:expect_same, expectation_evaluations) do
+  defp eval_expectation_result(ExpectType.expect_same(), expectation_evaluations) do
     expectation_evaluations
     |> Enum.uniq_by(& &1.return_value)
     |> Kernel.length() == 1
   end
 
-  defp eval_expectation_result(:expect, expectations_evaluations) do
+  defp eval_expectation_result(ExpectType.expect(), expectations_evaluations) do
     Enum.all?(expectations_evaluations, &(&1.return_value == true))
   end
 
-  defp eval_expectation_result(:expect_enum, expectations_evaluations) do
+  defp eval_expectation_result(ExpectType.expect_enum(), expectations_evaluations) do
     expectations_evaluations
     |> Enum.map(&{&1.return_value, result_weight(&1.return_value)})
     |> Enum.max_by(fn {_, weight} -> weight end)
@@ -403,7 +420,7 @@ defmodule Wanda.Executions.Evaluation do
     result =
       if errors?(agents_check_results) do
         Enum.find_value(agents_check_results, severity, fn
-          %AgentCheckError{type: :timeout} -> :critical
+          %AgentCheckError{type: :timeout} -> ResultEnum.critical()
           _ -> false
         end)
       else
@@ -419,7 +436,7 @@ defmodule Wanda.Executions.Evaluation do
     %CheckResult{check_result | result: result}
   end
 
-  defp normalize_expectation_result(true, _), do: :passing
+  defp normalize_expectation_result(true, _), do: ResultEnum.passing()
   defp normalize_expectation_result(false, severity), do: severity
   defp normalize_expectation_result(result, _), do: result
 
@@ -443,7 +460,7 @@ defmodule Wanda.Executions.Evaluation do
 
   # TODO: is unknown needed?
   # defp result_weight(:unknown), do: 3
-  defp result_weight(:critical), do: 2
-  defp result_weight(:warning), do: 1
-  defp result_weight(:passing), do: 0
+  defp result_weight(ResultEnum.critical()), do: 2
+  defp result_weight(ResultEnum.warning()), do: 1
+  defp result_weight(ResultEnum.passing()), do: 0
 end

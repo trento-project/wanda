@@ -3,6 +3,8 @@ defmodule Wanda.Executions.Result do
   Represents the result of an execution.
   """
 
+  require Wanda.Expectations.Enums.Result, as: ResultEnum
+
   alias Wanda.Executions.CheckResult
 
   @derive Jason.Encoder
@@ -19,6 +21,6 @@ defmodule Wanda.Executions.Result do
           group_id: String.t(),
           check_results: [CheckResult.t()],
           timeout: [String.t()],
-          result: :passing | :warning | :critical
+          result: ResultEnum.t()
         }
 end

@@ -7,6 +7,8 @@ defmodule Wanda.Executions.Execution do
 
   import Ecto.Changeset
 
+  require Wanda.Expectations.Enums.Status, as: Status
+
   @type t :: %__MODULE__{}
 
   @fields ~w(execution_id group_id result status started_at completed_at)a
@@ -18,7 +20,7 @@ defmodule Wanda.Executions.Execution do
     field :execution_id, Ecto.UUID, primary_key: true
     field :group_id, Ecto.UUID
     field :result, :map, default: %{}
-    field :status, Ecto.Enum, values: [:running, :completed]
+    field :status, Ecto.Enum, values: Status.values()
 
     embeds_many :targets, Target do
       @derive {Jason.Encoder, [except: [:id]]}
