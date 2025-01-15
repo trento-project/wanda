@@ -5,7 +5,7 @@ defmodule Wanda.Executions do
 
   import Ecto.Query
 
-  require Wanda.Expectations.Enums.Status, as: Status
+  require Wanda.Executions.Enums.Status, as: Status
 
   alias Wanda.Repo
 

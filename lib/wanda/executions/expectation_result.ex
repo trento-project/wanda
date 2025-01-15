@@ -4,7 +4,7 @@ defmodule Wanda.Executions.ExpectationResult do
   """
 
   require Wanda.Catalog.Enums.ExpectType, as: ExpectType
-  require Wanda.Expectations.Enums.Result, as: Result
+  require Wanda.Executions.Enums.Result, as: Result
 
   @derive Jason.Encoder
   defstruct [

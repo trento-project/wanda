@@ -3,7 +3,7 @@ defmodule Wanda.Executions.Result do
   Represents the result of an execution.
   """
 
-  require Wanda.Expectations.Enums.Result, as: ResultEnum
+  require Wanda.Executions.Enums.Result, as: ResultEnum
 
   alias Wanda.Executions.CheckResult
 

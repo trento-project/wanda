@@ -1,4 +1,4 @@
-defmodule Wanda.Expectations.Enums.Result do
+defmodule Wanda.Executions.Enums.Result do
   @moduledoc """
   Type that represents a check execution result.
   """

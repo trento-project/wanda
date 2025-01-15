@@ -4,7 +4,7 @@ defmodule Wanda.Executions.Evaluation do
   """
 
   require Wanda.Catalog.Enums.ExpectType, as: ExpectType
-  require Wanda.Expectations.Enums.Result, as: ResultEnum
+  require Wanda.Executions.Enums.Result, as: ResultEnum
 
   alias Wanda.Catalog.{Check, Condition, Expectation}
   alias Wanda.Catalog.Value, as: CatalogValue

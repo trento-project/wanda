@@ -1,4 +1,4 @@
-defmodule Wanda.Expectations.Enums.Status do
+defmodule Wanda.Executions.Enums.Status do
   @moduledoc """
   Type that represents a check execution status.
   """

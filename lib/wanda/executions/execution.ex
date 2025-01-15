@@ -7,7 +7,7 @@ defmodule Wanda.Executions.Execution do
 
   import Ecto.Changeset
 
-  require Wanda.Expectations.Enums.Status, as: Status
+  require Wanda.Executions.Enums.Status, as: Status
 
   @type t :: %__MODULE__{}
 
