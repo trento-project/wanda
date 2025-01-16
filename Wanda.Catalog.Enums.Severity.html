@@ -8,7 +8,7 @@
     <meta name="project" content="Wanda v1.4.0">
 
 
-    <title>WandaWeb.V3.CatalogJSON — Wanda v1.4.0</title>
+    <title>Wanda.Catalog.Enums.Severity — Wanda v1.4.0</title>
     <link rel="stylesheet" href="dist/html-elixir-F2VRIOKR.css" />
 
 
@@ -116,16 +116,20 @@ GUIDES
 <div id="top-content">
   <h1>
 
-      <a href="https://github.com/trento-project/wanda/blob/main/lib/wanda_web/controllers/v3/catalog_json.ex#L1" title="View Source" class="icon-action" rel="help">
+      <a href="https://github.com/trento-project/wanda/blob/main/lib/wanda/catalog/enums/severity.ex#L1" title="View Source" class="icon-action" rel="help">
         <i class="ri-code-s-slash-line" aria-hidden="true"></i>
         <span class="sr-only">View Source</span>
       </a>
 
-    <span translate="no">WandaWeb.V3.CatalogJSON</span> 
+    <span translate="no">Wanda.Catalog.Enums.Severity</span> 
     <small class="app-vsn" translate="no">(Wanda v1.4.0)</small>
 
   </h1>
 
+
+    <section id="moduledoc">
+<p>Type that represents a check severity.</p>
+    </section>
 
 </div>
 
@@ -136,6 +140,20 @@ GUIDES
       </a>
       <span class="text">Summary</span>
     </h1>
+<div class="summary-types summary">
+  <h2>
+    <a href="#types">Types</a>
+  </h2>
+
+    <div class="summary-row">
+      <div class="summary-signature">
+        <a href="#t:t/0" data-no-tooltip translate="no">t()</a>
+
+      </div>
+
+    </div>
+
+</div>
 <div class="summary-functions summary">
   <h2>
     <a href="#functions">Functions</a>
@@ -143,7 +161,7 @@ GUIDES
 
     <div class="summary-row">
       <div class="summary-signature">
-        <a href="#catalog/1" data-no-tooltip translate="no">catalog(map)</a>
+        <a href="#critical/0" data-no-tooltip translate="no">critical()</a>
 
       </div>
 
@@ -151,7 +169,15 @@ GUIDES
 
     <div class="summary-row">
       <div class="summary-signature">
-        <a href="#check/1" data-no-tooltip translate="no">check(check)</a>
+        <a href="#values/0" data-no-tooltip translate="no">values()</a>
+
+      </div>
+
+    </div>
+
+    <div class="summary-row">
+      <div class="summary-signature">
+        <a href="#warning/0" data-no-tooltip translate="no">warning()</a>
 
       </div>
 
@@ -162,24 +188,24 @@ GUIDES
   </section>
 
 
-  <section id="functions" class="details-list">
+  <section id="types" class="details-list">
     <h1 class="section-heading">
-      <a class="hover-link" href="#functions">
+      <a class="hover-link" href="#types">
         <i class="ri-link-m" aria-hidden="true"></i>
       </a>
-      <span class="text">Functions</span>
+      <span class="text">Types</span>
     </h1>
-    <div class="functions-list">
-<section class="detail" id="catalog/1">
+    <div class="types-list">
+<section class="detail" id="t:t/0">
 
   <div class="detail-header">
-    <a href="#catalog/1" class="detail-link" data-no-tooltip title="Link to this function">
+    <a href="#t:t/0" class="detail-link" data-no-tooltip title="Link to this type">
       <i class="ri-link-m" aria-hidden="true"></i>
-      <span class="sr-only">Link to this function</span>
+      <span class="sr-only">Link to this type</span>
     </a>
-    <h1 class="signature" translate="no">catalog(map)</h1>
+    <h1 class="signature" translate="no">t()</h1>
 
-      <a href="https://github.com/trento-project/wanda/blob/main/lib/wanda_web/controllers/v3/catalog_json.ex#L4" class="icon-action" rel="help" title="View Source">
+      <a href="https://github.com/trento-project/wanda/blob/main/lib/wanda/catalog/enums/severity.ex#L6" class="icon-action" rel="help" title="View Source">
        <i class="ri-code-s-slash-line" aria-hidden="true"></i>
        <span class="sr-only">View Source</span>
      </a>
@@ -189,23 +215,91 @@ GUIDES
 
   <section class="docstring">
 
+      <div class="specs">
+
+          <pre translate="no"><span class="attribute">@type</span> t() :: :critical | :warning</pre>
+
+      </div>
+
 
   </section>
 </section>
-<section class="detail" id="check/1">
+
+    </div>
+  </section>
+
+  <section id="functions" class="details-list">
+    <h1 class="section-heading">
+      <a class="hover-link" href="#functions">
+        <i class="ri-link-m" aria-hidden="true"></i>
+      </a>
+      <span class="text">Functions</span>
+    </h1>
+    <div class="functions-list">
+<section class="detail" id="critical/0">
 
   <div class="detail-header">
-    <a href="#check/1" class="detail-link" data-no-tooltip title="Link to this function">
+    <a href="#critical/0" class="detail-link" data-no-tooltip title="Link to this macro">
       <i class="ri-link-m" aria-hidden="true"></i>
-      <span class="sr-only">Link to this function</span>
+      <span class="sr-only">Link to this macro</span>
     </a>
-    <h1 class="signature" translate="no">check(check)</h1>
+    <h1 class="signature" translate="no">critical()</h1>
 
-      <a href="https://github.com/trento-project/wanda/blob/main/lib/wanda_web/controllers/v3/catalog_json.ex#L8" class="icon-action" rel="help" title="View Source">
+      <a href="https://github.com/trento-project/wanda/blob/main/lib/wanda/catalog/enums/severity.ex#L6" class="icon-action" rel="help" title="View Source">
        <i class="ri-code-s-slash-line" aria-hidden="true"></i>
        <span class="sr-only">View Source</span>
      </a>
 
+
+      <span class="note">(macro)</span>
+
+  </div>
+
+  <section class="docstring">
+
+
+  </section>
+</section>
+<section class="detail" id="values/0">
+
+  <div class="detail-header">
+    <a href="#values/0" class="detail-link" data-no-tooltip title="Link to this macro">
+      <i class="ri-link-m" aria-hidden="true"></i>
+      <span class="sr-only">Link to this macro</span>
+    </a>
+    <h1 class="signature" translate="no">values()</h1>
+
+      <a href="https://github.com/trento-project/wanda/blob/main/lib/wanda/catalog/enums/severity.ex#L6" class="icon-action" rel="help" title="View Source">
+       <i class="ri-code-s-slash-line" aria-hidden="true"></i>
+       <span class="sr-only">View Source</span>
+     </a>
+
+
+      <span class="note">(macro)</span>
+
+  </div>
+
+  <section class="docstring">
+
+
+  </section>
+</section>
+<section class="detail" id="warning/0">
+
+  <div class="detail-header">
+    <a href="#warning/0" class="detail-link" data-no-tooltip title="Link to this macro">
+      <i class="ri-link-m" aria-hidden="true"></i>
+      <span class="sr-only">Link to this macro</span>
+    </a>
+    <h1 class="signature" translate="no">warning()</h1>
+
+      <a href="https://github.com/trento-project/wanda/blob/main/lib/wanda/catalog/enums/severity.ex#L6" class="icon-action" rel="help" title="View Source">
+       <i class="ri-code-s-slash-line" aria-hidden="true"></i>
+       <span class="sr-only">View Source</span>
+     </a>
+
+
+      <span class="note">(macro)</span>
 
   </div>
 

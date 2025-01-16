@@ -14,7 +14,7 @@
 
     <script src="dist/handlebars.runtime-NWIB6V2M.js"></script>
     <script src="dist/handlebars.templates-K7URE6B4.js"></script>
-    <script src="dist/sidebar_items-1078BFA6.js"></script>
+    <script src="dist/sidebar_items-A2D2BF55.js"></script>
     <script src="docs_config.js"></script>
     <script async src="dist/html-YIPIRHGU.js"></script>
 
@@ -191,7 +191,7 @@ GUIDES
     </a>
     <h1 class="signature" translate="no">receive_operation_reports(operation_id, group_id, step_id, agent_id, operation_result)</h1>
 
-      <a href="https://github.com/trento-project/wanda/blob/main/lib/wanda/operations/server_behaviour.ex#L32" class="icon-action" rel="help" title="View Source">
+      <a href="https://github.com/trento-project/wanda/blob/main/lib/wanda/operations/server_behaviour.ex#L34" class="icon-action" rel="help" title="View Source">
        <i class="ri-code-s-slash-line" aria-hidden="true"></i>
        <span class="sr-only">View Source</span>
      </a>
@@ -208,7 +208,7 @@ GUIDES
   group_id :: <a href="https://hexdocs.pm/elixir/String.html#t:t/0">String.t</a>(),
   step_id :: <a href="https://hexdocs.pm/elixir/typespecs.html#built-in-types">number</a>(),
   agent_id :: <a href="https://hexdocs.pm/elixir/String.html#t:t/0">String.t</a>(),
-  operation_result :: :updated | :not_updated | :failed | :rolled_back
+  operation_result :: <a href="Wanda.Operations.Enums.Result.html#t:t/0">Wanda.Operations.Enums.Result.t</a>()
 ) :: :ok | {:error, <a href="https://hexdocs.pm/elixir/typespecs.html#basic-types">any</a>()}</pre>
 
       </div>
@@ -225,7 +225,7 @@ GUIDES
     </a>
     <h1 class="signature" translate="no">start_operation(operation_id, group_id, operation, targets)</h1>
 
-      <a href="https://github.com/trento-project/wanda/blob/main/lib/wanda/operations/server_behaviour.ex#L9" class="icon-action" rel="help" title="View Source">
+      <a href="https://github.com/trento-project/wanda/blob/main/lib/wanda/operations/server_behaviour.ex#L11" class="icon-action" rel="help" title="View Source">
        <i class="ri-code-s-slash-line" aria-hidden="true"></i>
        <span class="sr-only">View Source</span>
      </a>
@@ -262,7 +262,7 @@ GUIDES
     </a>
     <h1 class="signature" translate="no">start_operation(operation_id, group_id, operation, targets, config)</h1>
 
-      <a href="https://github.com/trento-project/wanda/blob/main/lib/wanda/operations/server_behaviour.ex#L20" class="icon-action" rel="help" title="View Source">
+      <a href="https://github.com/trento-project/wanda/blob/main/lib/wanda/operations/server_behaviour.ex#L22" class="icon-action" rel="help" title="View Source">
        <i class="ri-code-s-slash-line" aria-hidden="true"></i>
        <span class="sr-only">View Source</span>
      </a>

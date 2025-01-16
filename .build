@@ -1,6 +1,8 @@
 404.html
 Wanda.Catalog.Check.html
 Wanda.Catalog.Condition.html
+Wanda.Catalog.Enums.ExpectType.html
+Wanda.Catalog.Enums.Severity.html
 Wanda.Catalog.Expectation.html
 Wanda.Catalog.Fact.html
 Wanda.Catalog.Value.html
@@ -10,6 +12,8 @@ Wanda.EvaluationEngine.html
 Wanda.Executions.AgentCheckError.html
 Wanda.Executions.AgentCheckResult.html
 Wanda.Executions.CheckResult.html
+Wanda.Executions.Enums.Result.html
+Wanda.Executions.Enums.Status.html
 Wanda.Executions.Evaluation.html
 Wanda.Executions.Execution.Target.html
 Wanda.Executions.Execution.html
@@ -37,6 +41,7 @@ Wanda.Messaging.html
 Wanda.Operations.AgentReport.html
 Wanda.Operations.Catalog.Operation.html
 Wanda.Operations.Catalog.Step.html
+Wanda.Operations.Enums.Result.html
 Wanda.Operations.OperationTarget.html
 Wanda.Operations.Server.html
 Wanda.Operations.ServerBehaviour.html
@@ -46,6 +51,7 @@ Wanda.Operations.html
 Wanda.Policy.html
 Wanda.Release.html
 Wanda.Repo.html
+Wanda.Support.Enum.html
 WandaWeb.Auth.AccessToken.html
 WandaWeb.Auth.JWTAuthPlug.html
 WandaWeb.ConnCase.html
@@ -109,8 +115,8 @@ dist/lato-latin-ext-300-normal-VPGGJKJL.woff2
 dist/lato-latin-ext-400-normal-N27NCBWW.woff2
 dist/lato-latin-ext-700-normal-Q2L5DVMW.woff2
 dist/remixicon-NKANDIL5.woff2
-dist/search_data-538482C3.js
-dist/sidebar_items-1078BFA6.js
+dist/search_data-DAB52361.js
+dist/sidebar_items-A2D2BF55.js
 expression_language.html
 gatherers.html
 hack_on_wanda.html
