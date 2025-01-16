@@ -19,12 +19,22 @@ defmodule Wanda.Factory do
     Target
   }
 
-  alias Wanda.Operations.OperationTarget
-
-  alias Wanda.Operations.Catalog.{
+  alias Wanda.Operations.{
+    AgentReport,
     Operation,
-    Step
+    OperationTarget,
+    StepReport
   }
+
+  alias Wanda.Operations.Catalog.Operation, as: CatalogOperation
+  alias Wanda.Operations.Catalog.Step
+
+  require Wanda.Catalog.Enums.ExpectType, as: ExpectType
+  require Wanda.Catalog.Enums.Severity, as: Severity
+  require Wanda.Executions.Enums.Result, as: ExecutionResult
+  require Wanda.Executions.Enums.Status, as: ExecutionStatus
+  require Wanda.Operations.Enums.Result, as: OpeartionResult
+  require Wanda.Operations.Enums.Status, as: OpeartionStatus
 
   def check_factory do
     %Catalog.Check{
@@ -39,7 +49,7 @@ defmodule Wanda.Factory do
         provider:
           Enum.take_random(["azure", "nutanix", "kvm", "vmware, gcp, aws"], Enum.random(1..6))
       },
-      severity: Enum.random([:critical, :warning, :passing]),
+      severity: Enum.random(Severity.values()),
       facts: build_list(10, :catalog_fact),
       values: build_list(10, :catalog_value),
       expectations: build_list(10, :catalog_expectation),
@@ -73,7 +83,7 @@ defmodule Wanda.Factory do
   def catalog_expectation_factory do
     %Catalog.Expectation{
       name: Faker.StarWars.character(),
-      type: Enum.random([:expect, :expect_same, :expect_enum]),
+      type: Enum.random(ExpectType.values()),
       expression: Faker.StarWars.quote(),
       failure_message: Faker.Lorem.sentence(),
       warning_message: Faker.Lorem.sentence()
@@ -116,7 +126,7 @@ defmodule Wanda.Factory do
     %Execution{
       execution_id: Faker.UUID.v4(),
       group_id: Faker.UUID.v4(),
-      status: :running,
+      status: ExecutionStatus.running(),
       targets: 1..5 |> Enum.random() |> build_list(:execution_target),
       started_at: DateTime.utc_now()
     }
@@ -134,7 +144,7 @@ defmodule Wanda.Factory do
       execution_id: UUID.uuid4(),
       group_id: UUID.uuid4(),
       check_results: build_list(5, :check_result),
-      result: :passing
+      result: ExecutionResult.passing()
     }
   end
 
@@ -143,7 +153,7 @@ defmodule Wanda.Factory do
       agents_check_results: build_list(5, :agent_check_result),
       check_id: UUID.uuid4(),
       expectation_results: build_list(5, :expectation_result),
-      result: :passing
+      result: ExecutionResult.passing()
     }
   end
 
@@ -168,7 +178,7 @@ defmodule Wanda.Factory do
     %ExpectationEvaluation{
       name: sequence(:name, &"expectation_#{&1}"),
       return_value: true,
-      type: :expect
+      type: ExpectType.expect()
     }
   end
 
@@ -184,13 +194,13 @@ defmodule Wanda.Factory do
     %ExpectationResult{
       name: sequence(:name, &"expectation_#{&1}"),
       result: true,
-      type: :expect
+      type: ExpectType.expect()
     }
   end
 
   def check_results_from_targets_factory(attrs) do
     targets = Map.get(attrs, :targets, [])
-    result = Map.get(attrs, :result, :passing)
+    result = Map.get(attrs, :result, ExecutionResult.passing())
     failure_message = Map.get(attrs, :failure_message)
 
     targets
@@ -202,8 +212,8 @@ defmodule Wanda.Factory do
     end)
   end
 
-  def operation_factory do
-    %Operation{
+  def catalog_operation_factory do
+    %CatalogOperation{
       id: UUID.uuid4(),
       name: Faker.StarWars.character(),
       required_args: [],
@@ -218,10 +228,44 @@ defmodule Wanda.Factory do
     }
   end
 
+  def operation_factory do
+    targets =
+      1..5
+      |> Enum.random()
+      |> build_list(:operation_target)
+      |> Enum.map(fn %{agent_id: id, arguments: args} ->
+        %Operation.Target{agent_id: id, arguments: args}
+      end)
+
+    %Operation{
+      operation_id: UUID.uuid4(),
+      group_id: UUID.uuid4(),
+      result: OpeartionResult.not_executed(),
+      status: OpeartionStatus.running(),
+      targets: targets,
+      agent_reports: [],
+      started_at: DateTime.utc_now()
+    }
+  end
+
   def operation_target_factory do
     %OperationTarget{
       agent_id: UUID.uuid4(),
       arguments: %{}
+    }
+  end
+
+  def step_report_factory do
+    %StepReport{
+      step_number: Enum.random(1..10),
+      agents: build_list(2, :agent_report)
+    }
+  end
+
+  def agent_report_factory do
+    %AgentReport{
+      agent_id: UUID.uuid4(),
+      result: OpeartionResult.updated()
     }
   end
 
@@ -243,7 +287,7 @@ defmodule Wanda.Factory do
     expectations_evaluations_expect =
       1..5
       |> Enum.random()
-      |> build_list(:expectation_evaluation, return_value: result == :passing)
+      |> build_list(:expectation_evaluation, return_value: result == ExecutionResult.passing())
       |> Enum.map(fn
         %{return_value: true} = expectation_evaluation ->
           expectation_evaluation
@@ -255,9 +299,9 @@ defmodule Wanda.Factory do
     expectations_evaluations_expect_same =
       Enum.map(1..Enum.random(1..5), fn _ ->
         build(:expectation_evaluation,
-          type: :expect_same,
+          type: ExpectType.expect_same(),
           return_value:
-            if result == :passing do
+            if result == ExecutionResult.passing() do
               "same_value"
             else
               Faker.StarWars.quote()
@@ -271,10 +315,14 @@ defmodule Wanda.Factory do
     expectation_results =
       expectation_evaluations
       |> Enum.map(
-        &build(:expectation_result, name: &1.name, type: &1.type, result: result == :passing)
+        &build(:expectation_result,
+          name: &1.name,
+          type: &1.type,
+          result: result == ExecutionResult.passing()
+        )
       )
       |> Enum.map(fn
-        %ExpectationResult{result: false, type: :expect_same} = expectation_result ->
+        %ExpectationResult{result: false, type: ExpectType.expect_same()} = expectation_result ->
           %ExpectationResult{expectation_result | failure_message: failure_message}
 
         expectation_result ->

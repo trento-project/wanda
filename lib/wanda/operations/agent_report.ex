@@ -5,6 +5,7 @@ defmodule Wanda.Operations.AgentReport do
 
   require Wanda.Operations.Enums.Result, as: Result
 
+  @derive Jason.Encoder
   defstruct [
     :agent_id,
     :result
