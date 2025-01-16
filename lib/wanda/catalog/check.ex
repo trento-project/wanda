@@ -5,6 +5,8 @@ defmodule Wanda.Catalog.Check do
 
   alias Wanda.Catalog.{Expectation, Fact, Value}
 
+  require Wanda.Catalog.Enums.Severity, as: Severity
+
   @derive Jason.Encoder
   defstruct [
     :id,
@@ -27,7 +29,7 @@ defmodule Wanda.Catalog.Check do
           description: String.t(),
           remediation: String.t(),
           metadata: map(),
-          severity: :warning | :critical,
+          severity: Severity.t(),
           facts: [Fact.t()],
           values: [Value.t()],
           expectations: [Expectation.t()],

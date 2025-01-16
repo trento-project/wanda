@@ -3,6 +3,9 @@ defmodule Wanda.Executions.ExpectationEvaluation do
   Represents the evaluation of an expectation.
   """
 
+  require Wanda.Catalog.Enums.ExpectType, as: ExpectType
+  require Wanda.Executions.Enums.Result, as: Result
+
   @derive Jason.Encoder
   defstruct [
     :name,
@@ -13,8 +16,8 @@ defmodule Wanda.Executions.ExpectationEvaluation do
 
   @type t :: %__MODULE__{
           name: String.t(),
-          return_value: number() | boolean() | String.t() | :passing | :warning | :critical,
-          type: :expect | :expect_same | :expect_enum,
+          return_value: number() | boolean() | String.t() | Result.t(),
+          type: ExpectType.t(),
           failure_message: String.t() | nil
         }
 end

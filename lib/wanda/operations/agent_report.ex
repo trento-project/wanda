@@ -3,6 +3,8 @@ defmodule Wanda.Operations.AgentReport do
   Report of an executed operation from an individual agent
   """
 
+  require Wanda.Operations.Enums.Result, as: Result
+
   defstruct [
     :agent_id,
     :result
@@ -10,6 +12,6 @@ defmodule Wanda.Operations.AgentReport do
 
   @type t :: %__MODULE__{
           agent_id: String.t(),
-          result: :updated | :not_updated | :failed | :rolled_back | :skipped | :not_executed
+          result: Result.t()
         }
 end

@@ -5,6 +5,8 @@ defmodule Wanda.Executions.Result do
 
   alias Wanda.Executions.CheckResult
 
+  require Wanda.Executions.Enums.Result, as: ResultEnum
+
   @derive Jason.Encoder
   defstruct [
     :execution_id,
@@ -19,6 +21,6 @@ defmodule Wanda.Executions.Result do
           group_id: String.t(),
           check_results: [CheckResult.t()],
           timeout: [String.t()],
-          result: :passing | :warning | :critical
+          result: ResultEnum.t()
         }
 end

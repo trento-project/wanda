@@ -5,6 +5,8 @@ defmodule Wanda.Executions.CheckResult do
 
   alias Wanda.Executions.{AgentCheckError, AgentCheckResult, ExpectationResult}
 
+  require Wanda.Executions.Enums.Result, as: Result
+
   @derive Jason.Encoder
   defstruct [
     :check_id,
@@ -17,6 +19,6 @@ defmodule Wanda.Executions.CheckResult do
           check_id: String.t(),
           expectation_results: [ExpectationResult.t()],
           agents_check_results: [AgentCheckResult.t() | AgentCheckError.t()],
-          result: :passing | :warning | :critical
+          result: Result.t()
         }
 end

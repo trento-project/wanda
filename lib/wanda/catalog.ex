@@ -15,7 +15,10 @@ defmodule Wanda.Catalog do
 
   require Logger
 
-  @default_severity :critical
+  require Wanda.Catalog.Enums.ExpectType, as: ExpectType
+  require Wanda.Catalog.Enums.Severity, as: Severity
+
+  @default_severity Severity.critical()
 
   @doc """
   Get the checks catalog with all checks
@@ -152,14 +155,14 @@ defmodule Wanda.Catalog do
     {:error, :malformed_check}
   end
 
-  defp map_severity(%{"severity" => "critical"}), do: :critical
-  defp map_severity(%{"severity" => "warning"}), do: :warning
+  defp map_severity(%{"severity" => "critical"}), do: Severity.critical()
+  defp map_severity(%{"severity" => "warning"}), do: Severity.warning()
   defp map_severity(_), do: @default_severity
 
   defp map_expectation(%{"name" => name, "expect" => expression} = expectation) do
     %Expectation{
       name: name,
-      type: :expect,
+      type: ExpectType.expect(),
       expression: expression,
       failure_message: Map.get(expectation, "failure_message")
     }
@@ -168,7 +171,7 @@ defmodule Wanda.Catalog do
   defp map_expectation(%{"name" => name, "expect_same" => expression} = expectation) do
     %Expectation{
       name: name,
-      type: :expect_same,
+      type: ExpectType.expect_same(),
       expression: expression,
       failure_message: Map.get(expectation, "failure_message")
     }
@@ -177,7 +180,7 @@ defmodule Wanda.Catalog do
   defp map_expectation(%{"name" => name, "expect_enum" => expression} = expectation) do
     %Expectation{
       name: name,
-      type: :expect_enum,
+      type: ExpectType.expect_enum(),
       expression: expression,
       failure_message: Map.get(expectation, "failure_message"),
       warning_message: Map.get(expectation, "warning_message")

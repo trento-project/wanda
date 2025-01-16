@@ -6,6 +6,8 @@ defmodule Wanda.Operations.ServerBehaviour do
   alias Wanda.Operations.Catalog.Operation
   alias Wanda.Operations.OperationTarget
 
+  require Wanda.Operations.Enums.Result, as: Result
+
   @callback start_operation(
               operation_id :: String.t(),
               group_id :: String.t(),
@@ -34,7 +36,7 @@ defmodule Wanda.Operations.ServerBehaviour do
               group_id :: String.t(),
               step_id :: number(),
               agent_id :: String.t(),
-              operation_result :: :updated | :not_updated | :failed | :rolled_back
+              operation_result :: Result.t()
             ) ::
               :ok | {:error, any}
 end
