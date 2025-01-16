@@ -9,9 +9,8 @@ defmodule Wanda.Repo.Migrations.AddOperation do
       add :status, :string, null: false
       add :targets, :map, null: false, default: "[]"
       add :agent_reports, :map, null: false, default: "[]"
-
-      timestamps(type: :utc_datetime_usec, inserted_at: :started_at, updated_at: false)
       add :completed_at, :utc_datetime_usec
+      timestamps(type: :utc_datetime_usec, inserted_at: :started_at)
     end
 
     create index(:operations, [:group_id])

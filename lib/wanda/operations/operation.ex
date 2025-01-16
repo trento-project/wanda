@@ -9,7 +9,7 @@ defmodule Wanda.Operations.Operation do
 
   @type t :: %__MODULE__{}
 
-  @fields ~w(operation_id group_id result status agent_reports started_at completed_at)a
+  @fields ~w(operation_id group_id result status agent_reports started_at updated_at completed_at)a
   @target_fields ~w(agent_id arguments)a
 
   @required_fields ~w(operation_id group_id result status)a
@@ -35,8 +35,8 @@ defmodule Wanda.Operations.Operation do
 
     field :agent_reports, {:array, :map}
 
-    timestamps(type: :utc_datetime_usec, inserted_at: :started_at, updated_at: false)
     field :completed_at, :utc_datetime_usec
+    timestamps(type: :utc_datetime_usec, inserted_at: :started_at)
   end
 
   @spec changeset(t() | Ecto.Changeset.t(), map) :: Ecto.Changeset.t()
