@@ -7,6 +7,9 @@ defmodule Wanda.Operations.Operation do
 
   import Ecto.Changeset
 
+  require Wanda.Operations.Enums.Result, as: Result
+  require Wanda.Operations.Enums.Status, as: Status
+
   @type t :: %__MODULE__{}
 
   @fields ~w(operation_id group_id result status agent_reports started_at updated_at completed_at)a
@@ -20,11 +23,8 @@ defmodule Wanda.Operations.Operation do
   schema "operations" do
     field :operation_id, Ecto.UUID, primary_key: true
     field :group_id, Ecto.UUID
-
-    field :result, Ecto.Enum,
-      values: [:updated, :not_updated, :failed, :rolled_back, :skipped, :not_executed]
-
-    field :status, Ecto.Enum, values: [:running, :completed]
+    field :result, Ecto.Enum, values: Result.values()
+    field :status, Ecto.Enum, values: Status.values()
 
     embeds_many :targets, Target, primary_key: false do
       @derive Jason.Encoder
