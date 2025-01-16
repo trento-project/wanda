@@ -12,6 +12,9 @@ defmodule Wanda.Operations.Operation do
   @fields ~w(operation_id group_id result status agent_reports started_at completed_at)a
   @target_fields ~w(agent_id arguments)a
 
+  @required_fields ~w(operation_id group_id result status)a
+  @targets_required_fields ~w(agent_id)a
+
   @derive {Jason.Encoder, [except: [:__meta__]]}
   @primary_key false
   schema "operations" do
@@ -40,10 +43,13 @@ defmodule Wanda.Operations.Operation do
   def changeset(operation, params) do
     operation
     |> cast(params, @fields)
-    |> cast_embed(:targets, with: &target_changeset/2)
+    |> cast_embed(:targets, with: &target_changeset/2, required: true)
+    |> validate_required(@required_fields)
   end
 
   defp target_changeset(target, params) do
-    cast(target, params, @target_fields)
+    target
+    |> cast(params, @target_fields)
+    |> validate_required(@targets_required_fields)
   end
 end
