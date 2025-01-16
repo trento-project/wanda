@@ -8,7 +8,7 @@
     <meta name="project" content="Wanda v1.4.0">
 
 
-    <title>Wanda.DataCase — Wanda v1.4.0</title>
+    <title>Wanda.Operations.Enums.Status — Wanda v1.4.0</title>
     <link rel="stylesheet" href="dist/html-elixir-F2VRIOKR.css" />
 
 
@@ -116,26 +116,19 @@ GUIDES
 <div id="top-content">
   <h1>
 
-      <a href="https://github.com/trento-project/wanda/blob/main/test/support/data_case.ex#L1" title="View Source" class="icon-action" rel="help">
+      <a href="https://github.com/trento-project/wanda/blob/main/lib/wanda/operations/enums/status.ex#L1" title="View Source" class="icon-action" rel="help">
         <i class="ri-code-s-slash-line" aria-hidden="true"></i>
         <span class="sr-only">View Source</span>
       </a>
 
-    <span translate="no">Wanda.DataCase</span> 
+    <span translate="no">Wanda.Operations.Enums.Status</span> 
     <small class="app-vsn" translate="no">(Wanda v1.4.0)</small>
 
   </h1>
 
 
     <section id="moduledoc">
-<p>This module defines the setup for tests requiring
-access to the application's data layer.</p><p>You may define functions here to be used as helpers in
-your tests.</p><p>Finally, if the test case interacts with the database,
-we enable the SQL sandbox, so changes done to the database
-are reverted at the end of every test. If you are using
-PostgreSQL, you can even run database tests asynchronously
-by setting <code class="inline">use Wanda.DataCase, async: true</code>, although
-this option is not recommended for other databases.</p>
+<p>Type that represents an operation execution status.</p>
     </section>
 
 </div>
@@ -147,6 +140,20 @@ this option is not recommended for other databases.</p>
       </a>
       <span class="text">Summary</span>
     </h1>
+<div class="summary-types summary">
+  <h2>
+    <a href="#types">Types</a>
+  </h2>
+
+    <div class="summary-row">
+      <div class="summary-signature">
+        <a href="#t:t/0" data-no-tooltip translate="no">t()</a>
+
+      </div>
+
+    </div>
+
+</div>
 <div class="summary-functions summary">
   <h2>
     <a href="#functions">Functions</a>
@@ -154,21 +161,25 @@ this option is not recommended for other databases.</p>
 
     <div class="summary-row">
       <div class="summary-signature">
-        <a href="#errors_on/1" data-no-tooltip translate="no">errors_on(changeset)</a>
+        <a href="#completed/0" data-no-tooltip translate="no">completed()</a>
 
       </div>
-
-        <div class="summary-synopsis"><p>A helper that transforms changeset errors into a map of messages.</p></div>
 
     </div>
 
     <div class="summary-row">
       <div class="summary-signature">
-        <a href="#setup_sandbox/1" data-no-tooltip translate="no">setup_sandbox(tags)</a>
+        <a href="#running/0" data-no-tooltip translate="no">running()</a>
 
       </div>
 
-        <div class="summary-synopsis"><p>Sets up the sandbox based on the test tags.</p></div>
+    </div>
+
+    <div class="summary-row">
+      <div class="summary-signature">
+        <a href="#values/0" data-no-tooltip translate="no">values()</a>
+
+      </div>
 
     </div>
 
@@ -176,6 +187,46 @@ this option is not recommended for other databases.</p>
 
   </section>
 
+
+  <section id="types" class="details-list">
+    <h1 class="section-heading">
+      <a class="hover-link" href="#types">
+        <i class="ri-link-m" aria-hidden="true"></i>
+      </a>
+      <span class="text">Types</span>
+    </h1>
+    <div class="types-list">
+<section class="detail" id="t:t/0">
+
+  <div class="detail-header">
+    <a href="#t:t/0" class="detail-link" data-no-tooltip title="Link to this type">
+      <i class="ri-link-m" aria-hidden="true"></i>
+      <span class="sr-only">Link to this type</span>
+    </a>
+    <h1 class="signature" translate="no">t()</h1>
+
+      <a href="https://github.com/trento-project/wanda/blob/main/lib/wanda/operations/enums/status.ex#L6" class="icon-action" rel="help" title="View Source">
+       <i class="ri-code-s-slash-line" aria-hidden="true"></i>
+       <span class="sr-only">View Source</span>
+     </a>
+
+
+  </div>
+
+  <section class="docstring">
+
+      <div class="specs">
+
+          <pre translate="no"><span class="attribute">@type</span> t() :: :completed | :running</pre>
+
+      </div>
+
+
+  </section>
+</section>
+
+    </div>
+  </section>
 
   <section id="functions" class="details-list">
     <h1 class="section-heading">
@@ -185,50 +236,76 @@ this option is not recommended for other databases.</p>
       <span class="text">Functions</span>
     </h1>
     <div class="functions-list">
-<section class="detail" id="errors_on/1">
+<section class="detail" id="completed/0">
 
   <div class="detail-header">
-    <a href="#errors_on/1" class="detail-link" data-no-tooltip title="Link to this function">
+    <a href="#completed/0" class="detail-link" data-no-tooltip title="Link to this macro">
       <i class="ri-link-m" aria-hidden="true"></i>
-      <span class="sr-only">Link to this function</span>
+      <span class="sr-only">Link to this macro</span>
     </a>
-    <h1 class="signature" translate="no">errors_on(changeset)</h1>
+    <h1 class="signature" translate="no">completed()</h1>
 
-      <a href="https://github.com/trento-project/wanda/blob/main/test/support/data_case.ex#L52" class="icon-action" rel="help" title="View Source">
+      <a href="https://github.com/trento-project/wanda/blob/main/lib/wanda/operations/enums/status.ex#L6" class="icon-action" rel="help" title="View Source">
        <i class="ri-code-s-slash-line" aria-hidden="true"></i>
        <span class="sr-only">View Source</span>
      </a>
 
 
+      <span class="note">(macro)</span>
+
   </div>
 
   <section class="docstring">
 
-<p>A helper that transforms changeset errors into a map of messages.</p><pre><code class="makeup elixir" translate="no"><span class="n">assert</span><span class="w"> </span><span class="p" data-group-id="9234938543-1">{</span><span class="ss">:error</span><span class="p">,</span><span class="w"> </span><span class="n">changeset</span><span class="p" data-group-id="9234938543-1">}</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nc">Accounts</span><span class="o">.</span><span class="n">create_user</span><span class="p" data-group-id="9234938543-2">(</span><span class="p" data-group-id="9234938543-3">%{</span><span class="ss">password</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;short&quot;</span><span class="p" data-group-id="9234938543-3">}</span><span class="p" data-group-id="9234938543-2">)</span><span class="w">
-</span><span class="n">assert</span><span class="w"> </span><span class="s">&quot;password is too short&quot;</span><span class="w"> </span><span class="ow">in</span><span class="w"> </span><span class="n">errors_on</span><span class="p" data-group-id="9234938543-4">(</span><span class="n">changeset</span><span class="p" data-group-id="9234938543-4">)</span><span class="o">.</span><span class="n">password</span><span class="w">
-</span><span class="n">assert</span><span class="w"> </span><span class="p" data-group-id="9234938543-5">%{</span><span class="ss">password</span><span class="p">:</span><span class="w"> </span><span class="p" data-group-id="9234938543-6">[</span><span class="s">&quot;password is too short&quot;</span><span class="p" data-group-id="9234938543-6">]</span><span class="p" data-group-id="9234938543-5">}</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">errors_on</span><span class="p" data-group-id="9234938543-7">(</span><span class="n">changeset</span><span class="p" data-group-id="9234938543-7">)</span></code></pre>
+
   </section>
 </section>
-<section class="detail" id="setup_sandbox/1">
+<section class="detail" id="running/0">
 
   <div class="detail-header">
-    <a href="#setup_sandbox/1" class="detail-link" data-no-tooltip title="Link to this function">
+    <a href="#running/0" class="detail-link" data-no-tooltip title="Link to this macro">
       <i class="ri-link-m" aria-hidden="true"></i>
-      <span class="sr-only">Link to this function</span>
+      <span class="sr-only">Link to this macro</span>
     </a>
-    <h1 class="signature" translate="no">setup_sandbox(tags)</h1>
+    <h1 class="signature" translate="no">running()</h1>
 
-      <a href="https://github.com/trento-project/wanda/blob/main/test/support/data_case.ex#L39" class="icon-action" rel="help" title="View Source">
+      <a href="https://github.com/trento-project/wanda/blob/main/lib/wanda/operations/enums/status.ex#L6" class="icon-action" rel="help" title="View Source">
        <i class="ri-code-s-slash-line" aria-hidden="true"></i>
        <span class="sr-only">View Source</span>
      </a>
 
 
+      <span class="note">(macro)</span>
+
   </div>
 
   <section class="docstring">
 
-<p>Sets up the sandbox based on the test tags.</p>
+
+  </section>
+</section>
+<section class="detail" id="values/0">
+
+  <div class="detail-header">
+    <a href="#values/0" class="detail-link" data-no-tooltip title="Link to this macro">
+      <i class="ri-link-m" aria-hidden="true"></i>
+      <span class="sr-only">Link to this macro</span>
+    </a>
+    <h1 class="signature" translate="no">values()</h1>
+
+      <a href="https://github.com/trento-project/wanda/blob/main/lib/wanda/operations/enums/status.ex#L6" class="icon-action" rel="help" title="View Source">
+       <i class="ri-code-s-slash-line" aria-hidden="true"></i>
+       <span class="sr-only">View Source</span>
+     </a>
+
+
+      <span class="note">(macro)</span>
+
+  </div>
+
+  <section class="docstring">
+
+
   </section>
 </section>
 

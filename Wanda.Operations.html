@@ -14,7 +14,7 @@
 
     <script src="dist/handlebars.runtime-NWIB6V2M.js"></script>
     <script src="dist/handlebars.templates-K7URE6B4.js"></script>
-    <script src="dist/sidebar_items-A2D2BF55.js"></script>
+    <script src="dist/sidebar_items-36A56F34.js"></script>
     <script src="docs_config.js"></script>
     <script async src="dist/html-YIPIRHGU.js"></script>
 
@@ -134,6 +134,189 @@ persistent changes on them.</p>
 
 </div>
 
+  <section id="summary" class="details-list">
+    <h1 class="section-heading">
+      <a class="hover-link" href="#summary">
+        <i class="ri-link-m" aria-hidden="true"></i>
+      </a>
+      <span class="text">Summary</span>
+    </h1>
+<div class="summary-functions summary">
+  <h2>
+    <a href="#functions">Functions</a>
+  </h2>
+
+    <div class="summary-row">
+      <div class="summary-signature">
+        <a href="#complete_operation!/2" data-no-tooltip translate="no">complete_operation!(operation_id, result)</a>
+
+      </div>
+
+        <div class="summary-synopsis"><p>Marks a previously started operation as completed</p></div>
+
+    </div>
+
+    <div class="summary-row">
+      <div class="summary-signature">
+        <a href="#create_operation!/3" data-no-tooltip translate="no">create_operation!(operation_id, group_id, targets)</a>
+
+      </div>
+
+        <div class="summary-synopsis"><p>Create a new operarion.</p></div>
+
+    </div>
+
+    <div class="summary-row">
+      <div class="summary-signature">
+        <a href="#get_operation!/1" data-no-tooltip translate="no">get_operation!(operation_id)</a>
+
+      </div>
+
+        <div class="summary-synopsis"><p>Get an operation by operation_id.</p></div>
+
+    </div>
+
+    <div class="summary-row">
+      <div class="summary-signature">
+        <a href="#update_agent_reports!/2" data-no-tooltip translate="no">update_agent_reports!(operation_id, agent_reports)</a>
+
+      </div>
+
+        <div class="summary-synopsis"><p>Update agent_reports of an operation</p></div>
+
+    </div>
+
+</div>
+
+  </section>
+
+
+  <section id="functions" class="details-list">
+    <h1 class="section-heading">
+      <a class="hover-link" href="#functions">
+        <i class="ri-link-m" aria-hidden="true"></i>
+      </a>
+      <span class="text">Functions</span>
+    </h1>
+    <div class="functions-list">
+<section class="detail" id="complete_operation!/2">
+
+  <div class="detail-header">
+    <a href="#complete_operation!/2" class="detail-link" data-no-tooltip title="Link to this function">
+      <i class="ri-link-m" aria-hidden="true"></i>
+      <span class="sr-only">Link to this function</span>
+    </a>
+    <h1 class="signature" translate="no">complete_operation!(operation_id, result)</h1>
+
+      <a href="https://github.com/trento-project/wanda/blob/main/lib/wanda/operations.ex#L62" class="icon-action" rel="help" title="View Source">
+       <i class="ri-code-s-slash-line" aria-hidden="true"></i>
+       <span class="sr-only">View Source</span>
+     </a>
+
+
+  </div>
+
+  <section class="docstring">
+
+      <div class="specs">
+
+          <pre translate="no"><span class="attribute">@spec</span> complete_operation!(<a href="https://hexdocs.pm/elixir/String.html#t:t/0">String.t</a>(), <a href="Wanda.Operations.Enums.Result.html#t:t/0">Wanda.Operations.Enums.Result.t</a>()) ::
+  <a href="Wanda.Operations.Operation.html#t:t/0">Wanda.Operations.Operation.t</a>()</pre>
+
+      </div>
+
+<p>Marks a previously started operation as completed</p>
+  </section>
+</section>
+<section class="detail" id="create_operation!/3">
+
+  <div class="detail-header">
+    <a href="#create_operation!/3" class="detail-link" data-no-tooltip title="Link to this function">
+      <i class="ri-link-m" aria-hidden="true"></i>
+      <span class="sr-only">Link to this function</span>
+    </a>
+    <h1 class="signature" translate="no">create_operation!(operation_id, group_id, targets)</h1>
+
+      <a href="https://github.com/trento-project/wanda/blob/main/lib/wanda/operations.ex#L24" class="icon-action" rel="help" title="View Source">
+       <i class="ri-code-s-slash-line" aria-hidden="true"></i>
+       <span class="sr-only">View Source</span>
+     </a>
+
+
+  </div>
+
+  <section class="docstring">
+
+      <div class="specs">
+
+          <pre translate="no"><span class="attribute">@spec</span> create_operation!(<a href="https://hexdocs.pm/elixir/String.html#t:t/0">String.t</a>(), <a href="https://hexdocs.pm/elixir/String.html#t:t/0">String.t</a>(), [<a href="Wanda.Operations.OperationTarget.html#t:t/0">Wanda.Operations.OperationTarget.t</a>()]) ::
+  <a href="Wanda.Operations.Operation.html#t:t/0">Wanda.Operations.Operation.t</a>()</pre>
+
+      </div>
+
+<p>Create a new operarion.</p><p>If the operation already exists, it will be returned.</p>
+  </section>
+</section>
+<section class="detail" id="get_operation!/1">
+
+  <div class="detail-header">
+    <a href="#get_operation!/1" class="detail-link" data-no-tooltip title="Link to this function">
+      <i class="ri-link-m" aria-hidden="true"></i>
+      <span class="sr-only">Link to this function</span>
+    </a>
+    <h1 class="signature" translate="no">get_operation!(operation_id)</h1>
+
+      <a href="https://github.com/trento-project/wanda/blob/main/lib/wanda/operations.ex#L40" class="icon-action" rel="help" title="View Source">
+       <i class="ri-code-s-slash-line" aria-hidden="true"></i>
+       <span class="sr-only">View Source</span>
+     </a>
+
+
+  </div>
+
+  <section class="docstring">
+
+      <div class="specs">
+
+          <pre translate="no"><span class="attribute">@spec</span> get_operation!(<a href="https://hexdocs.pm/elixir/String.html#t:t/0">String.t</a>()) :: <a href="Wanda.Operations.Operation.html#t:t/0">Wanda.Operations.Operation.t</a>()</pre>
+
+      </div>
+
+<p>Get an operation by operation_id.</p>
+  </section>
+</section>
+<section class="detail" id="update_agent_reports!/2">
+
+  <div class="detail-header">
+    <a href="#update_agent_reports!/2" class="detail-link" data-no-tooltip title="Link to this function">
+      <i class="ri-link-m" aria-hidden="true"></i>
+      <span class="sr-only">Link to this function</span>
+    </a>
+    <h1 class="signature" translate="no">update_agent_reports!(operation_id, agent_reports)</h1>
+
+      <a href="https://github.com/trento-project/wanda/blob/main/lib/wanda/operations.ex#L49" class="icon-action" rel="help" title="View Source">
+       <i class="ri-code-s-slash-line" aria-hidden="true"></i>
+       <span class="sr-only">View Source</span>
+     </a>
+
+
+  </div>
+
+  <section class="docstring">
+
+      <div class="specs">
+
+          <pre translate="no"><span class="attribute">@spec</span> update_agent_reports!(<a href="https://hexdocs.pm/elixir/String.html#t:t/0">String.t</a>(), [<a href="Wanda.Operations.StepReport.html#t:t/0">Wanda.Operations.StepReport.t</a>()]) ::
+  <a href="Wanda.Operations.Operation.html#t:t/0">Wanda.Operations.Operation.t</a>()</pre>
+
+      </div>
+
+<p>Update agent_reports of an operation</p>
+  </section>
+</section>
+
+    </div>
+  </section>
 
     <footer class="footer">
       <p>

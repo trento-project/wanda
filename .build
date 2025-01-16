@@ -42,6 +42,9 @@ Wanda.Operations.AgentReport.html
 Wanda.Operations.Catalog.Operation.html
 Wanda.Operations.Catalog.Step.html
 Wanda.Operations.Enums.Result.html
+Wanda.Operations.Enums.Status.html
+Wanda.Operations.Operation.Target.html
+Wanda.Operations.Operation.html
 Wanda.Operations.OperationTarget.html
 Wanda.Operations.Server.html
 Wanda.Operations.ServerBehaviour.html
@@ -115,8 +118,8 @@ dist/lato-latin-ext-300-normal-VPGGJKJL.woff2
 dist/lato-latin-ext-400-normal-N27NCBWW.woff2
 dist/lato-latin-ext-700-normal-Q2L5DVMW.woff2
 dist/remixicon-NKANDIL5.woff2
-dist/search_data-DAB52361.js
-dist/sidebar_items-A2D2BF55.js
+dist/search_data-0B7A64E8.js
+dist/sidebar_items-36A56F34.js
 expression_language.html
 gatherers.html
 hack_on_wanda.html
