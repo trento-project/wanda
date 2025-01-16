@@ -12,6 +12,14 @@ defmodule Wanda.Operations.Catalog.Registry do
   }
 
   @doc """
+  Get all operations
+  """
+  @spec get_operations() :: [Operation.t()]
+  def get_operations do
+    Map.values(@registry)
+  end
+
+  @doc """
   Get an operation by id
   """
   @spec get_operation(String.t()) :: {:ok, Operation.t()} | {:error, :operation_not_found}

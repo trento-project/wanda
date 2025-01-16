@@ -26,7 +26,7 @@ defmodule Wanda.Operations.Catalog.Operation do
     operation = opts[:operation]
 
     quote do
-      def operation() do
+      def operation do
         unquote(operation)
       end
     end

@@ -1,8 +1,8 @@
 defmodule Wanda.Operations.Catalog.SaptuneApplySolutionV1 do
-  alias Wanda.Operations.Catalog.{Operation, Step}
+  @moduledoc false
 
-  use Operation,
-    operation: %Operation{
+  use Wanda.Operations.Catalog.Operation,
+    operation: %Wanda.Operations.Catalog.Operation{
       id: "saptuneapplysolution@v1",
       name: "Apply saptune solution",
       description: """
@@ -10,7 +10,7 @@ defmodule Wanda.Operations.Catalog.SaptuneApplySolutionV1 do
       """,
       required_args: ["solution"],
       steps: [
-        %Step{
+        %Wanda.Operations.Catalog.Step{
           name: "Apply solution",
           operator: "saptuneapplysolution@v1",
           predicate: "*"
