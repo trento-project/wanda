@@ -107,7 +107,7 @@ defmodule Wanda.Operations.Server do
     # Publish results
 
     # Result is failed or rolledback, depending on the evaluation result
-    Operations.complete_operation!(operation_id, :failed)
+    Operations.complete_operation!(operation_id, Result.failed())
 
     {:stop, :normal, state}
   end
@@ -157,7 +157,7 @@ defmodule Wanda.Operations.Server do
     # Publish and store results
 
     # Result based on evaluation result
-    Operations.complete_operation!(operation_id, :updated)
+    Operations.complete_operation!(operation_id, Result.updated())
 
     {:stop, :normal, state}
   end

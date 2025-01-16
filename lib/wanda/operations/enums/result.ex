@@ -1,6 +1,6 @@
 defmodule Wanda.Operations.Enums.Result do
   @moduledoc """
-  Type that represents am operation result.
+  Type that represents an operation result.
   """
 
   use Wanda.Support.Enum,

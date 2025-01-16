@@ -5,6 +5,9 @@ defmodule Wanda.Operations.ServerTest do
 
   alias Wanda.Operations.{Operation, Server}
 
+  require Wanda.Operations.Enums.Result, as: Result
+  require Wanda.Operations.Enums.Status, as: Status
+
   describe "operation execution" do
     test "should not start operation if required arguments on targets are missing" do
       catalog_operation = build(:catalog_operation, required_args: ["arg1", "arg2"])
@@ -81,12 +84,12 @@ defmodule Wanda.Operations.ServerTest do
       pid = :global.whereis_name({Server, group_id})
       ref = Process.monitor(pid)
 
-      Server.receive_operation_reports(operation_id, group_id, 0, agent_id_1, :updated)
-      Server.receive_operation_reports(operation_id, group_id, 0, agent_id_2, :failed)
+      Server.receive_operation_reports(operation_id, group_id, 0, agent_id_1, Result.updated())
+      Server.receive_operation_reports(operation_id, group_id, 0, agent_id_2, Result.failed())
 
       assert_receive {:DOWN, ^ref, _, ^pid, :normal}, 500
 
-      %{result: :failed, status: :completed, agent_reports: agent_reports} =
+      %{result: Result.failed(), status: Status.completed(), agent_reports: agent_reports} =
         Repo.get(Operation, operation_id)
 
       expected_agent_reports = [
@@ -140,7 +143,7 @@ defmodule Wanda.Operations.ServerTest do
       # than having a fixed sleep code
       :sys.get_state(pid)
 
-      %{status: :running, agent_reports: initial_agent_reports} =
+      %{status: Status.running(), agent_reports: initial_agent_reports} =
         Repo.get(Operation, operation_id)
 
       expected_initial_agent_reports = [
@@ -162,12 +165,20 @@ defmodule Wanda.Operations.ServerTest do
 
       assert expected_initial_agent_reports == initial_agent_reports
 
-      Server.receive_operation_reports(operation_id, group_id, 0, agent_id_1, :updated)
-      Server.receive_operation_reports(operation_id, group_id, 0, agent_id_2, :not_updated)
+      Server.receive_operation_reports(operation_id, group_id, 0, agent_id_1, Result.updated())
+
+      Server.receive_operation_reports(
+        operation_id,
+        group_id,
+        0,
+        agent_id_2,
+        Result.not_updated()
+      )
 
       :sys.get_state(pid)
 
-      %{status: :running, agent_reports: agent_reports} = Repo.get(Operation, operation_id)
+      %{status: Status.running(), agent_reports: agent_reports} =
+        Repo.get(Operation, operation_id)
 
       expected_agent_reports = [
         %{
@@ -188,12 +199,12 @@ defmodule Wanda.Operations.ServerTest do
 
       assert expected_agent_reports == agent_reports
 
-      Server.receive_operation_reports(operation_id, group_id, 1, agent_id_1, :updated)
-      Server.receive_operation_reports(operation_id, group_id, 1, agent_id_2, :updated)
+      Server.receive_operation_reports(operation_id, group_id, 1, agent_id_1, Result.updated())
+      Server.receive_operation_reports(operation_id, group_id, 1, agent_id_2, Result.updated())
 
       assert_receive {:DOWN, ^ref, _, ^pid, :normal}, 500
 
-      %{result: :updated, status: :completed, agent_reports: final_agent_reports} =
+      %{result: Result.updated(), status: Status.completed(), agent_reports: final_agent_reports} =
         Repo.get(Operation, operation_id)
 
       expected_final_agent_reports = [
@@ -240,11 +251,11 @@ defmodule Wanda.Operations.ServerTest do
       pid = :global.whereis_name({Server, group_id})
       ref = Process.monitor(pid)
 
-      Server.receive_operation_reports(operation_id, group_id, 0, agent_id_1, :updated)
+      Server.receive_operation_reports(operation_id, group_id, 0, agent_id_1, Result.updated())
 
       assert_receive {:DOWN, ^ref, _, ^pid, :normal}, 500
 
-      %{result: :updated, status: :completed, agent_reports: agent_reports} =
+      %{result: Result.updated(), status: Status.completed(), agent_reports: agent_reports} =
         Repo.get(Operation, operation_id)
 
       expected_agent_reports = [
@@ -286,7 +297,7 @@ defmodule Wanda.Operations.ServerTest do
 
       assert_receive {:DOWN, ^ref, _, ^pid, :normal}, 500
 
-      %{result: :updated, status: :completed, agent_reports: agent_reports} =
+      %{result: Result.updated(), status: Status.completed(), agent_reports: agent_reports} =
         Repo.get(Operation, operation_id)
 
       expected_agent_reports = [
@@ -324,8 +335,8 @@ defmodule Wanda.Operations.ServerTest do
 
       operation_state = Repo.get(Operation, operation_id)
 
-      Server.receive_operation_reports(UUID.uuid4(), group_id, 0, agent_id_1, :updated)
-      Server.receive_operation_reports(operation_id, group_id, 1, agent_id_2, :updated)
+      Server.receive_operation_reports(UUID.uuid4(), group_id, 0, agent_id_1, Result.updated())
+      Server.receive_operation_reports(operation_id, group_id, 1, agent_id_2, Result.updated())
 
       :sys.get_state(pid)
 

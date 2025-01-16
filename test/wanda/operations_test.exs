@@ -7,6 +7,9 @@ defmodule Wanda.OperationsTest do
   alias Wanda.Operations
   alias Wanda.Operations.{AgentReport, Operation, OperationTarget, StepReport}
 
+  require Wanda.Operations.Enums.Result, as: Result
+  require Wanda.Operations.Enums.Status, as: Status
+
   describe "create an operation" do
     test "should create a running operation" do
       operation_id = UUID.uuid4()
@@ -28,8 +31,8 @@ defmodule Wanda.OperationsTest do
       assert %Operation{
                operation_id: ^operation_id,
                group_id: ^group_id,
-               result: :not_executed,
-               status: :running,
+               result: Result.not_executed(),
+               status: Status.running(),
                targets: [
                  %{
                    agent_id: ^agent_id_1,
@@ -58,7 +61,7 @@ defmodule Wanda.OperationsTest do
       %Operation{
         operation_id: operation_id,
         group_id: group_id
-      } = insert(:operation, status: :running)
+      } = insert(:operation, status: Status.running())
 
       [
         %StepReport{
@@ -99,8 +102,8 @@ defmodule Wanda.OperationsTest do
       assert %Operation{
                operation_id: ^operation_id,
                group_id: ^group_id,
-               result: :not_executed,
-               status: :running,
+               result: Result.not_executed(),
+               status: Status.running(),
                agent_reports: [
                  %{
                    "step_number" => ^step_number_1,
@@ -139,15 +142,15 @@ defmodule Wanda.OperationsTest do
       %Operation{
         operation_id: operation_id,
         group_id: group_id
-      } = insert(:operation, status: :running)
+      } = insert(:operation, status: Status.running())
 
-      Operations.complete_operation!(operation_id, :updated)
+      Operations.complete_operation!(operation_id, Result.updated())
 
       assert %Operation{
                operation_id: ^operation_id,
                group_id: ^group_id,
-               result: :updated,
-               status: :completed,
+               result: Result.updated(),
+               status: Status.completed(),
                completed_at: completed_at
              } = Repo.get(Operation, operation_id)
 

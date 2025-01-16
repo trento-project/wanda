@@ -12,6 +12,9 @@ defmodule Wanda.Operations do
     StepReport
   }
 
+  require Wanda.Operations.Enums.Result, as: Result
+  require Wanda.Operations.Enums.Status, as: Status
+
   @doc """
   Create a new operarion.
 
@@ -23,8 +26,8 @@ defmodule Wanda.Operations do
     |> Operation.changeset(%{
       operation_id: operation_id,
       group_id: group_id,
-      status: :running,
-      result: :not_executed,
+      status: Status.running(),
+      result: Result.not_executed(),
       targets: Enum.map(targets, &Map.from_struct/1)
     })
     |> Repo.insert!(on_conflict: :nothing)
@@ -55,17 +58,13 @@ defmodule Wanda.Operations do
   @doc """
   Marks a previously started operation as completed
   """
-  @spec complete_operation!(
-          String.t(),
-          :updated | :not_updated | :failed | :rolled_back | :skipped
-        ) ::
-          Operation.t()
+  @spec complete_operation!(String.t(), Result.t()) :: Operation.t()
   def complete_operation!(operation_id, result) do
     Operation
     |> Repo.get!(operation_id)
     |> Operation.changeset(%{
       result: result,
-      status: :completed,
+      status: Status.completed(),
       completed_at: DateTime.utc_now()
     })
     |> Repo.update!()
