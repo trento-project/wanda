@@ -87,6 +87,8 @@ facts:
     gatherer: corosync.conf
     argument: totem.token
 
+customizable: true
+
 values:
   - name: expected_token_timeout
     default: 5000
@@ -119,6 +121,7 @@ Following are listed the top level properties of a Check definition yaml.
 | `severity`     | not required          | [see more](#severity)     |
 | `metadata`     | not required          | [see more](#metadata)     |
 | `facts`        | required              | [see more](#facts)        |
+| `customizable` | not required          | [see more](#customizable) |
 | `values`       | not required          | [see more](#values)       |
 | `expectations` | required              | [see more](#expectations) |
 
@@ -347,6 +350,16 @@ facts:
 ```
 
 Finally, gathered facts, are used in Check's [Expectations](#expectations) to determine whether expected conditions are met for the best practice to be adhered.
+
+## Customizable
+
+Wanda's built-in checks, which include expected values,are **customizable** by **default**. This means you can modify their values in [Trento Web console](https://github.com/trento-project/web).
+
+A check can be configured as not customizable by adding the key `customizable`:
+
+```yaml
+customizable: false
+```
 
 ## Values
 

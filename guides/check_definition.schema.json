@@ -37,6 +37,9 @@
         "$ref": "#/definitions/Fact"
       }
     },
+    "customizable": {
+      "type": "string"
+    },
     "values": {
       "type": "array",
       "items": {
