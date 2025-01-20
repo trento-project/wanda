@@ -24,11 +24,12 @@ URL:            https://github.com/trento-project/wanda
 Source:         %{name}-%{version}.tar.gz
 Source1:        deps.tar.gz
 Group:          System/Monitoring
-BuildRequires:  elixir >= 1.15
+BuildRequires:  elixir == 1.15
+BuildRequires:  erlang == 24
 BuildRequires:  elixir-hex
 BuildRequires:  erlang-rebar3
 BuildRequires:  git-core
-BuildRequires:  rust+cargo >= 1.66
+BuildRequires:  rust+cargo == 1.81
 Requires:       trento-checks
 
 %description
