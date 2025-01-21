@@ -362,7 +362,7 @@ defmodule Wanda.Operations.ServerTest do
       operation_id = UUID.uuid4()
       group_id = UUID.uuid4()
 
-      operation = build(:catalog_operation)
+      operation = build(:catalog_operation, steps: build_list(2, :operation_step, timeout: 0))
 
       [%{agent_id: agent_id_1}, %{agent_id: agent_id_2}] =
         targets = build_list(2, :operation_target)
@@ -372,7 +372,7 @@ defmodule Wanda.Operations.ServerTest do
         group_id,
         operation,
         targets,
-        [{:timeout, 0}]
+        []
       )
 
       pid = :global.whereis_name({Server, group_id})

@@ -224,7 +224,8 @@ defmodule Wanda.Factory do
   def operation_step_factory do
     %Step{
       operator: Faker.StarWars.planet(),
-      predicate: "*"
+      predicate: "*",
+      timeout: 10_000
     }
   end
 

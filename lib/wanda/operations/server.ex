@@ -19,8 +19,6 @@ defmodule Wanda.Operations.Server do
 
   require Logger
 
-  @default_timeout 5 * 60 * 1_000
-
   @impl true
   def start_operation(operation_id, group_id, operation, targets, config \\ [])
 
@@ -54,7 +52,6 @@ defmodule Wanda.Operations.Server do
 
   def start_link(opts) do
     group_id = Keyword.fetch!(opts, :group_id)
-    config = Keyword.get(opts, :config, [])
 
     GenServer.start_link(
       __MODULE__,
@@ -63,7 +60,6 @@ defmodule Wanda.Operations.Server do
         group_id: group_id,
         operation: Keyword.fetch!(opts, :operation),
         targets: Keyword.fetch!(opts, :targets),
-        timeout: Keyword.get(config, :timeout, @default_timeout),
         current_step_index: 0,
         step_failed: false
       },
@@ -123,14 +119,14 @@ defmodule Wanda.Operations.Server do
           operation: %Operation{
             steps: steps
           },
-          current_step_index: current_step_index,
-          timeout: timeout
+          current_step_index: current_step_index
         } = state
       )
       when current_step_index < length(steps) do
     Logger.debug("Starting operation step: #{current_step_index}", state: inspect(state))
 
-    %Step{predicate: predicate, operator: operator} = Enum.at(steps, current_step_index)
+    %Step{predicate: predicate, operator: operator, timeout: timeout} =
+      Enum.at(steps, current_step_index)
 
     new_state =
       %State{pending_targets_on_step: pending_targets} =

@@ -23,7 +23,6 @@ defmodule Wanda.Operations.State do
     :operation_id,
     :group_id,
     :operation,
-    :timeout,
     :timer_ref,
     targets: [],
     pending_targets_on_step: [],
@@ -42,7 +41,6 @@ defmodule Wanda.Operations.State do
           pending_targets_on_step: [String.t()],
           current_step_index: integer(),
           step_failed: boolean(),
-          timeout: integer(),
           timer_ref: reference()
         }
 end
