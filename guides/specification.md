@@ -353,15 +353,11 @@ Finally, gathered facts, are used in Check's [Expectations](#expectations) to de
 
 ## Customizable
 
-Wanda's built-in checks, which include expected values, are **customizable** by **default**. Users can modify these check values through the [Trento Web console](https://github.com/trento-project/web) to adapt to specific system and environmental configurations.
+Users can modify a check's [expected values](#values) to adapt to specific system and environmental configurations.
+
+Built-in checks are considered **customizable** by **default**, so the `customizable` flag disables customization for a particular check.
 
 To explicitly mark a check as non-customizable, set the `customizable`  key to `false`:
-
-```yaml
-customizable: false
-```
-
-To explicitly mark a check as customizable, set the `customizable` key to `true`:
 
 ```yaml
 customizable: false

@@ -38,7 +38,7 @@
       }
     },
     "customizable": {
-      "type": "string"
+      "type": "boolean"
     },
     "values": {
       "type": "array",
