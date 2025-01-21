@@ -402,5 +402,59 @@ defmodule Wanda.Operations.ServerTest do
 
       assert expected_agent_reports == agent_reports
     end
+
+    test "should restart the timeout timer when a step is completed" do
+      operation_id = UUID.uuid4()
+      group_id = UUID.uuid4()
+
+      operation =
+        build(:catalog_operation,
+          steps: [
+            build(:operation_step, timeout: 10_000),
+            build(:operation_step, timeout: 0)
+          ]
+        )
+
+      [%{agent_id: agent_id_1}, %{agent_id: agent_id_2}] =
+        targets = build_list(2, :operation_target)
+
+      Server.start_operation(
+        operation_id,
+        group_id,
+        operation,
+        targets,
+        []
+      )
+
+      pid = :global.whereis_name({Server, group_id})
+      ref = Process.monitor(pid)
+
+      Server.receive_operation_reports(operation_id, group_id, 0, agent_id_1, Result.updated())
+      Server.receive_operation_reports(operation_id, group_id, 0, agent_id_2, Result.updated())
+
+      assert_receive {:DOWN, ^ref, _, ^pid, :normal}, 500
+
+      %{result: Result.failed(), status: Status.completed(), agent_reports: agent_reports} =
+        Repo.get(Operation, operation_id)
+
+      expected_agent_reports = [
+        %{
+          "step_number" => 0,
+          "agents" => [
+            %{"agent_id" => agent_id_1, "result" => "updated"},
+            %{"agent_id" => agent_id_2, "result" => "updated"}
+          ]
+        },
+        %{
+          "step_number" => 1,
+          "agents" => [
+            %{"agent_id" => agent_id_1, "result" => "timeout"},
+            %{"agent_id" => agent_id_2, "result" => "timeout"}
+          ]
+        }
+      ]
+
+      assert expected_agent_reports == agent_reports
+    end
   end
 end
