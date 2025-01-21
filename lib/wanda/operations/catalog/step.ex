@@ -16,6 +16,6 @@ defmodule Wanda.Operations.Catalog.Step do
   @type t :: %__MODULE__{
           operator: String.t(),
           predicate: String.t(),
-          timeout: integer()
+          timeout: non_neg_integer()
         }
 end
