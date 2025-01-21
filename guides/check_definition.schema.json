@@ -91,6 +91,9 @@
         "name": {
           "type": "string"
         },
+        "customizable": {
+          "type": "boolean"
+        },
         "default": {
           "anyOf": [
             {

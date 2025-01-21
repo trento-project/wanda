@@ -91,6 +91,7 @@ customizable: true
 
 values:
   - name: expected_token_timeout
+    customizable: true
     default: 5000
     conditions:
       - value: 30000
@@ -357,6 +358,9 @@ Users can modify a check's [expected values](#values) to adapt to specific syste
 
 Built-in checks are considered **customizable** by **default**, so the `customizable` flag disables customization for a particular check.
 
+The customizability flag can be set global in the check and|or in [values](#customizable-values). 
+When both levels are set, the **global** flag takes **precedence**, overriding any value-level customizability.
+
 To explicitly mark a check as non-customizable, set the `customizable`  key to `false`:
 
 ```yaml
@@ -475,6 +479,21 @@ Note that `conditions` is a cascading chain of contextual inspection to determin
 - `when` entry [Expression](#expression-language) has [access](#evaluation-scope) to gathered [facts](#facts-1) and [env](#env) evaluation scopes
 
 All the _resolved_ declared values would be registered in the [`values`](#values-1) namespaced evaluation scope.
+
+### Customizable Values
+
+In addition to the global-level [customizability](#customizable), individual check values are also **customizable** by **default**. To provide finer control, a `boolean` customizable entry can be defined on a per-value basis.
+
+```yaml
+values:
+  - name: non_customizable_check_value
+    customizable: false
+    default: 5000
+```
+
+Setting **customizable**: `false` for a specific value prevents the modification of the default value.
+
+Note that if global customizability is set to false, it takes precedence over any value-level customizable settings, disabling customizability for all associated values.
 
 ## Expectations
 
