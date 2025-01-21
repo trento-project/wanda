@@ -9,6 +9,19 @@ defmodule Wanda.Operations.ServerTest do
   require Wanda.Operations.Enums.Status, as: Status
 
   describe "operation execution" do
+    test "should not start operation if targets are missing" do
+      catalog_operation = build(:catalog_operation)
+
+      assert {:error, :targets_missing} =
+               Server.start_operation(
+                 UUID.uuid4(),
+                 UUID.uuid4(),
+                 catalog_operation,
+                 [],
+                 %{}
+               )
+    end
+
     test "should not start operation if required arguments on targets are missing" do
       catalog_operation = build(:catalog_operation, required_args: ["arg1", "arg2"])
 

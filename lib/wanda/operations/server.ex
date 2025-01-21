@@ -22,7 +22,11 @@ defmodule Wanda.Operations.Server do
   @default_timeout 5 * 60 * 1_000
 
   @impl true
-  def start_operation(operation_id, group_id, operation, targets, config \\ []) do
+  def start_operation(operation_id, group_id, operation, targets, config \\ [])
+
+  def start_operation(_, _, _, [], _), do: {:error, :targets_missing}
+
+  def start_operation(operation_id, group_id, operation, targets, config) do
     %Operation{required_args: required_args} = operation
 
     # Check if all targets have the required arguments
