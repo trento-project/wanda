@@ -358,8 +358,8 @@ Users can modify a check's [expected values](#values) to adapt to specific syste
 
 Built-in checks are considered **customizable** by **default**, so the `customizable` flag disables customization for a particular check.
 
-The customizability flag can be set global in the check and|or in [values](#customizable-values). 
-When both levels are set, the **global** flag takes **precedence**, overriding any value-level customizability.
+The customizability flag can be set globally for a check and|or for [specific values](#customizable-values).
+When customization is globally disabled for a check, marked with `customizable: false`, it overrides any value-specific customizability settings. If global customization is not disabled, the customizability of individual values is then considered.
 
 To explicitly mark a check as non-customizable, set the `customizable`  key to `false`:
 
