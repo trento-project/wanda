@@ -37,6 +37,9 @@
         "$ref": "#/definitions/Fact"
       }
     },
+    "customizable": {
+      "type": "boolean"
+    },
     "values": {
       "type": "array",
       "items": {
@@ -87,6 +90,9 @@
       "properties": {
         "name": {
           "type": "string"
+        },
+        "customizable": {
+          "type": "boolean"
         },
         "default": {
           "anyOf": [

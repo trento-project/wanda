@@ -87,8 +87,11 @@ facts:
     gatherer: corosync.conf
     argument: totem.token
 
+customizable: true
+
 values:
   - name: expected_token_timeout
+    customizable: true
     default: 5000
     conditions:
       - value: 30000
@@ -119,6 +122,7 @@ Following are listed the top level properties of a Check definition yaml.
 | `severity`     | not required          | [see more](#severity)     |
 | `metadata`     | not required          | [see more](#metadata)     |
 | `facts`        | required              | [see more](#facts)        |
+| `customizable` | not required          | [see more](#customizable) |
 | `values`       | not required          | [see more](#values)       |
 | `expectations` | required              | [see more](#expectations) |
 
@@ -348,6 +352,21 @@ facts:
 
 Finally, gathered facts, are used in Check's [Expectations](#expectations) to determine whether expected conditions are met for the best practice to be adhered.
 
+## Customizable
+
+Users can modify a check's [expected values](#values) to adapt to specific system and environmental configurations.
+
+Built-in checks are considered **customizable** by **default**, so the `customizable` flag disables customization for a particular check.
+
+The customizability flag can be set globally for a check and|or for [specific values](#customizable-values).
+When customization is globally disabled for a check, marked with `customizable: false`, it overrides any value-specific customizability settings. If global customization is not disabled, the customizability of individual values is then considered.
+
+To explicitly mark a check as non-customizable, set the `customizable`  key to `false`:
+
+```yaml
+customizable: false
+```
+
 ## Values
 
 Values are named variables that may evaluate differently based on the execution context and are used with Facts for _Contextual_ [Expectations](#expectations) Evaluation.
@@ -460,6 +479,21 @@ Note that `conditions` is a cascading chain of contextual inspection to determin
 - `when` entry [Expression](#expression-language) has [access](#evaluation-scope) to gathered [facts](#facts-1) and [env](#env) evaluation scopes
 
 All the _resolved_ declared values would be registered in the [`values`](#values-1) namespaced evaluation scope.
+
+### Customizable Values
+
+In addition to the global-level [customizability](#customizable), individual check values are also **customizable** by **default**. To provide finer control, a `boolean` customizable entry can be defined on a per-value basis.
+
+```yaml
+values:
+  - name: non_customizable_check_value
+    customizable: false
+    default: 5000
+```
+
+Setting **customizable**: `false` for a specific value prevents the modification of the default value.
+
+Note that if global customizability is set to false, it takes precedence over any value-level customizable settings, disabling customizability for all associated values.
 
 ## Expectations
 
