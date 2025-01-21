@@ -123,7 +123,8 @@ defmodule Wanda.Operations.Server do
           operation: %Operation{
             steps: steps
           },
-          current_step_index: current_step_index
+          current_step_index: current_step_index,
+          timeout: timeout
         } = state
       )
       when current_step_index < length(steps) do
@@ -143,7 +144,8 @@ defmodule Wanda.Operations.Server do
     if pending_targets == [] do
       {:noreply, new_state, {:continue, :execute_step}}
     else
-      {:noreply, new_state}
+      timer_ref = Process.send_after(self(), :timeout, timeout)
+      {:noreply, %State{new_state | timer_ref: timer_ref}}
     end
   end
 
@@ -172,7 +174,8 @@ defmodule Wanda.Operations.Server do
         %State{
           operation_id: operation_id,
           current_step_index: step_number,
-          pending_targets_on_step: targets
+          pending_targets_on_step: targets,
+          timer_ref: timer_ref
         } = state
       ) do
     Logger.debug(
@@ -190,6 +193,7 @@ defmodule Wanda.Operations.Server do
       |> store_agent_reports()
 
     if pending_targets == [] do
+      Process.cancel_timer(timer_ref)
       {:noreply, new_state, {:continue, :execute_step}}
     else
       {:noreply, new_state}
@@ -216,6 +220,27 @@ defmodule Wanda.Operations.Server do
     Logger.error("Operation #{operation_id} does not match for group #{group_id}")
 
     {:noreply, state}
+  end
+
+  @impl true
+  def handle_info(
+        :timeout,
+        %State{
+          current_step_index: current_step_index,
+          pending_targets_on_step: pending_targets_on_step
+        } = state
+      ) do
+    Logger.debug("Timeout reached on step number #{current_step_index}.", state: inspect(state))
+
+    new_state =
+      pending_targets_on_step
+      |> Enum.reduce(state, fn agent_id, acc ->
+        update_report_results(acc, current_step_index, agent_id, Result.timeout())
+      end)
+      |> Map.put(:step_failed, true)
+      |> store_agent_reports()
+
+    {:noreply, new_state, {:continue, :execute_step}}
   end
 
   defp maybe_start_operation(false, _, _, _, _, _), do: {:error, :arguments_missing}

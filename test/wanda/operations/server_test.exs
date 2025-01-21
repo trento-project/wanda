@@ -357,5 +357,50 @@ defmodule Wanda.Operations.ServerTest do
 
       GenServer.stop(pid)
     end
+
+    test "should timeout a step execution and set the operation as failed" do
+      operation_id = UUID.uuid4()
+      group_id = UUID.uuid4()
+
+      operation = build(:catalog_operation)
+
+      [%{agent_id: agent_id_1}, %{agent_id: agent_id_2}] =
+        targets = build_list(2, :operation_target)
+
+      Server.start_operation(
+        operation_id,
+        group_id,
+        operation,
+        targets,
+        [{:timeout, 0}]
+      )
+
+      pid = :global.whereis_name({Server, group_id})
+      ref = Process.monitor(pid)
+
+      assert_receive {:DOWN, ^ref, _, ^pid, :normal}, 500
+
+      %{result: Result.failed(), status: Status.completed(), agent_reports: agent_reports} =
+        Repo.get(Operation, operation_id)
+
+      expected_agent_reports = [
+        %{
+          "step_number" => 0,
+          "agents" => [
+            %{"agent_id" => agent_id_1, "result" => "timeout"},
+            %{"agent_id" => agent_id_2, "result" => "timeout"}
+          ]
+        },
+        %{
+          "step_number" => 1,
+          "agents" => [
+            %{"agent_id" => agent_id_1, "result" => "not_executed"},
+            %{"agent_id" => agent_id_2, "result" => "not_executed"}
+          ]
+        }
+      ]
+
+      assert expected_agent_reports == agent_reports
+    end
   end
 end
