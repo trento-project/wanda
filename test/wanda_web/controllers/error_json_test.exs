@@ -16,6 +16,28 @@ defmodule WandaWeb.ErrorJSONTest do
            }
   end
 
+  test "renders a default 403.json" do
+    assert ErrorJSON.render("403.json", %{}) == %{
+             errors: [
+               %{
+                 detail: "Unauthorized to perform operation.",
+                 title: "Forbidden"
+               }
+             ]
+           }
+  end
+
+  test "should render a 403 error with custom reason" do
+    assert %{
+             errors: [
+               %{
+                 detail: "Insufficient permissions.",
+                 title: "Forbidden"
+               }
+             ]
+           } == ErrorJSON.render("403.json", %{reason: "Insufficient permissions."})
+  end
+
   test "renders a generic error" do
     assert ErrorJSON.render("418.json", %{}) == %{
              errors: [%{detail: "An error has occurred.", title: "I'm a teapot"}]

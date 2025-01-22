@@ -17,6 +17,13 @@ defmodule WandaWeb.FallbackController do
     |> render(:"422", reason: "Execution already running.")
   end
 
+  def call(conn, {:error, :forbidden}) do
+    conn
+    |> put_status(:forbidden)
+    |> put_view(json: ErrorJSON)
+    |> render(:"403")
+  end
+
   def call(conn, _) do
     conn
     |> put_status(:internal_server_error)

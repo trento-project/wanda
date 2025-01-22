@@ -21,6 +21,28 @@ defmodule WandaWeb.ErrorJSON do
     }
   end
 
+  def render("403.json", %{reason: reason}) do
+    %{
+      errors: [
+        %{
+          title: "Forbidden",
+          detail: reason
+        }
+      ]
+    }
+  end
+
+  def render("403.json", _) do
+    %{
+      errors: [
+        %{
+          title: "Forbidden",
+          detail: "Unauthorized to perform operation."
+        }
+      ]
+    }
+  end
+
   def render(template, _assigns) do
     %{
       errors: [
