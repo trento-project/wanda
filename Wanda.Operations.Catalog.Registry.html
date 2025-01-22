@@ -8,7 +8,7 @@
     <meta name="project" content="Wanda v1.4.0">
 
 
-    <title>Wanda.Executions.Value — Wanda v1.4.0</title>
+    <title>Wanda.Operations.Catalog.Registry — Wanda v1.4.0</title>
     <link rel="stylesheet" href="dist/html-elixir-F2VRIOKR.css" />
 
 
@@ -116,20 +116,19 @@ GUIDES
 <div id="top-content">
   <h1>
 
-      <a href="https://github.com/trento-project/wanda/blob/main/lib/wanda/executions/value.ex#L1" title="View Source" class="icon-action" rel="help">
+      <a href="https://github.com/trento-project/wanda/blob/main/lib/wanda/operations/catalog/registry.ex#L1" title="View Source" class="icon-action" rel="help">
         <i class="ri-code-s-slash-line" aria-hidden="true"></i>
         <span class="sr-only">View Source</span>
       </a>
 
-    <span translate="no">Wanda.Executions.Value</span> 
+    <span translate="no">Wanda.Operations.Catalog.Registry</span> 
     <small class="app-vsn" translate="no">(Wanda v1.4.0)</small>
 
   </h1>
 
 
     <section id="moduledoc">
-<p>Represents a Value used in expectation evaluation.
-This value has been already determined given the conditions in check definition.</p>
+<p>Operations registry where are available operations are listed</p>
     </section>
 
 </div>
@@ -141,16 +140,28 @@ This value has been already determined given the conditions in check definition.
       </a>
       <span class="text">Summary</span>
     </h1>
-<div class="summary-types summary">
+<div class="summary-functions summary">
   <h2>
-    <a href="#types">Types</a>
+    <a href="#functions">Functions</a>
   </h2>
 
     <div class="summary-row">
       <div class="summary-signature">
-        <a href="#t:t/0" data-no-tooltip translate="no">t()</a>
+        <a href="#get_operation/1" data-no-tooltip translate="no">get_operation(id)</a>
 
       </div>
+
+        <div class="summary-synopsis"><p>Get an operation by id</p></div>
+
+    </div>
+
+    <div class="summary-row">
+      <div class="summary-signature">
+        <a href="#get_operations/0" data-no-tooltip translate="no">get_operations()</a>
+
+      </div>
+
+        <div class="summary-synopsis"><p>Get all operations</p></div>
 
     </div>
 
@@ -159,24 +170,24 @@ This value has been already determined given the conditions in check definition.
   </section>
 
 
-  <section id="types" class="details-list">
+  <section id="functions" class="details-list">
     <h1 class="section-heading">
-      <a class="hover-link" href="#types">
+      <a class="hover-link" href="#functions">
         <i class="ri-link-m" aria-hidden="true"></i>
       </a>
-      <span class="text">Types</span>
+      <span class="text">Functions</span>
     </h1>
-    <div class="types-list">
-<section class="detail" id="t:t/0">
+    <div class="functions-list">
+<section class="detail" id="get_operation/1">
 
   <div class="detail-header">
-    <a href="#t:t/0" class="detail-link" data-no-tooltip title="Link to this type">
+    <a href="#get_operation/1" class="detail-link" data-no-tooltip title="Link to this function">
       <i class="ri-link-m" aria-hidden="true"></i>
-      <span class="sr-only">Link to this type</span>
+      <span class="sr-only">Link to this function</span>
     </a>
-    <h1 class="signature" translate="no">t()</h1>
+    <h1 class="signature" translate="no">get_operation(id)</h1>
 
-      <a href="https://github.com/trento-project/wanda/blob/main/lib/wanda/executions/value.ex#L13" class="icon-action" rel="help" title="View Source">
+      <a href="https://github.com/trento-project/wanda/blob/main/lib/wanda/operations/catalog/registry.ex#L26" class="icon-action" rel="help" title="View Source">
        <i class="ri-code-s-slash-line" aria-hidden="true"></i>
        <span class="sr-only">View Source</span>
      </a>
@@ -188,14 +199,40 @@ This value has been already determined given the conditions in check definition.
 
       <div class="specs">
 
-          <pre translate="no"><span class="attribute">@type</span> t() :: %Wanda.Executions.Value{
-  name: <a href="https://hexdocs.pm/elixir/String.html#t:t/0">String.t</a>(),
-  value: <a href="https://hexdocs.pm/elixir/typespecs.html#built-in-types">boolean</a>() | <a href="https://hexdocs.pm/elixir/typespecs.html#built-in-types">number</a>() | <a href="https://hexdocs.pm/elixir/String.html#t:t/0">String.t</a>()
-}</pre>
+          <pre translate="no"><span class="attribute">@spec</span> get_operation(<a href="https://hexdocs.pm/elixir/String.html#t:t/0">String.t</a>()) ::
+  {:ok, <a href="Wanda.Operations.Catalog.Operation.html#t:t/0">Wanda.Operations.Catalog.Operation.t</a>()} | {:error, :operation_not_found}</pre>
 
       </div>
 
+<p>Get an operation by id</p>
+  </section>
+</section>
+<section class="detail" id="get_operations/0">
 
+  <div class="detail-header">
+    <a href="#get_operations/0" class="detail-link" data-no-tooltip title="Link to this function">
+      <i class="ri-link-m" aria-hidden="true"></i>
+      <span class="sr-only">Link to this function</span>
+    </a>
+    <h1 class="signature" translate="no">get_operations()</h1>
+
+      <a href="https://github.com/trento-project/wanda/blob/main/lib/wanda/operations/catalog/registry.ex#L18" class="icon-action" rel="help" title="View Source">
+       <i class="ri-code-s-slash-line" aria-hidden="true"></i>
+       <span class="sr-only">View Source</span>
+     </a>
+
+
+  </div>
+
+  <section class="docstring">
+
+      <div class="specs">
+
+          <pre translate="no"><span class="attribute">@spec</span> get_operations() :: [<a href="Wanda.Operations.Catalog.Operation.html#t:t/0">Wanda.Operations.Catalog.Operation.t</a>()]</pre>
+
+      </div>
+
+<p>Get all operations</p>
   </section>
 </section>
 
