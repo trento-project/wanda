@@ -6,11 +6,13 @@ defmodule Wanda.Operations.Catalog.Step do
   """
 
   defstruct [
+    :name,
     :operator,
     :predicate
   ]
 
   @type t :: %__MODULE__{
+          name: String.t(),
           operator: String.t(),
           predicate: String.t()
         }

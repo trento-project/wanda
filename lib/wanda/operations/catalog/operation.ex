@@ -9,6 +9,7 @@ defmodule Wanda.Operations.Catalog.Operation do
   defstruct [
     :id,
     :name,
+    :description,
     :steps,
     required_args: []
   ]
@@ -16,7 +17,18 @@ defmodule Wanda.Operations.Catalog.Operation do
   @type t :: %__MODULE__{
           id: String.t(),
           name: String.t(),
+          description: String.t(),
           steps: [Step.t()],
           required_args: [String.t()]
         }
+
+  defmacro __using__(opts) do
+    operation = opts[:operation]
+
+    quote do
+      def operation do
+        unquote(operation)
+      end
+    end
+  end
 end
