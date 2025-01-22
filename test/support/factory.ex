@@ -269,6 +269,20 @@ defmodule Wanda.Factory do
     }
   end
 
+  def user_factory do
+    %{
+      id: UUID.uuid4(),
+      abilities: build_list(5, :ability)
+    }
+  end
+
+  def ability_factory do
+    %{
+      label: Faker.Pokemon.name(),
+      resource: Faker.Industry.industry()
+    }
+  end
+
   defp random_env_value do
     Faker.Util.pick([
       Faker.Pokemon.name(),
