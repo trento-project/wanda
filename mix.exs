@@ -114,9 +114,10 @@ defmodule Wanda.MixProject do
     [
       {:rhai_rustler, "~> 1.1.1"},
       {:rustler, ">= 0.0.0", optional: true},
-      # project has been archived by its github maintainer
-      {:gen_rmq, "~> 4.0"},
       {:jason, "~> 1.3"},
+      # see: https://github.com/pma/amqp/issues/231#issuecomment-2445049446
+      {:ranch, "~> 1.8.0", override: true},
+      {:gen_rmq, github: "cdimonaco/gen_rmq", ref: "v5.0.0"},
       {:yaml_elixir, "~> 2.9"},
       {:trento_contracts,
        github: "trento-project/contracts",
