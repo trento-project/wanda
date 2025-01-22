@@ -26,6 +26,9 @@ config :wanda, Wanda.Messaging.Adapters.AMQP,
   ],
   processor: Wanda.Messaging.Adapters.AMQP.Processor
 
+config :wanda,
+  operations_enabled: false
+
 # ## SSL Support
 #
 # To get SSL working, you will need to add the `https` key
