@@ -26,8 +26,11 @@ defmodule WandaWeb.Auth.JWTAuthPlug do
 
   defp authenticate(conn) do
     with {:ok, jwt_token} <- read_token(conn),
-         {:ok, claims} <- AccessToken.verify_and_validate(jwt_token) do
-      put_private(conn, :user_id, claims["sub"])
+         {:ok, %{"sub" => sub, "abilities" => abilities}} <-
+           AccessToken.verify_and_validate(jwt_token) do
+      conn
+      |> put_private(:user_id, sub)
+      |> put_private(:abilities, abilities_to_atom_map(abilities))
     else
       _ ->
         conn
@@ -49,4 +52,15 @@ defmodule WandaWeb.Auth.JWTAuthPlug do
         {:error, :no_token}
     end
   end
+
+  defp abilities_to_atom_map(abilities) when is_list(abilities) do
+    Enum.map(abilities, fn %{"name" => name, "resource" => resource} ->
+      %{
+        name: name,
+        resource: resource
+      }
+    end)
+  end
+
+  defp abilities_to_atom_map(_), do: []
 end

@@ -3,6 +3,7 @@ defmodule WandaWeb.Auth.JWTAuthPlugTest do
 
   import Mox
 
+  alias WandaWeb.Auth.AccessToken
   alias WandaWeb.Auth.JWTAuthPlug
 
   setup [:set_mox_from_context, :verify_on_exit!]
@@ -20,9 +21,17 @@ defmodule WandaWeb.Auth.JWTAuthPlugTest do
       :ok
     end
 
-    test "should return the connection with the user_id as subject" do
+    test "should return the connection with the user related information" do
       jwt =
-        "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJhdWQiOiJ0cmVudG9fYXBwIiwiZXhwIjoxNjcxNzE2NTkyLCJpYXQiOjE2NzE3MTU5OTIsImlzcyI6Imh0dHBzOi8vZ2l0aHViLmNvbS90cmVudG8tcHJvamVjdC93ZWIiLCJqdGkiOiIyc3Rtb3A5NjlvdGs5M2k2NTQwMDBiZWIiLCJuYmYiOjE2NzE3MTU5OTIsInN1YiI6MSwidHlwIjoiQmVhcmVyIn0.AjZHul_2OArfDEanRIorpV85Ii4h15yRhdjJpZBMZRI"
+        AccessToken.generate_and_sign!(%{
+          "sub" => 1,
+          "abilities" => [
+            %{
+              "name" => "foo",
+              "resource" => "bar"
+            }
+          ]
+        })
 
       conn =
         build_conn()
@@ -31,6 +40,47 @@ defmodule WandaWeb.Auth.JWTAuthPlugTest do
 
       refute conn.halted
       assert conn.private.user_id == 1
+
+      assert conn.private.abilities == [
+               %{
+                 name: "foo",
+                 resource: "bar"
+               }
+             ]
+    end
+
+    test "should return the connection with the empty user abilities" do
+      jwt =
+        AccessToken.generate_and_sign!(%{
+          "sub" => 1,
+          "abilities" => []
+        })
+
+      conn =
+        build_conn()
+        |> put_req_header("authorization", "Bearer " <> jwt)
+        |> JWTAuthPlug.call([])
+
+      assert conn.private.abilities == []
+    end
+
+    test "should return the connection with empty user abilities when malformed ones were found" do
+      unrecognizable_abilities = [nil, %{}, "foo", 1, 1.0, true, false]
+
+      for unsupported_ability <- unrecognizable_abilities do
+        jwt =
+          AccessToken.generate_and_sign!(%{
+            "sub" => 1,
+            "abilities" => unsupported_ability
+          })
+
+        conn =
+          build_conn()
+          |> put_req_header("authorization", "Bearer " <> jwt)
+          |> JWTAuthPlug.call([])
+
+        assert conn.private.abilities == []
+      end
     end
 
     test "should be halted and have unauthorized status if the token is expired" do
