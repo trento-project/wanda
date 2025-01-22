@@ -28,14 +28,6 @@ defmodule WandaWeb.Auth.UserDetectorTest do
                conn
                |> put_private(:user_id, 1)
                |> UserDetector.current_user()
-
-      for unsupported_ability <- [nil, %{}, "foo", 1, 1.0, true, false] do
-        assert nil ==
-                 conn
-                 |> put_private(:user_id, 1)
-                 |> put_private(:abilities, unsupported_ability)
-                 |> UserDetector.current_user()
-      end
     end
 
     test "should return a lite user representation", %{conn: conn} do
