@@ -4,6 +4,8 @@ defmodule Wanda.Operations do
   persistent changes on them.
   """
 
+  import Ecto.Query
+
   alias Wanda.Repo
 
   alias Wanda.Operations.{
@@ -42,6 +44,27 @@ defmodule Wanda.Operations do
   end
 
   @doc """
+  Get a paginated list of operations.
+
+  Can be filtered by group_id.
+  """
+  @spec list_operations(map()) :: [Operation.t()]
+  def list_operations(params \\ %{}) do
+    page = Map.get(params, :page, 1)
+    items_per_page = Map.get(params, :items_per_page, 10)
+    group_id = Map.get(params, :group_id)
+
+    offset = (page - 1) * items_per_page
+
+    from(e in Operation)
+    |> maybe_filter_by_group_id(group_id)
+    |> limit([_], ^items_per_page)
+    |> offset([_], ^offset)
+    |> order_by(desc: :started_at)
+    |> Repo.all()
+  end
+
+  @doc """
   Update agent_reports of an operation
   """
   @spec update_agent_reports!(String.t(), [StepReport.t()]) ::
@@ -69,4 +92,10 @@ defmodule Wanda.Operations do
     })
     |> Repo.update!()
   end
+
+  @spec maybe_filter_by_group_id(Ecto.Query.t(), String.t()) :: Ecto.Query.t()
+  defp maybe_filter_by_group_id(query, nil), do: query
+
+  defp maybe_filter_by_group_id(query, group_id),
+    do: from(e in query, where: [group_id: ^group_id])
 end

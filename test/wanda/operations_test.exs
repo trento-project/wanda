@@ -56,6 +56,34 @@ defmodule Wanda.OperationsTest do
     end
   end
 
+  describe "list operations" do
+    test "should list all operations sorted by newest to oldest" do
+      operations = insert_list(3, :operation)
+
+      assert Enum.reverse(operations) == Operations.list_operations()
+    end
+
+    test "should list operations grouped by group_id" do
+      group_id = UUID.uuid4()
+      insert_list(3, :operation, group_id: UUID.uuid4())
+      operations = insert_list(3, :operation, group_id: group_id)
+      insert_list(3, :operation, group_id: UUID.uuid4())
+
+      assert Enum.reverse(operations) == Operations.list_operations(%{group_id: group_id})
+    end
+
+    test "should list operations paginated and with items per page" do
+      operations = insert_list(10, :operation)
+
+      expected_operartions =
+        operations
+        |> Enum.reverse()
+        |> Enum.slice(3, 3)
+
+      assert expected_operartions == Operations.list_operations(%{page: 2, items_per_page: 3})
+    end
+  end
+
   describe "update agent reports" do
     test "should update agent reports on a running operation" do
       %Operation{
