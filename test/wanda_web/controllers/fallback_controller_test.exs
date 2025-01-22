@@ -15,4 +15,17 @@ defmodule WandaWeb.FallbackControllerTest do
              ]
            } == json_response(conn, 500)
   end
+
+  test "should return a 403 on forbidden requests", %{conn: conn} do
+    conn =
+      conn
+      |> Phoenix.Controller.accepts(["json"])
+      |> FallbackController.call({:error, :forbidden})
+
+    assert %{
+             "errors" => [
+               %{"detail" => "Unauthorized to perform operation.", "title" => "Forbidden"}
+             ]
+           } == json_response(conn, 403)
+  end
 end
