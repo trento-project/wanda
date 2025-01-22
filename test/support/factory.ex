@@ -28,6 +28,7 @@ defmodule Wanda.Factory do
 
   alias Wanda.Operations.Catalog.Operation, as: CatalogOperation
   alias Wanda.Operations.Catalog.Step
+  alias Wanda.Users.User
 
   require Wanda.Catalog.Enums.ExpectType, as: ExpectType
   require Wanda.Catalog.Enums.Severity, as: Severity
@@ -270,7 +271,7 @@ defmodule Wanda.Factory do
   end
 
   def user_factory do
-    %{
+    %User{
       id: UUID.uuid4(),
       abilities: build_list(5, :ability)
     }
