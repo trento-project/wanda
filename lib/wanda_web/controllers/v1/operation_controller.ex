@@ -9,8 +9,8 @@ defmodule WandaWeb.V1.OperationController do
   alias WandaWeb.Schemas.NotFound
 
   alias WandaWeb.Schemas.V1.Operation.{
-    OperationResponse,
-    ListOperationsResponse
+    ListOperationsResponse,
+    OperationResponse
   }
 
   plug OpenApiSpex.Plug.CastAndValidate, json_render_error_v2: true

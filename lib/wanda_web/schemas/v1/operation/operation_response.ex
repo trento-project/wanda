@@ -6,8 +6,8 @@ defmodule WandaWeb.Schemas.V1.Operation.OperationResponse do
   alias OpenApiSpex.Schema
 
   alias WandaWeb.Schemas.V1.Operation.{
-    StepReport,
-    OperationTarget
+    OperationTarget,
+    StepReport
   }
 
   require Wanda.Operations.Enums.Result, as: Result
