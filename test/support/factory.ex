@@ -279,7 +279,7 @@ defmodule Wanda.Factory do
 
   def ability_factory do
     %{
-      label: Faker.Pokemon.name(),
+      name: Faker.Pokemon.name(),
       resource: Faker.Industry.industry()
     }
   end

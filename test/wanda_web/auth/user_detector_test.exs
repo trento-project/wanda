@@ -1,5 +1,5 @@
 defmodule WandaWeb.Auth.UserDetectorTest do
-  use WandaWeb.ConnCase, async: false
+  use WandaWeb.ConnCase
 
   import Wanda.Factory
 
