@@ -54,9 +54,12 @@ Wanda.Operations.html
 Wanda.Policy.html
 Wanda.Release.html
 Wanda.Repo.html
+Wanda.Support.AbilitiesHelper.html
 Wanda.Support.Enum.html
+Wanda.Users.User.html
 WandaWeb.Auth.AccessToken.html
 WandaWeb.Auth.JWTAuthPlug.html
+WandaWeb.Auth.UserDetector.html
 WandaWeb.ConnCase.html
 WandaWeb.Endpoint.html
 WandaWeb.ErrorHelpers.html
@@ -118,8 +121,8 @@ dist/lato-latin-ext-300-normal-VPGGJKJL.woff2
 dist/lato-latin-ext-400-normal-N27NCBWW.woff2
 dist/lato-latin-ext-700-normal-Q2L5DVMW.woff2
 dist/remixicon-NKANDIL5.woff2
-dist/search_data-BCF9DD90.js
-dist/sidebar_items-8D855E89.js
+dist/search_data-094A3CBF.js
+dist/sidebar_items-109BE167.js
 expression_language.html
 gatherers.html
 hack_on_wanda.html
