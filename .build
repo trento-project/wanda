@@ -82,6 +82,8 @@ WandaWeb.Schemas.V1.Catalog.Check.html
 WandaWeb.Schemas.V1.Execution.ExecutionResponse.html
 WandaWeb.Schemas.V1.Execution.ListExecutionsResponse.html
 WandaWeb.Schemas.V1.Execution.StartExecutionRequest.html
+WandaWeb.Schemas.V1.Operation.ListOperationsResponse.html
+WandaWeb.Schemas.V1.Operation.OperationResponse.html
 WandaWeb.Schemas.V2.ApiSpec.html
 WandaWeb.Schemas.V2.Execution.ExecutionResponse.html
 WandaWeb.Schemas.V2.Execution.ListExecutionsResponse.html
@@ -93,6 +95,8 @@ WandaWeb.V1.CatalogController.html
 WandaWeb.V1.CatalogJSON.html
 WandaWeb.V1.ExecutionController.html
 WandaWeb.V1.ExecutionJSON.html
+WandaWeb.V1.OperationController.html
+WandaWeb.V1.OperationJSON.html
 WandaWeb.V2.CatalogController.html
 WandaWeb.V2.CatalogJSON.html
 WandaWeb.V2.ExecutionController.html
@@ -122,8 +126,8 @@ dist/lato-latin-ext-300-normal-VPGGJKJL.woff2
 dist/lato-latin-ext-400-normal-N27NCBWW.woff2
 dist/lato-latin-ext-700-normal-Q2L5DVMW.woff2
 dist/remixicon-NKANDIL5.woff2
-dist/search_data-5C2AB60B.js
-dist/sidebar_items-C250E54D.js
+dist/search_data-2D60AADE.js
+dist/sidebar_items-7D88F2D8.js
 expression_language.html
 gatherers.html
 hack_on_wanda.html
