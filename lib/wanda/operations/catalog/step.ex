@@ -5,15 +5,19 @@ defmodule Wanda.Operations.Catalog.Step do
   defining if the step needs to be executed in a certain agent.
   """
 
+  @default_timeout 5 * 60 * 1_000
+
   defstruct [
     :name,
     :operator,
-    :predicate
+    :predicate,
+    timeout: @default_timeout
   ]
 
   @type t :: %__MODULE__{
           name: String.t(),
           operator: String.t(),
-          predicate: String.t()
+          predicate: String.t(),
+          timeout: non_neg_integer()
         }
 end

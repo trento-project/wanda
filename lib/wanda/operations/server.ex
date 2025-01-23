@@ -19,10 +19,12 @@ defmodule Wanda.Operations.Server do
 
   require Logger
 
-  @default_timeout 5 * 60 * 1_000
-
   @impl true
-  def start_operation(operation_id, group_id, operation, targets, config \\ []) do
+  def start_operation(operation_id, group_id, operation, targets, config \\ [])
+
+  def start_operation(_, _, _, [], _), do: {:error, :targets_missing}
+
+  def start_operation(operation_id, group_id, operation, targets, config) do
     %Operation{required_args: required_args} = operation
 
     # Check if all targets have the required arguments
@@ -50,7 +52,6 @@ defmodule Wanda.Operations.Server do
 
   def start_link(opts) do
     group_id = Keyword.fetch!(opts, :group_id)
-    config = Keyword.get(opts, :config, [])
 
     GenServer.start_link(
       __MODULE__,
@@ -59,7 +60,6 @@ defmodule Wanda.Operations.Server do
         group_id: group_id,
         operation: Keyword.fetch!(opts, :operation),
         targets: Keyword.fetch!(opts, :targets),
-        timeout: Keyword.get(config, :timeout, @default_timeout),
         current_step_index: 0,
         step_failed: false
       },
@@ -125,7 +125,8 @@ defmodule Wanda.Operations.Server do
       when current_step_index < length(steps) do
     Logger.debug("Starting operation step: #{current_step_index}", state: inspect(state))
 
-    %Step{predicate: predicate, operator: operator} = Enum.at(steps, current_step_index)
+    %Step{predicate: predicate, operator: operator, timeout: timeout} =
+      Enum.at(steps, current_step_index)
 
     new_state =
       %State{pending_targets_on_step: pending_targets} =
@@ -139,7 +140,8 @@ defmodule Wanda.Operations.Server do
     if pending_targets == [] do
       {:noreply, new_state, {:continue, :execute_step}}
     else
-      {:noreply, new_state}
+      timer_ref = Process.send_after(self(), :timeout, timeout)
+      {:noreply, %State{new_state | timer_ref: timer_ref}}
     end
   end
 
@@ -168,7 +170,8 @@ defmodule Wanda.Operations.Server do
         %State{
           operation_id: operation_id,
           current_step_index: step_number,
-          pending_targets_on_step: targets
+          pending_targets_on_step: targets,
+          timer_ref: timer_ref
         } = state
       ) do
     Logger.debug(
@@ -186,6 +189,7 @@ defmodule Wanda.Operations.Server do
       |> store_agent_reports()
 
     if pending_targets == [] do
+      Process.cancel_timer(timer_ref)
       {:noreply, new_state, {:continue, :execute_step}}
     else
       {:noreply, new_state}
@@ -212,6 +216,27 @@ defmodule Wanda.Operations.Server do
     Logger.error("Operation #{operation_id} does not match for group #{group_id}")
 
     {:noreply, state}
+  end
+
+  @impl true
+  def handle_info(
+        :timeout,
+        %State{
+          current_step_index: current_step_index,
+          pending_targets_on_step: pending_targets_on_step
+        } = state
+      ) do
+    Logger.debug("Timeout reached on step number #{current_step_index}.", state: inspect(state))
+
+    new_state =
+      pending_targets_on_step
+      |> Enum.reduce(state, fn agent_id, acc ->
+        update_report_results(acc, current_step_index, agent_id, Result.timeout())
+      end)
+      |> Map.put(:step_failed, true)
+      |> store_agent_reports()
+
+    {:noreply, new_state, {:continue, :execute_step}}
   end
 
   defp maybe_start_operation(false, _, _, _, _, _), do: {:error, :arguments_missing}

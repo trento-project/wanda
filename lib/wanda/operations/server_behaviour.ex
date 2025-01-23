@@ -17,7 +17,7 @@ defmodule Wanda.Operations.ServerBehaviour do
               :ok
               | {:error, :arguments_missing}
               | {:error, :already_running}
-              | {:error, :operation_not_found}
+              | {:error, :targets_missing}
 
   @callback start_operation(
               operation_id :: String.t(),
@@ -29,7 +29,7 @@ defmodule Wanda.Operations.ServerBehaviour do
               :ok
               | {:error, :arguments_missing}
               | {:error, :already_running}
-              | {:error, :operation_not_found}
+              | {:error, :targets_missing}
 
   @callback receive_operation_reports(
               operation_id :: String.t(),

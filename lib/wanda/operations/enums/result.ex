@@ -4,5 +4,5 @@ defmodule Wanda.Operations.Enums.Result do
   """
 
   use Wanda.Support.Enum,
-    values: [:updated, :not_updated, :failed, :rolled_back, :skipped, :not_executed]
+    values: [:updated, :not_updated, :failed, :rolled_back, :timeout, :skipped, :not_executed]
 end
