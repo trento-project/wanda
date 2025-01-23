@@ -29,7 +29,7 @@ BuildRequires:  erlang == 24
 BuildRequires:  elixir-hex
 BuildRequires:  erlang-rebar3
 BuildRequires:  git-core
-BuildRequires:  rust+cargo == 1.81
+BuildRequires:  rust+cargo >= 1.81, rust-cargo < 1.82
 Requires:       trento-checks
 
 %description
