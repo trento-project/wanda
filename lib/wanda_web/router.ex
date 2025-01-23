@@ -58,6 +58,14 @@ defmodule WandaWeb.Router do
         post "/executions/start", ExecutionController, :start
         get "/catalog", CatalogController, :catalog
       end
+
+      if Application.compile_env!(:wanda, :operations_enabled) do
+        scope "/operations" do
+          pipe_through [:api_v1, :protected_api]
+
+          resources "/executions", OperationController, only: [:index, :show]
+        end
+      end
     end
 
     scope "/v2", WandaWeb.V2 do
