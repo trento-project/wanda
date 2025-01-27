@@ -5,10 +5,19 @@ defmodule Wanda.Operations.ServerTest do
 
   alias Wanda.Operations.{Operation, Server}
 
+  alias Wanda.Operations.Catalog.TestRegistry
+
   require Wanda.Operations.Enums.Result, as: Result
   require Wanda.Operations.Enums.Status, as: Status
 
-  @existing_catalog_operation_id "saptuneapplysolution@v1"
+  @existing_catalog_operation_id "testoperation@v1"
+
+  setup do
+    Application.put_env(:wanda, :operations_registry, TestRegistry.test_registry())
+    on_exit(fn -> Application.delete_env(:wanda, :operations_registry) end)
+
+    {:ok, []}
+  end
 
   describe "operation execution" do
     test "should not start operation if targets are missing" do

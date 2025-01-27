@@ -6,9 +6,20 @@ defmodule WandaWeb.V1.OperationControllerTest do
 
   alias WandaWeb.Schemas.V1.ApiSpec
 
+  alias Wanda.Operations.Catalog.TestRegistry
+
+  @existing_catalog_operation_id "testoperation@v1"
+
+  setup do
+    Application.put_env(:wanda, :operations_registry, TestRegistry.test_registry())
+    on_exit(fn -> Application.delete_env(:wanda, :operations_registry) end)
+
+    {:ok, []}
+  end
+
   describe "list operations" do
     test "should return a list of operations", %{conn: conn} do
-      insert_list(5, :operation, catalog_operation_id: "saptuneapplysolution@v1")
+      insert_list(5, :operation, catalog_operation_id: @existing_catalog_operation_id)
 
       json =
         conn
@@ -29,7 +40,7 @@ defmodule WandaWeb.V1.OperationControllerTest do
   describe "get operation" do
     test "should return an operation", %{conn: conn} do
       %{operation_id: operation_id} =
-        insert(:operation, catalog_operation_id: "saptuneapplysolution@v1")
+        insert(:operation, catalog_operation_id: @existing_catalog_operation_id)
 
       json =
         conn
@@ -43,7 +54,7 @@ defmodule WandaWeb.V1.OperationControllerTest do
     test "should return an operation with agent reports", %{conn: conn} do
       %{operation_id: operation_id} =
         insert(:operation,
-          catalog_operation_id: "saptuneapplysolution@v1",
+          catalog_operation_id: @existing_catalog_operation_id,
           agent_reports: build_list(1, :step_report)
         )
 

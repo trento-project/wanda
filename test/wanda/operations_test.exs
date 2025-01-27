@@ -7,8 +7,19 @@ defmodule Wanda.OperationsTest do
   alias Wanda.Operations
   alias Wanda.Operations.{AgentReport, Operation, OperationTarget, StepReport}
 
+  alias Wanda.Operations.Catalog.TestRegistry
+
   require Wanda.Operations.Enums.Result, as: Result
   require Wanda.Operations.Enums.Status, as: Status
+
+  @existing_catalog_operation_id "testoperation@v1"
+
+  setup do
+    Application.put_env(:wanda, :operations_registry, TestRegistry.test_registry())
+    on_exit(fn -> Application.delete_env(:wanda, :operations_registry) end)
+
+    {:ok, []}
+  end
 
   describe "create an operation" do
     test "should create a running operation" do
@@ -26,14 +37,19 @@ defmodule Wanda.OperationsTest do
         }
       ] = targets = build_list(2, :operation_target)
 
-      Operations.create_operation!(operation_id, group_id, "saptuneapplysolution@v1", targets)
+      Operations.create_operation!(
+        operation_id,
+        group_id,
+        @existing_catalog_operation_id,
+        targets
+      )
 
       assert %Operation{
                operation_id: ^operation_id,
                group_id: ^group_id,
                result: Result.not_executed(),
                status: Status.running(),
-               catalog_operation_id: "saptuneapplysolution@v1",
+               catalog_operation_id: @existing_catalog_operation_id,
                targets: [
                  %{
                    agent_id: ^agent_id_1,

@@ -244,7 +244,7 @@ defmodule Wanda.Factory do
     %Operation{
       operation_id: UUID.uuid4(),
       group_id: UUID.uuid4(),
-      catalog_operation_id: "saptuneapplysolution@v1",
+      catalog_operation_id: "testoperation@v1",
       result: OpeartionResult.not_executed(),
       status: OpeartionStatus.running(),
       targets: targets,
