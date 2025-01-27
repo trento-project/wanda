@@ -63,7 +63,9 @@ defmodule WandaWeb.Schemas.V1.Catalog.Check do
                       oneOf: [
                         %Schema{type: :string},
                         %Schema{type: :number},
-                        %Schema{type: :boolean}
+                        %Schema{type: :boolean},
+                        %Schema{type: :array},
+                        %Schema{type: :object}
                       ],
                       description: "Value for this condition"
                     },
