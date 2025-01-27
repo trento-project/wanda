@@ -50,13 +50,7 @@ defmodule WandaWeb.Schemas.V3.Catalog.Check do
             properties: %{
               name: %Schema{type: :string, description: "Value name"},
               default: %Schema{
-                oneOf: [
-                  %Schema{type: :string},
-                  %Schema{type: :number},
-                  %Schema{type: :boolean},
-                  %Schema{type: :array},
-                  %Schema{type: :object}
-                ],
+                oneOf: [%Schema{type: :string}, %Schema{type: :number}, %Schema{type: :boolean}],
                 description: "Default value. Used if none of the conditions matches"
               },
               conditions: %Schema{
