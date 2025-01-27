@@ -144,7 +144,7 @@ defmodule Wanda.Catalog do
        when: Map.get(check, "when"),
        severity: map_severity(check),
        facts: Enum.map(facts, &map_fact/1),
-       values: map_values(check),
+       values: mapped_values,
        expectations: Enum.map(expectations, &map_expectation/1),
        customizable:
          detect_check_customizability(mapped_values, Map.get(check, "customizable", true))
