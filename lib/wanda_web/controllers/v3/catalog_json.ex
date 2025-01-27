@@ -16,7 +16,8 @@ defmodule WandaWeb.V3.CatalogJSON do
         facts: facts,
         values: values,
         expectations: expectations,
-        when: when_expression
+        when: when_expression,
+        customizable: customizable
       }) do
     %{
       id: id,
@@ -30,7 +31,8 @@ defmodule WandaWeb.V3.CatalogJSON do
       values: values,
       expectations: expectations,
       when: when_expression,
-      premium: false
+      premium: false,
+      customizable: customizable
     }
   end
 end

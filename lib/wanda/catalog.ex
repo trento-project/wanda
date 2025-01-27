@@ -131,6 +131,8 @@ defmodule Wanda.Catalog do
          } = check,
          _
        ) do
+    mapped_values = map_values(check)
+
     {:ok,
      %Check{
        id: id,
@@ -142,8 +144,10 @@ defmodule Wanda.Catalog do
        when: Map.get(check, "when"),
        severity: map_severity(check),
        facts: Enum.map(facts, &map_fact/1),
-       values: map_values(check),
-       expectations: Enum.map(expectations, &map_expectation/1)
+       values: mapped_values,
+       expectations: Enum.map(expectations, &map_expectation/1),
+       customizable:
+         detect_check_customizability(mapped_values, Map.get(check, "customizable", true))
      }}
   end
 
@@ -212,6 +216,27 @@ defmodule Wanda.Catalog do
         }
       end)
 
-    %Value{name: name, default: default, conditions: conditions}
+    %Value{
+      name: name,
+      default: default,
+      conditions: conditions,
+      customizable: detect_value_customizability(value)
+    }
+  end
+
+  defp detect_value_customizability(%{"customizable" => false}), do: false
+
+  defp detect_value_customizability(%{"default" => default_value}),
+    do: not (is_list(default_value) or is_map(default_value))
+
+  defp detect_value_customizability(_), do: true
+
+  defp detect_check_customizability([] = _values, _root_customizability), do: false
+
+  defp detect_check_customizability(values, root_customizability) do
+    has_at_least_one_customizable_value? =
+      Enum.any?(values, fn %Value{customizable: customizable} -> customizable end)
+
+    root_customizability and has_at_least_one_customizable_value?
   end
 end

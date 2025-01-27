@@ -12,26 +12,16 @@ defmodule WandaWeb.V2.CatalogJSONTest do
         build(:check, expectations: build_list(2, :catalog_expectation, type: :expect_same))
       ]
 
-      adapted_checks =
-        Enum.map(checks, fn %{expectations: expectations} = check ->
-          %{
-            check
-            | expectations:
-                Enum.map(expectations, fn expectation ->
-                  expectation
-                  |> Map.from_struct()
-                  |> Map.drop([:warning_message])
-                end)
-          }
-          |> Map.from_struct()
-          |> Map.put(:premium, false)
-        end)
+      %{items: rendered_catalog} = CatalogJSON.catalog(%{catalog: checks})
 
-      rendered_catalog = CatalogJSON.catalog(%{catalog: checks})
+      assert Enum.all?(
+               rendered_catalog,
+               fn check -> Map.has_key?(check, :premium) and Map.get(check, :premium) == false end
+             )
 
-      assert %{
-               items: ^adapted_checks
-             } = rendered_catalog
+      assert Enum.all?(rendered_catalog, fn %{expectations: expectations} ->
+               Enum.all?(expectations, &(not Map.has_key?(&1, :warning_message)))
+             end)
     end
   end
 
@@ -52,6 +42,17 @@ defmodule WandaWeb.V2.CatalogJSONTest do
                ]
              } =
                CatalogJSON.catalog(%{catalog: checks})
+    end
+
+    test "should not expose customizability information" do
+      checks = build_list(1, :check)
+
+      %{
+        items: [%{values: values} = rendered_check_json]
+      } = CatalogJSON.catalog(%{catalog: checks})
+
+      refute Map.has_key?(rendered_check_json, :customizable)
+      refute Enum.any?(values, fn value -> Map.has_key?(value, :customizable) end)
     end
   end
 end

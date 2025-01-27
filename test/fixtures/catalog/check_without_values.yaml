@@ -1,0 +1,16 @@
+id: check_without_values
+name: Warning check
+group: Test
+description: |
+  Check with warning severity
+remediation: |
+  ## Remediation
+  Remediation text
+severity: warning
+facts:
+  - name: jedi
+    gatherer: wandalorian
+    argument: -o
+expectations:
+  - name: some_expectation
+    expect: facts.jedi == "skywalker"

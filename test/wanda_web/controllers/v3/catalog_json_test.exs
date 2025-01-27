@@ -21,7 +21,8 @@ defmodule WandaWeb.V3.CatalogJSONTest do
           facts: facts,
           values: values,
           expectations: expectations,
-          when: when_expression
+          when: when_expression,
+          customizable: customizable
         }
       ] = checks = build_list(1, :check)
 
@@ -39,10 +40,13 @@ defmodule WandaWeb.V3.CatalogJSONTest do
                    values: ^values,
                    expectations: ^expectations,
                    when: ^when_expression,
-                   premium: false
+                   premium: false,
+                   customizable: ^customizable
                  }
                ]
              } = CatalogJSON.catalog(%{catalog: checks})
+
+      assert Enum.all?(values, fn value -> Map.has_key?(value, :customizable) end)
     end
   end
 end

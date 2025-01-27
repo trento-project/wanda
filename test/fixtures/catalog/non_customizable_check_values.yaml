@@ -1,0 +1,38 @@
+id: non_customizable_check_values
+name: Test check
+group: Test
+description: |
+  Just a check
+remediation: |
+  ## Remediation
+  Remediation text
+# customizable: false #inferred
+metadata:
+  some_key: some_value
+facts:
+  - name: jedi
+    gatherer: wandalorian
+    argument: -o
+  - name: other_fact
+    gatherer: no_args_gatherer
+values:
+  - name: expected_value
+    default: 5
+    customizable: false
+    conditions:
+      - value: 10
+        when: some_expression
+      - value: 15
+        when: some_other_expression
+  - name: expected_higher_value
+    default: 10
+    customizable: false
+    conditions:
+      - value: 5
+        when: some_third_expression
+expectations:
+  - name: some_expectation
+    expect: facts.jedi == values.expected_value
+    failure_message: "some failure message ${facts.jedi}"
+  - name: some_other_expectation
+    expect: facts.jedi > values.expected_higher_value

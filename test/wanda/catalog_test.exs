@@ -209,4 +209,59 @@ defmodule Wanda.CatalogTest do
                )
     end
   end
+
+  describe "checks customizability" do
+    test "should allow opting out a check's customizability" do
+      assert {:ok, %Check{customizable: false, values: values}} =
+               Catalog.get_check(catalog_path(), "non_customizable_check")
+
+      assert Enum.all?(values, fn %Value{customizable: customizable} -> customizable end)
+    end
+
+    test "should detect a check as non customizable because it does not have values" do
+      # check_without_values does not have values and it does not have a customizable key in the root
+      assert {:ok, %Check{customizable: false, values: []}} =
+               Catalog.get_check(catalog_path(), "check_without_values")
+    end
+
+    test "should detect a check as non customizable because all its values are non customizable" do
+      # non_customizable_check_values has all its values non customizable
+      # and it does not have a customizable key in the root
+      assert {:ok, %Check{customizable: false, values: values}} =
+               Catalog.get_check(catalog_path(), "non_customizable_check_values")
+
+      assert Enum.all?(values, fn %Value{customizable: customizable} -> not customizable end)
+    end
+
+    test "should detect a customizable check" do
+      assert {:ok,
+              %Check{
+                customizable: true,
+                values: [
+                  %Value{name: "expected_value", customizable: true},
+                  %Value{name: "expected_higher_value", customizable: false}
+                ]
+              }} =
+               Catalog.get_check(catalog_path(), "customizable_check")
+    end
+
+    test "should allow customizability of values based on type" do
+      assert {:ok,
+              %Check{
+                customizable: true,
+                values: [
+                  %Value{name: "numeric_value", customizable: true},
+                  %Value{name: "customizable_string_value", customizable: true},
+                  %Value{name: "non_customizable_string_value", customizable: false},
+                  %Value{name: "bool_value", customizable: true},
+                  %Value{name: "list_value", customizable: false},
+                  %Value{name: "map_value", customizable: false}
+                ]
+              }} =
+               Catalog.get_check(
+                 "test/fixtures/non_scalar_values_catalog",
+                 "mixed_values_customizability"
+               )
+    end
+  end
 end
