@@ -1,0 +1,59 @@
+id: mixed_values_customizability
+name: Test check
+group: Test
+description: |
+  Just a check
+remediation: |
+  ## Remediation
+  Remediation text
+# customizable: true #inferred
+metadata:
+  some_key: some_value
+facts:
+  - name: jedi
+    gatherer: wandalorian
+    argument: -o
+  - name: other_fact
+    gatherer: no_args_gatherer
+values:
+  - name: numeric_value
+    default: 5
+    customizable: true
+    conditions:
+      - value: 10
+        when: some_expression
+      - value: 15
+        when: some_other_expression
+  - name: customizable_string_value
+    default: foo_bar
+    # customizable: true #inferred
+    conditions:
+      - value: baz_qux
+        when: some_third_expression
+  - name: non_customizable_string_value
+    default: kaboom
+    customizable: false
+  - name: bool_value
+    default: true
+    # customizable: true #inferred
+    conditions:
+      - value: false
+        when: some_fourth_expression
+  - name: list_value
+    default: 
+      - foo
+      - bar
+    # customizable: false #inferred
+  - name: map_value
+    default:
+      foo: bar
+      baz: 
+        - qux
+        - quux
+    customizable: false
+expectations:
+  - name: some_expectation
+    expect: facts.jedi == values.numeric_value
+    failure_message: "some failure message ${facts.jedi}"
+  - name: some_other_expectation
+    expect: facts.jedi > values.string_value
