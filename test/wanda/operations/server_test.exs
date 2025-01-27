@@ -8,6 +8,8 @@ defmodule Wanda.Operations.ServerTest do
   require Wanda.Operations.Enums.Result, as: Result
   require Wanda.Operations.Enums.Status, as: Status
 
+  @existing_catalog_operation_id "saptuneapplysolution@v1"
+
   describe "operation execution" do
     test "should not start operation if targets are missing" do
       catalog_operation = build(:catalog_operation)
@@ -59,7 +61,7 @@ defmodule Wanda.Operations.ServerTest do
       Server.start_operation(
         UUID.uuid4(),
         group_id,
-        build(:catalog_operation),
+        build(:catalog_operation, id: @existing_catalog_operation_id),
         build_list(2, :operation_target),
         []
       )
@@ -81,7 +83,7 @@ defmodule Wanda.Operations.ServerTest do
     test "should stop execution if last step failed" do
       operation_id = UUID.uuid4()
       group_id = UUID.uuid4()
-      operation = build(:catalog_operation)
+      operation = build(:catalog_operation, id: @existing_catalog_operation_id)
 
       [%{agent_id: agent_id_1}, %{agent_id: agent_id_2}] =
         targets = build_list(2, :operation_target)
@@ -131,6 +133,7 @@ defmodule Wanda.Operations.ServerTest do
 
       operation =
         build(:catalog_operation,
+          id: @existing_catalog_operation_id,
           steps: [
             build(:operation_step, predicate: "*"),
             build(:operation_step, predicate: "")
@@ -245,7 +248,10 @@ defmodule Wanda.Operations.ServerTest do
       group_id = UUID.uuid4()
 
       operation =
-        build(:catalog_operation, steps: build_list(1, :operation_step, predicate: "value == 5"))
+        build(:catalog_operation,
+          id: @existing_catalog_operation_id,
+          steps: build_list(1, :operation_step, predicate: "value == 5")
+        )
 
       [%{agent_id: agent_id_1}, %{agent_id: agent_id_2}] =
         targets = [
@@ -289,7 +295,10 @@ defmodule Wanda.Operations.ServerTest do
       group_id = UUID.uuid4()
 
       operation =
-        build(:catalog_operation, steps: build_list(1, :operation_step, predicate: "value == 5"))
+        build(:catalog_operation,
+          id: @existing_catalog_operation_id,
+          steps: build_list(1, :operation_step, predicate: "value == 5")
+        )
 
       [%{agent_id: agent_id_1}, %{agent_id: agent_id_2}] =
         targets = [
@@ -330,7 +339,7 @@ defmodule Wanda.Operations.ServerTest do
       operation_id = UUID.uuid4()
       group_id = UUID.uuid4()
 
-      operation = build(:catalog_operation)
+      operation = build(:catalog_operation, id: @existing_catalog_operation_id)
 
       [%{agent_id: agent_id_1}, %{agent_id: agent_id_2}] =
         targets = build_list(2, :operation_target)
@@ -362,7 +371,11 @@ defmodule Wanda.Operations.ServerTest do
       operation_id = UUID.uuid4()
       group_id = UUID.uuid4()
 
-      operation = build(:catalog_operation, steps: build_list(2, :operation_step, timeout: 0))
+      operation =
+        build(:catalog_operation,
+          id: @existing_catalog_operation_id,
+          steps: build_list(2, :operation_step, timeout: 0)
+        )
 
       [%{agent_id: agent_id_1}, %{agent_id: agent_id_2}] =
         targets = build_list(2, :operation_target)
@@ -409,6 +422,7 @@ defmodule Wanda.Operations.ServerTest do
 
       operation =
         build(:catalog_operation,
+          id: @existing_catalog_operation_id,
           steps: [
             build(:operation_step, timeout: 10_000),
             build(:operation_step, timeout: 0)

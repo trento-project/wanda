@@ -80,13 +80,16 @@ defmodule Wanda.Operations.Server do
         %State{
           operation_id: operation_id,
           group_id: group_id,
-          targets: targets
+          targets: targets,
+          operation: %Operation{
+            id: catalog_operation_id
+          }
         } = state
       ) do
     engine = EvaluationEngine.new()
     new_state = initialize_report_results(state)
 
-    Operations.create_operation!(operation_id, group_id, targets)
+    Operations.create_operation!(operation_id, group_id, catalog_operation_id, targets)
 
     {:noreply, %State{new_state | engine: engine}, {:continue, :execute_step}}
   end
