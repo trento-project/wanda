@@ -1,6 +1,7 @@
 defmodule WandaWeb.V3.CatalogJSON do
-  alias WandaWeb.V1.CatalogJSON
   alias Wanda.Catalog.Check
+
+  alias WandaWeb.V1.CatalogJSON
 
   def catalog(%{catalog: catalog}) do
     %{items: Enum.map(catalog, &check/1)}

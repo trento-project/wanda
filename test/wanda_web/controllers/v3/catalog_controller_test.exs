@@ -23,9 +23,13 @@ defmodule WandaWeb.V3.CatalogControllerTest do
 
       assert %{
                "items" => [
+                 %{"id" => "check_without_values"},
+                 %{"id" => "customizable_check"},
                  %{"id" => "expect_check"},
                  %{"id" => "expect_enum_check"},
                  %{"id" => "expect_same_check"},
+                 %{"id" => "non_customizable_check"},
+                 %{"id" => "non_customizable_check_values"},
                  %{"id" => "warning_severity_check"},
                  %{"id" => "when_condition_check"},
                  %{"id" => "with_metadata"}
@@ -44,9 +48,13 @@ defmodule WandaWeb.V3.CatalogControllerTest do
 
       assert %{
                "items" => [
+                 %{"id" => "check_without_values"},
+                 %{"id" => "customizable_check"},
                  %{"id" => "expect_check"},
                  %{"id" => "expect_enum_check"},
                  %{"id" => "expect_same_check"},
+                 %{"id" => "non_customizable_check"},
+                 %{"id" => "non_customizable_check_values"},
                  %{"id" => "warning_severity_check"},
                  %{"id" => "when_condition_check"},
                  %{"id" => "with_metadata"}

@@ -9,6 +9,7 @@ remediation: |
 # customizable: true #inferred
 metadata:
   some_key: some_value
+  provider: unmatched_provider
 facts:
   - name: jedi
     gatherer: wandalorian

@@ -211,13 +211,9 @@ defmodule Wanda.CatalogTest do
   end
 
   describe "checks customizability" do
-    defp customizable_checks_path() do
-      "test/fixtures/customizability"
-    end
-
     test "should allow opting out a check's customizability" do
       assert {:ok, %Check{customizable: false, values: values}} =
-               Catalog.get_check(customizable_checks_path(), "non_customizable_check")
+               Catalog.get_check(catalog_path(), "non_customizable_check")
 
       assert Enum.all?(values, fn %Value{customizable: customizable} -> customizable end)
     end
@@ -225,13 +221,14 @@ defmodule Wanda.CatalogTest do
     test "should detect a check as non customizable because it does not have values" do
       # check_without_values does not have values and it does not have a customizable key in the root
       assert {:ok, %Check{customizable: false, values: []}} =
-               Catalog.get_check(customizable_checks_path(), "check_without_values")
+               Catalog.get_check(catalog_path(), "check_without_values")
     end
 
     test "should detect a check as non customizable because all its values are non customizable" do
-      # non_customizable_check_values has all its values non customizable and it does not have a customizable key in the root
+      # non_customizable_check_values has all its values non customizable
+      # and it does not have a customizable key in the root
       assert {:ok, %Check{customizable: false, values: values}} =
-               Catalog.get_check(customizable_checks_path(), "non_customizable_check_values")
+               Catalog.get_check(catalog_path(), "non_customizable_check_values")
 
       assert Enum.all?(values, fn %Value{customizable: customizable} -> not customizable end)
     end
@@ -245,7 +242,7 @@ defmodule Wanda.CatalogTest do
                   %Value{name: "expected_higher_value", customizable: false}
                 ]
               }} =
-               Catalog.get_check(customizable_checks_path(), "customizable_check")
+               Catalog.get_check(catalog_path(), "customizable_check")
     end
 
     test "should allow customizability of values based on type" do
@@ -261,7 +258,10 @@ defmodule Wanda.CatalogTest do
                   %Value{name: "map_value", customizable: false}
                 ]
               }} =
-               Catalog.get_check(customizable_checks_path(), "mixed_values_customizability")
+               Catalog.get_check(
+                 "test/fixtures/non_scalar_values_catalog",
+                 "mixed_values_customizability"
+               )
     end
   end
 end
