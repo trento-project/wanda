@@ -38,8 +38,9 @@ defmodule WandaWeb.V1.OperationController do
 
   def index(conn, params) do
     operations = Operations.list_operations(params)
+    enriched_operations = Enum.map(operations, &Operations.enrich_operation!(&1))
 
-    render(conn, operations: operations)
+    render(conn, operations: enriched_operations)
   end
 
   operation :show,
@@ -62,7 +63,10 @@ defmodule WandaWeb.V1.OperationController do
     ]
 
   def show(conn, %{id: operation_id}) do
-    operation = Operations.get_operation!(operation_id)
+    operation =
+      operation_id
+      |> Operations.get_operation!()
+      |> Operations.enrich_operation!()
 
     render(conn, operation: operation)
   end

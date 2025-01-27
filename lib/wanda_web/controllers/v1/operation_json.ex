@@ -19,6 +19,12 @@ defmodule WandaWeb.V1.OperationJSON do
          status: status,
          targets: targets,
          agent_reports: agent_reports,
+         catalog_operation_id: catalog_operation_id,
+         catalog_operation: %{
+           name: name,
+           description: description,
+           steps: steps
+         },
          started_at: started_at,
          updated_at: updated_at,
          completed_at: completed_at
@@ -29,10 +35,30 @@ defmodule WandaWeb.V1.OperationJSON do
       result: result,
       status: status,
       targets: targets,
-      agent_reports: agent_reports,
+      agent_reports: map_agent_reports(agent_reports, steps),
+      operation: catalog_operation_id,
+      name: name,
+      description: description,
       started_at: started_at,
       updated_at: updated_at,
       completed_at: completed_at
     }
+  end
+
+  defp map_agent_reports(agent_reports, steps) do
+    agent_reports
+    |> Enum.with_index()
+    |> Enum.map(fn {%{"agents" => agents}, index} ->
+      %{name: name, timeout: timeout, operator: operator, predicate: predicate} =
+        Enum.at(steps, index)
+
+      %{
+        agents: agents,
+        name: name,
+        timeout: timeout,
+        operator: operator,
+        predicate: predicate
+      }
+    end)
   end
 end

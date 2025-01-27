@@ -8,7 +8,7 @@ defmodule WandaWeb.V1.OperationControllerTest do
 
   describe "list operations" do
     test "should return a list of operations", %{conn: conn} do
-      insert_list(5, :operation)
+      insert_list(5, :operation, catalog_operation_id: "saptuneapplysolution@v1")
 
       json =
         conn
@@ -28,7 +28,8 @@ defmodule WandaWeb.V1.OperationControllerTest do
 
   describe "get operation" do
     test "should return an operation", %{conn: conn} do
-      %{operation_id: operation_id} = insert(:operation)
+      %{operation_id: operation_id} =
+        insert(:operation, catalog_operation_id: "saptuneapplysolution@v1")
 
       json =
         conn
@@ -41,7 +42,10 @@ defmodule WandaWeb.V1.OperationControllerTest do
 
     test "should return an operation with agent reports", %{conn: conn} do
       %{operation_id: operation_id} =
-        insert(:operation, agent_reports: build_list(2, :step_report))
+        insert(:operation,
+          catalog_operation_id: "saptuneapplysolution@v1",
+          agent_reports: build_list(1, :step_report)
+        )
 
       json =
         conn
@@ -50,6 +54,12 @@ defmodule WandaWeb.V1.OperationControllerTest do
 
       api_spec = ApiSpec.spec()
       assert_schema(json, "OperationResponse", api_spec)
+    end
+
+    test "should return a 404", %{conn: conn} do
+      assert_error_sent(404, fn ->
+        get(conn, "/api/v1/operations/executions/#{UUID.uuid4()}")
+      end)
     end
   end
 end

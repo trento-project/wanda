@@ -14,10 +14,13 @@ defmodule WandaWeb.Schemas.V1.Operation.StepReport do
       type: :object,
       additionalProperties: false,
       properties: %{
-        step_number: %Schema{type: :integer, description: "Step number"},
+        name: %Schema{type: :string, description: "Operation step tname"},
+        operator: %Schema{type: :string, description: "Operation step operator"},
+        predicate: %Schema{type: :string, description: "Operation step predicate"},
+        timeout: %Schema{type: :integer, description: "Operation step timeout"},
         agents: %Schema{type: :array, items: AgentReport}
       },
-      required: [:step_number, :agents]
+      required: [:name, :operator, :predicate, :timeout, :agents]
     },
     struct?: false
   )

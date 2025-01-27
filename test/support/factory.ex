@@ -217,6 +217,7 @@ defmodule Wanda.Factory do
     %CatalogOperation{
       id: UUID.uuid4(),
       name: Faker.StarWars.character(),
+      description: Faker.StarWars.quote(),
       required_args: [],
       steps: build_list(2, :operation_step)
     }
@@ -224,6 +225,7 @@ defmodule Wanda.Factory do
 
   def operation_step_factory do
     %Step{
+      name: Faker.StarWars.character(),
       operator: Faker.StarWars.planet(),
       predicate: "*",
       timeout: 10_000

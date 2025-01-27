@@ -7,6 +7,7 @@ defmodule Wanda.Operations.Catalog.Step do
 
   @default_timeout 5 * 60 * 1_000
 
+  @derive Jason.Encoder
   defstruct [
     :name,
     :operator,

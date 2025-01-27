@@ -6,6 +6,7 @@ defmodule Wanda.Operations.Catalog.Operation do
 
   alias Wanda.Operations.Catalog.Step
 
+  @derive Jason.Encoder
   defstruct [
     :id,
     :name,
