@@ -1,4 +1,5 @@
 defmodule WandaWeb.V3.CatalogJSON do
+  alias WandaWeb.V1.CatalogJSON
   alias Wanda.Catalog.Check
 
   def catalog(%{catalog: catalog}) do
@@ -27,7 +28,7 @@ defmodule WandaWeb.V3.CatalogJSON do
       metadata: metadata,
       severity: severity,
       facts: facts,
-      values: values,
+      values: CatalogJSON.adapt_values_customizability(values),
       expectations: expectations,
       when: when_expression,
       premium: false

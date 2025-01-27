@@ -20,6 +20,7 @@ defmodule WandaWeb.V1.CatalogJSON do
         } = check
       ) do
     adapted_expectations = adapt_expectations(check)
+    adapted_values = adapt_values_customizability(values)
 
     %{
       id: id,
@@ -30,7 +31,7 @@ defmodule WandaWeb.V1.CatalogJSON do
       metadata: metadata,
       severity: severity,
       facts: facts,
-      values: values,
+      values: adapted_values,
       expectations: adapted_expectations,
       when: when_expression,
       premium: false
@@ -44,5 +45,9 @@ defmodule WandaWeb.V1.CatalogJSON do
       expectation -> expectation
     end)
     |> Enum.map(&Map.drop(Map.from_struct(&1), [:warning_message]))
+  end
+
+  def adapt_values_customizability(values) do
+    Enum.map(values, &(&1 |> Map.from_struct() |> Map.drop([:customizable])))
   end
 end
