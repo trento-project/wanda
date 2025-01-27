@@ -14,6 +14,8 @@ defmodule Wanda.Operations do
     StepReport
   }
 
+  alias Wanda.Operations.Catalog.Registry
+
   require Wanda.Operations.Enums.Result, as: Result
   require Wanda.Operations.Enums.Status, as: Status
 
@@ -22,12 +24,16 @@ defmodule Wanda.Operations do
 
   If the operation already exists, it will be returned.
   """
-  @spec create_operation!(String.t(), String.t(), [OperationTarget.t()]) :: Operation.t()
-  def create_operation!(operation_id, group_id, targets) do
+  @spec create_operation!(String.t(), String.t(), String.t(), [OperationTarget.t()]) ::
+          Operation.t()
+  def create_operation!(operation_id, group_id, catalog_operation_id, targets) do
+    Registry.get_operation!(catalog_operation_id)
+
     %Operation{}
     |> Operation.changeset(%{
       operation_id: operation_id,
       group_id: group_id,
+      catalog_operation_id: catalog_operation_id,
       status: Status.running(),
       result: Result.not_executed(),
       targets: Enum.map(targets, &Map.from_struct/1)
@@ -41,6 +47,16 @@ defmodule Wanda.Operations do
   @spec get_operation!(String.t()) :: Operation.t()
   def get_operation!(operation_id) do
     Repo.get!(Operation, operation_id)
+  end
+
+  @doc """
+  Enrich operation adding catalog_operation field
+  """
+  @spec enrich_operation!(Operation.t()) :: Operation.t()
+  def enrich_operation!(%Operation{catalog_operation_id: catalog_operation_id} = operation) do
+    catalog_operation = Registry.get_operation!(catalog_operation_id)
+
+    %Operation{operation | catalog_operation: catalog_operation}
   end
 
   @doc """

@@ -29,4 +29,12 @@ defmodule Wanda.Operations.Catalog.Registry do
       operation -> {:ok, operation}
     end
   end
+
+  @doc """
+  Get an operation by id, erroring out if the entry doesn't exist
+  """
+  @spec get_operation!(String.t()) :: Operation.t()
+  def get_operation!(id) do
+    Map.fetch!(@registry, id)
+  end
 end
