@@ -7,6 +7,8 @@ defmodule Wanda.Operations.Operation do
 
   import Ecto.Changeset
 
+  alias Wanda.Operations.Catalog.Registry
+
   require Wanda.Operations.Enums.Result, as: Result
   require Wanda.Operations.Enums.Status, as: Status
 
@@ -48,11 +50,22 @@ defmodule Wanda.Operations.Operation do
     |> cast(params, @fields)
     |> cast_embed(:targets, with: &target_changeset/2, required: true)
     |> validate_required(@required_fields)
+    |> validate_change(:catalog_operation_id, &validate_catalog_operation_id/2)
   end
 
   defp target_changeset(target, params) do
     target
     |> cast(params, @target_fields)
     |> validate_required(@targets_required_fields)
+  end
+
+  defp validate_catalog_operation_id(:catalog_operation_id, catalog_operation_id) do
+    case Registry.get_operation(catalog_operation_id) do
+      {:error, :operation_not_found} ->
+        [catalog_operation_id: "not found"]
+
+      _ ->
+        []
+    end
   end
 end

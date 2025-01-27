@@ -53,7 +53,7 @@ defmodule Wanda.OperationsTest do
       group_id = UUID.uuid4()
       targets = build_list(2, :operation_target)
 
-      assert_raise KeyError, fn ->
+      assert_raise Ecto.InvalidChangesetError, fn ->
         Operations.create_operation!(operation_id, group_id, "foo", targets)
       end
     end

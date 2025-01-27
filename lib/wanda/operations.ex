@@ -27,8 +27,6 @@ defmodule Wanda.Operations do
   @spec create_operation!(String.t(), String.t(), String.t(), [OperationTarget.t()]) ::
           Operation.t()
   def create_operation!(operation_id, group_id, catalog_operation_id, targets) do
-    Registry.get_operation!(catalog_operation_id)
-
     %Operation{}
     |> Operation.changeset(%{
       operation_id: operation_id,
