@@ -1,8 +1,6 @@
 defmodule WandaWeb.V3.CatalogJSON do
   alias Wanda.Catalog.Check
 
-  alias WandaWeb.V1.CatalogJSON
-
   def catalog(%{catalog: catalog}) do
     %{items: Enum.map(catalog, &check/1)}
   end
@@ -18,7 +16,8 @@ defmodule WandaWeb.V3.CatalogJSON do
         facts: facts,
         values: values,
         expectations: expectations,
-        when: when_expression
+        when: when_expression,
+        customizable: customizable
       }) do
     %{
       id: id,
@@ -29,10 +28,11 @@ defmodule WandaWeb.V3.CatalogJSON do
       metadata: metadata,
       severity: severity,
       facts: facts,
-      values: CatalogJSON.adapt_values_customizability(values),
+      values: values,
       expectations: expectations,
       when: when_expression,
-      premium: false
+      premium: false,
+      customizable: customizable
     }
   end
 end
