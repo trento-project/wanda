@@ -38,22 +38,30 @@ defmodule Wanda.Catalog do
   @doc """
   Get a check from the catalog.
   """
-  @spec get_check(String.t(), String.t()) :: {:ok, Check.t()} | {:error, any}
-  def get_check(path, check_id) do
-    with path <- Path.join(path, "#{check_id}.yaml"),
-         {:ok, file_content} <- read_check(path, check_id) do
-      map_check(file_content, check_id)
-    end
+  @spec get_check(String.t()) :: {:ok, Check.t()} | {:error, any}
+  def get_check(check_id) do
+    Enum.reduce_while(get_catalog_paths(), nil, fn path, _ ->
+      with path <- Path.join(path, "#{check_id}.yaml"),
+           {:ok, file_content} <- read_check(path, check_id) do
+        {:halt, map_check(file_content, check_id)}
+      else
+        error ->
+          {:cont, error}
+      end
+    end)
   end
 
   @doc """
   Get specific checks from the catalog.
   """
   @spec get_checks([String.t()], map()) :: [Check.t()]
-  def get_checks(checks_id, env) do
-    get_catalog_paths()
-    |> Enum.flat_map(fn path ->
-      get_checks_from_path(checks_id, path)
+  def get_checks(checks_ids, env) do
+    checks_ids
+    |> Enum.flat_map(fn check_id ->
+      case get_check(check_id) do
+        {:ok, check} -> [check]
+        {:error, _} -> []
+      end
     end)
     |> Enum.filter(fn check -> when_condition(check, env) && match_metadata(check, env) end)
   end
@@ -70,15 +78,6 @@ defmodule Wanda.Catalog do
         Logger.error("Error getting Check with ID #{check_id}: #{inspect(reason)}")
         error
     end
-  end
-
-  defp get_checks_from_path(checks_id, path) do
-    Enum.flat_map(checks_id, fn check_id ->
-      case get_check(path, check_id) do
-        {:ok, check} -> [check]
-        {:error, _} -> []
-      end
-    end)
   end
 
   defp when_condition(_, env) when env == %{}, do: true
