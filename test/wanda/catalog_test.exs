@@ -11,18 +11,20 @@ defmodule Wanda.CatalogTest do
     Value
   }
 
-  def catalog_path do
-    catalog_paths = Application.fetch_env!(:wanda, Wanda.Catalog)[:catalog_paths]
-    Enum.at(catalog_paths, 1)
+  def all_files do
+    configured_paths = Application.fetch_env!(:wanda, Wanda.Catalog)[:catalog_paths]
+
+    Enum.flat_map(configured_paths, fn path ->
+      path
+      |> File.ls!()
+      |> Enum.sort()
+    end)
   end
 
   describe "checks catalog" do
-    test "should return the whole catalog" do
+    test "should return the whole catalog taking into account different paths" do
       valid_files =
-        catalog_path()
-        |> File.ls!()
-        |> Enum.sort()
-        |> Enum.filter(fn file ->
+        Enum.filter(all_files(), fn file ->
           file != "malformed_check.yaml" and file != "malformed_file.yaml"
         end)
 
@@ -40,14 +42,9 @@ defmodule Wanda.CatalogTest do
     end
 
     test "should read the whole catalog and throw no errors with malformed files" do
-      files =
-        catalog_path()
-        |> File.ls!()
-        |> Enum.sort()
-
       catalog = Catalog.get_catalog()
 
-      assert length(files) == length(catalog) + 2
+      assert length(all_files()) == length(catalog) + 2
     end
 
     test "should filter out checks if the when clause doesn't match" do
@@ -138,7 +135,7 @@ defmodule Wanda.CatalogTest do
                     failure_message: nil
                   }
                 ]
-              }} = Catalog.get_check(catalog_path(), "expect_check")
+              }} = Catalog.get_check("expect_check")
     end
 
     test "should load a expect_same expectation type" do
@@ -152,7 +149,7 @@ defmodule Wanda.CatalogTest do
                     expression: "facts.jedi"
                   }
                 ]
-              }} = Catalog.get_check(catalog_path(), "expect_same_check")
+              }} = Catalog.get_check("expect_same_check")
     end
 
     test "should load a expect_enum expectation type" do
@@ -185,20 +182,20 @@ defmodule Wanda.CatalogTest do
                     warning_message: "some warning message ${facts.jedi}"
                   }
                 ]
-              }} = Catalog.get_check(catalog_path(), "expect_enum_check")
+              }} = Catalog.get_check("expect_enum_check")
     end
 
     test "should load a warning severity" do
       assert {:ok, %Check{severity: :warning}} =
-               Catalog.get_check(catalog_path(), "warning_severity_check")
+               Catalog.get_check("warning_severity_check")
     end
 
     test "should return an error for non-existent check" do
-      assert {:error, _} = Catalog.get_check(catalog_path(), "non_existent_check")
+      assert {:error, _} = Catalog.get_check("non_existent_check")
     end
 
     test "should return an error for malformed check" do
-      assert {:error, :malformed_check} = Catalog.get_check(catalog_path(), "malformed_check")
+      assert {:error, :malformed_check} = Catalog.get_check("malformed_check")
     end
 
     test "should load multiple checks" do
@@ -213,7 +210,7 @@ defmodule Wanda.CatalogTest do
   describe "checks customizability" do
     test "should allow opting out a check's customizability" do
       assert {:ok, %Check{customizable: false, values: values}} =
-               Catalog.get_check(catalog_path(), "non_customizable_check")
+               Catalog.get_check("non_customizable_check")
 
       assert Enum.all?(values, fn %Value{customizable: customizable} -> customizable end)
     end
@@ -221,14 +218,14 @@ defmodule Wanda.CatalogTest do
     test "should detect a check as non customizable because it does not have values" do
       # check_without_values does not have values and it does not have a customizable key in the root
       assert {:ok, %Check{customizable: false, values: []}} =
-               Catalog.get_check(catalog_path(), "check_without_values")
+               Catalog.get_check("check_without_values")
     end
 
     test "should detect a check as non customizable because all its values are non customizable" do
       # non_customizable_check_values has all its values non customizable
       # and it does not have a customizable key in the root
       assert {:ok, %Check{customizable: false, values: values}} =
-               Catalog.get_check(catalog_path(), "non_customizable_check_values")
+               Catalog.get_check("non_customizable_check_values")
 
       assert Enum.all?(values, fn %Value{customizable: customizable} -> not customizable end)
     end
@@ -241,8 +238,7 @@ defmodule Wanda.CatalogTest do
                   %Value{name: "expected_value", customizable: true},
                   %Value{name: "expected_higher_value", customizable: false}
                 ]
-              }} =
-               Catalog.get_check(catalog_path(), "customizable_check")
+              }} = Catalog.get_check("customizable_check")
     end
 
     test "should allow customizability of values based on type" do
@@ -257,11 +253,7 @@ defmodule Wanda.CatalogTest do
                   %Value{name: "list_value", customizable: false},
                   %Value{name: "map_value", customizable: false}
                 ]
-              }} =
-               Catalog.get_check(
-                 "test/fixtures/non_scalar_values_catalog",
-                 "mixed_values_customizability"
-               )
+              }} = Catalog.get_check("mixed_values_customizability")
     end
   end
 end

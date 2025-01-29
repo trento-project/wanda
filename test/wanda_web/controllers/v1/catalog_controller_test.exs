@@ -1,5 +1,7 @@
 defmodule WandaWeb.V1.CatalogControllerTest do
-  use WandaWeb.ConnCase, async: true
+  use WandaWeb.ConnCase, async: false
+  use Wanda.Support.CatalogCase
+
   import OpenApiSpex.TestAssertions
 
   alias WandaWeb.Schemas.V1.ApiSpec
