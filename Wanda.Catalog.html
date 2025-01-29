@@ -14,7 +14,7 @@
 
     <script src="dist/handlebars.runtime-NWIB6V2M.js"></script>
     <script src="dist/handlebars.templates-K7URE6B4.js"></script>
-    <script src="dist/sidebar_items-996BC89F.js"></script>
+    <script src="dist/sidebar_items-AD9DF2A0.js"></script>
     <script src="docs_config.js"></script>
     <script async src="dist/html-YIPIRHGU.js"></script>
 
@@ -157,7 +157,7 @@ GUIDES
 
     <div class="summary-row">
       <div class="summary-signature">
-        <a href="#get_check/2" data-no-tooltip translate="no">get_check(path, check_id)</a>
+        <a href="#get_check/1" data-no-tooltip translate="no">get_check(check_id)</a>
 
       </div>
 
@@ -167,7 +167,7 @@ GUIDES
 
     <div class="summary-row">
       <div class="summary-signature">
-        <a href="#get_checks/2" data-no-tooltip translate="no">get_checks(checks_id, env)</a>
+        <a href="#get_checks/2" data-no-tooltip translate="no">get_checks(checks_ids, env)</a>
 
       </div>
 
@@ -218,14 +218,14 @@ GUIDES
 <p>Get the checks catalog with all checks</p>
   </section>
 </section>
-<section class="detail" id="get_check/2">
+<section class="detail" id="get_check/1">
 
   <div class="detail-header">
-    <a href="#get_check/2" class="detail-link" data-no-tooltip title="Link to this function">
+    <a href="#get_check/1" class="detail-link" data-no-tooltip title="Link to this function">
       <i class="ri-link-m" aria-hidden="true"></i>
       <span class="sr-only">Link to this function</span>
     </a>
-    <h1 class="signature" translate="no">get_check(path, check_id)</h1>
+    <h1 class="signature" translate="no">get_check(check_id)</h1>
 
       <a href="https://github.com/trento-project/wanda/blob/main/lib/wanda/catalog.ex#L42" class="icon-action" rel="help" title="View Source">
        <i class="ri-code-s-slash-line" aria-hidden="true"></i>
@@ -239,8 +239,7 @@ GUIDES
 
       <div class="specs">
 
-          <pre translate="no"><span class="attribute">@spec</span> get_check(<a href="https://hexdocs.pm/elixir/String.html#t:t/0">String.t</a>(), <a href="https://hexdocs.pm/elixir/String.html#t:t/0">String.t</a>()) ::
-  {:ok, <a href="Wanda.Catalog.Check.html#t:t/0">Wanda.Catalog.Check.t</a>()} | {:error, <a href="https://hexdocs.pm/elixir/typespecs.html#basic-types">any</a>()}</pre>
+          <pre translate="no"><span class="attribute">@spec</span> get_check(<a href="https://hexdocs.pm/elixir/String.html#t:t/0">String.t</a>()) :: {:ok, <a href="Wanda.Catalog.Check.html#t:t/0">Wanda.Catalog.Check.t</a>()} | {:error, <a href="https://hexdocs.pm/elixir/typespecs.html#basic-types">any</a>()}</pre>
 
       </div>
 
@@ -254,9 +253,9 @@ GUIDES
       <i class="ri-link-m" aria-hidden="true"></i>
       <span class="sr-only">Link to this function</span>
     </a>
-    <h1 class="signature" translate="no">get_checks(checks_id, env)</h1>
+    <h1 class="signature" translate="no">get_checks(checks_ids, env)</h1>
 
-      <a href="https://github.com/trento-project/wanda/blob/main/lib/wanda/catalog.ex#L53" class="icon-action" rel="help" title="View Source">
+      <a href="https://github.com/trento-project/wanda/blob/main/lib/wanda/catalog.ex#L58" class="icon-action" rel="help" title="View Source">
        <i class="ri-code-s-slash-line" aria-hidden="true"></i>
        <span class="sr-only">View Source</span>
      </a>
