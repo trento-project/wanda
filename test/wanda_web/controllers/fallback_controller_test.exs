@@ -28,4 +28,21 @@ defmodule WandaWeb.FallbackControllerTest do
              ]
            } == json_response(conn, 403)
   end
+
+  test "should return not found when referencing a non existent check", %{conn: conn} do
+    errors_raising_not_found = [:check_not_found]
+
+    for error <- errors_raising_not_found do
+      conn =
+        conn
+        |> Phoenix.Controller.accepts(["json"])
+        |> FallbackController.call({:error, error})
+
+      assert %{
+               "errors" => [
+                 %{"detail" => _, "title" => _}
+               ]
+             } = json_response(conn, 404)
+    end
+  end
 end

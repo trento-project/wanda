@@ -8,10 +8,26 @@ defmodule WandaWeb.ErrorJSONTest do
            }
   end
 
-  test "renders 404.json" do
+  test "renders a default 404.json" do
     assert ErrorJSON.render("404.json", %{}) == %{
              errors: [
                %{detail: "The requested resource was not found.", title: "Not Found"}
+             ]
+           }
+  end
+
+  test "renders 404.json with custom reason" do
+    assert ErrorJSON.render("404.json", %{reason: "Custom reason."}) == %{
+             errors: [
+               %{detail: "Custom reason.", title: "Not Found"}
+             ]
+           }
+  end
+
+  test "renders 400.json" do
+    assert ErrorJSON.render("400.json", %{reason: "Bad request reason."}) == %{
+             errors: [
+               %{detail: "Bad request reason.", title: "Bad Request"}
              ]
            }
   end
