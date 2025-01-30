@@ -10,7 +10,7 @@ defmodule WandaWeb.ErrorJSON do
     }
   end
 
-  def render("404.json", %{reason: reason} = context) when not is_map_key(context, :status) do
+  def render("404.json", %{reason: reason}) when not is_exception(reason, Ecto.NoResultsError) do
     %{
       errors: [
         %{
