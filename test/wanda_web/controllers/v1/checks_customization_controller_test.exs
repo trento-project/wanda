@@ -80,6 +80,26 @@ defmodule WandaWeb.V1.ChecksCustomizationsControllerTest do
               detail: "Invalid object. Got: string"
             }
           ]
+        },
+        %{
+          body: %{values: [%{value: 50}]},
+          expected_errors: [
+            %{
+              title: "Invalid value",
+              source: %{pointer: "/values/0/name"},
+              detail: "Missing field: name"
+            }
+          ]
+        },
+        %{
+          body: %{values: [%{name: "foo_bar"}]},
+          expected_errors: [
+            %{
+              title: "Invalid value",
+              source: %{pointer: "/values/0/value"},
+              detail: "Missing field: value"
+            }
+          ]
         }
       ]
 
