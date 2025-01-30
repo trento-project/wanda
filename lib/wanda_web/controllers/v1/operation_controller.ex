@@ -37,10 +37,13 @@ defmodule WandaWeb.V1.OperationController do
     ]
 
   def index(conn, params) do
-    operations = Operations.list_operations(params)
-    enriched_operations = Enum.map(operations, &Operations.enrich_operation!(&1))
+    operations =
+      params
+      |> Operations.list_operations()
+      |> Enum.map(&Operations.enrich_operation!(&1))
+      |> Enum.map(&Operations.compute_aborted(&1, DateTime.utc_now()))
 
-    render(conn, operations: enriched_operations)
+    render(conn, operations: operations)
   end
 
   operation :show,
@@ -67,6 +70,7 @@ defmodule WandaWeb.V1.OperationController do
       operation_id
       |> Operations.get_operation!()
       |> Operations.enrich_operation!()
+      |> Operations.compute_aborted(DateTime.utc_now())
 
     render(conn, operation: operation)
   end

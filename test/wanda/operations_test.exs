@@ -102,6 +102,66 @@ defmodule Wanda.OperationsTest do
     end
   end
 
+  describe "compute aborted" do
+    test "should not change status if the operation is completed" do
+      operation = build(:operation, status: Status.completed())
+
+      assert %Operation{status: Status.completed()} =
+               Operations.compute_aborted(operation, DateTime.utc_now())
+    end
+
+    test "should not change status if the operation is already aborted" do
+      operation = build(:operation, status: Status.aborted())
+
+      assert %Operation{status: Status.aborted()} =
+               Operations.compute_aborted(operation, DateTime.utc_now())
+    end
+
+    test "should not change status if the operation is running but the timeout is not expired" do
+      catalog_operation =
+        build(:catalog_operation,
+          steps: [
+            build(:operation_step, timeout: 15_000),
+            build(:operation_step, timeout: 5_000),
+            build(:operation_step, timeout: 10_000)
+          ]
+        )
+
+      %{started_at: started_at} =
+        operation =
+        build(:operation, catalog_operation: catalog_operation, status: Status.running())
+
+      for added_time <- [0, 15, 30] do
+        assert %Operation{status: Status.running()} =
+                 Operations.compute_aborted(
+                   operation,
+                   DateTime.add(started_at, added_time)
+                 )
+      end
+    end
+
+    test "should change status to aborted if the operation is running and the timeout expired" do
+      catalog_operation =
+        build(:catalog_operation,
+          steps: [
+            build(:operation_step, timeout: 3_000),
+            build(:operation_step, timeout: 5_000),
+            build(:operation_step, timeout: 7_000)
+          ]
+        )
+
+      %{started_at: started_at} =
+        operation =
+        build(:operation, catalog_operation: catalog_operation, status: Status.running())
+
+      assert %Operation{status: Status.aborted()} =
+               Operations.compute_aborted(
+                 operation,
+                 DateTime.add(started_at, 16)
+               )
+    end
+  end
+
   describe "list operations" do
     test "should list all operations sorted by newest to oldest" do
       operations = insert_list(3, :operation)
