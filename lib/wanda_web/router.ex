@@ -57,6 +57,10 @@ defmodule WandaWeb.Router do
         get "/groups/:id/executions/last", ExecutionController, :last
         post "/executions/start", ExecutionController, :start
         get "/catalog", CatalogController, :catalog
+
+        post "/:check_id/customize/:group_id",
+             ChecksCustomizationsController,
+             :apply_custom_values
       end
 
       if Application.compile_env!(:wanda, :operations_enabled) do

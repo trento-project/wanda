@@ -76,6 +76,8 @@ config :joken,
 
 config :unplug, :init_mode, :runtime
 
+config :open_api_spex, :cache_adapter, OpenApiSpex.Plug.NoneCache
+
 # Override with local dev.local.exs file
 if File.exists?("#{__DIR__}/dev.local.exs") do
   import_config "dev.local.exs"
