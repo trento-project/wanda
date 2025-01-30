@@ -16,7 +16,7 @@ defmodule Wanda.Operations.Catalog.Registry do
   """
   @spec get_operations() :: [Operation.t()]
   def get_operations do
-    Map.values(@registry)
+    Map.values(registry())
   end
 
   @doc """
@@ -24,9 +24,21 @@ defmodule Wanda.Operations.Catalog.Registry do
   """
   @spec get_operation(String.t()) :: {:ok, Operation.t()} | {:error, :operation_not_found}
   def get_operation(id) do
-    case Map.get(@registry, id) do
+    case Map.get(registry(), id) do
       nil -> {:error, :operation_not_found}
       operation -> {:ok, operation}
     end
+  end
+
+  @doc """
+  Get an operation by id, erroring out if the entry doesn't exist
+  """
+  @spec get_operation!(String.t()) :: Operation.t()
+  def get_operation!(id) do
+    Map.fetch!(registry(), id)
+  end
+
+  defp registry do
+    Application.get_env(:wanda, :operations_registry, @registry)
   end
 end

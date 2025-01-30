@@ -7,8 +7,19 @@ defmodule Wanda.OperationsTest do
   alias Wanda.Operations
   alias Wanda.Operations.{AgentReport, Operation, OperationTarget, StepReport}
 
+  alias Wanda.Operations.Catalog.TestRegistry
+
   require Wanda.Operations.Enums.Result, as: Result
   require Wanda.Operations.Enums.Status, as: Status
+
+  @existing_catalog_operation_id "testoperation@v1"
+
+  setup do
+    Application.put_env(:wanda, :operations_registry, TestRegistry.test_registry())
+    on_exit(fn -> Application.delete_env(:wanda, :operations_registry) end)
+
+    {:ok, []}
+  end
 
   describe "create an operation" do
     test "should create a running operation" do
@@ -26,13 +37,19 @@ defmodule Wanda.OperationsTest do
         }
       ] = targets = build_list(2, :operation_target)
 
-      Operations.create_operation!(operation_id, group_id, targets)
+      Operations.create_operation!(
+        operation_id,
+        group_id,
+        @existing_catalog_operation_id,
+        targets
+      )
 
       assert %Operation{
                operation_id: ^operation_id,
                group_id: ^group_id,
                result: Result.not_executed(),
                status: Status.running(),
+               catalog_operation_id: @existing_catalog_operation_id,
                targets: [
                  %{
                    agent_id: ^agent_id_1,
@@ -46,6 +63,16 @@ defmodule Wanda.OperationsTest do
                agent_reports: []
              } = Repo.get(Operation, operation_id)
     end
+
+    test "should bang creating operation if catalog operation does not exist" do
+      operation_id = UUID.uuid4()
+      group_id = UUID.uuid4()
+      targets = build_list(2, :operation_target)
+
+      assert_raise Ecto.InvalidChangesetError, fn ->
+        Operations.create_operation!(operation_id, group_id, "foo", targets)
+      end
+    end
   end
 
   describe "get operation" do
@@ -53,6 +80,25 @@ defmodule Wanda.OperationsTest do
       %Operation{operation_id: operation_id} = operation = insert(:operation)
 
       assert operation == Operations.get_operation!(operation_id)
+    end
+  end
+
+  describe "enrich operation" do
+    test "should enrich an existing operation" do
+      operation = insert(:operation)
+
+      assert %Operation{catalog_operation: catalog_operation} =
+               Operations.enrich_operation!(operation)
+
+      refute catalog_operation == nil
+    end
+
+    test "should bang enrichment if catalog operation does not exist" do
+      operation = insert(:operation, catalog_operation_id: "bar")
+
+      assert_raise KeyError, fn ->
+        Operations.enrich_operation!(operation)
+      end
     end
   end
 

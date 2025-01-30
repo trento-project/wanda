@@ -35,6 +35,9 @@ defmodule WandaWeb.Schemas.V1.Operation.OperationResponse do
           enum: Result.values(),
           description: "Aggregated result of the operation, unknown for running ones"
         },
+        name: %Schema{type: :string, description: "Operation name"},
+        description: %Schema{type: :string, description: "Operation description"},
+        operation: %Schema{type: :string, description: "Executed operation"},
         targets: %Schema{type: :array, items: OperationTarget},
         agent_reports: %Schema{type: :array, nullable: true, items: StepReport},
         started_at: %Schema{
