@@ -10,7 +10,7 @@ defmodule WandaWeb.Schemas.V1.ChecksCustomizations.CustomValue do
   OpenApiSpex.schema(
     %{
       title: "CustomValue",
-      description: "A single check from the catalog",
+      description: "A single custom value to be applied or already applied to a check",
       type: :object,
       additionalProperties: false,
       properties: %{
