@@ -76,12 +76,16 @@ WandaWeb.Router.html
 WandaWeb.Schemas.AcceptedExecutionResponse.html
 WandaWeb.Schemas.ApiSpec.html
 WandaWeb.Schemas.BadRequest.html
+WandaWeb.Schemas.Forbidden.html
 WandaWeb.Schemas.Health.html
 WandaWeb.Schemas.NotFound.html
 WandaWeb.Schemas.Ready.html
 WandaWeb.Schemas.V1.ApiSpec.html
 WandaWeb.Schemas.V1.Catalog.CatalogResponse.html
 WandaWeb.Schemas.V1.Catalog.Check.html
+WandaWeb.Schemas.V1.ChecksCustomizations.CustomValue.html
+WandaWeb.Schemas.V1.ChecksCustomizations.CustomizationRequest.html
+WandaWeb.Schemas.V1.ChecksCustomizations.CustomizationResponse.html
 WandaWeb.Schemas.V1.Execution.ExecutionResponse.html
 WandaWeb.Schemas.V1.Execution.ListExecutionsResponse.html
 WandaWeb.Schemas.V1.Execution.StartExecutionRequest.html
@@ -96,6 +100,8 @@ WandaWeb.Schemas.V3.Catalog.CatalogResponse.html
 WandaWeb.Schemas.V3.Catalog.Check.html
 WandaWeb.V1.CatalogController.html
 WandaWeb.V1.CatalogJSON.html
+WandaWeb.V1.ChecksCustomizationsController.html
+WandaWeb.V1.ChecksCustomizationsJSON.html
 WandaWeb.V1.ExecutionController.html
 WandaWeb.V1.ExecutionJSON.html
 WandaWeb.V1.OperationController.html
@@ -129,8 +135,8 @@ dist/lato-latin-ext-300-normal-VPGGJKJL.woff2
 dist/lato-latin-ext-400-normal-N27NCBWW.woff2
 dist/lato-latin-ext-700-normal-Q2L5DVMW.woff2
 dist/remixicon-NKANDIL5.woff2
-dist/search_data-D45D5D21.js
-dist/sidebar_items-D3E75575.js
+dist/search_data-47EE5C71.js
+dist/sidebar_items-BCCB3656.js
 expression_language.html
 gatherers.html
 hack_on_wanda.html

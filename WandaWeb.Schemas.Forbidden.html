@@ -8,7 +8,7 @@
     <meta name="project" content="Wanda v1.4.0">
 
 
-    <title>Wanda.Messaging.Mapper — Wanda v1.4.0</title>
+    <title>WandaWeb.Schemas.Forbidden — Wanda v1.4.0</title>
     <link rel="stylesheet" href="dist/html-elixir-F2VRIOKR.css" />
 
 
@@ -116,19 +116,19 @@ GUIDES
 <div id="top-content">
   <h1>
 
-      <a href="https://github.com/trento-project/wanda/blob/main/lib/wanda/messaging/mapper.ex#L1" title="View Source" class="icon-action" rel="help">
+      <a href="https://github.com/trento-project/wanda/blob/main/lib/wanda_web/schemas/forbidden.ex#L1" title="View Source" class="icon-action" rel="help">
         <i class="ri-code-s-slash-line" aria-hidden="true"></i>
         <span class="sr-only">View Source</span>
       </a>
 
-    <span translate="no">Wanda.Messaging.Mapper</span> 
+    <span translate="no">WandaWeb.Schemas.Forbidden</span> 
     <small class="app-vsn" translate="no">(Wanda v1.4.0)</small>
 
   </h1>
 
 
     <section id="moduledoc">
-<p>Maps domain structures to integration events.</p>
+<p>403 - Forbidden</p>
     </section>
 
 </div>
@@ -147,7 +147,7 @@ GUIDES
 
     <div class="summary-row">
       <div class="summary-signature">
-        <a href="#from_execution_requested/1" data-no-tooltip translate="no">from_execution_requested(execution_requested)</a>
+        <a href="#response/0" data-no-tooltip translate="no">response()</a>
 
       </div>
 
@@ -155,33 +155,11 @@ GUIDES
 
     <div class="summary-row">
       <div class="summary-signature">
-        <a href="#from_facts_gathererd/1" data-no-tooltip translate="no">from_facts_gathererd(facts_gathered)</a>
+        <a href="#schema/0" data-no-tooltip translate="no">schema()</a>
 
       </div>
 
-    </div>
-
-    <div class="summary-row">
-      <div class="summary-signature">
-        <a href="#to_execution_completed/2" data-no-tooltip translate="no">to_execution_completed(result, target_type)</a>
-
-      </div>
-
-    </div>
-
-    <div class="summary-row">
-      <div class="summary-signature">
-        <a href="#to_execution_started/3" data-no-tooltip translate="no">to_execution_started(execution_id, group_id, targets)</a>
-
-      </div>
-
-    </div>
-
-    <div class="summary-row">
-      <div class="summary-signature">
-        <a href="#to_facts_gathering_requested/4" data-no-tooltip translate="no">to_facts_gathering_requested(execution_id, group_id, targets, checks)</a>
-
-      </div>
+        <div class="summary-synopsis"><p>Callback implementation for <a href="https://hexdocs.pm/open_api_spex/3.21.2/OpenApiSpex.Schema.html#c:schema/0"><code class="inline">OpenApiSpex.Schema.schema/0</code></a>.</p></div>
 
     </div>
 
@@ -198,83 +176,16 @@ GUIDES
       <span class="text">Functions</span>
     </h1>
     <div class="functions-list">
-<section class="detail" id="from_execution_requested/1">
+<section class="detail" id="response/0">
 
   <div class="detail-header">
-    <a href="#from_execution_requested/1" class="detail-link" data-no-tooltip title="Link to this function">
+    <a href="#response/0" class="detail-link" data-no-tooltip title="Link to this function">
       <i class="ri-link-m" aria-hidden="true"></i>
       <span class="sr-only">Link to this function</span>
     </a>
-    <h1 class="signature" translate="no">from_execution_requested(execution_requested)</h1>
+    <h1 class="signature" translate="no">response()</h1>
 
-      <a href="https://github.com/trento-project/wanda/blob/main/lib/wanda/messaging/mapper.ex#L65" class="icon-action" rel="help" title="View Source">
-       <i class="ri-code-s-slash-line" aria-hidden="true"></i>
-       <span class="sr-only">View Source</span>
-     </a>
-
-
-  </div>
-
-  <section class="docstring">
-
-      <div class="specs">
-
-          <pre translate="no"><span class="attribute">@spec</span> from_execution_requested(Trento.Checks.V1.ExecutionRequested.t()) :: %{
-  execution_id: <a href="https://hexdocs.pm/elixir/String.html#t:t/0">String.t</a>(),
-  group_id: <a href="https://hexdocs.pm/elixir/String.html#t:t/0">String.t</a>(),
-  targets: [<a href="Wanda.Executions.Target.html#t:t/0">Wanda.Executions.Target.t</a>()],
-  target_type: <a href="https://hexdocs.pm/elixir/String.html#t:t/0">String.t</a>() | nil,
-  env: %{required(<a href="https://hexdocs.pm/elixir/String.html#t:t/0">String.t</a>()) =&gt; <a href="https://hexdocs.pm/elixir/typespecs.html#built-in-types">boolean</a>() | <a href="https://hexdocs.pm/elixir/typespecs.html#built-in-types">number</a>() | <a href="https://hexdocs.pm/elixir/String.html#t:t/0">String.t</a>() | nil}
-}</pre>
-
-      </div>
-
-
-  </section>
-</section>
-<section class="detail" id="from_facts_gathererd/1">
-
-  <div class="detail-header">
-    <a href="#from_facts_gathererd/1" class="detail-link" data-no-tooltip title="Link to this function">
-      <i class="ri-link-m" aria-hidden="true"></i>
-      <span class="sr-only">Link to this function</span>
-    </a>
-    <h1 class="signature" translate="no">from_facts_gathererd(facts_gathered)</h1>
-
-      <a href="https://github.com/trento-project/wanda/blob/main/lib/wanda/messaging/mapper.ex#L87" class="icon-action" rel="help" title="View Source">
-       <i class="ri-code-s-slash-line" aria-hidden="true"></i>
-       <span class="sr-only">View Source</span>
-     </a>
-
-
-  </div>
-
-  <section class="docstring">
-
-      <div class="specs">
-
-          <pre translate="no"><span class="attribute">@spec</span> from_facts_gathererd(Trento.Checks.V1.FactsGathered.t()) :: %{
-  execution_id: <a href="https://hexdocs.pm/elixir/String.html#t:t/0">String.t</a>(),
-  group_id: <a href="https://hexdocs.pm/elixir/String.html#t:t/0">String.t</a>(),
-  agent_id: <a href="https://hexdocs.pm/elixir/String.html#t:t/0">String.t</a>(),
-  facts_gathered: [<a href="Wanda.Executions.Fact.html#t:t/0">Wanda.Executions.Fact.t</a>() | <a href="Wanda.Executions.FactError.html#t:t/0">Wanda.Executions.FactError.t</a>()]
-}</pre>
-
-      </div>
-
-
-  </section>
-</section>
-<section class="detail" id="to_execution_completed/2">
-
-  <div class="detail-header">
-    <a href="#to_execution_completed/2" class="detail-link" data-no-tooltip title="Link to this function">
-      <i class="ri-link-m" aria-hidden="true"></i>
-      <span class="sr-only">Link to this function</span>
-    </a>
-    <h1 class="signature" translate="no">to_execution_completed(result, target_type)</h1>
-
-      <a href="https://github.com/trento-project/wanda/blob/main/lib/wanda/messaging/mapper.ex#L42" class="icon-action" rel="help" title="View Source">
+      <a href="https://github.com/trento-project/wanda/blob/main/lib/wanda_web/schemas/forbidden.ex#L35" class="icon-action" rel="help" title="View Source">
        <i class="ri-code-s-slash-line" aria-hidden="true"></i>
        <span class="sr-only">View Source</span>
      </a>
@@ -287,16 +198,16 @@ GUIDES
 
   </section>
 </section>
-<section class="detail" id="to_execution_started/3">
+<section class="detail" id="schema/0">
 
   <div class="detail-header">
-    <a href="#to_execution_started/3" class="detail-link" data-no-tooltip title="Link to this function">
+    <a href="#schema/0" class="detail-link" data-no-tooltip title="Link to this function">
       <i class="ri-link-m" aria-hidden="true"></i>
       <span class="sr-only">Link to this function</span>
     </a>
-    <h1 class="signature" translate="no">to_execution_started(execution_id, group_id, targets)</h1>
+    <h1 class="signature" translate="no">schema()</h1>
 
-      <a href="https://github.com/trento-project/wanda/blob/main/lib/wanda/messaging/mapper.ex#L26" class="icon-action" rel="help" title="View Source">
+      <a href="https://github.com/trento-project/wanda/blob/main/lib/wanda_web/schemas/forbidden.ex#L11" class="icon-action" rel="help" title="View Source">
        <i class="ri-code-s-slash-line" aria-hidden="true"></i>
        <span class="sr-only">View Source</span>
      </a>
@@ -306,36 +217,7 @@ GUIDES
 
   <section class="docstring">
 
-      <div class="specs">
-
-          <pre translate="no"><span class="attribute">@spec</span> to_execution_started(<a href="https://hexdocs.pm/elixir/String.html#t:t/0">String.t</a>(), <a href="https://hexdocs.pm/elixir/String.html#t:t/0">String.t</a>(), [<a href="Wanda.Executions.Target.html#t:t/0">Wanda.Executions.Target.t</a>()]) ::
-  Trento.Checks.V1.ExecutionStarted.t()</pre>
-
-      </div>
-
-
-  </section>
-</section>
-<section class="detail" id="to_facts_gathering_requested/4">
-
-  <div class="detail-header">
-    <a href="#to_facts_gathering_requested/4" class="detail-link" data-no-tooltip title="Link to this function">
-      <i class="ri-link-m" aria-hidden="true"></i>
-      <span class="sr-only">Link to this function</span>
-    </a>
-    <h1 class="signature" translate="no">to_facts_gathering_requested(execution_id, group_id, targets, checks)</h1>
-
-      <a href="https://github.com/trento-project/wanda/blob/main/lib/wanda/messaging/mapper.ex#L34" class="icon-action" rel="help" title="View Source">
-       <i class="ri-code-s-slash-line" aria-hidden="true"></i>
-       <span class="sr-only">View Source</span>
-     </a>
-
-
-  </div>
-
-  <section class="docstring">
-
-
+<p>Callback implementation for <a href="https://hexdocs.pm/open_api_spex/3.21.2/OpenApiSpex.Schema.html#c:schema/0"><code class="inline">OpenApiSpex.Schema.schema/0</code></a>.</p>
   </section>
 </section>
 
