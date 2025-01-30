@@ -6,7 +6,7 @@ defmodule Wanda.Operations.Server do
 
   @behaviour Wanda.Operations.ServerBehaviour
 
-  use GenServer, restart: :transient
+  use GenServer, restart: :temporary
 
   alias Wanda.Operations
 
