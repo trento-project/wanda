@@ -4,5 +4,5 @@ defmodule Wanda.Operations.Enums.Status do
   """
 
   use Wanda.Support.Enum,
-    values: [:running, :completed]
+    values: [:running, :completed, :aborted]
 end

@@ -479,5 +479,32 @@ defmodule Wanda.Operations.ServerTest do
 
       assert expected_agent_reports == agent_reports
     end
+
+    test "should abort the operation when the server is stopped from external signal" do
+      operation_id = UUID.uuid4()
+      group_id = UUID.uuid4()
+
+      operation =
+        build(:catalog_operation, id: @existing_catalog_operation_id)
+
+      targets = build_list(2, :operation_target)
+
+      Server.start_operation(
+        operation_id,
+        group_id,
+        operation,
+        targets,
+        []
+      )
+
+      pid = :global.whereis_name({Server, group_id})
+      ref = Process.monitor(pid)
+
+      GenServer.stop(pid)
+
+      assert_receive {:DOWN, ^ref, _, ^pid, :normal}, 500
+
+      %{status: Status.aborted()} = Repo.get(Operation, operation_id)
+    end
   end
 end

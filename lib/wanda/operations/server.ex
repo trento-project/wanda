@@ -16,6 +16,7 @@ defmodule Wanda.Operations.Server do
   alias Wanda.EvaluationEngine
 
   require Wanda.Operations.Enums.Result, as: Result
+  require Wanda.Operations.Enums.Status, as: Status
 
   require Logger
 
@@ -71,6 +72,8 @@ defmodule Wanda.Operations.Server do
   def init(%State{operation_id: operation_id} = state) do
     Logger.debug("Starting operation: #{operation_id}", state: inspect(state))
 
+    Process.flag(:trap_exit, true)
+
     {:ok, state, {:continue, :start_operation}}
   end
 
@@ -112,7 +115,7 @@ defmodule Wanda.Operations.Server do
     # Result is failed or rolledback, depending on the evaluation result
     Operations.complete_operation!(operation_id, Result.failed())
 
-    {:stop, :normal, state}
+    {:stop, :normal, %State{state | status: Status.completed()}}
   end
 
   @impl true
@@ -164,7 +167,7 @@ defmodule Wanda.Operations.Server do
     # Result based on evaluation result
     Operations.complete_operation!(operation_id, Result.updated())
 
-    {:stop, :normal, state}
+    {:stop, :normal, %State{state | status: Status.completed()}}
   end
 
   @impl true
@@ -241,6 +244,17 @@ defmodule Wanda.Operations.Server do
 
     {:noreply, new_state, {:continue, :execute_step}}
   end
+
+  # This terminate is a best-effort approach. terminate/2 is not always called, so some
+  # operations might remain as running even if the gen server exited abruptly
+  @impl true
+  def terminate(_, %State{operation_id: operation_id, status: Status.running()} = state) do
+    Operations.abort_operation!(operation_id)
+
+    state
+  end
+
+  def terminate(_, state), do: state
 
   defp maybe_start_operation(false, _, _, _, _, _), do: {:error, :arguments_missing}
 

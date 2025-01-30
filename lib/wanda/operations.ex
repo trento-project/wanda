@@ -107,6 +107,19 @@ defmodule Wanda.Operations do
     |> Repo.update!()
   end
 
+  @doc """
+  Marks a previously started operation as aborted
+  """
+  @spec abort_operation!(String.t()) :: Operation.t()
+  def abort_operation!(operation_id) do
+    Operation
+    |> Repo.get!(operation_id)
+    |> Operation.changeset(%{
+      status: Status.aborted()
+    })
+    |> Repo.update!()
+  end
+
   @spec maybe_filter_by_group_id(Ecto.Query.t(), String.t()) :: Ecto.Query.t()
   defp maybe_filter_by_group_id(query, nil), do: query
 

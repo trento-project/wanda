@@ -211,6 +211,24 @@ defmodule Wanda.OperationsTest do
     end
   end
 
+  describe "abort an operation" do
+    test "should abort a running operation" do
+      %Operation{
+        operation_id: operation_id,
+        group_id: group_id
+      } = insert(:operation, status: Status.running())
+
+      Operations.abort_operation!(operation_id)
+
+      assert %Operation{
+               operation_id: ^operation_id,
+               group_id: ^group_id,
+               status: Status.aborted(),
+               completed_at: nil
+             } = Repo.get(Operation, operation_id)
+    end
+  end
+
   describe "complete an operation" do
     test "should complete a running operation" do
       %Operation{
