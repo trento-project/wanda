@@ -4,6 +4,7 @@ defmodule Wanda.Factory do
   use ExMachina.Ecto, repo: Wanda.Repo
 
   alias Wanda.Catalog
+  alias Wanda.Catalog.CheckCustomization
 
   alias Wanda.Executions.{
     AgentCheckError,
@@ -284,6 +285,21 @@ defmodule Wanda.Factory do
     %{
       name: Faker.Pokemon.name(),
       resource: Faker.Industry.industry()
+    }
+  end
+
+  def custom_value_factory do
+    %{
+      name: Faker.UUID.v4(),
+      value: Faker.Pokemon.name()
+    }
+  end
+
+  def check_customization_factory do
+    %CheckCustomization{
+      check_id: Faker.UUID.v4(),
+      group_id: Faker.UUID.v4(),
+      custom_values: build_list(5, :custom_value)
     }
   end
 
