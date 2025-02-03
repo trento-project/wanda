@@ -8,6 +8,7 @@ remediation: |
   Remediation text
 # customizable: true #inferred
 metadata:
+  id: mixed_values_customizability  
   some_key: some_value
   provider: unmatched_provider
 facts:
