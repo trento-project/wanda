@@ -1,6 +1,8 @@
 defmodule WandaWeb.Schemas.V1.ChecksSelection.NotCustomizedCheckValue do
   @moduledoc """
-  Individual Customized Check Value
+  A Check Value that has not been customized.
+
+  It could be customizable or not.
   """
 
   alias OpenApiSpex.Schema

@@ -1,6 +1,6 @@
 defmodule WandaWeb.Schemas.V1.ChecksSelection.CustomizedCheckValue do
   @moduledoc """
-  Individual Customized Check Value
+  A Customized Check Value
   """
 
   alias OpenApiSpex.Schema

@@ -1,6 +1,6 @@
 defmodule WandaWeb.Schemas.V1.ChecksSelection.SelectableChecksResponse do
   @moduledoc """
-  Response representing the list of selectable checks for a given execution group.
+  Response representing the list of selectable checks for a given execution group and environment.
   """
 
   alias WandaWeb.Schemas.V1.ChecksSelection.{CustomizedCheckValue, NotCustomizedCheckValue}
