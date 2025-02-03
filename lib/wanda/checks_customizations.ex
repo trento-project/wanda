@@ -20,8 +20,7 @@ defmodule Wanda.ChecksCustomizations do
   def get_customizations(group_id) do
     Repo.all(
       from c in CheckCustomization,
-        where: c.group_id == ^group_id,
-        select: c
+        where: c.group_id == ^group_id
     )
   end
 
