@@ -17,7 +17,7 @@ defmodule Wanda.Catalog.CheckCustomization do
     field :check_id, :string, primary_key: true
     field :group_id, Ecto.UUID, primary_key: true
 
-    field :custom_values, {:array, :map}
+    field :custom_values, Wanda.Support.Ecto.Json
 
     timestamps(type: :utc_datetime_usec)
   end
