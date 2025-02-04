@@ -3,6 +3,8 @@ defmodule Wanda.ChecksCustomizations do
   Customization features.
   """
 
+  import Ecto.Query
+
   alias Wanda.Catalog
   alias Wanda.Catalog.{Check, Value}
   alias Wanda.Catalog.CheckCustomization
@@ -13,6 +15,14 @@ defmodule Wanda.ChecksCustomizations do
           name: String.t(),
           value: any()
         }
+
+  @spec get_customizations(Ecto.UUID.t()) :: [CheckCustomization.t()]
+  def get_customizations(group_id) do
+    Repo.all(
+      from c in CheckCustomization,
+        where: c.group_id == ^group_id
+    )
+  end
 
   @spec customize(check_id :: String.t(), group_id :: Ecto.UUID.t(), [custom_value()]) ::
           {:ok, CheckCustomization.t()}
@@ -78,6 +88,10 @@ defmodule Wanda.ChecksCustomizations do
       end
     )
   end
+
+  defp match_value_type(specified_value, custom_value)
+       when is_integer(specified_value) and is_integer(custom_value),
+       do: true
 
   defp match_value_type(specified_value, custom_value)
        when is_number(specified_value) and is_number(custom_value),

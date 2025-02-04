@@ -203,4 +203,69 @@ defmodule Wanda.ChecksCustomizationsTest do
       end
     end
   end
+
+  describe "retrieving checks customizations" do
+    test "should return an empty list when there are no customizations available for a group" do
+      assert [] == ChecksCustomizations.get_customizations(Faker.UUID.v4())
+    end
+
+    test "should return customizations available for a group" do
+      group_id = Faker.UUID.v4()
+
+      [
+        %{
+          name: name1,
+          value: value1
+        },
+        %{
+          name: name2,
+          value: value2
+        }
+      ] = custom_values1 = build_list(2, :custom_value)
+
+      %{
+        name: name3,
+        value: value3
+      } = custom_values2 = build(:custom_value)
+
+      %{check_id: check_id_1} =
+        insert(:check_customization,
+          group_id: group_id,
+          custom_values: custom_values1
+        )
+
+      %{check_id: check_id_2} =
+        insert(:check_customization,
+          group_id: group_id,
+          custom_values: [custom_values2]
+        )
+
+      assert [
+               %CheckCustomization{
+                 check_id: ^check_id_1,
+                 group_id: ^group_id,
+                 custom_values: [
+                   %{
+                     name: ^name1,
+                     value: ^value1
+                   },
+                   %{
+                     name: ^name2,
+                     value: ^value2
+                   }
+                 ]
+               },
+               %CheckCustomization{
+                 check_id: ^check_id_2,
+                 group_id: ^group_id,
+                 custom_values: [
+                   %{
+                     name: ^name3,
+                     value: ^value3
+                   }
+                 ]
+               }
+             ] = ChecksCustomizations.get_customizations(group_id)
+    end
+  end
 end
