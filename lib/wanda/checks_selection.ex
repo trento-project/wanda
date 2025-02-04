@@ -4,7 +4,7 @@ defmodule Wanda.ChecksSelection do
   """
 
   alias Wanda.Catalog
-  alias Wanda.Catalog.{CheckCustomization, SelectableCheck, Value}
+  alias Wanda.Catalog.{Check, CheckCustomization, SelectableCheck, Value}
   alias Wanda.ChecksCustomizations
 
   @spec selectable_checks(group_id :: String.t(), env :: map()) :: [SelectableCheck.t()]
@@ -13,19 +13,21 @@ defmodule Wanda.ChecksSelection do
 
     env
     |> Catalog.get_catalog()
-    |> Enum.map(
-      &%SelectableCheck{
-        id: &1.id,
-        name: &1.name,
-        group: &1.group,
-        description: &1.description,
-        values:
-          &1.id
-          |> find_custom_values(available_customizations)
-          |> map_values(&1.values),
-        customizable: &1.customizable
-      }
-    )
+    |> Enum.map(&map_to_selectable_check(&1, available_customizations))
+  end
+
+  defp map_to_selectable_check(%Check{} = check, available_customizations) do
+    %SelectableCheck{
+      id: check.id,
+      name: check.name,
+      group: check.group,
+      description: check.description,
+      values:
+        check.id
+        |> find_custom_values(available_customizations)
+        |> map_values(check.values),
+      customizable: check.customizable
+    }
   end
 
   defp find_custom_values(check_id, available_customizations) do
