@@ -40,9 +40,13 @@ defmodule WandaWeb.Schemas.V1.ChecksSelection.SelectableChecksResponse do
               customizable: %Schema{
                 type: :boolean,
                 description: "Whether the check is customizable or not"
+              },
+              customized: %Schema{
+                type: :boolean,
+                description: "Whether the check has been customized or not"
               }
             },
-            required: [:id, :name, :group, :description, :values, :customizable]
+            required: [:id, :name, :group, :description, :values, :customizable, :customized]
           }
         }
       }

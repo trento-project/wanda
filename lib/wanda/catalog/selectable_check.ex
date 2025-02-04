@@ -23,7 +23,8 @@ defmodule Wanda.Catalog.SelectableCheck do
     :group,
     :description,
     :values,
-    :customizable
+    :customizable,
+    :customized
   ]
 
   @type t :: %__MODULE__{
@@ -32,6 +33,7 @@ defmodule Wanda.Catalog.SelectableCheck do
           group: String.t(),
           customizable: boolean(),
           description: String.t(),
-          values: [non_customized_value() | customized_value()]
+          values: [non_customized_value() | customized_value()],
+          customized: boolean()
         }
 end

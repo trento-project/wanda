@@ -25,6 +25,7 @@ defmodule WandaWeb.V1.ChecksSelectionControllerTest do
         |> assert_schema("SelectableChecksResponse", api_spec)
 
       assert length(selectable_checks) == 10
+      refute Enum.any?(selectable_checks, & &1.customized)
     end
 
     test "should return checks selection with customized values",
@@ -76,8 +77,18 @@ defmodule WandaWeb.V1.ChecksSelectionControllerTest do
 
         assert length(selectable_checks) == 10
 
-        %{values: customized_check_values} =
-          Enum.find(selectable_checks, &(&1.id == customized_check_id))
+        assert selectable_checks
+               |> Enum.filter(& &1.customized)
+               |> length() == 1
+
+        assert selectable_checks
+               |> Enum.filter(&(not &1.customized))
+               |> length() == 9
+
+        %{
+          values: customized_check_values,
+          customized: true
+        } = Enum.find(selectable_checks, &(&1.id == customized_check_id))
 
         assert [
                  %{

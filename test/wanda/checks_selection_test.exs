@@ -16,6 +16,8 @@ defmodule Wanda.ChecksSelectionTest do
 
       assert length(selectable_checks) == 10
 
+      refute Enum.any?(selectable_checks, & &1.customized)
+
       selectable_checks
       |> Enum.flat_map(& &1.values)
       |> Enum.each(&assert_non_customized_value/1)
@@ -99,10 +101,12 @@ defmodule Wanda.ChecksSelectionTest do
         Enum.each(
           selectable_checks,
           fn
-            %SelectableCheck{id: ^customized_check_id, values: values} ->
+            %SelectableCheck{id: ^customized_check_id, values: values, customized: customized} ->
               assert ^expected_cutomizations = values
+              assert customized
 
-            %SelectableCheck{values: values} ->
+            %SelectableCheck{values: values, customized: customized} ->
+              refute customized
               Enum.each(values, &assert_non_customized_value/1)
           end
         )

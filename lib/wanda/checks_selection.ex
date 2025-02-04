@@ -17,16 +17,21 @@ defmodule Wanda.ChecksSelection do
   end
 
   defp map_to_selectable_check(%Check{} = check, available_customizations) do
+    mapped_values =
+      check.id
+      |> find_custom_values(available_customizations)
+      |> map_values(check.values)
+
     %SelectableCheck{
       id: check.id,
       name: check.name,
       group: check.group,
       description: check.description,
-      values:
-        check.id
-        |> find_custom_values(available_customizations)
-        |> map_values(check.values),
-      customizable: check.customizable
+      values: mapped_values,
+      customizable: check.customizable,
+      customized:
+        check.customizable &&
+          Enum.any?(mapped_values, &(&1.customizable && Map.has_key?(&1, :customization)))
     }
   end
 
