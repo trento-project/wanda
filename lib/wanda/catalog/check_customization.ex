@@ -12,6 +12,8 @@ defmodule Wanda.Catalog.CheckCustomization do
 
   @custom_value_fields ~w(name value)a
 
+  defdelegate authorize(action, user, params), to: Wanda.Catalog.CustomizationPolicy
+
   @primary_key false
   schema "check_customizations" do
     field :check_id, :string, primary_key: true

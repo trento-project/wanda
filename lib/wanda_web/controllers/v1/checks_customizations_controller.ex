@@ -9,6 +9,13 @@ defmodule WandaWeb.V1.ChecksCustomizationsController do
 
   alias Wanda.ChecksCustomizations
 
+  plug Bodyguard.Plug.Authorize,
+    policy: Wanda.Catalog.CustomizationPolicy,
+    action: {Phoenix.Controller, :action_name},
+    user: {WandaWeb.Auth.UserDetector, :current_user},
+    params: Wanda.Catalog.CheckCustomization,
+    fallback: WandaWeb.FallbackController
+
   plug OpenApiSpex.Plug.CastAndValidate, json_render_error_v2: true
   action_fallback WandaWeb.FallbackController
 
