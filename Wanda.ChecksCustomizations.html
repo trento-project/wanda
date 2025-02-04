@@ -13,7 +13,7 @@
 
     <script src="dist/handlebars.runtime-NWIB6V2M.js"></script>
     <script src="dist/handlebars.templates-K7URE6B4.js"></script>
-    <script src="dist/sidebar_items-0C09ABC4.js"></script>
+    <script src="dist/sidebar_items-CD8B9511.js"></script>
     <script src="docs_config.js"></script>
     <script async src="dist/html-HJ5ACJPS.js"></script>
 
@@ -166,6 +166,14 @@ GUIDES
 
     </div>
 
+    <div class="summary-row">
+      <div class="summary-signature">
+        <a href="#get_customizations/1" data-no-tooltip translate="no">get_customizations(group_id)</a>
+
+      </div>
+
+    </div>
+
 </div>
 
   </section>
@@ -187,7 +195,7 @@ GUIDES
     </a>
     <h1 class="signature" translate="no">custom_value()</h1>
 
-      <a href="https://github.com/trento-project/wanda/blob/main/lib/wanda/checks_customizations.ex#L12" class="icon-action" rel="help" aria-label="View Source">
+      <a href="https://github.com/trento-project/wanda/blob/main/lib/wanda/checks_customizations.ex#L14" class="icon-action" rel="help" aria-label="View Source">
        <i class="ri-code-s-slash-line" aria-hidden="true"></i>
      </a>
 
@@ -225,7 +233,7 @@ GUIDES
     </a>
     <h1 class="signature" translate="no">customize(check_id, group_id, custom_values)</h1>
 
-      <a href="https://github.com/trento-project/wanda/blob/main/lib/wanda/checks_customizations.ex#L20" class="icon-action" rel="help" aria-label="View Source">
+      <a href="https://github.com/trento-project/wanda/blob/main/lib/wanda/checks_customizations.ex#L30" class="icon-action" rel="help" aria-label="View Source">
        <i class="ri-code-s-slash-line" aria-hidden="true"></i>
      </a>
 
@@ -240,6 +248,32 @@ GUIDES
   {:ok, <a href="Wanda.Catalog.CheckCustomization.html#t:t/0">Wanda.Catalog.CheckCustomization.t</a>()}
   | {:error,
      :check_not_found | :check_not_customizable | :invalid_custom_values | <a href="https://hexdocs.pm/elixir/typespecs.html#basic-types">any</a>()}</pre>
+
+      </div>
+
+
+  </section>
+</section>
+<section class="detail" id="get_customizations/1">
+
+  <div class="detail-header">
+    <a href="#get_customizations/1" class="detail-link" data-no-tooltip aria-label="Link to this function">
+      <i class="ri-link-m" aria-hidden="true"></i>
+    </a>
+    <h1 class="signature" translate="no">get_customizations(group_id)</h1>
+
+      <a href="https://github.com/trento-project/wanda/blob/main/lib/wanda/checks_customizations.ex#L20" class="icon-action" rel="help" aria-label="View Source">
+       <i class="ri-code-s-slash-line" aria-hidden="true"></i>
+     </a>
+
+
+  </div>
+
+  <section class="docstring">
+
+      <div class="specs">
+
+          <pre translate="no"><span class="attribute">@spec</span> get_customizations(<a href="https://hexdocs.pm/ecto/3.12.5/Ecto.UUID.html#t:t/0">Ecto.UUID.t</a>()) :: [<a href="Wanda.Catalog.CheckCustomization.html#t:t/0">Wanda.Catalog.CheckCustomization.t</a>()]</pre>
 
       </div>
 

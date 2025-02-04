@@ -8,7 +8,7 @@
     <meta name="project" content="Wanda v1.4.0">
 
 
-    <title>WandaWeb.V1.CatalogJSON — Wanda v1.4.0</title>
+    <title>Wanda.Support.Ecto.Json — Wanda v1.4.0</title>
     <link rel="stylesheet" href="dist/html-elixir-QYVRUQZX.css" />
 
     <script src="dist/handlebars.runtime-NWIB6V2M.js"></script>
@@ -115,16 +115,20 @@ GUIDES
 <div id="top-content">
   <h1>
 
-      <a href="https://github.com/trento-project/wanda/blob/main/lib/wanda_web/controllers/v1/catalog_json.ex#L1" title="View Source" class="icon-action" rel="help">
+      <a href="https://github.com/trento-project/wanda/blob/main/lib/wanda/support/ecto/json.ex#L1" title="View Source" class="icon-action" rel="help">
         <i class="ri-code-s-slash-line" aria-hidden="true"></i>
         <span class="sr-only">View Source</span>
       </a>
 
-    <span translate="no">WandaWeb.V1.CatalogJSON</span> 
+    <span translate="no">Wanda.Support.Ecto.Json</span> 
     <small class="app-vsn" translate="no">(Wanda v1.4.0)</small>
 
   </h1>
 
+
+    <section id="moduledoc">
+<p>Ecto Type that represents JSON data.</p>
+    </section>
 
 </div>
 
@@ -142,33 +146,61 @@ GUIDES
 
     <div class="summary-row">
       <div class="summary-signature">
-        <a href="#adapt_expectations/1" data-no-tooltip translate="no">adapt_expectations(map)</a>
+        <a href="#cast/1" data-no-tooltip translate="no">cast(data)</a>
 
       </div>
+
+        <div class="summary-synopsis"><p>Callback implementation for <a href="https://hexdocs.pm/ecto/3.12.5/Ecto.Type.html#c:cast/1"><code class="inline">Ecto.Type.cast/1</code></a>.</p></div>
 
     </div>
 
     <div class="summary-row">
       <div class="summary-signature">
-        <a href="#adapt_values_customizability/1" data-no-tooltip translate="no">adapt_values_customizability(values)</a>
+        <a href="#dump/1" data-no-tooltip translate="no">dump(data)</a>
 
       </div>
+
+        <div class="summary-synopsis"><p>Callback implementation for <a href="https://hexdocs.pm/ecto/3.12.5/Ecto.Type.html#c:dump/1"><code class="inline">Ecto.Type.dump/1</code></a>.</p></div>
 
     </div>
 
     <div class="summary-row">
       <div class="summary-signature">
-        <a href="#catalog/1" data-no-tooltip translate="no">catalog(map)</a>
+        <a href="#embed_as/1" data-no-tooltip translate="no">embed_as(_)</a>
 
       </div>
+
+        <div class="summary-synopsis"><p>Callback implementation for <a href="https://hexdocs.pm/ecto/3.12.5/Ecto.Type.html#c:embed_as/1"><code class="inline">Ecto.Type.embed_as/1</code></a>.</p></div>
 
     </div>
 
     <div class="summary-row">
       <div class="summary-signature">
-        <a href="#check/1" data-no-tooltip translate="no">check(check)</a>
+        <a href="#equal?/2" data-no-tooltip translate="no">equal?(term1, term2)</a>
 
       </div>
+
+        <div class="summary-synopsis"><p>Callback implementation for <a href="https://hexdocs.pm/ecto/3.12.5/Ecto.Type.html#c:equal?/2"><code class="inline">Ecto.Type.equal?/2</code></a>.</p></div>
+
+    </div>
+
+    <div class="summary-row">
+      <div class="summary-signature">
+        <a href="#load/1" data-no-tooltip translate="no">load(data)</a>
+
+      </div>
+
+        <div class="summary-synopsis"><p>Callback implementation for <a href="https://hexdocs.pm/ecto/3.12.5/Ecto.Type.html#c:load/1"><code class="inline">Ecto.Type.load/1</code></a>.</p></div>
+
+    </div>
+
+    <div class="summary-row">
+      <div class="summary-signature">
+        <a href="#type/0" data-no-tooltip translate="no">type()</a>
+
+      </div>
+
+        <div class="summary-synopsis"><p>Callback implementation for <a href="https://hexdocs.pm/ecto/3.12.5/Ecto.Type.html#c:type/0"><code class="inline">Ecto.Type.type/0</code></a>.</p></div>
 
     </div>
 
@@ -185,15 +217,15 @@ GUIDES
       <span class="text">Functions</span>
     </h1>
     <div class="functions-list">
-<section class="detail" id="adapt_expectations/1">
+<section class="detail" id="cast/1">
 
   <div class="detail-header">
-    <a href="#adapt_expectations/1" class="detail-link" data-no-tooltip aria-label="Link to this function">
+    <a href="#cast/1" class="detail-link" data-no-tooltip aria-label="Link to this function">
       <i class="ri-link-m" aria-hidden="true"></i>
     </a>
-    <h1 class="signature" translate="no">adapt_expectations(map)</h1>
+    <h1 class="signature" translate="no">cast(data)</h1>
 
-      <a href="https://github.com/trento-project/wanda/blob/main/lib/wanda_web/controllers/v1/catalog_json.ex#L41" class="icon-action" rel="help" aria-label="View Source">
+      <a href="https://github.com/trento-project/wanda/blob/main/lib/wanda/support/ecto/json.ex#L10" class="icon-action" rel="help" aria-label="View Source">
        <i class="ri-code-s-slash-line" aria-hidden="true"></i>
      </a>
 
@@ -202,18 +234,18 @@ GUIDES
 
   <section class="docstring">
 
-
+<p>Callback implementation for <a href="https://hexdocs.pm/ecto/3.12.5/Ecto.Type.html#c:cast/1"><code class="inline">Ecto.Type.cast/1</code></a>.</p>
   </section>
 </section>
-<section class="detail" id="adapt_values_customizability/1">
+<section class="detail" id="dump/1">
 
   <div class="detail-header">
-    <a href="#adapt_values_customizability/1" class="detail-link" data-no-tooltip aria-label="Link to this function">
+    <a href="#dump/1" class="detail-link" data-no-tooltip aria-label="Link to this function">
       <i class="ri-link-m" aria-hidden="true"></i>
     </a>
-    <h1 class="signature" translate="no">adapt_values_customizability(values)</h1>
+    <h1 class="signature" translate="no">dump(data)</h1>
 
-      <a href="https://github.com/trento-project/wanda/blob/main/lib/wanda_web/controllers/v1/catalog_json.ex#L50" class="icon-action" rel="help" aria-label="View Source">
+      <a href="https://github.com/trento-project/wanda/blob/main/lib/wanda/support/ecto/json.ex#L18" class="icon-action" rel="help" aria-label="View Source">
        <i class="ri-code-s-slash-line" aria-hidden="true"></i>
      </a>
 
@@ -222,18 +254,18 @@ GUIDES
 
   <section class="docstring">
 
-
+<p>Callback implementation for <a href="https://hexdocs.pm/ecto/3.12.5/Ecto.Type.html#c:dump/1"><code class="inline">Ecto.Type.dump/1</code></a>.</p>
   </section>
 </section>
-<section class="detail" id="catalog/1">
+<section class="detail" id="embed_as/1">
 
   <div class="detail-header">
-    <a href="#catalog/1" class="detail-link" data-no-tooltip aria-label="Link to this function">
+    <a href="#embed_as/1" class="detail-link" data-no-tooltip aria-label="Link to this function">
       <i class="ri-link-m" aria-hidden="true"></i>
     </a>
-    <h1 class="signature" translate="no">catalog(map)</h1>
+    <h1 class="signature" translate="no">embed_as(_)</h1>
 
-      <a href="https://github.com/trento-project/wanda/blob/main/lib/wanda_web/controllers/v1/catalog_json.ex#L4" class="icon-action" rel="help" aria-label="View Source">
+      <a href="https://github.com/trento-project/wanda/blob/main/lib/wanda/support/ecto/json.ex#L6" class="icon-action" rel="help" aria-label="View Source">
        <i class="ri-code-s-slash-line" aria-hidden="true"></i>
      </a>
 
@@ -242,18 +274,18 @@ GUIDES
 
   <section class="docstring">
 
-
+<p>Callback implementation for <a href="https://hexdocs.pm/ecto/3.12.5/Ecto.Type.html#c:embed_as/1"><code class="inline">Ecto.Type.embed_as/1</code></a>.</p>
   </section>
 </section>
-<section class="detail" id="check/1">
+<section class="detail" id="equal?/2">
 
   <div class="detail-header">
-    <a href="#check/1" class="detail-link" data-no-tooltip aria-label="Link to this function">
+    <a href="#equal?/2" class="detail-link" data-no-tooltip aria-label="Link to this function">
       <i class="ri-link-m" aria-hidden="true"></i>
     </a>
-    <h1 class="signature" translate="no">check(check)</h1>
+    <h1 class="signature" translate="no">equal?(term1, term2)</h1>
 
-      <a href="https://github.com/trento-project/wanda/blob/main/lib/wanda_web/controllers/v1/catalog_json.ex#L8" class="icon-action" rel="help" aria-label="View Source">
+      <a href="https://github.com/trento-project/wanda/blob/main/lib/wanda/support/ecto/json.ex#L6" class="icon-action" rel="help" aria-label="View Source">
        <i class="ri-code-s-slash-line" aria-hidden="true"></i>
      </a>
 
@@ -262,7 +294,47 @@ GUIDES
 
   <section class="docstring">
 
+<p>Callback implementation for <a href="https://hexdocs.pm/ecto/3.12.5/Ecto.Type.html#c:equal?/2"><code class="inline">Ecto.Type.equal?/2</code></a>.</p>
+  </section>
+</section>
+<section class="detail" id="load/1">
 
+  <div class="detail-header">
+    <a href="#load/1" class="detail-link" data-no-tooltip aria-label="Link to this function">
+      <i class="ri-link-m" aria-hidden="true"></i>
+    </a>
+    <h1 class="signature" translate="no">load(data)</h1>
+
+      <a href="https://github.com/trento-project/wanda/blob/main/lib/wanda/support/ecto/json.ex#L14" class="icon-action" rel="help" aria-label="View Source">
+       <i class="ri-code-s-slash-line" aria-hidden="true"></i>
+     </a>
+
+
+  </div>
+
+  <section class="docstring">
+
+<p>Callback implementation for <a href="https://hexdocs.pm/ecto/3.12.5/Ecto.Type.html#c:load/1"><code class="inline">Ecto.Type.load/1</code></a>.</p>
+  </section>
+</section>
+<section class="detail" id="type/0">
+
+  <div class="detail-header">
+    <a href="#type/0" class="detail-link" data-no-tooltip aria-label="Link to this function">
+      <i class="ri-link-m" aria-hidden="true"></i>
+    </a>
+    <h1 class="signature" translate="no">type()</h1>
+
+      <a href="https://github.com/trento-project/wanda/blob/main/lib/wanda/support/ecto/json.ex#L8" class="icon-action" rel="help" aria-label="View Source">
+       <i class="ri-code-s-slash-line" aria-hidden="true"></i>
+     </a>
+
+
+  </div>
+
+  <section class="docstring">
+
+<p>Callback implementation for <a href="https://hexdocs.pm/ecto/3.12.5/Ecto.Type.html#c:type/0"><code class="inline">Ecto.Type.type/0</code></a>.</p>
   </section>
 </section>
 
