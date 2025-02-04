@@ -1,5 +1,6 @@
 defmodule WandaWeb.V1.ChecksCustomizationsControllerTest do
   use WandaWeb.ConnCase, async: true
+  use WandaWeb.UserAwareConnCase
 
   import OpenApiSpex.TestAssertions
 
@@ -263,7 +264,69 @@ defmodule WandaWeb.V1.ChecksCustomizationsControllerTest do
       end
     end
 
-    test "should allow customizing check values", %{
+    allowing_abilities = [
+      %{
+        name: "all abilities",
+        abilities: [
+          %{
+            name: "all",
+            resource: "all"
+          }
+        ]
+      },
+      %{
+        name: "specific abilities",
+        abilities: [
+          %{
+            name: "all",
+            resource: "check_customization"
+          }
+        ]
+      }
+    ]
+
+    for %{name: scenario_name, abilities: allowing_abilities} <- allowing_abilities do
+      @tag abilities: allowing_abilities
+      test "should allow customizing check values: #{scenario_name}", %{
+        conn: conn,
+        api_spec: api_spec
+      } do
+        check_id = "mixed_values_customizability"
+        group_id = Faker.UUID.v4()
+
+        custom_values = [
+          %{
+            name: "numeric_value",
+            value: 42
+          },
+          %{
+            name: "customizable_string_value",
+            value: "new_value"
+          }
+        ]
+
+        response =
+          conn
+          |> put_req_header("content-type", "application/json")
+          |> post("/api/v1/checks/#{check_id}/customize/#{group_id}", %{
+            values: custom_values
+          })
+          |> json_response(:ok)
+          |> assert_schema("CustomizationResponse", api_spec)
+
+        assert %{values: customized_values} = response
+
+        assert length(customized_values) == 2
+      end
+    end
+
+    @tag abilities: [
+           %{
+             name: "foo",
+             resource: "bar"
+           }
+         ]
+    test "should forbid checks customization when necessary abilities are missing", %{
       conn: conn,
       api_spec: api_spec
     } do
@@ -281,18 +344,13 @@ defmodule WandaWeb.V1.ChecksCustomizationsControllerTest do
         }
       ]
 
-      response =
-        conn
-        |> put_req_header("content-type", "application/json")
-        |> post("/api/v1/checks/#{check_id}/customize/#{group_id}", %{
-          values: custom_values
-        })
-        |> json_response(:ok)
-        |> assert_schema("CustomizationResponse", api_spec)
-
-      assert %{values: customized_values} = response
-
-      assert length(customized_values) == 2
+      conn
+      |> put_req_header("content-type", "application/json")
+      |> post("/api/v1/checks/#{check_id}/customize/#{group_id}", %{
+        values: custom_values
+      })
+      |> json_response(:forbidden)
+      |> assert_schema("Forbidden", api_spec)
     end
   end
 end
