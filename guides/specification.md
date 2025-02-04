@@ -120,7 +120,7 @@ Following are listed the top level properties of a Check definition yaml.
 | `description`  | required              | [see more](#description)  |
 | `remediation`  | required              | [see more](#remediation)  |
 | `severity`     | not required          | [see more](#severity)     |
-| `metadata`     | not required          | [see more](#metadata)     |
+| `metadata`     | required              | [see more](#metadata)     |
 | `facts`        | required              | [see more](#facts)        |
 | `customizable` | not required          | [see more](#customizable) |
 | `values`       | not required          | [see more](#values)       |
