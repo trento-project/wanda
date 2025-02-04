@@ -5,7 +5,7 @@ defmodule Wanda.Catalog.SelectableCheck do
 
   @type customized_value :: %{
           name: String.t(),
-          customizable: boolean(),
+          customizable: true,
           current_value: boolean() | number() | String.t(),
           customization: boolean() | number() | String.t()
         }
