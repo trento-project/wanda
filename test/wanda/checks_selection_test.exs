@@ -22,7 +22,7 @@ defmodule Wanda.ChecksSelectionTest do
     end
 
     test "should return checks selection with proper custom values" do
-      cutomized_check_id = "mixed_values_customizability"
+      customized_check_id = "mixed_values_customizability"
 
       scenarios = [
         %{
@@ -44,7 +44,7 @@ defmodule Wanda.ChecksSelectionTest do
           } <- scenarios do
         insert(:check_customization,
           group_id: group_id,
-          check_id: cutomized_check_id,
+          check_id: customized_check_id,
           custom_values: [
             %{
               name: "numeric_value",
@@ -99,7 +99,7 @@ defmodule Wanda.ChecksSelectionTest do
         Enum.each(
           selectable_checks,
           fn
-            %SelectableCheck{id: ^cutomized_check_id, values: values} ->
+            %SelectableCheck{id: ^customized_check_id, values: values} ->
               assert ^expected_cutomizations = values
 
             %SelectableCheck{values: values} ->
@@ -107,6 +107,44 @@ defmodule Wanda.ChecksSelectionTest do
           end
         )
       end
+    end
+
+    test "should ignore non existing checks or checks values" do
+      group_id = Faker.UUID.v4()
+      customized_check_id = "mixed_values_customizability"
+      non_existing_check_id = "non_existing_check"
+
+      insert(:check_customization,
+        group_id: group_id,
+        check_id: customized_check_id,
+        custom_values: [
+          %{
+            name: "customizable_string_value",
+            value: "new value"
+          },
+          %{
+            name: "non_existing_value",
+            value: "new value"
+          }
+        ]
+      )
+
+      insert(:check_customization,
+        group_id: group_id,
+        check_id: non_existing_check_id
+      )
+
+      selectable_checks =
+        ChecksSelection.selectable_checks(group_id, %{
+          "id" => "mixed_values_customizability"
+        })
+
+      refute Enum.any?(selectable_checks, &(&1.id == non_existing_check_id))
+
+      refute selectable_checks
+             |> Enum.find(&(&1.id == customized_check_id))
+             |> Map.get(:values)
+             |> Enum.any?(&(&1.name == "non_existing_value"))
     end
 
     defp assert_non_customized_value(%{name: _, customizable: customizable} = value) do
