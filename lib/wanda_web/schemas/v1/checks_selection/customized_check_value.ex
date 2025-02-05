@@ -21,7 +21,7 @@ defmodule WandaWeb.Schemas.V1.ChecksSelection.CustomizedCheckValue do
       additionalProperties: false,
       properties: %{
         name: %Schema{type: :string, description: "Value name"},
-        customization: %Schema{
+        custom_value: %Schema{
           oneOf: @value_types,
           description: "Represents the custom value that overrides the current one."
         },
@@ -35,7 +35,7 @@ defmodule WandaWeb.Schemas.V1.ChecksSelection.CustomizedCheckValue do
           description: "Whether the check is customizable or not"
         }
       },
-      required: [:name, :customization, :current_value, :customizable]
+      required: [:name, :custom_value, :current_value, :customizable]
     },
     struct?: false
   )

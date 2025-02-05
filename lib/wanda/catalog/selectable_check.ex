@@ -7,7 +7,7 @@ defmodule Wanda.Catalog.SelectableCheck do
           name: String.t(),
           customizable: true,
           current_value: boolean() | number() | String.t(),
-          customization: boolean() | number() | String.t()
+          custom_value: boolean() | number() | String.t()
         }
 
   @type non_customized_value :: %{

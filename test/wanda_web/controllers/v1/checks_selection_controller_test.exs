@@ -95,13 +95,13 @@ defmodule WandaWeb.V1.ChecksSelectionControllerTest do
                    name: "numeric_value",
                    customizable: true,
                    current_value: 5,
-                   customization: ^expected_customization
+                   custom_value: ^expected_customization
                  },
                  %{
                    name: "customizable_string_value",
                    customizable: true,
                    current_value: "foo_bar",
-                   customization: "new value"
+                   custom_value: "new value"
                  },
                  %{
                    name: "non_customizable_string_value",

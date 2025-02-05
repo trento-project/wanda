@@ -5,11 +5,15 @@ defmodule Wanda.Catalog do
 
   alias Wanda.Catalog.{
     Check,
+    CheckCustomization,
     Condition,
     Expectation,
     Fact,
+    SelectableCheck,
     Value
   }
+
+  alias Wanda.ChecksCustomizations
 
   alias Wanda.EvaluationEngine
 
@@ -64,6 +68,82 @@ defmodule Wanda.Catalog do
       end
     end)
     |> Enum.filter(fn check -> when_condition(check, env) && match_metadata(check, env) end)
+  end
+
+  @spec get_catalog_for_group(group_id :: String.t(), env :: map()) :: [SelectableCheck.t()]
+  def get_catalog_for_group(group_id, env) do
+    available_customizations = ChecksCustomizations.get_customizations(group_id)
+
+    env
+    |> get_catalog()
+    |> Enum.map(&map_to_selectable_check(&1, available_customizations))
+  end
+
+  defp map_to_selectable_check(%Check{} = check, available_customizations) do
+    mapped_values =
+      check.id
+      |> find_custom_values(available_customizations)
+      |> map_values(check.values)
+
+    %SelectableCheck{
+      id: check.id,
+      name: check.name,
+      group: check.group,
+      description: check.description,
+      values: mapped_values,
+      customizable: check.customizable,
+      customized:
+        check.customizable &&
+          Enum.any?(mapped_values, &(&1.customizable && Map.has_key?(&1, :custom_value)))
+    }
+  end
+
+  defp find_custom_values(check_id, available_customizations) do
+    Enum.find_value(available_customizations, [], fn
+      %CheckCustomization{check_id: ^check_id, custom_values: custom_values} ->
+        custom_values
+
+      _ ->
+        nil
+    end)
+  end
+
+  defp map_values(custom_values, check_values) do
+    Enum.map(check_values, fn %Value{
+                                name: value_name,
+                                customizable: customizable,
+                                default: default_value
+                              } ->
+      %{
+        name: value_name,
+        customizable: customizable
+      }
+      |> maybe_add_current_value(default_value)
+      |> maybe_add_customization(custom_values)
+    end)
+  end
+
+  defp maybe_add_current_value(%{customizable: false} = value, _), do: value
+
+  defp maybe_add_current_value(%{customizable: true} = value, default_value),
+    do: Map.put(value, :current_value, default_value)
+
+  defp maybe_add_customization(%{customizable: false} = value, _), do: value
+
+  defp maybe_add_customization(
+         %{
+           name: value_name,
+           customizable: true
+         } = value,
+         custom_values
+       ) do
+    case Enum.find(custom_values, &(&1.name == value_name)) do
+      nil ->
+        value
+
+      %{value: overriding_value} ->
+        Map.put(value, :custom_value, overriding_value)
+    end
   end
 
   defp read_check(path, check_id) do

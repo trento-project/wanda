@@ -4,7 +4,7 @@ defmodule WandaWeb.V1.ChecksSelectionController do
 
   alias OpenApiSpex.Schema
 
-  alias Wanda.ChecksSelection
+  alias Wanda.Catalog
 
   alias WandaWeb.Schemas.V1.ChecksSelection.SelectableChecksResponse
   alias WandaWeb.Schemas.V2.Env
@@ -39,7 +39,7 @@ defmodule WandaWeb.V1.ChecksSelectionController do
     {group_id, updated_params} = Map.pop(params, :group_id)
 
     render(conn, :selectable_checks, %{
-      selectable_checks: ChecksSelection.selectable_checks(group_id, updated_params)
+      selectable_checks: Catalog.get_catalog_for_group(group_id, updated_params)
     })
   end
 end
