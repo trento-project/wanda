@@ -8,7 +8,7 @@
     <meta name="project" content="Wanda v1.4.0">
 
 
-    <title>Wanda.Catalog.Check — Wanda v1.4.0</title>
+    <title>Wanda.Catalog.SelectableCheck — Wanda v1.4.0</title>
     <link rel="stylesheet" href="dist/html-elixir-QYVRUQZX.css" />
 
     <script src="dist/handlebars.runtime-NWIB6V2M.js"></script>
@@ -115,19 +115,19 @@ GUIDES
 <div id="top-content">
   <h1>
 
-      <a href="https://github.com/trento-project/wanda/blob/main/lib/wanda/catalog/check.ex#L1" title="View Source" class="icon-action" rel="help">
+      <a href="https://github.com/trento-project/wanda/blob/main/lib/wanda/catalog/selectable_check.ex#L1" title="View Source" class="icon-action" rel="help">
         <i class="ri-code-s-slash-line" aria-hidden="true"></i>
         <span class="sr-only">View Source</span>
       </a>
 
-    <span translate="no">Wanda.Catalog.Check</span> 
+    <span translate="no">Wanda.Catalog.SelectableCheck</span> 
     <small class="app-vsn" translate="no">(Wanda v1.4.0)</small>
 
   </h1>
 
 
     <section id="moduledoc">
-<p>Represents a check.</p>
+<p>Represents a check that is selectable for a given execution group given the context.</p>
     </section>
 
 </div>
@@ -143,6 +143,22 @@ GUIDES
   <h2>
     <a href="#types">Types</a>
   </h2>
+
+    <div class="summary-row">
+      <div class="summary-signature">
+        <a href="#t:customized_value/0" data-no-tooltip translate="no">customized_value()</a>
+
+      </div>
+
+    </div>
+
+    <div class="summary-row">
+      <div class="summary-signature">
+        <a href="#t:non_customized_value/0" data-no-tooltip translate="no">non_customized_value()</a>
+
+      </div>
+
+    </div>
 
     <div class="summary-row">
       <div class="summary-signature">
@@ -165,15 +181,15 @@ GUIDES
       <span class="text">Types</span>
     </h1>
     <div class="types-list">
-<section class="detail" id="t:t/0">
+<section class="detail" id="t:customized_value/0">
 
   <div class="detail-header">
-    <a href="#t:t/0" class="detail-link" data-no-tooltip aria-label="Link to this type">
+    <a href="#t:customized_value/0" class="detail-link" data-no-tooltip aria-label="Link to this type">
       <i class="ri-link-m" aria-hidden="true"></i>
     </a>
-    <h1 class="signature" translate="no">t()</h1>
+    <h1 class="signature" translate="no">customized_value()</h1>
 
-      <a href="https://github.com/trento-project/wanda/blob/main/lib/wanda/catalog/check.ex#L26" class="icon-action" rel="help" aria-label="View Source">
+      <a href="https://github.com/trento-project/wanda/blob/main/lib/wanda/catalog/selectable_check.ex#L6" class="icon-action" rel="help" aria-label="View Source">
        <i class="ri-code-s-slash-line" aria-hidden="true"></i>
      </a>
 
@@ -184,19 +200,75 @@ GUIDES
 
       <div class="specs">
 
-          <pre translate="no"><span class="attribute">@type</span> t() :: %Wanda.Catalog.Check{
+          <pre translate="no"><span class="attribute">@type</span> customized_value() :: %{
+  name: <a href="https://hexdocs.pm/elixir/String.html#t:t/0">String.t</a>(),
+  customizable: true,
+  current_value: <a href="https://hexdocs.pm/elixir/typespecs.html#built-in-types">boolean</a>() | <a href="https://hexdocs.pm/elixir/typespecs.html#built-in-types">number</a>() | <a href="https://hexdocs.pm/elixir/String.html#t:t/0">String.t</a>(),
+  custom_value: <a href="https://hexdocs.pm/elixir/typespecs.html#built-in-types">boolean</a>() | <a href="https://hexdocs.pm/elixir/typespecs.html#built-in-types">number</a>() | <a href="https://hexdocs.pm/elixir/String.html#t:t/0">String.t</a>()
+}</pre>
+
+      </div>
+
+
+  </section>
+</section>
+<section class="detail" id="t:non_customized_value/0">
+
+  <div class="detail-header">
+    <a href="#t:non_customized_value/0" class="detail-link" data-no-tooltip aria-label="Link to this type">
+      <i class="ri-link-m" aria-hidden="true"></i>
+    </a>
+    <h1 class="signature" translate="no">non_customized_value()</h1>
+
+      <a href="https://github.com/trento-project/wanda/blob/main/lib/wanda/catalog/selectable_check.ex#L13" class="icon-action" rel="help" aria-label="View Source">
+       <i class="ri-code-s-slash-line" aria-hidden="true"></i>
+     </a>
+
+
+  </div>
+
+  <section class="docstring">
+
+      <div class="specs">
+
+          <pre translate="no"><span class="attribute">@type</span> non_customized_value() :: %{
+  name: <a href="https://hexdocs.pm/elixir/String.html#t:t/0">String.t</a>(),
   customizable: <a href="https://hexdocs.pm/elixir/typespecs.html#built-in-types">boolean</a>(),
+  current_value: <a href="https://hexdocs.pm/elixir/typespecs.html#built-in-types">boolean</a>() | <a href="https://hexdocs.pm/elixir/typespecs.html#built-in-types">number</a>() | <a href="https://hexdocs.pm/elixir/String.html#t:t/0">String.t</a>()
+}</pre>
+
+      </div>
+
+
+  </section>
+</section>
+<section class="detail" id="t:t/0">
+
+  <div class="detail-header">
+    <a href="#t:t/0" class="detail-link" data-no-tooltip aria-label="Link to this type">
+      <i class="ri-link-m" aria-hidden="true"></i>
+    </a>
+    <h1 class="signature" translate="no">t()</h1>
+
+      <a href="https://github.com/trento-project/wanda/blob/main/lib/wanda/catalog/selectable_check.ex#L30" class="icon-action" rel="help" aria-label="View Source">
+       <i class="ri-code-s-slash-line" aria-hidden="true"></i>
+     </a>
+
+
+  </div>
+
+  <section class="docstring">
+
+      <div class="specs">
+
+          <pre translate="no"><span class="attribute">@type</span> t() :: %Wanda.Catalog.SelectableCheck{
+  customizable: <a href="https://hexdocs.pm/elixir/typespecs.html#built-in-types">boolean</a>(),
+  customized: <a href="https://hexdocs.pm/elixir/typespecs.html#built-in-types">boolean</a>(),
   description: <a href="https://hexdocs.pm/elixir/String.html#t:t/0">String.t</a>(),
-  expectations: [<a href="Wanda.Catalog.Expectation.html#t:t/0">Wanda.Catalog.Expectation.t</a>()],
-  facts: [<a href="Wanda.Catalog.Fact.html#t:t/0">Wanda.Catalog.Fact.t</a>()],
   group: <a href="https://hexdocs.pm/elixir/String.html#t:t/0">String.t</a>(),
   id: <a href="https://hexdocs.pm/elixir/String.html#t:t/0">String.t</a>(),
-  metadata: <a href="https://hexdocs.pm/elixir/typespecs.html#basic-types">map</a>(),
   name: <a href="https://hexdocs.pm/elixir/String.html#t:t/0">String.t</a>(),
-  remediation: <a href="https://hexdocs.pm/elixir/String.html#t:t/0">String.t</a>(),
-  severity: <a href="Wanda.Catalog.Enums.Severity.html#t:t/0">Wanda.Catalog.Enums.Severity.t</a>(),
-  values: [<a href="Wanda.Catalog.Value.html#t:t/0">Wanda.Catalog.Value.t</a>()],
-  when: <a href="https://hexdocs.pm/elixir/String.html#t:t/0">String.t</a>()
+  values: [<a href="#t:non_customized_value/0">non_customized_value</a>() | <a href="#t:customized_value/0">customized_value</a>()]
 }</pre>
 
       </div>

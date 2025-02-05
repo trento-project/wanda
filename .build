@@ -7,6 +7,7 @@ Wanda.Catalog.Enums.ExpectType.html
 Wanda.Catalog.Enums.Severity.html
 Wanda.Catalog.Expectation.html
 Wanda.Catalog.Fact.html
+Wanda.Catalog.SelectableCheck.html
 Wanda.Catalog.Value.html
 Wanda.Catalog.html
 Wanda.ChecksCustomizations.html
@@ -88,6 +89,9 @@ WandaWeb.Schemas.V1.Catalog.Check.html
 WandaWeb.Schemas.V1.ChecksCustomizations.CustomValue.html
 WandaWeb.Schemas.V1.ChecksCustomizations.CustomizationRequest.html
 WandaWeb.Schemas.V1.ChecksCustomizations.CustomizationResponse.html
+WandaWeb.Schemas.V1.ChecksSelection.CustomizedCheckValue.html
+WandaWeb.Schemas.V1.ChecksSelection.NotCustomizedCheckValue.html
+WandaWeb.Schemas.V1.ChecksSelection.SelectableChecksResponse.html
 WandaWeb.Schemas.V1.Execution.ExecutionResponse.html
 WandaWeb.Schemas.V1.Execution.ListExecutionsResponse.html
 WandaWeb.Schemas.V1.Execution.StartExecutionRequest.html
@@ -138,8 +142,8 @@ dist/lato-latin-ext-300-normal-VPGGJKJL.woff2
 dist/lato-latin-ext-400-normal-N27NCBWW.woff2
 dist/lato-latin-ext-700-normal-Q2L5DVMW.woff2
 dist/remixicon-NKANDIL5.woff2
-dist/search_data-1798033C.js
-dist/sidebar_items-1A43C2BB.js
+dist/search_data-631801F9.js
+dist/sidebar_items-62CFA699.js
 expression_language.html
 gatherers.html
 hack_on_wanda.html

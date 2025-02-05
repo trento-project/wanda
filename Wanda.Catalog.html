@@ -13,7 +13,7 @@
 
     <script src="dist/handlebars.runtime-NWIB6V2M.js"></script>
     <script src="dist/handlebars.templates-K7URE6B4.js"></script>
-    <script src="dist/sidebar_items-1A43C2BB.js"></script>
+    <script src="dist/sidebar_items-62CFA699.js"></script>
     <script src="docs_config.js"></script>
     <script async src="dist/html-HJ5ACJPS.js"></script>
 
@@ -156,6 +156,14 @@ GUIDES
 
     <div class="summary-row">
       <div class="summary-signature">
+        <a href="#get_catalog_for_group/2" data-no-tooltip translate="no">get_catalog_for_group(group_id, env)</a>
+
+      </div>
+
+    </div>
+
+    <div class="summary-row">
+      <div class="summary-signature">
         <a href="#get_check/1" data-no-tooltip translate="no">get_check(check_id)</a>
 
       </div>
@@ -197,7 +205,7 @@ GUIDES
     </a>
     <h1 class="signature" translate="no">get_catalog(env \\ %{})</h1>
 
-      <a href="https://github.com/trento-project/wanda/blob/main/lib/wanda/catalog.ex#L27" class="icon-action" rel="help" aria-label="View Source">
+      <a href="https://github.com/trento-project/wanda/blob/main/lib/wanda/catalog.ex#L31" class="icon-action" rel="help" aria-label="View Source">
        <i class="ri-code-s-slash-line" aria-hidden="true"></i>
      </a>
 
@@ -215,6 +223,34 @@ GUIDES
 <p>Get the checks catalog with all checks</p>
   </section>
 </section>
+<section class="detail" id="get_catalog_for_group/2">
+
+  <div class="detail-header">
+    <a href="#get_catalog_for_group/2" class="detail-link" data-no-tooltip aria-label="Link to this function">
+      <i class="ri-link-m" aria-hidden="true"></i>
+    </a>
+    <h1 class="signature" translate="no">get_catalog_for_group(group_id, env)</h1>
+
+      <a href="https://github.com/trento-project/wanda/blob/main/lib/wanda/catalog.ex#L74" class="icon-action" rel="help" aria-label="View Source">
+       <i class="ri-code-s-slash-line" aria-hidden="true"></i>
+     </a>
+
+
+  </div>
+
+  <section class="docstring">
+
+      <div class="specs">
+
+          <pre translate="no"><span class="attribute">@spec</span> get_catalog_for_group(group_id :: <a href="https://hexdocs.pm/elixir/String.html#t:t/0">String.t</a>(), env :: <a href="https://hexdocs.pm/elixir/typespecs.html#basic-types">map</a>()) :: [
+  <a href="Wanda.Catalog.SelectableCheck.html#t:t/0">Wanda.Catalog.SelectableCheck.t</a>()
+]</pre>
+
+      </div>
+
+
+  </section>
+</section>
 <section class="detail" id="get_check/1">
 
   <div class="detail-header">
@@ -223,7 +259,7 @@ GUIDES
     </a>
     <h1 class="signature" translate="no">get_check(check_id)</h1>
 
-      <a href="https://github.com/trento-project/wanda/blob/main/lib/wanda/catalog.ex#L42" class="icon-action" rel="help" aria-label="View Source">
+      <a href="https://github.com/trento-project/wanda/blob/main/lib/wanda/catalog.ex#L46" class="icon-action" rel="help" aria-label="View Source">
        <i class="ri-code-s-slash-line" aria-hidden="true"></i>
      </a>
 
@@ -249,7 +285,7 @@ GUIDES
     </a>
     <h1 class="signature" translate="no">get_checks(checks_ids, env)</h1>
 
-      <a href="https://github.com/trento-project/wanda/blob/main/lib/wanda/catalog.ex#L58" class="icon-action" rel="help" aria-label="View Source">
+      <a href="https://github.com/trento-project/wanda/blob/main/lib/wanda/catalog.ex#L62" class="icon-action" rel="help" aria-label="View Source">
        <i class="ri-code-s-slash-line" aria-hidden="true"></i>
      </a>
 
