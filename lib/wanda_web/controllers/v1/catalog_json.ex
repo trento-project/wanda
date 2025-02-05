@@ -1,8 +1,16 @@
 defmodule WandaWeb.V1.CatalogJSON do
-  alias Wanda.Catalog.Check
+  alias Wanda.Catalog.{Check, SelectableCheck}
 
   def catalog(%{catalog: catalog}) do
     %{items: Enum.map(catalog, &check/1)}
+  end
+
+  def selectable_checks(%{
+        selectable_checks: selectable_checks
+      }) do
+    %{
+      items: Enum.map(selectable_checks, &selectable_check/1)
+    }
   end
 
   def check(
@@ -49,5 +57,25 @@ defmodule WandaWeb.V1.CatalogJSON do
 
   def adapt_values_customizability(values) do
     Enum.map(values, &(&1 |> Map.from_struct() |> Map.drop([:customizable])))
+  end
+
+  defp selectable_check(%SelectableCheck{
+         id: id,
+         name: name,
+         group: group,
+         description: description,
+         values: values,
+         customizable: customizable,
+         customized: customized
+       }) do
+    %{
+      id: id,
+      name: name,
+      group: group,
+      description: description,
+      values: values,
+      customizable: customizable,
+      customized: customized
+    }
   end
 end

@@ -58,7 +58,7 @@ defmodule WandaWeb.Router do
         post "/executions/start", ExecutionController, :start
         get "/catalog", CatalogController, :catalog
 
-        get "/groups/:group_id/checks_selection", ChecksSelectionController, :selectable_checks
+        get "/groups/:group_id/checks_selection", CatalogController, :selectable_checks
 
         post "/:check_id/customize/:group_id",
              ChecksCustomizationsController,
