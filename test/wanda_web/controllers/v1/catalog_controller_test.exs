@@ -76,7 +76,7 @@ defmodule WandaWeb.V1.CatalogControllerTest do
          %{conn: conn, api_spec: api_spec} do
       %{items: selectable_checks} =
         conn
-        |> get("/api/v1/checks/groups/#{Faker.UUID.v4()}/checks_selection", %{})
+        |> get("/api/v1/checks/groups/#{Faker.UUID.v4()}/catalog", %{})
         |> json_response(:ok)
         |> assert_schema("SelectableChecksResponse", api_spec)
 
@@ -119,7 +119,7 @@ defmodule WandaWeb.V1.CatalogControllerTest do
 
         %{items: selectable_checks} =
           conn
-          |> get("/api/v1/checks/groups/#{group_id}/checks_selection", %{})
+          |> get("/api/v1/checks/groups/#{group_id}/catalog", %{})
           |> json_response(:ok)
           |> assert_schema("SelectableChecksResponse", api_spec)
 
