@@ -405,7 +405,7 @@ defmodule Wanda.CatalogTest do
     end
 
     defp assert_non_customized_value(%{name: _, customizable: customizable} = value) do
-      refute Map.has_key?(value, :customization)
+      refute Map.has_key?(value, :custom_value)
 
       if not customizable do
         refute Map.has_key?(value, :current_value)

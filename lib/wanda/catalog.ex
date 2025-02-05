@@ -134,16 +134,16 @@ defmodule Wanda.Catalog do
          %{
            name: value_name,
            customizable: true
-         } = value,
+         } = initial_value,
          custom_values
        ) do
-    case Enum.find(custom_values, &(&1.name == value_name)) do
-      nil ->
-        value
+    Enum.find_value(custom_values, initial_value, fn
+      %{name: ^value_name, value: overriding_value} ->
+        Map.put(initial_value, :custom_value, overriding_value)
 
-      %{value: overriding_value} ->
-        Map.put(value, :custom_value, overriding_value)
-    end
+      _ ->
+        false
+    end)
   end
 
   defp read_check(path, check_id) do
