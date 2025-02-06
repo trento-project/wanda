@@ -4,34 +4,22 @@
     <meta charset="utf-8">
     <meta http-equiv="x-ua-compatible" content="ie=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="generator" content="ExDoc v0.36.1">
+    <meta name="generator" content="ExDoc v0.37.0">
     <meta name="project" content="Wanda v1.4.0">
 
 
     <title>Wanda.Repo — Wanda v1.4.0</title>
-    <link rel="stylesheet" href="dist/html-elixir-QYVRUQZX.css" />
 
-    <script src="dist/handlebars.runtime-NWIB6V2M.js"></script>
-    <script src="dist/handlebars.templates-K7URE6B4.js"></script>
-    <script src="dist/sidebar_items-8D71EA1A.js"></script>
-    <script src="docs_config.js"></script>
-    <script async src="dist/html-HJ5ACJPS.js"></script>
+    <link rel="stylesheet" href="dist/html-elixir-6X3L5KMG.css" />
+
+    <script defer src="dist/sidebar_items-8D71EA1A.js"></script>
+    <script defer src="docs_config.js"></script>
+    <script defer src="dist/html-6VTPNSGQ.js"></script>
 
   </head>
-  <body class="sidebar-closed">
-    <script>
-
-      try {
-        var settings = JSON.parse(localStorage.getItem('ex_doc:settings') || '{}');
-
-        if (settings.theme === 'dark' ||
-           ((settings.theme === 'system' || settings.theme == null) &&
-             window.matchMedia('(prefers-color-scheme: dark)').matches)
-           ) {
-          document.body.classList.add('dark')
-        }
-      } catch (error) { }
-    </script>
+  <body>
+    <script>(()=>{var t="ex_doc:settings",e="dark";var o="dark",s="light";var E="sidebar_state",n="closed";var r="sidebar_width";var a="sidebar-open";var i=new URLSearchParams(window.location.search),S=i.get("theme")||JSON.parse(localStorage.getItem(t)||"{}").theme;(S===o||S!==s&&window.matchMedia("(prefers-color-scheme: dark)").matches)&&document.body.classList.add(e);var d=sessionStorage.getItem(E),A=d!==n&&!window.matchMedia(`screen and (max-width: ${768}px)`).matches;document.body.classList.toggle(a,A);var c=sessionStorage.getItem(r);c&&document.body.style.setProperty("--sidebarWidth",`${c}px`);var p=/(Macintosh|iPhone|iPad|iPod)/.test(window.navigator.userAgent);document.documentElement.classList.toggle("apple-os",p);})();
+</script>
 
 <div class="body-wrapper">
 
@@ -57,32 +45,8 @@ Wanda
         </div>
       </div>
     </div>
-    <ul id="sidebar-list-nav" class="sidebar-list-nav" role="tablist">
-      <li>
-        <button id="extras-list-tab-button" role="tab" data-type="extras" aria-controls="extras-tab-panel" aria-selected="true" tabindex="0">
-GUIDES
-        </button>
-      </li>
-
-        <li>
-          <button id="modules-list-tab-button" role="tab" data-type="modules" aria-controls="modules-tab-panel" aria-selected="false" tabindex="-1">
-            Modules
-          </button>
-        </li>
-
-
-    </ul>
+    <ul id="sidebar-list-nav" class="sidebar-list-nav" role="tablist" data-extras="GUIDES"></ul>
   </div>
-
-  <div id="extras-tab-panel" class="sidebar-tabpanel" role="tabpanel" aria-labelledby="extras-list-tab-button">
-    <ul id="extras-full-list" class="full-list"></ul>
-  </div>
-
-    <div id="modules-tab-panel" class="sidebar-tabpanel" role="tabpanel" aria-labelledby="modules-list-tab-button" hidden>
-      <ul id="modules-full-list" class="full-list"></ul>
-    </div>
-
-
 </nav>
 
 <output role="status" id="toast"></output>
@@ -113,17 +77,19 @@ GUIDES
     </div>
 
 <div id="top-content">
-  <h1>
+  <div class="heading-with-actions top-heading">
+    <h1>
+      <span translate="no">Wanda.Repo</span> 
+      <small class="app-vsn" translate="no">(Wanda v1.4.0)</small>
+
+    </h1>
 
       <a href="https://github.com/trento-project/wanda/blob/main/lib/wanda/repo.ex#L1" title="View Source" class="icon-action" rel="help">
         <i class="ri-code-s-slash-line" aria-hidden="true"></i>
         <span class="sr-only">View Source</span>
       </a>
 
-    <span translate="no">Wanda.Repo</span> 
-    <small class="app-vsn" translate="no">(Wanda v1.4.0)</small>
-
-  </h1>
+  </div>
 
 
 </div>
@@ -142,7 +108,7 @@ GUIDES
 
     <div class="summary-row">
       <div class="summary-signature">
-        <a href="#aggregate/3" data-no-tooltip translate="no">aggregate(queryable, aggregate, opts \\ [])</a>
+        <a href="#aggregate/3" data-no-tooltip="" translate="no">aggregate(queryable, aggregate, opts \\ [])</a>
 
       </div>
 
@@ -152,7 +118,7 @@ GUIDES
 
     <div class="summary-row">
       <div class="summary-signature">
-        <a href="#aggregate/4" data-no-tooltip translate="no">aggregate(queryable, aggregate, field, opts)</a>
+        <a href="#aggregate/4" data-no-tooltip="" translate="no">aggregate(queryable, aggregate, field, opts)</a>
 
       </div>
 
@@ -162,7 +128,7 @@ GUIDES
 
     <div class="summary-row">
       <div class="summary-signature">
-        <a href="#all/2" data-no-tooltip translate="no">all(queryable, opts \\ [])</a>
+        <a href="#all/2" data-no-tooltip="" translate="no">all(queryable, opts \\ [])</a>
 
       </div>
 
@@ -172,7 +138,7 @@ GUIDES
 
     <div class="summary-row">
       <div class="summary-signature">
-        <a href="#checked_out?/0" data-no-tooltip translate="no">checked_out?()</a>
+        <a href="#checked_out?/0" data-no-tooltip="" translate="no">checked_out?()</a>
 
       </div>
 
@@ -182,7 +148,7 @@ GUIDES
 
     <div class="summary-row">
       <div class="summary-signature">
-        <a href="#checkout/2" data-no-tooltip translate="no">checkout(fun, opts \\ [])</a>
+        <a href="#checkout/2" data-no-tooltip="" translate="no">checkout(fun, opts \\ [])</a>
 
       </div>
 
@@ -192,7 +158,7 @@ GUIDES
 
     <div class="summary-row">
       <div class="summary-signature">
-        <a href="#child_spec/1" data-no-tooltip translate="no">child_spec(opts)</a>
+        <a href="#child_spec/1" data-no-tooltip="" translate="no">child_spec(opts)</a>
 
       </div>
 
@@ -200,7 +166,7 @@ GUIDES
 
     <div class="summary-row">
       <div class="summary-signature">
-        <a href="#config/0" data-no-tooltip translate="no">config()</a>
+        <a href="#config/0" data-no-tooltip="" translate="no">config()</a>
 
       </div>
 
@@ -210,7 +176,7 @@ GUIDES
 
     <div class="summary-row">
       <div class="summary-signature">
-        <a href="#default_options/1" data-no-tooltip translate="no">default_options(operation)</a>
+        <a href="#default_options/1" data-no-tooltip="" translate="no">default_options(operation)</a>
 
       </div>
 
@@ -220,7 +186,7 @@ GUIDES
 
     <div class="summary-row">
       <div class="summary-signature">
-        <a href="#delete/2" data-no-tooltip translate="no">delete(struct, opts \\ [])</a>
+        <a href="#delete/2" data-no-tooltip="" translate="no">delete(struct, opts \\ [])</a>
 
       </div>
 
@@ -230,7 +196,7 @@ GUIDES
 
     <div class="summary-row">
       <div class="summary-signature">
-        <a href="#delete!/2" data-no-tooltip translate="no">delete!(struct, opts \\ [])</a>
+        <a href="#delete!/2" data-no-tooltip="" translate="no">delete!(struct, opts \\ [])</a>
 
       </div>
 
@@ -240,7 +206,7 @@ GUIDES
 
     <div class="summary-row">
       <div class="summary-signature">
-        <a href="#delete_all/2" data-no-tooltip translate="no">delete_all(queryable, opts \\ [])</a>
+        <a href="#delete_all/2" data-no-tooltip="" translate="no">delete_all(queryable, opts \\ [])</a>
 
       </div>
 
@@ -250,7 +216,7 @@ GUIDES
 
     <div class="summary-row">
       <div class="summary-signature">
-        <a href="#disconnect_all/2" data-no-tooltip translate="no">disconnect_all(interval, opts \\ [])</a>
+        <a href="#disconnect_all/2" data-no-tooltip="" translate="no">disconnect_all(interval, opts \\ [])</a>
 
       </div>
 
@@ -261,7 +227,7 @@ pool to disconnect within the given interval.</p></div>
 
     <div class="summary-row">
       <div class="summary-signature">
-        <a href="#exists?/2" data-no-tooltip translate="no">exists?(queryable, opts \\ [])</a>
+        <a href="#exists?/2" data-no-tooltip="" translate="no">exists?(queryable, opts \\ [])</a>
 
       </div>
 
@@ -271,7 +237,7 @@ pool to disconnect within the given interval.</p></div>
 
     <div class="summary-row">
       <div class="summary-signature">
-        <a href="#explain/3" data-no-tooltip translate="no">explain(operation, queryable, opts \\ [])</a>
+        <a href="#explain/3" data-no-tooltip="" translate="no">explain(operation, queryable, opts \\ [])</a>
 
       </div>
 
@@ -282,7 +248,7 @@ depending on the adapter to obtain statistics for the given query.</p></div>
 
     <div class="summary-row">
       <div class="summary-signature">
-        <a href="#get/3" data-no-tooltip translate="no">get(queryable, id, opts \\ [])</a>
+        <a href="#get/3" data-no-tooltip="" translate="no">get(queryable, id, opts \\ [])</a>
 
       </div>
 
@@ -292,7 +258,7 @@ depending on the adapter to obtain statistics for the given query.</p></div>
 
     <div class="summary-row">
       <div class="summary-signature">
-        <a href="#get!/3" data-no-tooltip translate="no">get!(queryable, id, opts \\ [])</a>
+        <a href="#get!/3" data-no-tooltip="" translate="no">get!(queryable, id, opts \\ [])</a>
 
       </div>
 
@@ -302,7 +268,7 @@ depending on the adapter to obtain statistics for the given query.</p></div>
 
     <div class="summary-row">
       <div class="summary-signature">
-        <a href="#get_by/3" data-no-tooltip translate="no">get_by(queryable, clauses, opts \\ [])</a>
+        <a href="#get_by/3" data-no-tooltip="" translate="no">get_by(queryable, clauses, opts \\ [])</a>
 
       </div>
 
@@ -312,7 +278,7 @@ depending on the adapter to obtain statistics for the given query.</p></div>
 
     <div class="summary-row">
       <div class="summary-signature">
-        <a href="#get_by!/3" data-no-tooltip translate="no">get_by!(queryable, clauses, opts \\ [])</a>
+        <a href="#get_by!/3" data-no-tooltip="" translate="no">get_by!(queryable, clauses, opts \\ [])</a>
 
       </div>
 
@@ -322,7 +288,7 @@ depending on the adapter to obtain statistics for the given query.</p></div>
 
     <div class="summary-row">
       <div class="summary-signature">
-        <a href="#get_dynamic_repo/0" data-no-tooltip translate="no">get_dynamic_repo()</a>
+        <a href="#get_dynamic_repo/0" data-no-tooltip="" translate="no">get_dynamic_repo()</a>
 
       </div>
 
@@ -332,7 +298,7 @@ depending on the adapter to obtain statistics for the given query.</p></div>
 
     <div class="summary-row">
       <div class="summary-signature">
-        <a href="#in_transaction?/0" data-no-tooltip translate="no">in_transaction?()</a>
+        <a href="#in_transaction?/0" data-no-tooltip="" translate="no">in_transaction?()</a>
 
       </div>
 
@@ -342,7 +308,7 @@ depending on the adapter to obtain statistics for the given query.</p></div>
 
     <div class="summary-row">
       <div class="summary-signature">
-        <a href="#insert/2" data-no-tooltip translate="no">insert(struct, opts \\ [])</a>
+        <a href="#insert/2" data-no-tooltip="" translate="no">insert(struct, opts \\ [])</a>
 
       </div>
 
@@ -352,7 +318,7 @@ depending on the adapter to obtain statistics for the given query.</p></div>
 
     <div class="summary-row">
       <div class="summary-signature">
-        <a href="#insert!/2" data-no-tooltip translate="no">insert!(struct, opts \\ [])</a>
+        <a href="#insert!/2" data-no-tooltip="" translate="no">insert!(struct, opts \\ [])</a>
 
       </div>
 
@@ -362,7 +328,7 @@ depending on the adapter to obtain statistics for the given query.</p></div>
 
     <div class="summary-row">
       <div class="summary-signature">
-        <a href="#insert_all/3" data-no-tooltip translate="no">insert_all(schema_or_source, entries, opts \\ [])</a>
+        <a href="#insert_all/3" data-no-tooltip="" translate="no">insert_all(schema_or_source, entries, opts \\ [])</a>
 
       </div>
 
@@ -372,7 +338,7 @@ depending on the adapter to obtain statistics for the given query.</p></div>
 
     <div class="summary-row">
       <div class="summary-signature">
-        <a href="#insert_or_update/2" data-no-tooltip translate="no">insert_or_update(changeset, opts \\ [])</a>
+        <a href="#insert_or_update/2" data-no-tooltip="" translate="no">insert_or_update(changeset, opts \\ [])</a>
 
       </div>
 
@@ -382,7 +348,7 @@ depending on the adapter to obtain statistics for the given query.</p></div>
 
     <div class="summary-row">
       <div class="summary-signature">
-        <a href="#insert_or_update!/2" data-no-tooltip translate="no">insert_or_update!(changeset, opts \\ [])</a>
+        <a href="#insert_or_update!/2" data-no-tooltip="" translate="no">insert_or_update!(changeset, opts \\ [])</a>
 
       </div>
 
@@ -392,7 +358,7 @@ depending on the adapter to obtain statistics for the given query.</p></div>
 
     <div class="summary-row">
       <div class="summary-signature">
-        <a href="#load/2" data-no-tooltip translate="no">load(schema_or_types, data)</a>
+        <a href="#load/2" data-no-tooltip="" translate="no">load(schema_or_types, data)</a>
 
       </div>
 
@@ -402,7 +368,7 @@ depending on the adapter to obtain statistics for the given query.</p></div>
 
     <div class="summary-row">
       <div class="summary-signature">
-        <a href="#one/2" data-no-tooltip translate="no">one(queryable, opts \\ [])</a>
+        <a href="#one/2" data-no-tooltip="" translate="no">one(queryable, opts \\ [])</a>
 
       </div>
 
@@ -412,7 +378,7 @@ depending on the adapter to obtain statistics for the given query.</p></div>
 
     <div class="summary-row">
       <div class="summary-signature">
-        <a href="#one!/2" data-no-tooltip translate="no">one!(queryable, opts \\ [])</a>
+        <a href="#one!/2" data-no-tooltip="" translate="no">one!(queryable, opts \\ [])</a>
 
       </div>
 
@@ -422,7 +388,7 @@ depending on the adapter to obtain statistics for the given query.</p></div>
 
     <div class="summary-row">
       <div class="summary-signature">
-        <a href="#preload/3" data-no-tooltip translate="no">preload(struct_or_structs_or_nil, preloads, opts \\ [])</a>
+        <a href="#preload/3" data-no-tooltip="" translate="no">preload(struct_or_structs_or_nil, preloads, opts \\ [])</a>
 
       </div>
 
@@ -432,7 +398,7 @@ depending on the adapter to obtain statistics for the given query.</p></div>
 
     <div class="summary-row">
       <div class="summary-signature">
-        <a href="#prepare_query/3" data-no-tooltip translate="no">prepare_query(operation, query, opts)</a>
+        <a href="#prepare_query/3" data-no-tooltip="" translate="no">prepare_query(operation, query, opts)</a>
 
       </div>
 
@@ -442,7 +408,7 @@ depending on the adapter to obtain statistics for the given query.</p></div>
 
     <div class="summary-row">
       <div class="summary-signature">
-        <a href="#put_dynamic_repo/1" data-no-tooltip translate="no">put_dynamic_repo(dynamic)</a>
+        <a href="#put_dynamic_repo/1" data-no-tooltip="" translate="no">put_dynamic_repo(dynamic)</a>
 
       </div>
 
@@ -452,7 +418,7 @@ depending on the adapter to obtain statistics for the given query.</p></div>
 
     <div class="summary-row">
       <div class="summary-signature">
-        <a href="#query/3" data-no-tooltip translate="no">query(sql, params \\ [], opts \\ [])</a>
+        <a href="#query/3" data-no-tooltip="" translate="no">query(sql, params \\ [], opts \\ [])</a>
 
       </div>
 
@@ -462,7 +428,7 @@ depending on the adapter to obtain statistics for the given query.</p></div>
 
     <div class="summary-row">
       <div class="summary-signature">
-        <a href="#query!/3" data-no-tooltip translate="no">query!(sql, params \\ [], opts \\ [])</a>
+        <a href="#query!/3" data-no-tooltip="" translate="no">query!(sql, params \\ [], opts \\ [])</a>
 
       </div>
 
@@ -472,7 +438,7 @@ depending on the adapter to obtain statistics for the given query.</p></div>
 
     <div class="summary-row">
       <div class="summary-signature">
-        <a href="#query_many/3" data-no-tooltip translate="no">query_many(sql, params \\ [], opts \\ [])</a>
+        <a href="#query_many/3" data-no-tooltip="" translate="no">query_many(sql, params \\ [], opts \\ [])</a>
 
       </div>
 
@@ -482,7 +448,7 @@ depending on the adapter to obtain statistics for the given query.</p></div>
 
     <div class="summary-row">
       <div class="summary-signature">
-        <a href="#query_many!/3" data-no-tooltip translate="no">query_many!(sql, params \\ [], opts \\ [])</a>
+        <a href="#query_many!/3" data-no-tooltip="" translate="no">query_many!(sql, params \\ [], opts \\ [])</a>
 
       </div>
 
@@ -492,7 +458,7 @@ depending on the adapter to obtain statistics for the given query.</p></div>
 
     <div class="summary-row">
       <div class="summary-signature">
-        <a href="#reload/2" data-no-tooltip translate="no">reload(queryable, opts \\ [])</a>
+        <a href="#reload/2" data-no-tooltip="" translate="no">reload(queryable, opts \\ [])</a>
 
       </div>
 
@@ -502,7 +468,7 @@ depending on the adapter to obtain statistics for the given query.</p></div>
 
     <div class="summary-row">
       <div class="summary-signature">
-        <a href="#reload!/2" data-no-tooltip translate="no">reload!(queryable, opts \\ [])</a>
+        <a href="#reload!/2" data-no-tooltip="" translate="no">reload!(queryable, opts \\ [])</a>
 
       </div>
 
@@ -512,7 +478,7 @@ depending on the adapter to obtain statistics for the given query.</p></div>
 
     <div class="summary-row">
       <div class="summary-signature">
-        <a href="#rollback/1" data-no-tooltip translate="no">rollback(value)</a>
+        <a href="#rollback/1" data-no-tooltip="" translate="no">rollback(value)</a>
 
       </div>
 
@@ -522,7 +488,7 @@ depending on the adapter to obtain statistics for the given query.</p></div>
 
     <div class="summary-row">
       <div class="summary-signature">
-        <a href="#start_link/1" data-no-tooltip translate="no">start_link(opts \\ [])</a>
+        <a href="#start_link/1" data-no-tooltip="" translate="no">start_link(opts \\ [])</a>
 
       </div>
 
@@ -532,7 +498,7 @@ depending on the adapter to obtain statistics for the given query.</p></div>
 
     <div class="summary-row">
       <div class="summary-signature">
-        <a href="#stop/1" data-no-tooltip translate="no">stop(timeout \\ 5000)</a>
+        <a href="#stop/1" data-no-tooltip="" translate="no">stop(timeout \\ 5000)</a>
 
       </div>
 
@@ -542,7 +508,7 @@ depending on the adapter to obtain statistics for the given query.</p></div>
 
     <div class="summary-row">
       <div class="summary-signature">
-        <a href="#stream/2" data-no-tooltip translate="no">stream(queryable, opts \\ [])</a>
+        <a href="#stream/2" data-no-tooltip="" translate="no">stream(queryable, opts \\ [])</a>
 
       </div>
 
@@ -552,7 +518,7 @@ depending on the adapter to obtain statistics for the given query.</p></div>
 
     <div class="summary-row">
       <div class="summary-signature">
-        <a href="#to_sql/2" data-no-tooltip translate="no">to_sql(operation, queryable)</a>
+        <a href="#to_sql/2" data-no-tooltip="" translate="no">to_sql(operation, queryable)</a>
 
       </div>
 
@@ -562,7 +528,7 @@ depending on the adapter to obtain statistics for the given query.</p></div>
 
     <div class="summary-row">
       <div class="summary-signature">
-        <a href="#transaction/2" data-no-tooltip translate="no">transaction(fun_or_multi, opts \\ [])</a>
+        <a href="#transaction/2" data-no-tooltip="" translate="no">transaction(fun_or_multi, opts \\ [])</a>
 
       </div>
 
@@ -572,7 +538,7 @@ depending on the adapter to obtain statistics for the given query.</p></div>
 
     <div class="summary-row">
       <div class="summary-signature">
-        <a href="#update/2" data-no-tooltip translate="no">update(struct, opts \\ [])</a>
+        <a href="#update/2" data-no-tooltip="" translate="no">update(struct, opts \\ [])</a>
 
       </div>
 
@@ -582,7 +548,7 @@ depending on the adapter to obtain statistics for the given query.</p></div>
 
     <div class="summary-row">
       <div class="summary-signature">
-        <a href="#update!/2" data-no-tooltip translate="no">update!(struct, opts \\ [])</a>
+        <a href="#update!/2" data-no-tooltip="" translate="no">update!(struct, opts \\ [])</a>
 
       </div>
 
@@ -592,7 +558,7 @@ depending on the adapter to obtain statistics for the given query.</p></div>
 
     <div class="summary-row">
       <div class="summary-signature">
-        <a href="#update_all/3" data-no-tooltip translate="no">update_all(queryable, updates, opts \\ [])</a>
+        <a href="#update_all/3" data-no-tooltip="" translate="no">update_all(queryable, updates, opts \\ [])</a>
 
       </div>
 
@@ -618,16 +584,18 @@ depending on the adapter to obtain statistics for the given query.</p></div>
     <span id="aggregate/2"></span>
 
   <div class="detail-header">
-    <a href="#aggregate/3" class="detail-link" data-no-tooltip aria-label="Link to this function">
+    <a href="#aggregate/3" class="detail-link" data-no-tooltip="" aria-label="Link to this function">
       <i class="ri-link-m" aria-hidden="true"></i>
     </a>
-    <h1 class="signature" translate="no">aggregate(queryable, aggregate, opts \\ [])</h1>
-
-      <a href="https://github.com/trento-project/wanda/blob/main/lib/wanda/repo.ex#L2" class="icon-action" rel="help" aria-label="View Source">
-       <i class="ri-code-s-slash-line" aria-hidden="true"></i>
-     </a>
+    <div class="heading-with-actions">
+      <h1 class="signature" translate="no">aggregate(queryable, aggregate, opts \\ [])</h1>
 
 
+        <a href="https://github.com/trento-project/wanda/blob/main/lib/wanda/repo.ex#L2" class="icon-action" rel="help" aria-label="View Source">
+          <i class="ri-code-s-slash-line" aria-hidden="true"></i>
+        </a>
+
+    </div>
   </div>
 
   <section class="docstring">
@@ -638,16 +606,18 @@ depending on the adapter to obtain statistics for the given query.</p></div>
 <section class="detail" id="aggregate/4">
 
   <div class="detail-header">
-    <a href="#aggregate/4" class="detail-link" data-no-tooltip aria-label="Link to this function">
+    <a href="#aggregate/4" class="detail-link" data-no-tooltip="" aria-label="Link to this function">
       <i class="ri-link-m" aria-hidden="true"></i>
     </a>
-    <h1 class="signature" translate="no">aggregate(queryable, aggregate, field, opts)</h1>
-
-      <a href="https://github.com/trento-project/wanda/blob/main/lib/wanda/repo.ex#L2" class="icon-action" rel="help" aria-label="View Source">
-       <i class="ri-code-s-slash-line" aria-hidden="true"></i>
-     </a>
+    <div class="heading-with-actions">
+      <h1 class="signature" translate="no">aggregate(queryable, aggregate, field, opts)</h1>
 
 
+        <a href="https://github.com/trento-project/wanda/blob/main/lib/wanda/repo.ex#L2" class="icon-action" rel="help" aria-label="View Source">
+          <i class="ri-code-s-slash-line" aria-hidden="true"></i>
+        </a>
+
+    </div>
   </div>
 
   <section class="docstring">
@@ -660,16 +630,18 @@ depending on the adapter to obtain statistics for the given query.</p></div>
     <span id="all/1"></span>
 
   <div class="detail-header">
-    <a href="#all/2" class="detail-link" data-no-tooltip aria-label="Link to this function">
+    <a href="#all/2" class="detail-link" data-no-tooltip="" aria-label="Link to this function">
       <i class="ri-link-m" aria-hidden="true"></i>
     </a>
-    <h1 class="signature" translate="no">all(queryable, opts \\ [])</h1>
-
-      <a href="https://github.com/trento-project/wanda/blob/main/lib/wanda/repo.ex#L2" class="icon-action" rel="help" aria-label="View Source">
-       <i class="ri-code-s-slash-line" aria-hidden="true"></i>
-     </a>
+    <div class="heading-with-actions">
+      <h1 class="signature" translate="no">all(queryable, opts \\ [])</h1>
 
 
+        <a href="https://github.com/trento-project/wanda/blob/main/lib/wanda/repo.ex#L2" class="icon-action" rel="help" aria-label="View Source">
+          <i class="ri-code-s-slash-line" aria-hidden="true"></i>
+        </a>
+
+    </div>
   </div>
 
   <section class="docstring">
@@ -680,16 +652,18 @@ depending on the adapter to obtain statistics for the given query.</p></div>
 <section class="detail" id="checked_out?/0">
 
   <div class="detail-header">
-    <a href="#checked_out?/0" class="detail-link" data-no-tooltip aria-label="Link to this function">
+    <a href="#checked_out?/0" class="detail-link" data-no-tooltip="" aria-label="Link to this function">
       <i class="ri-link-m" aria-hidden="true"></i>
     </a>
-    <h1 class="signature" translate="no">checked_out?()</h1>
-
-      <a href="https://github.com/trento-project/wanda/blob/main/lib/wanda/repo.ex#L2" class="icon-action" rel="help" aria-label="View Source">
-       <i class="ri-code-s-slash-line" aria-hidden="true"></i>
-     </a>
+    <div class="heading-with-actions">
+      <h1 class="signature" translate="no">checked_out?()</h1>
 
 
+        <a href="https://github.com/trento-project/wanda/blob/main/lib/wanda/repo.ex#L2" class="icon-action" rel="help" aria-label="View Source">
+          <i class="ri-code-s-slash-line" aria-hidden="true"></i>
+        </a>
+
+    </div>
   </div>
 
   <section class="docstring">
@@ -702,16 +676,18 @@ depending on the adapter to obtain statistics for the given query.</p></div>
     <span id="checkout/1"></span>
 
   <div class="detail-header">
-    <a href="#checkout/2" class="detail-link" data-no-tooltip aria-label="Link to this function">
+    <a href="#checkout/2" class="detail-link" data-no-tooltip="" aria-label="Link to this function">
       <i class="ri-link-m" aria-hidden="true"></i>
     </a>
-    <h1 class="signature" translate="no">checkout(fun, opts \\ [])</h1>
-
-      <a href="https://github.com/trento-project/wanda/blob/main/lib/wanda/repo.ex#L2" class="icon-action" rel="help" aria-label="View Source">
-       <i class="ri-code-s-slash-line" aria-hidden="true"></i>
-     </a>
+    <div class="heading-with-actions">
+      <h1 class="signature" translate="no">checkout(fun, opts \\ [])</h1>
 
 
+        <a href="https://github.com/trento-project/wanda/blob/main/lib/wanda/repo.ex#L2" class="icon-action" rel="help" aria-label="View Source">
+          <i class="ri-code-s-slash-line" aria-hidden="true"></i>
+        </a>
+
+    </div>
   </div>
 
   <section class="docstring">
@@ -722,16 +698,18 @@ depending on the adapter to obtain statistics for the given query.</p></div>
 <section class="detail" id="child_spec/1">
 
   <div class="detail-header">
-    <a href="#child_spec/1" class="detail-link" data-no-tooltip aria-label="Link to this function">
+    <a href="#child_spec/1" class="detail-link" data-no-tooltip="" aria-label="Link to this function">
       <i class="ri-link-m" aria-hidden="true"></i>
     </a>
-    <h1 class="signature" translate="no">child_spec(opts)</h1>
-
-      <a href="https://github.com/trento-project/wanda/blob/main/lib/wanda/repo.ex#L2" class="icon-action" rel="help" aria-label="View Source">
-       <i class="ri-code-s-slash-line" aria-hidden="true"></i>
-     </a>
+    <div class="heading-with-actions">
+      <h1 class="signature" translate="no">child_spec(opts)</h1>
 
 
+        <a href="https://github.com/trento-project/wanda/blob/main/lib/wanda/repo.ex#L2" class="icon-action" rel="help" aria-label="View Source">
+          <i class="ri-code-s-slash-line" aria-hidden="true"></i>
+        </a>
+
+    </div>
   </div>
 
   <section class="docstring">
@@ -742,16 +720,18 @@ depending on the adapter to obtain statistics for the given query.</p></div>
 <section class="detail" id="config/0">
 
   <div class="detail-header">
-    <a href="#config/0" class="detail-link" data-no-tooltip aria-label="Link to this function">
+    <a href="#config/0" class="detail-link" data-no-tooltip="" aria-label="Link to this function">
       <i class="ri-link-m" aria-hidden="true"></i>
     </a>
-    <h1 class="signature" translate="no">config()</h1>
-
-      <a href="https://github.com/trento-project/wanda/blob/main/lib/wanda/repo.ex#L2" class="icon-action" rel="help" aria-label="View Source">
-       <i class="ri-code-s-slash-line" aria-hidden="true"></i>
-     </a>
+    <div class="heading-with-actions">
+      <h1 class="signature" translate="no">config()</h1>
 
 
+        <a href="https://github.com/trento-project/wanda/blob/main/lib/wanda/repo.ex#L2" class="icon-action" rel="help" aria-label="View Source">
+          <i class="ri-code-s-slash-line" aria-hidden="true"></i>
+        </a>
+
+    </div>
   </div>
 
   <section class="docstring">
@@ -762,16 +742,18 @@ depending on the adapter to obtain statistics for the given query.</p></div>
 <section class="detail" id="default_options/1">
 
   <div class="detail-header">
-    <a href="#default_options/1" class="detail-link" data-no-tooltip aria-label="Link to this function">
+    <a href="#default_options/1" class="detail-link" data-no-tooltip="" aria-label="Link to this function">
       <i class="ri-link-m" aria-hidden="true"></i>
     </a>
-    <h1 class="signature" translate="no">default_options(operation)</h1>
-
-      <a href="https://github.com/trento-project/wanda/blob/main/lib/wanda/repo.ex#L2" class="icon-action" rel="help" aria-label="View Source">
-       <i class="ri-code-s-slash-line" aria-hidden="true"></i>
-     </a>
+    <div class="heading-with-actions">
+      <h1 class="signature" translate="no">default_options(operation)</h1>
 
 
+        <a href="https://github.com/trento-project/wanda/blob/main/lib/wanda/repo.ex#L2" class="icon-action" rel="help" aria-label="View Source">
+          <i class="ri-code-s-slash-line" aria-hidden="true"></i>
+        </a>
+
+    </div>
   </div>
 
   <section class="docstring">
@@ -784,16 +766,18 @@ depending on the adapter to obtain statistics for the given query.</p></div>
     <span id="delete/1"></span>
 
   <div class="detail-header">
-    <a href="#delete/2" class="detail-link" data-no-tooltip aria-label="Link to this function">
+    <a href="#delete/2" class="detail-link" data-no-tooltip="" aria-label="Link to this function">
       <i class="ri-link-m" aria-hidden="true"></i>
     </a>
-    <h1 class="signature" translate="no">delete(struct, opts \\ [])</h1>
-
-      <a href="https://github.com/trento-project/wanda/blob/main/lib/wanda/repo.ex#L2" class="icon-action" rel="help" aria-label="View Source">
-       <i class="ri-code-s-slash-line" aria-hidden="true"></i>
-     </a>
+    <div class="heading-with-actions">
+      <h1 class="signature" translate="no">delete(struct, opts \\ [])</h1>
 
 
+        <a href="https://github.com/trento-project/wanda/blob/main/lib/wanda/repo.ex#L2" class="icon-action" rel="help" aria-label="View Source">
+          <i class="ri-code-s-slash-line" aria-hidden="true"></i>
+        </a>
+
+    </div>
   </div>
 
   <section class="docstring">
@@ -806,16 +790,18 @@ depending on the adapter to obtain statistics for the given query.</p></div>
     <span id="delete!/1"></span>
 
   <div class="detail-header">
-    <a href="#delete!/2" class="detail-link" data-no-tooltip aria-label="Link to this function">
+    <a href="#delete!/2" class="detail-link" data-no-tooltip="" aria-label="Link to this function">
       <i class="ri-link-m" aria-hidden="true"></i>
     </a>
-    <h1 class="signature" translate="no">delete!(struct, opts \\ [])</h1>
-
-      <a href="https://github.com/trento-project/wanda/blob/main/lib/wanda/repo.ex#L2" class="icon-action" rel="help" aria-label="View Source">
-       <i class="ri-code-s-slash-line" aria-hidden="true"></i>
-     </a>
+    <div class="heading-with-actions">
+      <h1 class="signature" translate="no">delete!(struct, opts \\ [])</h1>
 
 
+        <a href="https://github.com/trento-project/wanda/blob/main/lib/wanda/repo.ex#L2" class="icon-action" rel="help" aria-label="View Source">
+          <i class="ri-code-s-slash-line" aria-hidden="true"></i>
+        </a>
+
+    </div>
   </div>
 
   <section class="docstring">
@@ -828,16 +814,18 @@ depending on the adapter to obtain statistics for the given query.</p></div>
     <span id="delete_all/1"></span>
 
   <div class="detail-header">
-    <a href="#delete_all/2" class="detail-link" data-no-tooltip aria-label="Link to this function">
+    <a href="#delete_all/2" class="detail-link" data-no-tooltip="" aria-label="Link to this function">
       <i class="ri-link-m" aria-hidden="true"></i>
     </a>
-    <h1 class="signature" translate="no">delete_all(queryable, opts \\ [])</h1>
-
-      <a href="https://github.com/trento-project/wanda/blob/main/lib/wanda/repo.ex#L2" class="icon-action" rel="help" aria-label="View Source">
-       <i class="ri-code-s-slash-line" aria-hidden="true"></i>
-     </a>
+    <div class="heading-with-actions">
+      <h1 class="signature" translate="no">delete_all(queryable, opts \\ [])</h1>
 
 
+        <a href="https://github.com/trento-project/wanda/blob/main/lib/wanda/repo.ex#L2" class="icon-action" rel="help" aria-label="View Source">
+          <i class="ri-code-s-slash-line" aria-hidden="true"></i>
+        </a>
+
+    </div>
   </div>
 
   <section class="docstring">
@@ -850,16 +838,18 @@ depending on the adapter to obtain statistics for the given query.</p></div>
     <span id="disconnect_all/1"></span>
 
   <div class="detail-header">
-    <a href="#disconnect_all/2" class="detail-link" data-no-tooltip aria-label="Link to this function">
+    <a href="#disconnect_all/2" class="detail-link" data-no-tooltip="" aria-label="Link to this function">
       <i class="ri-link-m" aria-hidden="true"></i>
     </a>
-    <h1 class="signature" translate="no">disconnect_all(interval, opts \\ [])</h1>
-
-      <a href="https://github.com/trento-project/wanda/blob/main/lib/wanda/repo.ex#L1" class="icon-action" rel="help" aria-label="View Source">
-       <i class="ri-code-s-slash-line" aria-hidden="true"></i>
-     </a>
+    <div class="heading-with-actions">
+      <h1 class="signature" translate="no">disconnect_all(interval, opts \\ [])</h1>
 
 
+        <a href="https://github.com/trento-project/wanda/blob/main/lib/wanda/repo.ex#L1" class="icon-action" rel="help" aria-label="View Source">
+          <i class="ri-code-s-slash-line" aria-hidden="true"></i>
+        </a>
+
+    </div>
   </div>
 
   <section class="docstring">
@@ -873,16 +863,18 @@ pool to disconnect within the given interval.</p><p>See <a href="https://hexdocs
     <span id="exists?/1"></span>
 
   <div class="detail-header">
-    <a href="#exists?/2" class="detail-link" data-no-tooltip aria-label="Link to this function">
+    <a href="#exists?/2" class="detail-link" data-no-tooltip="" aria-label="Link to this function">
       <i class="ri-link-m" aria-hidden="true"></i>
     </a>
-    <h1 class="signature" translate="no">exists?(queryable, opts \\ [])</h1>
-
-      <a href="https://github.com/trento-project/wanda/blob/main/lib/wanda/repo.ex#L2" class="icon-action" rel="help" aria-label="View Source">
-       <i class="ri-code-s-slash-line" aria-hidden="true"></i>
-     </a>
+    <div class="heading-with-actions">
+      <h1 class="signature" translate="no">exists?(queryable, opts \\ [])</h1>
 
 
+        <a href="https://github.com/trento-project/wanda/blob/main/lib/wanda/repo.ex#L2" class="icon-action" rel="help" aria-label="View Source">
+          <i class="ri-code-s-slash-line" aria-hidden="true"></i>
+        </a>
+
+    </div>
   </div>
 
   <section class="docstring">
@@ -895,16 +887,18 @@ pool to disconnect within the given interval.</p><p>See <a href="https://hexdocs
     <span id="explain/2"></span>
 
   <div class="detail-header">
-    <a href="#explain/3" class="detail-link" data-no-tooltip aria-label="Link to this function">
+    <a href="#explain/3" class="detail-link" data-no-tooltip="" aria-label="Link to this function">
       <i class="ri-link-m" aria-hidden="true"></i>
     </a>
-    <h1 class="signature" translate="no">explain(operation, queryable, opts \\ [])</h1>
-
-      <a href="https://github.com/trento-project/wanda/blob/main/lib/wanda/repo.ex#L1" class="icon-action" rel="help" aria-label="View Source">
-       <i class="ri-code-s-slash-line" aria-hidden="true"></i>
-     </a>
+    <div class="heading-with-actions">
+      <h1 class="signature" translate="no">explain(operation, queryable, opts \\ [])</h1>
 
 
+        <a href="https://github.com/trento-project/wanda/blob/main/lib/wanda/repo.ex#L1" class="icon-action" rel="help" aria-label="View Source">
+          <i class="ri-code-s-slash-line" aria-hidden="true"></i>
+        </a>
+
+    </div>
   </div>
 
   <section class="docstring">
@@ -918,16 +912,18 @@ depending on the adapter to obtain statistics for the given query.</p><p>See <a 
     <span id="get/2"></span>
 
   <div class="detail-header">
-    <a href="#get/3" class="detail-link" data-no-tooltip aria-label="Link to this function">
+    <a href="#get/3" class="detail-link" data-no-tooltip="" aria-label="Link to this function">
       <i class="ri-link-m" aria-hidden="true"></i>
     </a>
-    <h1 class="signature" translate="no">get(queryable, id, opts \\ [])</h1>
-
-      <a href="https://github.com/trento-project/wanda/blob/main/lib/wanda/repo.ex#L2" class="icon-action" rel="help" aria-label="View Source">
-       <i class="ri-code-s-slash-line" aria-hidden="true"></i>
-     </a>
+    <div class="heading-with-actions">
+      <h1 class="signature" translate="no">get(queryable, id, opts \\ [])</h1>
 
 
+        <a href="https://github.com/trento-project/wanda/blob/main/lib/wanda/repo.ex#L2" class="icon-action" rel="help" aria-label="View Source">
+          <i class="ri-code-s-slash-line" aria-hidden="true"></i>
+        </a>
+
+    </div>
   </div>
 
   <section class="docstring">
@@ -940,16 +936,18 @@ depending on the adapter to obtain statistics for the given query.</p><p>See <a 
     <span id="get!/2"></span>
 
   <div class="detail-header">
-    <a href="#get!/3" class="detail-link" data-no-tooltip aria-label="Link to this function">
+    <a href="#get!/3" class="detail-link" data-no-tooltip="" aria-label="Link to this function">
       <i class="ri-link-m" aria-hidden="true"></i>
     </a>
-    <h1 class="signature" translate="no">get!(queryable, id, opts \\ [])</h1>
-
-      <a href="https://github.com/trento-project/wanda/blob/main/lib/wanda/repo.ex#L2" class="icon-action" rel="help" aria-label="View Source">
-       <i class="ri-code-s-slash-line" aria-hidden="true"></i>
-     </a>
+    <div class="heading-with-actions">
+      <h1 class="signature" translate="no">get!(queryable, id, opts \\ [])</h1>
 
 
+        <a href="https://github.com/trento-project/wanda/blob/main/lib/wanda/repo.ex#L2" class="icon-action" rel="help" aria-label="View Source">
+          <i class="ri-code-s-slash-line" aria-hidden="true"></i>
+        </a>
+
+    </div>
   </div>
 
   <section class="docstring">
@@ -962,16 +960,18 @@ depending on the adapter to obtain statistics for the given query.</p><p>See <a 
     <span id="get_by/2"></span>
 
   <div class="detail-header">
-    <a href="#get_by/3" class="detail-link" data-no-tooltip aria-label="Link to this function">
+    <a href="#get_by/3" class="detail-link" data-no-tooltip="" aria-label="Link to this function">
       <i class="ri-link-m" aria-hidden="true"></i>
     </a>
-    <h1 class="signature" translate="no">get_by(queryable, clauses, opts \\ [])</h1>
-
-      <a href="https://github.com/trento-project/wanda/blob/main/lib/wanda/repo.ex#L2" class="icon-action" rel="help" aria-label="View Source">
-       <i class="ri-code-s-slash-line" aria-hidden="true"></i>
-     </a>
+    <div class="heading-with-actions">
+      <h1 class="signature" translate="no">get_by(queryable, clauses, opts \\ [])</h1>
 
 
+        <a href="https://github.com/trento-project/wanda/blob/main/lib/wanda/repo.ex#L2" class="icon-action" rel="help" aria-label="View Source">
+          <i class="ri-code-s-slash-line" aria-hidden="true"></i>
+        </a>
+
+    </div>
   </div>
 
   <section class="docstring">
@@ -984,16 +984,18 @@ depending on the adapter to obtain statistics for the given query.</p><p>See <a 
     <span id="get_by!/2"></span>
 
   <div class="detail-header">
-    <a href="#get_by!/3" class="detail-link" data-no-tooltip aria-label="Link to this function">
+    <a href="#get_by!/3" class="detail-link" data-no-tooltip="" aria-label="Link to this function">
       <i class="ri-link-m" aria-hidden="true"></i>
     </a>
-    <h1 class="signature" translate="no">get_by!(queryable, clauses, opts \\ [])</h1>
-
-      <a href="https://github.com/trento-project/wanda/blob/main/lib/wanda/repo.ex#L2" class="icon-action" rel="help" aria-label="View Source">
-       <i class="ri-code-s-slash-line" aria-hidden="true"></i>
-     </a>
+    <div class="heading-with-actions">
+      <h1 class="signature" translate="no">get_by!(queryable, clauses, opts \\ [])</h1>
 
 
+        <a href="https://github.com/trento-project/wanda/blob/main/lib/wanda/repo.ex#L2" class="icon-action" rel="help" aria-label="View Source">
+          <i class="ri-code-s-slash-line" aria-hidden="true"></i>
+        </a>
+
+    </div>
   </div>
 
   <section class="docstring">
@@ -1004,16 +1006,18 @@ depending on the adapter to obtain statistics for the given query.</p><p>See <a 
 <section class="detail" id="get_dynamic_repo/0">
 
   <div class="detail-header">
-    <a href="#get_dynamic_repo/0" class="detail-link" data-no-tooltip aria-label="Link to this function">
+    <a href="#get_dynamic_repo/0" class="detail-link" data-no-tooltip="" aria-label="Link to this function">
       <i class="ri-link-m" aria-hidden="true"></i>
     </a>
-    <h1 class="signature" translate="no">get_dynamic_repo()</h1>
-
-      <a href="https://github.com/trento-project/wanda/blob/main/lib/wanda/repo.ex#L2" class="icon-action" rel="help" aria-label="View Source">
-       <i class="ri-code-s-slash-line" aria-hidden="true"></i>
-     </a>
+    <div class="heading-with-actions">
+      <h1 class="signature" translate="no">get_dynamic_repo()</h1>
 
 
+        <a href="https://github.com/trento-project/wanda/blob/main/lib/wanda/repo.ex#L2" class="icon-action" rel="help" aria-label="View Source">
+          <i class="ri-code-s-slash-line" aria-hidden="true"></i>
+        </a>
+
+    </div>
   </div>
 
   <section class="docstring">
@@ -1024,16 +1028,18 @@ depending on the adapter to obtain statistics for the given query.</p><p>See <a 
 <section class="detail" id="in_transaction?/0">
 
   <div class="detail-header">
-    <a href="#in_transaction?/0" class="detail-link" data-no-tooltip aria-label="Link to this function">
+    <a href="#in_transaction?/0" class="detail-link" data-no-tooltip="" aria-label="Link to this function">
       <i class="ri-link-m" aria-hidden="true"></i>
     </a>
-    <h1 class="signature" translate="no">in_transaction?()</h1>
-
-      <a href="https://github.com/trento-project/wanda/blob/main/lib/wanda/repo.ex#L2" class="icon-action" rel="help" aria-label="View Source">
-       <i class="ri-code-s-slash-line" aria-hidden="true"></i>
-     </a>
+    <div class="heading-with-actions">
+      <h1 class="signature" translate="no">in_transaction?()</h1>
 
 
+        <a href="https://github.com/trento-project/wanda/blob/main/lib/wanda/repo.ex#L2" class="icon-action" rel="help" aria-label="View Source">
+          <i class="ri-code-s-slash-line" aria-hidden="true"></i>
+        </a>
+
+    </div>
   </div>
 
   <section class="docstring">
@@ -1046,16 +1052,18 @@ depending on the adapter to obtain statistics for the given query.</p><p>See <a 
     <span id="insert/1"></span>
 
   <div class="detail-header">
-    <a href="#insert/2" class="detail-link" data-no-tooltip aria-label="Link to this function">
+    <a href="#insert/2" class="detail-link" data-no-tooltip="" aria-label="Link to this function">
       <i class="ri-link-m" aria-hidden="true"></i>
     </a>
-    <h1 class="signature" translate="no">insert(struct, opts \\ [])</h1>
-
-      <a href="https://github.com/trento-project/wanda/blob/main/lib/wanda/repo.ex#L2" class="icon-action" rel="help" aria-label="View Source">
-       <i class="ri-code-s-slash-line" aria-hidden="true"></i>
-     </a>
+    <div class="heading-with-actions">
+      <h1 class="signature" translate="no">insert(struct, opts \\ [])</h1>
 
 
+        <a href="https://github.com/trento-project/wanda/blob/main/lib/wanda/repo.ex#L2" class="icon-action" rel="help" aria-label="View Source">
+          <i class="ri-code-s-slash-line" aria-hidden="true"></i>
+        </a>
+
+    </div>
   </div>
 
   <section class="docstring">
@@ -1068,16 +1076,18 @@ depending on the adapter to obtain statistics for the given query.</p><p>See <a 
     <span id="insert!/1"></span>
 
   <div class="detail-header">
-    <a href="#insert!/2" class="detail-link" data-no-tooltip aria-label="Link to this function">
+    <a href="#insert!/2" class="detail-link" data-no-tooltip="" aria-label="Link to this function">
       <i class="ri-link-m" aria-hidden="true"></i>
     </a>
-    <h1 class="signature" translate="no">insert!(struct, opts \\ [])</h1>
-
-      <a href="https://github.com/trento-project/wanda/blob/main/lib/wanda/repo.ex#L2" class="icon-action" rel="help" aria-label="View Source">
-       <i class="ri-code-s-slash-line" aria-hidden="true"></i>
-     </a>
+    <div class="heading-with-actions">
+      <h1 class="signature" translate="no">insert!(struct, opts \\ [])</h1>
 
 
+        <a href="https://github.com/trento-project/wanda/blob/main/lib/wanda/repo.ex#L2" class="icon-action" rel="help" aria-label="View Source">
+          <i class="ri-code-s-slash-line" aria-hidden="true"></i>
+        </a>
+
+    </div>
   </div>
 
   <section class="docstring">
@@ -1090,16 +1100,18 @@ depending on the adapter to obtain statistics for the given query.</p><p>See <a 
     <span id="insert_all/2"></span>
 
   <div class="detail-header">
-    <a href="#insert_all/3" class="detail-link" data-no-tooltip aria-label="Link to this function">
+    <a href="#insert_all/3" class="detail-link" data-no-tooltip="" aria-label="Link to this function">
       <i class="ri-link-m" aria-hidden="true"></i>
     </a>
-    <h1 class="signature" translate="no">insert_all(schema_or_source, entries, opts \\ [])</h1>
-
-      <a href="https://github.com/trento-project/wanda/blob/main/lib/wanda/repo.ex#L2" class="icon-action" rel="help" aria-label="View Source">
-       <i class="ri-code-s-slash-line" aria-hidden="true"></i>
-     </a>
+    <div class="heading-with-actions">
+      <h1 class="signature" translate="no">insert_all(schema_or_source, entries, opts \\ [])</h1>
 
 
+        <a href="https://github.com/trento-project/wanda/blob/main/lib/wanda/repo.ex#L2" class="icon-action" rel="help" aria-label="View Source">
+          <i class="ri-code-s-slash-line" aria-hidden="true"></i>
+        </a>
+
+    </div>
   </div>
 
   <section class="docstring">
@@ -1112,16 +1124,18 @@ depending on the adapter to obtain statistics for the given query.</p><p>See <a 
     <span id="insert_or_update/1"></span>
 
   <div class="detail-header">
-    <a href="#insert_or_update/2" class="detail-link" data-no-tooltip aria-label="Link to this function">
+    <a href="#insert_or_update/2" class="detail-link" data-no-tooltip="" aria-label="Link to this function">
       <i class="ri-link-m" aria-hidden="true"></i>
     </a>
-    <h1 class="signature" translate="no">insert_or_update(changeset, opts \\ [])</h1>
-
-      <a href="https://github.com/trento-project/wanda/blob/main/lib/wanda/repo.ex#L2" class="icon-action" rel="help" aria-label="View Source">
-       <i class="ri-code-s-slash-line" aria-hidden="true"></i>
-     </a>
+    <div class="heading-with-actions">
+      <h1 class="signature" translate="no">insert_or_update(changeset, opts \\ [])</h1>
 
 
+        <a href="https://github.com/trento-project/wanda/blob/main/lib/wanda/repo.ex#L2" class="icon-action" rel="help" aria-label="View Source">
+          <i class="ri-code-s-slash-line" aria-hidden="true"></i>
+        </a>
+
+    </div>
   </div>
 
   <section class="docstring">
@@ -1134,16 +1148,18 @@ depending on the adapter to obtain statistics for the given query.</p><p>See <a 
     <span id="insert_or_update!/1"></span>
 
   <div class="detail-header">
-    <a href="#insert_or_update!/2" class="detail-link" data-no-tooltip aria-label="Link to this function">
+    <a href="#insert_or_update!/2" class="detail-link" data-no-tooltip="" aria-label="Link to this function">
       <i class="ri-link-m" aria-hidden="true"></i>
     </a>
-    <h1 class="signature" translate="no">insert_or_update!(changeset, opts \\ [])</h1>
-
-      <a href="https://github.com/trento-project/wanda/blob/main/lib/wanda/repo.ex#L2" class="icon-action" rel="help" aria-label="View Source">
-       <i class="ri-code-s-slash-line" aria-hidden="true"></i>
-     </a>
+    <div class="heading-with-actions">
+      <h1 class="signature" translate="no">insert_or_update!(changeset, opts \\ [])</h1>
 
 
+        <a href="https://github.com/trento-project/wanda/blob/main/lib/wanda/repo.ex#L2" class="icon-action" rel="help" aria-label="View Source">
+          <i class="ri-code-s-slash-line" aria-hidden="true"></i>
+        </a>
+
+    </div>
   </div>
 
   <section class="docstring">
@@ -1154,16 +1170,18 @@ depending on the adapter to obtain statistics for the given query.</p><p>See <a 
 <section class="detail" id="load/2">
 
   <div class="detail-header">
-    <a href="#load/2" class="detail-link" data-no-tooltip aria-label="Link to this function">
+    <a href="#load/2" class="detail-link" data-no-tooltip="" aria-label="Link to this function">
       <i class="ri-link-m" aria-hidden="true"></i>
     </a>
-    <h1 class="signature" translate="no">load(schema_or_types, data)</h1>
-
-      <a href="https://github.com/trento-project/wanda/blob/main/lib/wanda/repo.ex#L2" class="icon-action" rel="help" aria-label="View Source">
-       <i class="ri-code-s-slash-line" aria-hidden="true"></i>
-     </a>
+    <div class="heading-with-actions">
+      <h1 class="signature" translate="no">load(schema_or_types, data)</h1>
 
 
+        <a href="https://github.com/trento-project/wanda/blob/main/lib/wanda/repo.ex#L2" class="icon-action" rel="help" aria-label="View Source">
+          <i class="ri-code-s-slash-line" aria-hidden="true"></i>
+        </a>
+
+    </div>
   </div>
 
   <section class="docstring">
@@ -1176,16 +1194,18 @@ depending on the adapter to obtain statistics for the given query.</p><p>See <a 
     <span id="one/1"></span>
 
   <div class="detail-header">
-    <a href="#one/2" class="detail-link" data-no-tooltip aria-label="Link to this function">
+    <a href="#one/2" class="detail-link" data-no-tooltip="" aria-label="Link to this function">
       <i class="ri-link-m" aria-hidden="true"></i>
     </a>
-    <h1 class="signature" translate="no">one(queryable, opts \\ [])</h1>
-
-      <a href="https://github.com/trento-project/wanda/blob/main/lib/wanda/repo.ex#L2" class="icon-action" rel="help" aria-label="View Source">
-       <i class="ri-code-s-slash-line" aria-hidden="true"></i>
-     </a>
+    <div class="heading-with-actions">
+      <h1 class="signature" translate="no">one(queryable, opts \\ [])</h1>
 
 
+        <a href="https://github.com/trento-project/wanda/blob/main/lib/wanda/repo.ex#L2" class="icon-action" rel="help" aria-label="View Source">
+          <i class="ri-code-s-slash-line" aria-hidden="true"></i>
+        </a>
+
+    </div>
   </div>
 
   <section class="docstring">
@@ -1198,16 +1218,18 @@ depending on the adapter to obtain statistics for the given query.</p><p>See <a 
     <span id="one!/1"></span>
 
   <div class="detail-header">
-    <a href="#one!/2" class="detail-link" data-no-tooltip aria-label="Link to this function">
+    <a href="#one!/2" class="detail-link" data-no-tooltip="" aria-label="Link to this function">
       <i class="ri-link-m" aria-hidden="true"></i>
     </a>
-    <h1 class="signature" translate="no">one!(queryable, opts \\ [])</h1>
-
-      <a href="https://github.com/trento-project/wanda/blob/main/lib/wanda/repo.ex#L2" class="icon-action" rel="help" aria-label="View Source">
-       <i class="ri-code-s-slash-line" aria-hidden="true"></i>
-     </a>
+    <div class="heading-with-actions">
+      <h1 class="signature" translate="no">one!(queryable, opts \\ [])</h1>
 
 
+        <a href="https://github.com/trento-project/wanda/blob/main/lib/wanda/repo.ex#L2" class="icon-action" rel="help" aria-label="View Source">
+          <i class="ri-code-s-slash-line" aria-hidden="true"></i>
+        </a>
+
+    </div>
   </div>
 
   <section class="docstring">
@@ -1220,16 +1242,18 @@ depending on the adapter to obtain statistics for the given query.</p><p>See <a 
     <span id="preload/2"></span>
 
   <div class="detail-header">
-    <a href="#preload/3" class="detail-link" data-no-tooltip aria-label="Link to this function">
+    <a href="#preload/3" class="detail-link" data-no-tooltip="" aria-label="Link to this function">
       <i class="ri-link-m" aria-hidden="true"></i>
     </a>
-    <h1 class="signature" translate="no">preload(struct_or_structs_or_nil, preloads, opts \\ [])</h1>
-
-      <a href="https://github.com/trento-project/wanda/blob/main/lib/wanda/repo.ex#L2" class="icon-action" rel="help" aria-label="View Source">
-       <i class="ri-code-s-slash-line" aria-hidden="true"></i>
-     </a>
+    <div class="heading-with-actions">
+      <h1 class="signature" translate="no">preload(struct_or_structs_or_nil, preloads, opts \\ [])</h1>
 
 
+        <a href="https://github.com/trento-project/wanda/blob/main/lib/wanda/repo.ex#L2" class="icon-action" rel="help" aria-label="View Source">
+          <i class="ri-code-s-slash-line" aria-hidden="true"></i>
+        </a>
+
+    </div>
   </div>
 
   <section class="docstring">
@@ -1240,16 +1264,18 @@ depending on the adapter to obtain statistics for the given query.</p><p>See <a 
 <section class="detail" id="prepare_query/3">
 
   <div class="detail-header">
-    <a href="#prepare_query/3" class="detail-link" data-no-tooltip aria-label="Link to this function">
+    <a href="#prepare_query/3" class="detail-link" data-no-tooltip="" aria-label="Link to this function">
       <i class="ri-link-m" aria-hidden="true"></i>
     </a>
-    <h1 class="signature" translate="no">prepare_query(operation, query, opts)</h1>
-
-      <a href="https://github.com/trento-project/wanda/blob/main/lib/wanda/repo.ex#L2" class="icon-action" rel="help" aria-label="View Source">
-       <i class="ri-code-s-slash-line" aria-hidden="true"></i>
-     </a>
+    <div class="heading-with-actions">
+      <h1 class="signature" translate="no">prepare_query(operation, query, opts)</h1>
 
 
+        <a href="https://github.com/trento-project/wanda/blob/main/lib/wanda/repo.ex#L2" class="icon-action" rel="help" aria-label="View Source">
+          <i class="ri-code-s-slash-line" aria-hidden="true"></i>
+        </a>
+
+    </div>
   </div>
 
   <section class="docstring">
@@ -1260,16 +1286,18 @@ depending on the adapter to obtain statistics for the given query.</p><p>See <a 
 <section class="detail" id="put_dynamic_repo/1">
 
   <div class="detail-header">
-    <a href="#put_dynamic_repo/1" class="detail-link" data-no-tooltip aria-label="Link to this function">
+    <a href="#put_dynamic_repo/1" class="detail-link" data-no-tooltip="" aria-label="Link to this function">
       <i class="ri-link-m" aria-hidden="true"></i>
     </a>
-    <h1 class="signature" translate="no">put_dynamic_repo(dynamic)</h1>
-
-      <a href="https://github.com/trento-project/wanda/blob/main/lib/wanda/repo.ex#L2" class="icon-action" rel="help" aria-label="View Source">
-       <i class="ri-code-s-slash-line" aria-hidden="true"></i>
-     </a>
+    <div class="heading-with-actions">
+      <h1 class="signature" translate="no">put_dynamic_repo(dynamic)</h1>
 
 
+        <a href="https://github.com/trento-project/wanda/blob/main/lib/wanda/repo.ex#L2" class="icon-action" rel="help" aria-label="View Source">
+          <i class="ri-code-s-slash-line" aria-hidden="true"></i>
+        </a>
+
+    </div>
   </div>
 
   <section class="docstring">
@@ -1284,16 +1312,18 @@ depending on the adapter to obtain statistics for the given query.</p><p>See <a 
     <span id="query/2"></span>
 
   <div class="detail-header">
-    <a href="#query/3" class="detail-link" data-no-tooltip aria-label="Link to this function">
+    <a href="#query/3" class="detail-link" data-no-tooltip="" aria-label="Link to this function">
       <i class="ri-link-m" aria-hidden="true"></i>
     </a>
-    <h1 class="signature" translate="no">query(sql, params \\ [], opts \\ [])</h1>
-
-      <a href="https://github.com/trento-project/wanda/blob/main/lib/wanda/repo.ex#L1" class="icon-action" rel="help" aria-label="View Source">
-       <i class="ri-code-s-slash-line" aria-hidden="true"></i>
-     </a>
+    <div class="heading-with-actions">
+      <h1 class="signature" translate="no">query(sql, params \\ [], opts \\ [])</h1>
 
 
+        <a href="https://github.com/trento-project/wanda/blob/main/lib/wanda/repo.ex#L1" class="icon-action" rel="help" aria-label="View Source">
+          <i class="ri-code-s-slash-line" aria-hidden="true"></i>
+        </a>
+
+    </div>
   </div>
 
   <section class="docstring">
@@ -1308,16 +1338,18 @@ depending on the adapter to obtain statistics for the given query.</p><p>See <a 
     <span id="query!/2"></span>
 
   <div class="detail-header">
-    <a href="#query!/3" class="detail-link" data-no-tooltip aria-label="Link to this function">
+    <a href="#query!/3" class="detail-link" data-no-tooltip="" aria-label="Link to this function">
       <i class="ri-link-m" aria-hidden="true"></i>
     </a>
-    <h1 class="signature" translate="no">query!(sql, params \\ [], opts \\ [])</h1>
-
-      <a href="https://github.com/trento-project/wanda/blob/main/lib/wanda/repo.ex#L1" class="icon-action" rel="help" aria-label="View Source">
-       <i class="ri-code-s-slash-line" aria-hidden="true"></i>
-     </a>
+    <div class="heading-with-actions">
+      <h1 class="signature" translate="no">query!(sql, params \\ [], opts \\ [])</h1>
 
 
+        <a href="https://github.com/trento-project/wanda/blob/main/lib/wanda/repo.ex#L1" class="icon-action" rel="help" aria-label="View Source">
+          <i class="ri-code-s-slash-line" aria-hidden="true"></i>
+        </a>
+
+    </div>
   </div>
 
   <section class="docstring">
@@ -1332,16 +1364,18 @@ depending on the adapter to obtain statistics for the given query.</p><p>See <a 
     <span id="query_many/2"></span>
 
   <div class="detail-header">
-    <a href="#query_many/3" class="detail-link" data-no-tooltip aria-label="Link to this function">
+    <a href="#query_many/3" class="detail-link" data-no-tooltip="" aria-label="Link to this function">
       <i class="ri-link-m" aria-hidden="true"></i>
     </a>
-    <h1 class="signature" translate="no">query_many(sql, params \\ [], opts \\ [])</h1>
-
-      <a href="https://github.com/trento-project/wanda/blob/main/lib/wanda/repo.ex#L1" class="icon-action" rel="help" aria-label="View Source">
-       <i class="ri-code-s-slash-line" aria-hidden="true"></i>
-     </a>
+    <div class="heading-with-actions">
+      <h1 class="signature" translate="no">query_many(sql, params \\ [], opts \\ [])</h1>
 
 
+        <a href="https://github.com/trento-project/wanda/blob/main/lib/wanda/repo.ex#L1" class="icon-action" rel="help" aria-label="View Source">
+          <i class="ri-code-s-slash-line" aria-hidden="true"></i>
+        </a>
+
+    </div>
   </div>
 
   <section class="docstring">
@@ -1356,16 +1390,18 @@ depending on the adapter to obtain statistics for the given query.</p><p>See <a 
     <span id="query_many!/2"></span>
 
   <div class="detail-header">
-    <a href="#query_many!/3" class="detail-link" data-no-tooltip aria-label="Link to this function">
+    <a href="#query_many!/3" class="detail-link" data-no-tooltip="" aria-label="Link to this function">
       <i class="ri-link-m" aria-hidden="true"></i>
     </a>
-    <h1 class="signature" translate="no">query_many!(sql, params \\ [], opts \\ [])</h1>
-
-      <a href="https://github.com/trento-project/wanda/blob/main/lib/wanda/repo.ex#L1" class="icon-action" rel="help" aria-label="View Source">
-       <i class="ri-code-s-slash-line" aria-hidden="true"></i>
-     </a>
+    <div class="heading-with-actions">
+      <h1 class="signature" translate="no">query_many!(sql, params \\ [], opts \\ [])</h1>
 
 
+        <a href="https://github.com/trento-project/wanda/blob/main/lib/wanda/repo.ex#L1" class="icon-action" rel="help" aria-label="View Source">
+          <i class="ri-code-s-slash-line" aria-hidden="true"></i>
+        </a>
+
+    </div>
   </div>
 
   <section class="docstring">
@@ -1378,16 +1414,18 @@ depending on the adapter to obtain statistics for the given query.</p><p>See <a 
     <span id="reload/1"></span>
 
   <div class="detail-header">
-    <a href="#reload/2" class="detail-link" data-no-tooltip aria-label="Link to this function">
+    <a href="#reload/2" class="detail-link" data-no-tooltip="" aria-label="Link to this function">
       <i class="ri-link-m" aria-hidden="true"></i>
     </a>
-    <h1 class="signature" translate="no">reload(queryable, opts \\ [])</h1>
-
-      <a href="https://github.com/trento-project/wanda/blob/main/lib/wanda/repo.ex#L2" class="icon-action" rel="help" aria-label="View Source">
-       <i class="ri-code-s-slash-line" aria-hidden="true"></i>
-     </a>
+    <div class="heading-with-actions">
+      <h1 class="signature" translate="no">reload(queryable, opts \\ [])</h1>
 
 
+        <a href="https://github.com/trento-project/wanda/blob/main/lib/wanda/repo.ex#L2" class="icon-action" rel="help" aria-label="View Source">
+          <i class="ri-code-s-slash-line" aria-hidden="true"></i>
+        </a>
+
+    </div>
   </div>
 
   <section class="docstring">
@@ -1400,16 +1438,18 @@ depending on the adapter to obtain statistics for the given query.</p><p>See <a 
     <span id="reload!/1"></span>
 
   <div class="detail-header">
-    <a href="#reload!/2" class="detail-link" data-no-tooltip aria-label="Link to this function">
+    <a href="#reload!/2" class="detail-link" data-no-tooltip="" aria-label="Link to this function">
       <i class="ri-link-m" aria-hidden="true"></i>
     </a>
-    <h1 class="signature" translate="no">reload!(queryable, opts \\ [])</h1>
-
-      <a href="https://github.com/trento-project/wanda/blob/main/lib/wanda/repo.ex#L2" class="icon-action" rel="help" aria-label="View Source">
-       <i class="ri-code-s-slash-line" aria-hidden="true"></i>
-     </a>
+    <div class="heading-with-actions">
+      <h1 class="signature" translate="no">reload!(queryable, opts \\ [])</h1>
 
 
+        <a href="https://github.com/trento-project/wanda/blob/main/lib/wanda/repo.ex#L2" class="icon-action" rel="help" aria-label="View Source">
+          <i class="ri-code-s-slash-line" aria-hidden="true"></i>
+        </a>
+
+    </div>
   </div>
 
   <section class="docstring">
@@ -1420,16 +1460,18 @@ depending on the adapter to obtain statistics for the given query.</p><p>See <a 
 <section class="detail" id="rollback/1">
 
   <div class="detail-header">
-    <a href="#rollback/1" class="detail-link" data-no-tooltip aria-label="Link to this function">
+    <a href="#rollback/1" class="detail-link" data-no-tooltip="" aria-label="Link to this function">
       <i class="ri-link-m" aria-hidden="true"></i>
     </a>
-    <h1 class="signature" translate="no">rollback(value)</h1>
-
-      <a href="https://github.com/trento-project/wanda/blob/main/lib/wanda/repo.ex#L2" class="icon-action" rel="help" aria-label="View Source">
-       <i class="ri-code-s-slash-line" aria-hidden="true"></i>
-     </a>
+    <div class="heading-with-actions">
+      <h1 class="signature" translate="no">rollback(value)</h1>
 
 
+        <a href="https://github.com/trento-project/wanda/blob/main/lib/wanda/repo.ex#L2" class="icon-action" rel="help" aria-label="View Source">
+          <i class="ri-code-s-slash-line" aria-hidden="true"></i>
+        </a>
+
+    </div>
   </div>
 
   <section class="docstring">
@@ -1448,16 +1490,18 @@ depending on the adapter to obtain statistics for the given query.</p><p>See <a 
     <span id="start_link/0"></span>
 
   <div class="detail-header">
-    <a href="#start_link/1" class="detail-link" data-no-tooltip aria-label="Link to this function">
+    <a href="#start_link/1" class="detail-link" data-no-tooltip="" aria-label="Link to this function">
       <i class="ri-link-m" aria-hidden="true"></i>
     </a>
-    <h1 class="signature" translate="no">start_link(opts \\ [])</h1>
-
-      <a href="https://github.com/trento-project/wanda/blob/main/lib/wanda/repo.ex#L2" class="icon-action" rel="help" aria-label="View Source">
-       <i class="ri-code-s-slash-line" aria-hidden="true"></i>
-     </a>
+    <div class="heading-with-actions">
+      <h1 class="signature" translate="no">start_link(opts \\ [])</h1>
 
 
+        <a href="https://github.com/trento-project/wanda/blob/main/lib/wanda/repo.ex#L2" class="icon-action" rel="help" aria-label="View Source">
+          <i class="ri-code-s-slash-line" aria-hidden="true"></i>
+        </a>
+
+    </div>
   </div>
 
   <section class="docstring">
@@ -1470,16 +1514,18 @@ depending on the adapter to obtain statistics for the given query.</p><p>See <a 
     <span id="stop/0"></span>
 
   <div class="detail-header">
-    <a href="#stop/1" class="detail-link" data-no-tooltip aria-label="Link to this function">
+    <a href="#stop/1" class="detail-link" data-no-tooltip="" aria-label="Link to this function">
       <i class="ri-link-m" aria-hidden="true"></i>
     </a>
-    <h1 class="signature" translate="no">stop(timeout \\ 5000)</h1>
-
-      <a href="https://github.com/trento-project/wanda/blob/main/lib/wanda/repo.ex#L2" class="icon-action" rel="help" aria-label="View Source">
-       <i class="ri-code-s-slash-line" aria-hidden="true"></i>
-     </a>
+    <div class="heading-with-actions">
+      <h1 class="signature" translate="no">stop(timeout \\ 5000)</h1>
 
 
+        <a href="https://github.com/trento-project/wanda/blob/main/lib/wanda/repo.ex#L2" class="icon-action" rel="help" aria-label="View Source">
+          <i class="ri-code-s-slash-line" aria-hidden="true"></i>
+        </a>
+
+    </div>
   </div>
 
   <section class="docstring">
@@ -1492,16 +1538,18 @@ depending on the adapter to obtain statistics for the given query.</p><p>See <a 
     <span id="stream/1"></span>
 
   <div class="detail-header">
-    <a href="#stream/2" class="detail-link" data-no-tooltip aria-label="Link to this function">
+    <a href="#stream/2" class="detail-link" data-no-tooltip="" aria-label="Link to this function">
       <i class="ri-link-m" aria-hidden="true"></i>
     </a>
-    <h1 class="signature" translate="no">stream(queryable, opts \\ [])</h1>
-
-      <a href="https://github.com/trento-project/wanda/blob/main/lib/wanda/repo.ex#L2" class="icon-action" rel="help" aria-label="View Source">
-       <i class="ri-code-s-slash-line" aria-hidden="true"></i>
-     </a>
+    <div class="heading-with-actions">
+      <h1 class="signature" translate="no">stream(queryable, opts \\ [])</h1>
 
 
+        <a href="https://github.com/trento-project/wanda/blob/main/lib/wanda/repo.ex#L2" class="icon-action" rel="help" aria-label="View Source">
+          <i class="ri-code-s-slash-line" aria-hidden="true"></i>
+        </a>
+
+    </div>
   </div>
 
   <section class="docstring">
@@ -1512,16 +1560,18 @@ depending on the adapter to obtain statistics for the given query.</p><p>See <a 
 <section class="detail" id="to_sql/2">
 
   <div class="detail-header">
-    <a href="#to_sql/2" class="detail-link" data-no-tooltip aria-label="Link to this function">
+    <a href="#to_sql/2" class="detail-link" data-no-tooltip="" aria-label="Link to this function">
       <i class="ri-link-m" aria-hidden="true"></i>
     </a>
-    <h1 class="signature" translate="no">to_sql(operation, queryable)</h1>
-
-      <a href="https://github.com/trento-project/wanda/blob/main/lib/wanda/repo.ex#L1" class="icon-action" rel="help" aria-label="View Source">
-       <i class="ri-code-s-slash-line" aria-hidden="true"></i>
-     </a>
+    <div class="heading-with-actions">
+      <h1 class="signature" translate="no">to_sql(operation, queryable)</h1>
 
 
+        <a href="https://github.com/trento-project/wanda/blob/main/lib/wanda/repo.ex#L1" class="icon-action" rel="help" aria-label="View Source">
+          <i class="ri-code-s-slash-line" aria-hidden="true"></i>
+        </a>
+
+    </div>
   </div>
 
   <section class="docstring">
@@ -1534,16 +1584,18 @@ depending on the adapter to obtain statistics for the given query.</p><p>See <a 
     <span id="transaction/1"></span>
 
   <div class="detail-header">
-    <a href="#transaction/2" class="detail-link" data-no-tooltip aria-label="Link to this function">
+    <a href="#transaction/2" class="detail-link" data-no-tooltip="" aria-label="Link to this function">
       <i class="ri-link-m" aria-hidden="true"></i>
     </a>
-    <h1 class="signature" translate="no">transaction(fun_or_multi, opts \\ [])</h1>
-
-      <a href="https://github.com/trento-project/wanda/blob/main/lib/wanda/repo.ex#L2" class="icon-action" rel="help" aria-label="View Source">
-       <i class="ri-code-s-slash-line" aria-hidden="true"></i>
-     </a>
+    <div class="heading-with-actions">
+      <h1 class="signature" translate="no">transaction(fun_or_multi, opts \\ [])</h1>
 
 
+        <a href="https://github.com/trento-project/wanda/blob/main/lib/wanda/repo.ex#L2" class="icon-action" rel="help" aria-label="View Source">
+          <i class="ri-code-s-slash-line" aria-hidden="true"></i>
+        </a>
+
+    </div>
   </div>
 
   <section class="docstring">
@@ -1556,16 +1608,18 @@ depending on the adapter to obtain statistics for the given query.</p><p>See <a 
     <span id="update/1"></span>
 
   <div class="detail-header">
-    <a href="#update/2" class="detail-link" data-no-tooltip aria-label="Link to this function">
+    <a href="#update/2" class="detail-link" data-no-tooltip="" aria-label="Link to this function">
       <i class="ri-link-m" aria-hidden="true"></i>
     </a>
-    <h1 class="signature" translate="no">update(struct, opts \\ [])</h1>
-
-      <a href="https://github.com/trento-project/wanda/blob/main/lib/wanda/repo.ex#L2" class="icon-action" rel="help" aria-label="View Source">
-       <i class="ri-code-s-slash-line" aria-hidden="true"></i>
-     </a>
+    <div class="heading-with-actions">
+      <h1 class="signature" translate="no">update(struct, opts \\ [])</h1>
 
 
+        <a href="https://github.com/trento-project/wanda/blob/main/lib/wanda/repo.ex#L2" class="icon-action" rel="help" aria-label="View Source">
+          <i class="ri-code-s-slash-line" aria-hidden="true"></i>
+        </a>
+
+    </div>
   </div>
 
   <section class="docstring">
@@ -1578,16 +1632,18 @@ depending on the adapter to obtain statistics for the given query.</p><p>See <a 
     <span id="update!/1"></span>
 
   <div class="detail-header">
-    <a href="#update!/2" class="detail-link" data-no-tooltip aria-label="Link to this function">
+    <a href="#update!/2" class="detail-link" data-no-tooltip="" aria-label="Link to this function">
       <i class="ri-link-m" aria-hidden="true"></i>
     </a>
-    <h1 class="signature" translate="no">update!(struct, opts \\ [])</h1>
-
-      <a href="https://github.com/trento-project/wanda/blob/main/lib/wanda/repo.ex#L2" class="icon-action" rel="help" aria-label="View Source">
-       <i class="ri-code-s-slash-line" aria-hidden="true"></i>
-     </a>
+    <div class="heading-with-actions">
+      <h1 class="signature" translate="no">update!(struct, opts \\ [])</h1>
 
 
+        <a href="https://github.com/trento-project/wanda/blob/main/lib/wanda/repo.ex#L2" class="icon-action" rel="help" aria-label="View Source">
+          <i class="ri-code-s-slash-line" aria-hidden="true"></i>
+        </a>
+
+    </div>
   </div>
 
   <section class="docstring">
@@ -1600,16 +1656,18 @@ depending on the adapter to obtain statistics for the given query.</p><p>See <a 
     <span id="update_all/2"></span>
 
   <div class="detail-header">
-    <a href="#update_all/3" class="detail-link" data-no-tooltip aria-label="Link to this function">
+    <a href="#update_all/3" class="detail-link" data-no-tooltip="" aria-label="Link to this function">
       <i class="ri-link-m" aria-hidden="true"></i>
     </a>
-    <h1 class="signature" translate="no">update_all(queryable, updates, opts \\ [])</h1>
-
-      <a href="https://github.com/trento-project/wanda/blob/main/lib/wanda/repo.ex#L2" class="icon-action" rel="help" aria-label="View Source">
-       <i class="ri-code-s-slash-line" aria-hidden="true"></i>
-     </a>
+    <div class="heading-with-actions">
+      <h1 class="signature" translate="no">update_all(queryable, updates, opts \\ [])</h1>
 
 
+        <a href="https://github.com/trento-project/wanda/blob/main/lib/wanda/repo.ex#L2" class="icon-action" rel="help" aria-label="View Source">
+          <i class="ri-code-s-slash-line" aria-hidden="true"></i>
+        </a>
+
+    </div>
   </div>
 
   <section class="docstring">
@@ -1638,7 +1696,7 @@ depending on the adapter to obtain statistics for the given query.</p><p>See <a 
 
       <p class="built-using">
         Built using
-        <a href="https://github.com/elixir-lang/ex_doc" title="ExDoc" target="_blank" rel="help noopener" translate="no">ExDoc</a> (v0.36.1) for the
+        <a href="https://github.com/elixir-lang/ex_doc" title="ExDoc" target="_blank" rel="help noopener" translate="no">ExDoc</a> (v0.37.0) for the
 
           <a href="https://elixir-lang.org" title="Elixir" target="_blank" translate="no">Elixir programming language</a>
 
