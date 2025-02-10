@@ -87,11 +87,11 @@ facts:
     gatherer: corosync.conf
     argument: totem.token
 
-customizable: true
+customization_disabled: true
 
 values:
   - name: expected_token_timeout
-    customizable: true
+    customization_disabled: true
     default: 5000
     conditions:
       - value: 30000
@@ -112,19 +112,19 @@ expectations:
 
 Following are listed the top level properties of a Check definition yaml.
 
-| Key            | Required/Not Required | Details                   |
-| -------------- | --------------------- | ------------------------- |
-| `id`           | required              | [see more](#id)           |
-| `name`         | required              | [see more](#name)         |
-| `group`        | required              | [see more](#group)        |
-| `description`  | required              | [see more](#description)  |
-| `remediation`  | required              | [see more](#remediation)  |
-| `severity`     | not required          | [see more](#severity)     |
-| `metadata`     | not required          | [see more](#metadata)     |
-| `facts`        | required              | [see more](#facts)        |
-| `customizable` | not required          | [see more](#customizable) |
-| `values`       | not required          | [see more](#values)       |
-| `expectations` | required              | [see more](#expectations) |
+| Key                      | Required/Not Required | Details                            |
+| ------------------------ | --------------------- | ---------------------------------- |
+| `id`                     | required              | [see more](#id)                    |
+| `name`                   | required              | [see more](#name)                  |
+| `group`                  | required              | [see more](#group)                 |
+| `description`            | required              | [see more](#description)           |
+| `remediation`            | required              | [see more](#remediation)           |
+| `severity`               | not required          | [see more](#severity)              |
+| `metadata`               | not required          | [see more](#metadata)              |
+| `facts`                  | required              | [see more](#facts)                 |
+| `customization_disabled` | not required          | [see more](#disable-customization) |
+| `values`                 | not required          | [see more](#values)                |
+| `expectations`           | required              | [see more](#expectations)          |
 
 ---
 
@@ -352,20 +352,23 @@ facts:
 
 Finally, gathered facts, are used in Check's [Expectations](#expectations) to determine whether expected conditions are met for the best practice to be adhered.
 
-## Customizable
+## Disable Customization
 
-Users can modify a check's [expected values](#values) to adapt to specific system and environmental configurations.
+Users can modify a check's [expected values](#values) to accommodate specific system and environmental configurations.
 
-Built-in checks are considered **customizable** by **default**, so the `customizable` flag disables customization for a particular check.
+By default, built-in checks are **customizable**. The `customization_disabled` flag provides a way to **disable** customizability when needed.  
 
-The customizability flag can be set globally for a check and|or for [specific values](#customizable-values).
-When customization is globally disabled for a check, marked with `customizable: false`, it overrides any value-specific customizability settings. If global customization is not disabled, the customizability of individual values is then considered.
-
-To explicitly mark a check as non-customizable, set the `customizable`  key to `false`:
+To disable customization for a check the following bit of specification is required:
 
 ```yaml
-customizable: false
+customization_disabled: true
 ```
+
+Opting out from customizability at the root of a check's specification makes all the values of the given check not customizable.
+
+### Notes:  
+- Setting `customization_disabled: false` has no real effect as by default a check is customizable
+- The `customization_disabled` flag can be also applied to [specific values](#customizable-values)
 
 ## Values
 
@@ -482,18 +485,16 @@ All the _resolved_ declared values would be registered in the [`values`](#values
 
 ### Customizable Values
 
-In addition to the global-level [customizability](#customizable), individual check values are also **customizable** by **default**. To provide finer control, a `boolean` customizable entry can be defined on a per-value basis.
+A check's [expected values](#values) are customizable by default, and to provide finer control to the global-level [customizability opt-out](#disable-customization) it is possible to opt-out customizability on a per-value basis.
 
 ```yaml
 values:
   - name: non_customizable_check_value
-    customizable: false
+    customization_disabled: true
     default: 5000
 ```
 
-Setting **customizable**: `false` for a specific value prevents the modification of the default value.
-
-Note that if global customizability is set to false, it takes precedence over any value-level customizable settings, disabling customizability for all associated values.
+Setting **customization_disabled**: `false` for a specific value prevents the modification of the default value.
 
 ## Expectations
 
@@ -760,15 +761,15 @@ Scopes are namespaced and access to items in the scope is name based.
 
 Examples of entries in the scope. What is actually available during the execution depends on the scenario. Find the updated values in the reference column link.
 
-| name | Type | Reference | Applicable
-| ---- | -----| --------- | -----------
-| `env.target_type` | one of `cluster`, `host` | No enum available | All
-| `env.provider` | one of `azure`, `aws`, `gcp`,`kvm`,`nutanix`, `vmware`, `unknown` | [Providers](https://github.com/trento-project/web/blob/main/lib/trento/enums/provider.ex) | All
-| `env.cluster_type` | one of `hana_scale_up`, `hana_scale_out`, `ascs_ers`, `unknown` | [Cluster types](https://github.com/trento-project/web/blob/main/lib/trento/clusters/enums/cluster_type.ex) | `target_type` is `cluster`
-| `env.hana_scenario` | one of `performance_optimized`, `cost_optimized`, `unknown` | [Hana Scale Up Scenario](https://github.com/trento-project/web/blob/main/lib/trento/clusters/enums/hana_scenario.ex) | `cluster_type` is `hana_scale_up`
-| `env.architecture_type` | one of `classic`, `angi` | [Architecture types](https://github.com/trento-project/web/blob/main/lib/trento/clusters/enums/hana_architecture_type.ex) | `cluster_type` is one of `hana_scale_up`, `hana_scale_out`
-| `env.ensa_version` | one of `ensa1`, `ensa2`, `mixed_versions` | [ENSA version](https://github.com/trento-project/web/blob/main/lib/trento/clusters/enums/cluster_ensa_version.ex) | `cluster_type` is `ascs_ers`
-| `env.filesystem_type` | one of `resource_managed`, `simple_mount`, `mixed_fs_types` | [Filesystem type](https://github.com/trento-project/web/blob/main/lib/trento/clusters/enums/filesystem_type.ex) | `cluster_type` is `ascs_ers`
+| name                    | Type                                                              | Reference                                                                                                                 | Applicable                                                 |
+| ----------------------- | ----------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------- |
+| `env.target_type`       | one of `cluster`, `host`                                          | No enum available                                                                                                         | All                                                        |
+| `env.provider`          | one of `azure`, `aws`, `gcp`,`kvm`,`nutanix`, `vmware`, `unknown` | [Providers](https://github.com/trento-project/web/blob/main/lib/trento/enums/provider.ex)                                 | All                                                        |
+| `env.cluster_type`      | one of `hana_scale_up`, `hana_scale_out`, `ascs_ers`, `unknown`   | [Cluster types](https://github.com/trento-project/web/blob/main/lib/trento/clusters/enums/cluster_type.ex)                | `target_type` is `cluster`                                 |
+| `env.hana_scenario`     | one of `performance_optimized`, `cost_optimized`, `unknown`       | [Hana Scale Up Scenario](https://github.com/trento-project/web/blob/main/lib/trento/clusters/enums/hana_scenario.ex)      | `cluster_type` is `hana_scale_up`                          |
+| `env.architecture_type` | one of `classic`, `angi`                                          | [Architecture types](https://github.com/trento-project/web/blob/main/lib/trento/clusters/enums/hana_architecture_type.ex) | `cluster_type` is one of `hana_scale_up`, `hana_scale_out` |
+| `env.ensa_version`      | one of `ensa1`, `ensa2`, `mixed_versions`                         | [ENSA version](https://github.com/trento-project/web/blob/main/lib/trento/clusters/enums/cluster_ensa_version.ex)         | `cluster_type` is `ascs_ers`                               |
+| `env.filesystem_type`   | one of `resource_managed`, `simple_mount`, `mixed_fs_types`       | [Filesystem type](https://github.com/trento-project/web/blob/main/lib/trento/clusters/enums/filesystem_type.ex)           | `cluster_type` is `ascs_ers`                               |
 
 #### **facts**
 
@@ -813,10 +814,10 @@ values:
 ```
 
 Available entries in scope
-| name | Resolved to  
-| ------------------------------- | -------------------------------------------------------
-| `values.expected_token_timeout` | `5000`, `30000`, `20000` based on the conditions
-| `values.another_variable_value` | `blue`, `red` based on the conditions
+| name                            | Resolved to                                      |
+| ------------------------------- | ------------------------------------------------ |
+| `values.expected_token_timeout` | `5000`, `30000`, `20000` based on the conditions |
+| `values.another_variable_value` | `blue`, `red` based on the conditions            |
 
 ## Best practices and conventions
 

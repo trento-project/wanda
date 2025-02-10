@@ -6,12 +6,12 @@ defmodule Wanda.Catalog.Value do
   alias Wanda.Catalog.Condition
 
   @derive Jason.Encoder
-  defstruct [:name, :default, :conditions, :customizable]
+  defstruct [:name, :default, :conditions, :customization_disabled]
 
   @type t :: %__MODULE__{
           name: String.t(),
           default: boolean() | number() | String.t(),
           conditions: [Condition.t()],
-          customizable: boolean()
+          customization_disabled: boolean()
         }
 end

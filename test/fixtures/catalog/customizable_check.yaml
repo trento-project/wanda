@@ -6,7 +6,7 @@ description: |
 remediation: |
   ## Remediation
   Remediation text
-# customizable: true #inferred
+# customization_disabled: false #inferred
 metadata:
   some_key: some_value
 facts:
@@ -18,7 +18,7 @@ facts:
 values:
   - name: expected_value
     default: 5
-    # customizable: true #inferred
+    # customization_disabled: false #inferred
     conditions:
       - value: 10
         when: some_expression
@@ -26,7 +26,7 @@ values:
         when: some_other_expression
   - name: expected_higher_value
     default: 10
-    customizable: false
+    customization_disabled: true
     conditions:
       - value: 5
         when: some_third_expression

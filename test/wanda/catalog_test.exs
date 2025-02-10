@@ -208,53 +208,23 @@ defmodule Wanda.CatalogTest do
                  %{}
                )
     end
-  end
 
-  describe "checks customizability" do
     test "should allow opting out a check's customizability" do
-      assert {:ok, %Check{customizable: false, values: values}} =
+      assert {:ok, %Check{customization_disabled: true}} =
                Catalog.get_check("non_customizable_check")
-
-      assert Enum.all?(values, fn %Value{customizable: customizable} -> customizable end)
     end
 
-    test "should detect a check as non customizable because it does not have values" do
-      # check_without_values does not have values and it does not have a customizable key in the root
-      assert {:ok, %Check{customizable: false, values: []}} =
-               Catalog.get_check("check_without_values")
-    end
-
-    test "should detect a check as non customizable because all its values are non customizable" do
-      # non_customizable_check_values has all its values non customizable
-      # and it does not have a customizable key in the root
-      assert {:ok, %Check{customizable: false, values: values}} =
-               Catalog.get_check("non_customizable_check_values")
-
-      assert Enum.all?(values, fn %Value{customizable: customizable} -> not customizable end)
-    end
-
-    test "should detect a customizable check" do
+    test "should expose customizability opt-out flags as defined in check's spec" do
       assert {:ok,
               %Check{
-                customizable: true,
+                customization_disabled: false,
                 values: [
-                  %Value{name: "expected_value", customizable: true},
-                  %Value{name: "expected_higher_value", customizable: false}
-                ]
-              }} = Catalog.get_check("customizable_check")
-    end
-
-    test "should allow customizability of values based on type" do
-      assert {:ok,
-              %Check{
-                customizable: true,
-                values: [
-                  %Value{name: "numeric_value", customizable: true},
-                  %Value{name: "customizable_string_value", customizable: true},
-                  %Value{name: "non_customizable_string_value", customizable: false},
-                  %Value{name: "bool_value", customizable: true},
-                  %Value{name: "list_value", customizable: false},
-                  %Value{name: "map_value", customizable: false}
+                  %Value{name: "numeric_value", customization_disabled: false},
+                  %Value{name: "customizable_string_value", customization_disabled: false},
+                  %Value{name: "non_customizable_string_value", customization_disabled: true},
+                  %Value{name: "bool_value", customization_disabled: false},
+                  %Value{name: "list_value", customization_disabled: false},
+                  %Value{name: "map_value", customization_disabled: true}
                 ]
               }} = Catalog.get_check("mixed_values_customizability")
     end
@@ -312,7 +282,7 @@ defmodule Wanda.CatalogTest do
           ]
         )
 
-        expected_cutomizations = [
+        expected_customizations = [
           %{
             name: "numeric_value",
             customizable: true,
@@ -355,7 +325,7 @@ defmodule Wanda.CatalogTest do
           selectable_checks,
           fn
             %SelectableCheck{id: ^customized_check_id, values: values, customized: customized} ->
-              assert ^expected_cutomizations = values
+              assert ^expected_customizations = values
               assert customized
 
             %SelectableCheck{values: values, customized: customized} ->
@@ -402,6 +372,56 @@ defmodule Wanda.CatalogTest do
              |> Enum.find(&(&1.id == customized_check_id))
              |> Map.get(:values)
              |> Enum.any?(&(&1.name == "non_existing_value"))
+    end
+
+    test "should properly compute customizability information" do
+      selectable_checks =
+        Catalog.get_catalog_for_group(Faker.UUID.v4(), %{
+          "id" => "mixed_values_customizability"
+        })
+
+      find_check = fn id ->
+        Enum.find(selectable_checks, fn %SelectableCheck{id: check_id} ->
+          id == check_id
+        end)
+      end
+
+      assert %SelectableCheck{customizable: false, values: forcedly_non_customizable_values} =
+               find_check.("non_customizable_check")
+
+      assert Enum.all?(forcedly_non_customizable_values, fn %{customizable: customizable} ->
+               not customizable
+             end)
+
+      assert %SelectableCheck{customizable: false, values: []} =
+               find_check.("check_without_values")
+
+      assert %SelectableCheck{customizable: false, values: explicit_non_customizable_check_values} =
+               find_check.("non_customizable_check_values")
+
+      assert Enum.all?(explicit_non_customizable_check_values, fn %{customizable: customizable} ->
+               not customizable
+             end)
+
+      assert %SelectableCheck{
+               customizable: true,
+               values: [
+                 %{name: "expected_value", customizable: true},
+                 %{name: "expected_higher_value", customizable: false}
+               ]
+             } = find_check.("customizable_check")
+
+      assert %SelectableCheck{
+               customizable: true,
+               values: [
+                 %{name: "numeric_value", customizable: true},
+                 %{name: "customizable_string_value", customizable: true},
+                 %{name: "non_customizable_string_value", customizable: false},
+                 %{name: "bool_value", customizable: true},
+                 %{name: "list_value", customizable: false},
+                 %{name: "map_value", customizable: false}
+               ]
+             } = find_check.("mixed_values_customizability")
     end
 
     defp assert_non_customized_value(%{name: _, customizable: customizable} = value) do

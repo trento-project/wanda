@@ -56,7 +56,7 @@ defmodule WandaWeb.V1.CatalogJSON do
   end
 
   def adapt_values_customizability(values) do
-    Enum.map(values, &(&1 |> Map.from_struct() |> Map.drop([:customizable])))
+    Enum.map(values, &(&1 |> Map.from_struct() |> Map.drop([:customization_disabled])))
   end
 
   defp selectable_check(%SelectableCheck{

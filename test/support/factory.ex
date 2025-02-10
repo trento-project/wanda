@@ -56,7 +56,7 @@ defmodule Wanda.Factory do
       values: build_list(10, :catalog_value),
       expectations: build_list(10, :catalog_expectation),
       when: Faker.Lorem.sentence(),
-      customizable: Enum.random([false, true])
+      customization_disabled: Enum.random([false, true])
     }
   end
 
@@ -73,7 +73,7 @@ defmodule Wanda.Factory do
       name: Faker.StarWars.character(),
       default: Faker.StarWars.character(),
       conditions: build_list(10, :catalog_condition),
-      customizable: Enum.random([false, true])
+      customization_disabled: Enum.random([false, true])
     }
   end
 

@@ -20,14 +20,14 @@ defmodule Wanda.Catalog.Check do
     :values,
     :expectations,
     :when,
-    :customizable
+    :customization_disabled
   ]
 
   @type t :: %__MODULE__{
           id: String.t(),
           name: String.t(),
           group: String.t(),
-          customizable: boolean(),
+          customization_disabled: boolean(),
           description: String.t(),
           remediation: String.t(),
           metadata: map(),

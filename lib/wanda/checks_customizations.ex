@@ -48,9 +48,9 @@ defmodule Wanda.ChecksCustomizations do
     end
   end
 
-  defp determine_customizability(%Check{customizable: true}), do: {:ok, :customizable}
+  defp determine_customizability(%Check{customization_disabled: false}), do: {:ok, :customizable}
 
-  defp determine_customizability(%Check{customizable: false}),
+  defp determine_customizability(%Check{customization_disabled: true}),
     do: {:error, :check_not_customizable}
 
   defp validate_incoming_custom_values([], _), do: {:error, :invalid_custom_values}
@@ -62,8 +62,8 @@ defmodule Wanda.ChecksCustomizations do
     can_customize? =
       Enum.all?(custom_values, fn %{name: customized_name, value: customized_value} ->
         case validate_value_exists_in_check(customized_name, values) do
-          {:ok, %Value{customizable: customizable, default: default_value}} ->
-            customizable and match_value_type(default_value, customized_value)
+          {:ok, %Value{customization_disabled: customization_disabled, default: default_value}} ->
+            not customization_disabled and match_value_type(default_value, customized_value)
 
           {:error, :value_not_found} ->
             false
