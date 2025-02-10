@@ -80,12 +80,12 @@ defmodule Wanda.Catalog do
   end
 
   defp map_to_selectable_check(%Check{} = check, available_customizations) do
-    has_disabled_customization? = check.disable_customization
+    customization_globally_disabled? = check.disable_customization
 
     mapped_values =
       check.id
       |> find_custom_values(available_customizations)
-      |> map_selectable_check_values(check.values, has_disabled_customization?)
+      |> map_selectable_check_values(check.values, customization_globally_disabled?)
 
     customizable_check? =
       detect_check_customizability(mapped_values, not check.disable_customization)
@@ -113,27 +113,14 @@ defmodule Wanda.Catalog do
     end)
   end
 
-  defp map_selectable_check_values(
-         _custom_values,
-         check_values,
-         true = _has_disabled_customization?
-       ) do
-    Enum.map(check_values, fn %Value{name: value_name} ->
-      %{
-        name: value_name,
-        customizable: false
-      }
-    end)
-  end
-
-  defp map_selectable_check_values(custom_values, check_values, _) do
+  defp map_selectable_check_values(custom_values, check_values, customization_globally_disabled?) do
     Enum.map(check_values, fn %Value{
                                 name: value_name,
                                 default: default_value
                               } = value ->
       %{
         name: value_name,
-        customizable: detect_value_customizability(value)
+        customizable: detect_value_customizability(value, customization_globally_disabled?)
       }
       |> maybe_add_current_value(default_value)
       |> maybe_add_customization(custom_values)
@@ -319,9 +306,11 @@ defmodule Wanda.Catalog do
     }
   end
 
-  defp detect_value_customizability(%{disable_customization: true}), do: false
+  defp detect_value_customizability(_, true = _customization_globally_disabled?), do: false
 
-  defp detect_value_customizability(%{default: default_value}),
+  defp detect_value_customizability(%{disable_customization: true}, _), do: false
+
+  defp detect_value_customizability(%{default: default_value}, _),
     do: not (is_list(default_value) or is_map(default_value))
 
   defp detect_check_customizability([] = _values, _root_customizability), do: false
