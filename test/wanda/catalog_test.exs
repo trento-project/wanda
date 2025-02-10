@@ -282,7 +282,7 @@ defmodule Wanda.CatalogTest do
           ]
         )
 
-        expected_cutomizations = [
+        expected_customizations = [
           %{
             name: "numeric_value",
             customizable: true,
@@ -325,7 +325,7 @@ defmodule Wanda.CatalogTest do
           selectable_checks,
           fn
             %SelectableCheck{id: ^customized_check_id, values: values, customized: customized} ->
-              assert ^expected_cutomizations = values
+              assert ^expected_customizations = values
               assert customized
 
             %SelectableCheck{values: values, customized: customized} ->
