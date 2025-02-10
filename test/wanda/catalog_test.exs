@@ -396,8 +396,8 @@ defmodule Wanda.CatalogTest do
       assert %SelectableCheck{customizable: false, values: []} =
                find_check.("check_without_values")
 
-      %SelectableCheck{customizable: false, values: explicit_non_customizable_check_values} =
-        find_check.("non_customizable_check_values")
+      assert %SelectableCheck{customizable: false, values: explicit_non_customizable_check_values} =
+               find_check.("non_customizable_check_values")
 
       assert Enum.all?(explicit_non_customizable_check_values, fn %{customizable: customizable} ->
                not customizable
