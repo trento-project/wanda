@@ -87,11 +87,11 @@ facts:
     gatherer: corosync.conf
     argument: totem.token
 
-disable_customization: true
+customization_disabled: true
 
 values:
   - name: expected_token_timeout
-    disable_customization: true
+    customization_disabled: true
     default: 5000
     conditions:
       - value: 30000
@@ -122,7 +122,7 @@ Following are listed the top level properties of a Check definition yaml.
 | `severity`              | not required          | [see more](#severity)             |
 | `metadata`              | not required          | [see more](#metadata)             |
 | `facts`                 | required              | [see more](#facts)                |
-| `disable_customization` | not required          | [see more](#disable-cusomization) |
+| `customization_disabled` | not required          | [see more](#disable-customization) |
 | `values`                | not required          | [see more](#values)               |
 | `expectations`          | required              | [see more](#expectations)         |
 
@@ -352,23 +352,23 @@ facts:
 
 Finally, gathered facts, are used in Check's [Expectations](#expectations) to determine whether expected conditions are met for the best practice to be adhered.
 
-## Disable Cusomization
+## Disable Customization
 
 Users can modify a check's [expected values](#values) to accommodate specific system and environmental configurations.
 
-By default, built-in checks are **customizable**. The `disable_customization` flag provides a way to **disable** customizability when needed.  
+By default, built-in checks are **customizable**. The `customization_disabled` flag provides a way to **disable** customizability when needed.  
 
 To disable customization for a check the following bit of specification is required:
 
 ```yaml
-disable_customization: true
+customization_disabled: true
 ```
 
-Opting out from customizability at the root of a check's specification makes all the values of the given check not customizable
+Opting out from customizability at the root of a check's specification makes all the values of the given check not customizable.
 
 ### Notes:  
-- Setting `disable_customization: false` has no real effect as by default a check is customizable
-- The `disable_customization` flag can be also applied to [specific values](#customizable-values)
+- Setting `customization_disabled: false` has no real effect as by default a check is customizable
+- The `customization_disabled` flag can be also applied to [specific values](#customizable-values)
 
 ## Values
 
@@ -485,16 +485,16 @@ All the _resolved_ declared values would be registered in the [`values`](#values
 
 ### Customizable Values
 
-A check's [expected values](#values) are customizable by default, and to provide finer control to the global-level [customizability opt-out](#disable-cusomization) it is possible to opt-out customizability on a per-value basis.
+A check's [expected values](#values) are customizable by default, and to provide finer control to the global-level [customizability opt-out](#disable-customization) it is possible to opt-out customizability on a per-value basis.
 
 ```yaml
 values:
   - name: non_customizable_check_value
-    disable_customization: true
+    customization_disabled: true
     default: 5000
 ```
 
-Setting **disable_customization**: `false` for a specific value prevents the modification of the default value.
+Setting **customization_disabled**: `false` for a specific value prevents the modification of the default value.
 
 ## Expectations
 

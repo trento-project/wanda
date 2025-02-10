@@ -210,21 +210,21 @@ defmodule Wanda.CatalogTest do
     end
 
     test "should allow opting out a check's customizability" do
-      assert {:ok, %Check{disable_customization: true}} =
+      assert {:ok, %Check{customization_disabled: true}} =
                Catalog.get_check("non_customizable_check")
     end
 
     test "should expose customizability opt-out flags as defined in check's spec" do
       assert {:ok,
               %Check{
-                disable_customization: false,
+                customization_disabled: false,
                 values: [
-                  %Value{name: "numeric_value", disable_customization: false},
-                  %Value{name: "customizable_string_value", disable_customization: false},
-                  %Value{name: "non_customizable_string_value", disable_customization: true},
-                  %Value{name: "bool_value", disable_customization: false},
-                  %Value{name: "list_value", disable_customization: false},
-                  %Value{name: "map_value", disable_customization: true}
+                  %Value{name: "numeric_value", customization_disabled: false},
+                  %Value{name: "customizable_string_value", customization_disabled: false},
+                  %Value{name: "non_customizable_string_value", customization_disabled: true},
+                  %Value{name: "bool_value", customization_disabled: false},
+                  %Value{name: "list_value", customization_disabled: false},
+                  %Value{name: "map_value", customization_disabled: true}
                 ]
               }} = Catalog.get_check("mixed_values_customizability")
     end

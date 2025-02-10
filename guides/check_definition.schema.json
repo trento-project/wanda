@@ -37,7 +37,7 @@
         "$ref": "#/definitions/Fact"
       }
     },
-    "disable_customization": {
+    "customization_disabled": {
       "type": "boolean"
     },
     "values": {
@@ -91,7 +91,7 @@
         "name": {
           "type": "string"
         },
-        "disable_customization": {
+        "customization_disabled": {
           "type": "boolean"
         },
         "default": {
