@@ -112,19 +112,19 @@ expectations:
 
 Following are listed the top level properties of a Check definition yaml.
 
-| Key                     | Required/Not Required | Details                           |
-| ----------------------- | --------------------- | --------------------------------- |
-| `id`                    | required              | [see more](#id)                   |
-| `name`                  | required              | [see more](#name)                 |
-| `group`                 | required              | [see more](#group)                |
-| `description`           | required              | [see more](#description)          |
-| `remediation`           | required              | [see more](#remediation)          |
-| `severity`              | not required          | [see more](#severity)             |
-| `metadata`              | not required          | [see more](#metadata)             |
-| `facts`                 | required              | [see more](#facts)                |
+| Key                      | Required/Not Required | Details                            |
+| ------------------------ | --------------------- | ---------------------------------- |
+| `id`                     | required              | [see more](#id)                    |
+| `name`                   | required              | [see more](#name)                  |
+| `group`                  | required              | [see more](#group)                 |
+| `description`            | required              | [see more](#description)           |
+| `remediation`            | required              | [see more](#remediation)           |
+| `severity`               | not required          | [see more](#severity)              |
+| `metadata`               | not required          | [see more](#metadata)              |
+| `facts`                  | required              | [see more](#facts)                 |
 | `customization_disabled` | not required          | [see more](#disable-customization) |
-| `values`                | not required          | [see more](#values)               |
-| `expectations`          | required              | [see more](#expectations)         |
+| `values`                 | not required          | [see more](#values)                |
+| `expectations`           | required              | [see more](#expectations)          |
 
 ---
 
