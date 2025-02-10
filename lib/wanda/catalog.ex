@@ -80,10 +80,15 @@ defmodule Wanda.Catalog do
   end
 
   defp map_to_selectable_check(%Check{} = check, available_customizations) do
+    has_disabled_customization? = check.disable_customization
+
     mapped_values =
       check.id
       |> find_custom_values(available_customizations)
-      |> map_values(check.values)
+      |> map_selectable_check_values(check.values, has_disabled_customization?)
+
+    customizable_check? =
+      detect_check_customizability(mapped_values, not check.disable_customization)
 
     %SelectableCheck{
       id: check.id,
@@ -91,9 +96,9 @@ defmodule Wanda.Catalog do
       group: check.group,
       description: check.description,
       values: mapped_values,
-      customizable: check.customizable,
+      customizable: customizable_check?,
       customized:
-        check.customizable &&
+        customizable_check? &&
           Enum.any?(mapped_values, &(&1.customizable && Map.has_key?(&1, :custom_value)))
     }
   end
@@ -108,15 +113,29 @@ defmodule Wanda.Catalog do
     end)
   end
 
-  defp map_values(custom_values, check_values) do
-    Enum.map(check_values, fn %Value{
-                                name: value_name,
-                                customizable: customizable,
-                                default: default_value
-                              } ->
+  # has_disabled_customization?
+
+  defp map_selectable_check_values(
+         _custom_values,
+         check_values,
+         true = _has_disabled_customization?
+       ) do
+    Enum.map(check_values, fn %Value{name: value_name} ->
       %{
         name: value_name,
-        customizable: customizable
+        customizable: false
+      }
+    end)
+  end
+
+  defp map_selectable_check_values(custom_values, check_values, _) do
+    Enum.map(check_values, fn %Value{
+                                name: value_name,
+                                default: default_value
+                              } = value ->
+      %{
+        name: value_name,
+        customizable: detect_value_customizability(value)
       }
       |> maybe_add_current_value(default_value)
       |> maybe_add_customization(custom_values)
@@ -225,8 +244,7 @@ defmodule Wanda.Catalog do
        facts: Enum.map(facts, &map_fact/1),
        values: mapped_values,
        expectations: Enum.map(expectations, &map_expectation/1),
-       customizable:
-         detect_check_customizability(mapped_values, Map.get(check, "customizable", true))
+       disable_customization: Map.get(check, "disable_customization", false)
      }}
   end
 
@@ -299,22 +317,20 @@ defmodule Wanda.Catalog do
       name: name,
       default: default,
       conditions: conditions,
-      customizable: detect_value_customizability(value)
+      disable_customization: Map.get(value, "disable_customization", false)
     }
   end
 
-  defp detect_value_customizability(%{"customizable" => false}), do: false
+  defp detect_value_customizability(%{disable_customization: true}), do: false
 
-  defp detect_value_customizability(%{"default" => default_value}),
+  defp detect_value_customizability(%{default: default_value}),
     do: not (is_list(default_value) or is_map(default_value))
-
-  defp detect_value_customizability(_), do: true
 
   defp detect_check_customizability([] = _values, _root_customizability), do: false
 
   defp detect_check_customizability(values, root_customizability) do
     has_at_least_one_customizable_value? =
-      Enum.any?(values, fn %Value{customizable: customizable} -> customizable end)
+      Enum.any?(values, fn %{customizable: customizable} -> customizable end)
 
     root_customizability and has_at_least_one_customizable_value?
   end

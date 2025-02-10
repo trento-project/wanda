@@ -6,7 +6,7 @@ description: |
 remediation: |
   ## Remediation
   Remediation text
-# customizable: true #inferred
+# disable_customization: false #inferred
 metadata:
   id: mixed_values_customizability  
   some_key: some_value
@@ -20,7 +20,7 @@ facts:
 values:
   - name: numeric_value
     default: 5
-    customizable: true
+    disable_customization: false
     conditions:
       - value: 10
         when: some_expression
@@ -28,16 +28,16 @@ values:
         when: some_other_expression
   - name: customizable_string_value
     default: foo_bar
-    # customizable: true #inferred
+    # disable_customization: false #inferred
     conditions:
       - value: baz_qux
         when: some_third_expression
   - name: non_customizable_string_value
     default: kaboom
-    customizable: false
+    disable_customization: true
   - name: bool_value
     default: true
-    # customizable: true #inferred
+    # disable_customization: false #inferred
     conditions:
       - value: false
         when: some_fourth_expression
@@ -45,14 +45,14 @@ values:
     default: 
       - foo
       - bar
-    # customizable: false #inferred
+    # disable_customization: true #inferred
   - name: map_value
     default:
       foo: bar
       baz: 
         - qux
         - quux
-    customizable: false
+    disable_customization: true
 expectations:
   - name: some_expectation
     expect: facts.jedi == values.numeric_value

@@ -75,12 +75,12 @@ defmodule WandaWeb.Schemas.V3.Catalog.Check do
                   required: [:value, :expression]
                 }
               },
-              customizable: %Schema{
+              disable_customization: %Schema{
                 type: :boolean,
                 description: "Whether the value is customizable or not"
               }
             },
-            required: [:name, :default, :conditions, :customizable]
+            required: [:name, :default, :conditions, :disable_customization]
           }
         },
         expectations: %Schema{
@@ -124,7 +124,7 @@ defmodule WandaWeb.Schemas.V3.Catalog.Check do
           description: "Check is Premium or not",
           deprecated: true
         },
-        customizable: %Schema{
+        disable_customization: %Schema{
           type: :boolean,
           description: "Whether the check is customizable or not"
         }
@@ -142,7 +142,7 @@ defmodule WandaWeb.Schemas.V3.Catalog.Check do
         :expectations,
         :when,
         :premium,
-        :customizable
+        :disable_customization
       ]
     },
     struct?: false
