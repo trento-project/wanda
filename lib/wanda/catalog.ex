@@ -113,8 +113,6 @@ defmodule Wanda.Catalog do
     end)
   end
 
-  # has_disabled_customization?
-
   defp map_selectable_check_values(
          _custom_values,
          check_values,
