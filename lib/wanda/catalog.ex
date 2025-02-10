@@ -79,22 +79,30 @@ defmodule Wanda.Catalog do
     |> Enum.map(&map_to_selectable_check(&1, available_customizations))
   end
 
-  defp map_to_selectable_check(%Check{} = check, available_customizations) do
-    customization_globally_disabled? = check.customization_disabled
-
+  defp map_to_selectable_check(
+         %Check{
+           id: id,
+           name: name,
+           group: group,
+           description: description,
+           values: values,
+           customization_disabled: customization_globally_disabled?
+         },
+         available_customizations
+       ) do
     mapped_values =
-      check.id
+      id
       |> find_custom_values(available_customizations)
-      |> map_selectable_check_values(check.values, customization_globally_disabled?)
+      |> map_selectable_check_values(values, customization_globally_disabled?)
 
     customizable_check? =
-      detect_check_customizability(mapped_values, not check.customization_disabled)
+      detect_check_customizability(mapped_values, not customization_globally_disabled?)
 
     %SelectableCheck{
-      id: check.id,
-      name: check.name,
-      group: check.group,
-      description: check.description,
+      id: id,
+      name: name,
+      group: group,
+      description: description,
       values: mapped_values,
       customizable: customizable_check?,
       customized:
