@@ -246,16 +246,14 @@ jobs:
         run: mv /tmp/specs .
       - name: Find difference between OpenAPI specifications
         run: |
-          # docker run -v "$(pwd)/specs:/specs" --rm openapitools/openapi-diff:2.0.1 \
-          #   /specs/main-spec.json \
-          #   /specs/current-spec.json \
-          #   --fail-on-incompatible \
-          #   --markdown /specs/changes.md \
-          #   --json /specs/changes.json \
-          #   --text /specs/changes.txt \
-          #   --html /specs/changes.html
-
-          echo "success"
+          docker run -v "$(pwd)/specs:/specs" --rm openapitools/openapi-diff:2.0.1 \
+            /specs/main-spec.json \
+            /specs/current-spec.json \
+            --fail-on-incompatible \
+            --markdown /specs/changes.md \
+            --json /specs/changes.json \
+            --text /specs/changes.txt \
+            --html /specs/changes.html
       - name: Upload OpenAPI diff report
         uses: actions/upload-artifact@v4
         if: failure()
