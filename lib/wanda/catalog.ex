@@ -119,9 +119,9 @@ defmodule Wanda.Catalog do
                                 default: default_value
                               } = value ->
       %{
-        name: value_name,
-        customizable: detect_value_customizability(value, customization_globally_disabled?)
+        name: value_name
       }
+      |> add_value_customizability(value, customization_globally_disabled?)
       |> maybe_add_current_value(default_value)
       |> maybe_add_customization(custom_values)
     end)
@@ -306,11 +306,22 @@ defmodule Wanda.Catalog do
     }
   end
 
-  defp detect_value_customizability(_, true = _customization_globally_disabled?), do: false
+  defp add_value_customizability(
+         mapped_value,
+         current_value,
+         customization_globally_disabled?
+       ) do
+    Map.put(
+      mapped_value,
+      :customizable,
+      can_customize_value?(current_value, customization_globally_disabled?)
+    )
+  end
 
-  defp detect_value_customizability(%{customization_disabled: true}, _), do: false
+  defp can_customize_value?(_current_value, true = _customization_globally_disabled?), do: false
+  defp can_customize_value?(%{customization_disabled: true}, _), do: false
 
-  defp detect_value_customizability(%{default: default_value}, _),
+  defp can_customize_value?(%{default: default_value}, _),
     do: not (is_list(default_value) or is_map(default_value))
 
   defp detect_check_customizability([] = _values, _root_customizability), do: false
