@@ -12,7 +12,7 @@
 
     <link rel="stylesheet" href="dist/html-elixir-6X3L5KMG.css" />
 
-    <script defer src="dist/sidebar_items-1D7A0A08.js"></script>
+    <script defer src="dist/sidebar_items-EFD5C356.js"></script>
     <script defer src="docs_config.js"></script>
     <script defer src="dist/html-6XHBGSGW.js"></script>
 
@@ -90,21 +90,7 @@ Wanda
 
 <p><a href="https://github.com/trento-project/wanda/actions/workflows/ci.yaml"><img src="https://github.com/trento-project/wanda/actions/workflows/ci.yaml/badge.svg" alt="CI"/></a>
 <a href="https://coveralls.io/github/trento-project/wanda?branch=main"><img src="https://coveralls.io/repos/github/trento-project/wanda/badge.svg?branch=main" alt="Coverage Status"/></a>
-<a href="https://trento-project.io/wanda/"><img src="https://img.shields.io/badge/documentation-grey.svg" alt="Documentation"/></a></p><p>A service responsible to orchestrate Checks executions on a target infrastructure.</p><h1>Documentation</h1><p>The documentation is available at <a href="https://trento-project.io/wanda/">trento-project.io/wanda</a>.</p><p>Swagger UI is available at <a href="https://trento-project.io/wanda/swaggerui">trento-project.io/wanda/swaggerui</a>.</p><h1>Developing Checks</h1><p>Wanda architecture aims to simplify <a href="#testing-executions">testing Checks Executions</a> and <a href="#adding-new-checks">adding new ones</a>.</p><h2 id="infrastructure" class="section-heading">
-  <a href="#infrastructure" class="hover-link">
-    <i class="ri-link-m" aria-hidden="true"></i>
-  </a>
-  <span class="text">Infrastructure</span>
-</h2>
-<p>For development purposes, a <a href="https://github.com/trento-project/wanda/blob/main/docker-compose.yaml">docker-compose file</a> is provided.
-The <a href="https://github.com/trento-project/wanda/blob/main/docker-compose.checks.yaml">docker-compose.checks.yaml</a> provides additional configuration to start an environment for Checks development.</p><h3 id="starting-a-local-environment" class="section-heading">
-  <a href="#starting-a-local-environment" class="hover-link">
-    <i class="ri-link-m" aria-hidden="true"></i>
-  </a>
-  <span class="text">Starting a local environment</span>
-</h3>
-<p>Start the environment with:</p><pre><code class="makeup bash" translate="no"><span class="gp unselectable">$ </span><span class="">docker-compose -f docker-compose.checks.yaml up -d
-</span></code></pre><p>Wanda is exposed on port <code class="inline">4000</code> and the API documentation is available at <a href="http://localhost:4000/swaggerui">http://localhost:4000/swaggerui</a></p><p><strong>Note</strong> that the <a href="https://www.rabbitmq.com/">message broker</a> <strong>must</strong> be reachable by Wanda and all the targets.</p><h2 id="testing-executions" class="section-heading">
+<a href="https://trento-project.io/wanda/"><img src="https://img.shields.io/badge/documentation-grey.svg" alt="Documentation"/></a></p><p>A service responsible to orchestrate Checks executions on a target infrastructure.</p><h1>Documentation</h1><p>The documentation is available at <a href="https://trento-project.io/wanda/">trento-project.io/wanda</a>.</p><p>Swagger UI is available at <a href="https://trento-project.io/wanda/swaggerui">trento-project.io/wanda/swaggerui</a>.</p><h1>Developing Checks</h1><p>Please refer to <a href="https://github.com/trento-project/checks">Trento Checks</a> and <a href="#testing-executions">testing Checks Executions</a>.</p><h2 id="testing-executions" class="section-heading">
   <a href="#testing-executions" class="hover-link">
     <i class="ri-link-m" aria-hidden="true"></i>
   </a>
@@ -230,20 +216,14 @@ The <a href="https://github.com/trento-project/wanda/blob/main/docker-compose.ch
 </h3>
 <p>Often times knowing the returned value of the gathered facts is not a trivial thing, more during the implementation of new checks.</p><p>To better debug the fact gathering process and the returned values, the <code class="inline">facts</code> subcommand of <code class="inline">trento-agent</code> is a really useful tool. This command helps to see in the target itself what the gathered fact looks like. This is specially interesting when the returned value is a complex object or the target under test is modified and the check developer wants to see how this affects the gathered fact.</p><p>The command can be used as:</p><pre><code class="makeup elixir" translate="no"><span class="o">.</span><span class="o">/</span><span class="n">trento</span><span class="o">-</span><span class="n">agent</span><span class="w"> </span><span class="n">facts</span><span class="w"> </span><span class="n">gather</span><span class="w"> </span><span class="o">--</span><span class="n">gatherer</span><span class="w"> </span><span class="n">corosync</span><span class="o">.</span><span class="n">conf</span><span class="w"> </span><span class="o">--</span><span class="n">argument</span><span class="w"> </span><span class="n">totem</span><span class="o">.</span><span class="n">token</span><span class="w">
 </span><span class="c1"># To see the currently available gatherers and their names</span><span class="w">
-</span><span class="c1"># ./trento-agent facts list</span></code></pre><p>Which would return the next where the <code class="inline">Value</code> is the available value in the written check:</p><pre><code class="makeup elixir" translate="no"><span class="p" data-group-id="0475675545-1">{</span><span class="w">
+</span><span class="c1"># ./trento-agent facts list</span></code></pre><p>Which would return the next where the <code class="inline">Value</code> is the available value in the written check:</p><pre><code class="makeup elixir" translate="no"><span class="p" data-group-id="6370948355-1">{</span><span class="w">
   </span><span class="ss">&quot;Name&quot;</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;totem.token&quot;</span><span class="p">,</span><span class="w">
   </span><span class="ss">&quot;CheckID&quot;</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;&quot;</span><span class="p">,</span><span class="w">
-  </span><span class="ss">&quot;Value&quot;</span><span class="p">:</span><span class="w"> </span><span class="p" data-group-id="0475675545-2">{</span><span class="w">
+  </span><span class="ss">&quot;Value&quot;</span><span class="p">:</span><span class="w"> </span><span class="p" data-group-id="6370948355-2">{</span><span class="w">
     </span><span class="ss">&quot;Value&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">30000</span><span class="w">
-  </span><span class="p" data-group-id="0475675545-2">}</span><span class="p">,</span><span class="w">
+  </span><span class="p" data-group-id="6370948355-2">}</span><span class="p">,</span><span class="w">
   </span><span class="ss">&quot;Error&quot;</span><span class="p">:</span><span class="w"> </span><span class="n">null</span><span class="w">
-</span><span class="p" data-group-id="0475675545-1">}</span></code></pre><h2 id="adding-new-checks" class="section-heading">
-  <a href="#adding-new-checks" class="hover-link">
-    <i class="ri-link-m" aria-hidden="true"></i>
-  </a>
-  <span class="text">Adding new Checks</span>
-</h2>
-<p>Built-in Checks can be found in the Catalog directory at <code class="inline">./priv/catalog/</code></p><p>To implement new checks and test them:</p><ul><li>write a new <a href="specification.html">Check Specification</a> file</li><li>locate the newly created Check in the Catalog directory <code class="inline">./priv/catalog/</code></li><li>test the execution as <a href="#testing-executions">previously described</a></li></ul><h1>Running a local Wanda instance</h1><h2 id="running-a-development-environment" class="section-heading">
+</span><span class="p" data-group-id="6370948355-1">}</span></code></pre><h1>Running a local Wanda instance</h1><h2 id="running-a-development-environment" class="section-heading">
   <a href="#running-a-development-environment" class="hover-link">
     <i class="ri-link-m" aria-hidden="true"></i>
   </a>
