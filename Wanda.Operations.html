@@ -12,7 +12,7 @@
 
     <link rel="stylesheet" href="dist/html-elixir-6X3L5KMG.css" />
 
-    <script defer src="dist/sidebar_items-4CCA1198.js"></script>
+    <script defer src="dist/sidebar_items-1D7A0A08.js"></script>
     <script defer src="docs_config.js"></script>
     <script defer src="dist/html-6XHBGSGW.js"></script>
 
@@ -113,11 +113,33 @@ persistent changes on them.</p>
 
     <div class="summary-row">
       <div class="summary-signature">
+        <a href="#abort_operation!/1" data-no-tooltip="" translate="no">abort_operation!(operation_id)</a>
+
+      </div>
+
+        <div class="summary-synopsis"><p>Marks a previously started operation as aborted</p></div>
+
+    </div>
+
+    <div class="summary-row">
+      <div class="summary-signature">
         <a href="#complete_operation!/2" data-no-tooltip="" translate="no">complete_operation!(operation_id, result)</a>
 
       </div>
 
         <div class="summary-synopsis"><p>Marks a previously started operation as completed</p></div>
+
+    </div>
+
+    <div class="summary-row">
+      <div class="summary-signature">
+        <a href="#compute_aborted/2" data-no-tooltip="" translate="no">compute_aborted(operation, utc_now)</a>
+
+      </div>
+
+        <div class="summary-synopsis"><p>Compute if the operation was aborted using the started_at time and current utc time.
+This function complements the operation gen servers that were abruptly finished without
+setting the new status</p></div>
 
     </div>
 
@@ -184,6 +206,34 @@ persistent changes on them.</p>
       <span class="text">Functions</span>
     </h1>
     <div class="functions-list">
+<section class="detail" id="abort_operation!/1">
+
+  <div class="detail-header">
+    <a href="#abort_operation!/1" class="detail-link" data-no-tooltip="" aria-label="Link to this function">
+      <i class="ri-link-m" aria-hidden="true"></i>
+    </a>
+    <div class="heading-with-actions">
+      <h1 class="signature" translate="no">abort_operation!(operation_id)</h1>
+
+
+        <a href="https://github.com/trento-project/wanda/blob/main/lib/wanda/operations.ex#L144" class="icon-action" rel="help" aria-label="View Source">
+          <i class="ri-code-s-slash-line" aria-hidden="true"></i>
+        </a>
+
+    </div>
+  </div>
+
+  <section class="docstring">
+
+      <div class="specs">
+
+          <pre translate="no"><span class="attribute">@spec</span> abort_operation!(<a href="https://hexdocs.pm/elixir/String.html#t:t/0">String.t</a>()) :: <a href="Wanda.Operations.Operation.html#t:t/0">Wanda.Operations.Operation.t</a>()</pre>
+
+      </div>
+
+<p>Marks a previously started operation as aborted</p>
+  </section>
+</section>
 <section class="detail" id="complete_operation!/2">
 
   <div class="detail-header">
@@ -194,7 +244,7 @@ persistent changes on them.</p>
       <h1 class="signature" translate="no">complete_operation!(operation_id, result)</h1>
 
 
-        <a href="https://github.com/trento-project/wanda/blob/main/lib/wanda/operations.ex#L99" class="icon-action" rel="help" aria-label="View Source">
+        <a href="https://github.com/trento-project/wanda/blob/main/lib/wanda/operations.ex#L129" class="icon-action" rel="help" aria-label="View Source">
           <i class="ri-code-s-slash-line" aria-hidden="true"></i>
         </a>
 
@@ -211,6 +261,37 @@ persistent changes on them.</p>
       </div>
 
 <p>Marks a previously started operation as completed</p>
+  </section>
+</section>
+<section class="detail" id="compute_aborted/2">
+
+  <div class="detail-header">
+    <a href="#compute_aborted/2" class="detail-link" data-no-tooltip="" aria-label="Link to this function">
+      <i class="ri-link-m" aria-hidden="true"></i>
+    </a>
+    <div class="heading-with-actions">
+      <h1 class="signature" translate="no">compute_aborted(operation, utc_now)</h1>
+
+
+        <a href="https://github.com/trento-project/wanda/blob/main/lib/wanda/operations.ex#L66" class="icon-action" rel="help" aria-label="View Source">
+          <i class="ri-code-s-slash-line" aria-hidden="true"></i>
+        </a>
+
+    </div>
+  </div>
+
+  <section class="docstring">
+
+      <div class="specs">
+
+          <pre translate="no"><span class="attribute">@spec</span> compute_aborted(<a href="Wanda.Operations.Operation.html#t:t/0">Wanda.Operations.Operation.t</a>(), <a href="https://hexdocs.pm/elixir/Calendar.html#t:datetime/0">Calendar.datetime</a>()) ::
+  <a href="Wanda.Operations.Operation.html#t:t/0">Wanda.Operations.Operation.t</a>()</pre>
+
+      </div>
+
+<p>Compute if the operation was aborted using the started_at time and current utc time.
+This function complements the operation gen servers that were abruptly finished without
+setting the new status</p>
   </section>
 </section>
 <section class="detail" id="create_operation!/4">
@@ -313,7 +394,7 @@ persistent changes on them.</p>
       <h1 class="signature" translate="no">list_operations(params \\ %{})</h1>
 
 
-        <a href="https://github.com/trento-project/wanda/blob/main/lib/wanda/operations.ex#L66" class="icon-action" rel="help" aria-label="View Source">
+        <a href="https://github.com/trento-project/wanda/blob/main/lib/wanda/operations.ex#L96" class="icon-action" rel="help" aria-label="View Source">
           <i class="ri-code-s-slash-line" aria-hidden="true"></i>
         </a>
 
@@ -341,7 +422,7 @@ persistent changes on them.</p>
       <h1 class="signature" translate="no">update_agent_reports!(operation_id, agent_reports)</h1>
 
 
-        <a href="https://github.com/trento-project/wanda/blob/main/lib/wanda/operations.ex#L86" class="icon-action" rel="help" aria-label="View Source">
+        <a href="https://github.com/trento-project/wanda/blob/main/lib/wanda/operations.ex#L116" class="icon-action" rel="help" aria-label="View Source">
           <i class="ri-code-s-slash-line" aria-hidden="true"></i>
         </a>
 
