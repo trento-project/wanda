@@ -14,24 +14,7 @@ Swagger UI is available at [trento-project.io/wanda/swaggerui](https://trento-pr
 
 # Developing Checks
 
-Wanda architecture aims to simplify [testing Checks Executions](#testing-executions) and [adding new ones](#adding-new-checks).
-
-## Infrastructure
-
-For development purposes, a [docker-compose file](https://github.com/trento-project/wanda/blob/main/docker-compose.yaml) is provided.
-The [docker-compose.checks.yaml](https://github.com/trento-project/wanda/blob/main/docker-compose.checks.yaml) provides additional configuration to start an environment for Checks development.
-
-### Starting a local environment
-
-Start the environment with:
-
-```bash
-$ docker-compose -f docker-compose.checks.yaml up -d
-```
-
-Wanda is exposed on port `4000` and the API documentation is available at http://localhost:4000/swaggerui
-
-**Note** that the [message broker](https://www.rabbitmq.com/) **must** be reachable by Wanda and all the targets.
+Please refer to [Trento Checks](https://github.com/trento-project/checks) and [testing Checks Executions](#testing-executions).
 
 ## Testing Executions
 
@@ -224,16 +207,6 @@ Which would return the next where the `Value` is the available value in the writ
   "Error": null
 }
 ```
-
-## Adding new Checks
-
-Built-in Checks can be found in the Catalog directory at `./priv/catalog/`
-
-To implement new checks and test them:
-
-- write a new [Check Specification](./guides/specification.md) file
-- locate the newly created Check in the Catalog directory `./priv/catalog/`
-- test the execution as [previously described](#testing-executions)
 
 # Running a local Wanda instance
 
