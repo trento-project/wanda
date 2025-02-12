@@ -48,6 +48,13 @@ defmodule WandaWeb.FallbackController do
     )
   end
 
+  def call(conn, {:error, :customization_not_found}) do
+    conn
+    |> put_status(:not_found)
+    |> put_view(json: ErrorJSON)
+    |> render(:"404", reason: "Referenced check customization was not found.")
+  end
+
   def call(conn, _) do
     conn
     |> put_status(:internal_server_error)

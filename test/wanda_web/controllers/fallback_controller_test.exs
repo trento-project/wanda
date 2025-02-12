@@ -38,7 +38,8 @@ defmodule WandaWeb.FallbackControllerTest do
 
   test "should return a 404 on relevant errors", %{conn: conn} do
     errors_raising_not_found = [
-      {:check_not_found, "Referenced check was not found."}
+      {:check_not_found, "Referenced check was not found."},
+      {:customization_not_found, "Referenced check customization was not found."}
     ]
 
     for {error, message} <- errors_raising_not_found do
