@@ -35,6 +35,19 @@ defmodule Wanda.ChecksCustomizations do
     end
   end
 
+  @spec reset_customization(check_id :: String.t(), group_id :: Ecto.UUID.t()) ::
+          :ok | {:error, :customization_not_found}
+  def reset_customization(check_id, group_id) do
+    deletion_query =
+      from c in CheckCustomization,
+        where: c.group_id == ^group_id and c.check_id == ^check_id
+
+    case Repo.delete_all(deletion_query) do
+      {1, _} -> :ok
+      {0, _} -> {:error, :customization_not_found}
+    end
+  end
+
   defp load_check(check_id) do
     case Catalog.get_check(check_id) do
       {:ok, %Check{}} = success ->

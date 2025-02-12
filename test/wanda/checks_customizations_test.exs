@@ -3,6 +3,8 @@ defmodule Wanda.ChecksCustomizationsTest do
 
   import Wanda.Factory
 
+  alias Wanda.Repo
+
   alias Wanda.Catalog.CheckCustomization
 
   alias Wanda.ChecksCustomizations
@@ -266,6 +268,92 @@ defmodule Wanda.ChecksCustomizationsTest do
                  ]
                }
              ] = ChecksCustomizations.get_customizations(group_id)
+    end
+  end
+
+  describe "resetting customization" do
+    test "should return an error when attempting to reset a not existent customization" do
+      group_id = Faker.UUID.v4()
+
+      %{check_id: check_id} =
+        insert(:check_customization,
+          group_id: group_id
+        )
+
+      insert(:check_customization,
+        group_id: group_id
+      )
+
+      scenarios = [
+        %{
+          name: "non existent group id",
+          check_id: check_id,
+          group_id: Faker.UUID.v4()
+        },
+        %{
+          name: "non existent check id",
+          check_id: Faker.UUID.v4(),
+          group_id: group_id
+        },
+        %{
+          name: "non existent group and check id",
+          check_id: Faker.UUID.v4(),
+          group_id: Faker.UUID.v4()
+        }
+      ]
+
+      for %{check_id: possibly_invalid_check_id, group_id: possibly_invalid_group_id} <- scenarios do
+        assert {:error, :customization_not_found} =
+                 ChecksCustomizations.reset_customization(
+                   possibly_invalid_check_id,
+                   possibly_invalid_group_id
+                 )
+      end
+
+      assert CheckCustomization
+             |> Repo.all()
+             |> length() == 2
+    end
+
+    test "should reset customizations for a check" do
+      group_id = Faker.UUID.v4()
+
+      %{check_id: check_id_1} =
+        insert(:check_customization,
+          group_id: group_id
+        )
+
+      %{check_id: check_id_2} =
+        insert(:check_customization,
+          group_id: group_id
+        )
+
+      load_customizations = fn group_id ->
+        Repo.all(
+          from c in CheckCustomization,
+            where: c.group_id == ^group_id
+        )
+      end
+
+      assert [
+               %CheckCustomization{
+                 check_id: ^check_id_1,
+                 group_id: ^group_id
+               },
+               %CheckCustomization{
+                 check_id: ^check_id_2,
+                 group_id: ^group_id
+               }
+             ] = load_customizations.(group_id)
+
+      assert :ok = ChecksCustomizations.reset_customization(check_id_1, group_id)
+
+      assert [
+               %CheckCustomization{
+                 check_id: ^check_id_2,
+                 group_id: ^group_id
+               }
+             ] = load_customizations.(group_id)
     end
   end
 end
