@@ -14,7 +14,7 @@ defmodule Wanda.Operations do
     StepReport
   }
 
-  alias Wanda.Operations.Catalog.Registry
+  alias Wanda.Operations.Catalog.{Registry, Step}
 
   require Wanda.Operations.Enums.Result, as: Result
   require Wanda.Operations.Enums.Status, as: Status
@@ -56,6 +56,36 @@ defmodule Wanda.Operations do
 
     %Operation{operation | catalog_operation: catalog_operation}
   end
+
+  @doc """
+  Compute if the operation was aborted using the started_at time and current utc time.
+  This function complements the operation gen servers that were abruptly finished without
+  setting the new status
+  """
+  @spec compute_aborted(Operation.t(), Calendar.datetime()) :: Operation.t()
+  def compute_aborted(
+        %Operation{
+          status: Status.running(),
+          started_at: started_at,
+          catalog_operation: %{steps: steps}
+        } = operation,
+        utc_now
+      ) do
+    total_timeout =
+      Enum.reduce(steps, 0, fn %Step{timeout: timeout}, acc ->
+        acc + timeout
+      end)
+
+    timed_out? = DateTime.before?(DateTime.add(started_at, total_timeout, :millisecond), utc_now)
+
+    if timed_out? do
+      %Operation{operation | status: Status.aborted()}
+    else
+      operation
+    end
+  end
+
+  def compute_aborted(operation, _), do: operation
 
   @doc """
   Get a paginated list of operations.
@@ -103,6 +133,19 @@ defmodule Wanda.Operations do
       result: result,
       status: Status.completed(),
       completed_at: DateTime.utc_now()
+    })
+    |> Repo.update!()
+  end
+
+  @doc """
+  Marks a previously started operation as aborted
+  """
+  @spec abort_operation!(String.t()) :: Operation.t()
+  def abort_operation!(operation_id) do
+    Operation
+    |> Repo.get!(operation_id)
+    |> Operation.changeset(%{
+      status: Status.aborted()
     })
     |> Repo.update!()
   end

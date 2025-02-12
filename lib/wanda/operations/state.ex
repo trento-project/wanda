@@ -18,12 +18,15 @@ defmodule Wanda.Operations.State do
 
   alias Wanda.Operations.Catalog.Operation
 
+  require Wanda.Operations.Enums.Status, as: Status
+
   defstruct [
     :engine,
     :operation_id,
     :group_id,
     :operation,
     :timer_ref,
+    status: Status.running(),
     targets: [],
     pending_targets_on_step: [],
     current_step_index: 0,
@@ -36,6 +39,7 @@ defmodule Wanda.Operations.State do
           operation_id: String.t(),
           group_id: String.t(),
           operation: Operation.t(),
+          status: Status.t(),
           agent_reports: [StepReport.t()],
           targets: [OperationTarget.t()],
           pending_targets_on_step: [String.t()],
