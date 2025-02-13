@@ -63,6 +63,10 @@ defmodule WandaWeb.Router do
         post "/:check_id/customize/:group_id",
              ChecksCustomizationsController,
              :apply_custom_values
+
+        delete "/:check_id/group/:group_id/customization",
+               ChecksCustomizationsController,
+               :reset_customization
       end
 
       if Application.compile_env!(:wanda, :operations_enabled) do

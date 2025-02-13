@@ -2,15 +2,40 @@ defmodule WandaWeb.V1.ChecksCustomizationsControllerTest do
   use WandaWeb.ConnCase, async: true
   use WandaWeb.UserAwareConnCase
 
+  import Ecto.Query
+  import Wanda.Factory
+
   import OpenApiSpex.TestAssertions
 
+  alias Wanda.Catalog.CheckCustomization
   alias WandaWeb.Schemas.V1.ApiSpec
 
   setup do
     %{api_spec: ApiSpec.spec()}
   end
 
-  describe "checks customization" do
+  @allowing_abilities [
+    %{
+      name: "all abilities",
+      abilities: [
+        %{
+          name: "all",
+          resource: "all"
+        }
+      ]
+    },
+    %{
+      name: "specific abilities",
+      abilities: [
+        %{
+          name: "all",
+          resource: "check_customization"
+        }
+      ]
+    }
+  ]
+
+  describe "applying checks customization" do
     test "should not accept invalid body", %{conn: conn, api_spec: api_spec} do
       check_id = "ABC123"
       group_id = Faker.UUID.v4()
@@ -264,28 +289,7 @@ defmodule WandaWeb.V1.ChecksCustomizationsControllerTest do
       end
     end
 
-    allowing_abilities = [
-      %{
-        name: "all abilities",
-        abilities: [
-          %{
-            name: "all",
-            resource: "all"
-          }
-        ]
-      },
-      %{
-        name: "specific abilities",
-        abilities: [
-          %{
-            name: "all",
-            resource: "check_customization"
-          }
-        ]
-      }
-    ]
-
-    for %{name: scenario_name, abilities: allowing_abilities} <- allowing_abilities do
+    for %{name: scenario_name, abilities: allowing_abilities} <- @allowing_abilities do
       @tag abilities: allowing_abilities
       test "should allow customizing check values: #{scenario_name}", %{
         conn: conn,
@@ -319,13 +323,92 @@ defmodule WandaWeb.V1.ChecksCustomizationsControllerTest do
         assert length(customized_values) == 2
       end
     end
+  end
 
-    @tag abilities: [
-           %{
-             name: "foo",
-             resource: "bar"
-           }
-         ]
+  describe "resetting check customization" do
+    test "should return not found when attempting to reset a non existent check customization", %{
+      conn: conn,
+      api_spec: api_spec
+    } do
+      group_id = Faker.UUID.v4()
+
+      %{check_id: check_id} =
+        insert(:check_customization,
+          group_id: group_id
+        )
+
+      insert(:check_customization,
+        group_id: group_id
+      )
+
+      scenarios = [
+        %{
+          name: "non existent group id",
+          check_id: check_id,
+          group_id: Faker.UUID.v4()
+        },
+        %{
+          name: "non existent check id",
+          check_id: Faker.UUID.v4(),
+          group_id: group_id
+        },
+        %{
+          name: "non existent group and check id",
+          check_id: Faker.UUID.v4(),
+          group_id: Faker.UUID.v4()
+        }
+      ]
+
+      for %{check_id: possibly_invalid_check_id, group_id: possibly_invalid_group_id} <- scenarios do
+        assert conn
+               |> delete(
+                 "/api/v1/checks/#{possibly_invalid_check_id}/group/#{possibly_invalid_group_id}/customization"
+               )
+               |> json_response(:not_found)
+               |> assert_schema("NotFound", api_spec)
+      end
+    end
+
+    for %{name: scenario_name, abilities: allowing_abilities} <- @allowing_abilities do
+      @tag abilities: allowing_abilities
+      test "should allow resetting check customization: #{scenario_name} - something to reset", %{
+        conn: conn
+      } do
+        group_id = Faker.UUID.v4()
+
+        %{check_id: check_id} =
+          insert(:check_customization,
+            group_id: group_id
+          )
+
+        insert(:check_customization,
+          group_id: group_id
+        )
+
+        assert conn
+               |> delete("/api/v1/checks/#{check_id}/group/#{group_id}/customization")
+               |> response(204) == ""
+
+        remaining_customizations =
+          Wanda.Repo.all(
+            from c in CheckCustomization,
+              where: c.group_id == ^group_id
+          )
+
+        assert length(remaining_customizations) == 1
+      end
+    end
+  end
+
+  describe "forbidden actions" do
+    @insufficient_abilities [
+      %{
+        name: "foo",
+        resource: "bar"
+      }
+    ]
+
+    @tag abilities: @insufficient_abilities
     test "should forbid checks customization when necessary abilities are missing", %{
       conn: conn,
       api_spec: api_spec
@@ -349,6 +432,18 @@ defmodule WandaWeb.V1.ChecksCustomizationsControllerTest do
       |> post("/api/v1/checks/#{check_id}/customize/#{group_id}", %{
         values: custom_values
       })
+      |> json_response(:forbidden)
+      |> assert_schema("Forbidden", api_spec)
+    end
+
+    @tag abilities: @insufficient_abilities
+    test "should forbid resetting checks customization when necessary abilities are missing", %{
+      conn: conn,
+      api_spec: api_spec
+    } do
+      conn
+      |> put_req_header("content-type", "application/json")
+      |> delete("/api/v1/checks/#{Faker.UUID.v4()}/group/#{Faker.UUID.v4()}/customization")
       |> json_response(:forbidden)
       |> assert_schema("Forbidden", api_spec)
     end

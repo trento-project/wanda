@@ -4,7 +4,7 @@ defmodule WandaWeb.V1.ChecksCustomizationsController do
 
   alias OpenApiSpex.Schema
 
-  alias WandaWeb.Schemas.{BadRequest, Forbidden}
+  alias WandaWeb.Schemas.{BadRequest, Forbidden, NotFound}
   alias WandaWeb.Schemas.V1.ChecksCustomizations.{CustomizationRequest, CustomizationResponse}
 
   alias Wanda.ChecksCustomizations
@@ -45,7 +45,8 @@ defmodule WandaWeb.V1.ChecksCustomizationsController do
       ok: {"Check Customizations", "application/json", CustomizationResponse},
       forbidden: Forbidden.response(),
       bad_request: BadRequest.response(),
-      unprocessable_entity: OpenApiSpex.JsonErrorResponse.response()
+      unprocessable_entity: OpenApiSpex.JsonErrorResponse.response(),
+      not_found: NotFound.response()
     ]
 
   def apply_custom_values(conn, %{check_id: check_id, group_id: group_id}) do
@@ -53,6 +54,41 @@ defmodule WandaWeb.V1.ChecksCustomizationsController do
 
     with {:ok, customization} <- ChecksCustomizations.customize(check_id, group_id, custom_values) do
       render(conn, :check_customization, %{customization: customization})
+    end
+  end
+
+  operation :reset_customization,
+    summary: "Reset the customizations applied for a specific check",
+    description: "Removes all previously applied customizations for a check in a specific group",
+    parameters: [
+      check_id: [
+        in: :path,
+        description:
+          "Identifier of the specific check for which the customization is being reset",
+        type: %Schema{
+          type: :string
+        },
+        example: "ABC123"
+      ],
+      group_id: [
+        in: :path,
+        description:
+          "Identifier of the group for which the specific check's customization is being reset",
+        type: %Schema{
+          type: :string,
+          format: :uuid
+        },
+        example: "00000000-0000-0000-0000-000000000001"
+      ]
+    ],
+    responses: [
+      no_content: "Customization successfully reset",
+      not_found: NotFound.response()
+    ]
+
+  def reset_customization(conn, %{check_id: check_id, group_id: group_id}) do
+    with :ok <- ChecksCustomizations.reset_customization(check_id, group_id) do
+      send_resp(conn, :no_content, "")
     end
   end
 end

@@ -9,8 +9,11 @@ defmodule Wanda.Catalog.CustomizationPolicy do
   alias Wanda.Catalog.CheckCustomization
   alias Wanda.Users.User
 
-  def authorize(:apply_custom_values, %User{} = user, CheckCustomization),
-    do: has_checks_customization_abilities?(user)
+  def authorize(action, %User{} = user, CheckCustomization)
+      when action in [:apply_custom_values, :reset_customization],
+      do: has_checks_customization_abilities?(user)
+
+  def authorize(_, _, _), do: false
 
   defp has_checks_customization_abilities?(user),
     do:
