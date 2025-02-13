@@ -328,24 +328,6 @@ defmodule Wanda.ChecksCustomizationsTest do
           group_id: group_id
         )
 
-      load_customizations = fn group_id ->
-        Repo.all(
-          from c in CheckCustomization,
-            where: c.group_id == ^group_id
-        )
-      end
-
-      assert [
-               %CheckCustomization{
-                 check_id: ^check_id_1,
-                 group_id: ^group_id
-               },
-               %CheckCustomization{
-                 check_id: ^check_id_2,
-                 group_id: ^group_id
-               }
-             ] = load_customizations.(group_id)
-
       assert :ok = ChecksCustomizations.reset_customization(check_id_1, group_id)
 
       assert [
@@ -353,7 +335,11 @@ defmodule Wanda.ChecksCustomizationsTest do
                  check_id: ^check_id_2,
                  group_id: ^group_id
                }
-             ] = load_customizations.(group_id)
+             ] =
+               Repo.all(
+                 from c in CheckCustomization,
+                   where: c.group_id == ^group_id
+               )
     end
   end
 end
