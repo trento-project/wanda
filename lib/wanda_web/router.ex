@@ -57,14 +57,18 @@ defmodule WandaWeb.Router do
         get "/groups/:id/executions/last", ExecutionController, :last
         post "/executions/start", ExecutionController, :start
         get "/catalog", CatalogController, :catalog
+      end
 
-        get "/groups/:group_id/catalog", CatalogController, :selectable_checks
+      scope "/groups" do
+        pipe_through [:api_v1, :protected_api]
 
-        post "/:check_id/customize/:group_id",
+        get "/:group_id/checks", CatalogController, :selectable_checks
+
+        post "/:group_id/checks/:check_id/customization",
              ChecksCustomizationsController,
              :apply_custom_values
 
-        delete "/:check_id/group/:group_id/customization",
+        delete "/:group_id/checks/:check_id/customization",
                ChecksCustomizationsController,
                :reset_customization
       end
