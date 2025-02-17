@@ -28,11 +28,21 @@ config :wanda, WandaWeb.Endpoint,
   watchers: []
 
 config :wanda, Wanda.Messaging.Adapters.AMQP,
-  consumer: [
-    connection: "amqp://wanda:wanda@localhost:5674"
+  checks: [
+    consumer: [
+      connection: "amqp://wanda:wanda@localhost:5674"
+    ],
+    publisher: [
+      connection: "amqp://wanda:wanda@localhost:5674"
+    ]
   ],
-  publisher: [
-    connection: "amqp://wanda:wanda@localhost:5674"
+  operations: [
+    consumer: [
+      connection: "amqp://wanda:wanda@localhost:5674"
+    ],
+    publisher: [
+      connection: "amqp://wanda:wanda@localhost:5674"
+    ]
   ]
 
 # ## SSL Support

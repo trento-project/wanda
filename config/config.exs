@@ -3,23 +3,44 @@ import Config
 config :wanda, Wanda.Messaging.Publisher, adapter: Wanda.Messaging.Adapters.AMQP
 
 config :wanda,
-  children: [Wanda.Messaging.Adapters.AMQP.Publisher, Wanda.Messaging.Adapters.AMQP.Consumer]
+  children: [
+    Wanda.Executions.Messaging.Publisher,
+    Wanda.Executions.Messaging.Consumer,
+    Wanda.Operations.Messaging.Publisher,
+    Wanda.Operations.Messaging.Consumer
+  ]
 
 config :wanda, :messaging, adapter: Wanda.Messaging.Adapters.AMQP
 
 config :wanda, Wanda.Messaging.Adapters.AMQP,
-  consumer: [
-    queue: "trento.checks.executions",
-    exchange: "trento.checks",
-    routing_key: "executions",
-    prefetch_count: "10",
-    connection: "amqp://wanda:wanda@localhost:5672"
+  checks: [
+    consumer: [
+      queue: "trento.checks.executions",
+      exchange: "trento.checks",
+      routing_key: "executions",
+      prefetch_count: "10",
+      connection: "amqp://wanda:wanda@localhost:5672"
+    ],
+    publisher: [
+      exchange: "trento.checks",
+      connection: "amqp://wanda:wanda@localhost:5672"
+    ],
+    processor: Wanda.Messaging.Adapters.AMQP.Processor
   ],
-  publisher: [
-    exchange: "trento.checks",
-    connection: "amqp://wanda:wanda@localhost:5672"
-  ],
-  processor: Wanda.Messaging.Adapters.AMQP.Processor
+  operations: [
+    consumer: [
+      queue: "trento.operations",
+      exchange: "trento.operations",
+      routing_key: "operations",
+      prefetch_count: "10",
+      connection: "amqp://wanda:wanda@localhost:5672"
+    ],
+    publisher: [
+      exchange: "trento.operations",
+      connection: "amqp://wanda:wanda@localhost:5672"
+    ],
+    processor: Wanda.Messaging.Adapters.AMQP.Processor
+  ]
 
 config :wanda, Wanda.Catalog, catalog_paths: ["priv/catalog"]
 
