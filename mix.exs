@@ -117,7 +117,7 @@ defmodule Wanda.MixProject do
       {:jason, "~> 1.3"},
       # see: https://github.com/pma/amqp/issues/231#issuecomment-2445049446
       {:ranch, "~> 2.1.0", override: true},
-      {:gen_rmq, github: "cdimonaco/gen_rmq", ref: "v5.0.0"},
+      {:gen_rmq, github: "cdimonaco/gen_rmq", ref: "v5.0.1"},
       {:yaml_elixir, "~> 2.9"},
       {:trento_contracts,
        github: "trento-project/contracts",

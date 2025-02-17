@@ -36,29 +36,58 @@ config :wanda, Wanda.Catalog,
 config :wanda, :messaging, adapter: Wanda.Messaging.Adapters.AMQP
 
 config :wanda, Wanda.Messaging.Adapters.AMQP,
-  consumer: [
-    queue: "trento.test.checks.executions",
-    exchange: "trento.test.checks",
-    routing_key: "executions",
-    prefetch_count: "10",
-    connection: "amqp://wanda:wanda@localhost:5674",
-    queue_options: [
-      durable: false,
-      auto_delete: true
+  checks: [
+    consumer: [
+      queue: "trento.test.checks.executions",
+      exchange: "trento.test.checks",
+      routing_key: "executions",
+      prefetch_count: "10",
+      connection: "amqp://wanda:wanda@localhost:5674",
+      queue_options: [
+        durable: false,
+        auto_delete: true
+      ],
+      deadletter_queue_options: [
+        durable: false,
+        auto_delete: true
+      ]
     ],
-    deadletter_queue_options: [
-      durable: false,
-      auto_delete: true
-    ]
+    publisher: [
+      exchange: "trento.test.checks",
+      connection: "amqp://wanda:wanda@localhost:5674"
+    ],
+    processor: GenRMQ.Processor.Mock
   ],
-  publisher: [
-    exchange: "trento.test.checks",
-    connection: "amqp://wanda:wanda@localhost:5674"
-  ],
-  processor: GenRMQ.Processor.Mock
+  operations: [
+    consumer: [
+      queue: "trento.test.operations",
+      exchange: "trento.operations",
+      routing_key: "operations",
+      prefetch_count: "10",
+      connection: "amqp://wanda:wanda@localhost:5674",
+      queue_options: [
+        durable: false,
+        auto_delete: true
+      ],
+      deadletter_queue_options: [
+        durable: false,
+        auto_delete: true
+      ]
+    ],
+    publisher: [
+      exchange: "trento.operations",
+      connection: "amqp://wanda:wanda@localhost:5674"
+    ],
+    processor: GenRMQ.Processor.Mock
+  ]
 
 config :wanda,
-  children: [Wanda.Messaging.Adapters.AMQP.Publisher, Wanda.Messaging.Adapters.AMQP.Consumer]
+  children: [
+    Wanda.Executions.Messaging.Publisher,
+    Wanda.Executions.Messaging.Consumer,
+    Wanda.Operations.Messaging.Publisher,
+    Wanda.Operations.Messaging.Consumer
+  ]
 
 config :joken,
   access_token_signer: "s2ZdE+3+ke1USHEJ5O45KT364KiXPYaB9cJPdH3p60t8yT0nkLexLBNw8TFSzC7k"

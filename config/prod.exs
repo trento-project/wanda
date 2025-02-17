@@ -18,13 +18,24 @@ config :wanda, WandaWeb.Endpoint,
 config :logger, level: :info
 
 config :wanda, Wanda.Messaging.Adapters.AMQP,
-  consumer: [
-    connection: "amqp://wanda:wanda@localhost:5672"
+  checks: [
+    consumer: [
+      connection: "amqp://wanda:wanda@localhost:5672"
+    ],
+    publisher: [
+      connection: "amqp://wanda:wanda@localhost:5672"
+    ],
+    processor: Wanda.Messaging.Adapters.AMQP.Processor
   ],
-  publisher: [
-    connection: "amqp://wanda:wanda@localhost:5672"
-  ],
-  processor: Wanda.Messaging.Adapters.AMQP.Processor
+  operations: [
+    consumer: [
+      connection: "amqp://wanda:wanda@localhost:5672"
+    ],
+    publisher: [
+      connection: "amqp://wanda:wanda@localhost:5672"
+    ],
+    processor: Wanda.Messaging.Adapters.AMQP.Processor
+  ]
 
 config :wanda,
   operations_enabled: false
