@@ -15,6 +15,8 @@ defmodule Wanda.Executions.ServerTest do
 
   alias Wanda.Executions.{Execution, Server, State}
 
+  alias Wanda.Executions.Messaging.Publisher
+
   setup [:set_mox_from_context, :verify_on_exit!]
 
   setup_all do
@@ -67,10 +69,10 @@ defmodule Wanda.Executions.ServerTest do
       pid = self()
 
       expect(Wanda.Messaging.Adapters.Mock, :publish, 2, fn
-        "agents", %FactsGatheringRequested{} ->
+        Publisher, "agents", %FactsGatheringRequested{} ->
           send(pid, :wandalorian)
 
-        "results", %ExecutionStarted{} ->
+        Publisher, "results", %ExecutionStarted{} ->
           send(pid, :toniolorian)
           :ok
       end)
@@ -102,7 +104,7 @@ defmodule Wanda.Executions.ServerTest do
       group_id = UUID.uuid4()
       targets = build_list(2, :target, checks: ["expect_check"])
 
-      expect(Wanda.Messaging.Adapters.Mock, :publish, 0, fn _, _ -> :ok end)
+      expect(Wanda.Messaging.Adapters.Mock, :publish, 0, fn _, _, _ -> :ok end)
 
       start_supervised!(
         {Server,
@@ -130,12 +132,12 @@ defmodule Wanda.Executions.ServerTest do
       targets = build_list(3, :target, %{checks: [context[:check].id]})
 
       expect(Wanda.Messaging.Adapters.Mock, :publish, 3, fn
-        "results", _ ->
+        Publisher, "results", _ ->
           send(pid, :executed)
 
           :ok
 
-        _, _ ->
+        _, _, _ ->
           :ok
       end)
 
@@ -177,12 +179,12 @@ defmodule Wanda.Executions.ServerTest do
       targets = build_list(3, :target, %{checks: [context[:check].id]})
 
       expect(Wanda.Messaging.Adapters.Mock, :publish, 3, fn
-        "results", %ExecutionCompleted{} ->
+        Publisher, "results", %ExecutionCompleted{} ->
           send(pid, :timeout)
 
           :ok
 
-        _, _ ->
+        _, _, _ ->
           :ok
       end)
 
