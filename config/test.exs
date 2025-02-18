@@ -60,9 +60,9 @@ config :wanda, Wanda.Messaging.Adapters.AMQP,
   ],
   operations: [
     consumer: [
-      queue: "trento.test.operations",
-      exchange: "trento.operations",
-      routing_key: "operations",
+      queue: "trento.test.operations.requests",
+      exchange: "trento.test.operations",
+      routing_key: "requests",
       prefetch_count: "10",
       connection: "amqp://wanda:wanda@localhost:5674",
       queue_options: [
@@ -75,7 +75,7 @@ config :wanda, Wanda.Messaging.Adapters.AMQP,
       ]
     ],
     publisher: [
-      exchange: "trento.operations",
+      exchange: "trento.test.operations",
       connection: "amqp://wanda:wanda@localhost:5674"
     ],
     processor: GenRMQ.Processor.Mock

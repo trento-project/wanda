@@ -29,9 +29,9 @@ config :wanda, Wanda.Messaging.Adapters.AMQP,
   ],
   operations: [
     consumer: [
-      queue: "trento.operations",
+      queue: "trento.operations.requests",
       exchange: "trento.operations",
-      routing_key: "operations",
+      routing_key: "requests",
       prefetch_count: "10",
       connection: "amqp://wanda:wanda@localhost:5672"
     ],
@@ -44,7 +44,9 @@ config :wanda, Wanda.Messaging.Adapters.AMQP,
 
 config :wanda, Wanda.Catalog, catalog_paths: ["priv/catalog"]
 
-config :wanda, Wanda.Policy, execution_server_impl: Wanda.Executions.Server
+config :wanda, Wanda.Policy,
+  execution_server_impl: Wanda.Executions.Server,
+  operation_server_impl: Wanda.Operations.Server
 
 # Phoenix configuration
 
