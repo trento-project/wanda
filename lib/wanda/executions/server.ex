@@ -25,12 +25,12 @@ defmodule Wanda.Executions.Server do
 
   alias Wanda.EvaluationEngine
 
+  alias Wanda.Executions.Messaging.Publisher
+
   require Logger
 
   @default_target_type "cluster"
   @default_timeout 5 * 60 * 1_000
-
-  @publisher Wanda.Executions.Messaging.Publisher
 
   @doc """
   Starts a check execution.
@@ -106,8 +106,8 @@ defmodule Wanda.Executions.Server do
 
     Executions.create_execution!(execution_id, group_id, targets)
 
-    :ok = Messaging.publish(@publisher, "results", execution_started)
-    :ok = Messaging.publish(@publisher, "agents", facts_gathering_requested)
+    :ok = Messaging.publish(Publisher, "results", execution_started)
+    :ok = Messaging.publish(Publisher, "agents", facts_gathering_requested)
 
     Process.send_after(self(), :timeout, timeout)
 
@@ -216,7 +216,7 @@ defmodule Wanda.Executions.Server do
     target_type = Map.get(env, "target_type", @default_target_type)
 
     execution_completed = Messaging.Mapper.to_execution_completed(result, target_type)
-    :ok = Messaging.publish(@publisher, "results", execution_completed)
+    :ok = Messaging.publish(Publisher, "results", execution_completed)
   end
 
   defp via_tuple(group_id),
