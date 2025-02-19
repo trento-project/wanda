@@ -9,6 +9,7 @@ defmodule Wanda.Messaging.MapperTest do
 
   alias Wanda.Catalog.{Check, Fact}
   alias Wanda.Executions
+  alias Wanda.Operations
 
   alias Trento.Checks.V1.{
     ExecutionCompleted,
@@ -17,6 +18,13 @@ defmodule Wanda.Messaging.MapperTest do
     FactsGathered,
     FactsGatheringRequested,
     Target
+  }
+
+  alias Trento.Operations.V1.{
+    OperationCompleted,
+    OperationRequested,
+    OperationStarted,
+    OperationTarget
   }
 
   test "should map to ExecutionStarted event" do
@@ -169,7 +177,7 @@ defmodule Wanda.Messaging.MapperTest do
           kind: {:number_value, 10}
         },
         some_boolean: %{
-          kind: {:boolean_value, true}
+          kind: {:bool_value, true}
         },
         null: %{
           kind: {:null_value}
@@ -226,8 +234,8 @@ defmodule Wanda.Messaging.MapperTest do
         },
         %{
           check_id: "check3",
-          name: "boolean_value",
-          fact_value: {:value, %{kind: {:boolean_value, true}}}
+          name: "bool_value",
+          fact_value: {:value, %{kind: {:bool_value, true}}}
         },
         %{
           check_id: "check4",
@@ -250,7 +258,7 @@ defmodule Wanda.Messaging.MapperTest do
                           {:list_value,
                            %{
                              values: [
-                               %{kind: {:boolean_value, true}}
+                               %{kind: {:bool_value, true}}
                              ]
                            }}
                       }
@@ -298,7 +306,7 @@ defmodule Wanda.Messaging.MapperTest do
                %Executions.Fact{check_id: "check1", name: "string_value", value: "some_string"},
                %Executions.Fact{check_id: "check2", name: "integer_value", value: 10},
                %Executions.Fact{check_id: "check2", name: "float_value", value: 10.2},
-               %Executions.Fact{check_id: "check3", name: "boolean_value", value: true},
+               %Executions.Fact{check_id: "check3", name: "bool_value", value: true},
                %Executions.Fact{check_id: "check4", name: "nil_value", value: nil},
                %Executions.Fact{check_id: "check5", name: "list_value", value: [10, [true]]},
                %Executions.Fact{
@@ -314,5 +322,117 @@ defmodule Wanda.Messaging.MapperTest do
                }
              ]
            } = Mapper.from_facts_gathererd(facts)
+  end
+
+  test "should map from OperationRequestedV1 event" do
+    operation_id = UUID.uuid4()
+    group_id = UUID.uuid4()
+    operation_type = Faker.StarWars.character()
+
+    operation = %OperationRequested{
+      operation_id: operation_id,
+      group_id: group_id,
+      operation_type: operation_type,
+      targets: [
+        %OperationTarget{
+          agent_id: "agent1",
+          arguments: %{
+            "string" => %{kind: {:string_value, "some_string"}},
+            "number" => %{kind: {:number_value, 10.0}}
+          }
+        },
+        %OperationTarget{
+          agent_id: "agent3",
+          arguments: %{
+            "boolean" => %{kind: {:bool_value, true}}
+          }
+        }
+      ]
+    }
+
+    assert %{
+             operation_id: operation_id,
+             group_id: group_id,
+             operation_type: operation_type,
+             targets: [
+               %Operations.OperationTarget{
+                 agent_id: "agent1",
+                 arguments: %{
+                   "string" => "some_string",
+                   "number" => 10.0
+                 }
+               },
+               %Operations.OperationTarget{
+                 agent_id: "agent3",
+                 arguments: %{
+                   "boolean" => true
+                 }
+               }
+             ]
+           } == Mapper.from_operation_requested(operation)
+  end
+
+  test "should map to OperationStartedV1 event" do
+    operation_id = UUID.uuid4()
+    group_id = UUID.uuid4()
+    operation_type = Faker.StarWars.character()
+
+    [%{agent_id: agent_id_1}, %{agent_id: agent_id_2}] =
+      targets =
+      build_list(2, :operation_target,
+        arguments: %{
+          "string" => "some_string",
+          "number" => 10.0,
+          "boolean" => true
+        }
+      )
+
+    assert %OperationStarted{
+             operation_id: operation_id,
+             group_id: group_id,
+             operation_type: operation_type,
+             targets: [
+               %OperationTarget{
+                 agent_id: agent_id_1,
+                 arguments: %{
+                   "string" => %{kind: {:string_value, "some_string"}},
+                   "number" => %{kind: {:number_value, 10.0}},
+                   "boolean" => %{kind: {:bool_value, true}}
+                 }
+               },
+               %OperationTarget{
+                 agent_id: agent_id_2,
+                 arguments: %{
+                   "string" => %{kind: {:string_value, "some_string"}},
+                   "number" => %{kind: {:number_value, 10.0}},
+                   "boolean" => %{kind: {:bool_value, true}}
+                 }
+               }
+             ]
+           } == Mapper.to_operation_started(operation_id, group_id, operation_type, targets)
+  end
+
+  test "should map to OperationCompletedV1 event" do
+    operation_id = UUID.uuid4()
+    group_id = UUID.uuid4()
+    operation_type = Faker.StarWars.character()
+
+    scenarios = [
+      %{result: :updated, mapped_result: :UPDATED},
+      %{result: :not_updated, mapped_result: :NOT_UPDATED},
+      %{result: :rolled_back, mapped_result: :ROLLED_BACK},
+      %{result: :failed, mapped_result: :FAILED},
+      %{result: :aborted, mapped_result: :ABORTED},
+      %{result: :already_running, mapped_result: :ALREADY_RUNNING}
+    ]
+
+    for %{result: result, mapped_result: mapped_result} <- scenarios do
+      assert %OperationCompleted{
+               operation_id: operation_id,
+               group_id: group_id,
+               operation_type: operation_type,
+               result: mapped_result
+             } == Mapper.to_operation_completed(operation_id, group_id, operation_type, result)
+    end
   end
 end

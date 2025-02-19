@@ -2,15 +2,30 @@ defmodule Wanda.PolicyTest do
   use ExUnit.Case
 
   import Mox
+  import Wanda.Factory
+
+  alias Wanda.Operations.Catalog.TestRegistry
 
   alias Trento.Checks.V1.{
     ExecutionRequested,
     FactsGathered
   }
 
+  alias Trento.Operations.V1.{
+    OperationRequested,
+    OperationTarget
+  }
+
   alias Wanda.Executions.{Fact, Target}
 
   setup :verify_on_exit!
+
+  setup do
+    Application.put_env(:wanda, :operations_registry, TestRegistry.test_registry())
+    on_exit(fn -> Application.delete_env(:wanda, :operations_registry) end)
+
+    {:ok, []}
+  end
 
   test "should handle a ExecutionRequested event" do
     execution_id = UUID.uuid4()
@@ -78,5 +93,114 @@ defmodule Wanda.PolicyTest do
                  }
                ]
              })
+  end
+
+  describe "OperationRequested" do
+    test "should handle a OperationRequested event when operation is not found" do
+      operation_id = UUID.uuid4()
+      group_id = UUID.uuid4()
+      operation_type = "unknown@v1"
+
+      assert {:error, :operation_not_found} =
+               Wanda.Policy.handle_event(%OperationRequested{
+                 operation_id: operation_id,
+                 group_id: group_id,
+                 operation_type: operation_type,
+                 targets: [
+                   %OperationTarget{
+                     agent_id: UUID.uuid4(),
+                     arguments: %{}
+                   },
+                   %OperationTarget{
+                     agent_id: UUID.uuid4(),
+                     arguments: %{}
+                   }
+                 ]
+               })
+    end
+
+    test "should handle a OperationRequested event when operation fails" do
+      operation_id = UUID.uuid4()
+      group_id = UUID.uuid4()
+      operation_type = "testoperation@v1"
+      operation = Map.get(TestRegistry.test_registry(), operation_type)
+
+      [%{agent_id: agent_id_1}, %{agent_id: agent_id_2}] =
+        targets =
+        build_list(2, :operation_target, arguments: %{})
+
+      expect(Wanda.Operations.ServerMock, :start_operation, fn ^operation_id,
+                                                               ^group_id,
+                                                               ^operation,
+                                                               ^targets ->
+        {:error, :some_error}
+      end)
+
+      assert {:error, :some_error} =
+               Wanda.Policy.handle_event(%OperationRequested{
+                 operation_id: operation_id,
+                 group_id: group_id,
+                 operation_type: operation_type,
+                 targets: [
+                   %OperationTarget{
+                     agent_id: agent_id_1,
+                     arguments: %{}
+                   },
+                   %OperationTarget{
+                     agent_id: agent_id_2,
+                     arguments: %{}
+                   }
+                 ]
+               })
+    end
+
+    test "should handle a OperationRequested event" do
+      operation_id = UUID.uuid4()
+      group_id = UUID.uuid4()
+      operation_type = "testoperation@v1"
+      operation = Map.get(TestRegistry.test_registry(), operation_type)
+
+      [%{agent_id: agent_id_1}, %{agent_id: agent_id_2}] =
+        targets =
+        build_list(2, :operation_target,
+          arguments: %{
+            "string" => "some_string",
+            "number" => 10,
+            "boolean" => true
+          }
+        )
+
+      expect(Wanda.Operations.ServerMock, :start_operation, fn ^operation_id,
+                                                               ^group_id,
+                                                               ^operation,
+                                                               ^targets ->
+        :ok
+      end)
+
+      assert :ok =
+               Wanda.Policy.handle_event(%OperationRequested{
+                 operation_id: operation_id,
+                 group_id: group_id,
+                 operation_type: operation_type,
+                 targets: [
+                   %OperationTarget{
+                     agent_id: agent_id_1,
+                     arguments: %{
+                       "string" => %{kind: {:string_value, "some_string"}},
+                       "number" => %{kind: {:number_value, 10}},
+                       "boolean" => %{kind: {:bool_value, true}}
+                     }
+                   },
+                   %OperationTarget{
+                     agent_id: agent_id_2,
+                     arguments: %{
+                       "string" => %{kind: {:string_value, "some_string"}},
+                       "number" => %{kind: {:number_value, 10}},
+                       "boolean" => %{kind: {:bool_value, true}}
+                     }
+                   }
+                 ]
+               })
+    end
   end
 end

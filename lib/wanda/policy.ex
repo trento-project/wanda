@@ -8,7 +8,11 @@ defmodule Wanda.Policy do
     FactsGathered
   }
 
+  alias Trento.Operations.V1.OperationRequested
+
   alias Wanda.Messaging.Mapper
+
+  alias Wanda.Operations.Catalog.Registry
 
   require Logger
 
@@ -53,6 +57,34 @@ defmodule Wanda.Policy do
     )
   end
 
+  defp handle(%OperationRequested{} = message) do
+    %{
+      operation_id: operation_id,
+      group_id: group_id,
+      operation_type: operation_type,
+      targets: targets
+    } = Mapper.from_operation_requested(message)
+
+    with {:ok, operation} <- Registry.get_operation(operation_type),
+         :ok <-
+           operation_server_impl().start_operation(
+             operation_id,
+             group_id,
+             operation,
+             targets
+           ) do
+      :ok
+    else
+      {:error, error} ->
+        Logger.error("Invalid operation request: #{error}")
+
+        {:error, error}
+    end
+  end
+
   defp execution_server_impl,
     do: Application.fetch_env!(:wanda, Wanda.Policy)[:execution_server_impl]
+
+  defp operation_server_impl,
+    do: Application.fetch_env!(:wanda, Wanda.Policy)[:operation_server_impl]
 end
