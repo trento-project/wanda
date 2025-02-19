@@ -13,7 +13,11 @@ defmodule Wanda.Operations.Server do
   alias Wanda.Operations.{AgentReport, OperationTarget, State, StepReport, Supervisor}
   alias Wanda.Operations.Catalog.{Operation, Step}
 
+  alias Wanda.Messaging
+
   alias Wanda.EvaluationEngine
+
+  alias Wanda.Operations.Messaging.Publisher
 
   require Wanda.Operations.Enums.Result, as: Result
   require Wanda.Operations.Enums.Status, as: Status
@@ -94,6 +98,11 @@ defmodule Wanda.Operations.Server do
 
     Operations.create_operation!(operation_id, group_id, catalog_operation_id, targets)
 
+    operation_started =
+      Messaging.Mapper.to_operation_started(operation_id, group_id, catalog_operation_id, targets)
+
+    :ok = Messaging.publish(Publisher, "results", operation_started)
+
     {:noreply, %State{new_state | engine: engine}, {:continue, :execute_step}}
   end
 
@@ -102,18 +111,31 @@ defmodule Wanda.Operations.Server do
         :execute_step,
         %State{
           operation_id: operation_id,
+          group_id: group_id,
           step_failed: true,
-          agent_reports: _agent_reports
+          agent_reports: _agent_reports,
+          operation: %Operation{
+            id: catalog_operation_id
+          }
         } = state
       ) do
     Logger.debug("Last step failed in some agent. Stopping operation", state: inspect(state))
 
     # Evaluate results using agent_reports
     # Start rollback?
-    # Publish results
 
     # Result is failed or rolledback, depending on the evaluation result
     Operations.complete_operation!(operation_id, Result.failed())
+
+    operation_completed =
+      Messaging.Mapper.to_operation_completed(
+        operation_id,
+        group_id,
+        catalog_operation_id,
+        Result.failed()
+      )
+
+    :ok = Messaging.publish(Publisher, "results", operation_completed)
 
     {:stop, :normal, %State{state | status: Status.completed()}}
   end
@@ -156,16 +178,29 @@ defmodule Wanda.Operations.Server do
         :execute_step,
         %State{
           operation_id: operation_id,
-          agent_reports: _agent_reports
+          group_id: group_id,
+          agent_reports: _agent_reports,
+          operation: %Operation{
+            id: catalog_operation_id
+          }
         } = state
       ) do
     Logger.debug("All operation steps completed.", state: inspect(state))
 
     # Evaluate results using agent_reports
-    # Publish and store results
 
     # Result based on evaluation result
     Operations.complete_operation!(operation_id, Result.updated())
+
+    operation_completed =
+      Messaging.Mapper.to_operation_completed(
+        operation_id,
+        group_id,
+        catalog_operation_id,
+        Result.updated()
+      )
+
+    :ok = Messaging.publish(Publisher, "results", operation_completed)
 
     {:stop, :normal, %State{state | status: Status.completed()}}
   end
@@ -248,8 +283,28 @@ defmodule Wanda.Operations.Server do
   # This terminate is a best-effort approach. terminate/2 is not always called, so some
   # operations might remain as running even if the gen server exited abruptly
   @impl true
-  def terminate(_, %State{operation_id: operation_id, status: Status.running()} = state) do
+  def terminate(
+        _,
+        %State{
+          operation_id: operation_id,
+          group_id: group_id,
+          status: Status.running(),
+          operation: %Operation{
+            id: catalog_operation_id
+          }
+        } = state
+      ) do
     Operations.abort_operation!(operation_id)
+
+    operation_completed =
+      Messaging.Mapper.to_operation_completed(
+        operation_id,
+        group_id,
+        catalog_operation_id,
+        Status.aborted()
+      )
+
+    :ok = Messaging.publish(Publisher, "results", operation_completed)
 
     state
   end
