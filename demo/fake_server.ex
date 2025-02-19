@@ -15,6 +15,9 @@ defmodule Wanda.Executions.FakeServer do
   }
 
   @default_config [sleep: 2_000]
+
+  @publisher Wanda.Executions.Messaging.Publisher
+
   @impl true
   def start_execution(
         execution_id,
@@ -35,7 +38,7 @@ defmodule Wanda.Executions.FakeServer do
 
     Executions.create_execution!(execution_id, group_id, targets)
     execution_started = Messaging.Mapper.to_execution_started(execution_id, group_id, targets)
-    :ok = Messaging.publish("results", execution_started)
+    :ok = Messaging.publish(@publisher, "results", execution_started)
 
     Process.sleep(Keyword.get(config, :sleep, 2_000))
 
@@ -56,7 +59,7 @@ defmodule Wanda.Executions.FakeServer do
 
     execution_completed = Messaging.Mapper.to_execution_completed(evaluation_result, target_type)
 
-    :ok = Messaging.publish("results", execution_completed)
+    :ok = Messaging.publish(@publisher, "results", execution_completed)
   end
 
   @impl true

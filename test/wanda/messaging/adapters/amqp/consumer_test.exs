@@ -3,7 +3,7 @@ defmodule Wanda.Messaging.Adapters.AMQP.ConsumerTest do
 
   import Mox
 
-  alias Wanda.Messaging.Adapters.AMQP.Publisher
+  alias Wanda.Executions.Messaging.Publisher
 
   setup [:set_mox_from_context, :verify_on_exit!]
 
@@ -35,7 +35,7 @@ defmodule Wanda.Messaging.Adapters.AMQP.ConsumerTest do
         {:error, "invalid payload"}
       end)
 
-      config = Application.fetch_env!(:wanda, Wanda.Messaging.Adapters.AMQP)[:consumer]
+      config = Application.fetch_env!(:wanda, Wanda.Messaging.Adapters.AMQP)[:checks][:consumer]
 
       connection = Keyword.get(config, :connection)
       routing_key = Keyword.get(config, :routing_key)

@@ -3,33 +3,46 @@ defmodule Wanda.Messaging.Adapters.AMQP.Publisher do
   AMQP publisher.
   """
 
-  @behaviour GenRMQ.Publisher
+  defmacro __using__(opts) do
+    id = Keyword.fetch!(opts, :id)
+    name = Keyword.fetch!(opts, :name)
 
-  alias Trento.Contracts
+    quote do
+      @behaviour GenRMQ.Publisher
 
-  require Logger
+      alias Trento.Contracts
 
-  def init do
-    Application.fetch_env!(:wanda, Wanda.Messaging.Adapters.AMQP)[:publisher]
-  end
+      require Logger
 
-  def start_link(_opts), do: GenRMQ.Publisher.start_link(__MODULE__, name: __MODULE__)
+      def init do
+        Application.fetch_env!(:wanda, Wanda.Messaging.Adapters.AMQP)[unquote(name)][:publisher]
+      end
 
-  def publish_message(message, routing_key \\ "") do
-    Logger.info("Publishing message #{inspect(message)}")
+      def start_link(_opts) do
+        GenRMQ.Publisher.start_link(__MODULE__, name: via_tuple())
+      end
 
-    GenRMQ.Publisher.publish(__MODULE__, message, routing_key, [
-      {:content_type, Contracts.content_type()}
-    ])
-  end
+      def publish_message(message, routing_key \\ "") do
+        Logger.info("Publishing message #{inspect(message)}")
 
-  def child_spec(opts) do
-    %{
-      id: __MODULE__,
-      start: {__MODULE__, :start_link, [opts]},
-      type: :worker,
-      restart: :permanent,
-      shutdown: 500
-    }
+        GenRMQ.Publisher.publish(via_tuple(), message, routing_key, [
+          {:content_type, Contracts.content_type()}
+        ])
+      end
+
+      def child_spec(opts) do
+        %{
+          id: unquote(id),
+          name: via_tuple(),
+          start: {__MODULE__, :start_link, [opts]},
+          type: :worker,
+          restart: :permanent,
+          shutdown: 500
+        }
+      end
+
+      defp via_tuple,
+        do: {:via, :global, {__MODULE__, unquote(name)}}
+    end
   end
 end

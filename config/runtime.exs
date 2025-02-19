@@ -55,11 +55,21 @@ if config_env() in [:prod, :demo] do
       """
 
   config :wanda, Wanda.Messaging.Adapters.AMQP,
-    consumer: [
-      connection: amqp_url
+    checks: [
+      consumer: [
+        connection: amqp_url
+      ],
+      publisher: [
+        connection: amqp_url
+      ]
     ],
-    publisher: [
-      connection: amqp_url
+    operations: [
+      consumer: [
+        connection: amqp_url
+      ],
+      publisher: [
+        connection: amqp_url
+      ]
     ]
 
   cors_enabled = System.get_env("CORS_ENABLED", "true") == "true"

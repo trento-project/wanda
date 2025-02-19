@@ -14,6 +14,8 @@ defmodule Wanda.Executions.FakeServerTest do
     FakeServer
   }
 
+  alias Wanda.Executions.Messaging.Publisher
+
   setup :verify_on_exit!
 
   test "start_execution publishes execution started and completed messages" do
@@ -24,10 +26,12 @@ defmodule Wanda.Executions.FakeServerTest do
     env = build(:env)
 
     expect(Wanda.Messaging.Adapters.Mock, :publish, 2, fn
-      "results", %ExecutionStarted{execution_id: ^execution_id, group_id: ^group_id} ->
+      Publisher, "results", %ExecutionStarted{execution_id: ^execution_id, group_id: ^group_id} ->
         :ok
 
-      "results", %ExecutionCompleted{execution_id: ^execution_id, group_id: ^group_id} ->
+      Publisher,
+      "results",
+      %ExecutionCompleted{execution_id: ^execution_id, group_id: ^group_id} ->
         :ok
     end)
 
