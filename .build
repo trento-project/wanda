@@ -29,6 +29,8 @@ Wanda.Executions.FactError.html
 Wanda.Executions.FakeGatheredFacts.html
 Wanda.Executions.FakeServer.html
 Wanda.Executions.Gathering.html
+Wanda.Executions.Messaging.Consumer.html
+Wanda.Executions.Messaging.Publisher.html
 Wanda.Executions.Result.html
 Wanda.Executions.Server.html
 Wanda.Executions.ServerBehaviour.html
@@ -48,6 +50,8 @@ Wanda.Operations.Catalog.Registry.html
 Wanda.Operations.Catalog.Step.html
 Wanda.Operations.Enums.Result.html
 Wanda.Operations.Enums.Status.html
+Wanda.Operations.Messaging.Consumer.html
+Wanda.Operations.Messaging.Publisher.html
 Wanda.Operations.Operation.Target.html
 Wanda.Operations.Operation.html
 Wanda.Operations.OperationTarget.html
@@ -132,8 +136,8 @@ dist/lato-latin-700-normal-2XVSBPG4.woff2
 dist/lato-latin-ext-400-normal-N27NCBWW.woff2
 dist/lato-latin-ext-700-normal-Q2L5DVMW.woff2
 dist/remixicon-NKANDIL5.woff2
-dist/search_data-F909BAD0.js
-dist/sidebar_items-CB4E4EF3.js
+dist/search_data-D6BA901E.js
+dist/sidebar_items-47EB8EEA.js
 expression_language.html
 gatherers.html
 hack_on_wanda.html

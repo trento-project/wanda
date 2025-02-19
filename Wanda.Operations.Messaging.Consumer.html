@@ -8,7 +8,7 @@
     <meta name="project" content="Wanda v1.4.0">
 
 
-    <title>WandaWeb.Schemas.V2.Execution.ListExecutionsResponse — Wanda v1.4.0</title>
+    <title>Wanda.Operations.Messaging.Consumer — Wanda v1.4.0</title>
 
     <link rel="stylesheet" href="dist/html-elixir-6X3L5KMG.css" />
 
@@ -79,12 +79,12 @@ Wanda
 <div id="top-content">
   <div class="heading-with-actions top-heading">
     <h1>
-      <span translate="no">WandaWeb.Schemas.V2.Execution.ListExecutionsResponse</span> 
+      <span translate="no">Wanda.Operations.Messaging.Consumer</span> 
       <small class="app-vsn" translate="no">(Wanda v1.4.0)</small>
 
     </h1>
 
-      <a href="https://github.com/trento-project/wanda/blob/main/lib/wanda_web/schemas/v2/execution/list_executions_response.ex#L1" title="View Source" class="icon-action" rel="help">
+      <a href="https://github.com/trento-project/wanda/blob/main/lib/wanda/operations/messaging/consumer.ex#L1" title="View Source" class="icon-action" rel="help">
         <i class="ri-code-s-slash-line" aria-hidden="true"></i>
         <span class="sr-only">View Source</span>
       </a>
@@ -93,7 +93,7 @@ Wanda
 
 
     <section id="moduledoc">
-<p>Execution list response API spec</p>
+<p>Operations messagging consumer module</p>
     </section>
 
 </div>
@@ -112,11 +112,17 @@ Wanda
 
     <div class="summary-row">
       <div class="summary-signature">
-        <a href="#schema/0" data-no-tooltip="" translate="no">schema()</a>
+        <a href="#child_spec/1" data-no-tooltip="" translate="no">child_spec(opts)</a>
 
       </div>
 
-        <div class="summary-synopsis"><p>Callback implementation for <a href="https://hexdocs.pm/open_api_spex/3.21.2/OpenApiSpex.Schema.html#c:schema/0"><code class="inline">OpenApiSpex.Schema.schema/0</code></a>.</p></div>
+    </div>
+
+    <div class="summary-row">
+      <div class="summary-signature">
+        <a href="#start_link/1" data-no-tooltip="" translate="no">start_link(opts)</a>
+
+      </div>
 
     </div>
 
@@ -133,17 +139,17 @@ Wanda
       <span class="text">Functions</span>
     </h1>
     <div class="functions-list">
-<section class="detail" id="schema/0">
+<section class="detail" id="child_spec/1">
 
   <div class="detail-header">
-    <a href="#schema/0" class="detail-link" data-no-tooltip="" aria-label="Link to this function">
+    <a href="#child_spec/1" class="detail-link" data-no-tooltip="" aria-label="Link to this function">
       <i class="ri-link-m" aria-hidden="true"></i>
     </a>
     <div class="heading-with-actions">
-      <h1 class="signature" translate="no">schema()</h1>
+      <h1 class="signature" translate="no">child_spec(opts)</h1>
 
 
-        <a href="https://github.com/trento-project/wanda/blob/main/lib/wanda_web/schemas/v2/execution/list_executions_response.ex#L12" class="icon-action" rel="help" aria-label="View Source">
+        <a href="https://github.com/trento-project/wanda/blob/main/lib/wanda/operations/messaging/consumer.ex#L6" class="icon-action" rel="help" aria-label="View Source">
           <i class="ri-code-s-slash-line" aria-hidden="true"></i>
         </a>
 
@@ -152,7 +158,35 @@ Wanda
 
   <section class="docstring">
 
-<p>Callback implementation for <a href="https://hexdocs.pm/open_api_spex/3.21.2/OpenApiSpex.Schema.html#c:schema/0"><code class="inline">OpenApiSpex.Schema.schema/0</code></a>.</p>
+
+  </section>
+</section>
+<section class="detail" id="start_link/1">
+
+  <div class="detail-header">
+    <a href="#start_link/1" class="detail-link" data-no-tooltip="" aria-label="Link to this function">
+      <i class="ri-link-m" aria-hidden="true"></i>
+    </a>
+    <div class="heading-with-actions">
+      <h1 class="signature" translate="no">start_link(opts)</h1>
+
+
+        <a href="https://github.com/trento-project/wanda/blob/main/lib/wanda/operations/messaging/consumer.ex#L6" class="icon-action" rel="help" aria-label="View Source">
+          <i class="ri-code-s-slash-line" aria-hidden="true"></i>
+        </a>
+
+    </div>
+  </div>
+
+  <section class="docstring">
+
+      <div class="specs">
+
+          <pre translate="no"><span class="attribute">@spec</span> start_link(<a href="https://hexdocs.pm/elixir/typespecs.html#basic-types">any</a>()) :: {:error, <a href="https://hexdocs.pm/elixir/typespecs.html#basic-types">any</a>()} | {:ok, <a href="https://hexdocs.pm/elixir/typespecs.html#basic-types">pid</a>()}</pre>
+
+      </div>
+
+
   </section>
 </section>
 
