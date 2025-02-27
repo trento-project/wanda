@@ -112,7 +112,7 @@ defmodule Wanda.MixProject do
   # Run "mix help deps" to learn about dependencies.
   defp deps do
     [
-      {:rhai_rustler, "~> 1.1.1"},
+      {:rhai_rustler, "~> 1.2.0"},
       {:rustler, ">= 0.0.0", optional: true},
       {:jason, "~> 1.3"},
       # see: https://github.com/pma/amqp/issues/231#issuecomment-2445049446
