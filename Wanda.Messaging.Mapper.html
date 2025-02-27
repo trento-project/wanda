@@ -12,7 +12,7 @@
 
     <link rel="stylesheet" href="dist/html-elixir-6X3L5KMG.css" />
 
-    <script defer src="dist/sidebar_items-47EB8EEA.js"></script>
+    <script defer src="dist/sidebar_items-B9E09047.js"></script>
     <script defer src="docs_config.js"></script>
     <script defer src="dist/html-6XHBGSGW.js"></script>
 
@@ -128,6 +128,14 @@ Wanda
 
     <div class="summary-row">
       <div class="summary-signature">
+        <a href="#from_operation_requested/1" data-no-tooltip="" translate="no">from_operation_requested(operation_requested)</a>
+
+      </div>
+
+    </div>
+
+    <div class="summary-row">
+      <div class="summary-signature">
         <a href="#to_execution_completed/2" data-no-tooltip="" translate="no">to_execution_completed(result, target_type)</a>
 
       </div>
@@ -145,6 +153,22 @@ Wanda
     <div class="summary-row">
       <div class="summary-signature">
         <a href="#to_facts_gathering_requested/4" data-no-tooltip="" translate="no">to_facts_gathering_requested(execution_id, group_id, targets, checks)</a>
+
+      </div>
+
+    </div>
+
+    <div class="summary-row">
+      <div class="summary-signature">
+        <a href="#to_operation_completed/4" data-no-tooltip="" translate="no">to_operation_completed(operation_id, group_id, operation_type, result)</a>
+
+      </div>
+
+    </div>
+
+    <div class="summary-row">
+      <div class="summary-signature">
+        <a href="#to_operation_started/4" data-no-tooltip="" translate="no">to_operation_started(operation_id, group_id, operation_type, targets)</a>
 
       </div>
 
@@ -173,7 +197,7 @@ Wanda
       <h1 class="signature" translate="no">from_execution_requested(execution_requested)</h1>
 
 
-        <a href="https://github.com/trento-project/wanda/blob/main/lib/wanda/messaging/mapper.ex#L65" class="icon-action" rel="help" aria-label="View Source">
+        <a href="https://github.com/trento-project/wanda/blob/main/lib/wanda/messaging/mapper.ex#L73" class="icon-action" rel="help" aria-label="View Source">
           <i class="ri-code-s-slash-line" aria-hidden="true"></i>
         </a>
 
@@ -207,7 +231,7 @@ Wanda
       <h1 class="signature" translate="no">from_facts_gathererd(facts_gathered)</h1>
 
 
-        <a href="https://github.com/trento-project/wanda/blob/main/lib/wanda/messaging/mapper.ex#L87" class="icon-action" rel="help" aria-label="View Source">
+        <a href="https://github.com/trento-project/wanda/blob/main/lib/wanda/messaging/mapper.ex#L95" class="icon-action" rel="help" aria-label="View Source">
           <i class="ri-code-s-slash-line" aria-hidden="true"></i>
         </a>
 
@@ -230,6 +254,39 @@ Wanda
 
   </section>
 </section>
+<section class="detail" id="from_operation_requested/1">
+
+  <div class="detail-header">
+    <a href="#from_operation_requested/1" class="detail-link" data-no-tooltip="" aria-label="Link to this function">
+      <i class="ri-link-m" aria-hidden="true"></i>
+    </a>
+    <div class="heading-with-actions">
+      <h1 class="signature" translate="no">from_operation_requested(operation_requested)</h1>
+
+
+        <a href="https://github.com/trento-project/wanda/blob/main/lib/wanda/messaging/mapper.ex#L140" class="icon-action" rel="help" aria-label="View Source">
+          <i class="ri-code-s-slash-line" aria-hidden="true"></i>
+        </a>
+
+    </div>
+  </div>
+
+  <section class="docstring">
+
+      <div class="specs">
+
+          <pre translate="no"><span class="attribute">@spec</span> from_operation_requested(Trento.Operations.V1.OperationRequested.t()) :: %{
+  operation_id: <a href="https://hexdocs.pm/elixir/String.html#t:t/0">String.t</a>(),
+  group_id: <a href="https://hexdocs.pm/elixir/String.html#t:t/0">String.t</a>(),
+  operation_type: <a href="https://hexdocs.pm/elixir/String.html#t:t/0">String.t</a>(),
+  targets: [<a href="Wanda.Operations.OperationTarget.html#t:t/0">Wanda.Operations.OperationTarget.t</a>()]
+}</pre>
+
+      </div>
+
+
+  </section>
+</section>
 <section class="detail" id="to_execution_completed/2">
 
   <div class="detail-header">
@@ -240,7 +297,7 @@ Wanda
       <h1 class="signature" translate="no">to_execution_completed(result, target_type)</h1>
 
 
-        <a href="https://github.com/trento-project/wanda/blob/main/lib/wanda/messaging/mapper.ex#L42" class="icon-action" rel="help" aria-label="View Source">
+        <a href="https://github.com/trento-project/wanda/blob/main/lib/wanda/messaging/mapper.ex#L50" class="icon-action" rel="help" aria-label="View Source">
           <i class="ri-code-s-slash-line" aria-hidden="true"></i>
         </a>
 
@@ -262,7 +319,7 @@ Wanda
       <h1 class="signature" translate="no">to_execution_started(execution_id, group_id, targets)</h1>
 
 
-        <a href="https://github.com/trento-project/wanda/blob/main/lib/wanda/messaging/mapper.ex#L26" class="icon-action" rel="help" aria-label="View Source">
+        <a href="https://github.com/trento-project/wanda/blob/main/lib/wanda/messaging/mapper.ex#L34" class="icon-action" rel="help" aria-label="View Source">
           <i class="ri-code-s-slash-line" aria-hidden="true"></i>
         </a>
 
@@ -291,7 +348,7 @@ Wanda
       <h1 class="signature" translate="no">to_facts_gathering_requested(execution_id, group_id, targets, checks)</h1>
 
 
-        <a href="https://github.com/trento-project/wanda/blob/main/lib/wanda/messaging/mapper.ex#L34" class="icon-action" rel="help" aria-label="View Source">
+        <a href="https://github.com/trento-project/wanda/blob/main/lib/wanda/messaging/mapper.ex#L42" class="icon-action" rel="help" aria-label="View Source">
           <i class="ri-code-s-slash-line" aria-hidden="true"></i>
         </a>
 
@@ -299,6 +356,66 @@ Wanda
   </div>
 
   <section class="docstring">
+
+
+  </section>
+</section>
+<section class="detail" id="to_operation_completed/4">
+
+  <div class="detail-header">
+    <a href="#to_operation_completed/4" class="detail-link" data-no-tooltip="" aria-label="Link to this function">
+      <i class="ri-link-m" aria-hidden="true"></i>
+    </a>
+    <div class="heading-with-actions">
+      <h1 class="signature" translate="no">to_operation_completed(operation_id, group_id, operation_type, result)</h1>
+
+
+        <a href="https://github.com/trento-project/wanda/blob/main/lib/wanda/messaging/mapper.ex#L125" class="icon-action" rel="help" aria-label="View Source">
+          <i class="ri-code-s-slash-line" aria-hidden="true"></i>
+        </a>
+
+    </div>
+  </div>
+
+  <section class="docstring">
+
+      <div class="specs">
+
+          <pre translate="no"><span class="attribute">@spec</span> to_operation_completed(<a href="https://hexdocs.pm/elixir/String.html#t:t/0">String.t</a>(), <a href="https://hexdocs.pm/elixir/String.html#t:t/0">String.t</a>(), <a href="https://hexdocs.pm/elixir/String.html#t:t/0">String.t</a>(), <a href="https://hexdocs.pm/elixir/typespecs.html#basic-types">atom</a>()) ::
+  Trento.Operations.V1.OperationCompleted.t()</pre>
+
+      </div>
+
+
+  </section>
+</section>
+<section class="detail" id="to_operation_started/4">
+
+  <div class="detail-header">
+    <a href="#to_operation_started/4" class="detail-link" data-no-tooltip="" aria-label="Link to this function">
+      <i class="ri-link-m" aria-hidden="true"></i>
+    </a>
+    <div class="heading-with-actions">
+      <h1 class="signature" translate="no">to_operation_started(operation_id, group_id, operation_type, targets)</h1>
+
+
+        <a href="https://github.com/trento-project/wanda/blob/main/lib/wanda/messaging/mapper.ex#L114" class="icon-action" rel="help" aria-label="View Source">
+          <i class="ri-code-s-slash-line" aria-hidden="true"></i>
+        </a>
+
+    </div>
+  </div>
+
+  <section class="docstring">
+
+      <div class="specs">
+
+          <pre translate="no"><span class="attribute">@spec</span> to_operation_started(<a href="https://hexdocs.pm/elixir/String.html#t:t/0">String.t</a>(), <a href="https://hexdocs.pm/elixir/String.html#t:t/0">String.t</a>(), <a href="https://hexdocs.pm/elixir/String.html#t:t/0">String.t</a>(), [
+  <a href="Wanda.Operations.OperationTarget.html#t:t/0">Wanda.Operations.OperationTarget.t</a>()
+]) ::
+  Trento.Operations.V1.OperationStarted.t()</pre>
+
+      </div>
 
 
   </section>
