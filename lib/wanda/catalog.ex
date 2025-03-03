@@ -3,6 +3,9 @@ defmodule Wanda.Catalog do
   Function to interact with the checks catalog.
   """
 
+  alias Wanda.Catalog.CustomizedValue
+  alias Wanda.Catalog.SelectedCheck
+
   alias Wanda.Catalog.{
     Check,
     CheckCustomization,
@@ -79,6 +82,15 @@ defmodule Wanda.Catalog do
     |> Enum.map(&map_to_selectable_check(&1, available_customizations))
   end
 
+  @spec get_current_selection([String.t()], String.t(), map()) :: [SelectedCheck.t()]
+  def get_current_selection(ids, group_id, env \\ %{}) do
+    available_customizations = ChecksCustomizations.get_customizations(group_id)
+
+    ids
+    |> get_checks(env)
+    |> Enum.map(&map_to_selected_check(&1, available_customizations))
+  end
+
   defp map_to_selectable_check(
          %Check{
            id: id,
@@ -108,6 +120,20 @@ defmodule Wanda.Catalog do
       customized:
         customizable_check? &&
           Enum.any?(mapped_values, &(&1.customizable && Map.has_key?(&1, :custom_value)))
+    }
+  end
+
+  defp map_to_selected_check(%Check{id: id} = check, available_customizations) do
+    customizations =
+      id
+      |> find_custom_values(available_customizations)
+      |> Enum.map(&CustomizedValue.from_custom_value/1)
+
+    %SelectedCheck{
+      id: id,
+      spec: check,
+      customized: Enum.count(customizations) > 0,
+      customizations: customizations
     }
   end
 

@@ -11,6 +11,7 @@ defmodule Wanda.CatalogTest do
     Expectation,
     Fact,
     SelectableCheck,
+    SelectedCheck,
     Value
   }
 
@@ -430,6 +431,79 @@ defmodule Wanda.CatalogTest do
       if not customizable do
         refute Map.has_key?(value, :current_value)
       end
+    end
+  end
+
+  describe "checks execution selection" do
+    test "should return an empty current selection when check ids do not mathc" do
+      assert [] == Catalog.get_current_selection(["FOO", "BAR"], Faker.UUID.v4())
+    end
+
+    test "should return current selection with no customized checks" do
+      assert [
+               %SelectedCheck{
+                 id: "expect_check",
+                 spec: %Check{id: "expect_check"},
+                 customized: false,
+                 customizations: []
+               },
+               %SelectedCheck{
+                 id: "expect_same_check",
+                 spec: %Check{id: "expect_same_check"},
+                 customized: false,
+                 customizations: []
+               }
+             ] =
+               Catalog.get_current_selection(
+                 ["expect_check", "expect_same_check"],
+                 Faker.UUID.v4()
+               )
+    end
+
+    test "should return current selection with some customized checks" do
+      group_id = Faker.UUID.v4()
+      custom_numeric_value = 420
+
+      insert(:check_customization,
+        group_id: group_id,
+        check_id: "mixed_values_customizability",
+        custom_values: [
+          %{
+            name: "numeric_value",
+            value: custom_numeric_value
+          }
+        ]
+      )
+
+      assert [
+               %SelectedCheck{
+                 id: "expect_check",
+                 spec: %Check{id: "expect_check"},
+                 customized: false,
+                 customizations: []
+               },
+               %SelectedCheck{
+                 id: "expect_same_check",
+                 spec: %Check{id: "expect_same_check"},
+                 customized: false,
+                 customizations: []
+               },
+               %SelectedCheck{
+                 id: "mixed_values_customizability",
+                 spec: %Check{id: "mixed_values_customizability"},
+                 customized: true,
+                 customizations: [
+                   %{
+                     name: "numeric_value",
+                     value: ^custom_numeric_value
+                   }
+                 ]
+               }
+             ] =
+               Catalog.get_current_selection(
+                 ["expect_check", "expect_same_check", "mixed_values_customizability"],
+                 group_id
+               )
     end
   end
 end
