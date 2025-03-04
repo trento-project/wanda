@@ -40,9 +40,10 @@ defmodule Wanda.Executions.EvaluationTest do
           expression: "facts.#{fact_name} == #{fact_value}"
         )
 
-      [%Catalog.Check{id: check_id}] =
-        checks =
-        build_list(1, :check, facts: catalog_facts, values: [], expectations: expectations)
+      %Catalog.Check{id: check_id} =
+        spec = build(:check, facts: catalog_facts, values: [], expectations: expectations)
+
+      checks = build_list(1, :selected_check, spec: spec, customized: false, customizations: [])
 
       facts = build_list(1, :fact, name: fact_name, check_id: check_id, value: fact_value)
 
@@ -113,14 +114,16 @@ defmodule Wanda.Executions.EvaluationTest do
           expression: "facts.#{fact_name} == #{fact_value}"
         )
 
-      [%Catalog.Check{id: check_id}] =
-        checks =
-        build_list(1, :check,
+      %Catalog.Check{id: check_id} =
+        spec =
+        build(:check,
           severity: :critical,
           facts: catalog_facts,
           values: [],
           expectations: expectations
         )
+
+      checks = build_list(1, :selected_check, spec: spec, customized: false, customizations: [])
 
       gathered_facts = %{
         check_id => %{
@@ -196,14 +199,16 @@ defmodule Wanda.Executions.EvaluationTest do
           expression: "facts.#{fact_name} == #{fact_value}"
         )
 
-      [%Catalog.Check{id: check_id}] =
-        checks =
-        build_list(1, :check,
+      %Catalog.Check{id: check_id} =
+        spec =
+        build(:check,
           severity: :critical,
           facts: catalog_facts,
           values: [],
           expectations: expectations
         )
+
+      checks = build_list(1, :selected_check, spec: spec, customized: false, customizations: [])
 
       gathered_facts = %{
         check_id => %{
@@ -268,13 +273,15 @@ defmodule Wanda.Executions.EvaluationTest do
           expression: "facts.#{fact_name} == #{fact_value}"
         )
 
-      [%Catalog.Check{id: check_id}] =
-        checks =
-        build_list(1, :check,
+      %Catalog.Check{id: check_id} =
+        spec =
+        build(:check,
           facts: catalog_facts,
           values: [],
           expectations: expectations
         )
+
+      checks = build_list(1, :selected_check, spec: spec, customized: false, customizations: [])
 
       facts = build_list(1, :fact, name: fact_name, check_id: check_id, value: fact_value)
 
@@ -345,14 +352,16 @@ defmodule Wanda.Executions.EvaluationTest do
           expression: "facts.#{fact_name} == #{fact_value}"
         )
 
-      [%Catalog.Check{id: check_id}] =
-        checks =
-        build_list(1, :check,
+      %Catalog.Check{id: check_id} =
+        spec =
+        build(:check,
           severity: :critical,
           facts: catalog_facts,
           values: [],
           expectations: expectations
         )
+
+      checks = build_list(1, :selected_check, spec: spec, customized: false, customizations: [])
 
       gathered_facts = %{
         check_id => %{
@@ -428,14 +437,16 @@ defmodule Wanda.Executions.EvaluationTest do
           expression: "facts.#{fact_name} == #{fact_value}"
         )
 
-      [%Catalog.Check{id: check_id}] =
-        checks =
-        build_list(1, :check,
+      %Catalog.Check{id: check_id} =
+        spec =
+        build(:check,
           severity: :critical,
           facts: catalog_facts,
           values: [],
           expectations: expectations
         )
+
+      checks = build_list(1, :selected_check, spec: spec, customized: false, customizations: [])
 
       gathered_facts = %{
         check_id => %{
@@ -486,14 +497,16 @@ defmodule Wanda.Executions.EvaluationTest do
       [%Catalog.Expectation{name: expectation_name}] =
         expectations = build_list(1, :catalog_expectation, type: :expect)
 
-      [%Catalog.Check{id: check_id}] =
-        checks =
-        build_list(1, :check,
+      %Catalog.Check{id: check_id} =
+        spec =
+        build(:check,
           severity: :critical,
           facts: catalog_facts,
           values: [],
           expectations: expectations
         )
+
+      checks = build_list(1, :selected_check, spec: spec, customized: false, customizations: [])
 
       facts = build_list(1, :fact, name: fact_name, check_id: check_id)
 
@@ -556,14 +569,16 @@ defmodule Wanda.Executions.EvaluationTest do
           expression: "facts.#{fact_name} == #{fact_value}"
         )
 
-      [%Catalog.Check{id: check_id}] =
-        checks =
-        build_list(1, :check,
+      %Catalog.Check{id: check_id} =
+        spec =
+        build(:check,
           severity: :critical,
           facts: catalog_facts,
           values: [],
           expectations: expectations
         )
+
+      checks = build_list(1, :selected_check, spec: spec, customized: false, customizations: [])
 
       facts = build_list(1, :fact, name: fact_name, check_id: check_id, value: fact_value)
 
@@ -614,14 +629,16 @@ defmodule Wanda.Executions.EvaluationTest do
 
       expectations = build_list(1, :catalog_expectation, type: :expect)
 
-      [%Catalog.Check{id: check_id}] =
-        checks =
-        build_list(1, :check,
+      %Catalog.Check{id: check_id} =
+        spec =
+        build(:check,
           severity: :warning,
           facts: catalog_facts,
           values: [],
           expectations: expectations
         )
+
+      checks = build_list(1, :selected_check, spec: spec, customized: false, customizations: [])
 
       facts = build_list(1, :fact, name: fact_name, check_id: check_id)
 
@@ -654,14 +671,16 @@ defmodule Wanda.Executions.EvaluationTest do
 
       expectations = build_list(1, :catalog_expectation, type: :expect, expression: "1 == 1")
 
-      [%Catalog.Check{id: check_id}] =
-        checks =
-        build_list(1, :check,
+      %Catalog.Check{id: check_id} =
+        spec =
+        build(:check,
           severity: :warning,
           facts: catalog_facts,
           values: [],
           expectations: expectations
         )
+
+      checks = build_list(1, :selected_check, spec: spec, customized: false, customizations: [])
 
       facts = build_list(1, :fact, name: fact_name, check_id: check_id)
 
@@ -776,9 +795,11 @@ defmodule Wanda.Executions.EvaluationTest do
           )
         ]
 
-        [%Catalog.Check{id: check_id}] =
-          checks =
-          build_list(1, :check, facts: catalog_facts, values: [], expectations: expectations)
+        %Catalog.Check{id: check_id} =
+          spec =
+          build(:check, facts: catalog_facts, values: [], expectations: expectations)
+
+        checks = build_list(1, :selected_check, spec: spec, customized: false, customizations: [])
 
         facts_agent_1 = [
           build(:fact, name: fact_1_name, check_id: check_id, value: agent_1_fact_1_value),
@@ -843,9 +864,11 @@ defmodule Wanda.Executions.EvaluationTest do
           failure_message: nil
         )
 
-      [%Catalog.Check{id: check_id}] =
-        checks =
-        build_list(1, :check, facts: catalog_facts, values: [], expectations: expectations)
+      %Catalog.Check{id: check_id} =
+        spec =
+        build(:check, facts: catalog_facts, values: [], expectations: expectations)
+
+      checks = build_list(1, :selected_check, spec: spec, customized: false, customizations: [])
 
       facts = build_list(1, :fact, name: fact_name, check_id: check_id, value: "unknown")
 
@@ -947,9 +970,11 @@ defmodule Wanda.Executions.EvaluationTest do
             warning_message: warning_mesasge
           )
 
-        [%Catalog.Check{id: check_id}] =
-          checks =
-          build_list(1, :check, facts: catalog_facts, values: [], expectations: expectations)
+        %Catalog.Check{id: check_id} =
+          spec =
+          build(:check, facts: catalog_facts, values: [], expectations: expectations)
+
+        checks = build_list(1, :selected_check, spec: spec, customized: false, customizations: [])
 
         facts = build_list(1, :fact, name: fact_name, check_id: check_id, value: fact_value)
 
@@ -1022,9 +1047,11 @@ defmodule Wanda.Executions.EvaluationTest do
         )
       ]
 
-      [%Catalog.Check{id: check_id}] =
-        checks =
-        build_list(1, :check, facts: catalog_facts, values: [], expectations: expectations)
+      %Catalog.Check{id: check_id} =
+        spec =
+        build(:check, facts: catalog_facts, values: [], expectations: expectations)
+
+      checks = build_list(1, :selected_check, spec: spec, customized: false, customizations: [])
 
       facts = build_list(1, :fact, name: fact_name, check_id: check_id, value: array)
 
@@ -1094,9 +1121,11 @@ defmodule Wanda.Executions.EvaluationTest do
         )
       ]
 
-      [%Catalog.Check{id: check_id}] =
-        checks =
-        build_list(1, :check, facts: catalog_facts, values: [], expectations: expectations)
+      %Catalog.Check{id: check_id} =
+        spec =
+        build(:check, facts: catalog_facts, values: [], expectations: expectations)
+
+      checks = build_list(1, :selected_check, spec: spec, customized: false, customizations: [])
 
       facts = build_list(1, :fact, name: fact_name, check_id: check_id, value: map)
 
@@ -1127,7 +1156,7 @@ defmodule Wanda.Executions.EvaluationTest do
 
   describe "environment based check evaluation" do
     setup do
-      check =
+      spec =
         build(:check,
           severity: :critical,
           facts: [
@@ -1162,7 +1191,7 @@ defmodule Wanda.Executions.EvaluationTest do
           ]
         )
 
-      %{checks: [check]}
+      %{checks: build_list(1, :selected_check, spec: spec, customized: false, customizations: [])}
     end
 
     test "should return a passing result based on the first matching environmental condition",
@@ -1186,6 +1215,7 @@ defmodule Wanda.Executions.EvaluationTest do
         group_id: group_id,
         check_results: [
           %CheckResult{
+            customized: false,
             agents_check_results: [
               %AgentCheckResult{
                 agent_id: "agent_1",
@@ -1204,7 +1234,11 @@ defmodule Wanda.Executions.EvaluationTest do
                   }
                 ],
                 values: [
-                  %Value{name: "some_value", value: "value_on_first_condition"}
+                  %Value{
+                    name: "some_value",
+                    value: "value_on_first_condition",
+                    customized: false
+                  }
                 ]
               },
               %AgentCheckResult{
@@ -1224,7 +1258,11 @@ defmodule Wanda.Executions.EvaluationTest do
                   }
                 ],
                 values: [
-                  %Value{name: "some_value", value: "value_on_first_condition"}
+                  %Value{
+                    name: "some_value",
+                    value: "value_on_first_condition",
+                    customized: false
+                  }
                 ]
               }
             ],
@@ -1370,6 +1408,7 @@ defmodule Wanda.Executions.EvaluationTest do
         group_id: group_id,
         check_results: [
           %CheckResult{
+            customized: false,
             agents_check_results: [
               %AgentCheckResult{
                 agent_id: "agent_1",
@@ -1388,7 +1427,7 @@ defmodule Wanda.Executions.EvaluationTest do
                   }
                 ],
                 values: [
-                  %Value{name: "some_value", value: "a_default_value"}
+                  %Value{name: "some_value", value: "a_default_value", customized: false}
                 ]
               },
               %AgentCheckResult{
@@ -1408,7 +1447,7 @@ defmodule Wanda.Executions.EvaluationTest do
                   }
                 ],
                 values: [
-                  %Value{name: "some_value", value: "a_default_value"}
+                  %Value{name: "some_value", value: "a_default_value", customized: false}
                 ]
               }
             ],
@@ -1575,14 +1614,16 @@ defmodule Wanda.Executions.EvaluationTest do
           failure_message: "failure checking ${facts.#{fact_name}}"
         )
 
-      [%Catalog.Check{id: check_id}] =
-        checks =
-        build_list(1, :check,
+      %Catalog.Check{id: check_id} =
+        spec =
+        build(:check,
           severity: :critical,
           facts: catalog_facts,
           values: [],
           expectations: expectations
         )
+
+      checks = build_list(1, :selected_check, spec: spec, customized: false, customizations: [])
 
       gathered_facts = %{
         check_id => %{
@@ -1666,14 +1707,16 @@ defmodule Wanda.Executions.EvaluationTest do
           failure_message: failure_message
         )
 
-      [%Catalog.Check{id: check_id}] =
-        checks =
-        build_list(1, :check,
+      %Catalog.Check{id: check_id} =
+        spec =
+        build(:check,
           severity: :critical,
           facts: catalog_facts,
           values: [],
           expectations: expectations
         )
+
+      checks = build_list(1, :selected_check, spec: spec, customized: false, customizations: [])
 
       gathered_facts = %{
         check_id => %{
@@ -1749,9 +1792,9 @@ defmodule Wanda.Executions.EvaluationTest do
 
       incorrect_fact_value = Faker.Cat.name()
 
-      [%Catalog.Check{id: check_id}] =
-        checks =
-        build_list(1, :check,
+      %Catalog.Check{id: check_id} =
+        spec =
+        build(:check,
           severity: :critical,
           facts: [
             build(:catalog_fact, name: fact_name),
@@ -1773,6 +1816,8 @@ defmodule Wanda.Executions.EvaluationTest do
             )
           ]
         )
+
+      checks = build_list(1, :selected_check, spec: spec, customized: false, customizations: [])
 
       gathered_facts = %{
         check_id => %{
@@ -1800,6 +1845,7 @@ defmodule Wanda.Executions.EvaluationTest do
                group_id: ^group_id,
                check_results: [
                  %CheckResult{
+                   customized: false,
                    check_id: ^check_id,
                    expectation_results: [
                      %ExpectationResult{
@@ -1840,14 +1886,16 @@ defmodule Wanda.Executions.EvaluationTest do
           failure_message: "failure checking ${facts.kekw}"
         )
 
-      [%Catalog.Check{id: check_id}] =
-        checks =
-        build_list(1, :check,
+      %Catalog.Check{id: check_id} =
+        spec =
+        build(:check,
           severity: :critical,
           facts: catalog_facts,
           values: [],
           expectations: expectations
         )
+
+      checks = build_list(1, :selected_check, spec: spec, customized: false, customizations: [])
 
       gathered_facts = %{
         check_id => %{
@@ -1907,6 +1955,258 @@ defmodule Wanda.Executions.EvaluationTest do
                ],
                result: :critical
              } = Evaluation.execute(execution_id, group_id, checks, gathered_facts, %{}, engine)
+    end
+  end
+
+  describe "evaluating with customizations" do
+    test "should evaluate result taking into account customizations", %{
+      engine: engine
+    } do
+      spec =
+        build(:check,
+          severity: :critical,
+          facts: [
+            build(:catalog_fact, name: "fact_1"),
+            build(:catalog_fact, name: "fact_2")
+          ],
+          values: [
+            build(:catalog_value,
+              name: "value_1",
+              default: "value_1_default",
+              conditions: [
+                build(:catalog_condition,
+                  value: "value_1_condition_1",
+                  expression: "env.env_1 == \"foo\" || env.env_1 == \"bar\""
+                ),
+                build(:catalog_condition,
+                  value: "value_1_condition_2",
+                  expression: "env.env_1 == \"baz\""
+                )
+              ]
+            ),
+            build(:catalog_value,
+              name: "value_2",
+              default: "value_2_default",
+              conditions: [
+                build(:catalog_condition,
+                  value: "value_2_condition_1",
+                  expression: "env.env_2 == \"foo\" || env.env_2 == \"bar\""
+                )
+              ]
+            )
+          ],
+          expectations: [
+            build(:catalog_expectation,
+              name: "expectation_1",
+              type: :expect,
+              expression: "facts.fact_1 == values.value_1",
+              failure_message:
+                "Failure message 1: values.value_1 is expected to be <- ${values.value_1} ->"
+            ),
+            build(:catalog_expectation,
+              name: "expectation_2",
+              type: :expect_same,
+              expression: "facts.fact_2 == values.value_2"
+            ),
+            build(:catalog_expectation,
+              name: "expectation_3",
+              type: :expect_enum,
+              failure_message:
+                "Failure message 3: values.value_1 is expected to be <- ${values.value_1} ->",
+              warning_message:
+                "Warning message 1: values.value_1 is expected to be <- ${values.value_1} ->",
+              expression: """
+              if facts.fact_1 == values.value_1 {
+                "passing"
+              } else {
+                "warning"
+              }
+              """
+            )
+          ]
+        )
+
+      [%{id: check_id}] =
+        checks =
+        build_list(1, :selected_check,
+          spec: spec,
+          customized: true,
+          customizations: [
+            build(:customized_value, name: "value_1", value: "expected_customized_value_1"),
+            build(:customized_value, name: "value_2", value: "expected_customized_value_2")
+          ]
+        )
+
+      gathered_facts = %{
+        check_id => %{
+          "agent_1" => [
+            build(:fact, check_id: check_id, name: "fact_1", value: "expected_customized_value_1"),
+            build(:fact, check_id: check_id, name: "fact_2", value: "expected_customized_value_2")
+          ],
+          "agent_2" => [
+            build(:fact, check_id: check_id, name: "fact_1", value: "not_what_expected"),
+            build(:fact, check_id: check_id, name: "fact_2", value: "expected_customized_value_2")
+          ]
+        }
+      }
+
+      execution_id = UUID.uuid4()
+      group_id = UUID.uuid4()
+
+      matching_yet_not_affecting_envs = [
+        %{
+          "env_1" => "foo",
+          "env_2" => "bar"
+        },
+        %{
+          "env_1" => "bar",
+          "env_2" => "foo"
+        },
+        %{
+          "env_1" => "bar",
+          "env_2" => "baz"
+        }
+      ]
+
+      for env <- matching_yet_not_affecting_envs do
+        assert %Result{
+                 execution_id: execution_id,
+                 group_id: group_id,
+                 check_results: [
+                   %CheckResult{
+                     customized: true,
+                     agents_check_results: [
+                       %AgentCheckResult{
+                         agent_id: "agent_1",
+                         expectation_evaluations: [
+                           %ExpectationEvaluation{
+                             name: "expectation_1",
+                             return_value: true,
+                             type: :expect,
+                             failure_message: nil
+                           },
+                           %ExpectationEvaluation{
+                             name: "expectation_2",
+                             return_value: true,
+                             type: :expect_same,
+                             failure_message: nil
+                           },
+                           %ExpectationEvaluation{
+                             name: "expectation_3",
+                             return_value: :passing,
+                             type: :expect_enum,
+                             failure_message: nil
+                           }
+                         ],
+                         facts: [
+                           %Fact{
+                             check_id: check_id,
+                             name: "fact_1",
+                             value: "expected_customized_value_1"
+                           },
+                           %Fact{
+                             check_id: check_id,
+                             name: "fact_2",
+                             value: "expected_customized_value_2"
+                           }
+                         ],
+                         values: [
+                           %Value{
+                             name: "value_1",
+                             value: "expected_customized_value_1",
+                             customized: true
+                           },
+                           %Value{
+                             name: "value_2",
+                             value: "expected_customized_value_2",
+                             customized: true
+                           }
+                         ]
+                       },
+                       %AgentCheckResult{
+                         agent_id: "agent_2",
+                         expectation_evaluations: [
+                           %ExpectationEvaluation{
+                             name: "expectation_1",
+                             return_value: false,
+                             type: :expect,
+                             failure_message:
+                               "Failure message 1: values.value_1 is expected to be <- expected_customized_value_1 ->"
+                           },
+                           %ExpectationEvaluation{
+                             name: "expectation_2",
+                             return_value: true,
+                             type: :expect_same,
+                             failure_message: nil
+                           },
+                           %ExpectationEvaluation{
+                             name: "expectation_3",
+                             return_value: :warning,
+                             type: :expect_enum,
+                             failure_message:
+                               "Warning message 1: values.value_1 is expected to be <- expected_customized_value_1 ->"
+                           }
+                         ],
+                         facts: [
+                           %Fact{
+                             check_id: check_id,
+                             name: "fact_1",
+                             value: "not_what_expected"
+                           },
+                           %Fact{
+                             check_id: check_id,
+                             name: "fact_2",
+                             value: "expected_customized_value_2"
+                           }
+                         ],
+                         values: [
+                           %Value{
+                             name: "value_1",
+                             value: "expected_customized_value_1",
+                             customized: true
+                           },
+                           %Value{
+                             name: "value_2",
+                             value: "expected_customized_value_2",
+                             customized: true
+                           }
+                         ]
+                       }
+                     ],
+                     check_id: check_id,
+                     expectation_results: [
+                       %ExpectationResult{
+                         name: "expectation_1",
+                         result: false,
+                         type: :expect
+                       },
+                       %ExpectationResult{
+                         name: "expectation_2",
+                         result: true,
+                         type: :expect_same
+                       },
+                       %ExpectationResult{
+                         name: "expectation_3",
+                         result: :warning,
+                         type: :expect_enum,
+                         failure_message: nil
+                       }
+                     ],
+                     result: :critical
+                   }
+                 ],
+                 result: :critical,
+                 timeout: []
+               } ==
+                 Evaluation.execute(
+                   execution_id,
+                   group_id,
+                   checks,
+                   gathered_facts,
+                   env,
+                   engine
+                 )
+      end
     end
   end
 end

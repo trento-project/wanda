@@ -7,11 +7,13 @@ defmodule Wanda.Executions.Value do
   @derive Jason.Encoder
   defstruct [
     :name,
-    :value
+    :value,
+    :customized
   ]
 
   @type t :: %__MODULE__{
           name: String.t(),
-          value: boolean() | number() | String.t()
+          value: boolean() | number() | String.t(),
+          customized: boolean()
         }
 end

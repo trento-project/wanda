@@ -3,7 +3,7 @@ defmodule Wanda.Executions.Evaluation do
   Evaluation functional core.
   """
 
-  alias Wanda.Catalog.{Check, Condition, Expectation}
+  alias Wanda.Catalog.{Check, Condition, CustomizedValue, Expectation, SelectedCheck}
   alias Wanda.Catalog.Value, as: CatalogValue
 
   alias Wanda.Executions.{
@@ -28,7 +28,7 @@ defmodule Wanda.Executions.Evaluation do
   @spec execute(
           String.t(),
           String.t(),
-          [Check.t()],
+          [SelectedCheck.t()],
           map(),
           %{String.t() => boolean() | number() | String.t()},
           [String.t()],
@@ -52,24 +52,35 @@ defmodule Wanda.Executions.Evaluation do
   defp add_checks_result(%Result{} = result, checks, gathered_facts, env, engine) do
     check_results =
       Enum.map(gathered_facts, fn {check_id, agents_facts} ->
-        %Check{severity: severity, values: values, expectations: expectations} =
-          Enum.find(checks, &(&1.id == check_id))
+        %SelectedCheck{} = selected_check = Enum.find(checks, &(&1.id == check_id))
 
-        build_check_result(check_id, severity, expectations, agents_facts, env, values, engine)
+        build_check_result(selected_check, agents_facts, env, engine)
       end)
 
     %Result{result | check_results: check_results}
   end
 
-  defp build_check_result(check_id, severity, expectations, agents_facts, env, values, engine) do
+  defp build_check_result(
+         %SelectedCheck{
+           id: check_id,
+           spec: %Check{
+             severity: severity,
+             expectations: expectations
+           },
+           customized: customized
+         } = selected_check,
+         agents_facts,
+         env,
+         engine
+       ) do
     %CheckResult{
-      check_id: check_id
+      check_id: check_id,
+      customized: customized
     }
     |> add_agents_results(
-      expectations,
+      selected_check,
       agents_facts,
       env,
-      values,
       engine
     )
     |> add_expectation_results(expectations, engine)
@@ -78,10 +89,9 @@ defmodule Wanda.Executions.Evaluation do
 
   defp add_agents_results(
          %CheckResult{} = check_result,
-         expectations,
+         %SelectedCheck{} = selected_check,
          agents_facts,
          env,
-         values,
          engine
        ) do
     agents_results =
@@ -94,13 +104,13 @@ defmodule Wanda.Executions.Evaluation do
           }
 
         {agent_id, facts} ->
-          add_agent_check_result_or_error(agent_id, facts, expectations, env, values, engine)
+          add_agent_check_result_or_error(agent_id, selected_check, facts, env, engine)
       end)
 
     %CheckResult{check_result | agents_check_results: agents_results}
   end
 
-  defp add_agent_check_result_or_error(agent_id, facts, expectations, env, values, engine) do
+  defp add_agent_check_result_or_error(agent_id, selected_check, facts, env, engine) do
     if has_some_fact_gathering_error?(facts) do
       %AgentCheckError{
         agent_id: agent_id,
@@ -109,19 +119,32 @@ defmodule Wanda.Executions.Evaluation do
         message: "Fact gathering error occurred during the execution"
       }
     else
+      %SelectedCheck{
+        spec: %Check{
+          values: spec_values,
+          expectations: expectations
+        },
+        customizations: customizations
+      } = selected_check
+
       value_evaluation_scope = add_scope(%{"env" => env}, "facts", facts)
 
-      evaluated_values = Enum.map(values, &eval_value(&1, value_evaluation_scope, engine))
+      resolved_values =
+        Enum.map(spec_values, fn %CatalogValue{name: name} = specified_value ->
+          customization = Enum.find(customizations, &(&1.name == name))
+
+          eval_value(specified_value, customization, value_evaluation_scope, engine)
+        end)
 
       expectation_evaluation_scope =
         %{}
         |> add_scope("facts", facts)
-        |> add_scope("values", evaluated_values)
+        |> add_scope("values", resolved_values)
 
       %AgentCheckResult{
         agent_id: agent_id,
         facts: facts,
-        values: evaluated_values,
+        values: resolved_values,
         expectation_evaluations:
           Enum.map(expectations, &eval_expectation(&1, expectation_evaluation_scope, engine))
       }
@@ -149,12 +172,29 @@ defmodule Wanda.Executions.Evaluation do
            default: default,
            conditions: conditions
          },
+         nil = _customization,
          evaluation_scope,
          engine
        ) do
     %Value{
       name: name,
-      value: find_value(conditions, default, evaluation_scope, engine)
+      value: find_value(conditions, default, evaluation_scope, engine),
+      customized: false
+    }
+  end
+
+  defp eval_value(
+         %CatalogValue{
+           name: name
+         },
+         %CustomizedValue{name: name, value: custom_value},
+         _,
+         _
+       ) do
+    %Value{
+      name: name,
+      value: custom_value,
+      customized: true
     }
   end
 

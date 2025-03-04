@@ -11,6 +11,7 @@ defmodule Wanda.Executions.CheckResult do
   defstruct [
     :check_id,
     :result,
+    :customized,
     agents_check_results: [],
     expectation_results: []
   ]
