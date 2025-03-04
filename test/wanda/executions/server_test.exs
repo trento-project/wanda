@@ -28,9 +28,10 @@ defmodule Wanda.Executions.ServerTest do
         expression: "#{fact_name}"
       )
 
-    check = build(:check, facts: catalog_facts, values: [], expectations: expectations)
+    spec = build(:check, facts: catalog_facts, values: [], expectations: expectations)
+    selected_check = build(:selected_check, spec: spec)
 
-    {:ok, check: check}
+    {:ok, check: selected_check}
   end
 
   describe "start_link/3" do
@@ -87,7 +88,7 @@ defmodule Wanda.Executions.ServerTest do
            execution_id: execution_id,
            group_id: group_id,
            targets: build_list(10, :target),
-           checks: build_list(10, :check),
+           checks: build_list(10, :selected_check),
            env: env
          ]}
       )
@@ -112,7 +113,7 @@ defmodule Wanda.Executions.ServerTest do
            execution_id: UUID.uuid4(),
            group_id: group_id,
            targets: targets,
-           checks: build_list(10, :check),
+           checks: build_list(10, :selected_check),
            env: %{}
          ]}
       )

@@ -8,6 +8,8 @@ defmodule Wanda.Executions.Server do
 
   use GenServer, restart: :transient
 
+  alias Wanda.Catalog.SelectedCheck
+
   alias Wanda.Executions.{
     Evaluation,
     Gathering,
@@ -46,6 +48,7 @@ defmodule Wanda.Executions.Server do
       targets
       |> Target.get_checks_from_targets()
       |> Catalog.get_checks(env)
+      |> Catalog.to_selected_checks(group_id)
 
     checks_ids = Enum.map(checks, & &1.id)
 
@@ -99,8 +102,10 @@ defmodule Wanda.Executions.Server do
       ) do
     engine = EvaluationEngine.new()
 
+    specs = SelectedCheck.extract_specs(checks)
+
     facts_gathering_requested =
-      Messaging.Mapper.to_facts_gathering_requested(execution_id, group_id, targets, checks)
+      Messaging.Mapper.to_facts_gathering_requested(execution_id, group_id, targets, specs)
 
     execution_started = Messaging.Mapper.to_execution_started(execution_id, group_id, targets)
 

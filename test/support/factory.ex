@@ -4,7 +4,7 @@ defmodule Wanda.Factory do
   use ExMachina.Ecto, repo: Wanda.Repo
 
   alias Wanda.Catalog
-  alias Wanda.Catalog.CheckCustomization
+  alias Wanda.Catalog.{CheckCustomization, CustomizedValue, SelectedCheck}
 
   alias Wanda.Executions.{
     AgentCheckError,
@@ -156,6 +156,7 @@ defmodule Wanda.Factory do
     %CheckResult{
       agents_check_results: build_list(5, :agent_check_result),
       check_id: UUID.uuid4(),
+      customized: Enum.random([false, true]),
       expectation_results: build_list(5, :expectation_result),
       result: ExecutionResult.passing()
     }
@@ -304,6 +305,26 @@ defmodule Wanda.Factory do
       group_id: Faker.UUID.v4(),
       custom_values: build_list(5, :custom_value)
     }
+  end
+
+  def customized_value_factory do
+    %CustomizedValue{
+      name: Faker.UUID.v4(),
+      value: Faker.Pokemon.name()
+    }
+  end
+
+  def selected_check_factory(attrs) do
+    %Catalog.Check{id: id} = spec = Map.get(attrs, :spec, build(:check))
+
+    %SelectedCheck{
+      id: id,
+      spec: spec,
+      customized: Enum.random([false, true]),
+      customizations: build_list(5, :customized_value)
+    }
+    |> merge_attributes(attrs)
+    |> evaluate_lazy_attributes()
   end
 
   defp random_env_value do

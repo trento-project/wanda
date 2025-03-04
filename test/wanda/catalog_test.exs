@@ -11,6 +11,7 @@ defmodule Wanda.CatalogTest do
     Expectation,
     Fact,
     SelectableCheck,
+    SelectedCheck,
     Value
   }
 
@@ -430,6 +431,88 @@ defmodule Wanda.CatalogTest do
       if not customizable do
         refute Map.has_key?(value, :current_value)
       end
+    end
+  end
+
+  describe "checks execution selection" do
+    test "should return an empty list" do
+      assert [] == Catalog.to_selected_checks([], Faker.UUID.v4())
+    end
+
+    test "should return current selection with no customized checks" do
+      %Check{id: check_id_1} = check1 = build(:check)
+      %Check{id: check_id_2} = check2 = build(:check)
+
+      assert [
+               %SelectedCheck{
+                 id: ^check_id_1,
+                 spec: ^check1,
+                 customized: false,
+                 customizations: []
+               },
+               %SelectedCheck{
+                 id: ^check_id_2,
+                 spec: ^check2,
+                 customized: false,
+                 customizations: []
+               }
+             ] = Catalog.to_selected_checks([check1, check2], Faker.UUID.v4())
+    end
+
+    test "should return current selection with some customized checks" do
+      group_id = Faker.UUID.v4()
+      custom_numeric_value = 420
+
+      %Check{id: check_id_1} = check1 = build(:check)
+      %Check{id: check_id_2} = check2 = build(:check)
+
+      %Check{id: check_id_3} =
+        check3 =
+        build(:check,
+          values: [
+            %{
+              name: "numeric_value",
+              value: 12
+            }
+          ]
+        )
+
+      insert(:check_customization,
+        group_id: group_id,
+        check_id: check_id_3,
+        custom_values: [
+          %{
+            name: "numeric_value",
+            value: custom_numeric_value
+          }
+        ]
+      )
+
+      assert [
+               %SelectedCheck{
+                 id: ^check_id_1,
+                 spec: ^check1,
+                 customized: false,
+                 customizations: []
+               },
+               %SelectedCheck{
+                 id: ^check_id_2,
+                 spec: ^check2,
+                 customized: false,
+                 customizations: []
+               },
+               %SelectedCheck{
+                 id: ^check_id_3,
+                 spec: ^check3,
+                 customized: true,
+                 customizations: [
+                   %{
+                     name: "numeric_value",
+                     value: ^custom_numeric_value
+                   }
+                 ]
+               }
+             ] = Catalog.to_selected_checks([check1, check2, check3], group_id)
     end
   end
 end

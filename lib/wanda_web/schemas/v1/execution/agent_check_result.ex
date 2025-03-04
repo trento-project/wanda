@@ -6,7 +6,8 @@ defmodule WandaWeb.Schemas.V1.Execution.AgentCheckResult do
   alias WandaWeb.Schemas.V1.Execution.{
     ExpectationEvaluation,
     ExpectationEvaluationError,
-    Fact
+    Fact,
+    Value
   }
 
   require OpenApiSpex
@@ -19,6 +20,11 @@ defmodule WandaWeb.Schemas.V1.Execution.AgentCheckResult do
       properties: %{
         agent_id: %Schema{type: :string, format: :uuid, description: "Agent ID"},
         facts: %Schema{type: :array, items: Fact, description: "Facts gathered from the targets"},
+        values: %Schema{
+          type: :array,
+          items: Value,
+          description: "Values resolved for the current execution"
+        },
         expectation_evaluations: %Schema{
           type: :array,
           items: %Schema{

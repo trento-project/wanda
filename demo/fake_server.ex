@@ -5,6 +5,7 @@ defmodule Wanda.Executions.FakeServer do
   """
   @behaviour Wanda.Executions.ServerBehaviour
 
+  alias Wanda.Catalog.SelectedCheck
   alias Wanda.EvaluationEngine
   alias Wanda.Executions.{Evaluation, FakeGatheredFacts}
 
@@ -29,12 +30,16 @@ defmodule Wanda.Executions.FakeServer do
       ) do
     env = Map.put(env, "target_type", target_type)
 
-    checks =
+    selected_checks =
       targets
       |> Executions.Target.get_checks_from_targets()
       |> Catalog.get_checks(env)
+      |> Catalog.to_selected_checks(group_id)
 
-    gathered_facts = FakeGatheredFacts.get_demo_gathered_facts(checks, targets)
+    gathered_facts =
+      selected_checks
+      |> SelectedCheck.extract_specs()
+      |> FakeGatheredFacts.get_demo_gathered_facts(targets)
 
     Executions.create_execution!(execution_id, group_id, targets)
     execution_started = Messaging.Mapper.to_execution_started(execution_id, group_id, targets)
@@ -46,7 +51,7 @@ defmodule Wanda.Executions.FakeServer do
       Evaluation.execute(
         execution_id,
         group_id,
-        checks,
+        selected_checks,
         gathered_facts,
         env,
         EvaluationEngine.new()
