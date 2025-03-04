@@ -33,7 +33,8 @@ defmodule Wanda.Executions.FakeServer do
     selected_checks =
       targets
       |> Executions.Target.get_checks_from_targets()
-      |> Catalog.get_current_selection(group_id, env)
+      |> Catalog.get_checks(env)
+      |> Catalog.to_selected_checks(group_id)
 
     gathered_facts =
       selected_checks

@@ -47,7 +47,8 @@ defmodule Wanda.Executions.Server do
     checks =
       targets
       |> Target.get_checks_from_targets()
-      |> Catalog.get_current_selection(group_id, env)
+      |> Catalog.get_checks(env)
+      |> Catalog.to_selected_checks(group_id)
 
     checks_ids = Enum.map(checks, & &1.id)
 

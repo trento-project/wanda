@@ -82,13 +82,11 @@ defmodule Wanda.Catalog do
     |> Enum.map(&map_to_selectable_check(&1, available_customizations))
   end
 
-  @spec get_current_selection([String.t()], String.t(), map()) :: [SelectedCheck.t()]
-  def get_current_selection(ids, group_id, env \\ %{}) do
+  @spec to_selected_checks([Check.t()], String.t()) :: [SelectedCheck.t()]
+  def to_selected_checks(checks, group_id) do
     available_customizations = ChecksCustomizations.get_customizations(group_id)
 
-    ids
-    |> get_checks(env)
-    |> Enum.map(&map_to_selected_check(&1, available_customizations))
+    Enum.map(checks, &map_to_selected_check(&1, available_customizations))
   end
 
   defp map_to_selectable_check(

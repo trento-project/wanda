@@ -435,38 +435,51 @@ defmodule Wanda.CatalogTest do
   end
 
   describe "checks execution selection" do
-    test "should return an empty current selection when check ids do not mathc" do
-      assert [] == Catalog.get_current_selection(["FOO", "BAR"], Faker.UUID.v4())
+    test "should return an empty list" do
+      assert [] == Catalog.to_selected_checks([], Faker.UUID.v4())
     end
 
     test "should return current selection with no customized checks" do
+      %Check{id: check_id_1} = check1 = build(:check)
+      %Check{id: check_id_2} = check2 = build(:check)
+
       assert [
                %SelectedCheck{
-                 id: "expect_check",
-                 spec: %Check{id: "expect_check"},
+                 id: ^check_id_1,
+                 spec: ^check1,
                  customized: false,
                  customizations: []
                },
                %SelectedCheck{
-                 id: "expect_same_check",
-                 spec: %Check{id: "expect_same_check"},
+                 id: ^check_id_2,
+                 spec: ^check2,
                  customized: false,
                  customizations: []
                }
-             ] =
-               Catalog.get_current_selection(
-                 ["expect_check", "expect_same_check"],
-                 Faker.UUID.v4()
-               )
+             ] = Catalog.to_selected_checks([check1, check2], Faker.UUID.v4())
     end
 
     test "should return current selection with some customized checks" do
       group_id = Faker.UUID.v4()
       custom_numeric_value = 420
 
+      %Check{id: check_id_1} = check1 = build(:check)
+      %Check{id: check_id_2} = check2 = build(:check)
+
+      %Check{id: check_id_3} =
+        check3 =
+        build(:check,
+          values: [
+            %{
+              name: "numeric_value",
+              value: 12
+            }
+          ]
+        )
+
       insert(:check_customization,
         group_id: group_id,
-        check_id: "mixed_values_customizability",
+        check_id: check_id_3,
         custom_values: [
           %{
             name: "numeric_value",
@@ -477,20 +490,20 @@ defmodule Wanda.CatalogTest do
 
       assert [
                %SelectedCheck{
-                 id: "expect_check",
-                 spec: %Check{id: "expect_check"},
+                 id: ^check_id_1,
+                 spec: ^check1,
                  customized: false,
                  customizations: []
                },
                %SelectedCheck{
-                 id: "expect_same_check",
-                 spec: %Check{id: "expect_same_check"},
+                 id: ^check_id_2,
+                 spec: ^check2,
                  customized: false,
                  customizations: []
                },
                %SelectedCheck{
-                 id: "mixed_values_customizability",
-                 spec: %Check{id: "mixed_values_customizability"},
+                 id: ^check_id_3,
+                 spec: ^check3,
                  customized: true,
                  customizations: [
                    %{
@@ -499,11 +512,7 @@ defmodule Wanda.CatalogTest do
                    }
                  ]
                }
-             ] =
-               Catalog.get_current_selection(
-                 ["expect_check", "expect_same_check", "mixed_values_customizability"],
-                 group_id
-               )
+             ] = Catalog.to_selected_checks([check1, check2, check3], group_id)
     end
   end
 end
