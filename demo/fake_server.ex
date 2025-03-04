@@ -30,13 +30,13 @@ defmodule Wanda.Executions.FakeServer do
       ) do
     env = Map.put(env, "target_type", target_type)
 
-    checks =
+    selected_checks =
       targets
       |> Executions.Target.get_checks_from_targets()
       |> Catalog.get_current_selection(group_id, env)
 
     gathered_facts =
-      checks
+      selected_checks
       |> SelectedCheck.extract_specs()
       |> FakeGatheredFacts.get_demo_gathered_facts(targets)
 
@@ -50,7 +50,7 @@ defmodule Wanda.Executions.FakeServer do
       Evaluation.execute(
         execution_id,
         group_id,
-        checks,
+        selected_checks,
         gathered_facts,
         env,
         EvaluationEngine.new()

@@ -131,9 +131,9 @@ defmodule Wanda.Executions.Evaluation do
 
       resolved_values =
         Enum.map(spec_values, fn %CatalogValue{name: name} = specified_value ->
-          customization = Enum.find(customizations, &(&1.name == name))
-
-          eval_value(specified_value, customization, value_evaluation_scope, engine)
+          customizations
+          |> Enum.find(specified_value, &(&1.name == name))
+          |> eval_value(value_evaluation_scope, engine)
         end)
 
       expectation_evaluation_scope =
@@ -172,7 +172,6 @@ defmodule Wanda.Executions.Evaluation do
            default: default,
            conditions: conditions
          },
-         nil = _customization,
          evaluation_scope,
          engine
        ) do
@@ -184,9 +183,6 @@ defmodule Wanda.Executions.Evaluation do
   end
 
   defp eval_value(
-         %CatalogValue{
-           name: name
-         },
          %CustomizedValue{name: name, value: custom_value},
          _,
          _
