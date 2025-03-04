@@ -32,8 +32,6 @@ jobs:
         with:
           version-file: .tool-versions
           version-type: strict 
-        env:
-          ImageOS: ubuntu20
       - name: Retrieve Cached Dependencies
         uses: actions/cache@v4
         id: mix-cache
@@ -72,9 +70,6 @@ jobs:
         with:
           version-file: .tool-versions
           version-type: strict 
-        env:
-          ImageOS: ubuntu20
-
       - name: Retrieve Elixir Cached Dependencies
         uses: actions/cache@v4
         id: mix-cache
