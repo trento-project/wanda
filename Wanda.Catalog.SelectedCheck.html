@@ -8,7 +8,7 @@
     <meta name="project" content="Wanda v1.4.0">
 
 
-    <title>WandaWeb.Auth.UserDetector — Wanda v1.4.0</title>
+    <title>Wanda.Catalog.SelectedCheck — Wanda v1.4.0</title>
 
     <link rel="stylesheet" href="dist/html-elixir-6X3L5KMG.css" />
 
@@ -79,12 +79,12 @@ Wanda
 <div id="top-content">
   <div class="heading-with-actions top-heading">
     <h1>
-      <span translate="no">WandaWeb.Auth.UserDetector</span> 
+      <span translate="no">Wanda.Catalog.SelectedCheck</span> 
       <small class="app-vsn" translate="no">(Wanda v1.4.0)</small>
 
     </h1>
 
-      <a href="https://github.com/trento-project/wanda/blob/main/lib/wanda_web/auth/user_detector.ex#L1" title="View Source" class="icon-action" rel="help">
+      <a href="https://github.com/trento-project/wanda/blob/main/lib/wanda/catalog/selected_check.ex#L1" title="View Source" class="icon-action" rel="help">
         <i class="ri-code-s-slash-line" aria-hidden="true"></i>
         <span class="sr-only">View Source</span>
       </a>
@@ -93,7 +93,7 @@ Wanda
 
 
     <section id="moduledoc">
-<p>This module allows extracting a very simple representation of a user from a connection.</p><p>Only the user_id and abilities are available.</p>
+<p>Represents a selected check used during a check execution.</p><p>It carries information about the check specification and its available customizations.</p>
     </section>
 
 </div>
@@ -105,6 +105,20 @@ Wanda
       </a>
       <span class="text">Summary</span>
     </h1>
+<div class="summary-types summary">
+  <h2>
+    <a href="#types">Types</a>
+  </h2>
+
+    <div class="summary-row">
+      <div class="summary-signature">
+        <a href="#t:t/0" data-no-tooltip="" translate="no">t()</a>
+
+      </div>
+
+    </div>
+
+</div>
 <div class="summary-functions summary">
   <h2>
     <a href="#functions">Functions</a>
@@ -112,7 +126,7 @@ Wanda
 
     <div class="summary-row">
       <div class="summary-signature">
-        <a href="#current_user/1" data-no-tooltip="" translate="no">current_user(arg1)</a>
+        <a href="#extract_specs/1" data-no-tooltip="" translate="no">extract_specs(selected_checks)</a>
 
       </div>
 
@@ -123,6 +137,51 @@ Wanda
   </section>
 
 
+  <section id="types" class="details-list">
+    <h1 class="section-heading">
+      <a class="hover-link" href="#types">
+        <i class="ri-link-m" aria-hidden="true"></i>
+      </a>
+      <span class="text">Types</span>
+    </h1>
+    <div class="types-list">
+<section class="detail" id="t:t/0">
+
+  <div class="detail-header">
+    <a href="#t:t/0" class="detail-link" data-no-tooltip="" aria-label="Link to this type">
+      <i class="ri-link-m" aria-hidden="true"></i>
+    </a>
+    <div class="heading-with-actions">
+      <h1 class="signature" translate="no">t()</h1>
+
+
+        <a href="https://github.com/trento-project/wanda/blob/main/lib/wanda/catalog/selected_check.ex#L17" class="icon-action" rel="help" aria-label="View Source">
+          <i class="ri-code-s-slash-line" aria-hidden="true"></i>
+        </a>
+
+    </div>
+  </div>
+
+  <section class="docstring">
+
+      <div class="specs">
+
+          <pre translate="no"><span class="attribute">@type</span> t() :: %Wanda.Catalog.SelectedCheck{
+  customizations: [<a href="Wanda.Catalog.CustomizedValue.html#t:t/0">Wanda.Catalog.CustomizedValue.t</a>()],
+  customized: <a href="https://hexdocs.pm/elixir/typespecs.html#built-in-types">boolean</a>(),
+  id: <a href="https://hexdocs.pm/elixir/String.html#t:t/0">String.t</a>(),
+  spec: <a href="Wanda.Catalog.Check.html#t:t/0">Wanda.Catalog.Check.t</a>()
+}</pre>
+
+      </div>
+
+
+  </section>
+</section>
+
+    </div>
+  </section>
+
   <section id="functions" class="details-list">
     <h1 class="section-heading">
       <a class="hover-link" href="#functions">
@@ -131,17 +190,17 @@ Wanda
       <span class="text">Functions</span>
     </h1>
     <div class="functions-list">
-<section class="detail" id="current_user/1">
+<section class="detail" id="extract_specs/1">
 
   <div class="detail-header">
-    <a href="#current_user/1" class="detail-link" data-no-tooltip="" aria-label="Link to this function">
+    <a href="#extract_specs/1" class="detail-link" data-no-tooltip="" aria-label="Link to this function">
       <i class="ri-link-m" aria-hidden="true"></i>
     </a>
     <div class="heading-with-actions">
-      <h1 class="signature" translate="no">current_user(arg1)</h1>
+      <h1 class="signature" translate="no">extract_specs(selected_checks)</h1>
 
 
-        <a href="https://github.com/trento-project/wanda/blob/main/lib/wanda_web/auth/user_detector.ex#L10" class="icon-action" rel="help" aria-label="View Source">
+        <a href="https://github.com/trento-project/wanda/blob/main/lib/wanda/catalog/selected_check.ex#L25" class="icon-action" rel="help" aria-label="View Source">
           <i class="ri-code-s-slash-line" aria-hidden="true"></i>
         </a>
 
@@ -149,6 +208,12 @@ Wanda
   </div>
 
   <section class="docstring">
+
+      <div class="specs">
+
+          <pre translate="no"><span class="attribute">@spec</span> extract_specs([<a href="#t:t/0">t</a>()]) :: [<a href="Wanda.Catalog.Check.html#t:t/0">Wanda.Catalog.Check.t</a>()]</pre>
+
+      </div>
 
 
   </section>
