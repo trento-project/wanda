@@ -19,6 +19,7 @@ defmodule WandaWeb.Schemas.V1.Execution.CheckResult do
       additionalProperties: false,
       properties: %{
         check_id: %Schema{type: :string, description: "Check ID"},
+        customized: %Schema{type: :boolean, description: "Whether the check has been customized"},
         expectation_results: %Schema{type: :array, items: ExpectationResult},
         agents_check_results: %Schema{
           type: :array,

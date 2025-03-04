@@ -16,7 +16,8 @@ defmodule WandaWeb.Schemas.V1.Execution.Value do
         value: %Schema{
           oneOf: [%Schema{type: :string}, %Schema{type: :number}, %Schema{type: :boolean}],
           description: "Value"
-        }
+        },
+        customized: %Schema{type: :boolean, description: "Whether the value has been customized"}
       },
       required: [:check_id, :name, :value]
     },
