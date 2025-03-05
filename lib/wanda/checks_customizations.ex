@@ -128,7 +128,11 @@ defmodule Wanda.ChecksCustomizations do
         group_id: group_id,
         custom_values: custom_values
       })
-      |> Repo.insert(on_conflict: :nothing)
+      |> Repo.insert(
+        on_conflict: {:replace, [:custom_values]},
+        conflict_target: [:check_id, :group_id],
+        returning: true
+      )
 
     case result do
       {:ok, _} = success ->

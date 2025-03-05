@@ -204,6 +204,96 @@ defmodule Wanda.ChecksCustomizationsTest do
                 }} = ChecksCustomizations.customize(check_id, group_id, custom_values)
       end
     end
+
+    updating_scenarios = [
+      %{
+        name: "retain one/add one",
+        initial_custom_values: [
+          %{
+            name: "numeric_value",
+            value: 42
+          }
+        ],
+        new_custom_values: [
+          %{
+            name: "numeric_value",
+            value: 42
+          },
+          %{
+            name: "customizable_string_value",
+            value: "another new value"
+          }
+        ]
+      },
+      %{
+        name: "update one/add one",
+        initial_custom_values: [
+          %{
+            name: "numeric_value",
+            value: 42
+          }
+        ],
+        new_custom_values: [
+          %{
+            name: "numeric_value",
+            value: 999
+          },
+          %{
+            name: "customizable_string_value",
+            value: "another new value"
+          }
+        ]
+      },
+      %{
+        name: "remove one/add one",
+        initial_custom_values: [
+          %{
+            name: "numeric_value",
+            value: 42
+          }
+        ],
+        new_custom_values: [
+          %{
+            name: "customizable_string_value",
+            value: "another new value"
+          }
+        ]
+      }
+    ]
+
+    for %{name: scenario_name} = scenario <- updating_scenarios do
+      @scenario scenario
+
+      test "should allow updating a check's values customizations by replacing with new provided custom values: #{scenario_name}" do
+        check_id = "mixed_values_customizability"
+        group_id = Faker.UUID.v4()
+
+        %{
+          initial_custom_values: initial_custom_values,
+          new_custom_values: new_custom_values
+        } = @scenario
+
+        %{check_id: check_id} =
+          insert(:check_customization,
+            group_id: group_id,
+            check_id: check_id,
+            custom_values: initial_custom_values
+          )
+
+        assert {:ok,
+                %CheckCustomization{
+                  check_id: ^check_id,
+                  group_id: ^group_id,
+                  custom_values: ^new_custom_values
+                } = customization} =
+                 ChecksCustomizations.customize(check_id, group_id, new_custom_values)
+
+        assert customization ==
+                 group_id
+                 |> get_customizations()
+                 |> List.first()
+      end
+    end
   end
 
   describe "retrieving checks customizations" do
@@ -335,11 +425,14 @@ defmodule Wanda.ChecksCustomizationsTest do
                  check_id: ^check_id_2,
                  group_id: ^group_id
                }
-             ] =
-               Repo.all(
-                 from c in CheckCustomization,
-                   where: c.group_id == ^group_id
-               )
+             ] = get_customizations(group_id)
     end
+  end
+
+  defp get_customizations(group_id) do
+    Repo.all(
+      from c in CheckCustomization,
+        where: c.group_id == ^group_id
+    )
   end
 end
