@@ -37,7 +37,7 @@ Here's a collection of built-in gatherers, with information about how to use the
 
 | Name                                                                   | Implementation                                                                                                                                                                      |
 | :--------------------------------------------------------------------- | :---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| [`ascsers_cluster@v1`](#ascsers_clusterv1)                             | [trento-project/agent/../gatherers/ascsers_cluster.go](https://github.com/trento-project/agent/blob/main/internal/factsengine/gatherers/ascsers_cluster.go)                                |
+| [`ascsers_cluster@v1`](#ascsers_clusterv1)                             | [trento-project/agent/../gatherers/ascsers_cluster.go](https://github.com/trento-project/agent/blob/main/internal/factsengine/gatherers/ascsers_cluster.go)                         |
 | [`cibadmin@v1`](#cibadminv1)                                           | [trento-project/agent/../gatherers/cibadmin.go](https://github.com/trento-project/agent/blob/main/internal/factsengine/gatherers/cibadmin.go)                                       |
 | [`corosync.conf@v1`](#corosyncconfv1)                                  | [trento-project/agent/../gatherers/corosyncconf.go](https://github.com/trento-project/agent/blob/main/internal/factsengine/gatherers/corosyncconf.go)                               |
 | [`corosync-cmapctl@v1`](#corosync-cmapctlv1)                           | [trento-project/agent/../gatherers/corosynccmapctl.go](https://github.com/trento-project/agent/blob/main/internal/factsengine/gatherers/corosynccmapctl.go)                         |
@@ -63,6 +63,8 @@ Here's a collection of built-in gatherers, with information about how to use the
 | [`systemd@v1`](#systemdv1)                                             | [trento-project/agent/../gatherers/systemd.go](https://github.com/trento-project/agent/blob/main/internal/factsengine/gatherers/systemd.go)                                         |
 | [`systemd@v2`](#systemdv2)                                             | [trento-project/agent/../gatherers/systemd_v2.go](https://github.com/trento-project/agent/blob/main/internal/factsengine/gatherers/systemd_v2.go)                                   |
 | [`verify_password@v1`](#verify_passwordv1)                             | [trento-project/agent/../gatherers/verifypassword.go](https://github.com/trento-project/agent/blob/main/internal/factsengine/gatherers/verifypassword.go)                           |
+| [`ini_files@v1`](#ini_filesv1)                                         | [trento-project/agent/../gatherers/ini_files.go](https://github.com/trento-project/agent/blob/main/internal/factsengine/gatherers/ini_files.go)                                     |
+| [`sudoers@v1`](#sudoersv1)                                             | [trento-project/agent/../gatherers/sudoers.go](https://github.com/trento-project/agent/blob/main/internal/factsengine/gatherers/sudoers.go)                                         |
 
 <span id="ascsers_clusterv1"></span>
 
@@ -865,7 +867,7 @@ Example output (in Rhai):
       "version": "15.3"
     }
   }
-} 
+}
 ```
 
 <span id="sapcontrolv1"></span>
@@ -1574,4 +1576,120 @@ Example output (in Rhai):
 ```ts
 // hacluster_has_default_password
 true;
+```
+
+<span id="ini_files"></span>
+
+### ini_files@v1
+
+**Argument required**: yes.
+
+This gatherer fetches the content from a configuration file in INI format. The configuration file is specified as argument, choosen from a list of allowed files.
+Currently whitelisted files are:
+
+- `global.ini`
+
+Each fact request can return one or more item, one for each found file; multiple files can occur when the host has configured more than one SAP system. Each item then has a `sid` field with the system id and a `value` field with the actual content of the file.
+
+Example arguments:
+
+| Name         | Return value                                                                         |
+| :----------- | :----------------------------------------------------------------------------------- |
+| `global.ini` | Retrieved the content from `/usr/sap/<sid>>/SYS/global/hdb/custom/config/global.ini` |
+
+```yaml
+facts:
+  - name: global_configuration
+    gatherer: ini_files@v1
+    argument: global.ini
+```
+
+Example output (in Rhai):
+
+```ts
+[
+  #{
+    "sid": "S01",
+    "value": #{
+      "communication": #{
+        "internal_network": "10.23.1.128/26",
+        "listeninterface": ".internal"
+      },
+      "internal_hostname_resolution": #{
+        "10.23.1.132": "hana-s1-db1",
+        "10.23.1.133": "hana-s1-db2",
+        "10.23.1.134": "hana-s1-db3"
+      }
+    }
+  }
+]
+```
+
+<span id="sudoers"></span>
+
+### sudoers@v1
+
+**Argument required**: no.
+
+This gatherer fetches the sudoer information about a user. The output is a list of objects representing the sudoer rules with the following fields:
+
+* `user`: The name of the user the rule applies to;
+* `command`: The command a sudoer rule has been specified for;
+* `run_as_user`: The user privilege the command will be executed with;
+* `run_as_group`: The group privilege the command will be executed with;
+* `no_password`: Whether the `NOPASSWD` tag is set for the rule.
+
+The gatherer operates in two modes:
+
+* _explicit user mode_: the target user is specified as the gatherer argument;
+* _user discovery mode_: no argument is specified, thus the gatherer fetches results for all the configured users for the SAP systems on the host.
+
+
+Example output (in Rhai):
+
+```ts
+[
+  #{
+    "command": "ALL",
+    "no_password": false,
+    "run_as_group": "",
+    "run_as_user": "ALL",
+    "user": "prdadm"
+  },
+  #{
+    "command": "/usr/sbin/crm_attribute -n hana_prd_site_srHook_Site1 -v SOK -t crm_config -s SAPHanaSR",
+    "no_password": true,
+    "run_as_group": "",
+    "run_as_user": "ALL",
+    "user": "prdadm"
+  },
+  #{
+    "command": "/usr/sbin/crm_attribute -n hana_prd_site_srHook_Site1 -v SFAIL -t crm_config -s SAPHanaSR",
+    "no_password": true,
+    "run_as_group": "",
+    "run_as_user": "ALL",
+    "user": "prdadm"
+  },
+  #{
+    "command": "/usr/sbin/crm_attribute -n hana_prd_site_srHook_Site2 -v SOK -t crm_config -s SAPHanaSR",
+    "no_password": true,
+    "run_as_group": "",
+    "run_as_user": "ALL",
+    "user": "prdadm"
+  },
+  #{
+    "command": "/usr/sbin/crm_attribute -n hana_prd_site_srHook_Site2 -v SFAIL -t crm_config -s SAPHanaSR",
+    "no_password": true,
+    "run_as_group": "",
+    "run_as_user": "ALL",
+    "user": "prdadm"
+  },
+  #{
+    "command": "/usr/sbin/SAPHanaSR-hookHelper --case checkTakeover --sid\\=prd",
+    "no_password": true,
+    "run_as_group": "",
+    "run_as_user": "ALL",
+    "user": "prdadm"
+  }
+]
 ```
