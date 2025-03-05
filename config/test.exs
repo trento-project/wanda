@@ -35,6 +35,13 @@ config :wanda, Wanda.Catalog,
 
 config :wanda, :messaging, adapter: Wanda.Messaging.Adapters.AMQP
 
+amqp_connection =
+  if System.get_env("USE_LOCAL_RABBIT_TLS") do
+    "amqps://wanda:wanda@localhost:5676?certfile=container_fixtures/rabbitmq/certs/client_wanda.trento.local_certificate.pem&keyfile=container_fixtures/rabbitmq/certs/client_wanda.trento.local_key.pem&verify=verify_peer&cacertfile=container_fixtures/rabbitmq/certs/ca_certificate.pem"
+  else
+    "amqp://wanda:wanda@localhost:5674"
+  end
+
 config :wanda, Wanda.Messaging.Adapters.AMQP,
   checks: [
     consumer: [
@@ -42,7 +49,7 @@ config :wanda, Wanda.Messaging.Adapters.AMQP,
       exchange: "trento.test.checks",
       routing_key: "executions",
       prefetch_count: "10",
-      connection: "amqp://wanda:wanda@localhost:5674",
+      connection: amqp_connection,
       queue_options: [
         durable: false,
         auto_delete: true
@@ -54,7 +61,7 @@ config :wanda, Wanda.Messaging.Adapters.AMQP,
     ],
     publisher: [
       exchange: "trento.test.checks",
-      connection: "amqp://wanda:wanda@localhost:5674"
+      connection: amqp_connection
     ],
     processor: GenRMQ.Processor.Mock
   ],
@@ -64,7 +71,7 @@ config :wanda, Wanda.Messaging.Adapters.AMQP,
       exchange: "trento.test.operations",
       routing_key: "requests",
       prefetch_count: "10",
-      connection: "amqp://wanda:wanda@localhost:5674",
+      connection: amqp_connection,
       queue_options: [
         durable: false,
         auto_delete: true
@@ -76,7 +83,7 @@ config :wanda, Wanda.Messaging.Adapters.AMQP,
     ],
     publisher: [
       exchange: "trento.test.operations",
-      connection: "amqp://wanda:wanda@localhost:5674"
+      connection: amqp_connection
     ],
     processor: GenRMQ.Processor.Mock
   ]
