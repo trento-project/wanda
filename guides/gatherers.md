@@ -1633,10 +1633,10 @@ Example output (in Rhai):
 
 This gatherer fetches the sudoer information about a user. The output is a list of objects representing the sudoer rules with the following fields:
 
-* `user`: The name of the user the rule applies to;
+* `user`: The name of the user to whom the rule applies;
 * `command`: The command a sudoer rule has been specified for;
-* `run_as_user`: The user privilege the command will be executed with;
-* `run_as_group`: The group privilege the command will be executed with;
+* `run_as_user`: The user privileges under which the command will be executed;
+* `run_as_group`: The group privileges under which the command will be executed.;
 * `no_password`: Whether the `NOPASSWD` tag is set for the rule.
 
 The gatherer operates in two modes:
