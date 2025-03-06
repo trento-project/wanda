@@ -1578,7 +1578,7 @@ Example output (in Rhai):
 true;
 ```
 
-<span id="ini_files"></span>
+<span id="ini_filesv1"></span>
 
 ### ini_files@v1
 
