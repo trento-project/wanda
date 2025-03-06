@@ -1584,7 +1584,7 @@ true;
 
 **Argument required**: yes.
 
-This gatherer fetches the content from a configuration file in INI format. The configuration file is specified as argument, choosen from a list of allowed files.
+This gatherer fetches the content from a configuration file in INI format. The configuration file is specified as argument, chosen from a list of allowed files.
 Currently whitelisted files are:
 
 - `global.ini`
