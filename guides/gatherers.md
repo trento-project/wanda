@@ -1641,8 +1641,16 @@ This gatherer fetches the sudoer information about a user. The output is a list 
 
 The gatherer operates in two modes:
 
-* _explicit user mode_: the target user is specified as the gatherer argument;
-* _user discovery mode_: no argument is specified, thus the gatherer fetches results for all the configured users for the SAP systems on the host.
+* _user discovery mode_: no argument is specified, thus the gatherer fetches results for all the configured users for the SAP systems on the host;
+* _explicit user mode_: the target user is specified as the gatherer argument, regardless if it's a SAP-configured user.
+
+
+Example arguments:
+
+| Name         | Return value                                                                         |
+| :----------- | :----------------------------------------------------------------------------------- |
+| _empty_      | All sudoer rules for all users configured for the installed SAP systems on the host  |
+| `prdadm`     | All sudoer rules for the `prdadm` user                                               |
 
 
 Example output (in Rhai):
