@@ -74,7 +74,7 @@ config :logger, :console,
 config :phoenix, :json_library, Jason
 
 # Disable rustler precompiled NIFs
-config :rustler_precompiled, :force_build, rhai_rustler: true
+config :rustler_precompiled, :force_build, rhai_rustler: false
 
 config :wanda,
   cors_enabled: true,
