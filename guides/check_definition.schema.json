@@ -103,6 +103,9 @@
               "type": "string"
             },
             {
+              "type": "boolean"
+            },
+            {
               "type": "array",
               "items": {
                 "anyOf": [
@@ -141,6 +144,9 @@
             },
             {
               "type": "string"
+            },
+            {
+              "type": "boolean"
             },
             {
               "type": "array",
