@@ -6,8 +6,10 @@ Wanda.Catalog.CustomizationPolicy.html
 Wanda.Catalog.CustomizedValue.html
 Wanda.Catalog.Enums.ExpectType.html
 Wanda.Catalog.Enums.Severity.html
+Wanda.Catalog.Evaluation.html
 Wanda.Catalog.Expectation.html
 Wanda.Catalog.Fact.html
+Wanda.Catalog.ResolvedValue.html
 Wanda.Catalog.SelectableCheck.html
 Wanda.Catalog.SelectedCheck.html
 Wanda.Catalog.Value.html
@@ -138,8 +140,8 @@ dist/lato-latin-700-normal-2XVSBPG4.woff2
 dist/lato-latin-ext-400-normal-N27NCBWW.woff2
 dist/lato-latin-ext-700-normal-Q2L5DVMW.woff2
 dist/remixicon-NKANDIL5.woff2
-dist/search_data-B4151DB0.js
-dist/sidebar_items-2A726CA3.js
+dist/search_data-22CC4534.js
+dist/sidebar_items-ECAF4BE1.js
 expression_language.html
 gatherers.html
 hack_on_wanda.html

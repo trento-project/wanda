@@ -8,7 +8,7 @@
     <meta name="project" content="Wanda v1.4.0">
 
 
-    <title>WandaWeb.Auth.JWTAuthPlug — Wanda v1.4.0</title>
+    <title>Wanda.Catalog.Evaluation — Wanda v1.4.0</title>
 
     <link rel="stylesheet" href="dist/html-elixir-6X3L5KMG.css" />
 
@@ -79,12 +79,12 @@ Wanda
 <div id="top-content">
   <div class="heading-with-actions top-heading">
     <h1>
-      <span translate="no">WandaWeb.Auth.JWTAuthPlug</span> 
+      <span translate="no">Wanda.Catalog.Evaluation</span> 
       <small class="app-vsn" translate="no">(Wanda v1.4.0)</small>
 
     </h1>
 
-      <a href="https://github.com/trento-project/wanda/blob/main/lib/wanda_web/auth/jwt_auth_plug.ex#L1" title="View Source" class="icon-action" rel="help">
+      <a href="https://github.com/trento-project/wanda/blob/main/lib/wanda/catalog/evaluation.ex#L1" title="View Source" class="icon-action" rel="help">
         <i class="ri-code-s-slash-line" aria-hidden="true"></i>
         <span class="sr-only">View Source</span>
       </a>
@@ -93,10 +93,7 @@ Wanda
 
 
     <section id="moduledoc">
-<p>  Plug responsible for reading the JWT from the authorization header and
-  validating it.</p><p>  If the token is valid, the user_id is added to the private section of the
-  connection.
-  If the token is invalid, the connection is halted with a 401 response.</p>
+<p>This module provides functions to evaluate check values based on their conditions.</p>
     </section>
 
 </div>
@@ -115,21 +112,9 @@ Wanda
 
     <div class="summary-row">
       <div class="summary-signature">
-        <a href="#call/2" data-no-tooltip="" translate="no">call(conn, _)</a>
+        <a href="#resolve_values/4" data-no-tooltip="" translate="no">resolve_values(spec_values, customizations, env, engine \\ EvaluationEngine.new())</a>
 
       </div>
-
-        <div class="summary-synopsis"><p>  Read, validate and decode the JWT from authorization header at each call</p></div>
-
-    </div>
-
-    <div class="summary-row">
-      <div class="summary-signature">
-        <a href="#init/1" data-no-tooltip="" translate="no">init(opts)</a>
-
-      </div>
-
-        <div class="summary-synopsis"><p>Callback implementation for <a href="https://hexdocs.pm/plug/1.16.1/Plug.html#c:init/1"><code class="inline">Plug.init/1</code></a>.</p></div>
 
     </div>
 
@@ -146,17 +131,19 @@ Wanda
       <span class="text">Functions</span>
     </h1>
     <div class="functions-list">
-<section class="detail" id="call/2">
+<section class="detail" id="resolve_values/4">
+
+    <span id="resolve_values/3"></span>
 
   <div class="detail-header">
-    <a href="#call/2" class="detail-link" data-no-tooltip="" aria-label="Link to this function">
+    <a href="#resolve_values/4" class="detail-link" data-no-tooltip="" aria-label="Link to this function">
       <i class="ri-link-m" aria-hidden="true"></i>
     </a>
     <div class="heading-with-actions">
-      <h1 class="signature" translate="no">call(conn, _)</h1>
+      <h1 class="signature" translate="no">resolve_values(spec_values, customizations, env, engine \\ EvaluationEngine.new())</h1>
 
 
-        <a href="https://github.com/trento-project/wanda/blob/main/lib/wanda_web/auth/jwt_auth_plug.ex#L23" class="icon-action" rel="help" aria-label="View Source">
+        <a href="https://github.com/trento-project/wanda/blob/main/lib/wanda/catalog/evaluation.ex#L16" class="icon-action" rel="help" aria-label="View Source">
           <i class="ri-code-s-slash-line" aria-hidden="true"></i>
         </a>
 
@@ -165,29 +152,18 @@ Wanda
 
   <section class="docstring">
 
-<p>  Read, validate and decode the JWT from authorization header at each call</p>
-  </section>
-</section>
-<section class="detail" id="init/1">
+      <div class="specs">
 
-  <div class="detail-header">
-    <a href="#init/1" class="detail-link" data-no-tooltip="" aria-label="Link to this function">
-      <i class="ri-link-m" aria-hidden="true"></i>
-    </a>
-    <div class="heading-with-actions">
-      <h1 class="signature" translate="no">init(opts)</h1>
+          <pre translate="no"><span class="attribute">@spec</span> resolve_values(
+  [<a href="Wanda.Catalog.Value.html#t:t/0">Wanda.Catalog.Value.t</a>()],
+  [<a href="Wanda.Catalog.CustomizedValue.html#t:t/0">Wanda.Catalog.CustomizedValue.t</a>()],
+  <a href="https://hexdocs.pm/elixir/typespecs.html#basic-types">map</a>(),
+  <a href="https://hexdocs.pm/rhai_rustler/1.2.0/Rhai.Engine.html#t:t/0">Rhai.Engine.t</a>()
+) :: [<a href="Wanda.Catalog.ResolvedValue.html#t:t/0">Wanda.Catalog.ResolvedValue.t</a>()]</pre>
+
+      </div>
 
 
-        <a href="https://github.com/trento-project/wanda/blob/main/lib/wanda_web/auth/jwt_auth_plug.ex#L18" class="icon-action" rel="help" aria-label="View Source">
-          <i class="ri-code-s-slash-line" aria-hidden="true"></i>
-        </a>
-
-    </div>
-  </div>
-
-  <section class="docstring">
-
-<p>Callback implementation for <a href="https://hexdocs.pm/plug/1.16.1/Plug.html#c:init/1"><code class="inline">Plug.init/1</code></a>.</p>
   </section>
 </section>
 

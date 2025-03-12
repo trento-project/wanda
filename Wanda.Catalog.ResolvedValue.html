@@ -8,7 +8,7 @@
     <meta name="project" content="Wanda v1.4.0">
 
 
-    <title>WandaWeb.Auth.JWTAuthPlug — Wanda v1.4.0</title>
+    <title>Wanda.Catalog.ResolvedValue — Wanda v1.4.0</title>
 
     <link rel="stylesheet" href="dist/html-elixir-6X3L5KMG.css" />
 
@@ -79,12 +79,12 @@ Wanda
 <div id="top-content">
   <div class="heading-with-actions top-heading">
     <h1>
-      <span translate="no">WandaWeb.Auth.JWTAuthPlug</span> 
+      <span translate="no">Wanda.Catalog.ResolvedValue</span> 
       <small class="app-vsn" translate="no">(Wanda v1.4.0)</small>
 
     </h1>
 
-      <a href="https://github.com/trento-project/wanda/blob/main/lib/wanda_web/auth/jwt_auth_plug.ex#L1" title="View Source" class="icon-action" rel="help">
+      <a href="https://github.com/trento-project/wanda/blob/main/lib/wanda/catalog/resolved_value.ex#L1" title="View Source" class="icon-action" rel="help">
         <i class="ri-code-s-slash-line" aria-hidden="true"></i>
         <span class="sr-only">View Source</span>
       </a>
@@ -93,10 +93,8 @@ Wanda
 
 
     <section id="moduledoc">
-<p>  Plug responsible for reading the JWT from the authorization header and
-  validating it.</p><p>  If the token is valid, the user_id is added to the private section of the
-  connection.
-  If the token is invalid, the connection is halted with a 401 response.</p>
+<p>Represents a resolved check value as defined check specification.
+It is based on the contextual environment.</p>
     </section>
 
 </div>
@@ -108,28 +106,24 @@ Wanda
       </a>
       <span class="text">Summary</span>
     </h1>
-<div class="summary-functions summary">
+<div class="summary-types summary">
   <h2>
-    <a href="#functions">Functions</a>
+    <a href="#types">Types</a>
   </h2>
 
     <div class="summary-row">
       <div class="summary-signature">
-        <a href="#call/2" data-no-tooltip="" translate="no">call(conn, _)</a>
+        <a href="#t:t/0" data-no-tooltip="" translate="no">t()</a>
 
       </div>
-
-        <div class="summary-synopsis"><p>  Read, validate and decode the JWT from authorization header at each call</p></div>
 
     </div>
 
     <div class="summary-row">
       <div class="summary-signature">
-        <a href="#init/1" data-no-tooltip="" translate="no">init(opts)</a>
+        <a href="#t:value/0" data-no-tooltip="" translate="no">value()</a>
 
       </div>
-
-        <div class="summary-synopsis"><p>Callback implementation for <a href="https://hexdocs.pm/plug/1.16.1/Plug.html#c:init/1"><code class="inline">Plug.init/1</code></a>.</p></div>
 
     </div>
 
@@ -138,25 +132,25 @@ Wanda
   </section>
 
 
-  <section id="functions" class="details-list">
+  <section id="types" class="details-list">
     <h1 class="section-heading">
-      <a class="hover-link" href="#functions">
+      <a class="hover-link" href="#types">
         <i class="ri-link-m" aria-hidden="true"></i>
       </a>
-      <span class="text">Functions</span>
+      <span class="text">Types</span>
     </h1>
-    <div class="functions-list">
-<section class="detail" id="call/2">
+    <div class="types-list">
+<section class="detail" id="t:t/0">
 
   <div class="detail-header">
-    <a href="#call/2" class="detail-link" data-no-tooltip="" aria-label="Link to this function">
+    <a href="#t:t/0" class="detail-link" data-no-tooltip="" aria-label="Link to this type">
       <i class="ri-link-m" aria-hidden="true"></i>
     </a>
     <div class="heading-with-actions">
-      <h1 class="signature" translate="no">call(conn, _)</h1>
+      <h1 class="signature" translate="no">t()</h1>
 
 
-        <a href="https://github.com/trento-project/wanda/blob/main/lib/wanda_web/auth/jwt_auth_plug.ex#L23" class="icon-action" rel="help" aria-label="View Source">
+        <a href="https://github.com/trento-project/wanda/blob/main/lib/wanda/catalog/resolved_value.ex#L19" class="icon-action" rel="help" aria-label="View Source">
           <i class="ri-code-s-slash-line" aria-hidden="true"></i>
         </a>
 
@@ -165,20 +159,32 @@ Wanda
 
   <section class="docstring">
 
-<p>  Read, validate and decode the JWT from authorization header at each call</p>
+      <div class="specs">
+
+          <pre translate="no"><span class="attribute">@type</span> t() :: %Wanda.Catalog.ResolvedValue{
+  custom_value: <a href="#t:value/0">value</a>(),
+  customized: <a href="https://hexdocs.pm/elixir/typespecs.html#built-in-types">boolean</a>(),
+  default_value: <a href="#t:value/0">value</a>(),
+  name: <a href="https://hexdocs.pm/elixir/String.html#t:t/0">String.t</a>(),
+  spec: <a href="Wanda.Catalog.Value.html#t:t/0">Wanda.Catalog.Value.t</a>()
+}</pre>
+
+      </div>
+
+
   </section>
 </section>
-<section class="detail" id="init/1">
+<section class="detail" id="t:value/0">
 
   <div class="detail-header">
-    <a href="#init/1" class="detail-link" data-no-tooltip="" aria-label="Link to this function">
+    <a href="#t:value/0" class="detail-link" data-no-tooltip="" aria-label="Link to this type">
       <i class="ri-link-m" aria-hidden="true"></i>
     </a>
     <div class="heading-with-actions">
-      <h1 class="signature" translate="no">init(opts)</h1>
+      <h1 class="signature" translate="no">value()</h1>
 
 
-        <a href="https://github.com/trento-project/wanda/blob/main/lib/wanda_web/auth/jwt_auth_plug.ex#L18" class="icon-action" rel="help" aria-label="View Source">
+        <a href="https://github.com/trento-project/wanda/blob/main/lib/wanda/catalog/resolved_value.ex#L8" class="icon-action" rel="help" aria-label="View Source">
           <i class="ri-code-s-slash-line" aria-hidden="true"></i>
         </a>
 
@@ -187,7 +193,13 @@ Wanda
 
   <section class="docstring">
 
-<p>Callback implementation for <a href="https://hexdocs.pm/plug/1.16.1/Plug.html#c:init/1"><code class="inline">Plug.init/1</code></a>.</p>
+      <div class="specs">
+
+          <pre translate="no"><span class="attribute">@type</span> value() :: <a href="https://hexdocs.pm/elixir/typespecs.html#built-in-types">boolean</a>() | <a href="https://hexdocs.pm/elixir/typespecs.html#built-in-types">number</a>() | <a href="https://hexdocs.pm/elixir/String.html#t:t/0">String.t</a>()</pre>
+
+      </div>
+
+
   </section>
 </section>
 
