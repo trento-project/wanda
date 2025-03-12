@@ -142,7 +142,7 @@ defmodule WandaWeb.V1.CatalogControllerTest do
                  %{
                    name: "expected_value",
                    customizable: true,
-                   original_value: 5,
+                   default_value: 5,
                    custom_value: ^expected_customization
                  },
                  %{

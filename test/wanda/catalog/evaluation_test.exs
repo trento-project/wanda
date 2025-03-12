@@ -60,21 +60,21 @@ defmodule Wanda.Catalog.EvaluationTest do
         %ResolvedValue{
           name: value_name_1,
           spec: spec1,
-          original_value: default_value_1,
+          default_value: default_value_1,
           custom_value: nil,
           customized: false
         },
         %ResolvedValue{
           name: value_name_2,
           spec: spec2,
-          original_value: contextual_value_1,
+          default_value: contextual_value_1,
           custom_value: nil,
           customized: false
         },
         %ResolvedValue{
           name: value_name_3,
           spec: spec3,
-          original_value: default_value_3,
+          default_value: default_value_3,
           custom_value: nil,
           customized: false
         }
@@ -138,21 +138,21 @@ defmodule Wanda.Catalog.EvaluationTest do
         %ResolvedValue{
           name: value_name_1,
           spec: spec1,
-          original_value: default_value_1,
+          default_value: default_value_1,
           custom_value: nil,
           customized: false
         },
         %ResolvedValue{
           name: value_name_2,
           spec: spec2,
-          original_value: contextual_value_2,
+          default_value: contextual_value_2,
           custom_value: custom_value_2,
           customized: true
         },
         %ResolvedValue{
           name: value_name_3,
           spec: spec3,
-          original_value: default_value_3,
+          default_value: default_value_3,
           custom_value: custom_value_3,
           customized: true
         }

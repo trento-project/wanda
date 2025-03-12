@@ -17,7 +17,7 @@ defmodule WandaWeb.Schemas.V1.ChecksSelection.NotCustomizedCheckValue do
       additionalProperties: false,
       properties: %{
         name: %Schema{type: :string, description: "Value name"},
-        original_value: %Schema{
+        default_value: %Schema{
           oneOf: [
             %Schema{type: :string},
             %Schema{anyOf: [%Schema{type: :integer}, %Schema{type: :number}]},

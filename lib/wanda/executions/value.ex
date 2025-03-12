@@ -20,7 +20,7 @@ defmodule Wanda.Executions.Value do
 
   def from_resolved_value(%ResolvedValue{
         name: name,
-        original_value: value,
+        default_value: value,
         customized: false
       }) do
     %__MODULE__{

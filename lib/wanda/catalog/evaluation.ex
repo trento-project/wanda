@@ -20,12 +20,12 @@ defmodule Wanda.Catalog.Evaluation do
         spec: specified_value,
         customized: false
       }
-      |> add_original_value(specified_value, env, engine)
+      |> add_default_value(specified_value, env, engine)
       |> add_custom_value(Enum.find(customizations, &(&1.name == name)))
     end)
   end
 
-  defp add_original_value(
+  defp add_default_value(
          %ResolvedValue{} = resolved_value,
          %Value{} = spec,
          evaluation_scope,
@@ -33,7 +33,7 @@ defmodule Wanda.Catalog.Evaluation do
        ) do
     %ResolvedValue{
       resolved_value
-      | original_value: resolve_original_value(spec, evaluation_scope, engine)
+      | default_value: resolve_default_value(spec, evaluation_scope, engine)
     }
   end
 
@@ -47,7 +47,7 @@ defmodule Wanda.Catalog.Evaluation do
         customized: true
     }
 
-  defp resolve_original_value(
+  defp resolve_default_value(
          %Value{default: default, conditions: conditions},
          env,
          engine

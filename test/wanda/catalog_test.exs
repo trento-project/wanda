@@ -287,15 +287,15 @@ defmodule Wanda.CatalogTest do
           %{
             name: "numeric_value",
             customizable: true,
-            original_value: 5,
+            default_value: 5,
             custom_value: expected_customization
           },
           %{
             name: "customizable_string_value",
             customizable: true,
-            # original_value: "foo_bar", <- "foo_bar" is the default original_value
-            # "baz_qux" is the env based resolved original_value
-            original_value: "baz_qux",
+            # default_value: "foo_bar", <- "foo_bar" is the default default_value
+            # "baz_qux" is the env based resolved default_value
+            default_value: "baz_qux",
             custom_value: "new value"
           },
           %{
@@ -305,7 +305,7 @@ defmodule Wanda.CatalogTest do
           %{
             name: "bool_value",
             customizable: true,
-            original_value: true
+            default_value: true
           },
           %{
             name: "list_value",
@@ -432,7 +432,7 @@ defmodule Wanda.CatalogTest do
       refute Map.has_key?(value, :custom_value)
 
       if not customizable do
-        refute Map.has_key?(value, :original_value)
+        refute Map.has_key?(value, :default_value)
       end
     end
   end

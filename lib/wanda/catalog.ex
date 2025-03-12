@@ -157,18 +157,18 @@ defmodule Wanda.Catalog do
         name: value_name
       }
       |> add_value_customizability(value_spec, customization_globally_disabled?)
-      |> maybe_add_original_value(resolved_value)
+      |> maybe_add_default_value(resolved_value)
       |> maybe_add_customization(resolved_value)
     end)
   end
 
-  defp maybe_add_original_value(%{customizable: false} = value, _), do: value
+  defp maybe_add_default_value(%{customizable: false} = value, _), do: value
 
-  defp maybe_add_original_value(
+  defp maybe_add_default_value(
          %{customizable: true} = value,
-         %ResolvedValue{original_value: original_value}
+         %ResolvedValue{default_value: default_value}
        ),
-       do: Map.put(value, :original_value, original_value)
+       do: Map.put(value, :default_value, default_value)
 
   defp maybe_add_customization(%{customizable: customizable} = value, %ResolvedValue{
          customized: customized

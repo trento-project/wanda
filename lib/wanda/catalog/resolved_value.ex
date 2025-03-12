@@ -11,7 +11,7 @@ defmodule Wanda.Catalog.ResolvedValue do
   defstruct [
     :spec,
     :name,
-    :original_value,
+    :default_value,
     :custom_value,
     :customized
   ]
@@ -19,7 +19,7 @@ defmodule Wanda.Catalog.ResolvedValue do
   @type t :: %__MODULE__{
           spec: Value.t(),
           name: String.t(),
-          original_value: value(),
+          default_value: value(),
           custom_value: value(),
           customized: boolean()
         }
