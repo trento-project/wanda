@@ -3,8 +3,8 @@ defmodule Wanda.Executions.Evaluation do
   Evaluation functional core.
   """
 
-  alias Wanda.Catalog.{Check, Condition, CustomizedValue, Expectation, SelectedCheck}
-  alias Wanda.Catalog.Value, as: CatalogValue
+  alias Wanda.Catalog.{Check, Expectation, SelectedCheck}
+  alias Wanda.Catalog.Evaluation, as: CatalogEvaluation
 
   alias Wanda.Executions.{
     AgentCheckError,
@@ -127,14 +127,10 @@ defmodule Wanda.Executions.Evaluation do
         customizations: customizations
       } = selected_check
 
-      value_evaluation_scope = add_scope(%{"env" => env}, "facts", facts)
-
       resolved_values =
-        Enum.map(spec_values, fn %CatalogValue{name: name} = specified_value ->
-          customizations
-          |> Enum.find(specified_value, &(&1.name == name))
-          |> eval_value(value_evaluation_scope, engine)
-        end)
+        spec_values
+        |> CatalogEvaluation.resolve_values(customizations, env, engine)
+        |> Enum.map(&Value.from_resolved_value/1)
 
       expectation_evaluation_scope =
         %{}
@@ -163,53 +159,6 @@ defmodule Wanda.Executions.Evaluation do
       scope,
       namespace,
       Enum.into(namespaced_scope, %{}, fn %{name: name, value: value} -> {name, value} end)
-    )
-  end
-
-  defp eval_value(
-         %CatalogValue{
-           name: name,
-           default: default,
-           conditions: conditions
-         },
-         evaluation_scope,
-         engine
-       ) do
-    %Value{
-      name: name,
-      value: find_value(conditions, default, evaluation_scope, engine),
-      customized: false
-    }
-  end
-
-  defp eval_value(
-         %CustomizedValue{name: name, value: custom_value},
-         _,
-         _
-       ) do
-    %Value{
-      name: name,
-      value: custom_value,
-      customized: true
-    }
-  end
-
-  defp find_value(conditions, default, evaluation_scope, engine) do
-    Enum.find_value(
-      conditions,
-      default,
-      fn %Condition{
-           value: value,
-           expression: expression
-         } ->
-        case EvaluationEngine.eval(engine, expression, evaluation_scope) do
-          {:ok, true} ->
-            value
-
-          _ ->
-            false
-        end
-      end
     )
   end
 

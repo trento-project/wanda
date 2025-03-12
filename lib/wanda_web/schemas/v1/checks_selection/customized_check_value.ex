@@ -25,17 +25,17 @@ defmodule WandaWeb.Schemas.V1.ChecksSelection.CustomizedCheckValue do
           oneOf: @value_types,
           description: "Represents the custom value that overrides the current one."
         },
-        current_value: %Schema{
+        default_value: %Schema{
           oneOf: @value_types,
           description:
-            "Value that is currently being used for the check based on the environment."
+            "Original value as defined by specification. Resolved based on the environment."
         },
         customizable: %Schema{
           type: :boolean,
           description: "Whether the check is customizable or not"
         }
       },
-      required: [:name, :custom_value, :current_value, :customizable]
+      required: [:name, :custom_value, :default_value, :customizable]
     },
     struct?: false
   )

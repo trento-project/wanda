@@ -3,16 +3,17 @@ defmodule Wanda.Catalog do
   Function to interact with the checks catalog.
   """
 
-  alias Wanda.Catalog.CustomizedValue
-  alias Wanda.Catalog.SelectedCheck
-
   alias Wanda.Catalog.{
     Check,
     CheckCustomization,
     Condition,
+    CustomizedValue,
+    Evaluation,
     Expectation,
     Fact,
+    ResolvedValue,
     SelectableCheck,
+    SelectedCheck,
     Value
   }
 
@@ -79,7 +80,7 @@ defmodule Wanda.Catalog do
 
     env
     |> get_catalog()
-    |> Enum.map(&map_to_selectable_check(&1, available_customizations))
+    |> Enum.map(&map_to_selectable_check(&1, available_customizations, env))
   end
 
   @spec to_selected_checks([Check.t()], String.t()) :: [SelectedCheck.t()]
@@ -98,12 +99,13 @@ defmodule Wanda.Catalog do
            values: values,
            customization_disabled: customization_globally_disabled?
          },
-         available_customizations
+         available_customizations,
+         env
        ) do
     mapped_values =
       id
       |> find_custom_values(available_customizations)
-      |> map_selectable_check_values(values, customization_globally_disabled?)
+      |> map_selectable_check_values(values, customization_globally_disabled?, env)
 
     customizable_check? =
       detect_check_customizability(mapped_values, not customization_globally_disabled?)
@@ -122,10 +124,7 @@ defmodule Wanda.Catalog do
   end
 
   defp map_to_selected_check(%Check{id: id} = check, available_customizations) do
-    customizations =
-      id
-      |> find_custom_values(available_customizations)
-      |> Enum.map(&CustomizedValue.from_custom_value/1)
+    customizations = find_custom_values(id, available_customizations)
 
     %SelectedCheck{
       id: id,
@@ -138,49 +137,46 @@ defmodule Wanda.Catalog do
   defp find_custom_values(check_id, available_customizations) do
     Enum.find_value(available_customizations, [], fn
       %CheckCustomization{check_id: ^check_id, custom_values: custom_values} ->
-        custom_values
+        Enum.map(custom_values, &CustomizedValue.from_custom_value/1)
 
       _ ->
         nil
     end)
   end
 
-  defp map_selectable_check_values(custom_values, check_values, customization_globally_disabled?) do
-    Enum.map(check_values, fn %Value{
-                                name: value_name,
-                                default: default_value
-                              } = value ->
+  defp map_selectable_check_values(
+         custom_values,
+         check_values,
+         customization_globally_disabled?,
+         env
+       ) do
+    check_values
+    |> Evaluation.resolve_values(custom_values, env)
+    |> Enum.map(fn %ResolvedValue{spec: value_spec, name: value_name} = resolved_value ->
       %{
         name: value_name
       }
-      |> add_value_customizability(value, customization_globally_disabled?)
-      |> maybe_add_current_value(default_value)
-      |> maybe_add_customization(custom_values)
+      |> add_value_customizability(value_spec, customization_globally_disabled?)
+      |> maybe_add_default_value(resolved_value)
+      |> maybe_add_customization(resolved_value)
     end)
   end
 
-  defp maybe_add_current_value(%{customizable: false} = value, _), do: value
+  defp maybe_add_default_value(%{customizable: false} = value, _), do: value
 
-  defp maybe_add_current_value(%{customizable: true} = value, default_value),
-    do: Map.put(value, :current_value, default_value)
-
-  defp maybe_add_customization(%{customizable: false} = value, _), do: value
+  defp maybe_add_default_value(
+         %{customizable: true} = value,
+         %ResolvedValue{default_value: default_value}
+       ),
+       do: Map.put(value, :default_value, default_value)
 
   defp maybe_add_customization(
-         %{
-           name: value_name,
-           customizable: true
-         } = initial_value,
-         custom_values
-       ) do
-    Enum.find_value(custom_values, initial_value, fn
-      %{name: ^value_name, value: overriding_value} ->
-        Map.put(initial_value, :custom_value, overriding_value)
+         %{customizable: true} = initial_value,
+         %ResolvedValue{custom_value: custom_value, customized: true}
+       ),
+       do: Map.put(initial_value, :custom_value, custom_value)
 
-      _ ->
-        false
-    end)
-  end
+  defp maybe_add_customization(initial_value, _resolved_value), do: initial_value
 
   defp read_check(path, check_id) do
     case YamlElixir.read_from_file(path) do
@@ -340,17 +336,17 @@ defmodule Wanda.Catalog do
 
   defp add_value_customizability(
          mapped_value,
-         current_value,
+         value_spec,
          customization_globally_disabled?
        ) do
     Map.put(
       mapped_value,
       :customizable,
-      can_customize_value?(current_value, customization_globally_disabled?)
+      can_customize_value?(value_spec, customization_globally_disabled?)
     )
   end
 
-  defp can_customize_value?(_current_value, true = _customization_globally_disabled?), do: false
+  defp can_customize_value?(_value_spec, true = _customization_globally_disabled?), do: false
   defp can_customize_value?(%{customization_disabled: true}, _), do: false
 
   defp can_customize_value?(%{default: default_value}, _),

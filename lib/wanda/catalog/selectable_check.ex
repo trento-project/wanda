@@ -6,14 +6,14 @@ defmodule Wanda.Catalog.SelectableCheck do
   @type customized_value :: %{
           name: String.t(),
           customizable: true,
-          current_value: boolean() | number() | String.t(),
+          default_value: boolean() | number() | String.t(),
           custom_value: boolean() | number() | String.t()
         }
 
   @type non_customized_value :: %{
           name: String.t(),
           customizable: boolean(),
-          current_value: boolean() | number() | String.t()
+          default_value: boolean() | number() | String.t()
         }
 
   @derive Jason.Encoder
