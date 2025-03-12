@@ -170,17 +170,13 @@ defmodule Wanda.Catalog do
        ),
        do: Map.put(value, :default_value, default_value)
 
-  defp maybe_add_customization(%{customizable: customizable} = value, %ResolvedValue{
-         customized: customized
-       })
-       when not customized or not customizable,
-       do: value
-
   defp maybe_add_customization(
          %{customizable: true} = initial_value,
          %ResolvedValue{custom_value: custom_value, customized: true}
        ),
        do: Map.put(initial_value, :custom_value, custom_value)
+
+  defp maybe_add_customization(initial_value, _resolved_value), do: initial_value
 
   defp read_check(path, check_id) do
     case YamlElixir.read_from_file(path) do
