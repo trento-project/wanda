@@ -87,7 +87,7 @@ jobs:
       - name: Cargo vendor
         run: |
           cd deps/rhai_rustler/native/rhai_rustler
-          cargo vendor
+          cargo vendord
 
   static-code-analysis:
     name: Static Code Analysis
