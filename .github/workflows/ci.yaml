@@ -408,7 +408,7 @@ jobs:
       - name: Setup rust
         uses: actions-rs/toolchain@v1
         with:
-          toolchain: 1.66
+          toolchain: 1.81
       - name: Get mix deps
         run: mix local.hex --force && mix local.rebar --force && mix deps.clean --all && mix deps.get
       - name: cargo vendor
@@ -488,7 +488,7 @@ jobs:
       - name: Setup rust
         uses: actions-rs/toolchain@v1
         with:
-          toolchain: 1.66
+          toolchain: 1.81
       - name: Get mix deps
         run: mix local.hex --force && mix deps.clean --all && mix deps.get
       - name: Cargo vendor
