@@ -37,28 +37,30 @@ Here's a collection of built-in gatherers, with information about how to use the
 
 | Name                                                                   | Implementation                                                                                                                                                                      |
 | :--------------------------------------------------------------------- | :---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| [`ascsers_cluster@v1`](#ascsers_clusterv1)                             | [trento-project/agent/../gatherers/ascsers_cluster.go](https://github.com/trento-project/agent/blob/main/internal/factsengine/gatherers/ascsers_cluster.go)                                |
+| [`ascsers_cluster@v1`](#ascsers_clusterv1)                             | [trento-project/agent/../gatherers/ascsers_cluster.go](https://github.com/trento-project/agent/blob/main/internal/factsengine/gatherers/ascsers_cluster.go)                         |
 | [`cibadmin@v1`](#cibadminv1)                                           | [trento-project/agent/../gatherers/cibadmin.go](https://github.com/trento-project/agent/blob/main/internal/factsengine/gatherers/cibadmin.go)                                       |
-| [`corosync.conf@v1`](#corosyncconfv1)                                  | [trento-project/agent/../gatherers/corosyncconf.go](https://github.com/trento-project/agent/blob/main/internal/factsengine/gatherers/corosyncconf.go)                               |
 | [`corosync-cmapctl@v1`](#corosync-cmapctlv1)                           | [trento-project/agent/../gatherers/corosynccmapctl.go](https://github.com/trento-project/agent/blob/main/internal/factsengine/gatherers/corosynccmapctl.go)                         |
+| [`corosync.conf@v1`](#corosyncconfv1)                                  | [trento-project/agent/../gatherers/corosyncconf.go](https://github.com/trento-project/agent/blob/main/internal/factsengine/gatherers/corosyncconf.go)                               |
 | [`dir_scan@v1`](#dir_scanv1)                                           | [trento-project/agent/../gatherers/dir_scan.go](https://github.com/trento-project/agent/blob/main/internal/factsengine/gatherers/dir_scan.go)                                       |
 | [`disp+work@v1`](#dispworkv1)                                          | [trento-project/agent/../gatherers/dispwork.go](https://github.com/trento-project/agent/blob/main/internal/factsengine/gatherers/dispwork.go)                                       |
 | [`fstab@v1`](#fstabv1)                                                 | [trento-project/agent/../gatherers/fstab.go](https://github.com/trento-project/agent/blob/main/internal/factsengine/gatherers/fstab.go)                                             |
 | [`groups@v1`](#groupsv1)                                               | [trento-project/agent/../gatherers/groups.go](https://github.com/trento-project/agent/blob/main/internal/factsengine/gatherers/groups.go)                                           |
 | [`hosts@v1`](#hostsv1)                                                 | [trento-project/agent/../gatherers/hostsfile.go](https://github.com/trento-project/agent/blob/main/internal/factsengine/gatherers/hostsfile.go)                                     |
+| [`ini_files@v1`](#ini_filesv1)                                         | [trento-project/agent/../gatherers/ini_files.go](https://github.com/trento-project/agent/blob/main/internal/factsengine/gatherers/ini_files.go)                                     |
 | [`mount_info@v1`](#mount_infov1)                                       | [trento-project/agent/../gatherers/mountinfo.go](https://github.com/trento-project/agent/blob/main/internal/factsengine/gatherers/mountinfo.go)                                     |
 | [`os-release@v1`](#os-releasev1)                                       | [trento-project/agent/../gatherers/osrelease.go](https://github.com/trento-project/agent/blob/main/internal/factsengine/gatherers/osrelease.go)                                     |
 | [`package_version@v1`](#package_versionv1)                             | [trento-project/agent/../gatherers/packageversion.go](https://github.com/trento-project/agent/blob/main/internal/factsengine/gatherers/packageversion.go)                           |
 | [`passwd@v1`](#passwdv1)                                               | [trento-project/agent/../gatherers/passwd.go](https://github.com/trento-project/agent/blob/main/internal/factsengine/gatherers/passwd.go)                                           |
 | [`products@v1`](#productsv1)                                           | [trento-project/agent/../gatherers/products.go](https://github.com/trento-project/agent/blob/main/internal/factsengine/gatherers/products.go)                                       |
+| [`sap_profiles@v1`](#sap_profilesv1)                                   | [trento-project/agent/../gatherers/sapprofiles.go](https://github.com/trento-project/agent/blob/main/internal/factsengine/gatherers/sapprofiles.go)                                 |
 | [`sapcontrol@v1`](#sapcontrolv1)                                       | [trento-project/agent/../gatherers/sapcontrol.go](https://github.com/trento-project/agent/blob/main/internal/factsengine/gatherers/sapcontrol.go)                                   |
 | [`saphostctrl@v1`](#saphostctrlv1)                                     | [trento-project/agent/../gatherers/saphostctrl.go](https://github.com/trento-project/agent/blob/main/internal/factsengine/gatherers/saphostctrl.go)                                 |
-| [`sap_profiles@v1`](#sap_profilesv1)                                   | [trento-project/agent/../gatherers/sapprofiles.go](https://github.com/trento-project/agent/blob/main/internal/factsengine/gatherers/sapprofiles.go)                                 |
 | [`sapinstance_hostname_resolver@v1`](#sapinstance_hostname_resolverv1) | [trento-project/agent/../gatherers/sapinstancehostnameresolver.go](https://github.com/trento-project/agent/blob/main/internal/factsengine/gatherers/sapinstancehostnameresolver.go) |
 | [`sapservices@v1`](#sapservicesv1)                                     | [trento-project/agent/../gatherers/sapservices.go](https://github.com/trento-project/agent/blob/main/internal/factsengine/gatherers/sapservices.go)                                 |
 | [`saptune@v1`](#saptunev1)                                             | [trento-project/agent/../gatherers/saptune.go](https://github.com/trento-project/agent/blob/main/internal/factsengine/gatherers/saptune.go)                                         |
 | [`sbd_config@v1`](#sbd_configv1)                                       | [trento-project/agent/../gatherers/sbd.go](https://github.com/trento-project/agent/blob/main/internal/factsengine/gatherers/sbd.go)                                                 |
 | [`sbd_dump@v1`](#sbd_dumpv1)                                           | [trento-project/agent/../gatherers/sbddump.go](https://github.com/trento-project/agent/blob/main/internal/factsengine/gatherers/sbddump.go)                                         |
+| [`sudoers@v1`](#sudoersv1)                                             | [trento-project/agent/../gatherers/sudoers.go](https://github.com/trento-project/agent/blob/main/internal/factsengine/gatherers/sudoers.go)                                         |
 | [`sysctl@v1`](#sysctlv1)                                               | [trento-project/agent/../gatherers/sysctl.go](https://github.com/trento-project/agent/blob/main/internal/factsengine/gatherers/sysctl.go)                                           |
 | [`systemd@v1`](#systemdv1)                                             | [trento-project/agent/../gatherers/systemd.go](https://github.com/trento-project/agent/blob/main/internal/factsengine/gatherers/systemd.go)                                         |
 | [`systemd@v2`](#systemdv2)                                             | [trento-project/agent/../gatherers/systemd_v2.go](https://github.com/trento-project/agent/blob/main/internal/factsengine/gatherers/systemd_v2.go)                                   |
@@ -175,69 +177,6 @@ Example output (in Rhai):
 };
 ```
 
-<span id="corosyncconfv1"></span>
-
-### corosync.conf@v1
-
-**Argument required**: no.
-
-This gatherer allows accessing the information contained in `/etc/corosync/corosync.conf`
-
-Example arguments:
-
-| Name                                | Return value                           |
-| :---------------------------------- | -------------------------------------- |
-| `totem.token`                       | extracted value from the config        |
-| `totem.join`                        | extracted value from the config        |
-| `nodelist.node.<node_index>.nodeid` | extracted value from the config        |
-| `nodelist.node`                     | list of objects representing the nodes |
-
-Example specification:
-
-```yaml
-facts:
-  - name: corosync_token_timeout
-    gatherer: corosync.conf@v1
-    argument: totem.token
-
-  - name: corosync_join
-    gatherer: corosync.conf@v1
-    argument: totem.join
-
-  - name: corosync_node_id_0
-    gatherer: corosync.conf@v1
-    argument: nodelist.node.0.nodeid
-
-  - name: corosync_node_id_1
-    gatherer: corosync.conf@v1
-    argument: nodelist.node.1.nodeid
-
-  - name: corosync_nodes
-    gatherer: corosync.conf@v1
-    argument: nodelist.node
-```
-
-Example output (in Rhai):
-
-```ts
-// corosync_token_timeout
-30000;
-
-// corosync_join
-60;
-
-// corosync_node_id_0
-1;
-
-// corosync_node_id_1
-2;
-
-// corosync_nodes
-[#{nodeid: 1, ring0_addr: "192.168.157.10"}, #{nodeid: 2, ring0_addr: "192.168.157.11"}];
-```
-
-For extra information refer to [trento-project/agent/../gatherers/corosyncconf_test.go](https://github.com/trento-project/agent/blob/main/internal/factsengine/gatherers/corosyncconf_test.go)
-
 <span id="corosync-cmapctlv1"></span>
 
 ### corosync-cmapctl@v1
@@ -324,6 +263,69 @@ Example output (in Rhai):
 // second_node
 #{ nodeid: 2, ring0_addr: "10.80.1.12" };
 ```
+
+<span id="corosyncconfv1"></span>
+
+### corosync.conf@v1
+
+**Argument required**: no.
+
+This gatherer allows accessing the information contained in `/etc/corosync/corosync.conf`
+
+Example arguments:
+
+| Name                                | Return value                           |
+| :---------------------------------- | -------------------------------------- |
+| `totem.token`                       | extracted value from the config        |
+| `totem.join`                        | extracted value from the config        |
+| `nodelist.node.<node_index>.nodeid` | extracted value from the config        |
+| `nodelist.node`                     | list of objects representing the nodes |
+
+Example specification:
+
+```yaml
+facts:
+  - name: corosync_token_timeout
+    gatherer: corosync.conf@v1
+    argument: totem.token
+
+  - name: corosync_join
+    gatherer: corosync.conf@v1
+    argument: totem.join
+
+  - name: corosync_node_id_0
+    gatherer: corosync.conf@v1
+    argument: nodelist.node.0.nodeid
+
+  - name: corosync_node_id_1
+    gatherer: corosync.conf@v1
+    argument: nodelist.node.1.nodeid
+
+  - name: corosync_nodes
+    gatherer: corosync.conf@v1
+    argument: nodelist.node
+```
+
+Example output (in Rhai):
+
+```ts
+// corosync_token_timeout
+30000;
+
+// corosync_join
+60;
+
+// corosync_node_id_0
+1;
+
+// corosync_node_id_1
+2;
+
+// corosync_nodes
+[#{nodeid: 1, ring0_addr: "192.168.157.10"}, #{nodeid: 2, ring0_addr: "192.168.157.11"}];
+```
+
+For extra information refer to [trento-project/agent/../gatherers/corosyncconf_test.go](https://github.com/trento-project/agent/blob/main/internal/factsengine/gatherers/corosyncconf_test.go)
 
 <span id="dir_scanv1"></span>
 
@@ -538,6 +540,53 @@ Example output (in Rhai):
   "node2": ["192.168.157.11"],
   ...
 };
+```
+
+<span id="ini_filesv1"></span>
+
+### ini_files@v1
+
+**Argument required**: yes.
+
+This gatherer fetches the content from a configuration file in INI format. The configuration file is specified as argument, chosen from a list of allowed files.
+Currently whitelisted files are:
+
+- `global.ini`
+
+Each fact request can return one or more item, one for each found file; multiple files can occur when the host has configured more than one SAP system. Each item then has a `sid` field with the system id and a `value` field with the actual content of the file.
+
+Example arguments:
+
+| Name         | Return value                                                                         |
+| :----------- | :----------------------------------------------------------------------------------- |
+| `global.ini` | Retrieved the content from `/usr/sap/<sid>>/SYS/global/hdb/custom/config/global.ini` |
+
+```yaml
+facts:
+  - name: global_configuration
+    gatherer: ini_files@v1
+    argument: global.ini
+```
+
+Example output (in Rhai):
+
+```ts
+[
+  #{
+    "sid": "S01",
+    "value": #{
+      "communication": #{
+        "internal_network": "10.23.1.128/26",
+        "listeninterface": ".internal"
+      },
+      "internal_hostname_resolution": #{
+        "10.23.1.132": "hana-s1-db1",
+        "10.23.1.133": "hana-s1-db2",
+        "10.23.1.134": "hana-s1-db3"
+      }
+    }
+  }
+]
 ```
 
 <span id="mount_infov1"></span>
@@ -865,7 +914,109 @@ Example output (in Rhai):
       "version": "15.3"
     }
   }
-} 
+}
+```
+
+<span id="sap_profilesv1"></span>
+
+### sap_profiles@v1
+
+**Argument required**: no.
+
+This gatherer allows access to the latest SAP profile files content stored in `/sapmnt/<SID>/profile`.
+The "latest" profile means that backed up files like `DEFAULT.1.PFL` or `some_profile.1` are excluded.
+It returns the profile files and content grouped by SID in a key\value way.
+
+Example specification:
+
+```yaml
+facts:
+  - name: sap_profiles
+    gatherer: sap_profiles@v1
+```
+
+Example output (in Rhai):
+
+```ts
+#{
+  "NWP": #{
+    "profiles": [
+      #{
+        "content": #{
+          "SAPDBHOST": "10.80.1.13",
+          "SAPGLOBALHOST": "sapnwpas",
+          "SAPSYSTEMNAME": "NWP",
+          ...
+        },
+        "name": "DEFAULT.PFL",
+        "path": "/sapmnt/NWP/profile/DEFAULT.PFL"
+      },
+      #{
+        "content": #{
+          "DIR_CT_RUN": "$(DIR_EXE_ROOT)$(DIR_SEP)$(OS_UNICODE)$(DIR_SEP)linuxx86_64",
+          "DIR_EXECUTABLE": "$(DIR_INSTANCE)/exe",
+          "DIR_PROFILE": "$(DIR_INSTALL)$(DIR_SEP)profile",
+          ...
+        },
+        "name": "NWP_ASCS00_sapnwpas",
+        "path": "/sapmnt/NWP/profile/NWP_ASCS00_sapnwpas"
+      },
+      ...
+    ]
+  },
+  "NWD": #{
+    "profiles": [
+      #{
+        "content": #{
+          "SAPDBHOST": "10.85.1.13",
+          "SAPGLOBALHOST": "sapnwdas",
+          "SAPSYSTEMNAME": "NWD",
+          ...
+        },
+        "name": "DEFAULT.PFL",
+        "path": "/sapmnt/NWD/profile/DEFAULT.PFL"
+      },
+      ...
+    ]
+  }
+}
+```
+
+<span id="sapservicesv1"></span>
+
+### sapservices@v1
+
+**Argument required**: no.
+
+This gatherer allows access to the SAP services file content stored in `/usr/sap/sapservices`.
+Each entry in the file is returned as a map, containing the SID, the instance number, the raw line content of the entry and
+the kind of system used for startup, `systemctl` or `sapstartsrv`.
+
+Example specification:
+
+```yaml
+facts:
+  - name: sapservices
+    gatherer: sapservices@v1
+```
+
+Example output (in Rhai):
+
+```ts
+[
+  #{
+    "sid": "HS1",
+    "kind": "sapstartsrv",
+    "content": "LD_LIBRARY_PATH=/usr/sap/HS1/HDB11/exe:$LD_LIBRARY_PATH;export LD_LIBRARY_PATH;/usr/sap/HS1/HDB11/exe/sapstartsrv pf=/usr/sap/HS1/SYS/profile/HS1_HDB11_s41db -D -u hs1adm",
+    "instance_nr": "11"
+  },
+  #{
+    "sid": "S41",
+    "kind": "systemctl",
+    "content": "systemctl --no-ask-password start SAPS41_40",
+    "instance_nr": "40"
+  },
+]
 ```
 
 <span id="sapcontrolv1"></span>
@@ -1133,108 +1284,6 @@ Example output (in Rhai):
 }
 ```
 
-<span id="sap_profilesv1"></span>
-
-### sap_profiles@v1
-
-**Argument required**: no.
-
-This gatherer allows access to the latest SAP profile files content stored in `/sapmnt/<SID>/profile`.
-The "latest" profile means that backed up files like `DEFAULT.1.PFL` or `some_profile.1` are excluded.
-It returns the profile files and content grouped by SID in a key\value way.
-
-Example specification:
-
-```yaml
-facts:
-  - name: sap_profiles
-    gatherer: sap_profiles@v1
-```
-
-Example output (in Rhai):
-
-```ts
-#{
-  "NWP": #{
-    "profiles": [
-      #{
-        "content": #{
-          "SAPDBHOST": "10.80.1.13",
-          "SAPGLOBALHOST": "sapnwpas",
-          "SAPSYSTEMNAME": "NWP",
-          ...
-        },
-        "name": "DEFAULT.PFL",
-        "path": "/sapmnt/NWP/profile/DEFAULT.PFL"
-      },
-      #{
-        "content": #{
-          "DIR_CT_RUN": "$(DIR_EXE_ROOT)$(DIR_SEP)$(OS_UNICODE)$(DIR_SEP)linuxx86_64",
-          "DIR_EXECUTABLE": "$(DIR_INSTANCE)/exe",
-          "DIR_PROFILE": "$(DIR_INSTALL)$(DIR_SEP)profile",
-          ...
-        },
-        "name": "NWP_ASCS00_sapnwpas",
-        "path": "/sapmnt/NWP/profile/NWP_ASCS00_sapnwpas"
-      },
-      ...
-    ]
-  },
-  "NWD": #{
-    "profiles": [
-      #{
-        "content": #{
-          "SAPDBHOST": "10.85.1.13",
-          "SAPGLOBALHOST": "sapnwdas",
-          "SAPSYSTEMNAME": "NWD",
-          ...
-        },
-        "name": "DEFAULT.PFL",
-        "path": "/sapmnt/NWD/profile/DEFAULT.PFL"
-      },
-      ...
-    ]
-  }
-}
-```
-
-<span id="sapservicesv1"></span>
-
-### sapservices@v1
-
-**Argument required**: no.
-
-This gatherer allows access to the SAP services file content stored in `/usr/sap/sapservices`.
-Each entry in the file is returned as a map, containing the SID, the instance number, the raw line content of the entry and
-the kind of system used for startup, `systemctl` or `sapstartsrv`.
-
-Example specification:
-
-```yaml
-facts:
-  - name: sapservices
-    gatherer: sapservices@v1
-```
-
-Example output (in Rhai):
-
-```ts
-[
-  #{
-    "sid": "HS1",
-    "kind": "sapstartsrv",
-    "content": "LD_LIBRARY_PATH=/usr/sap/HS1/HDB11/exe:$LD_LIBRARY_PATH;export LD_LIBRARY_PATH;/usr/sap/HS1/HDB11/exe/sapstartsrv pf=/usr/sap/HS1/SYS/profile/HS1_HDB11_s41db -D -u hs1adm",
-    "instance_nr": "11"
-  },
-  #{
-    "sid": "S41",
-    "kind": "systemctl",
-    "content": "systemctl --no-ask-password start SAPS41_40",
-    "instance_nr": "40"
-  },
-]
-```
-
 <span id="saptunev1"></span>
 
 ### saptune@v1
@@ -1409,6 +1458,81 @@ Example output (in Rhai):
 ```
 
 For extra information refer to [trento-project/agent/../gatherers/sbddump_test.go](https://github.com/trento-project/agent/blob/main/internal/factsengine/gatherers/sbddump_test.go)
+
+<span id="sudoersv1"></span>
+
+### sudoers@v1
+
+**Argument required**: no.
+
+This gatherer fetches the sudoer information about a user. The output is a list of objects representing the sudoer rules with the following fields:
+
+- `user`: The name of the user to whom the rule applies;
+- `command`: The command a sudoer rule has been specified for;
+- `run_as_user`: The user privileges under which the command will be executed;
+- `run_as_group`: The group privileges under which the command will be executed.;
+- `no_password`: Whether the `NOPASSWD` tag is set for the rule.
+
+The gatherer operates in two modes:
+
+- _user discovery mode_: no argument is specified, thus the gatherer fetches results for all the configured users for the SAP systems on the host;
+- _explicit user mode_: the target user is specified as the gatherer argument, regardless if it's a SAP-configured user.
+
+Example arguments:
+
+| Name     | Return value                                                                        |
+| :------- | :---------------------------------------------------------------------------------- |
+| _empty_  | All sudoer rules for all users configured for the installed SAP systems on the host |
+| `prdadm` | All sudoer rules for the `prdadm` user                                              |
+
+Example output (in Rhai):
+
+```ts
+[
+  #{
+    "command": "ALL",
+    "no_password": false,
+    "run_as_group": "",
+    "run_as_user": "ALL",
+    "user": "prdadm"
+  },
+  #{
+    "command": "/usr/sbin/crm_attribute -n hana_prd_site_srHook_Site1 -v SOK -t crm_config -s SAPHanaSR",
+    "no_password": true,
+    "run_as_group": "",
+    "run_as_user": "ALL",
+    "user": "prdadm"
+  },
+  #{
+    "command": "/usr/sbin/crm_attribute -n hana_prd_site_srHook_Site1 -v SFAIL -t crm_config -s SAPHanaSR",
+    "no_password": true,
+    "run_as_group": "",
+    "run_as_user": "ALL",
+    "user": "prdadm"
+  },
+  #{
+    "command": "/usr/sbin/crm_attribute -n hana_prd_site_srHook_Site2 -v SOK -t crm_config -s SAPHanaSR",
+    "no_password": true,
+    "run_as_group": "",
+    "run_as_user": "ALL",
+    "user": "prdadm"
+  },
+  #{
+    "command": "/usr/sbin/crm_attribute -n hana_prd_site_srHook_Site2 -v SFAIL -t crm_config -s SAPHanaSR",
+    "no_password": true,
+    "run_as_group": "",
+    "run_as_user": "ALL",
+    "user": "prdadm"
+  },
+  #{
+    "command": "/usr/sbin/SAPHanaSR-hookHelper --case checkTakeover --sid\\=prd",
+    "no_password": true,
+    "run_as_group": "",
+    "run_as_user": "ALL",
+    "user": "prdadm"
+  }
+]
+```
 
 <span id="sysctlv1"></span>
 
