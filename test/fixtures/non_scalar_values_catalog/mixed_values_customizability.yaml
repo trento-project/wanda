@@ -31,7 +31,7 @@ values:
     # customization_disabled: false #inferred
     conditions:
       - value: baz_qux
-        when: some_third_expression
+        when: env.some_key == "some_value"
   - name: non_customizable_string_value
     default: kaboom
     customization_disabled: true

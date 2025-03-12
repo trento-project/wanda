@@ -287,13 +287,15 @@ defmodule Wanda.CatalogTest do
           %{
             name: "numeric_value",
             customizable: true,
-            current_value: 5,
+            original_value: 5,
             custom_value: expected_customization
           },
           %{
             name: "customizable_string_value",
             customizable: true,
-            current_value: "foo_bar",
+            # original_value: "foo_bar", <- "foo_bar" is the default original_value
+            # "baz_qux" is the env based resolved original_value
+            original_value: "baz_qux",
             custom_value: "new value"
           },
           %{
@@ -303,7 +305,7 @@ defmodule Wanda.CatalogTest do
           %{
             name: "bool_value",
             customizable: true,
-            current_value: true
+            original_value: true
           },
           %{
             name: "list_value",
@@ -317,7 +319,8 @@ defmodule Wanda.CatalogTest do
 
         selectable_checks =
           Catalog.get_catalog_for_group(group_id, %{
-            "id" => "mixed_values_customizability"
+            "id" => "mixed_values_customizability",
+            "some_key" => "some_value"
           })
 
         assert length(selectable_checks) == 10
@@ -429,7 +432,7 @@ defmodule Wanda.CatalogTest do
       refute Map.has_key?(value, :custom_value)
 
       if not customizable do
-        refute Map.has_key?(value, :current_value)
+        refute Map.has_key?(value, :original_value)
       end
     end
   end
