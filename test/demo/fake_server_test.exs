@@ -26,12 +26,16 @@ defmodule Wanda.Executions.FakeServerTest do
     env = build(:env)
 
     expect(Wanda.Messaging.Adapters.Mock, :publish, 2, fn
-      Publisher, "results", %ExecutionStarted{execution_id: ^execution_id, group_id: ^group_id} ->
+      Publisher,
+      "results",
+      %ExecutionStarted{execution_id: ^execution_id, group_id: ^group_id},
+      _ ->
         :ok
 
       Publisher,
       "results",
-      %ExecutionCompleted{execution_id: ^execution_id, group_id: ^group_id} ->
+      %ExecutionCompleted{execution_id: ^execution_id, group_id: ^group_id},
+      _ ->
         :ok
     end)
 
