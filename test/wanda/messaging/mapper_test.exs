@@ -24,7 +24,9 @@ defmodule Wanda.Messaging.MapperTest do
     OperationCompleted,
     OperationRequested,
     OperationStarted,
-    OperationTarget
+    OperationTarget,
+    OperatorExecutionRequested,
+    OperatorExecutionRequestedTarget
   }
 
   test "should map to ExecutionStarted event" do
@@ -434,5 +436,46 @@ defmodule Wanda.Messaging.MapperTest do
                result: mapped_result
              } == Mapper.to_operation_completed(operation_id, group_id, operation_type, result)
     end
+  end
+
+  test "should map to OperatorExecutionRequestedV1 event" do
+    operation_id = UUID.uuid4()
+    group_id = UUID.uuid4()
+    step_number = Enum.random(1..5)
+    operator = Faker.StarWars.character()
+
+    [%{agent_id: agent_id_1}, %{agent_id: agent_id_2}] =
+      targets = build_list(2, :operation_target, arguments: %{"number" => 1, "string" => "value"})
+
+    assert %OperatorExecutionRequested{
+             operation_id: operation_id,
+             group_id: group_id,
+             step_number: step_number,
+             targets: [
+               %OperatorExecutionRequestedTarget{
+                 agent_id: agent_id_1,
+                 operator: operator,
+                 arguments: %{
+                   "number" => %{kind: {:number_value, 1}},
+                   "string" => %{kind: {:string_value, "value"}}
+                 }
+               },
+               %OperatorExecutionRequestedTarget{
+                 agent_id: agent_id_2,
+                 operator: operator,
+                 arguments: %{
+                   "number" => %{kind: {:number_value, 1}},
+                   "string" => %{kind: {:string_value, "value"}}
+                 }
+               }
+             ]
+           } ==
+             Mapper.to_operator_execution_requested(
+               operation_id,
+               group_id,
+               step_number,
+               operator,
+               targets
+             )
   end
 end
