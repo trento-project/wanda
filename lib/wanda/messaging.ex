@@ -3,9 +3,9 @@ defmodule Wanda.Messaging do
   Publishes messages to the message bus
   """
 
-  @spec publish(module(), String.t(), any()) :: :ok | {:error, any()}
-  def publish(publisher, topic, message) do
-    adapter().publish(publisher, topic, message)
+  @spec publish(module(), String.t(), any(), Keyword.t()) :: :ok | {:error, any()}
+  def publish(publisher, topic, message, opts \\ []) do
+    adapter().publish(publisher, topic, message, opts)
   end
 
   defp adapter,

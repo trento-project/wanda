@@ -10,7 +10,9 @@ defmodule Wanda.Operations.ServerTest do
 
   alias Trento.Operations.V1.{
     OperationCompleted,
-    OperationStarted
+    OperationStarted,
+    OperatorExecutionRequested,
+    OperatorExecutionRequestedTarget
   }
 
   require Wanda.Operations.Enums.Result, as: Result
@@ -75,9 +77,10 @@ defmodule Wanda.Operations.ServerTest do
     test "should not start operation if it is already running for that group_id" do
       group_id = UUID.uuid4()
 
-      expect(Wanda.Messaging.Adapters.Mock, :publish, 2, fn
-        _, "results", %OperationStarted{} -> :ok
-        _, "results", %OperationCompleted{result: :ABORTED} -> :ok
+      expect(Wanda.Messaging.Adapters.Mock, :publish, 3, fn
+        _, "results", %OperationStarted{}, _ -> :ok
+        _, "agents", %OperatorExecutionRequested{}, _ -> :ok
+        _, "results", %OperationCompleted{result: :ABORTED}, _ -> :ok
       end)
 
       Server.start_operation(
@@ -110,9 +113,23 @@ defmodule Wanda.Operations.ServerTest do
       [%{agent_id: agent_id_1}, %{agent_id: agent_id_2}] =
         targets = build_list(2, :operation_target)
 
-      expect(Wanda.Messaging.Adapters.Mock, :publish, 2, fn
-        _, "results", %OperationStarted{} -> :ok
-        _, "results", %OperationCompleted{result: :FAILED} -> :ok
+      expect(Wanda.Messaging.Adapters.Mock, :publish, 3, fn
+        _, "results", %OperationStarted{}, _ ->
+          :ok
+
+        _,
+        "agents",
+        %OperatorExecutionRequested{
+          targets: [
+            %OperatorExecutionRequestedTarget{agent_id: ^agent_id_1},
+            %OperatorExecutionRequestedTarget{agent_id: ^agent_id_2}
+          ]
+        },
+        _ ->
+          :ok
+
+        _, "results", %OperationCompleted{result: :FAILED}, _ ->
+          :ok
       end)
 
       Server.start_operation(
@@ -162,17 +179,42 @@ defmodule Wanda.Operations.ServerTest do
         build(:catalog_operation,
           id: @existing_catalog_operation_id,
           steps: [
-            build(:operation_step, predicate: "*"),
-            build(:operation_step, predicate: "")
+            %{operator: operator_1} = build(:operation_step, predicate: "*"),
+            %{operator: operator_2} = build(:operation_step, predicate: "")
           ]
         )
 
       [%{agent_id: agent_id_1}, %{agent_id: agent_id_2}] =
         targets = build_list(2, :operation_target)
 
-      expect(Wanda.Messaging.Adapters.Mock, :publish, 2, fn
-        _, "results", %OperationStarted{} -> :ok
-        _, "results", %OperationCompleted{result: :UPDATED} -> :ok
+      expect(Wanda.Messaging.Adapters.Mock, :publish, 4, fn
+        _, "results", %OperationStarted{}, _ ->
+          :ok
+
+        _,
+        "agents",
+        %OperatorExecutionRequested{
+          targets: [
+            %OperatorExecutionRequestedTarget{agent_id: ^agent_id_1, operator: ^operator_1},
+            %OperatorExecutionRequestedTarget{agent_id: ^agent_id_2, operator: ^operator_1}
+          ]
+        },
+        _ ->
+          :ok
+
+        _,
+        "agents",
+        %OperatorExecutionRequested{
+          targets: [
+            %OperatorExecutionRequestedTarget{agent_id: ^agent_id_1, operator: ^operator_2},
+            %OperatorExecutionRequestedTarget{agent_id: ^agent_id_2, operator: ^operator_2}
+          ]
+        },
+        _ ->
+          :ok
+
+        _, "results", %OperationCompleted{result: :UPDATED}, _ ->
+          :ok
       end)
 
       Server.start_operation(
@@ -291,9 +333,22 @@ defmodule Wanda.Operations.ServerTest do
           build(:operation_target, arguments: %{"value" => 10})
         ]
 
-      expect(Wanda.Messaging.Adapters.Mock, :publish, 2, fn
-        _, "results", %OperationStarted{} -> :ok
-        _, "results", %OperationCompleted{result: :UPDATED} -> :ok
+      expect(Wanda.Messaging.Adapters.Mock, :publish, 3, fn
+        _, "results", %OperationStarted{}, _ ->
+          :ok
+
+        _,
+        "agents",
+        %OperatorExecutionRequested{
+          targets: [
+            %OperatorExecutionRequestedTarget{agent_id: ^agent_id_1}
+          ]
+        },
+        _ ->
+          :ok
+
+        _, "results", %OperationCompleted{result: :UPDATED}, _ ->
+          :ok
       end)
 
       Server.start_operation(
@@ -344,8 +399,8 @@ defmodule Wanda.Operations.ServerTest do
         ]
 
       expect(Wanda.Messaging.Adapters.Mock, :publish, 2, fn
-        _, "results", %OperationStarted{} -> :ok
-        _, "results", %OperationCompleted{result: :UPDATED} -> :ok
+        _, "results", %OperationStarted{}, _ -> :ok
+        _, "results", %OperationCompleted{result: :UPDATED}, _ -> :ok
       end)
 
       Server.start_operation(
@@ -386,9 +441,10 @@ defmodule Wanda.Operations.ServerTest do
       [%{agent_id: agent_id_1}, %{agent_id: agent_id_2}] =
         targets = build_list(2, :operation_target)
 
-      expect(Wanda.Messaging.Adapters.Mock, :publish, 2, fn
-        _, "results", %OperationStarted{} -> :ok
-        _, "results", %OperationCompleted{result: :ABORTED} -> :ok
+      expect(Wanda.Messaging.Adapters.Mock, :publish, 3, fn
+        _, "results", %OperationStarted{}, _ -> :ok
+        _, "agents", %OperatorExecutionRequested{}, _ -> :ok
+        _, "results", %OperationCompleted{result: :ABORTED}, _ -> :ok
       end)
 
       Server.start_operation(
@@ -427,9 +483,16 @@ defmodule Wanda.Operations.ServerTest do
       [%{agent_id: agent_id_1}, %{agent_id: agent_id_2}] =
         targets = build_list(2, :operation_target)
 
-      expect(Wanda.Messaging.Adapters.Mock, :publish, 2, fn
-        _, "results", %OperationStarted{} -> :ok
-        _, "results", %OperationCompleted{result: :FAILED} -> :ok
+      expect(Wanda.Messaging.Adapters.Mock, :publish, 3, fn
+        _, "results", %OperationStarted{}, _ ->
+          :ok
+
+        _, "agents", %OperatorExecutionRequested{}, [expiration: expiration] ->
+          assert 0 == DateTime.diff(DateTime.utc_now(), expiration)
+          :ok
+
+        _, "results", %OperationCompleted{result: :FAILED}, _ ->
+          :ok
       end)
 
       Server.start_operation(
@@ -484,9 +547,28 @@ defmodule Wanda.Operations.ServerTest do
       [%{agent_id: agent_id_1}, %{agent_id: agent_id_2}] =
         targets = build_list(2, :operation_target)
 
-      expect(Wanda.Messaging.Adapters.Mock, :publish, 2, fn
-        _, "results", %OperationStarted{} -> :ok
-        _, "results", %OperationCompleted{result: :FAILED} -> :ok
+      Wanda.Messaging.Adapters.Mock
+      |> expect(:publish, 1, fn
+        _, "results", %OperationStarted{}, _ -> :ok
+      end)
+      |> expect(:publish, 1, fn
+        _, "agents", %OperatorExecutionRequested{}, [expiration: expiration] ->
+          assert 0 ==
+                   DateTime.diff(
+                     DateTime.add(DateTime.utc_now(), 10_000, :millisecond),
+                     expiration
+                   )
+
+          :ok
+      end)
+      |> expect(:publish, 1, fn
+        _, "agents", %OperatorExecutionRequested{}, [expiration: expiration] ->
+          assert 0 == DateTime.diff(DateTime.utc_now(), expiration)
+
+          :ok
+      end)
+      |> expect(:publish, 1, fn
+        _, "results", %OperationCompleted{result: :FAILED}, _ -> :ok
       end)
 
       Server.start_operation(
@@ -537,9 +619,10 @@ defmodule Wanda.Operations.ServerTest do
 
       targets = build_list(2, :operation_target)
 
-      expect(Wanda.Messaging.Adapters.Mock, :publish, 2, fn
-        _, "results", %OperationStarted{} -> :ok
-        _, "results", %OperationCompleted{result: :ABORTED} -> :ok
+      expect(Wanda.Messaging.Adapters.Mock, :publish, 3, fn
+        _, "results", %OperationStarted{}, _ -> :ok
+        _, "agents", %OperatorExecutionRequested{}, _ -> :ok
+        _, "results", %OperationCompleted{result: :ABORTED}, _ -> :ok
       end)
 
       Server.start_operation(
