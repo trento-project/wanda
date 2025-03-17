@@ -194,9 +194,10 @@ defmodule Wanda.Operations.ServerTest do
         _,
         "agents",
         %OperatorExecutionRequested{
+          operator: ^operator_1,
           targets: [
-            %OperatorExecutionRequestedTarget{agent_id: ^agent_id_1, operator: ^operator_1},
-            %OperatorExecutionRequestedTarget{agent_id: ^agent_id_2, operator: ^operator_1}
+            %OperatorExecutionRequestedTarget{agent_id: ^agent_id_1},
+            %OperatorExecutionRequestedTarget{agent_id: ^agent_id_2}
           ]
         },
         _ ->
@@ -205,9 +206,10 @@ defmodule Wanda.Operations.ServerTest do
         _,
         "agents",
         %OperatorExecutionRequested{
+          operator: ^operator_2,
           targets: [
-            %OperatorExecutionRequestedTarget{agent_id: ^agent_id_1, operator: ^operator_2},
-            %OperatorExecutionRequestedTarget{agent_id: ^agent_id_2, operator: ^operator_2}
+            %OperatorExecutionRequestedTarget{agent_id: ^agent_id_1},
+            %OperatorExecutionRequestedTarget{agent_id: ^agent_id_2}
           ]
         },
         _ ->

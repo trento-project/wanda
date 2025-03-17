@@ -451,10 +451,10 @@ defmodule Wanda.Messaging.MapperTest do
              operation_id: operation_id,
              group_id: group_id,
              step_number: step_number,
+             operator: operator,
              targets: [
                %OperatorExecutionRequestedTarget{
                  agent_id: agent_id_1,
-                 operator: operator,
                  arguments: %{
                    "number" => %{kind: {:number_value, 1}},
                    "string" => %{kind: {:string_value, "value"}}
@@ -462,7 +462,6 @@ defmodule Wanda.Messaging.MapperTest do
                },
                %OperatorExecutionRequestedTarget{
                  agent_id: agent_id_2,
-                 operator: operator,
                  arguments: %{
                    "number" => %{kind: {:number_value, 1}},
                    "string" => %{kind: {:string_value, "value"}}

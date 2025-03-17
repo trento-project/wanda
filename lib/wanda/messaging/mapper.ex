@@ -165,11 +165,11 @@ defmodule Wanda.Messaging.Mapper do
       operation_id: operation_id,
       group_id: group_id,
       step_number: step_number,
+      operator: operator,
       targets:
         Enum.map(targets, fn %{agent_id: agent_id, arguments: arguments} ->
           %OperatorExecutionRequestedTarget{
             agent_id: agent_id,
-            operator: operator,
             arguments: map_value(arguments)
           }
         end)
