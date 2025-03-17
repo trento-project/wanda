@@ -119,7 +119,10 @@ defmodule Wanda.MixProject do
       {:ranch, "~> 2.1.0", override: true},
       {:gen_rmq, github: "cdimonaco/gen_rmq", ref: "v5.0.1"},
       {:yaml_elixir, "~> 2.9"},
-      {:trento_contracts, github: "trento-project/contracts", sparse: "elixir", ref: "v0.2.0"},
+      {:trento_contracts,
+       github: "trento-project/contracts",
+       sparse: "elixir",
+       ref: "5159985f3d0077c46148fe8b3e36d93706a6ba45"},
       {:unplug, "~> 1.1.0"},
       # test deps
       {:ex_doc, "~> 0.29", only: [:dev, :test], runtime: false},

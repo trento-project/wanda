@@ -161,7 +161,7 @@ defmodule Wanda.Operations.Server do
       state
       |> predicate_targets_execution(predicate)
       |> maybe_save_skipped_operation_state()
-      |> maybe_request_operation_execution(operator)
+      |> maybe_request_operation_execution(operator, timeout)
       |> maybe_increase_current_step()
       |> store_agent_reports()
 
@@ -405,15 +405,36 @@ defmodule Wanda.Operations.Server do
     end)
   end
 
-  defp maybe_request_operation_execution(%State{pending_targets_on_step: []} = state, _) do
+  defp maybe_request_operation_execution(%State{pending_targets_on_step: []} = state, _, _) do
     state
   end
 
   defp maybe_request_operation_execution(
-         %State{} = state,
-         _operator
+         %State{
+           operation_id: operation_id,
+           group_id: group_id,
+           targets: targets,
+           pending_targets_on_step: pending_targets,
+           current_step_index: step_number
+         } = state,
+         operator,
+         timeout
        ) do
-    # publish operation execution to agents
+    operator_execution_requested =
+      Messaging.Mapper.to_operator_execution_requested(
+        operation_id,
+        group_id,
+        step_number,
+        operator,
+        Enum.filter(targets, fn %OperationTarget{agent_id: agent_id} ->
+          agent_id in pending_targets
+        end)
+      )
+
+    expiration = DateTime.add(DateTime.utc_now(), timeout, :millisecond)
+
+    :ok =
+      Messaging.publish(Publisher, "agents", operator_execution_requested, expiration: expiration)
 
     state
   end

@@ -27,7 +27,9 @@ defmodule Wanda.Messaging.Mapper do
   alias Trento.Operations.V1.{
     OperationCompleted,
     OperationRequested,
-    OperationStarted
+    OperationStarted,
+    OperatorExecutionRequested,
+    OperatorExecutionRequestedTarget
   }
 
   @spec to_execution_started(String.t(), String.t(), [Target.t()]) :: ExecutionStarted.t()
@@ -150,6 +152,26 @@ defmodule Wanda.Messaging.Mapper do
       targets:
         Enum.map(targets, fn %{agent_id: agent_id, arguments: arguments} ->
           %OperationTarget{agent_id: agent_id, arguments: from_value(arguments)}
+        end)
+    }
+  end
+
+  @spec to_operator_execution_requested(String.t(), String.t(), number(), String.t(), [
+          OperationTarget.t()
+        ]) ::
+          OperatorExecutionRequested.t()
+  def to_operator_execution_requested(operation_id, group_id, step_number, operator, targets) do
+    %OperatorExecutionRequested{
+      operation_id: operation_id,
+      group_id: group_id,
+      step_number: step_number,
+      operator: operator,
+      targets:
+        Enum.map(targets, fn %{agent_id: agent_id, arguments: arguments} ->
+          %OperatorExecutionRequestedTarget{
+            agent_id: agent_id,
+            arguments: map_value(arguments)
+          }
         end)
     }
   end

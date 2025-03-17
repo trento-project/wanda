@@ -3,6 +3,8 @@ defmodule Wanda.Operations.Catalog.Step do
   A individual operation step running a single operator.
   The predicate is a rhai execution that returns true/false
   defining if the step needs to be executed in a certain agent.
+
+  The timeout must be defined in milliseconds
   """
 
   @default_timeout 5 * 60 * 1_000
