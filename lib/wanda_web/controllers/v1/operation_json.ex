@@ -48,7 +48,7 @@ defmodule WandaWeb.V1.OperationJSON do
   defp map_agent_reports(agent_reports, steps) do
     agent_reports
     |> Enum.with_index()
-    |> Enum.map(fn {%{"agents" => agents}, index} ->
+    |> Enum.map(fn {%{agents: agents}, index} ->
       %{name: name, timeout: timeout, operator: operator, predicate: predicate} =
         Enum.at(steps, index)
 

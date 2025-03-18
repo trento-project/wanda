@@ -13,7 +13,10 @@ defmodule WandaWeb.V1.OperationJSONTest do
       [%{operation_id: id_1}, %{operation_id: id_2}, %{operation_id: id_3}] =
         operations =
         3
-        |> build_list(:operation, catalog_operation_id: catalog_operation_id)
+        |> build_list(:operation,
+          agent_reports: build_list(2, :step_report),
+          catalog_operation_id: catalog_operation_id
+        )
         |> Enum.map(fn operation -> %{operation | catalog_operation: catalog_operation} end)
 
       assert %{
@@ -50,10 +53,7 @@ defmodule WandaWeb.V1.OperationJSONTest do
         ]
       } = catalog_operation = build(:catalog_operation)
 
-      agent_reports = build_list(2, :step_report)
-
-      [%{"agents" => agents_1}, %{"agents" => agents_2}] =
-        string_agents = agent_reports |> Jason.encode!() |> Jason.decode!()
+      [%{agents: agents_1}, %{agents: agents_2}] = agent_reports = build_list(2, :step_report)
 
       %{
         operation_id: operation_id,
@@ -68,7 +68,7 @@ defmodule WandaWeb.V1.OperationJSONTest do
         operation =
         build(:operation,
           catalog_operation_id: catalog_operation_id,
-          agent_reports: string_agents
+          agent_reports: agent_reports
         )
 
       operation = %{operation | catalog_operation: catalog_operation}
