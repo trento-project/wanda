@@ -25,8 +25,12 @@ defmodule Wanda.Messaging.MapperTest do
     OperationRequested,
     OperationStarted,
     OperationTarget,
+    OperatorDiff,
+    OperatorError,
+    OperatorExecutionCompleted,
     OperatorExecutionRequested,
-    OperatorExecutionRequestedTarget
+    OperatorExecutionRequestedTarget,
+    OperatorResponse
   }
 
   test "should map to ExecutionStarted event" do
@@ -424,8 +428,11 @@ defmodule Wanda.Messaging.MapperTest do
       %{result: :not_updated, mapped_result: :NOT_UPDATED},
       %{result: :rolled_back, mapped_result: :ROLLED_BACK},
       %{result: :failed, mapped_result: :FAILED},
+      %{result: :timeout, mapped_result: :FAILED},
       %{result: :aborted, mapped_result: :ABORTED},
-      %{result: :already_running, mapped_result: :ALREADY_RUNNING}
+      %{result: :already_running, mapped_result: :ALREADY_RUNNING},
+      %{result: :skipped, mapped_result: :NOT_UPDATED},
+      %{result: :not_executed, mapped_result: :NOT_UPDATED}
     ]
 
     for %{result: result, mapped_result: mapped_result} <- scenarios do
@@ -476,5 +483,84 @@ defmodule Wanda.Messaging.MapperTest do
                operator,
                targets
              )
+  end
+
+  test "should map from OperatorExecutionCompletedV1 event with a positive result" do
+    operation_id = UUID.uuid4()
+    group_id = UUID.uuid4()
+    step_number = Enum.random(1..5)
+    agent_id = UUID.uuid4()
+
+    scenarios = [
+      %{phase: :PLAN, mapped_phase: :plan},
+      %{phase: :COMMIT, mapped_phase: :commit},
+      %{phase: :VERIFY, mapped_phase: :verify},
+      %{phase: :ROLLBACK, mapped_phase: :rollback}
+    ]
+
+    for %{phase: phase, mapped_phase: mapped_phase} <- scenarios do
+      operator_execution = %OperatorExecutionCompleted{
+        operation_id: operation_id,
+        group_id: group_id,
+        step_number: step_number,
+        agent_id: agent_id,
+        result:
+          {:value,
+           %OperatorResponse{
+             phase: phase,
+             diff: %OperatorDiff{
+               before: %{kind: {:string_value, "before"}},
+               after: %{kind: {:string_value, "after"}}
+             }
+           }}
+      }
+
+      assert %{
+               operation_id: operation_id,
+               group_id: group_id,
+               step_number: step_number,
+               agent_id: agent_id,
+               operator_result: %Operations.OperatorResult{
+                 phase: mapped_phase,
+                 diff: %{
+                   before: "before",
+                   after: "after"
+                 }
+               }
+             } ==
+               Mapper.from_operator_execution_completed(operator_execution)
+    end
+  end
+
+  test "should map from OperatorExecutionCompletedV1 event with an error" do
+    operation_id = UUID.uuid4()
+    group_id = UUID.uuid4()
+    step_number = Enum.random(1..5)
+    agent_id = UUID.uuid4()
+
+    operator_execution = %OperatorExecutionCompleted{
+      operation_id: operation_id,
+      group_id: group_id,
+      step_number: step_number,
+      agent_id: agent_id,
+      result:
+        {:error,
+         %OperatorError{
+           phase: :PLAN,
+           message: "error message"
+         }}
+    }
+
+    assert %{
+             operation_id: operation_id,
+             group_id: group_id,
+             step_number: step_number,
+             agent_id: agent_id,
+             operator_result: %Operations.OperatorError{
+               phase: :plan,
+               message: "error message"
+             }
+           } ==
+             Mapper.from_operator_execution_completed(operator_execution)
   end
 end
