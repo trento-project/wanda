@@ -17,6 +17,7 @@ defmodule Wanda.Operations.ServerTest do
 
   require Wanda.Operations.Enums.Result, as: Result
   require Wanda.Operations.Enums.Status, as: Status
+  require Wanda.Operations.Enums.OperatorPhase, as: OperatorPhase
 
   @existing_catalog_operation_id "testoperation@v1"
 
@@ -143,8 +144,13 @@ defmodule Wanda.Operations.ServerTest do
       pid = :global.whereis_name({Server, group_id})
       ref = Process.monitor(pid)
 
-      Server.receive_operation_reports(operation_id, group_id, 0, agent_id_1, Result.updated())
-      Server.receive_operation_reports(operation_id, group_id, 0, agent_id_2, Result.failed())
+      %{diff: %{before: before, after: after_value}} =
+        result_1 = build(:operator_result)
+
+      %{message: message} = result_2 = build(:operator_error, phase: OperatorPhase.verify())
+
+      Server.receive_operation_reports(operation_id, group_id, 0, agent_id_1, result_1)
+      Server.receive_operation_reports(operation_id, group_id, 0, agent_id_2, result_2)
 
       assert_receive {:DOWN, ^ref, _, ^pid, :normal}, 500
 
@@ -153,17 +159,37 @@ defmodule Wanda.Operations.ServerTest do
 
       expected_agent_reports = [
         %{
-          "step_number" => 0,
-          "agents" => [
-            %{"agent_id" => agent_id_1, "result" => "updated"},
-            %{"agent_id" => agent_id_2, "result" => "failed"}
+          step_number: 0,
+          agents: [
+            %{
+              agent_id: agent_id_1,
+              result: "updated",
+              diff: %{before: before, after: after_value},
+              error_message: nil
+            },
+            %{
+              agent_id: agent_id_2,
+              result: "failed",
+              diff: nil,
+              error_message: message
+            }
           ]
         },
         %{
-          "step_number" => 1,
-          "agents" => [
-            %{"agent_id" => agent_id_1, "result" => "not_executed"},
-            %{"agent_id" => agent_id_2, "result" => "not_executed"}
+          step_number: 1,
+          agents: [
+            %{
+              agent_id: agent_id_1,
+              result: "not_executed",
+              diff: nil,
+              error_message: nil
+            },
+            %{
+              agent_id: agent_id_2,
+              result: "not_executed",
+              diff: nil,
+              error_message: nil
+            }
           ]
         }
       ]
@@ -240,32 +266,48 @@ defmodule Wanda.Operations.ServerTest do
 
       expected_initial_agent_reports = [
         %{
-          "step_number" => 0,
-          "agents" => [
-            %{"agent_id" => agent_id_1, "result" => "not_executed"},
-            %{"agent_id" => agent_id_2, "result" => "not_executed"}
+          step_number: 0,
+          agents: [
+            %{
+              agent_id: agent_id_1,
+              result: "not_executed",
+              diff: nil,
+              error_message: nil
+            },
+            %{
+              agent_id: agent_id_2,
+              result: "not_executed",
+              diff: nil,
+              error_message: nil
+            }
           ]
         },
         %{
-          "step_number" => 1,
-          "agents" => [
-            %{"agent_id" => agent_id_1, "result" => "not_executed"},
-            %{"agent_id" => agent_id_2, "result" => "not_executed"}
+          step_number: 1,
+          agents: [
+            %{
+              agent_id: agent_id_1,
+              result: "not_executed",
+              diff: nil,
+              error_message: nil
+            },
+            %{
+              agent_id: agent_id_2,
+              result: "not_executed",
+              diff: nil,
+              error_message: nil
+            }
           ]
         }
       ]
 
       assert expected_initial_agent_reports == initial_agent_reports
 
-      Server.receive_operation_reports(operation_id, group_id, 0, agent_id_1, Result.updated())
+      %{diff: %{before: before_1, after: after_1}} = result_1 = build(:operator_result)
+      result_2 = build(:operator_result, %{diff: %{before: "foo", after: "foo"}})
 
-      Server.receive_operation_reports(
-        operation_id,
-        group_id,
-        0,
-        agent_id_2,
-        Result.not_updated()
-      )
+      Server.receive_operation_reports(operation_id, group_id, 0, agent_id_1, result_1)
+      Server.receive_operation_reports(operation_id, group_id, 0, agent_id_2, result_2)
 
       :sys.get_state(pid)
 
@@ -274,25 +316,51 @@ defmodule Wanda.Operations.ServerTest do
 
       expected_agent_reports = [
         %{
-          "step_number" => 0,
-          "agents" => [
-            %{"agent_id" => agent_id_1, "result" => "updated"},
-            %{"agent_id" => agent_id_2, "result" => "not_updated"}
+          step_number: 0,
+          agents: [
+            %{
+              agent_id: agent_id_1,
+              result: "updated",
+              diff: %{before: before_1, after: after_1},
+              error_message: nil
+            },
+            %{
+              agent_id: agent_id_2,
+              result: "not_updated",
+              diff: %{before: "foo", after: "foo"},
+              error_message: nil
+            }
           ]
         },
         %{
-          "step_number" => 1,
-          "agents" => [
-            %{"agent_id" => agent_id_1, "result" => "not_executed"},
-            %{"agent_id" => agent_id_2, "result" => "not_executed"}
+          step_number: 1,
+          agents: [
+            %{
+              agent_id: agent_id_1,
+              result: "not_executed",
+              diff: nil,
+              error_message: nil
+            },
+            %{
+              agent_id: agent_id_2,
+              result: "not_executed",
+              diff: nil,
+              error_message: nil
+            }
           ]
         }
       ]
 
       assert expected_agent_reports == agent_reports
 
-      Server.receive_operation_reports(operation_id, group_id, 1, agent_id_1, Result.updated())
-      Server.receive_operation_reports(operation_id, group_id, 1, agent_id_2, Result.updated())
+      %{diff: %{before: before_3, after: after_3}} =
+        result_3 = build(:operator_result, %{phase: OperatorPhase.verify()})
+
+      %{diff: %{before: before_4, after: after_4}} =
+        result_4 = build(:operator_result, %{phase: OperatorPhase.verify()})
+
+      Server.receive_operation_reports(operation_id, group_id, 1, agent_id_1, result_3)
+      Server.receive_operation_reports(operation_id, group_id, 1, agent_id_2, result_4)
 
       assert_receive {:DOWN, ^ref, _, ^pid, :normal}, 500
 
@@ -301,17 +369,37 @@ defmodule Wanda.Operations.ServerTest do
 
       expected_final_agent_reports = [
         %{
-          "step_number" => 0,
-          "agents" => [
-            %{"agent_id" => agent_id_1, "result" => "updated"},
-            %{"agent_id" => agent_id_2, "result" => "not_updated"}
+          step_number: 0,
+          agents: [
+            %{
+              agent_id: agent_id_1,
+              result: "updated",
+              diff: %{before: before_1, after: after_1},
+              error_message: nil
+            },
+            %{
+              agent_id: agent_id_2,
+              result: "not_updated",
+              diff: %{before: "foo", after: "foo"},
+              error_message: nil
+            }
           ]
         },
         %{
-          "step_number" => 1,
-          "agents" => [
-            %{"agent_id" => agent_id_1, "result" => "updated"},
-            %{"agent_id" => agent_id_2, "result" => "updated"}
+          step_number: 1,
+          agents: [
+            %{
+              agent_id: agent_id_1,
+              result: "updated",
+              diff: %{before: before_3, after: after_3},
+              error_message: nil
+            },
+            %{
+              agent_id: agent_id_2,
+              result: "updated",
+              diff: %{before: before_4, after: after_4},
+              error_message: nil
+            }
           ]
         }
       ]
@@ -364,7 +452,10 @@ defmodule Wanda.Operations.ServerTest do
       pid = :global.whereis_name({Server, group_id})
       ref = Process.monitor(pid)
 
-      Server.receive_operation_reports(operation_id, group_id, 0, agent_id_1, Result.updated())
+      %{diff: %{before: before_1, after: after_1}} =
+        result_1 = build(:operator_result, phase: OperatorPhase.verify())
+
+      Server.receive_operation_reports(operation_id, group_id, 0, agent_id_1, result_1)
 
       assert_receive {:DOWN, ^ref, _, ^pid, :normal}, 500
 
@@ -373,10 +464,20 @@ defmodule Wanda.Operations.ServerTest do
 
       expected_agent_reports = [
         %{
-          "step_number" => 0,
-          "agents" => [
-            %{"agent_id" => agent_id_1, "result" => "updated"},
-            %{"agent_id" => agent_id_2, "result" => "skipped"}
+          step_number: 0,
+          agents: [
+            %{
+              agent_id: agent_id_1,
+              result: "updated",
+              diff: %{before: before_1, after: after_1},
+              error_message: nil
+            },
+            %{
+              agent_id: agent_id_2,
+              result: "skipped",
+              diff: nil,
+              error_message: nil
+            }
           ]
         }
       ]
@@ -402,7 +503,7 @@ defmodule Wanda.Operations.ServerTest do
 
       expect(Wanda.Messaging.Adapters.Mock, :publish, 2, fn
         _, "results", %OperationStarted{}, _ -> :ok
-        _, "results", %OperationCompleted{result: :UPDATED}, _ -> :ok
+        _, "results", %OperationCompleted{result: :NOT_UPDATED}, _ -> :ok
       end)
 
       Server.start_operation(
@@ -418,15 +519,25 @@ defmodule Wanda.Operations.ServerTest do
 
       assert_receive {:DOWN, ^ref, _, ^pid, :normal}, 500
 
-      %{result: Result.updated(), status: Status.completed(), agent_reports: agent_reports} =
+      %{result: Result.skipped(), status: Status.completed(), agent_reports: agent_reports} =
         Repo.get(Operation, operation_id)
 
       expected_agent_reports = [
         %{
-          "step_number" => 0,
-          "agents" => [
-            %{"agent_id" => agent_id_1, "result" => "skipped"},
-            %{"agent_id" => agent_id_2, "result" => "skipped"}
+          step_number: 0,
+          agents: [
+            %{
+              agent_id: agent_id_1,
+              result: "skipped",
+              diff: nil,
+              error_message: nil
+            },
+            %{
+              agent_id: agent_id_2,
+              result: "skipped",
+              diff: nil,
+              error_message: nil
+            }
           ]
         }
       ]
@@ -462,8 +573,21 @@ defmodule Wanda.Operations.ServerTest do
 
       operation_state = Repo.get(Operation, operation_id)
 
-      Server.receive_operation_reports(UUID.uuid4(), group_id, 0, agent_id_1, Result.updated())
-      Server.receive_operation_reports(operation_id, group_id, 1, agent_id_2, Result.updated())
+      Server.receive_operation_reports(
+        UUID.uuid4(),
+        group_id,
+        0,
+        agent_id_1,
+        build(:operator_result)
+      )
+
+      Server.receive_operation_reports(
+        operation_id,
+        group_id,
+        1,
+        agent_id_2,
+        build(:operator_result)
+      )
 
       :sys.get_state(pid)
 
@@ -510,22 +634,42 @@ defmodule Wanda.Operations.ServerTest do
 
       assert_receive {:DOWN, ^ref, _, ^pid, :normal}, 500
 
-      %{result: Result.failed(), status: Status.completed(), agent_reports: agent_reports} =
+      %{result: Result.timeout(), status: Status.completed(), agent_reports: agent_reports} =
         Repo.get(Operation, operation_id)
 
       expected_agent_reports = [
         %{
-          "step_number" => 0,
-          "agents" => [
-            %{"agent_id" => agent_id_1, "result" => "timeout"},
-            %{"agent_id" => agent_id_2, "result" => "timeout"}
+          step_number: 0,
+          agents: [
+            %{
+              agent_id: agent_id_1,
+              result: "timeout",
+              diff: nil,
+              error_message: "Operator execution timed out"
+            },
+            %{
+              agent_id: agent_id_2,
+              result: "timeout",
+              diff: nil,
+              error_message: "Operator execution timed out"
+            }
           ]
         },
         %{
-          "step_number" => 1,
-          "agents" => [
-            %{"agent_id" => agent_id_1, "result" => "not_executed"},
-            %{"agent_id" => agent_id_2, "result" => "not_executed"}
+          step_number: 1,
+          agents: [
+            %{
+              agent_id: agent_id_1,
+              result: "not_executed",
+              diff: nil,
+              error_message: nil
+            },
+            %{
+              agent_id: agent_id_2,
+              result: "not_executed",
+              diff: nil,
+              error_message: nil
+            }
           ]
         }
       ]
@@ -584,27 +728,53 @@ defmodule Wanda.Operations.ServerTest do
       pid = :global.whereis_name({Server, group_id})
       ref = Process.monitor(pid)
 
-      Server.receive_operation_reports(operation_id, group_id, 0, agent_id_1, Result.updated())
-      Server.receive_operation_reports(operation_id, group_id, 0, agent_id_2, Result.updated())
+      %{diff: %{before: before_1, after: after_1}} =
+        result_1 = build(:operator_result)
+
+      %{diff: %{before: before_2, after: after_2}} =
+        result_2 = build(:operator_result)
+
+      Server.receive_operation_reports(operation_id, group_id, 0, agent_id_1, result_1)
+      Server.receive_operation_reports(operation_id, group_id, 0, agent_id_2, result_2)
 
       assert_receive {:DOWN, ^ref, _, ^pid, :normal}, 500
 
-      %{result: Result.failed(), status: Status.completed(), agent_reports: agent_reports} =
+      %{result: Result.timeout(), status: Status.completed(), agent_reports: agent_reports} =
         Repo.get(Operation, operation_id)
 
       expected_agent_reports = [
         %{
-          "step_number" => 0,
-          "agents" => [
-            %{"agent_id" => agent_id_1, "result" => "updated"},
-            %{"agent_id" => agent_id_2, "result" => "updated"}
+          step_number: 0,
+          agents: [
+            %{
+              agent_id: agent_id_1,
+              result: "updated",
+              diff: %{before: before_1, after: after_1},
+              error_message: nil
+            },
+            %{
+              agent_id: agent_id_2,
+              result: "updated",
+              diff: %{before: before_2, after: after_2},
+              error_message: nil
+            }
           ]
         },
         %{
-          "step_number" => 1,
-          "agents" => [
-            %{"agent_id" => agent_id_1, "result" => "timeout"},
-            %{"agent_id" => agent_id_2, "result" => "timeout"}
+          step_number: 1,
+          agents: [
+            %{
+              agent_id: agent_id_1,
+              result: "timeout",
+              diff: nil,
+              error_message: "Operator execution timed out"
+            },
+            %{
+              agent_id: agent_id_2,
+              result: "timeout",
+              diff: nil,
+              error_message: "Operator execution timed out"
+            }
           ]
         }
       ]
