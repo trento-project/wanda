@@ -24,6 +24,8 @@ defmodule Wanda.Factory do
     AgentReport,
     Operation,
     OperationTarget,
+    OperatorError,
+    OperatorResult,
     StepReport
   }
 
@@ -37,6 +39,7 @@ defmodule Wanda.Factory do
   require Wanda.Executions.Enums.Status, as: ExecutionStatus
   require Wanda.Operations.Enums.Result, as: OpeartionResult
   require Wanda.Operations.Enums.Status, as: OpeartionStatus
+  require Wanda.Operations.Enums.OperatorPhase, as: OperatorPhase
 
   def check_factory do
     %Catalog.Check{
@@ -252,7 +255,7 @@ defmodule Wanda.Factory do
       result: OpeartionResult.not_executed(),
       status: OpeartionStatus.running(),
       targets: targets,
-      agent_reports: [],
+      agent_reports: build_list(1, :step_report, step_number: 0),
       started_at: DateTime.utc_now()
     }
   end
@@ -274,7 +277,29 @@ defmodule Wanda.Factory do
   def agent_report_factory do
     %AgentReport{
       agent_id: UUID.uuid4(),
-      result: OpeartionResult.updated()
+      result: OpeartionResult.updated(),
+      diff: %{
+        before: Faker.Lorem.sentence(),
+        after: Faker.Lorem.sentence()
+      },
+      error_message: nil
+    }
+  end
+
+  def operator_result_factory do
+    %OperatorResult{
+      phase: Enum.random(OperatorPhase.values()),
+      diff: %{
+        before: Faker.Lorem.sentence(),
+        after: Faker.Lorem.sentence()
+      }
+    }
+  end
+
+  def operator_error_factory do
+    %OperatorError{
+      phase: Enum.random(OperatorPhase.values()),
+      message: Faker.Lorem.sentence()
     }
   end
 

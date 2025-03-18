@@ -8,11 +8,15 @@ defmodule Wanda.Operations.AgentReport do
   @derive Jason.Encoder
   defstruct [
     :agent_id,
-    :result
+    :result,
+    :diff,
+    :error_message
   ]
 
   @type t :: %__MODULE__{
           agent_id: String.t(),
-          result: Result.t()
+          result: Result.t(),
+          diff: map(),
+          error_message: String.t()
         }
 end

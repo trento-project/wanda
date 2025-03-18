@@ -77,7 +77,8 @@ defmodule Wanda.OperationsTest do
 
   describe "get operation" do
     test "should return an existing operation" do
-      %Operation{operation_id: operation_id} = operation = insert(:operation)
+      %Operation{operation_id: operation_id} =
+        operation = insert(:operation, [], returning: true)
 
       assert operation == Operations.get_operation!(operation_id)
     end
@@ -164,7 +165,7 @@ defmodule Wanda.OperationsTest do
 
   describe "list operations" do
     test "should list all operations sorted by newest to oldest" do
-      operations = insert_list(3, :operation)
+      operations = insert_list(3, :operation, [], returning: true)
 
       assert Enum.reverse(operations) == Operations.list_operations()
     end
@@ -172,14 +173,14 @@ defmodule Wanda.OperationsTest do
     test "should list operations grouped by group_id" do
       group_id = UUID.uuid4()
       insert_list(3, :operation, group_id: UUID.uuid4())
-      operations = insert_list(3, :operation, group_id: group_id)
+      operations = insert_list(3, :operation, [group_id: group_id], returning: true)
       insert_list(3, :operation, group_id: UUID.uuid4())
 
       assert Enum.reverse(operations) == Operations.list_operations(%{group_id: group_id})
     end
 
     test "should list operations paginated and with items per page" do
-      operations = insert_list(10, :operation)
+      operations = insert_list(10, :operation, [], returning: true)
 
       expected_operartions =
         operations
@@ -197,34 +198,44 @@ defmodule Wanda.OperationsTest do
         group_id: group_id
       } = insert(:operation, status: Status.running())
 
-      [
-        %StepReport{
-          step_number: step_number_1,
-          agents: [
-            %AgentReport{
-              agent_id: agent_id_1,
-              result: agent_result_1
-            },
-            %AgentReport{
-              agent_id: agent_id_2,
-              result: agent_result_2
-            }
-          ]
-        },
-        %StepReport{
-          step_number: step_number_2,
-          agents: [
-            %AgentReport{
-              agent_id: agent_id_3,
-              result: agent_result_3
-            },
-            %AgentReport{
-              agent_id: agent_id_4,
-              result: agent_result_4
-            }
-          ]
+      %AgentReport{
+        agent_id: agent_id_1,
+        result: agent_result_1,
+        diff: %{
+          before: agent_before_1,
+          after: agent_after_1
         }
-      ] = agent_reports = build_list(2, :step_report, agents: build_list(2, :agent_report))
+      } = agent_report_1 = build(:agent_report)
+
+      %AgentReport{
+        agent_id: agent_id_2,
+        result: agent_result_2,
+        diff: %{
+          before: agent_before_2,
+          after: agent_after_2
+        }
+      } = agent_report_2 = build(:agent_report)
+
+      %AgentReport{
+        agent_id: agent_id_3,
+        result: agent_result_3,
+        error_message: agent_message_3
+      } = agent_report_3 = build(:agent_report, diff: nil, error_message: Faker.Lorem.sentence())
+
+      %AgentReport{
+        agent_id: agent_id_4,
+        result: agent_result_4,
+        error_message: agent_message_4
+      } = agent_report_4 = build(:agent_report, diff: nil, error_message: Faker.Lorem.sentence())
+
+      [
+        %StepReport{step_number: step_number_1},
+        %StepReport{step_number: step_number_2}
+      ] =
+        agent_reports = [
+          build(:step_report, agents: [agent_report_1, agent_report_2]),
+          build(:step_report, agents: [agent_report_3, agent_report_4])
+        ]
 
       Operations.update_agent_reports!(operation_id, agent_reports)
 
@@ -240,28 +251,42 @@ defmodule Wanda.OperationsTest do
                status: Status.running(),
                agent_reports: [
                  %{
-                   "step_number" => ^step_number_1,
-                   "agents" => [
+                   step_number: ^step_number_1,
+                   agents: [
                      %{
-                       "agent_id" => ^agent_id_1,
-                       "result" => ^result_1
+                       agent_id: ^agent_id_1,
+                       result: ^result_1,
+                       diff: %{
+                         before: ^agent_before_1,
+                         after: ^agent_after_1
+                       },
+                       error_message: nil
                      },
                      %{
-                       "agent_id" => ^agent_id_2,
-                       "result" => ^result_2
+                       agent_id: ^agent_id_2,
+                       result: ^result_2,
+                       diff: %{
+                         before: ^agent_before_2,
+                         after: ^agent_after_2
+                       },
+                       error_message: nil
                      }
                    ]
                  },
                  %{
-                   "step_number" => ^step_number_2,
-                   "agents" => [
+                   step_number: ^step_number_2,
+                   agents: [
                      %{
-                       "agent_id" => ^agent_id_3,
-                       "result" => ^result_3
+                       agent_id: ^agent_id_3,
+                       result: ^result_3,
+                       diff: nil,
+                       error_message: ^agent_message_3
                      },
                      %{
-                       "agent_id" => ^agent_id_4,
-                       "result" => ^result_4
+                       agent_id: ^agent_id_4,
+                       result: ^result_4,
+                       diff: nil,
+                       error_message: ^agent_message_4
                      }
                    ]
                  }
