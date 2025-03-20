@@ -35,7 +35,7 @@ defmodule Wanda.Operations.Operation do
       field :arguments, :map
     end
 
-    field :agent_reports, {:array, :map}
+    field :agent_reports, Wanda.Support.Ecto.Json
 
     field :catalog_operation_id, :string
     field :catalog_operation, :map, virtual: true

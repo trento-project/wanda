@@ -13,7 +13,10 @@ defmodule Wanda.PolicyTest do
 
   alias Trento.Operations.V1.{
     OperationRequested,
-    OperationTarget
+    OperationTarget,
+    OperatorDiff,
+    OperatorExecutionCompleted,
+    OperatorResponse
   }
 
   alias Wanda.Executions.{Fact, Target}
@@ -202,5 +205,42 @@ defmodule Wanda.PolicyTest do
                  ]
                })
     end
+  end
+
+  test "should handle a OperatorExecutionCompleted event" do
+    operation_id = UUID.uuid4()
+    group_id = UUID.uuid4()
+    step_number = Enum.random(1..5)
+    agent_id = UUID.uuid4()
+
+    result = %Wanda.Operations.OperatorResult{
+      phase: :commit,
+      diff: %{before: "before", after: "after"}
+    }
+
+    expect(Wanda.Operations.ServerMock, :receive_operation_reports, fn ^operation_id,
+                                                                       ^group_id,
+                                                                       ^step_number,
+                                                                       ^agent_id,
+                                                                       ^result ->
+      :ok
+    end)
+
+    assert :ok =
+             Wanda.Policy.handle_event(%OperatorExecutionCompleted{
+               operation_id: operation_id,
+               group_id: group_id,
+               step_number: step_number,
+               agent_id: agent_id,
+               result:
+                 {:value,
+                  %OperatorResponse{
+                    phase: :COMMIT,
+                    diff: %OperatorDiff{
+                      before: %{kind: {:string_value, "before"}},
+                      after: %{kind: {:string_value, "after"}}
+                    }
+                  }}
+             })
   end
 end

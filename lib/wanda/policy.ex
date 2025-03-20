@@ -8,7 +8,10 @@ defmodule Wanda.Policy do
     FactsGathered
   }
 
-  alias Trento.Operations.V1.OperationRequested
+  alias Trento.Operations.V1.{
+    OperationRequested,
+    OperatorExecutionCompleted
+  }
 
   alias Wanda.Messaging.Mapper
 
@@ -16,7 +19,12 @@ defmodule Wanda.Policy do
 
   require Logger
 
-  @spec handle_event(ExecutionRequested.t() | FactsGathered.t()) :: :ok | {:error, any}
+  @spec handle_event(
+          ExecutionRequested.t()
+          | FactsGathered.t()
+          | OperationRequested.t()
+          | OperatorExecutionCompleted.t()
+        ) :: :ok | {:error, any}
   def handle_event(event) do
     Logger.debug("Handling event #{inspect(event)}")
 
@@ -80,6 +88,24 @@ defmodule Wanda.Policy do
 
         {:error, error}
     end
+  end
+
+  defp handle(%OperatorExecutionCompleted{} = message) do
+    %{
+      operation_id: operation_id,
+      group_id: group_id,
+      step_number: step_number,
+      agent_id: agent_id,
+      operator_result: operator_result
+    } = Mapper.from_operator_execution_completed(message)
+
+    operation_server_impl().receive_operation_reports(
+      operation_id,
+      group_id,
+      step_number,
+      agent_id,
+      operator_result
+    )
   end
 
   defp execution_server_impl,

@@ -12,7 +12,11 @@ defmodule Wanda.Messaging.Mapper do
     Target
   }
 
-  alias Wanda.Operations.OperationTarget
+  alias Wanda.Operations.{
+    OperationTarget,
+    OperatorError,
+    OperatorResult
+  }
 
   alias Trento.Checks.V1.{
     ExecutionCompleted,
@@ -28,9 +32,12 @@ defmodule Wanda.Messaging.Mapper do
     OperationCompleted,
     OperationRequested,
     OperationStarted,
+    OperatorExecutionCompleted,
     OperatorExecutionRequested,
     OperatorExecutionRequestedTarget
   }
+
+  require Wanda.Operations.Enums.OperatorPhase, as: OperatorPhase
 
   @spec to_execution_started(String.t(), String.t(), [Target.t()]) :: ExecutionStarted.t()
   def to_execution_started(execution_id, group_id, targets) do
@@ -176,6 +183,29 @@ defmodule Wanda.Messaging.Mapper do
     }
   end
 
+  @spec from_operator_execution_completed(OperatorExecutionCompleted.t()) :: %{
+          operation_id: String.t(),
+          group_id: String.t(),
+          step_number: number(),
+          agent_id: String.t(),
+          operator_result: OperatorResult.t() | OperatorError.t()
+        }
+  def from_operator_execution_completed(%OperatorExecutionCompleted{
+        operation_id: operation_id,
+        group_id: group_id,
+        step_number: step_number,
+        agent_id: agent_id,
+        result: result
+      }) do
+    %{
+      operation_id: operation_id,
+      group_id: group_id,
+      step_number: step_number,
+      agent_id: agent_id,
+      operator_result: from_operator_result(result)
+    }
+  end
+
   defp map_target(%Target{agent_id: agent_id, checks: checks}) do
     %Trento.Checks.V1.Target{agent_id: agent_id, checks: checks}
   end
@@ -215,7 +245,10 @@ defmodule Wanda.Messaging.Mapper do
   defp map_operation_result(:not_updated), do: :NOT_UPDATED
   defp map_operation_result(:rolled_back), do: :ROLLED_BACK
   defp map_operation_result(:failed), do: :FAILED
+  defp map_operation_result(:timeout), do: :FAILED
   defp map_operation_result(:aborted), do: :ABORTED
+  defp map_operation_result(:skipped), do: :NOT_UPDATED
+  defp map_operation_result(:not_executed), do: :NOT_UPDATED
   defp map_operation_result(:already_running), do: :ALREADY_RUNNING
 
   defp map_value(map) when is_map(map) do
@@ -233,6 +266,22 @@ defmodule Wanda.Messaging.Mapper do
 
   defp from_gathered_fact(check_id, name, {:value, value}),
     do: %Fact{check_id: check_id, name: name, value: from_value(value)}
+
+  defp from_operator_result(
+         {:value, %{phase: phase, diff: %{before: before, after: after_value}}}
+       ),
+       do: %OperatorResult{
+         phase: from_operator_phase(phase),
+         diff: %{before: from_value(before), after: from_value(after_value)}
+       }
+
+  defp from_operator_result({:error, %{phase: phase, message: message}}),
+    do: %OperatorError{phase: from_operator_phase(phase), message: message}
+
+  defp from_operator_phase(:PLAN), do: OperatorPhase.plan()
+  defp from_operator_phase(:COMMIT), do: OperatorPhase.commit()
+  defp from_operator_phase(:VERIFY), do: OperatorPhase.verify()
+  defp from_operator_phase(:ROLLBACK), do: OperatorPhase.rollback()
 
   defp from_value(%{kind: map}) when is_map(map) do
     Enum.into(map, %{}, fn {key, value} -> {key, from_value(value)} end)
