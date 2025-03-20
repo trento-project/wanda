@@ -12,7 +12,7 @@
 
     <link rel="stylesheet" href="dist/html-elixir-6X3L5KMG.css" />
 
-    <script defer src="dist/sidebar_items-5B2D58C7.js"></script>
+    <script defer src="dist/sidebar_items-E9BAB3EB.js"></script>
     <script defer src="docs_config.js"></script>
     <script defer src="dist/html-6XHBGSGW.js"></script>
 
@@ -136,6 +136,14 @@ Wanda
 
     <div class="summary-row">
       <div class="summary-signature">
+        <a href="#from_operator_execution_completed/1" data-no-tooltip="" translate="no">from_operator_execution_completed(operator_execution_completed)</a>
+
+      </div>
+
+    </div>
+
+    <div class="summary-row">
+      <div class="summary-signature">
         <a href="#to_execution_completed/2" data-no-tooltip="" translate="no">to_execution_completed(result, target_type)</a>
 
       </div>
@@ -205,7 +213,7 @@ Wanda
       <h1 class="signature" translate="no">from_execution_requested(execution_requested)</h1>
 
 
-        <a href="https://github.com/trento-project/wanda/blob/main/lib/wanda/messaging/mapper.ex#L75" class="icon-action" rel="help" aria-label="View Source">
+        <a href="https://github.com/trento-project/wanda/blob/main/lib/wanda/messaging/mapper.ex#L82" class="icon-action" rel="help" aria-label="View Source">
           <i class="ri-code-s-slash-line" aria-hidden="true"></i>
         </a>
 
@@ -239,7 +247,7 @@ Wanda
       <h1 class="signature" translate="no">from_facts_gathererd(facts_gathered)</h1>
 
 
-        <a href="https://github.com/trento-project/wanda/blob/main/lib/wanda/messaging/mapper.ex#L97" class="icon-action" rel="help" aria-label="View Source">
+        <a href="https://github.com/trento-project/wanda/blob/main/lib/wanda/messaging/mapper.ex#L104" class="icon-action" rel="help" aria-label="View Source">
           <i class="ri-code-s-slash-line" aria-hidden="true"></i>
         </a>
 
@@ -272,7 +280,7 @@ Wanda
       <h1 class="signature" translate="no">from_operation_requested(operation_requested)</h1>
 
 
-        <a href="https://github.com/trento-project/wanda/blob/main/lib/wanda/messaging/mapper.ex#L142" class="icon-action" rel="help" aria-label="View Source">
+        <a href="https://github.com/trento-project/wanda/blob/main/lib/wanda/messaging/mapper.ex#L149" class="icon-action" rel="help" aria-label="View Source">
           <i class="ri-code-s-slash-line" aria-hidden="true"></i>
         </a>
 
@@ -295,6 +303,43 @@ Wanda
 
   </section>
 </section>
+<section class="detail" id="from_operator_execution_completed/1">
+
+  <div class="detail-header">
+    <a href="#from_operator_execution_completed/1" class="detail-link" data-no-tooltip="" aria-label="Link to this function">
+      <i class="ri-link-m" aria-hidden="true"></i>
+    </a>
+    <div class="heading-with-actions">
+      <h1 class="signature" translate="no">from_operator_execution_completed(operator_execution_completed)</h1>
+
+
+        <a href="https://github.com/trento-project/wanda/blob/main/lib/wanda/messaging/mapper.ex#L193" class="icon-action" rel="help" aria-label="View Source">
+          <i class="ri-code-s-slash-line" aria-hidden="true"></i>
+        </a>
+
+    </div>
+  </div>
+
+  <section class="docstring">
+
+      <div class="specs">
+
+          <pre translate="no"><span class="attribute">@spec</span> from_operator_execution_completed(
+  Trento.Operations.V1.OperatorExecutionCompleted.t()
+) :: %{
+  operation_id: <a href="https://hexdocs.pm/elixir/String.html#t:t/0">String.t</a>(),
+  group_id: <a href="https://hexdocs.pm/elixir/String.html#t:t/0">String.t</a>(),
+  step_number: <a href="https://hexdocs.pm/elixir/typespecs.html#built-in-types">number</a>(),
+  agent_id: <a href="https://hexdocs.pm/elixir/String.html#t:t/0">String.t</a>(),
+  operator_result:
+    <a href="Wanda.Operations.OperatorResult.html#t:t/0">Wanda.Operations.OperatorResult.t</a>() | <a href="Wanda.Operations.OperatorError.html#t:t/0">Wanda.Operations.OperatorError.t</a>()
+}</pre>
+
+      </div>
+
+
+  </section>
+</section>
 <section class="detail" id="to_execution_completed/2">
 
   <div class="detail-header">
@@ -305,7 +350,7 @@ Wanda
       <h1 class="signature" translate="no">to_execution_completed(result, target_type)</h1>
 
 
-        <a href="https://github.com/trento-project/wanda/blob/main/lib/wanda/messaging/mapper.ex#L52" class="icon-action" rel="help" aria-label="View Source">
+        <a href="https://github.com/trento-project/wanda/blob/main/lib/wanda/messaging/mapper.ex#L59" class="icon-action" rel="help" aria-label="View Source">
           <i class="ri-code-s-slash-line" aria-hidden="true"></i>
         </a>
 
@@ -327,7 +372,7 @@ Wanda
       <h1 class="signature" translate="no">to_execution_started(execution_id, group_id, targets)</h1>
 
 
-        <a href="https://github.com/trento-project/wanda/blob/main/lib/wanda/messaging/mapper.ex#L36" class="icon-action" rel="help" aria-label="View Source">
+        <a href="https://github.com/trento-project/wanda/blob/main/lib/wanda/messaging/mapper.ex#L43" class="icon-action" rel="help" aria-label="View Source">
           <i class="ri-code-s-slash-line" aria-hidden="true"></i>
         </a>
 
@@ -356,7 +401,7 @@ Wanda
       <h1 class="signature" translate="no">to_facts_gathering_requested(execution_id, group_id, targets, checks)</h1>
 
 
-        <a href="https://github.com/trento-project/wanda/blob/main/lib/wanda/messaging/mapper.ex#L44" class="icon-action" rel="help" aria-label="View Source">
+        <a href="https://github.com/trento-project/wanda/blob/main/lib/wanda/messaging/mapper.ex#L51" class="icon-action" rel="help" aria-label="View Source">
           <i class="ri-code-s-slash-line" aria-hidden="true"></i>
         </a>
 
@@ -378,7 +423,7 @@ Wanda
       <h1 class="signature" translate="no">to_operation_completed(operation_id, group_id, operation_type, result)</h1>
 
 
-        <a href="https://github.com/trento-project/wanda/blob/main/lib/wanda/messaging/mapper.ex#L127" class="icon-action" rel="help" aria-label="View Source">
+        <a href="https://github.com/trento-project/wanda/blob/main/lib/wanda/messaging/mapper.ex#L134" class="icon-action" rel="help" aria-label="View Source">
           <i class="ri-code-s-slash-line" aria-hidden="true"></i>
         </a>
 
@@ -407,7 +452,7 @@ Wanda
       <h1 class="signature" translate="no">to_operation_started(operation_id, group_id, operation_type, targets)</h1>
 
 
-        <a href="https://github.com/trento-project/wanda/blob/main/lib/wanda/messaging/mapper.ex#L116" class="icon-action" rel="help" aria-label="View Source">
+        <a href="https://github.com/trento-project/wanda/blob/main/lib/wanda/messaging/mapper.ex#L123" class="icon-action" rel="help" aria-label="View Source">
           <i class="ri-code-s-slash-line" aria-hidden="true"></i>
         </a>
 
@@ -438,7 +483,7 @@ Wanda
       <h1 class="signature" translate="no">to_operator_execution_requested(operation_id, group_id, step_number, operator, targets)</h1>
 
 
-        <a href="https://github.com/trento-project/wanda/blob/main/lib/wanda/messaging/mapper.ex#L163" class="icon-action" rel="help" aria-label="View Source">
+        <a href="https://github.com/trento-project/wanda/blob/main/lib/wanda/messaging/mapper.ex#L170" class="icon-action" rel="help" aria-label="View Source">
           <i class="ri-code-s-slash-line" aria-hidden="true"></i>
         </a>
 

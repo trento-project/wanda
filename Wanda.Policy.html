@@ -12,7 +12,7 @@
 
     <link rel="stylesheet" href="dist/html-elixir-6X3L5KMG.css" />
 
-    <script defer src="dist/sidebar_items-5B2D58C7.js"></script>
+    <script defer src="dist/sidebar_items-E9BAB3EB.js"></script>
     <script defer src="docs_config.js"></script>
     <script defer src="dist/html-6XHBGSGW.js"></script>
 
@@ -141,7 +141,7 @@ Wanda
       <h1 class="signature" translate="no">handle_event(event)</h1>
 
 
-        <a href="https://github.com/trento-project/wanda/blob/main/lib/wanda/policy.ex#L20" class="icon-action" rel="help" aria-label="View Source">
+        <a href="https://github.com/trento-project/wanda/blob/main/lib/wanda/policy.ex#L28" class="icon-action" rel="help" aria-label="View Source">
           <i class="ri-code-s-slash-line" aria-hidden="true"></i>
         </a>
 
@@ -155,8 +155,9 @@ Wanda
           <pre translate="no"><span class="attribute">@spec</span> handle_event(
   Trento.Checks.V1.ExecutionRequested.t()
   | Trento.Checks.V1.FactsGathered.t()
-) ::
-  :ok | {:error, <a href="https://hexdocs.pm/elixir/typespecs.html#basic-types">any</a>()}</pre>
+  | Trento.Operations.V1.OperationRequested.t()
+  | Trento.Operations.V1.OperatorExecutionCompleted.t()
+) :: :ok | {:error, <a href="https://hexdocs.pm/elixir/typespecs.html#basic-types">any</a>()}</pre>
 
       </div>
 
