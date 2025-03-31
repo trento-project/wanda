@@ -28,6 +28,12 @@ defmodule Wanda.Messaging.Mapper do
     FactsGatheringRequestedTarget
   }
 
+  alias Trento.Checks.V1.{
+    CheckCustomizationApplied,
+    CheckCustomizationReset,
+    CheckCustomValue
+  }
+
   alias Trento.Operations.V1.{
     OperationCompleted,
     OperationRequested,
@@ -206,6 +212,40 @@ defmodule Wanda.Messaging.Mapper do
     }
   end
 
+  @spec to_check_customization_applied(
+          String.t(),
+          String.t(),
+          String.t(),
+          [Catalog.CustomizedValue.t()]
+        ) :: CheckCustomizationApplied.t()
+  def to_check_customization_applied(check_id, group_id, target_type, custom_values) do
+    %CheckCustomizationApplied{
+      check_id: check_id,
+      group_id: group_id,
+      target_type: target_type,
+      custom_values:
+        Enum.map(custom_values, fn %{name: name, value: value} ->
+          %CheckCustomValue{
+            name: name,
+            value: map_inner_value(value)
+          }
+        end)
+    }
+  end
+
+  @spec to_check_customization_reset(
+          String.t(),
+          String.t(),
+          String.t()
+        ) :: CheckCustomizationReset.t()
+  def to_check_customization_reset(check_id, group_id, target_type) do
+    %CheckCustomizationReset{
+      check_id: check_id,
+      group_id: group_id,
+      target_type: target_type
+    }
+  end
+
   defp map_target(%Target{agent_id: agent_id, checks: checks}) do
     %Trento.Checks.V1.Target{agent_id: agent_id, checks: checks}
   end
@@ -260,6 +300,11 @@ defmodule Wanda.Messaging.Mapper do
   defp map_value(value) when is_boolean(value), do: %{kind: {:bool_value, value}}
 
   defp map_value(value), do: %{kind: {:string_value, value}}
+
+  defp map_inner_value(value) when is_integer(value), do: {:int_value, value}
+  defp map_inner_value(value) when is_number(value), do: {:number_value, value}
+  defp map_inner_value(value) when is_boolean(value), do: {:bool_value, value}
+  defp map_inner_value(value), do: {:string_value, value}
 
   defp from_gathered_fact(check_id, name, {:error_value, %{type: type, message: message}}),
     do: %FactError{check_id: check_id, name: name, type: type, message: message}

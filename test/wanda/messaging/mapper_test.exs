@@ -20,6 +20,12 @@ defmodule Wanda.Messaging.MapperTest do
     Target
   }
 
+  alias Trento.Checks.V1.{
+    CheckCustomizationApplied,
+    CheckCustomizationReset,
+    CheckCustomValue
+  }
+
   alias Trento.Operations.V1.{
     OperationCompleted,
     OperationRequested,
@@ -562,5 +568,58 @@ defmodule Wanda.Messaging.MapperTest do
              }
            } ==
              Mapper.from_operator_execution_completed(operator_execution)
+  end
+
+  describe "Checks customization messages" do
+    test "should map to CheckCustomizationAppliedV1 event" do
+      check_id = UUID.uuid4()
+      group_id = UUID.uuid4()
+
+      target_type = Faker.Lorem.word()
+
+      custom_values = [
+        build(:custom_value, name: "string_value", value: "custom_value_1"),
+        build(:custom_value, name: "numeric_value", value: 10),
+        build(:custom_value, name: "bool_value", value: true)
+      ]
+
+      assert %CheckCustomizationApplied{
+               check_id: ^check_id,
+               group_id: ^group_id,
+               target_type: ^target_type,
+               custom_values: [
+                 %CheckCustomValue{
+                   name: "string_value",
+                   value: {:string_value, "custom_value_1"}
+                 },
+                 %CheckCustomValue{
+                   name: "numeric_value",
+                   value: {:int_value, 10}
+                 },
+                 %CheckCustomValue{
+                   name: "bool_value",
+                   value: {:bool_value, true}
+                 }
+               ]
+             } =
+               Mapper.to_check_customization_applied(
+                 check_id,
+                 group_id,
+                 target_type,
+                 custom_values
+               )
+    end
+
+    test "should map to CheckCustomizationResetV1 event" do
+      check_id = UUID.uuid4()
+      group_id = UUID.uuid4()
+      target_type = Faker.Lorem.word()
+
+      assert %CheckCustomizationReset{
+               check_id: ^check_id,
+               group_id: ^group_id,
+               target_type: ^target_type
+             } = Mapper.to_check_customization_reset(check_id, group_id, target_type)
+    end
   end
 end
