@@ -227,7 +227,7 @@ defmodule Wanda.Messaging.Mapper do
         Enum.map(custom_values, fn %{name: name, value: value} ->
           %CheckCustomValue{
             name: name,
-            value: map_inner_value(value)
+            value: map_check_custom_value(value)
           }
         end)
     }
@@ -301,10 +301,10 @@ defmodule Wanda.Messaging.Mapper do
 
   defp map_value(value), do: %{kind: {:string_value, value}}
 
-  defp map_inner_value(value) when is_integer(value), do: {:int_value, value}
-  defp map_inner_value(value) when is_number(value), do: {:number_value, value}
-  defp map_inner_value(value) when is_boolean(value), do: {:bool_value, value}
-  defp map_inner_value(value), do: {:string_value, value}
+  defp map_check_custom_value(value) when is_integer(value), do: {:int_value, value}
+  defp map_check_custom_value(value) when is_number(value), do: {:number_value, value}
+  defp map_check_custom_value(value) when is_boolean(value), do: {:bool_value, value}
+  defp map_check_custom_value(value), do: {:string_value, value}
 
   defp from_gathered_fact(check_id, name, {:error_value, %{type: type, message: message}}),
     do: %FactError{check_id: check_id, name: name, type: type, message: message}

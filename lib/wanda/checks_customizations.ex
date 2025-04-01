@@ -162,19 +162,21 @@ defmodule Wanda.ChecksCustomizations do
 
       {:error, :publish, reason, _} ->
         Logger.error(
-          "Error while publishing check customization message, error: #{inspect(reason)}"
+          "Error while publishing check customization message. check: #{check_id}, group_id: #{group_id}, error: #{inspect(reason)}"
         )
 
         {:error, reason}
 
       {:error, reason} = error ->
-        Logger.error("Error while applying custom values, error: #{inspect(reason)}")
+        Logger.error(
+          "Error while applying custom values. check: #{check_id}, group_id: #{group_id}, error: #{inspect(reason)}"
+        )
 
         error
     end
   end
 
-  defp reset_check_customization(%{} = metadata, check_id, group_id) do
+  defp reset_check_customization(metadata, check_id, group_id) do
     deletion_query =
       from c in CheckCustomization,
         where: c.group_id == ^group_id and c.check_id == ^check_id
@@ -198,17 +200,22 @@ defmodule Wanda.ChecksCustomizations do
 
       {:error, :publish, reason, _} ->
         Logger.error(
-          "Error while publishing check customization message, error: #{inspect(reason)}"
+          "Error while publishing check customization reset message. check: #{check_id}, group_id: #{group_id}, error: #{inspect(reason)}"
         )
 
         {:error, reason}
 
       {:error, reason} = error ->
-        Logger.error("Error while applying custom values, error: #{inspect(reason)}")
+        Logger.error(
+          "Error while resetting custom values. check: #{check_id}, group_id: #{group_id}, error: #{inspect(reason)}"
+        )
 
         error
     end
   end
+
+  defp get_target_type(metadata),
+    do: Map.get(metadata, "target_type", "unknown")
 
   defp build_customization_applied_message(
          target_type,
@@ -247,7 +254,4 @@ defmodule Wanda.ChecksCustomizations do
         {:error, reason}
     end
   end
-
-  defp get_target_type(metadata),
-    do: Map.get(metadata, "target_type", "unknown")
 end
