@@ -70,6 +70,11 @@ if config_env() in [:prod, :demo] do
       publisher: [
         connection: amqp_url
       ]
+    ],
+    catalog: [
+      publisher: [
+        connection: amqp_url
+      ]
     ]
 
   cors_enabled = System.get_env("CORS_ENABLED", "true") == "true"

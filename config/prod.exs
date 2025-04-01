@@ -17,24 +17,31 @@ config :wanda, WandaWeb.Endpoint,
 # Do not print debug messages in production
 config :logger, level: :info
 
+amqp_connection = "amqp://wanda:wanda@localhost:5672"
+
 config :wanda, Wanda.Messaging.Adapters.AMQP,
   checks: [
     consumer: [
-      connection: "amqp://wanda:wanda@localhost:5672"
+      connection: amqp_connection
     ],
     publisher: [
-      connection: "amqp://wanda:wanda@localhost:5672"
+      connection: amqp_connection
     ],
     processor: Wanda.Messaging.Adapters.AMQP.Processor
   ],
   operations: [
     consumer: [
-      connection: "amqp://wanda:wanda@localhost:5672"
+      connection: amqp_connection
     ],
     publisher: [
-      connection: "amqp://wanda:wanda@localhost:5672"
+      connection: amqp_connection
     ],
     processor: Wanda.Messaging.Adapters.AMQP.Processor
+  ],
+  catalog: [
+    publisher: [
+      connection: amqp_connection
+    ]
   ]
 
 config :wanda,
