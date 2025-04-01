@@ -86,6 +86,12 @@ config :wanda, Wanda.Messaging.Adapters.AMQP,
       connection: amqp_connection
     ],
     processor: GenRMQ.Processor.Mock
+  ],
+  catalog: [
+    publisher: [
+      exchange: "trento.test.catalog",
+      connection: amqp_connection
+    ]
   ]
 
 config :wanda,
