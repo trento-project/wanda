@@ -19,7 +19,7 @@ defmodule WandaWeb.Schemas.V1.ChecksCustomizations.CustomValue do
           description: "Overriding value",
           oneOf: [
             %Schema{type: :string},
-            %Schema{type: :number},
+            %Schema{type: :integer},
             %Schema{type: :boolean}
           ]
         }
