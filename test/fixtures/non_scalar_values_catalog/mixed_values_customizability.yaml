@@ -11,6 +11,7 @@ metadata:
   id: mixed_values_customizability  
   some_key: some_value
   provider: unmatched_provider
+  target_type: some_target_type
 facts:
   - name: jedi
     gatherer: wandalorian

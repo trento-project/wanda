@@ -5,11 +5,22 @@ defmodule Wanda.ChecksCustomizations do
 
   import Ecto.Query
 
-  alias Wanda.Catalog
-  alias Wanda.Catalog.{Check, Value}
-  alias Wanda.Catalog.CheckCustomization
+  alias Wanda.{
+    Catalog,
+    Messaging,
+    Repo
+  }
 
-  alias Wanda.Repo
+  alias Wanda.Catalog.{
+    Check,
+    CheckCustomization,
+    Messaging.Publisher,
+    Value
+  }
+
+  alias Ecto.Multi
+
+  require Logger
 
   @type custom_value :: %{
           name: String.t(),
@@ -31,21 +42,20 @@ defmodule Wanda.ChecksCustomizations do
     with {:ok, %Check{} = check} <- load_check(check_id),
          {:ok, :customizable} <- determine_customizability(check),
          :ok <- validate_incoming_custom_values(custom_values, check) do
-      apply_custom_values(check_id, group_id, custom_values)
+      apply_custom_values(check, group_id, custom_values)
     end
   end
 
   @spec reset_customization(check_id :: String.t(), group_id :: Ecto.UUID.t()) ::
           :ok | {:error, :customization_not_found}
   def reset_customization(check_id, group_id) do
-    deletion_query =
-      from c in CheckCustomization,
-        where: c.group_id == ^group_id and c.check_id == ^check_id
-
-    case Repo.delete_all(deletion_query) do
-      {1, _} -> :ok
-      {0, _} -> {:error, :customization_not_found}
+    check_id
+    |> load_check
+    |> case do
+      {:ok, %Check{metadata: metadata}} -> metadata
+      {:error, _} -> %{}
     end
+    |> reset_check_customization(check_id, group_id)
   end
 
   defp load_check(check_id) do
@@ -107,10 +117,6 @@ defmodule Wanda.ChecksCustomizations do
        do: true
 
   defp match_value_type(specified_value, custom_value)
-       when is_number(specified_value) and is_number(custom_value),
-       do: true
-
-  defp match_value_type(specified_value, custom_value)
        when is_boolean(specified_value) and is_boolean(custom_value),
        do: true
 
@@ -120,26 +126,132 @@ defmodule Wanda.ChecksCustomizations do
 
   defp match_value_type(_, _), do: false
 
-  defp apply_custom_values(check_id, group_id, custom_values) do
-    result =
-      %CheckCustomization{}
-      |> CheckCustomization.changeset(%{
+  defp apply_custom_values(
+         %Check{id: check_id, metadata: metadata},
+         group_id,
+         custom_values
+       ) do
+    changeset =
+      CheckCustomization.changeset(%CheckCustomization{}, %{
         check_id: check_id,
         group_id: group_id,
         custom_values: custom_values
       })
-      |> Repo.insert(
+
+    result =
+      Multi.new()
+      |> Multi.insert(:check_customization, changeset,
         on_conflict: {:replace, [:custom_values]},
         conflict_target: [:check_id, :group_id],
         returning: true
       )
+      |> Multi.run(:publish, fn _, %{check_customization: check_customization} ->
+        metadata
+        |> get_target_type
+        |> build_customization_applied_message(check_customization)
+        |> publish_message
+      end)
+      |> Repo.transaction()
 
     case result do
-      {:ok, _} = success ->
-        success
+      {:ok, %{check_customization: check_customization}} ->
+        {:ok, check_customization}
 
-      {:error, %Ecto.Changeset{}} ->
+      {:error, :check_customization, %Ecto.Changeset{}, _} ->
         {:error, :invalid_custom_values}
+
+      {:error, :publish, reason, _} ->
+        Logger.error(
+          "Error while publishing check customization message. check: #{check_id}, group_id: #{group_id}, error: #{inspect(reason)}"
+        )
+
+        {:error, reason}
+
+      {:error, reason} = error ->
+        Logger.error(
+          "Error while applying custom values. check: #{check_id}, group_id: #{group_id}, error: #{inspect(reason)}"
+        )
+
+        error
+    end
+  end
+
+  defp reset_check_customization(metadata, check_id, group_id) do
+    deletion_query =
+      from c in CheckCustomization,
+        where: c.group_id == ^group_id and c.check_id == ^check_id
+
+    Multi.new()
+    |> Multi.delete_all(:customization_deletion, deletion_query)
+    |> Multi.run(:publish, fn _, %{customization_deletion: {deleted_items, _}} ->
+      if deleted_items > 0 do
+        metadata
+        |> get_target_type
+        |> build_customization_reset_message(check_id, group_id)
+        |> publish_message
+      else
+        {:error, :customization_not_found}
+      end
+    end)
+    |> Repo.transaction()
+    |> case do
+      {:ok, _} ->
+        :ok
+
+      {:error, :publish, reason, _} ->
+        Logger.error(
+          "Error while publishing check customization reset message. check: #{check_id}, group_id: #{group_id}, error: #{inspect(reason)}"
+        )
+
+        {:error, reason}
+
+      {:error, reason} = error ->
+        Logger.error(
+          "Error while resetting custom values. check: #{check_id}, group_id: #{group_id}, error: #{inspect(reason)}"
+        )
+
+        error
+    end
+  end
+
+  defp get_target_type(metadata),
+    do: Map.get(metadata, "target_type", "unknown")
+
+  defp build_customization_applied_message(
+         target_type,
+         %CheckCustomization{
+           check_id: check_id,
+           group_id: group_id,
+           custom_values: custom_values
+         }
+       ) do
+    Messaging.Mapper.to_check_customization_applied(
+      check_id,
+      group_id,
+      target_type,
+      custom_values
+    )
+  end
+
+  defp build_customization_reset_message(
+         target_type,
+         check_id,
+         group_id
+       ) do
+    Messaging.Mapper.to_check_customization_reset(
+      check_id,
+      group_id,
+      target_type
+    )
+  end
+
+  defp publish_message(message) do
+    case Messaging.publish(Publisher, "customizations", message) do
+      :ok ->
+        {:ok, :published}
+
+      {:error, reason} ->
+        {:error, reason}
     end
   end
 end

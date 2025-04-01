@@ -7,10 +7,13 @@ config :wanda,
     Wanda.Executions.Messaging.Publisher,
     Wanda.Executions.Messaging.Consumer,
     Wanda.Operations.Messaging.Publisher,
-    Wanda.Operations.Messaging.Consumer
+    Wanda.Operations.Messaging.Consumer,
+    Wanda.Catalog.Messaging.Publisher
   ]
 
 config :wanda, :messaging, adapter: Wanda.Messaging.Adapters.AMQP
+
+amqp_connection = "amqp://wanda:wanda@localhost:5672"
 
 config :wanda, Wanda.Messaging.Adapters.AMQP,
   checks: [
@@ -19,11 +22,11 @@ config :wanda, Wanda.Messaging.Adapters.AMQP,
       exchange: "trento.checks",
       routing_key: "executions",
       prefetch_count: "10",
-      connection: "amqp://wanda:wanda@localhost:5672"
+      connection: amqp_connection
     ],
     publisher: [
       exchange: "trento.checks",
-      connection: "amqp://wanda:wanda@localhost:5672"
+      connection: amqp_connection
     ],
     processor: Wanda.Messaging.Adapters.AMQP.Processor
   ],
@@ -33,13 +36,19 @@ config :wanda, Wanda.Messaging.Adapters.AMQP,
       exchange: "trento.operations",
       routing_key: "requests",
       prefetch_count: "10",
-      connection: "amqp://wanda:wanda@localhost:5672"
+      connection: amqp_connection
     ],
     publisher: [
       exchange: "trento.operations",
-      connection: "amqp://wanda:wanda@localhost:5672"
+      connection: amqp_connection
     ],
     processor: Wanda.Messaging.Adapters.AMQP.Processor
+  ],
+  catalog: [
+    publisher: [
+      exchange: "trento.catalog",
+      connection: amqp_connection
+    ]
   ]
 
 config :wanda, Wanda.Catalog, catalog_paths: ["priv/catalog"]
