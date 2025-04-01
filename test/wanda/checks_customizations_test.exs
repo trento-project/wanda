@@ -1,17 +1,59 @@
 defmodule Wanda.ChecksCustomizationsTest do
   use Wanda.DataCase, async: true
+  use Wanda.Support.MessagingCase, async: true
 
+  import Mox
   import Wanda.Factory
 
   alias Wanda.Repo
 
   alias Wanda.Catalog.CheckCustomization
+  alias Wanda.Catalog.Messaging.Publisher
 
   alias Wanda.ChecksCustomizations
+
+  alias Trento.Checks.V1.{
+    CheckCustomizationApplied,
+    CheckCustomizationReset,
+    CheckCustomValue
+  }
+
+  setup [:set_mox_from_context, :verify_on_exit!]
+
+  def assert_no_message_is_published_on_customization do
+    expect(Wanda.Messaging.Adapters.Mock, :publish, 0, fn
+      Publisher, "customizations", %CheckCustomizationApplied{}, _ ->
+        nil
+    end)
+  end
+
+  def assert_message_is_published_on_customization(check_id, group_id, applied_custom_values) do
+    expect(Wanda.Messaging.Adapters.Mock, :publish, 1, fn
+      Publisher,
+      "customizations",
+      %CheckCustomizationApplied{
+        check_id: ^check_id,
+        group_id: ^group_id,
+        custom_values: published_custom_values,
+        target_type: "some_target_type"
+      },
+      _ ->
+        assert Enum.count(published_custom_values) == Enum.count(applied_custom_values)
+
+        assert Enum.all?(applied_custom_values, fn %{name: name, value: value} ->
+                 %CheckCustomValue{value: {_, ^value}} =
+                   Enum.find(published_custom_values, &(&1.name == name))
+               end)
+
+        :ok
+    end)
+  end
 
   describe "customizing checks" do
     test "should not allow customizing a non existent check" do
       custom_values = build_list(2, :custom_value)
+
+      assert_no_message_is_published_on_customization()
 
       assert {:error, :check_not_found} =
                ChecksCustomizations.customize(
@@ -23,6 +65,8 @@ defmodule Wanda.ChecksCustomizationsTest do
 
     test "should not allow customizing a non customizable check" do
       custom_values = build_list(2, :custom_value)
+
+      assert_no_message_is_published_on_customization()
 
       assert {:error, :check_not_customizable} =
                ChecksCustomizations.customize(
@@ -36,6 +80,8 @@ defmodule Wanda.ChecksCustomizationsTest do
       scenarios = [[], nil, "foo", 42, true, %{}]
 
       for invalid_values <- scenarios do
+        assert_no_message_is_published_on_customization()
+
         assert {:error, :invalid_custom_values} =
                  ChecksCustomizations.customize(
                    "mixed_values_customizability",
@@ -46,6 +92,8 @@ defmodule Wanda.ChecksCustomizationsTest do
     end
 
     test "should return an error on invalid custom value shape" do
+      assert_no_message_is_published_on_customization()
+
       assert {:error, :invalid_custom_values} =
                ChecksCustomizations.customize(
                  "mixed_values_customizability",
@@ -131,6 +179,8 @@ defmodule Wanda.ChecksCustomizationsTest do
       ]
 
       for %{values: values} <- scenarios do
+        assert_no_message_is_published_on_customization()
+
         assert {:error, :invalid_custom_values} =
                  ChecksCustomizations.customize(
                    "mixed_values_customizability",
@@ -195,6 +245,8 @@ defmodule Wanda.ChecksCustomizationsTest do
         group_id = Faker.UUID.v4()
 
         %{values: custom_values} = @scenario
+
+        assert_message_is_published_on_customization(check_id, group_id, custom_values)
 
         assert {:ok,
                 %CheckCustomization{
@@ -279,6 +331,8 @@ defmodule Wanda.ChecksCustomizationsTest do
             check_id: check_id,
             custom_values: initial_custom_values
           )
+
+        assert_message_is_published_on_customization(check_id, group_id, new_custom_values)
 
         assert {:ok,
                 %CheckCustomization{
@@ -392,6 +446,13 @@ defmodule Wanda.ChecksCustomizationsTest do
         }
       ]
 
+      expect(Wanda.Messaging.Adapters.Mock, :publish, 0, fn Publisher,
+                                                            "customizations",
+                                                            %CheckCustomizationReset{},
+                                                            _ ->
+        nil
+      end)
+
       for %{check_id: possibly_invalid_check_id, group_id: possibly_invalid_group_id} <- scenarios do
         assert {:error, :customization_not_found} =
                  ChecksCustomizations.reset_customization(
@@ -406,17 +467,30 @@ defmodule Wanda.ChecksCustomizationsTest do
     end
 
     test "should reset customizations for a check" do
+      check_id_1 = "mixed_values_customizability"
       group_id = Faker.UUID.v4()
 
-      %{check_id: check_id_1} =
-        insert(:check_customization,
-          group_id: group_id
-        )
+      insert(:check_customization,
+        check_id: check_id_1,
+        group_id: group_id
+      )
 
       %{check_id: check_id_2} =
         insert(:check_customization,
           group_id: group_id
         )
+
+      expect(Wanda.Messaging.Adapters.Mock, :publish, 1, fn
+        Publisher,
+        "customizations",
+        %CheckCustomizationReset{
+          check_id: ^check_id_1,
+          group_id: ^group_id,
+          target_type: "some_target_type"
+        },
+        _ ->
+          :ok
+      end)
 
       assert :ok = ChecksCustomizations.reset_customization(check_id_1, group_id)
 
@@ -427,6 +501,113 @@ defmodule Wanda.ChecksCustomizationsTest do
                }
              ] = get_customizations(group_id)
     end
+  end
+
+  test "should not apply customization when message publishing fails" do
+    check_id = "mixed_values_customizability"
+    group_id = Faker.UUID.v4()
+
+    custom_values =
+      build_list(1, :custom_value,
+        name: "numeric_value",
+        value: 420
+      )
+
+    expect(Wanda.Messaging.Adapters.Mock, :publish, 1, fn
+      Publisher,
+      "customizations",
+      %CheckCustomizationApplied{
+        check_id: ^check_id,
+        group_id: ^group_id
+      },
+      _ ->
+        {:error, :some_error}
+    end)
+
+    assert {:error, :some_error} =
+             ChecksCustomizations.customize(check_id, group_id, custom_values)
+
+    assert [] = get_customizations(group_id)
+  end
+
+  test "should not update customization when message publishing fails" do
+    check_id = "mixed_values_customizability"
+    group_id = Faker.UUID.v4()
+
+    initial_custom_values =
+      build_list(1, :custom_value,
+        name: "numeric_value",
+        value: 420
+      )
+
+    %{check_id: check_id} =
+      insert(:check_customization,
+        group_id: group_id,
+        check_id: check_id,
+        custom_values: initial_custom_values
+      )
+
+    expect(Wanda.Messaging.Adapters.Mock, :publish, 1, fn
+      Publisher,
+      "customizations",
+      %CheckCustomizationApplied{
+        check_id: ^check_id,
+        group_id: ^group_id
+      },
+      _ ->
+        {:error, :some_error}
+    end)
+
+    new_custom_values =
+      build_list(1, :custom_value,
+        name: "numeric_value",
+        value: 999
+      )
+
+    assert {:error, :some_error} =
+             ChecksCustomizations.customize(check_id, group_id, new_custom_values)
+
+    assert %CheckCustomization{
+             check_id: ^check_id,
+             group_id: ^group_id,
+             custom_values: ^initial_custom_values
+           } =
+             group_id
+             |> get_customizations()
+             |> List.first()
+  end
+
+  test "should not reset customization when message publishing fails" do
+    check_id = "mixed_values_customizability"
+    group_id = Faker.UUID.v4()
+
+    %{custom_values: custom_values} =
+      insert(:check_customization,
+        check_id: check_id,
+        group_id: group_id
+      )
+
+    expect(Wanda.Messaging.Adapters.Mock, :publish, 1, fn
+      Publisher,
+      "customizations",
+      %CheckCustomizationReset{
+        check_id: ^check_id,
+        group_id: ^group_id,
+        target_type: "some_target_type"
+      },
+      _ ->
+        {:error, :some_error}
+    end)
+
+    assert {:error, :some_error} = ChecksCustomizations.reset_customization(check_id, group_id)
+
+    assert [
+             %CheckCustomization{
+               check_id: ^check_id,
+               group_id: ^group_id,
+               custom_values: ^custom_values
+             }
+           ] = get_customizations(group_id)
   end
 
   defp get_customizations(group_id) do

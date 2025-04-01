@@ -1,5 +1,6 @@
 defmodule WandaWeb.V1.ChecksCustomizationsControllerTest do
   use WandaWeb.ConnCase, async: true
+  use Wanda.Support.MessagingCase, async: true
   use WandaWeb.UserAwareConnCase
 
   import Ecto.Query
