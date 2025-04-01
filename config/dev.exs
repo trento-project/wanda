@@ -50,6 +50,11 @@ config :wanda, Wanda.Messaging.Adapters.AMQP,
     publisher: [
       connection: amqp_connection
     ]
+  ],
+  catalog: [
+    publisher: [
+      connection: amqp_connection
+    ]
   ]
 
 # ## SSL Support
