@@ -12,7 +12,7 @@
 
     <link rel="stylesheet" href="dist/html-elixir-6X3L5KMG.css" />
 
-    <script defer src="dist/sidebar_items-846C2CFC.js"></script>
+    <script defer src="dist/sidebar_items-10FB45CA.js"></script>
     <script defer src="docs_config.js"></script>
     <script defer src="dist/html-6XHBGSGW.js"></script>
 
@@ -126,7 +126,7 @@ Wanda
 
     <div class="summary-row">
       <div class="summary-signature">
-        <a href="#customize/3" data-no-tooltip="" translate="no">customize(check_id, group_id, custom_values)</a>
+        <a href="#customize/4" data-no-tooltip="" translate="no">customize(check_id, group_id, custom_values, opts \\ [])</a>
 
       </div>
 
@@ -142,7 +142,7 @@ Wanda
 
     <div class="summary-row">
       <div class="summary-signature">
-        <a href="#reset_customization/2" data-no-tooltip="" translate="no">reset_customization(check_id, group_id)</a>
+        <a href="#reset_customization/3" data-no-tooltip="" translate="no">reset_customization(check_id, group_id, opts \\ [])</a>
 
       </div>
 
@@ -201,17 +201,19 @@ Wanda
       <span class="text">Functions</span>
     </h1>
     <div class="functions-list">
-<section class="detail" id="customize/3">
+<section class="detail" id="customize/4">
+
+    <span id="customize/3"></span>
 
   <div class="detail-header">
-    <a href="#customize/3" class="detail-link" data-no-tooltip="" aria-label="Link to this function">
+    <a href="#customize/4" class="detail-link" data-no-tooltip="" aria-label="Link to this function">
       <i class="ri-link-m" aria-hidden="true"></i>
     </a>
     <div class="heading-with-actions">
-      <h1 class="signature" translate="no">customize(check_id, group_id, custom_values)</h1>
+      <h1 class="signature" translate="no">customize(check_id, group_id, custom_values, opts \\ [])</h1>
 
 
-        <a href="https://github.com/trento-project/wanda/blob/main/lib/wanda/checks_customizations.ex#L41" class="icon-action" rel="help" aria-label="View Source">
+        <a href="https://github.com/trento-project/wanda/blob/main/lib/wanda/checks_customizations.ex#L46" class="icon-action" rel="help" aria-label="View Source">
           <i class="ri-code-s-slash-line" aria-hidden="true"></i>
         </a>
 
@@ -222,7 +224,12 @@ Wanda
 
       <div class="specs">
 
-          <pre translate="no"><span class="attribute">@spec</span> customize(check_id :: <a href="https://hexdocs.pm/elixir/String.html#t:t/0">String.t</a>(), group_id :: <a href="https://hexdocs.pm/ecto/3.12.5/Ecto.UUID.html#t:t/0">Ecto.UUID.t</a>(), [<a href="#t:custom_value/0">custom_value</a>()]) ::
+          <pre translate="no"><span class="attribute">@spec</span> customize(
+  check_id :: <a href="https://hexdocs.pm/elixir/String.html#t:t/0">String.t</a>(),
+  group_id :: <a href="https://hexdocs.pm/ecto/3.12.5/Ecto.UUID.html#t:t/0">Ecto.UUID.t</a>(),
+  [<a href="#t:custom_value/0">custom_value</a>()],
+  opts :: <a href="https://hexdocs.pm/elixir/Keyword.html#t:t/0">Keyword.t</a>()
+) ::
   {:ok, <a href="Wanda.Catalog.CheckCustomization.html#t:t/0">Wanda.Catalog.CheckCustomization.t</a>()}
   | {:error,
      :check_not_found | :check_not_customizable | :invalid_custom_values | <a href="https://hexdocs.pm/elixir/typespecs.html#basic-types">any</a>()}</pre>
@@ -260,17 +267,19 @@ Wanda
 
   </section>
 </section>
-<section class="detail" id="reset_customization/2">
+<section class="detail" id="reset_customization/3">
+
+    <span id="reset_customization/2"></span>
 
   <div class="detail-header">
-    <a href="#reset_customization/2" class="detail-link" data-no-tooltip="" aria-label="Link to this function">
+    <a href="#reset_customization/3" class="detail-link" data-no-tooltip="" aria-label="Link to this function">
       <i class="ri-link-m" aria-hidden="true"></i>
     </a>
     <div class="heading-with-actions">
-      <h1 class="signature" translate="no">reset_customization(check_id, group_id)</h1>
+      <h1 class="signature" translate="no">reset_customization(check_id, group_id, opts \\ [])</h1>
 
 
-        <a href="https://github.com/trento-project/wanda/blob/main/lib/wanda/checks_customizations.ex#L51" class="icon-action" rel="help" aria-label="View Source">
+        <a href="https://github.com/trento-project/wanda/blob/main/lib/wanda/checks_customizations.ex#L60" class="icon-action" rel="help" aria-label="View Source">
           <i class="ri-code-s-slash-line" aria-hidden="true"></i>
         </a>
 
@@ -281,8 +290,11 @@ Wanda
 
       <div class="specs">
 
-          <pre translate="no"><span class="attribute">@spec</span> reset_customization(check_id :: <a href="https://hexdocs.pm/elixir/String.html#t:t/0">String.t</a>(), group_id :: <a href="https://hexdocs.pm/ecto/3.12.5/Ecto.UUID.html#t:t/0">Ecto.UUID.t</a>()) ::
-  :ok | {:error, :customization_not_found}</pre>
+          <pre translate="no"><span class="attribute">@spec</span> reset_customization(
+  check_id :: <a href="https://hexdocs.pm/elixir/String.html#t:t/0">String.t</a>(),
+  group_id :: <a href="https://hexdocs.pm/ecto/3.12.5/Ecto.UUID.html#t:t/0">Ecto.UUID.t</a>(),
+  opts :: <a href="https://hexdocs.pm/elixir/Keyword.html#t:t/0">Keyword.t</a>()
+) :: :ok | {:error, :customization_not_found}</pre>
 
       </div>
 
