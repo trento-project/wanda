@@ -14,40 +14,10 @@ defmodule Wanda.ChecksCustomizationsTest do
 
   alias Trento.Checks.V1.{
     CheckCustomizationApplied,
-    CheckCustomizationReset,
-    CheckCustomValue
+    CheckCustomizationReset
   }
 
   setup [:set_mox_from_context, :verify_on_exit!]
-
-  def assert_no_message_is_published_on_customization do
-    expect(Wanda.Messaging.Adapters.Mock, :publish, 0, fn
-      Publisher, "customizations", %CheckCustomizationApplied{}, _ ->
-        nil
-    end)
-  end
-
-  def assert_message_is_published_on_customization(check_id, group_id, applied_custom_values) do
-    expect(Wanda.Messaging.Adapters.Mock, :publish, 1, fn
-      Publisher,
-      "customizations",
-      %CheckCustomizationApplied{
-        check_id: ^check_id,
-        group_id: ^group_id,
-        custom_values: published_custom_values,
-        target_type: "some_target_type"
-      },
-      _ ->
-        assert Enum.count(published_custom_values) == Enum.count(applied_custom_values)
-
-        assert Enum.all?(applied_custom_values, fn %{name: name, value: value} ->
-                 %CheckCustomValue{value: {_, ^value}} =
-                   Enum.find(published_custom_values, &(&1.name == name))
-               end)
-
-        :ok
-    end)
-  end
 
   describe "customizing checks" do
     test "should not allow customizing a non existent check" do
@@ -193,6 +163,7 @@ defmodule Wanda.ChecksCustomizationsTest do
     scenarios = [
       %{
         name: "customizing a numeric value",
+        with_user_id: false,
         values: [
           %{
             name: "numeric_value",
@@ -246,20 +217,24 @@ defmodule Wanda.ChecksCustomizationsTest do
 
         %{values: custom_values} = @scenario
 
-        assert_message_is_published_on_customization(check_id, group_id, custom_values)
+        opts = get_scenario_opts(@scenario)
+
+        assert_message_is_published_on_customization(CheckCustomizationApplied, opts)
 
         assert {:ok,
                 %CheckCustomization{
                   check_id: ^check_id,
                   group_id: ^group_id,
                   custom_values: ^custom_values
-                }} = ChecksCustomizations.customize(check_id, group_id, custom_values)
+                }} =
+                 ChecksCustomizations.customize(check_id, group_id, custom_values, opts)
       end
     end
 
     updating_scenarios = [
       %{
         name: "retain one/add one",
+        with_user_id: false,
         initial_custom_values: [
           %{
             name: "numeric_value",
@@ -332,7 +307,9 @@ defmodule Wanda.ChecksCustomizationsTest do
             custom_values: initial_custom_values
           )
 
-        assert_message_is_published_on_customization(check_id, group_id, new_custom_values)
+        opts = get_scenario_opts(@scenario)
+
+        assert_message_is_published_on_customization(CheckCustomizationApplied, opts)
 
         assert {:ok,
                 %CheckCustomization{
@@ -340,7 +317,7 @@ defmodule Wanda.ChecksCustomizationsTest do
                   group_id: ^group_id,
                   custom_values: ^new_custom_values
                 } = customization} =
-                 ChecksCustomizations.customize(check_id, group_id, new_custom_values)
+                 ChecksCustomizations.customize(check_id, group_id, new_custom_values, opts)
 
         assert customization ==
                  group_id
@@ -466,40 +443,48 @@ defmodule Wanda.ChecksCustomizationsTest do
              |> length() == 2
     end
 
-    test "should reset customizations for a check" do
-      check_id_1 = "mixed_values_customizability"
-      group_id = Faker.UUID.v4()
+    reset_scenarios = [
+      %{
+        name: "without user id",
+        with_user_id: false
+      },
+      %{
+        name: "with user id",
+        with_user_id: true
+      }
+    ]
 
-      insert(:check_customization,
-        check_id: check_id_1,
-        group_id: group_id
-      )
+    for %{name: scenario_name} = scenario <- reset_scenarios do
+      @scenario scenario
 
-      %{check_id: check_id_2} =
+      test "should reset customizations for a check: #{scenario_name}" do
+        check_id_1 = "mixed_values_customizability"
+        group_id = Faker.UUID.v4()
+
         insert(:check_customization,
+          check_id: check_id_1,
           group_id: group_id
         )
 
-      expect(Wanda.Messaging.Adapters.Mock, :publish, 1, fn
-        Publisher,
-        "customizations",
-        %CheckCustomizationReset{
-          check_id: ^check_id_1,
-          group_id: ^group_id,
-          target_type: "some_target_type"
-        },
-        _ ->
-          :ok
-      end)
+        %{check_id: check_id_2} =
+          insert(:check_customization,
+            group_id: group_id
+          )
 
-      assert :ok = ChecksCustomizations.reset_customization(check_id_1, group_id)
+        opts = get_scenario_opts(@scenario)
 
-      assert [
-               %CheckCustomization{
-                 check_id: ^check_id_2,
-                 group_id: ^group_id
-               }
-             ] = get_customizations(group_id)
+        assert_message_is_published_on_customization(CheckCustomizationReset, opts)
+
+        assert :ok =
+                 ChecksCustomizations.reset_customization(check_id_1, group_id, opts)
+
+        assert [
+                 %CheckCustomization{
+                   check_id: ^check_id_2,
+                   group_id: ^group_id
+                 }
+               ] = get_customizations(group_id)
+      end
     end
   end
 
@@ -615,5 +600,40 @@ defmodule Wanda.ChecksCustomizationsTest do
       from c in CheckCustomization,
         where: c.group_id == ^group_id
     )
+  end
+
+  defp get_scenario_opts(scenario) do
+    case Map.get(scenario, :with_user_id, true) do
+      true ->
+        [user_id: Faker.UUID.v4()]
+
+      false ->
+        []
+    end
+  end
+
+  defp assert_no_message_is_published_on_customization do
+    expect(Wanda.Messaging.Adapters.Mock, :publish, 0, fn
+      _, _, %CheckCustomizationApplied{}, _ ->
+        nil
+    end)
+  end
+
+  defp assert_message_is_published_on_customization(message_module, opts) do
+    expect(Wanda.Messaging.Adapters.Mock, :publish, 1, fn
+      _,
+      _,
+      %^message_module{},
+      [
+        additional_attributes: published_additional_attributes
+      ] ->
+        if Keyword.has_key?(opts, :user_id) do
+          assert Map.has_key?(published_additional_attributes, "user_id")
+        else
+          assert published_additional_attributes == %{}
+        end
+
+        :ok
+    end)
   end
 end
