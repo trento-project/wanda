@@ -3,7 +3,9 @@ defmodule WandaWeb.V1.ChecksCustomizationsController do
   use OpenApiSpex.ControllerSpecs
 
   alias OpenApiSpex.Schema
+  alias Wanda.Users.User
 
+  alias WandaWeb.Auth.UserDetector
   alias WandaWeb.Schemas.{BadRequest, Forbidden, NotFound}
   alias WandaWeb.Schemas.V1.ChecksCustomizations.{CustomizationRequest, CustomizationResponse}
 
@@ -52,7 +54,15 @@ defmodule WandaWeb.V1.ChecksCustomizationsController do
   def apply_custom_values(conn, %{check_id: check_id, group_id: group_id}) do
     %{values: custom_values} = OpenApiSpex.body_params(conn)
 
-    with {:ok, customization} <- ChecksCustomizations.customize(check_id, group_id, custom_values) do
+    %User{id: user_id} = UserDetector.current_user(conn)
+
+    with {:ok, customization} <-
+           ChecksCustomizations.customize(
+             check_id,
+             group_id,
+             custom_values,
+             user_id: user_id
+           ) do
       render(conn, :check_customization, %{customization: customization})
     end
   end
@@ -87,7 +97,9 @@ defmodule WandaWeb.V1.ChecksCustomizationsController do
     ]
 
   def reset_customization(conn, %{check_id: check_id, group_id: group_id}) do
-    with :ok <- ChecksCustomizations.reset_customization(check_id, group_id) do
+    %User{id: user_id} = UserDetector.current_user(conn)
+
+    with :ok <- ChecksCustomizations.reset_customization(check_id, group_id, user_id: user_id) do
       send_resp(conn, :no_content, "")
     end
   end

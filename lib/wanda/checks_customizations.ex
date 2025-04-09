@@ -35,27 +35,36 @@ defmodule Wanda.ChecksCustomizations do
     )
   end
 
-  @spec customize(check_id :: String.t(), group_id :: Ecto.UUID.t(), [custom_value()]) ::
+  @spec customize(
+          check_id :: String.t(),
+          group_id :: Ecto.UUID.t(),
+          [custom_value()],
+          opts :: Keyword.t()
+        ) ::
           {:ok, CheckCustomization.t()}
           | {:error, :check_not_found | :check_not_customizable | :invalid_custom_values | any()}
-  def customize(check_id, group_id, custom_values) do
+  def customize(check_id, group_id, custom_values, opts \\ []) do
     with {:ok, %Check{} = check} <- load_check(check_id),
          {:ok, :customizable} <- determine_customizability(check),
          :ok <- validate_incoming_custom_values(custom_values, check) do
-      apply_custom_values(check, group_id, custom_values)
+      apply_custom_values(check, group_id, custom_values, opts)
     end
   end
 
-  @spec reset_customization(check_id :: String.t(), group_id :: Ecto.UUID.t()) ::
+  @spec reset_customization(
+          check_id :: String.t(),
+          group_id :: Ecto.UUID.t(),
+          opts :: Keyword.t()
+        ) ::
           :ok | {:error, :customization_not_found}
-  def reset_customization(check_id, group_id) do
+  def reset_customization(check_id, group_id, opts \\ []) do
     check_id
     |> load_check
     |> case do
       {:ok, %Check{metadata: metadata}} -> metadata
       {:error, _} -> %{}
     end
-    |> reset_check_customization(check_id, group_id)
+    |> reset_check_customization(check_id, group_id, opts)
   end
 
   defp load_check(check_id) do
@@ -129,7 +138,8 @@ defmodule Wanda.ChecksCustomizations do
   defp apply_custom_values(
          %Check{id: check_id, metadata: metadata},
          group_id,
-         custom_values
+         custom_values,
+         opts
        ) do
     changeset =
       CheckCustomization.changeset(%CheckCustomization{}, %{
@@ -149,7 +159,7 @@ defmodule Wanda.ChecksCustomizations do
         metadata
         |> get_target_type
         |> build_customization_applied_message(check_customization)
-        |> publish_message
+        |> publish_message(opts)
       end)
       |> Repo.transaction()
 
@@ -176,7 +186,7 @@ defmodule Wanda.ChecksCustomizations do
     end
   end
 
-  defp reset_check_customization(metadata, check_id, group_id) do
+  defp reset_check_customization(metadata, check_id, group_id, opts) do
     deletion_query =
       from c in CheckCustomization,
         where: c.group_id == ^group_id and c.check_id == ^check_id
@@ -188,7 +198,7 @@ defmodule Wanda.ChecksCustomizations do
         metadata
         |> get_target_type
         |> build_customization_reset_message(check_id, group_id)
-        |> publish_message
+        |> publish_message(opts)
       else
         {:error, :customization_not_found}
       end
@@ -245,8 +255,10 @@ defmodule Wanda.ChecksCustomizations do
     )
   end
 
-  defp publish_message(message) do
-    case Messaging.publish(Publisher, "customizations", message) do
+  defp publish_message(message, opts) do
+    case Messaging.publish(Publisher, "customizations", message,
+           additional_attributes: get_additional_attributes(opts)
+         ) do
       :ok ->
         {:ok, :published}
 
@@ -254,4 +266,11 @@ defmodule Wanda.ChecksCustomizations do
         {:error, reason}
     end
   end
+
+  defp get_additional_attributes(user_id: user_id),
+    do: %{
+      "user_id" => {:ce_integer, user_id}
+    }
+
+  defp get_additional_attributes(_), do: %{}
 end
