@@ -33,19 +33,19 @@ defmodule Wanda.Executions.TargetTest do
 
     test "should map plain structs to the Wanda.Executions.Target" do
       targets = [
-        %{
+        build(:target,
           agent_id: agent_1 = Faker.UUID.v4(),
           checks: [
             check_1 = Faker.Airports.iata(),
             check_2 = Faker.Cannabis.brand()
           ]
-        },
-        %{
+        ),
+        build(:target,
           agent_id: agent_2 = Faker.UUID.v4(),
           checks: [
             check_3 = Faker.Color.name()
           ]
-        }
+        )
       ]
 
       assert [
@@ -63,6 +63,17 @@ defmodule Wanda.Executions.TargetTest do
                  ]
                }
              ] = Target.map_targets(targets)
+    end
+
+    test "should deduplicate targets" do
+      duplicated_agent_id = Faker.UUID.v4()
+
+      targets = build_list(3, :target, agent_id: duplicated_agent_id) ++ build_list(2, :target)
+
+      assert 3 ==
+               targets
+               |> Target.map_targets()
+               |> length()
     end
   end
 end
