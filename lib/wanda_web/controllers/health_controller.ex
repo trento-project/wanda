@@ -9,6 +9,8 @@ defmodule WandaWeb.HealthController do
     Ready
   }
 
+  alias Wanda.Catalog
+
   operation :ready,
     summary: "Wanda ready",
     tags: ["Platform"],
@@ -40,8 +42,27 @@ defmodule WandaWeb.HealthController do
         {:error, _} -> :fail
       end
 
+    catalog_status =
+      case Catalog.get_catalog() do
+        [] -> :fail
+        _ -> :pass
+      end
+
+    health = %{
+      database: db_status,
+      catalog: catalog_status
+    }
+
+    status =
+      health
+      |> Enum.all?(fn {_key, value} -> value == :pass end)
+      |> case do
+        true -> :ok
+        false -> :internal_server_error
+      end
+
     conn
-    |> put_status(if db_status == :pass, do: 200, else: 500)
-    |> render(:health, health: %{database: db_status})
+    |> put_status(status)
+    |> render(:health, health: health)
   end
 end
