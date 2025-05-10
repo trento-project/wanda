@@ -4,10 +4,12 @@ defmodule WandaWeb.HealthJSONTest do
   alias WandaWeb.HealthJSON
 
   test "should render data indicating that the database is in a healthy state" do
-    assert %{database: "pass"} == HealthJSON.health(%{health: %{database: "pass"}})
+    health = %{database: "pass", catalog: "pass"}
+    assert health == HealthJSON.health(%{health: health})
   end
 
   test "should render data indicating that the database is in an unhealthy state" do
-    assert %{database: "fail"} == HealthJSON.health(%{health: %{database: "fail"}})
+    health = %{database: "fail", catalog: "pass"}
+    assert health == HealthJSON.health(%{health: health})
   end
 end

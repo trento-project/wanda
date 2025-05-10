@@ -7,19 +7,27 @@ defmodule WandaWeb.Schemas.Health do
 
   require OpenApiSpex
 
+  @status_enum ["pass", "fail"]
+
   OpenApiSpex.schema(
     %Schema{
       title: "Health",
       type: :object,
       additionalProperties: false,
       example: %{
-        database: "pass"
+        database: "pass",
+        catalog: "pass"
       },
       properties: %{
         database: %Schema{
           description: "The status of the database connection",
           type: :string,
-          enum: ["pass", "fail"]
+          enum: @status_enum
+        },
+        catalog: %Schema{
+          description: "The status of the checks catalog",
+          type: :string,
+          enum: @status_enum
         }
       }
     },
