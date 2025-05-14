@@ -5,9 +5,14 @@ defmodule Wanda.Operations.Catalog.Registry do
 
   alias Wanda.Operations.Catalog.Operation
 
-  alias Wanda.Operations.Catalog.{SaptuneApplySolutionV1, SaptuneChangeSolutionV1}
+  alias Wanda.Operations.Catalog.{
+    ClusterMaintenanceChangeV1,
+    SaptuneApplySolutionV1,
+    SaptuneChangeSolutionV1
+  }
 
   @registry %{
+    "clustermaintenancechange@v1" => ClusterMaintenanceChangeV1.operation(),
     "saptuneapplysolution@v1" => SaptuneApplySolutionV1.operation(),
     "saptunechangesolution@v1" => SaptuneChangeSolutionV1.operation()
   }
