@@ -312,6 +312,7 @@ jobs:
           - MIX_ENV: demo
             tag: demo
     with:
+      image_name: trento-wanda
       MIX_ENV: ${{ matrix.MIX_ENV }}
       tag: ${{ matrix.tag }}
 
