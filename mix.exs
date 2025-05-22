@@ -1,13 +1,12 @@
 defmodule Wanda.MixProject do
   use Mix.Project
 
-  @version "1.4.0"
   @source_url "https://github.com/trento-project/wanda"
 
   def project do
     [
       app: :wanda,
-      version: @version,
+      version: get_version(),
       elixir: "~> 1.15",
       elixirc_paths: elixirc_paths(Mix.env()),
       start_permanent: Mix.env() == :prod,
@@ -165,5 +164,16 @@ defmodule Wanda.MixProject do
       test: ["ecto.create --quiet", "ecto.migrate --quiet", "test"],
       "coveralls.github": ["ecto.create --quiet", "ecto.migrate --quiet", "coveralls.github"]
     ]
+  end
+
+  defp get_version do
+    case System.get_env("VERSION", "") do
+      "" -> get_version_from_file()
+      version -> version
+    end
+  end
+
+  defp get_version_from_file do
+    File.cwd!() |> Path.join("VERSION") |> File.read!() |> String.trim()
   end
 end
