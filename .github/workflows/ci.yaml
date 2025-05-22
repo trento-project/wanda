@@ -96,7 +96,7 @@ jobs:
 
   static-code-analysis:
     name: Static Code Analysis
-    needs: [elixir-deps, api-bc-check]
+    needs: elixir-deps
     runs-on: ubuntu-24.04
     steps:
       - name: Cancel Previous Runs
@@ -133,7 +133,7 @@ jobs:
 
   test:
     name: Test
-    needs: [elixir-deps, api-bc-check]
+    needs: elixir-deps
     runs-on: ubuntu-24.04
     services:
       postgres:
