@@ -4,17 +4,17 @@
     <meta charset="utf-8">
     <meta http-equiv="x-ua-compatible" content="ie=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="generator" content="ExDoc v0.37.1">
+    <meta name="generator" content="ExDoc v0.38.1">
     <meta name="project" content="Wanda v1.4.0">
 
 
     <title>Rhai expressions cheatsheet — Wanda v1.4.0</title>
 
-    <link rel="stylesheet" href="dist/html-elixir-6X3L5KMG.css" />
+    <link rel="stylesheet" href="dist/html-elixir-J3PIVQVA.css" />
 
     <script defer src="dist/sidebar_items-10FB45CA.js"></script>
     <script defer src="docs_config.js"></script>
-    <script defer src="dist/html-6XHBGSGW.js"></script>
+    <script defer src="dist/html-DPJLHKSM.js"></script>
 
   </head>
   <body>
@@ -93,19 +93,8 @@ Wanda
 
   </div>
 
-<p>In this cheatsheet are grouped the most frequent manipulations that can be done through Rhai, for convenience.</p><section class="h2 col-2"><h2 id="cheatsheet" class="col-2 section-heading">
-  <a href="#cheatsheet" class="hover-link">
-    <i class="ri-link-m" aria-hidden="true"></i>
-  </a>
-  <span class="text">Cheatsheet</span>
-</h2>
-<section class="h3"><h3 id="arrays" class="section-heading">
-  <a href="#arrays" class="hover-link">
-    <i class="ri-link-m" aria-hidden="true"></i>
-  </a>
-  <span class="text">Arrays</span>
-</h3>
-<h4>Filtering an array</h4><pre><code class="ts">[1, 2, 3].filter(|value| value % 2 == 0)
+
+<p>In this cheatsheet are grouped the most frequent manipulations that can be done through Rhai, for convenience.</p><section class="h2 col-2"><h2 id="cheatsheet" class="col-2 section-heading"><a href="#cheatsheet" class="hover-link"><i class="ri-link-m" aria-hidden="true"></i></a><span class="text">Cheatsheet</span></h2><section class="h3"><h3 id="arrays" class="section-heading"><a href="#arrays" class="hover-link"><i class="ri-link-m" aria-hidden="true"></i></a><span class="text">Arrays</span></h3><h4>Filtering an array</h4><pre><code class="ts">[1, 2, 3].filter(|value| value % 2 == 0)
 =&gt; [2]</code></pre><h4>Finding the index of an element inside an array</h4><pre><code class="ts">[&quot;wow&quot;, &quot;check&quot;].index_of(|value| value == &quot;check&quot;)
 =&gt; 1</code></pre><h4>Finding an element inside an array</h4><pre><code class="ts">let nodelist = [
   #{resource_id: 5, name: &quot;foo&quot;},
@@ -114,13 +103,7 @@ Wanda
 
 nodelist.find(|value| value.resource_id == 5)
 =&gt; #{&quot;name&quot;: &quot;foo&quot;, &quot;resource_id&quot;: 5}</code></pre><h4>Checking if an expression is true for every element of an array</h4><pre><code class="ts">[2, 4, 6].all(|value| value % 2 == 0)
-=&gt; true</code></pre></section><section class="h3"><h3 id="maps" class="section-heading">
-  <a href="#maps" class="hover-link">
-    <i class="ri-link-m" aria-hidden="true"></i>
-  </a>
-  <span class="text">Maps</span>
-</h3>
-<h4>Get only keys (returns an array)</h4><pre><code class="ts">#{a: 1, b: 2}.keys()
+=&gt; true</code></pre></section><section class="h3"><h3 id="maps" class="section-heading"><a href="#maps" class="hover-link"><i class="ri-link-m" aria-hidden="true"></i></a><span class="text">Maps</span></h3><h4>Get only keys (returns an array)</h4><pre><code class="ts">#{a: 1, b: 2}.keys()
 =&gt; [&quot;a&quot;, &quot;b&quot;]</code></pre><h4>Get only values (returns an array)</h4><pre><code class="ts">#{a: 1, b: 2}.values()
 =&gt; [1, 2]</code></pre><h4>Check if a map has more than 5 keys which name starts with &quot;ring&quot;</h4><pre><code class="ts">let map = #{
   ring_one: 12,
@@ -131,14 +114,9 @@ nodelist.find(|value| value.resource_id == 5)
 };
 
 map.keys().filter(|prop| prop.starts_with(&quot;ring&quot;)).len() &gt;= 5
-=&gt; true</code></pre></section><section class="h3"><h3 id="strings" class="section-heading">
-  <a href="#strings" class="hover-link">
-    <i class="ri-link-m" aria-hidden="true"></i>
-  </a>
-  <span class="text">Strings</span>
-</h3>
-<h4>Splitting a string</h4><pre><code class="ts">&quot;a;b;c&quot;.split(&quot;;&quot;)
+=&gt; true</code></pre></section><section class="h3"><h3 id="strings" class="section-heading"><a href="#strings" class="hover-link"><i class="ri-link-m" aria-hidden="true"></i></a><span class="text">Strings</span></h3><h4>Splitting a string</h4><pre><code class="ts">&quot;a;b;c&quot;.split(&quot;;&quot;)
 =&gt; [&quot;a&quot;, &quot;b&quot;, &quot;c&quot;]</code></pre></section></section>
+
 </div>
 
 <div class="bottom-actions" id="bottom-actions">
@@ -184,7 +162,7 @@ Checks Specification
 
       <p class="built-using">
         Built using
-        <a href="https://github.com/elixir-lang/ex_doc" title="ExDoc" target="_blank" rel="help noopener" translate="no">ExDoc</a> (v0.37.1) for the
+        <a href="https://github.com/elixir-lang/ex_doc" title="ExDoc" target="_blank" rel="help noopener" translate="no">ExDoc</a> (v0.38.1) for the
 
           <a href="https://elixir-lang.org" title="Elixir" target="_blank" translate="no">Elixir programming language</a>
 
