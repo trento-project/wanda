@@ -15,10 +15,12 @@ FROM elixir-build AS release
 COPY --from=elixir-build /build /build
 WORKDIR /build
 ARG MIX_ENV=prod
+ARG VERSION
 ENV MIX_ENV=$MIX_ENV
 ENV MIX_HOME=/usr/bin
 ENV MIX_REBAR3=/usr/bin/rebar3
 ENV MIX_PATH=/usr/lib/elixir/lib/hex/ebin
+ENV VERSION=$VERSION
 RUN mix phx.digest
 RUN mix release
 

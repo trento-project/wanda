@@ -1,0 +1,180 @@
+name: OBS sync
+
+on:
+  workflow_call:
+    inputs:
+      update_changelog:
+        type: boolean
+        default: false
+        description: Whether or not to update the OBS package changelog. Should only be used contextually to a release.
+      obs_project:
+        type: string
+        required: true
+        description: The OBS project to commit changes to.
+    secrets:
+      OBS_USER:
+        required: true
+      OBS_PASS:
+        required: true
+
+env:
+  OBS_PROJECT: ${{ inputs.obs_project }}
+  AUTHOR_EMAIL: trento-developers@suse.com
+
+jobs:
+  update-image:
+    name: Update 'trento-wanda-image' package
+    runs-on: ubuntu-24.04
+    container:
+      image: ghcr.io/trento-project/continuous-delivery:main
+      env:
+        OBS_PACKAGE_NAME: trento-wanda-image
+        CHECKOUT_DIR: /tmp/trento-wanda-image
+        SOURCE_DIR: packaging/suse/container
+      options: -u 0:0
+    steps:
+      - name: Cancel Previous Runs
+        uses: styfle/cancel-workflow-action@0.12.1
+        with:
+          access_token: ${{ github.token }}
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - name: Configure git for in-container operations
+        run: git config --global --add safe.directory $GITHUB_WORKSPACE
+      - name: Get version from git history
+        id: get_version_from_git
+        run: |
+          VERSION=$(/scripts/get_version_from_git.sh)
+          echo "version=$VERSION" >> $GITHUB_OUTPUT
+      - name: Read .tool-versions
+        uses: endorama/asdf-parse-tool-versions@v1
+        id: tool-versions
+      - name: Setup rust
+        uses: actions-rs/toolchain@v1
+        with:
+          toolchain: ${{ env.RUST_VERSION }}
+      - name: Get mix deps
+        run: mix local.hex --force && mix local.rebar --force && mix deps.clean --all && mix deps.get
+      - name: Cargo vendoring
+        run: |
+          cd deps/rhai_rustler/native/rhai_rustler
+          cargo vendor
+          printf '\n\n[source.crates-io]\nreplace-with = "vendored-sources"\n\n[source.vendored-sources]\ndirectory = "vendor"\n' >> .cargo/config
+      - name: Configure OSC
+        env:
+          OBS_USER: ${{ secrets.OBS_USER }}
+          OBS_PASS: ${{ secrets.OBS_PASS }}
+        run: |
+          # hack needed because the HOME variable is set to '/github/home' and cannot be changed
+          mkdir -p $HOME/.config/osc
+          cp /home/osc/.config/osc/oscrc $HOME/.config/osc
+          /scripts/init_osc_creds.sh
+      - name: Checkout OBS package
+        run: osc checkout $OBS_PROJECT $OBS_PACKAGE_NAME -o $CHECKOUT_DIR
+      - name: Prepare Dockerfile
+        run: |
+          VERSION="${{ steps.get_version_from_git.outputs.version }}"
+          # "+" character is not allowed in OBS dockerfile version strings
+          VERSION=${VERSION//[+]/-}
+          sed -i 's~%%VERSION%%~'"${VERSION}"'~' $SOURCE_DIR/Dockerfile
+      - name: Prepare .changes file
+        if: inputs.update_changelog
+        env:
+          GITHUB_OAUTH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          VERSION="${{ steps.get_version_from_git.outputs.version }}"
+          REPOSITORY=${{ github.repository }}
+          CHANGES_FILE=${OBS_PACKAGE_NAME}.changes
+          /scripts/gh_release_to_obs_changeset.py $REPOSITORY -a $AUTHOR_EMAIL -t $VERSION -f $CHECKOUT_DIR/$CHANGES_FILE
+      - name: Update sources
+        run: |
+          cp -r $SOURCE_DIR/* $CHECKOUT_DIR
+          tar --transform 's,^./,/wanda/,' -zcvf $DEST_FOLDER/wanda.tar.gz --exclude=./.git ./*
+      - name: Commit to OBS
+        run: |
+          pushd $CHECKOUT_DIR
+          osc ar
+          osc commit -m "GitHub Actions automated update to reference ${{ github.sha }}"
+
+  update-rpm:
+    name: Update 'trento-wanda' package
+    runs-on: ubuntu-24.04
+    container:
+      image: ghcr.io/trento-project/continuous-delivery:main
+      env:
+        OBS_PACKAGE_NAME: trento-wanda
+        CHECKOUT_DIR: /tmp/trento-wanda
+        SOURCE_DIR: packaging/suse/rpm
+      options: -u 0:0
+    steps:
+      - name: Cancel Previous Runs
+        uses: styfle/cancel-workflow-action@0.12.1
+        with:
+          access_token: ${{ github.token }}
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - name: Configure git for in-container operations
+        run: git config --global --add safe.directory $GITHUB_WORKSPACE
+      - name: Get version from git history
+        id: get_version_from_git
+        run: |
+          VERSION=$(/scripts/get_version_from_git.sh)
+          echo "version=$VERSION" >> $GITHUB_OUTPUT
+      - name: Read .tool-versions
+        uses: endorama/asdf-parse-tool-versions@v1
+        id: tool-versions
+      - name: Setup rust
+        uses: actions-rs/toolchain@v1
+        with:
+          toolchain: ${{ env.RUST_VERSION }}
+      - name: Get mix deps
+        run: mix local.hex --force && mix local.rebar --force && mix deps.clean --all && mix deps.get
+      - name: Cargo vendoring
+        run: |
+          cd deps/rhai_rustler/native/rhai_rustler
+          cargo vendor
+          printf '\n\n[source.crates-io]\nreplace-with = "vendored-sources"\n\n[source.vendored-sources]\ndirectory = "vendor"\n' >> .cargo/config
+      - name: Create deps tarball
+        run: tar -c deps | gzip -n > deps.tar.gz
+      - name: Configure OSC
+        env:
+          OBS_USER: ${{ secrets.OBS_USER }}
+          OBS_PASS: ${{ secrets.OBS_PASS }}
+        run: |
+          # hack needed because the HOME variable is set to '/github/home' and cannot be changed
+          mkdir -p $HOME/.config/osc
+          cp /home/osc/.config/osc/oscrc $HOME/.config/osc
+          /scripts/init_osc_creds.sh
+      - name: Checkout OBS package
+        run: osc checkout $OBS_PROJECT $OBS_PACKAGE_NAME -o $CHECKOUT_DIR
+      - name: Prepare _service file
+        run: |
+          sed -i 's~%%REVISION%%~${{ github.sha }}~' $SOURCE_DIR/_service && \
+          sed -i 's~%%REPOSITORY%%~${{ github.repository }}~' $SOURCE_DIR/_service && \
+          sed -i 's~%%VERSION%%~${{ steps.get_version_from_git.outputs.version }}~' $SOURCE_DIR/_service
+      - name: Prepare .changes file
+        if: inputs.update_changelog
+        env:
+          GITHUB_OAUTH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          VERSION=${{ steps.get_version_from_git.outputs.version }}
+          REPOSITORY=${{ github.repository }}
+          CHANGES_FILE=${OBS_PACKAGE_NAME}.changes
+          /scripts/gh_release_to_obs_changeset.py $REPOSITORY -a $AUTHOR_EMAIL -t $VERSION -f $CHECKOUT_DIR/$CHANGES_FILE
+      - name: Update sources
+        run: |
+          cp $SOURCE_DIR/_service $CHECKOUT_DIR
+          cp $SOURCE_DIR/${OBS_PACKAGE_NAME}.spec $CHECKOUT_DIR
+          pushd $CHECKOUT_DIR
+          rm -vf *.tar.gz
+          osc service manualrun
+          popd
+          cp deps.tar.gz $CHECKOUT_DIR
+      - name: Commit to OBS
+        run: |
+          pushd $CHECKOUT_DIR
+          osc ar
+          osc commit -m "GitHub Actions automated update to reference ${{ github.sha }}"
