@@ -21,88 +21,7 @@ env:
 jobs:
   elixir-deps:
     name: Elixir dependencies
-    runs-on: ubuntu-24.04
-    env:
-      RHAI_RUSTLER_FORCE_BUILD: "true"
-    steps:
-      - name: Cancel Previous Runs
-        uses: styfle/cancel-workflow-action@0.12.1
-        with:
-          access_token: ${{ github.token }}
-      - name: Checkout
-        uses: actions/checkout@v4
-        with:
-          fetch-depth: 0
-      - name: Setup
-        id: setup-elixir
-        uses: erlef/setup-beam@v1
-        with:
-          version-file: .tool-versions
-          version-type: strict
-      - name: Read .tool-versions
-        uses: endorama/asdf-parse-tool-versions@v1
-        id: tool-versions
-      - name: Setup rust
-        uses: actions-rs/toolchain@v1
-        with:
-          toolchain: ${{ env.RUST_VERSION }}
-          default: true
-      - name: Retrieve Cached Dependencies
-        uses: actions/cache@v4
-        id: mix-cache
-        with:
-          path: |
-            deps
-            _build/test
-            priv/plts
-          key: erlang-${{ steps.setup-elixir.outputs.otp-version }}-elixir-${{ steps.setup-elixir.outputs.elixir-version }}-rust-${{ env.RUST_VERSION }}-${{ hashFiles('mix.lock') }}
-      - name: Install Dependencies
-        if: steps.mix-cache.outputs.cache-hit != 'true'
-        run: |
-          mkdir -p priv/plts
-          mix local.rebar --force
-          mix local.hex --force
-          mix deps.get
-          mix deps.compile --warnings-as-errors
-          mix dialyzer --plt
-
-  check-vendor-deps:
-    name: Check vendored dependencies
-    runs-on: ubuntu-24.04
-    needs: [elixir-deps]
-    steps:
-      - name: Cancel Previous Runs
-        uses: styfle/cancel-workflow-action@0.12.1
-        with:
-          access_token: ${{ github.token }}
-      - uses: actions/checkout@v4
-        with:
-          fetch-depth: 0
-      - name: Setup Elixir
-        id: setup-elixir
-        uses: erlef/setup-beam@v1
-        with:
-          version-file: .tool-versions
-          version-type: strict 
-      - name: Retrieve Elixir Cached Dependencies
-        uses: actions/cache@v4
-        id: mix-cache
-        with:
-          path: |
-            deps
-            _build/test
-            priv/plts
-          key: ${{ runner.os }}-${{ steps.setup-elixir.outputs.otp-version }}-${{ steps.setup-elixir.outputs.elixir-version }}-${{ hashFiles('mix.lock') }}
-      - name: Setup Rust
-        uses: actions-rs/toolchain@v1
-        with:
-          toolchain: 1.81
-      - name: Get mix deps
-        run: mix local.hex --force && mix deps.clean --all && mix deps.get
-      - name: Cargo vendor
-        run: |
-          cd deps/rhai_rustler/native/rhai_rustler
-          cargo vendor
+    uses: ./.github/workflows/deps.yaml
 
   static-code-analysis:
     name: Static Code Analysis
@@ -198,42 +117,11 @@ jobs:
         run: mix coveralls.github --warnings-as-errors --color --trace
 
   main-branch-deps:
-    name: Rebuild main branch dependencies
-    runs-on: ubuntu-24.04
+    name: main branch dependencies
     if: github.event_name == 'pull_request'
-    steps:
-      - name: Cancel Previous Runs
-        uses: styfle/cancel-workflow-action@0.12.1
-        with:
-          access_token: ${{ github.token }}
-      - name: Checkout main branch
-        uses: actions/checkout@v4
-        with:
-          ref: main
-      - name: Set up Elixir
-        id: setup-elixir
-        uses: erlef/setup-beam@v1
-        with:
-          version-file: .tool-versions
-          version-type: strict
-      - name: Retrieve Cached Dependencies - main branch
-        uses: actions/cache@v4
-        id: mix-cache-main
-        with:
-          path: |
-            deps
-            _build/test
-            priv/plts
-          key: ${{ runner.os }}-${{ steps.setup-elixir.outputs.otp-version }}-${{ steps.setup-elixir.outputs.elixir-version }}-${{ hashFiles('mix.lock') }}
-      - name: Install missing dependencies
-        if: steps.mix-cache-main.outputs.cache-hit != 'true'
-        run: |
-          mkdir -p priv/plts
-          mix local.rebar --force
-          mix local.hex --force
-          mix deps.get
-          mix deps.compile --warnings-as-errors
-          mix dialyzer --plt
+    uses: ./.github/workflows/deps.yaml
+    with:
+      checkout_ref: main
 
   api-bc-check:
     name: API bc check
