@@ -17,6 +17,7 @@ on:
 
 env:
   MIX_ENV: test
+  RHAI_RUSTLER_FORCE_BUILD: "true"
 
 jobs:
   elixir-deps:
@@ -181,8 +182,6 @@ jobs:
             priv/plts
           key: ${{ runner.os }}-${{ steps.setup-elixir.outputs.otp-version }}-${{ steps.setup-elixir.outputs.elixir-version }}-${{ hashFiles('mix.lock') }}
       - name: Compile
-        env:
-          RHAI_RUSTLER_FORCE_BUILD: "true"
         run: mix compile --warnings-as-errors
       - name: Run test
         env:
