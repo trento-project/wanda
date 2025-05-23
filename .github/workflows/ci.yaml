@@ -318,6 +318,7 @@ jobs:
 
   deploy-demo:
     runs-on: ubuntu-24.04
+    if: vars.DEPLOY_DEMO == 'true'
     needs:
       - build-containers
     steps:
