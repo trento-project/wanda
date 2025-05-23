@@ -17,12 +17,13 @@ on:
 
 env:
   MIX_ENV: test
-  RHAI_RUSTLER_FORCE_BUILD: "true"
 
 jobs:
   elixir-deps:
     name: Elixir dependencies
     runs-on: ubuntu-24.04
+    env:
+      RHAI_RUSTLER_FORCE_BUILD: "true"
     steps:
       - name: Cancel Previous Runs
         uses: styfle/cancel-workflow-action@0.12.1
@@ -38,6 +39,13 @@ jobs:
         with:
           version-file: .tool-versions
           version-type: strict
+      - name: Read .tool-versions
+        uses: endorama/asdf-parse-tool-versions@v1
+        id: tool-versions
+      - name: Setup rust
+        uses: actions-rs/toolchain@v1
+        with:
+          toolchain: ${{ env.RUST_VERSION }}
       - name: Retrieve Cached Dependencies
         uses: actions/cache@v4
         id: mix-cache
@@ -46,7 +54,7 @@ jobs:
             deps
             _build/test
             priv/plts
-          key: ${{ runner.os }}-${{ steps.setup-elixir.outputs.otp-version }}-${{ steps.setup-elixir.outputs.elixir-version }}-${{ hashFiles('mix.lock') }}
+          key: ${{ runner.os }}-${{ steps.setup-elixir.outputs.otp-version }}-${{ steps.setup-elixir.outputs.elixir-version }}-rust${{ env.RUST_VERSION }}-${{ hashFiles('mix.lock') }}
       - name: Install Dependencies
         if: steps.mix-cache.outputs.cache-hit != 'true'
         run: |
