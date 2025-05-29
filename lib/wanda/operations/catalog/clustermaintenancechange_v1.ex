@@ -7,6 +7,15 @@ defmodule Wanda.Operations.Catalog.ClusterMaintenanceChangeV1 do
       name: "Change cluster maintenance state",
       description: """
       This operation changes the cluster, cluster resource or cluster node maintenance state.
+
+      If neither resource_id nor node_id are given, the whole cluster maintenance state is
+      changed.
+
+      Arguments:
+        maintenance (boolean): Maintenance state to change the cluster, node or resource
+        is_dc (boolean): Whether the target is the designated controller of the cluster
+        resource_id (string): The ID of the cluster resource to change the state (this has precedence over node_id)
+        node_id (string): The ID of the cluster node to change the state
       """,
       required_args: ["maintenance", "is_dc"],
       steps: [
