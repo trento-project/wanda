@@ -1,6 +1,5 @@
 defmodule WandaWeb.Plugs.ApiRedirectorTest do
   use WandaWeb.ConnCase, async: true
-  use Plug.Test
 
   alias WandaWeb.Plugs.ApiRedirector
 
