@@ -22,7 +22,7 @@ defmodule Wanda.Operations.Catalog.ClusterMaintenanceChangeV1 do
         %Wanda.Operations.Catalog.Step{
           name: "Change maintenance state",
           operator: "clustermaintenancechange@v1",
-          predicate: "is_dc==true"
+          predicate: "is_dc == true"
         }
       ]
     }
