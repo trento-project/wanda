@@ -42,6 +42,9 @@ jobs:
         with:
           version-file: .tool-versions
           version-type: strict
+      - name: Read .tool-versions
+        uses: endorama/asdf-parse-tool-versions@v1
+        id: tool-versions
       - name: Retrieve Elixir Cached Dependencies
         uses: actions/cache@v4
         id: mix-cache
@@ -50,7 +53,7 @@ jobs:
             deps
             _build/test
             priv/plts
-          key: ${{ runner.os }}-${{ steps.setup-elixir.outputs.otp-version }}-${{ steps.setup-elixir.outputs.elixir-version }}-${{ hashFiles('mix.lock') }}
+          key: erlang-${{ steps.setup-elixir.outputs.otp-version }}-elixir-${{ steps.setup-elixir.outputs.elixir-version }}-rust-${{ env.RUST_VERSION }}-${{ hashFiles('mix.lock') }}
       - name: Check for Unused Dependencies
         run: mix deps.unlock --check-unused
       - name: Check Code Format
@@ -100,6 +103,9 @@ jobs:
         with:
           version-file: .tool-versions
           version-type: strict
+      - name: Read .tool-versions
+        uses: endorama/asdf-parse-tool-versions@v1
+        id: tool-versions
       - name: Retrieve Cached Dependencies
         uses: actions/cache@v4
         id: mix-cache
@@ -108,7 +114,7 @@ jobs:
             deps
             _build/test
             priv/plts
-          key: ${{ runner.os }}-${{ steps.setup-elixir.outputs.otp-version }}-${{ steps.setup-elixir.outputs.elixir-version }}-${{ hashFiles('mix.lock') }}
+          key: erlang-${{ steps.setup-elixir.outputs.otp-version }}-elixir-${{ steps.setup-elixir.outputs.elixir-version }}-rust-${{ env.RUST_VERSION }}-${{ hashFiles('mix.lock') }}
       - name: Compile
         run: mix compile --warnings-as-errors
       - name: Run test
@@ -147,6 +153,9 @@ jobs:
         with:
           version-file: .tool-versions
           version-type: strict
+      - name: Read .tool-versions
+        uses: endorama/asdf-parse-tool-versions@v1
+        id: tool-versions
       - name: Retrieve Cached Dependencies - current branch
         uses: actions/cache@v4
         id: mix-cache-current
@@ -155,7 +164,7 @@ jobs:
             deps
             _build/test
             priv/plts
-          key: ${{ runner.os }}-${{ steps.setup-elixir.outputs.otp-version }}-${{ steps.setup-elixir.outputs.elixir-version }}-${{ hashFiles('mix.lock') }}
+          key: erlang-${{ steps.setup-elixir.outputs.otp-version }}-elixir-${{ steps.setup-elixir.outputs.elixir-version }}-rust-${{ env.RUST_VERSION }}-${{ hashFiles('mix.lock') }}
       - name: Generate current openapi.json
         run: |
           mix openapi.spec.json --start-app=false --spec WandaWeb.Schemas.${{ matrix.version }}.ApiSpec /tmp/specs/current-spec.json
@@ -172,7 +181,7 @@ jobs:
             deps
             _build/test
             priv/plts
-          key: ${{ runner.os }}-${{ steps.setup-elixir.outputs.otp-version }}-${{ steps.setup-elixir.outputs.elixir-version }}-${{ hashFiles('mix.lock') }}
+          key: erlang-${{ steps.setup-elixir.outputs.otp-version }}-elixir-${{ steps.setup-elixir.outputs.elixir-version }}-rust-${{ env.RUST_VERSION }}-${{ hashFiles('mix.lock') }}
       - name: Generate main openapi.json
         run: |
           mix openapi.spec.json --start-app=false --spec WandaWeb.Schemas.${{ matrix.version }}.ApiSpec /tmp/specs/main-spec.json
@@ -239,6 +248,9 @@ jobs:
         with:
           version-file: .tool-versions
           version-type: strict
+      - name: Read .tool-versions
+        uses: endorama/asdf-parse-tool-versions@v1
+        id: tool-versions
       - name: Retrieve Cached Dependencies
         uses: actions/cache@v4
         id: mix-cache
@@ -247,7 +259,7 @@ jobs:
             deps
             _build/test
             priv/plts
-          key: ${{ runner.os }}-${{ steps.setup-elixir.outputs.otp-version }}-${{ steps.setup-elixir.outputs.elixir-version }}-${{ hashFiles('mix.lock') }}
+          key: erlang-${{ steps.setup-elixir.outputs.otp-version }}-elixir-${{ steps.setup-elixir.outputs.elixir-version }}-rust-${{ env.RUST_VERSION }}-${{ hashFiles('mix.lock') }}
       - name: Build docs
         uses: lee-dohm/generate-elixir-docs@v1
       - name: Generate openapi.json
