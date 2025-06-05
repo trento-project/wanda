@@ -7,12 +7,16 @@ defmodule Wanda.Operations.Catalog.Registry do
 
   alias Wanda.Operations.Catalog.{
     ClusterMaintenanceChangeV1,
+    SapInstanceStartV1,
+    SapInstanceStopV1,
     SaptuneApplySolutionV1,
     SaptuneChangeSolutionV1
   }
 
   @registry %{
     "clustermaintenancechange@v1" => ClusterMaintenanceChangeV1.operation(),
+    "sapinstancestart@v1" => SapInstanceStartV1.operation(),
+    "sapinstancestop@v1" => SapInstanceStopV1.operation(),
     "saptuneapplysolution@v1" => SaptuneApplySolutionV1.operation(),
     "saptunechangesolution@v1" => SaptuneChangeSolutionV1.operation()
   }
