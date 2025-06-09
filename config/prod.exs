@@ -45,7 +45,7 @@ config :wanda, Wanda.Messaging.Adapters.AMQP,
   ]
 
 config :wanda,
-  operations_enabled: false
+  operations_enabled: true
 
 # ## SSL Support
 #
