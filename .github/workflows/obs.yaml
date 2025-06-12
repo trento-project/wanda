@@ -91,7 +91,7 @@ jobs:
       - name: Update sources
         run: |
           cp -r $SOURCE_DIR/* $CHECKOUT_DIR
-          tar --transform 's,^./,/wanda/,' -zcvf $DEST_FOLDER/wanda.tar.gz --exclude=./.git ./*
+          tar --transform 's,^./,/wanda/,' -zcvf $CHECKOUT_DIR/wanda.tar.gz --exclude=./.git ./*
       - name: Commit to OBS
         run: |
           pushd $CHECKOUT_DIR
