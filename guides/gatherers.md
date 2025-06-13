@@ -44,6 +44,7 @@ Here's a collection of built-in gatherers, with information about how to use the
 | [`dir_scan@v1`](#dir_scanv1)                                           | [trento-project/agent/../gatherers/dir_scan.go](https://github.com/trento-project/agent/blob/main/internal/factsengine/gatherers/dir_scan.go)                                       |
 | [`disp+work@v1`](#dispworkv1)                                          | [trento-project/agent/../gatherers/dispwork.go](https://github.com/trento-project/agent/blob/main/internal/factsengine/gatherers/dispwork.go)                                       |
 | [`fstab@v1`](#fstabv1)                                                 | [trento-project/agent/../gatherers/fstab.go](https://github.com/trento-project/agent/blob/main/internal/factsengine/gatherers/fstab.go)                                             |
+| [`fs_usage@v1`](#fs_sagev1)                                            | [trento-project/agent/../gatherers/fs_usage](https://github.com/trento-project/agent/blob/main/internal/factsengine/gatherers/fs_usage.go)                                             |
 | [`groups@v1`](#groupsv1)                                               | [trento-project/agent/../gatherers/groups.go](https://github.com/trento-project/agent/blob/main/internal/factsengine/gatherers/groups.go)                                           |
 | [`hosts@v1`](#hostsv1)                                                 | [trento-project/agent/../gatherers/hostsfile.go](https://github.com/trento-project/agent/blob/main/internal/factsengine/gatherers/hostsfile.go)                                     |
 | [`ini_files@v1`](#ini_filesv1)                                         | [trento-project/agent/../gatherers/ini_files.go](https://github.com/trento-project/agent/blob/main/internal/factsengine/gatherers/ini_files.go)                                     |
@@ -450,6 +451,100 @@ Example output (in Rhai):
     },
   ...
 ];
+```
+
+<span id="fs_usagev1"></span>
+
+### fs_usage@v1
+
+**Argument required**: no.
+
+This gatherer allows querying a host for its file system usage metrics. These
+metrics include the name of the file system or backing device, the number of
+1024-byte blocks on the file system, how many of these blocks are free
+(available), and how many blocks are used. Furthermore, it provides access to
+the capacity occupied in percent and where the device or file system is
+mounted.
+
+The gatherer allows the user to optionally specify a file path as an argument.
+When a path is provided, the gatherer will only return file system information
+relevant to the specified path.
+
+For your calculations, keep in mind that the output provides values in
+1024-byte blocks, which is equivalent to 1 KiB.
+
+#### Example Arguments:
+
+| Name  | Return Value                                                    |
+| :---- | :-------------------------------------------------------------- |
+| empty | Information on devices and pseudo devices mounted by the system |
+| /     | Information on the device backing the root volume               |
+
+#### Example Specification: All
+
+```yaml
+facts:
+  - name: fs_all
+    gatherer: fs_usage@v1
+```
+
+```ts
+[
+  #{
+    "available": 492767948,           // 492767948 / (1024 * 1024) = 469.94 GiB
+    "blocks": 927310848,              // 927310848 / (1024 * 1024) = 884.35 GiB
+    "capacity": 47,                   // 47% full
+    "filesystem": "/dev/mapper/root",
+    "mountpoint": "/",
+    "used": 433601620                 // 433601620 / (1024 * 1024) = 413.51 GiB
+  },
+  #{
+    "available": 30636832,
+    "blocks": 30636832,
+    "capacity": 0,
+    "filesystem": "devtmpfs",
+    "mountpoint": "/dev",
+    "used": 0
+  },
+  #{
+    "available": 30672632,
+    "blocks": 30672716,
+    "capacity": 1,
+    "filesystem": "tmpfs",
+    "mountpoint": "/dev/shm",
+    "used": 84
+  },
+  #{
+    "available": 115,
+    "blocks": 248,
+    "capacity": 53,
+    "filesystem": "efivarfs",
+    "mountpoint": "/sys/firmware/efi/efivars",
+    "used": 129
+  }
+]
+```
+
+#### Example Specification: Root
+
+```yaml
+facts:
+  - name: fs_root
+    gatherer: fs_usage@v1
+    argument: /
+```
+
+```ts
+[
+  #{
+    "available": 492767948,           // 492767948 / (1024 * 1024) = 469.94 GiB
+    "blocks": 927310848,              // 927310848 / (1024 * 1024) = 884.35 GiB
+    "capacity": 47,                   // 47% full
+    "filesystem": "/dev/mapper/root",
+    "mountpoint": "/",
+    "used": 433601620                 // 433601620 / (1024 * 1024) = 413.51 GiB
+  }
+]
 ```
 
 <span id="groupsv1"></span>
