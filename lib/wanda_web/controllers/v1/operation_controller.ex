@@ -13,6 +13,8 @@ defmodule WandaWeb.V1.OperationController do
     OperationResponse
   }
 
+  require Wanda.Operations.Enums.Status, as: Status
+
   plug OpenApiSpex.Plug.CastAndValidate, json_render_error_v2: true
   action_fallback WandaWeb.FallbackController
 
@@ -29,7 +31,14 @@ defmodule WandaWeb.V1.OperationController do
         example: "00000000-0000-0000-0000-000000000001"
       ],
       page: [in: :query, description: "Page", type: :integer, example: 3],
-      items_per_page: [in: :query, description: "Items per page", type: :integer, example: 20]
+      items_per_page: [in: :query, description: "Items per page", type: :integer, example: 20],
+      status: [
+        in: :query,
+        type: %Schema{
+          type: :string,
+          enum: Status.values()
+        }
+      ]
     ],
     responses: [
       ok: {"List operations response", "application/json", ListOperationsResponse},
@@ -41,7 +50,6 @@ defmodule WandaWeb.V1.OperationController do
       params
       |> Operations.list_operations()
       |> Enum.map(&Operations.enrich_operation!(&1))
-      |> Enum.map(&Operations.compute_aborted(&1, DateTime.utc_now()))
 
     render(conn, operations: operations)
   end
@@ -70,7 +78,6 @@ defmodule WandaWeb.V1.OperationController do
       operation_id
       |> Operations.get_operation!()
       |> Operations.enrich_operation!()
-      |> Operations.compute_aborted(DateTime.utc_now())
 
     render(conn, operation: operation)
   end
