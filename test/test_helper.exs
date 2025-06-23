@@ -15,7 +15,6 @@ Mox.defmock(Joken.CurrentTime.Mock, for: Joken.CurrentTime)
 Application.put_env(:joken, :current_time_adapter, Joken.CurrentTime.Mock)
 
 Mox.defmock(Wanda.Support.DateService.Mock, for: Wanda.Support.DateService)
-Application.put_env(:wanda, :date_service, Wanda.Support.DateService.Mock)
 
 ExUnit.start(capture_log: true)
 Faker.start()

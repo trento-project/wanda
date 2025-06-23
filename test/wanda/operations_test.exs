@@ -19,6 +19,9 @@ defmodule Wanda.OperationsTest do
     Application.put_env(:wanda, :operations_registry, TestRegistry.test_registry())
     on_exit(fn -> Application.delete_env(:wanda, :operations_registry) end)
 
+    Application.put_env(:wanda, :date_service, Wanda.Support.DateService.Mock)
+    on_exit(fn -> Application.put_env(:wanda, :date_service, Wanda.Support.DateService) end)
+
     now = DateTime.utc_now()
 
     expect(
