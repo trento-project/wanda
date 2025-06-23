@@ -14,8 +14,8 @@ defmodule Wanda.Operations do
     StepReport
   }
 
-  alias Wanda.Operations.Catalog.Registry
   alias Wanda.Operations.Catalog.Operation, as: CatalogOperation
+  alias Wanda.Operations.Catalog.Registry
 
   require Wanda.Operations.Enums.Result, as: Result
   require Wanda.Operations.Enums.Status, as: Status
@@ -170,8 +170,8 @@ defmodule Wanda.Operations do
   end
 
   defp maybe_filter_by_status(query, Status.aborted(), utc_now) do
-    query
-    |> where(
+    where(
+      query,
       [e],
       e.status == ^Status.aborted() or (e.timeout_at < ^utc_now and e.status == ^Status.running())
     )
