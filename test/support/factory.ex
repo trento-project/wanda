@@ -248,6 +248,8 @@ defmodule Wanda.Factory do
         %Operation.Target{agent_id: id, arguments: args}
       end)
 
+    now = DateTime.utc_now()
+
     %Operation{
       operation_id: UUID.uuid4(),
       group_id: UUID.uuid4(),
@@ -256,7 +258,8 @@ defmodule Wanda.Factory do
       status: OpeartionStatus.running(),
       targets: targets,
       agent_reports: build_list(1, :step_report, step_number: 0),
-      started_at: DateTime.utc_now()
+      started_at: now,
+      timeout_at: DateTime.add(now, 30_000, :millisecond)
     }
   end
 

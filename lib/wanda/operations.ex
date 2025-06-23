@@ -33,7 +33,7 @@ defmodule Wanda.Operations do
       |> Registry.get_operation!()
       |> CatalogOperation.total_timeout()
 
-    timeout_at = DateTime.add(DateTime.utc_now(), total_timeout, :millisecond)
+    timeout_at = DateTime.add(date_service().utc_now(), total_timeout, :millisecond)
 
     %Operation{}
     |> Operation.changeset(%{
@@ -53,7 +53,7 @@ defmodule Wanda.Operations do
   """
   @spec get_operation!(String.t()) :: Operation.t()
   def get_operation!(operation_id) do
-    utc_now = DateTime.utc_now()
+    utc_now = date_service().utc_now()
 
     from(e in Operation)
     |> compute_aborted(utc_now)
@@ -84,7 +84,7 @@ defmodule Wanda.Operations do
 
     offset = (page - 1) * items_per_page
 
-    utc_now = DateTime.utc_now()
+    utc_now = date_service().utc_now()
 
     from(e in Operation)
     |> compute_aborted(utc_now)
@@ -120,7 +120,7 @@ defmodule Wanda.Operations do
     |> Operation.changeset(%{
       result: result,
       status: Status.completed(),
-      completed_at: DateTime.utc_now()
+      completed_at: date_service().utc_now()
     })
     |> Repo.update!()
   end
@@ -143,9 +143,12 @@ defmodule Wanda.Operations do
     select(query, [e], %{
       e
       | status:
-          fragment(
-            "CASE WHEN status = 'running' and ? > timeout_at THEN 'aborted' ELSE ? END",
-            ^utc_now,
+          type(
+            fragment(
+              "CASE WHEN status = 'running' and ? > timeout_at THEN 'aborted' ELSE ? END",
+              ^utc_now,
+              e.status
+            ),
             e.status
           )
     })
@@ -160,19 +163,23 @@ defmodule Wanda.Operations do
   @spec maybe_filter_by_status(Ecto.Query.t(), String.t(), DateTime.t()) :: Ecto.Query.t()
   defp maybe_filter_by_status(query, nil, _), do: query
 
-  defp maybe_filter_by_status(query, status, utc_now)
-       when status in [Status.running(), Status.aborted()] do
-    timeout_query =
-      case status do
-        Status.running() -> dynamic([e], e.timeout_at > ^utc_now)
-        Status.aborted() -> dynamic([e], e.timeout_at < ^utc_now)
-      end
-
+  defp maybe_filter_by_status(query, Status.running(), utc_now) do
     query
-    |> where([e], e.status in [^Status.running(), ^Status.aborted()])
-    |> where(^timeout_query)
+    |> where(status: ^Status.running())
+    |> where([e], e.timeout_at > ^utc_now)
+  end
+
+  defp maybe_filter_by_status(query, Status.aborted(), utc_now) do
+    query
+    |> where(
+      [e],
+      e.status == ^Status.aborted() or (e.timeout_at < ^utc_now and e.status == ^Status.running())
+    )
   end
 
   defp maybe_filter_by_status(query, status, _),
     do: from(e in query, where: [status: ^status])
+
+  defp date_service,
+    do: Application.fetch_env!(:wanda, :date_service)
 end

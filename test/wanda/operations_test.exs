@@ -3,6 +3,7 @@ defmodule Wanda.OperationsTest do
   use Wanda.DataCase
 
   import Wanda.Factory
+  import Mox
 
   alias Wanda.Operations
   alias Wanda.Operations.{AgentReport, Operation, OperationTarget, StepReport}
@@ -18,11 +19,19 @@ defmodule Wanda.OperationsTest do
     Application.put_env(:wanda, :operations_registry, TestRegistry.test_registry())
     on_exit(fn -> Application.delete_env(:wanda, :operations_registry) end)
 
-    {:ok, []}
+    now = DateTime.utc_now()
+
+    expect(
+      Wanda.Support.DateService.Mock,
+      :utc_now,
+      fn -> now end
+    )
+
+    {:ok, [utc_now: now]}
   end
 
   describe "create an operation" do
-    test "should create a running operation" do
+    test "should create a running operation", %{utc_now: utc_now} do
       operation_id = UUID.uuid4()
       group_id = UUID.uuid4()
 
@@ -36,6 +45,8 @@ defmodule Wanda.OperationsTest do
           arguments: args_2
         }
       ] = targets = build_list(2, :operation_target)
+
+      expected_timeout = DateTime.add(utc_now, 300_000, :millisecond)
 
       Operations.create_operation!(
         operation_id,
@@ -60,6 +71,7 @@ defmodule Wanda.OperationsTest do
                    arguments: ^args_2
                  }
                ],
+               timeout_at: ^expected_timeout,
                agent_reports: []
              } = Repo.get(Operation, operation_id)
     end
@@ -69,7 +81,7 @@ defmodule Wanda.OperationsTest do
       group_id = UUID.uuid4()
       targets = build_list(2, :operation_target)
 
-      assert_raise Ecto.InvalidChangesetError, fn ->
+      assert_raise KeyError, fn ->
         Operations.create_operation!(operation_id, group_id, "foo", targets)
       end
     end
@@ -105,43 +117,39 @@ defmodule Wanda.OperationsTest do
 
   describe "compute aborted" do
     test "should not change status if the operation is completed" do
-      operation = build(:operation, status: Status.completed())
+      %{operation_id: operation_id} = insert(:operation, status: Status.completed())
 
       assert %Operation{status: Status.completed()} =
-               Operations.compute_aborted(operation, DateTime.utc_now())
+               Operations.get_operation!(operation_id)
     end
 
     test "should not change status if the operation is already aborted" do
-      operation = build(:operation, status: Status.aborted())
+      %{operation_id: operation_id} = insert(:operation, status: Status.aborted())
 
       assert %Operation{status: Status.aborted()} =
-               Operations.compute_aborted(operation, DateTime.utc_now())
+               Operations.get_operation!(operation_id)
     end
 
-    test "should not change status if the operation is running but the timeout is not expired" do
-      catalog_operation =
-        build(:catalog_operation,
-          steps: [
-            build(:operation_step, timeout: 15_000),
-            build(:operation_step, timeout: 5_000),
-            build(:operation_step, timeout: 10_000)
-          ]
+    test "should not change status if the operation is running but the timeout is not expired",
+         %{
+           utc_now: utc_now
+         } do
+      catalog_operation = build(:catalog_operation)
+
+      %{operation_id: operation_id} =
+        insert(:operation,
+          catalog_operation: catalog_operation,
+          status: Status.running(),
+          timeout_at: DateTime.add(utc_now, 1, :second)
         )
 
-      %{started_at: started_at} =
-        operation =
-        build(:operation, catalog_operation: catalog_operation, status: Status.running())
-
-      for added_time <- [0, 15, 30] do
-        assert %Operation{status: Status.running()} =
-                 Operations.compute_aborted(
-                   operation,
-                   DateTime.add(started_at, added_time)
-                 )
-      end
+      assert %Operation{status: Status.running()} =
+               Operations.get_operation!(operation_id)
     end
 
-    test "should change status to aborted if the operation is running and the timeout expired" do
+    test "should change status to aborted if the operation is running and the timeout expired", %{
+      utc_now: utc_now
+    } do
       catalog_operation =
         build(:catalog_operation,
           steps: [
@@ -151,15 +159,15 @@ defmodule Wanda.OperationsTest do
           ]
         )
 
-      %{started_at: started_at} =
-        operation =
-        build(:operation, catalog_operation: catalog_operation, status: Status.running())
+      %{operation_id: operation_id} =
+        insert(:operation,
+          catalog_operation: catalog_operation,
+          status: Status.running(),
+          timeout_at: DateTime.add(utc_now, -1, :second)
+        )
 
       assert %Operation{status: Status.aborted()} =
-               Operations.compute_aborted(
-                 operation,
-                 DateTime.add(started_at, 16)
-               )
+               Operations.get_operation!(operation_id)
     end
   end
 
@@ -177,6 +185,60 @@ defmodule Wanda.OperationsTest do
       insert_list(3, :operation, group_id: UUID.uuid4())
 
       assert Enum.reverse(operations) == Operations.list_operations(%{group_id: group_id})
+    end
+
+    test "should list operations grouped by completed status" do
+      insert_list(3, :operation, status: Status.running())
+      operations = insert_list(3, :operation, [status: Status.completed()], returning: true)
+      insert_list(3, :operation, status: Status.aborted())
+
+      assert Enum.reverse(operations) == Operations.list_operations(%{status: Status.completed()})
+    end
+
+    test "should list operations grouped by running status", %{utc_now: utc_now} do
+      insert_list(3, :operation, status: Status.completed())
+      running_operations = insert_list(2, :operation, [status: Status.running()], returning: true)
+
+      not_timedout_operations =
+        insert_list(
+          2,
+          :operation,
+          [status: Status.running(), timeout_at: DateTime.add(utc_now, 1, :second)],
+          returning: true
+        )
+
+      insert_list(3, :operation, status: Status.aborted())
+
+      expected_operartions =
+        running_operations
+        |> Enum.concat(not_timedout_operations)
+        |> Enum.reverse()
+
+      assert expected_operartions == Operations.list_operations(%{status: Status.running()})
+    end
+
+    test "should list operations grouped by aborted status", %{utc_now: utc_now} do
+      insert_list(3, :operation, status: Status.completed())
+
+      timedout_operations =
+        insert_list(
+          2,
+          :operation,
+          [status: Status.running(), timeout_at: DateTime.add(utc_now, -1, :second)],
+          returning: true
+        )
+
+      aborted_operations = insert_list(2, :operation, [status: Status.aborted()], returning: true)
+
+      insert_list(3, :operation, status: Status.running())
+
+      expected_operartions =
+        timedout_operations
+        |> Enum.map(fn operation -> %{operation | status: Status.aborted()} end)
+        |> Enum.concat(aborted_operations)
+        |> Enum.reverse()
+
+      assert expected_operartions == Operations.list_operations(%{status: Status.aborted()})
     end
 
     test "should list operations paginated and with items per page" do
