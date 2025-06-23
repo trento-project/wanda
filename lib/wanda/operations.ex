@@ -14,7 +14,8 @@ defmodule Wanda.Operations do
     StepReport
   }
 
-  alias Wanda.Operations.Catalog.{Registry, Step}
+  alias Wanda.Operations.Catalog.Registry
+  alias Wanda.Operations.Catalog.Operation, as: CatalogOperation
 
   require Wanda.Operations.Enums.Result, as: Result
   require Wanda.Operations.Enums.Status, as: Status
@@ -27,6 +28,13 @@ defmodule Wanda.Operations do
   @spec create_operation!(String.t(), String.t(), String.t(), [OperationTarget.t()]) ::
           Operation.t()
   def create_operation!(operation_id, group_id, catalog_operation_id, targets) do
+    total_timeout =
+      catalog_operation_id
+      |> Registry.get_operation!()
+      |> CatalogOperation.total_timeout()
+
+    timeout_at = DateTime.add(DateTime.utc_now(), total_timeout, :millisecond)
+
     %Operation{}
     |> Operation.changeset(%{
       operation_id: operation_id,
@@ -34,7 +42,8 @@ defmodule Wanda.Operations do
       catalog_operation_id: catalog_operation_id,
       status: Status.running(),
       result: Result.not_executed(),
-      targets: Enum.map(targets, &Map.from_struct/1)
+      targets: Enum.map(targets, &Map.from_struct/1),
+      timeout_at: timeout_at
     })
     |> Repo.insert!(on_conflict: :nothing)
   end
@@ -44,7 +53,11 @@ defmodule Wanda.Operations do
   """
   @spec get_operation!(String.t()) :: Operation.t()
   def get_operation!(operation_id) do
-    Repo.get!(Operation, operation_id)
+    utc_now = DateTime.utc_now()
+
+    from(e in Operation)
+    |> compute_aborted(utc_now)
+    |> Repo.get!(operation_id)
   end
 
   @doc """
@@ -58,36 +71,6 @@ defmodule Wanda.Operations do
   end
 
   @doc """
-  Compute if the operation was aborted using the started_at time and current utc time.
-  This function complements the operation gen servers that were abruptly finished without
-  setting the new status
-  """
-  @spec compute_aborted(Operation.t(), Calendar.datetime()) :: Operation.t()
-  def compute_aborted(
-        %Operation{
-          status: Status.running(),
-          started_at: started_at,
-          catalog_operation: %{steps: steps}
-        } = operation,
-        utc_now
-      ) do
-    total_timeout =
-      Enum.reduce(steps, 0, fn %Step{timeout: timeout}, acc ->
-        acc + timeout
-      end)
-
-    timed_out? = DateTime.before?(DateTime.add(started_at, total_timeout, :millisecond), utc_now)
-
-    if timed_out? do
-      %Operation{operation | status: Status.aborted()}
-    else
-      operation
-    end
-  end
-
-  def compute_aborted(operation, _), do: operation
-
-  @doc """
   Get a paginated list of operations.
 
   Can be filtered by group_id.
@@ -97,11 +80,16 @@ defmodule Wanda.Operations do
     page = Map.get(params, :page, 1)
     items_per_page = Map.get(params, :items_per_page, 10)
     group_id = Map.get(params, :group_id)
+    status = Map.get(params, :status)
 
     offset = (page - 1) * items_per_page
 
+    utc_now = DateTime.utc_now()
+
     from(e in Operation)
+    |> compute_aborted(utc_now)
     |> maybe_filter_by_group_id(group_id)
+    |> maybe_filter_by_status(status, utc_now)
     |> limit([_], ^items_per_page)
     |> offset([_], ^offset)
     |> order_by(desc: :started_at)
@@ -150,9 +138,41 @@ defmodule Wanda.Operations do
     |> Repo.update!()
   end
 
+  @spec compute_aborted(Ecto.Query.t(), DateTime.t()) :: Ecto.Query.t()
+  defp compute_aborted(query, utc_now) do
+    select(query, [e], %{
+      e
+      | status:
+          fragment(
+            "CASE WHEN status = 'running' and ? > timeout_at THEN 'aborted' ELSE ? END",
+            ^utc_now,
+            e.status
+          )
+    })
+  end
+
   @spec maybe_filter_by_group_id(Ecto.Query.t(), String.t()) :: Ecto.Query.t()
   defp maybe_filter_by_group_id(query, nil), do: query
 
   defp maybe_filter_by_group_id(query, group_id),
     do: from(e in query, where: [group_id: ^group_id])
+
+  @spec maybe_filter_by_status(Ecto.Query.t(), String.t(), DateTime.t()) :: Ecto.Query.t()
+  defp maybe_filter_by_status(query, nil, _), do: query
+
+  defp maybe_filter_by_status(query, status, utc_now)
+       when status in [Status.running(), Status.aborted()] do
+    timeout_query =
+      case status do
+        Status.running() -> dynamic([e], e.timeout_at > ^utc_now)
+        Status.aborted() -> dynamic([e], e.timeout_at < ^utc_now)
+      end
+
+    query
+    |> where([e], e.status in [^Status.running(), ^Status.aborted()])
+    |> where(^timeout_query)
+  end
+
+  defp maybe_filter_by_status(query, status, _),
+    do: from(e in query, where: [status: ^status])
 end
