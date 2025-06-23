@@ -14,7 +14,7 @@ defmodule Wanda.Operations.Operation do
 
   @type t :: %__MODULE__{}
 
-  @fields ~w(operation_id group_id result status agent_reports catalog_operation_id started_at updated_at completed_at)a
+  @fields ~w(operation_id group_id result status agent_reports catalog_operation_id started_at updated_at completed_at timeout_at)a
   @target_fields ~w(agent_id arguments)a
 
   @required_fields ~w(operation_id group_id result status)a
@@ -41,6 +41,7 @@ defmodule Wanda.Operations.Operation do
     field :catalog_operation, :map, virtual: true
 
     field :completed_at, :utc_datetime_usec
+    field :timeout_at, :utc_datetime_usec
     timestamps(type: :utc_datetime_usec, inserted_at: :started_at)
   end
 
