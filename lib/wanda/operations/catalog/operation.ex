@@ -32,4 +32,11 @@ defmodule Wanda.Operations.Catalog.Operation do
       end
     end
   end
+
+  @spec total_timeout(__MODULE__.t()) :: non_neg_integer()
+  def total_timeout(%__MODULE__{steps: steps}) do
+    Enum.reduce(steps, 0, fn %Step{timeout: timeout}, acc ->
+      acc + timeout
+    end)
+  end
 end

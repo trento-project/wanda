@@ -88,7 +88,8 @@ config :rustler_precompiled, :force_build, rhai_rustler: true
 config :wanda,
   cors_enabled: true,
   jwt_authentication_enabled: true,
-  operations_enabled: true
+  operations_enabled: true,
+  date_service: Wanda.Support.DateService
 
 config :bodyguard,
   default_error: :forbidden
