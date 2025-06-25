@@ -8,7 +8,7 @@
     <meta name="project" content="Wanda v1.5.0">
 
 
-    <title>Wanda.EvaluationEngine — Wanda v1.5.0</title>
+    <title>Wanda.Support.DateService — Wanda v1.5.0</title>
 
     <link rel="stylesheet" href="dist/html-elixir-J3PIVQVA.css" />
 
@@ -51,7 +51,7 @@ Wanda
 
 <output role="status" id="toast"></output>
 
-<main class="content page-module" id="main" data-type="modules">
+<main class="content page-behaviour" id="main" data-type="modules">
   <div id="content" class="content-inner">
     <div class="top-search">
       <div class="search-settings">
@@ -79,12 +79,12 @@ Wanda
 <div id="top-content">
   <div class="heading-with-actions top-heading">
     <h1>
-      <span translate="no">Wanda.EvaluationEngine</span> 
+      <span translate="no">Wanda.Support.DateService</span> <small>behaviour</small>
       <small class="app-vsn" translate="no">(Wanda v1.5.0)</small>
 
     </h1>
 
-      <a href="https://github.com/trento-project/wanda/blob/main/lib/wanda/evaluation_engine.ex#L1" title="View Source" class="icon-action" rel="help">
+      <a href="https://github.com/trento-project/wanda/blob/main/lib/wanda/support/date.ex#L1" title="View Source" class="icon-action" rel="help">
         <i class="ri-code-s-slash-line" aria-hidden="true"></i>
         <span class="sr-only">View Source</span>
       </a>
@@ -93,9 +93,7 @@ Wanda
 
 
     <section id="moduledoc">
-<p>This module wraps the Rhai engine and provides a simple interface for
-evaluating expressions.
-It also sets some default options for the engine.</p>
+<p>DateTime service</p>
     </section>
 
 </div>
@@ -107,14 +105,14 @@ It also sets some default options for the engine.</p>
       </a>
       <span class="text">Summary</span>
     </h1>
-<div class="summary-functions summary">
+<div class="summary-callbacks summary">
   <h2>
-    <a href="#functions">Functions</a>
+    <a href="#callbacks">Callbacks</a>
   </h2>
 
     <div class="summary-row">
       <div class="summary-signature">
-        <a href="#eval/3" data-no-tooltip="" translate="no">eval(engine, expression, scope)</a>
+        <a href="#c:utc_now/0" data-no-tooltip="" translate="no">utc_now()</a>
 
       </div>
 
@@ -122,7 +120,21 @@ It also sets some default options for the engine.</p>
 
     <div class="summary-row">
       <div class="summary-signature">
-        <a href="#new/0" data-no-tooltip="" translate="no">new()</a>
+        <a href="#c:utc_now/1" data-no-tooltip="" translate="no">utc_now(calendar)</a>
+
+      </div>
+
+    </div>
+
+</div>
+<div class="summary-functions summary">
+  <h2>
+    <a href="#functions">Functions</a>
+  </h2>
+
+    <div class="summary-row">
+      <div class="summary-signature">
+        <a href="#utc_now/1" data-no-tooltip="" translate="no">utc_now(calendar \\ Calendar.ISO)</a>
 
       </div>
 
@@ -133,25 +145,25 @@ It also sets some default options for the engine.</p>
   </section>
 
 
-  <section id="functions" class="details-list">
+  <section id="callbacks" class="details-list">
     <h1 class="section-heading">
-      <a class="hover-link" href="#functions">
+      <a class="hover-link" href="#callbacks">
         <i class="ri-link-m" aria-hidden="true"></i>
       </a>
-      <span class="text">Functions</span>
+      <span class="text">Callbacks</span>
     </h1>
-    <div class="functions-list">
-<section class="detail" id="eval/3">
+    <div class="callbacks-list">
+<section class="detail" id="c:utc_now/0">
 
   <div class="detail-header">
-    <a href="#eval/3" class="detail-link" data-no-tooltip="" aria-label="Link to this function">
+    <a href="#c:utc_now/0" class="detail-link" data-no-tooltip="" aria-label="Link to this callback">
       <i class="ri-link-m" aria-hidden="true"></i>
     </a>
     <div class="heading-with-actions">
-      <h1 class="signature" translate="no">eval(engine, expression, scope)</h1>
+      <h1 class="signature" translate="no">utc_now()</h1>
 
 
-        <a href="https://github.com/trento-project/wanda/blob/main/lib/wanda/evaluation_engine.ex#L17" class="icon-action" rel="help" aria-label="View Source">
+        <a href="https://github.com/trento-project/wanda/blob/main/lib/wanda/support/date.ex#L6" class="icon-action" rel="help" aria-label="View Source">
           <i class="ri-code-s-slash-line" aria-hidden="true"></i>
         </a>
 
@@ -160,20 +172,66 @@ It also sets some default options for the engine.</p>
 
   <section class="docstring">
 
+      <div class="specs">
+
+          <pre translate="no"><span class="attribute">@callback</span> utc_now() :: <a href="https://hexdocs.pm/elixir/DateTime.html#t:t/0">DateTime.t</a>()</pre>
+
+      </div>
+
 
   </section>
 </section>
-<section class="detail" id="new/0">
+<section class="detail" id="c:utc_now/1">
 
   <div class="detail-header">
-    <a href="#new/0" class="detail-link" data-no-tooltip="" aria-label="Link to this function">
+    <a href="#c:utc_now/1" class="detail-link" data-no-tooltip="" aria-label="Link to this callback">
       <i class="ri-link-m" aria-hidden="true"></i>
     </a>
     <div class="heading-with-actions">
-      <h1 class="signature" translate="no">new()</h1>
+      <h1 class="signature" translate="no">utc_now(calendar)</h1>
 
 
-        <a href="https://github.com/trento-project/wanda/blob/main/lib/wanda/evaluation_engine.ex#L10" class="icon-action" rel="help" aria-label="View Source">
+        <a href="https://github.com/trento-project/wanda/blob/main/lib/wanda/support/date.ex#L7" class="icon-action" rel="help" aria-label="View Source">
+          <i class="ri-code-s-slash-line" aria-hidden="true"></i>
+        </a>
+
+    </div>
+  </div>
+
+  <section class="docstring">
+
+      <div class="specs">
+
+          <pre translate="no"><span class="attribute">@callback</span> utc_now(<a href="https://hexdocs.pm/elixir/Calendar.html#t:calendar/0">Calendar.calendar</a>()) :: <a href="https://hexdocs.pm/elixir/DateTime.html#t:t/0">DateTime.t</a>()</pre>
+
+      </div>
+
+
+  </section>
+</section>
+
+    </div>
+  </section>
+
+  <section id="functions" class="details-list">
+    <h1 class="section-heading">
+      <a class="hover-link" href="#functions">
+        <i class="ri-link-m" aria-hidden="true"></i>
+      </a>
+      <span class="text">Functions</span>
+    </h1>
+    <div class="functions-list">
+<section class="detail" id="utc_now/1">
+
+  <div class="detail-header">
+    <a href="#utc_now/1" class="detail-link" data-no-tooltip="" aria-label="Link to this function">
+      <i class="ri-link-m" aria-hidden="true"></i>
+    </a>
+    <div class="heading-with-actions">
+      <h1 class="signature" translate="no">utc_now(calendar \\ Calendar.ISO)</h1>
+
+
+        <a href="https://github.com/trento-project/wanda/blob/main/lib/wanda/support/date.ex#L9" class="icon-action" rel="help" aria-label="View Source">
           <i class="ri-code-s-slash-line" aria-hidden="true"></i>
         </a>
 
