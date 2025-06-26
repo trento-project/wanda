@@ -1,0 +1,91 @@
+== Rhai expressions cheatsheet
+
+In this cheatsheet are grouped the most frequent manipulations that can
+be done through Rhai, for convenience.
+
+=== Cheatsheet
+
+\{: .col-2}
+
+==== Arrays
+
+===== Filtering an array
+
+[source,ts]
+----
+[1, 2, 3].filter(|value| value % 2 == 0)
+=> [2]
+----
+
+===== Finding the index of an element inside an array
+
+[source,ts]
+----
+["wow", "check"].index_of(|value| value == "check")
+=> 1
+----
+
+===== Finding an element inside an array
+
+[source,ts]
+----
+let nodelist = [
+  #{resource_id: 5, name: "foo"},
+  #{resource_id: 12, name: "bar"}
+];
+
+nodelist.find(|value| value.resource_id == 5)
+=> #{"name": "foo", "resource_id": 5}
+----
+
+===== Checking if an expression is true for every element of an array
+
+[source,ts]
+----
+[2, 4, 6].all(|value| value % 2 == 0)
+=> true
+----
+
+==== Maps
+
+===== Get only keys (returns an array)
+
+[source,ts]
+----
+#{a: 1, b: 2}.keys()
+=> ["a", "b"]
+----
+
+===== Get only values (returns an array)
+
+[source,ts]
+----
+#{a: 1, b: 2}.values()
+=> [1, 2]
+----
+
+===== Check if a map has more than 5 keys which name starts with "`ring`"
+
+[source,ts]
+----
+let map = #{
+  ring_one: 12,
+  ring_two: 34,
+  ring_three: 90,
+  ring_four: 234,
+  ring_five: 908
+};
+
+map.keys().filter(|prop| prop.starts_with("ring")).len() >= 5
+=> true
+----
+
+==== Strings
+
+===== Splitting a string
+
+[source,ts]
+----
+"a;b;c".split(";")
+=> ["a", "b", "c"]
+----
