@@ -1,9 +1,13 @@
+:github-url: https://github.com/trento-project/wanda
+:ci-workflow: {github-url}/actions/workflows/ci.yaml
+:coverage-url: https://coveralls.io/github/trento-project/wanda?branch=main
+:docs-url: https://trento-project.io/wanda/
+
 == Wanda
 
-https://github.com/trento-project/wanda/actions/workflows/ci.yaml[image:https://github.com/trento-project/wanda/actions/workflows/ci.yaml/badge.svg[CI]]
-https://coveralls.io/github/trento-project/wanda?branch=main[image:https://coveralls.io/repos/github/trento-project/wanda/badge.svg?branch=main[Coverage
-Status]]
-https://trento-project.io/wanda/[image:https://img.shields.io/badge/documentation-grey.svg[Documentation]]
+image:{ci-workflow}/badge.svg[CI,link={ci-workflow}]
+image:https://coveralls.io/repos/github/trento-project/wanda/badge.svg?branch=main[Coverage Status,link={coverage-url}]
+image:https://img.shields.io/badge/documentation-grey.svg[Documentation,link={docs-url}]
 
 A service responsible to orchestrate Checks executions on a target
 infrastructure.
@@ -108,7 +112,7 @@ curl --request POST 'http://localhost:4000/api/v1/checks/executions/start' \
 }'
 ----
 
-[]
+
 ====
 *execution_id* must be new and unique for every new execution. If an
 already used *execution_id* is provided, starting the execution fails.
@@ -117,7 +121,7 @@ already used *execution_id* is provided, starting the execution fails.
 In order to get detailed information for an execution, see
 link:#getting-execution-details[Getting Execution details].
 
-[]
+
 ====
 Note that execution is _eventually started_, meaning that a successful
 response to the previous API call does not guarantee that the execution
@@ -268,7 +272,7 @@ in the written check:
 === Running a Development Environment
 
 To set up a local development environment for Wanda, follow the
-instructions provided in link:./guides/development/hack_on_wanda.md[how
+instructions provided in link:https://github.com/trento-project/wanda/blob/main/guides/development/hack_on_wanda.adoc[how
 to hack on wanda].
 
 This guide walks through the process of installing and configuring the
@@ -280,7 +284,7 @@ environment.
 The demo mode of Wanda allows to showcase checks evaluation without the
 full setup with actual agents on the host. To run a demo instance,
 follow the instructions provided in
-link:./guides/development/demo.md[how to run wanda demo guide].
+link:https://github.com/trento-project/wanda/blob/main/guides/development/demo.adoc[how to run wanda demo guide].
 
 == Support
 
@@ -291,7 +295,7 @@ https://github.com/trento-project/wanda/discussions[GitHub discussion].
 
 == Contributing
 
-See CONTRIBUTING.md
+See xref:CONTRIBUTING.adoc[CONTRIBUTING] guide.
 
 == License
 
