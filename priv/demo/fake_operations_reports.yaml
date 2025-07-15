@@ -1,0 +1,19 @@
+targets:
+  target1: c1f161e0-56b8-57cb-a28c-e5e581057b24
+
+
+reports:
+  "saptuneapplysolution@v1":
+    0:
+      target1: 
+        before: 
+          solution: ""
+        after: 
+          solution: "HANA"
+  "saptunechangesolution@v1":
+    0:
+      target1: 
+        before: 
+          solution: "HANA"
+        after: 
+          solution: "S4HANA-DBSERVER"
