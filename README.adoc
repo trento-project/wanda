@@ -112,7 +112,7 @@ curl --request POST 'http://localhost:4000/api/v1/checks/executions/start' \
 }'
 ----
 
-
+[NOTE]
 ====
 *execution_id* must be new and unique for every new execution. If an
 already used *execution_id* is provided, starting the execution fails.
@@ -121,7 +121,7 @@ already used *execution_id* is provided, starting the execution fails.
 In order to get detailed information for an execution, see
 link:#getting-execution-details[Getting Execution details].
 
-
+[NOTE]
 ====
 Note that execution is _eventually started_, meaning that a successful
 response to the previous API call does not guarantee that the execution
@@ -220,7 +220,7 @@ curl --request GET 'http://localhost:4000/api/v1/checks/executions/205e326d-0c25
 --header 'Content-Type: application/json'
 ----
 
-[]
+[Note]
 ====
 Note that calling the execution detail API right after
 link:#starting-a-checks-execution[starting an execution] might result in
