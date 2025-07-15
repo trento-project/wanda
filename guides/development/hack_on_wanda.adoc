@@ -23,7 +23,7 @@ https://asdf-vm.com/guide/getting-started.html[asdf getting started
 guide].
 
 Install all required asdf plugins from
-link:/.tool-versions[.tool-versions] inside the web repository.
+link:https://github.com/trento-project/wanda/blob/main/.tool-versions[.tool-versions] inside the web repository.
 
 ....
 cut -d' ' -f1 .tool-versions|xargs -i asdf plugin add  {}

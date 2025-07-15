@@ -6,7 +6,7 @@ Gatherers can be thought of as functions:
 
 * they have a name
 * they accept argument(s)
-* they return a value, the gathered link:./specification.md#facts[Fact]
+* they return a value, the gathered link:specification.adoc#facts[Fact]
 
 Facts Gathering process in a nutshell
 
