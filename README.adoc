@@ -220,15 +220,11 @@ curl --request GET 'http://localhost:4000/api/v1/checks/executions/205e326d-0c25
 --header 'Content-Type: application/json'
 ----
 
-[Note]
-====
-Note that calling the execution detail API right after
-link:#starting-a-checks-execution[starting an execution] might result in
-a `+404 not found+`, because the execution, as mentioned, is _eventually
-started_.
 
-In this case retry getting the detail of the execution.
-====
+NOTE: Calling the execution detail API right after
+link:#starting-a-checks-execution[starting an execution] might result in
+a `404 not found`, because the execution, as mentioned, is _eventually
+started_. In this case, retry getting the detail of the execution.
 
 Refer to the http://localhost:4000/swaggerui[API doc] for more
 information about requests and responses.
