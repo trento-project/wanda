@@ -45,7 +45,7 @@ Gathering] to complete.
 ==== Facts Gathering
 
 After an _Execution Request_ the targets are notified about the facts
-they need to link:./gatherers.adoc[gather].
+they need to xref:gatherers.adoc[gather].
 
 Whenever a target has gathered all the needed facts for an _Execution_,
 it notifies Wanda - via the message broker - about the _Gathered Facts_.
@@ -389,7 +389,7 @@ installed packages, cluster state, and configuration files content.
 
 The process of determining the value of a declared fact during Check
 execution is referred to as _Facts Gathering_ and it is the
-responsibility of the link:./gatherers.adoc[_Gatherers_]. Gatherers could
+responsibility of the xref:gatherers.adoc[_Gatherers_]. Gatherers could
 be seen as functions that have a name and accept argument(s).
 
 That said, a fact declaration contains:
@@ -595,7 +595,7 @@ expectations:
     expect: facts.corosync_token_timeout == values.expected_token_timeout
 ----
 
-Note that `+conditions+` is a cascading chain of contextual inspection
+NOTE: that `+conditions+` is a cascading chain of contextual inspection
 to determine which is the resolved value.
 
 * there may be many conditions
@@ -934,7 +934,7 @@ expectations:
     expect: facts.corosync_token_timeout == values.expected_token_timeout
 ----
 
-See link:./expression_language.adoc[reference for the Expression
+See xref:expression_language.adoc[reference for the Expression
 Language].
 
 ==== Evaluation Scope
@@ -1169,8 +1169,6 @@ expectations:
       .find(|prop| prop.name == "good").value
 ----
 +
-[]
-====
-Note: Keep in mind that some functions such as `+sort+` and `+drain+`
-run in-place modifications, so they cannot be piped.
-====
+
+NOTE: Keep in mind that some functions such as `+sort+` and `+drain+` run in-place modifications, so they cannot be piped.
+
