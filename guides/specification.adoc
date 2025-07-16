@@ -1,9 +1,9 @@
-== Checks Specification
+= Checks Specification
 
 A language allowing to declare best practices to be adhered on target
 SAP Infrastructures.
 
-=== Introduction
+== Introduction
 
 The need this Specification aims to fulfill is to provide users a simple
 way to declare what we (the Trento Team) often refer to as "`Checks`".
@@ -13,7 +13,7 @@ practices when it comes to SAP workloads in a form that both a user
 (link:#anatomy-of-a-check[Spec]) and a machine
 (link:#checks-execution[Execution]) can read.
 
-=== Checks Execution
+== Checks Execution
 
 _Checks Execution_ is the process that determines whether the best
 practices defined in the link:#anatomy-of-a-check[Checks Specifications]
@@ -25,7 +25,7 @@ link:#facts-gathering[Facts Gathering] ->
 link:#expectation-evaluation[Expectation Evaluation]
 ====
 
-==== Requesting an Execution
+=== Requesting an Execution
 
 An Execution can be requested to start by providing Wanda the following
 information:
@@ -42,7 +42,7 @@ Facts to be gathered.
 Then the _Execution_ waits for the link:#facts-gathering[Facts
 Gathering] to complete.
 
-==== Facts Gathering
+=== Facts Gathering
 
 After an _Execution Request_ the targets are notified about the facts
 they need to link:https://github.com/trento-project/wanda/blob/main/guides/gatherers.adoc[gather].
@@ -50,7 +50,7 @@ they need to link:https://github.com/trento-project/wanda/blob/main/guides/gathe
 Whenever a target has gathered all the needed facts for an _Execution_,
 it notifies Wanda - via the message broker - about the _Gathered Facts_.
 
-==== Expectation Evaluation
+=== Expectation Evaluation
 
 _Expectation Evaluation_ is the process of
 link:#expression-language[evaluating] the
@@ -67,7 +67,7 @@ the Database.
 At this point the Execution is considered *Completed* and interested
 parties are notified about the Execution Completion.
 
-==== Checks Results
+=== Checks Results
 
 Once an execution is completed, a checks result should give feedback on
 what aspects of a target infrastructure adhere to the best practices and
@@ -81,7 +81,7 @@ Possible results:
 
 See also link:#severity[Check Severity].
 
-=== Anatomy of a Check
+== Anatomy of a Check
 
 A Check declaration comes in the form of a `+yaml+` file and all the
 Checks together build up the *Checks Catalog*
@@ -130,12 +130,12 @@ expectations:
     expect: facts.corosync_token_timeout == values.expected_token_timeout
 ----
 
-==== Filename Convention
+=== Filename Convention
 
 *Note* that a Check’s filename *MUST* be in the form `+<check_id>.yaml+`
 (ie: `+156F64.yaml+`)
 
-==== Structure
+=== Structure
 
 Following are listed the top level properties of a Check definition
 yaml.
@@ -169,7 +169,7 @@ yaml.
 
 '''''
 
-===== id
+==== id
 
 Uniquely identifies a Check in the Catalog. The value must be a
 hexadecimal number formatted as string using quotes.
@@ -183,7 +183,7 @@ id: "845CC9"
 id: "B089BE"
 ----
 
-===== name
+==== name
 
 A, preferably one-line, string representing the name for the Check being
 declared.
@@ -197,7 +197,7 @@ name: Corosync `consensus` timeout
 name: SBD Startmode
 ----
 
-===== group
+==== group
 
 A, preferably one-line, string representing the group where the Check
 being declared belongs.
@@ -211,7 +211,7 @@ group: Pacemaker
 group: SBD
 ----
 
-===== description
+==== description
 
 A text providing a description for the Check being declared.
 
@@ -240,7 +240,7 @@ description: |
   A `description` is a **markdown**
 ----
 
-===== remediation
+==== remediation
 
 A text providing an comprehensive description about the remediation to
 apply for the Check being declared.
@@ -265,7 +265,7 @@ remediation: |
   ...
 ----
 
-===== severity
+==== severity
 
 A string determining the severity of the Check being declared, in case
 the check is not passing, so that the appropriate result is reported.
@@ -291,7 +291,7 @@ Reports a `+critical+` When the Check expectations do not pass
 severity: critical
 ----
 
-===== metadata
+==== metadata
 
 A key-value map that enriches the Check being declared by providing
 extra information about when to consider it as applicable given a
@@ -320,7 +320,7 @@ Metadata is used when: - querying checks from the catalog - loading
 relevant checks for an execution (when requesting an execution to start
 either via the rest API or via a message through the message broker)
 
-===== How does the matching work?
+==== How does the matching work?
 
 For each of the metadata key-value the system checks whether a matching
 key is present in the current context (catalog or execution env) and if
@@ -376,12 +376,12 @@ metadata:
   qux: [foo, bar, baz]
 ----
 
-===== Facts, Values, Expectations
+==== Facts, Values, Expectations
 
 See main sections link:#facts[Facts], link:#values[Values],
 link:#expectations[Expectations]
 
-=== Facts
+== Facts
 
 Facts are the core data on which the engine evaluates the state of the
 target infrastructure. Examples include (but are not limited to)
@@ -435,7 +435,7 @@ Finally, gathered facts, are used in Check’s
 link:#expectations[Expectations] to determine whether expected
 conditions are met for the best practice to be adhered.
 
-=== Disable Customization
+== Disable Customization
 
 Users can modify a check’s link:#values[expected values] to accommodate
 specific system and environmental configurations.
@@ -455,14 +455,14 @@ customization_disabled: true
 Opting out from customizability at the root of a check’s specification
 makes all the values of the given check not customizable.
 
-==== Notes:
+=== Notes:
 
 * Setting `+customization_disabled: false+` has no real effect as by
 default a check is customizable
 * The `+customization_disabled+` flag can be also applied to
 link:#customizable-values[specific values]
 
-=== Values
+== Values
 
 Values are named variables that may evaluate differently based on the
 execution context and are used with Facts for _Contextual_
@@ -482,7 +482,7 @@ No matter what the context is, the fact `+awesome_fact+` MUST always be
 `+wanda+`
 ====
 
-==== Hardcoded Values
+=== Hardcoded Values
 
 Direct usage of a simple hardcoded value
 
@@ -493,7 +493,7 @@ expectations:
     expect: facts.awesome_fact == "wanda"
 ----
 
-==== Constant Values
+=== Constant Values
 
 Define a Value with only the `+default+` specified (*omitting*
 `+conditions+`) for *constants* regardless of the context.
@@ -509,7 +509,7 @@ expectations:
     expect: facts.awesome_fact == values.awesome_constant_value
 ----
 
-==== Contextual Values
+=== Contextual Values
 
 This is needed because the same check might expect facts to be treated
 differently based on the context.
@@ -608,7 +608,7 @@ link:#env[env] evaluation scopes
 All the _resolved_ declared values would be registered in the
 link:#values-1[`+values+`] namespaced evaluation scope.
 
-==== Customizable Values
+=== Customizable Values
 
 A check’s link:#values[expected values] are customizable by default, and
 to provide finer control to the global-level
@@ -626,7 +626,7 @@ values:
 Setting *customization_disabled*: `+false+` for a specific value
 prevents the modification of the default value.
 
-=== Expectations
+== Expectations
 
 Expectations are assertions on the state of a target infrastructure for
 a given scenario. By using fact and values they are able to determine if
@@ -683,7 +683,7 @@ AND
 facts.awesome_fact == values.awesome_expected_value
 ....
 
-==== expect
+=== expect
 
 This type of expectation is satisfied when, after facts gathering, the
 expression is `+true+` for all the targets involved in the current
@@ -722,7 +722,7 @@ and `+B+` in this case)
 ** `+targetB.corosync_token_timeout == values.expected_token_timeout+`
 * every evaluation has to be `+true+`
 
-==== expect_same
+=== expect_same
 
 This type of expectation is satisfied when, after facts gathering, the
 expression’s return value is the same for all the targets involved in
@@ -774,7 +774,7 @@ expectations:
 ----
 ====
 
-==== expect_enum
+=== expect_enum
 
 This type of expectation is satisfied when, after facts gathering, the
 expression returns `+passing+`, `+warning+` or `+critical+`. If no value
@@ -839,7 +839,7 @@ expectation example.
 * the evaluation result of all the targets is aggregated to compose the
 final expectation result.
 
-==== failure_message
+=== failure_message
 
 An optional failure message can be declared for every expectation.
 
@@ -872,7 +872,7 @@ expectations:
 This plain string is available in `+ExpectationResult+` inside the API
 response.
 
-==== warning_message
+=== warning_message
 
 An optional warning message that works exactly as the previous
 link:#failure_message[failure message]. This field is only available for
@@ -897,7 +897,7 @@ The outcome of the interpolation is available in
 `+ExpectationEvaluation+` inside the API response, in the
 `+failure_message+` field.
 
-=== Expression Language
+== Expression Language
 
 Different parts of the Check declaration are places where an evaluation
 is needed.
@@ -937,14 +937,14 @@ expectations:
 See xref:expression_language.adoc[reference for the Expression
 Language].
 
-==== Evaluation Scope
+=== Evaluation Scope
 
 Every expression has access to an evaluation scope, allowing to access
 relevant piece of information to run the expression.
 
 Scopes are namespaced and access to items in the scope is name based.
 
-===== *env*
+==== *env*
 
 `+env+` is a map of information about the context of the running
 execution, it is set by the system on each execution/check compilation.
@@ -992,7 +992,7 @@ type] |`+cluster_type+` is `+ascs_ers+`
 Architecture] |`+target_type+` is `+host+`
 |===
 
-===== *facts*
+==== *facts*
 
 `+facts+` is the map of the gathered facts, thus the scope varies based
 on which facts have been declared in the link:#facts[relative section],
@@ -1020,7 +1020,7 @@ Available entries in scope, the value is what has been gathered on the targets:
 | `facts.another_interesting_fact`
 |===
 
-===== *values*
+==== *values*
 
 `+values+` is the map of resolved variable names defined in the
 link:#values[relative section]
@@ -1053,7 +1053,7 @@ Available entries in scope:
 | `+values.another_variable_value+` | `+blue+`, `+red+` based on the conditions
 |===
 
-=== Best practices and conventions
+== Best practices and conventions
 
 To have a standardized format for writing checks, follow the next best
 practices and conventions as much as possible:
