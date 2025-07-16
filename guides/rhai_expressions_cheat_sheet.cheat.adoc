@@ -1,15 +1,15 @@
-== Rhai expressions cheatsheet
+= Rhai expressions cheatsheet
 
 In this cheatsheet are grouped the most frequent manipulations that can
 be done through Rhai, for convenience.
 
-=== Cheatsheet
+== Cheatsheet
 
 \{: .col-2}
 
-==== Arrays
+=== Arrays
 
-===== Filtering an array
+==== Filtering an array
 
 [source,ts]
 ----
@@ -17,7 +17,7 @@ be done through Rhai, for convenience.
 => [2]
 ----
 
-===== Finding the index of an element inside an array
+==== Finding the index of an element inside an array
 
 [source,ts]
 ----
@@ -25,7 +25,7 @@ be done through Rhai, for convenience.
 => 1
 ----
 
-===== Finding an element inside an array
+==== Finding an element inside an array
 
 [source,ts]
 ----
@@ -38,7 +38,7 @@ nodelist.find(|value| value.resource_id == 5)
 => #{"name": "foo", "resource_id": 5}
 ----
 
-===== Checking if an expression is true for every element of an array
+==== Checking if an expression is true for every element of an array
 
 [source,ts]
 ----
@@ -46,9 +46,9 @@ nodelist.find(|value| value.resource_id == 5)
 => true
 ----
 
-==== Maps
+=== Maps
 
-===== Get only keys (returns an array)
+==== Get only keys (returns an array)
 
 [source,ts]
 ----
@@ -56,7 +56,7 @@ nodelist.find(|value| value.resource_id == 5)
 => ["a", "b"]
 ----
 
-===== Get only values (returns an array)
+==== Get only values (returns an array)
 
 [source,ts]
 ----
@@ -64,7 +64,7 @@ nodelist.find(|value| value.resource_id == 5)
 => [1, 2]
 ----
 
-===== Check if a map has more than 5 keys which name starts with "`ring`"
+==== Check if a map has more than 5 keys which name starts with "`ring`"
 
 [source,ts]
 ----
@@ -80,9 +80,9 @@ map.keys().filter(|prop| prop.starts_with("ring")).len() >= 5
 => true
 ----
 
-==== Strings
+=== Strings
 
-===== Splitting a string
+==== Splitting a string
 
 [source,ts]
 ----

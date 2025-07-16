@@ -1,6 +1,6 @@
-== Hack on Wanda
+= Hack on Wanda
 
-=== Requirements
+== Requirements
 
 In order to run Wanda, the following software must be installed:
 
@@ -11,7 +11,7 @@ In order to run Wanda, the following software must be installed:
 . https://docs.docker.com/get-docker/[Docker]
 . https://docs.docker.com/compose/install/[Docker Compose]
 
-==== Ensure Compatibility with asdf
+=== Ensure Compatibility with asdf
 
 https://asdf-vm.com/guide/introduction.html[asdf] allows using specific
 versions of programming language tools that are known to be compatible
@@ -35,7 +35,7 @@ Set up the asdf environment
 asdf install
 ....
 
-=== Development environment
+== Development environment
 
 A `+docker-compose+` environment is provided for easy local development.
 To start the environment, run the following command:
@@ -47,7 +47,7 @@ docker-compose up -d
 This command starts a *Postgres* database and a *RabbitMq* instance,
 which is used for storage and communication.
 
-=== Setup Wanda
+== Setup Wanda
 
 Before starting Wanda, some initial setup tasks are required. This can
 be achieved by running the following command:
@@ -59,7 +59,7 @@ mix setup
 This command performs necessary tasks such as installing dependencies,
 creating the database schema and running migrations.
 
-==== Hint about Project setup
+=== Hint about Project setup
 
 Gain a deeper understanding of how Wanda is configured, reading the
 https://github.com/trento-project/wanda/blob/main/mix.exs[mix.exs] file
@@ -68,7 +68,7 @@ information on dependencies, configuration settings, and tasks that can
 be run using the Mix build tool, providing a complete picture of the
 project’s setup.
 
-=== Start Wanda in the REPL
+== Start Wanda in the REPL
 
 To start Wanda, you need to run the following command:
 
@@ -76,7 +76,7 @@ To start Wanda, you need to run the following command:
 iex -S mix phx.server
 ....
 
-=== Access Wanda Swaggerui
+== Access Wanda Swaggerui
 
 Congratulations, Wanda is now running locally on your machine! You can
 access its API documentation by visiting the following URL:

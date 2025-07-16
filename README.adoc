@@ -3,7 +3,7 @@
 :coverage-url: https://coveralls.io/github/trento-project/wanda?branch=main
 :docs-url: https://trento-project.io/wanda/
 
-== Wanda
+= Trento Wanda
 
 image:{ci-workflow}/badge.svg[CI,link={ci-workflow}]
 image:https://coveralls.io/repos/github/trento-project/wanda/badge.svg?branch=main[Coverage Status,link={coverage-url}]
@@ -25,7 +25,7 @@ https://trento-project.io/wanda/swaggerui[trento-project.io/wanda/swaggerui].
 Please refer to https://github.com/trento-project/checks[Trento Checks]
 and link:#testing-executions[testing Checks Executions].
 
-=== Testing Executions
+== Testing Executions
 
 With a running setup, it is possible to easily test Checks and their
 Execution by:
@@ -36,7 +36,7 @@ Execution by:
 * checking the state of an execution
 * debugging the gathered facts
 
-==== *Starting the targets*
+=== *Starting the targets*
 
 The https://github.com/trento-project/agent[trento-agent] must be up and
 running on the targets to run a correct execution, otherwise a timeout
@@ -67,7 +67,7 @@ If the execution is run in a development/testing environment,
 https://github.com/trento-project/agent#fake-agent-id[faking the agent
 id] might come handy.
 
-==== *Consulting the catalog*
+=== *Consulting the catalog*
 
 Available Checks are part of the *Catalog*, and they can be retrieved by
 accessing the dedicated API
@@ -79,7 +79,7 @@ curl -X 'GET' \
   -H 'accept: application/json'
 ----
 
-==== *Starting a Checks Execution*
+=== *Starting a Checks Execution*
 
 A Checks Execution can be started by calling the Start Execution
 endpoint, as follows
@@ -128,7 +128,7 @@ response to the previous API call does not guarantee that the execution
 is running, but that it has been accepted by the system to start.
 ====
 
-==== Execution Targets
+=== Execution Targets
 
 An execution target is a target host where the checks are executed. This
 requires to have the `+trento-agent+` executable running in the host. In
@@ -208,7 +208,7 @@ curl --request POST 'http://localhost:4000/api/v1/checks/executions/start' \
 }'
 ----
 
-==== *Getting Execution details*
+=== *Getting Execution details*
 
 To get detailed information about the execution, the following API can
 be used.

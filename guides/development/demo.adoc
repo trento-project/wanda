@@ -1,6 +1,6 @@
-== Wanda Demo
+= Wanda Demo
 
-=== Introduction
+== Introduction
 
 Wanda’s demo mode provides a simulated environment where targets’
 gathered facts are faked via a configuration yaml file. This empowers
@@ -8,7 +8,7 @@ showcasing Trento’s capabilities, and eases the development of the
 platform. The user is able to run check executions from the web, and
 wanda’s fake server returns faked gathered facts.
 
-=== How to setup Wanda in demo mode?
+== How to setup Wanda in demo mode?
 
 First set up the link:https://github.com/trento-project/wanda/blob/main/guides/development/hack_on_wanda.adoc[local environment] and run the
 following command to start Wanda in demo mode, instead of the usual
@@ -26,7 +26,7 @@ $ DATABASE_URL=ecto://postgres:postgres@localhost:5434/wanda_dev \
   iex -S mix phx.server
 ----
 
-==== Explanation of environment variables:
+=== Explanation of environment variables:
 
 * DATABASE_URL: The URL to connect to the Postgres database running in
 the Docker container.
@@ -39,14 +39,14 @@ the Docker container.
 * MIX_ENV: The environment in which Wanda will run (set to "`demo`" for
 the demo environment).
 
-=== Modify demo facts configuration
+== Modify demo facts configuration
 
 In the Wanda demo environment, configure fake facts by editing the
 https://github.com/trento-project/wanda/blob/main/priv/demo/fake_facts.yaml[fake_facts
 configuration]. Define or modify custom facts for different targets and
 checks.
 
-==== YAML Structure
+=== YAML Structure
 
 The Configuration is saved in
 https://github.com/trento-project/wanda/blob/main/priv/demo/fake_facts.yaml[fake_facts.yaml]
@@ -67,7 +67,7 @@ facts:
       target2: 3
 ----
 
-==== Targets
+=== Targets
 
 The targets section allows defining handles for targets’ UUIDs,
 providing a reference that can be used through the configuration.
@@ -94,7 +94,7 @@ targets:
   <target_reference>: <new_target_id>
 ----
 
-==== Facts:
+=== Facts:
 
 The facts section allows specifying what fact value a target should
 return for a specific check.
@@ -132,15 +132,15 @@ facts:
       target3: <fact value>
 ----
 
-=== FAQ
+== FAQ
 
-==== What happens with unmapped targets, facts or checks?
+=== What happens with unmapped targets, facts or checks?
 
 Wanda will still evaluate and return a default fallback fact value
 "`some fact value`" for a check’s execution. This means when a new check
 is added to wanda, changing the the configuration is optional.
 
-==== How to know what’s the correct return value of a fact?
+=== How to know what’s the correct return value of a fact?
 
 Every Fact Gatherer has specific return values. To get an overview of
 all gatherers, refer to link:https://github.com/trento-project/wanda/blob/main/guides/specification.adoc[Wanda’s gatherers guide].

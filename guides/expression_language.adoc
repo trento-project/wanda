@@ -1,14 +1,14 @@
-== Expression Language
+= Expression Language
 
 A small, fast, easy-to-use scripting language and evaluation engine.
 
-=== Introduction
+== Introduction
 
 An embedded scripting language and evaluation engine for Trento Checks
 Expressions that gives a safe and easy way to script specific steps
 during Checks Execution.
 
-=== Types
+== Types
 
 [cols=",",options="header",]
 |===
@@ -22,7 +22,7 @@ during Checks Execution.
 |*Map* |`+#{ "a": 1, "b": true }+`
 |===
 
-=== Logic Operators and Boolean
+== Logic Operators and Boolean
 
 [width="100%",cols="^10%,35%,^32%,^23%",options="header",]
 |===
@@ -47,7 +47,7 @@ defined
 |`+false+` if not defined
 |===
 
-==== Comparing different types defaults to `+false+`
+=== Comparing different types defaults to `+false+`
 
 Comparing two values of _different_ data types defaults to `+false+`.
 
@@ -62,7 +62,7 @@ ts == 42;           // false: different types cannot be compared
 ts != 42;           // true: different types cannot be compared
 ----
 
-==== Boolean Operators
+=== Boolean Operators
 
 [cols="^,^,^,^",options="header",]
 |===
@@ -123,7 +123,7 @@ if (decision) print(42);
 ----
 ====
 
-==== If Expression
+=== If Expression
 
 `+if+` statements can also be used as _expressions_, replacing the
 `+? :+` conditional operators in other C-like languages.
@@ -137,7 +137,7 @@ let x = if decision { 42 }; // no else branch defaults to '()'
 x == ();
 ----
 
-=== Arrays
+== Arrays
 
 All elements stored in an array are dynamic, and the array can freely
 grow or shrink with elements added or removed.
@@ -160,7 +160,7 @@ let some_list = [1, 2, 3];
 let another_list = ["foo", "bar", 42];
 ----
 
-==== Access Element From beginning
+=== Access Element From beginning
 
 Like C, arrays are accessed with zero-based, non-negative integer
 indices:
@@ -179,7 +179,7 @@ let second_element = some_list[1];
 // second_element is "bar"
 ----
 
-==== Access Element From end
+=== Access Element From end
 
 A _negative_ position accesses an element in the array counting from the
 _end_, with −1 being the _last_ element.
@@ -262,7 +262,7 @@ let some_map = #{              // map literal with 2 properties
 };
 ----
 
-==== Dot notation
+=== Dot notation
 
 The _dot notation_ allows to access properties by name.
 
@@ -282,7 +282,7 @@ some_map.foo // 42
 some_map.bar // "hello"
 ----
 
-==== Non-existing property
+=== Non-existing property
 
 Trying to read a non-existing property returns an error.
 
@@ -296,7 +296,7 @@ let some_map = #{              // map literal with 2 properties
 some_map.another_property      // returns "Property not found: another_property (line X, position Y)"
 ----
 
-==== A more complex example
+=== A more complex example
 
 [source,ts]
 ----
@@ -327,7 +327,7 @@ let rabbits = some_map.rabbits
 let all_rabbits_are_strong = rabbits.all(|rabbit| rabbit.power > 9000) // false, unfortunately
 ----
 
-=== Rhai
+== Rhai
 
 For extra information about the underlying scripting language see
 https://rhai.rs/book/language/[Rhai].
