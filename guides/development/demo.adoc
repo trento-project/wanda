@@ -10,7 +10,7 @@ wanda’s fake server returns faked gathered facts.
 
 === How to setup Wanda in demo mode?
 
-First set up the xref:hack_on_wanda.adoc[local environment] and run the
+First set up the link:https://github.com/trento-project/wanda/blob/main/guides/development/hack_on_wanda.adoc[local environment] and run the
 following command to start Wanda in demo mode, instead of the usual
 `+iex -S mix phx.server+`
 

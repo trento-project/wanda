@@ -45,7 +45,7 @@ Gathering] to complete.
 ==== Facts Gathering
 
 After an _Execution Request_ the targets are notified about the facts
-they need to xref:gatherers.adoc[gather].
+they need to link:https://github.com/trento-project/wanda/blob/main/guides/gatherers.adoc[gather].
 
 Whenever a target has gathered all the needed facts for an _Execution_,
 it notifies Wanda - via the message broker - about the _Gathered Facts_.
