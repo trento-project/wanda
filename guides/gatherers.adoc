@@ -1,12 +1,12 @@
-== Gatherers
+= Gatherers
 
-=== Introduction
+== Introduction
 
 Gatherers can be thought of as functions:
 
 * they have a name
 * they accept argument(s)
-* they return a value, the gathered link:specification.adoc#facts[Fact]
+* they return a value, the gathered xref:specification.adoc#facts[Fact]
 
 Facts Gathering process in a nutshell
 
@@ -14,7 +14,7 @@ Facts Gathering process in a nutshell
 fact = gatherer(argument)
 ....
 
-=== Gatherers versioning
+== Gatherers versioning
 
 The gatherers implementation supports a versioning mechanism in order to
 enable non-backwards compatibility changes in any of them. When an
@@ -39,7 +39,7 @@ existing tag. To use a check that relies on a newer field introduced
 after an update, upgrade the agent to the latest version to ensure that
 the required gatherers are also up-to-date.
 
-=== Available Gatherers
+== Available Gatherers
 
 Here’s a collection of built-in gatherers, with information about how to
 use them.
@@ -135,9 +135,7 @@ use them.
 |https://github.com/trento-project/agent/blob/main/internal/factsengine/gatherers/verifypassword.go[trento-project/agent/../gatherers/verifypassword.go]
 |===
 
-[#ascsers_clusterv1]##
-
-==== ascsers_cluster@v1
+=== ascsers_cluster@v1
 
 *Argument required*: no.
 
@@ -191,9 +189,7 @@ Example output (in Rhai):
 };
 ----
 
-[#cibadminv1]##
-
-==== cibadmin@v1
+=== cibadmin@v1
 
 *Argument required*: no.
 
@@ -266,9 +262,7 @@ Example output (in Rhai):
 };
 ----
 
-[#corosync-cmapctlv1]##
-
-==== corosync-cmapctl@v1
+=== corosync-cmapctl@v1
 
 *Argument required*: yes.
 
@@ -358,9 +352,7 @@ Example output (in Rhai):
 #{ nodeid: 2, ring0_addr: "10.80.1.12" };
 ----
 
-[#corosyncconfv1]##
-
-==== corosync.conf@v1
+=== corosync.conf@v1
 
 *Argument required*: no.
 
@@ -427,9 +419,7 @@ Example output (in Rhai):
 For extra information refer to
 https://github.com/trento-project/agent/blob/main/internal/factsengine/gatherers/corosyncconf_test.go[trento-project/agent/../gatherers/corosyncconf_test.go]
 
-[#dir_scanv1]##
-
-==== dir_scan@v1
+=== dir_scan@v1
 
 *Argument required*: Yes
 
@@ -470,9 +460,7 @@ Example output (in Rhai):
   ]
 ----
 
-[#dispworkv1]##
-
-==== disp+work@v1
+=== disp+work@v1
 
 *Argument required*: No
 
@@ -520,9 +508,7 @@ Example output (in Rhai):
 }
 ----
 
-[#fstabv1]##
-
-==== fstab@v1
+=== fstab@v1
 
 *Argument required*: no.
 
@@ -563,9 +549,7 @@ Example output (in Rhai):
 ];
 ----
 
-[#fs_usagev1]##
-
-==== fs_usage@v1
+=== fs_usage@v1
 
 *Argument required*: no.
 
@@ -583,7 +567,7 @@ system information relevant to the specified path.
 For your calculations, keep in mind that the output provides values in
 1024-byte blocks, which is equivalent to 1 KiB.
 
-===== Example Arguments:
+=== Example Arguments:
 
 [width="100%",cols="<8%,<92%",options="header",]
 |===
@@ -592,7 +576,7 @@ For your calculations, keep in mind that the output provides values in
 |/ |Information on the device backing the root volume
 |===
 
-===== Example Specification: All
+=== Example Specification: All
 
 [source,yaml]
 ----
@@ -639,7 +623,7 @@ facts:
 ]
 ----
 
-===== Example Specification: Root
+=== Example Specification: Root
 
 [source,yaml]
 ----
@@ -663,9 +647,7 @@ facts:
 ]
 ----
 
-[#groupsv1]##
-
-==== groups@v1
+=== groups@v1
 
 *Argument required*: no.
 
@@ -700,9 +682,7 @@ Example output (in Rhai):
 ];
 ----
 
-[#hostsv1]##
-
-==== hosts@v1
+=== hosts@v1
 
 *Argument required*: no.
 
@@ -765,7 +745,7 @@ Example output (in Rhai):
 
 [#ini_filesv1]##
 
-==== ini_files@v1
+=== ini_files@v1
 
 *Argument required*: yes.
 
@@ -819,9 +799,7 @@ Example output (in Rhai):
 ]
 ----
 
-[#mount_infov1]##
-
-==== mount_info@v1
+=== mount_info@v1
 
 *Argument required*: yes.
 
@@ -882,9 +860,7 @@ Example output (in Rhai):
 }
 ----
 
-[#os-releasev1]##
-
-==== os-release@v1
+=== os-release@v1
 
 *Argument required*: no.
 
@@ -922,9 +898,7 @@ Example output (in Rhai):
 }
 ----
 
-[#package_versionv1]##
-
-==== package_version@v1
+=== package_version@v1
 
 *Argument required*: yes.
 
@@ -1077,9 +1051,7 @@ Example output (in Rhai):
 0
 ----
 
-[#passwdv1]##
-
-==== passwd@v1
+=== passwd@v1
 
 *Argument required*: no.
 
@@ -1128,9 +1100,7 @@ Example output (in Rhai):
 ];
 ----
 
-[#productsv1]##
-
-==== products@v1
+=== products@v1
 
 *Argument required*: no.
 
@@ -1187,9 +1157,7 @@ Example output (in Rhai):
 }
 ----
 
-[#sap_profilesv1]##
-
-==== sap_profiles@v1
+=== sap_profiles@v1
 
 *Argument required*: no.
 
@@ -1256,9 +1224,7 @@ Example output (in Rhai):
 }
 ----
 
-[#sapservicesv1]##
-
-==== sapservices@v1
+=== sapservices@v1
 
 *Argument required*: no.
 
@@ -1297,9 +1263,7 @@ Example output (in Rhai):
 ]
 ----
 
-[#sapcontrolv1]##
-
-==== sapcontrol@v1
+=== sapcontrol@v1
 
 *Argument required*: yes.
 
@@ -1471,9 +1435,7 @@ Example output (in Rhai):
 }
 ----
 
-[#saphostctrlv1]##
-
-==== saphostctrl@v1
+=== saphostctrl@v1
 
 *Argument required*: yes.
 
@@ -1523,9 +1485,7 @@ Example output (in Rhai):
 ];
 ----
 
-[#sapinstance_hostname_resolverv1]##
-
-==== sapinstance_hostname_resolver@v1
+=== sapinstance_hostname_resolver@v1
 
 *Argument required*: no.
 
@@ -1581,9 +1541,7 @@ Example output (in Rhai):
 }
 ----
 
-[#saptunev1]##
-
-==== saptune@v1
+=== saptune@v1
 
 *Argument required*: yes.
 
@@ -1675,9 +1633,7 @@ Example output (in Rhai):
 }
 ----
 
-[#sbd_configv1]##
-
-==== sbd_config@v1
+=== sbd_config@v1
 
 *Argument required*: yes.
 
@@ -1726,9 +1682,7 @@ Example output (in Rhai):
 "/dev/vdc;/dev/vdb";
 ----
 
-[#sbd_dumpv1]##
-
-==== sbd_dump@v1
+=== sbd_dump@v1
 
 *Argument required*: no.
 
@@ -1778,9 +1732,7 @@ Example output (in Rhai):
 For extra information refer to
 https://github.com/trento-project/agent/blob/main/internal/factsengine/gatherers/sbddump_test.go[trento-project/agent/../gatherers/sbddump_test.go]
 
-[#sudoersv1]##
-
-==== sudoers@v1
+=== sudoers@v1
 
 *Argument required*: no.
 
@@ -1865,9 +1817,7 @@ Example output (in Rhai):
 ]
 ----
 
-[#sysctlv1]##
-
-==== sysctl@v1
+=== sysctl@v1
 
 *Argument required*: yes.
 
@@ -1909,9 +1859,7 @@ Example output (in Rhai):
 };
 ----
 
-[#systemdv1]##
-
-==== systemd@v1
+=== systemd@v1
 
 *Argument required*: yes.
 
@@ -1949,9 +1897,7 @@ Example output (in Rhai):
 "inactive";
 ----
 
-[#systemdv2]##
-
-==== systemd@v2
+=== systemd@v2
 
 *Argument required*: yes.
 
@@ -2014,9 +1960,7 @@ Example output (in Rhai):
 }
 ----
 
-[#verify_passwordv1]##
-
-==== verify_password@v1
+=== verify_password@v1
 
 *Argument required*: yes.
 
