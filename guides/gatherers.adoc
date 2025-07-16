@@ -743,8 +743,6 @@ Example output (in Rhai):
 };
 ----
 
-[#ini_filesv1]##
-
 === ini_files@v1
 
 *Argument required*: yes.
