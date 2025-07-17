@@ -11,6 +11,8 @@ defmodule Wanda.Operations.Catalog.Registry do
     PacemakerEnableV1,
     SapInstanceStartV1,
     SapInstanceStopV1,
+    SapSystemStartV1,
+    SapSystemStopV1,
     SaptuneApplySolutionV1,
     SaptuneChangeSolutionV1
   }
@@ -21,6 +23,8 @@ defmodule Wanda.Operations.Catalog.Registry do
     "pacemakerenable@v1" => PacemakerEnableV1.operation(),
     "sapinstancestart@v1" => SapInstanceStartV1.operation(),
     "sapinstancestop@v1" => SapInstanceStopV1.operation(),
+    "sapsystemstart@v1" => SapSystemStartV1.operation(),
+    "sapsystemstop@v1" => SapSystemStopV1.operation(),
     "saptuneapplysolution@v1" => SaptuneApplySolutionV1.operation(),
     "saptunechangesolution@v1" => SaptuneChangeSolutionV1.operation()
   }
