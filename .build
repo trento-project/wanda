@@ -136,8 +136,6 @@ WandaWeb.html
 api-reference.html
 assets/logo.svg
 changelog.html
-contributing.html
-demo.html
 dist/html-DPJLHKSM.js
 dist/html-elixir-J3PIVQVA.css
 dist/lato-latin-400-normal-W7754I4D.woff2
@@ -145,13 +143,7 @@ dist/lato-latin-700-normal-2XVSBPG4.woff2
 dist/lato-latin-ext-400-normal-N27NCBWW.woff2
 dist/lato-latin-ext-700-normal-Q2L5DVMW.woff2
 dist/remixicon-QPNJX265.woff2
-dist/search_data-033253CE.js
-dist/sidebar_items-E68C6384.js
-expression_language.html
-gatherers.html
-hack_on_wanda.html
+dist/search_data-39B9DC0A.js
+dist/sidebar_items-915B4D0A.js
 index.html
-readme.html
-rhai_expressions_cheat_sheet.html
 search.html
-specification.html
