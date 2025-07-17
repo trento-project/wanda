@@ -33,13 +33,12 @@ defmodule Wanda.MixProject do
 
   defp docs do
     [
-      main: "readme",
+      main: "api-reference",
       logo: "priv/static/images/trento.svg",
-      extra_section: "GUIDES",
+      extra_section: "Project Info",
       source_url: @source_url,
       assets: "guides/assets/",
       extras: extras(),
-      groups_for_extras: groups_for_extras(),
       groups_for_modules: groups_for_modules(),
       nest_modules_by_prefix: [
         Wanda.Catalog,
@@ -52,26 +51,7 @@ defmodule Wanda.MixProject do
 
   defp extras() do
     [
-      "README.md",
-      "CHANGELOG.md",
-      "CONTRIBUTING.md",
-      "guides/specification.md",
-      "guides/expression_language.md",
-      "guides/gatherers.md",
-      "guides/rhai_expressions_cheat_sheet.cheatmd",
-      "guides/development/hack_on_wanda.md",
-      "guides/development/demo.md"
-    ]
-  end
-
-  defp groups_for_extras do
-    [
-      "Checks development": [
-        "guides/specification.md",
-        "guides/expression_language.md",
-        "guides/gatherers.md"
-      ],
-      "Hack on Wanda": ["guides/development/hack_on_wanda.md", "guides/development/demo.md"]
+      "CHANGELOG.md"
     ]
   end
 
