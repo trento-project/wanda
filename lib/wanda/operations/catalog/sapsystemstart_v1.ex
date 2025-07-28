@@ -18,7 +18,8 @@ defmodule Wanda.Operations.Catalog.SapSystemStartV1 do
         %Wanda.Operations.Catalog.Step{
           name: "Start SAP system",
           operator: "sapsystemstart@v1",
-          predicate: "*"
+          predicate: "*",
+          timeout: 60 * 60 * 1_000
         }
       ]
     }
