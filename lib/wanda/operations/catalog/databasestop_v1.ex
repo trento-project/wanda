@@ -6,7 +6,9 @@ defmodule Wanda.Operations.Catalog.DatabaseStopV1 do
       id: "databasestop@v1",
       name: "Stop HANA database",
       description: """
-      This operation stops a complete HANA database.
+      This operation stops a HANA database. If the database is in a system
+      replication configuration, it only stops the site where the given target
+      belongs to. Other sites are not impacted.
 
       Arguments:
         instance_number (string): Instance number to stop the database

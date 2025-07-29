@@ -6,7 +6,9 @@ defmodule Wanda.Operations.Catalog.DatabaseStartV1 do
       id: "databasestart@v1",
       name: "Start HANA database",
       description: """
-      This operation starts a complete HANA database.
+      This operation starts a HANA database. If the database is in a system
+      replication configuration, it only starts the site where the given target
+      belongs to. Other sites are not impacted.
 
       Arguments:
         instance_number (string): Instance number to start the database
