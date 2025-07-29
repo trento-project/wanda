@@ -7,6 +7,8 @@ defmodule Wanda.Operations.Catalog.Registry do
 
   alias Wanda.Operations.Catalog.{
     ClusterMaintenanceChangeV1,
+    DatabaseStartV1,
+    DatabaseStopV1,
     PacemakerDisableV1,
     PacemakerEnableV1,
     SapInstanceStartV1,
@@ -19,6 +21,8 @@ defmodule Wanda.Operations.Catalog.Registry do
 
   @registry %{
     "clustermaintenancechange@v1" => ClusterMaintenanceChangeV1.operation(),
+    "databasestart@v1" => DatabaseStartV1.operation(),
+    "databasestop@v1" => DatabaseStopV1.operation(),
     "pacemakerdisable@v1" => PacemakerDisableV1.operation(),
     "pacemakerenable@v1" => PacemakerEnableV1.operation(),
     "sapinstancestart@v1" => SapInstanceStartV1.operation(),
