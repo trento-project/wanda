@@ -19,6 +19,12 @@ defmodule WandaWeb.Schemas.V1.ChecksSelection.CustomizedCheckValue do
       description: "A single customized check value",
       type: :object,
       additionalProperties: false,
+      example: %{
+        name: "threshold",
+        custom_value: 15,
+        default_value: 10,
+        customizable: true
+      },
       properties: %{
         name: %Schema{type: :string, description: "Value name"},
         custom_value: %Schema{

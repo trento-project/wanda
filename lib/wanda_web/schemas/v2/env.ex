@@ -17,6 +17,12 @@ defmodule WandaWeb.Schemas.V2.Env do
           %Schema{type: :string},
           %Schema{type: :array, items: __MODULE__}
         ]
+      },
+      example: %{
+        "VAR1" => "value1",
+        "MAX_RETRIES" => 3,
+        "DEBUG" => true,
+        "EXTRA" => ["foo", "bar"]
       }
     },
     struct?: false

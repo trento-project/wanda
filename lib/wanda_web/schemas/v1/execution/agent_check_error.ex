@@ -30,7 +30,25 @@ defmodule WandaWeb.Schemas.V1.Execution.AgentCheckError do
         type: %Schema{type: :string, description: "Error type"},
         message: %Schema{type: :string, description: "Error message"}
       },
-      required: [:agent_id, :type, :message]
+      required: [:agent_id, :type, :message],
+      example: %{
+        agent_id: "a1b2c3d4-e5f6-7890-abcd-1234567890ab",
+        facts: [
+          %{
+            check_id: "SLES-HA-1",
+            name: "node_count",
+            value: 3
+          },
+          %{
+            check_id: "SLES-HA-1",
+            name: "node_count",
+            type: "gathering_error",
+            message: "Timeout"
+          }
+        ],
+        type: "gathering_error",
+        message: "Timeout while gathering facts"
+      }
     },
     struct?: false
   )

@@ -34,7 +34,21 @@ defmodule WandaWeb.Schemas.V2.Execution.CheckResult do
           description: "Result of the check"
         }
       },
-      required: [:check_id, :expectation_results, :agents_check_results, :result]
+      required: [:check_id, :expectation_results, :agents_check_results, :result],
+      example: %{
+        check_id: "SLES-HA-1",
+        customized: false,
+        expectation_results: [
+          %{
+            name: "fencing_enabled",
+            result: "critical",
+            type: "expect_enum",
+            failure_message: "Fencing is not configured for all nodes."
+          }
+        ],
+        agents_check_results: [],
+        result: "critical"
+      }
     },
     struct?: false
   )

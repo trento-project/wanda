@@ -15,6 +15,11 @@ defmodule WandaWeb.Schemas.V1.ChecksSelection.NotCustomizedCheckValue do
       description: "A check value that is not customized",
       type: :object,
       additionalProperties: false,
+      example: %{
+        name: "threshold",
+        default_value: 10,
+        customizable: true
+      },
       properties: %{
         name: %Schema{type: :string, description: "Value name"},
         default_value: %Schema{

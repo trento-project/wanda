@@ -54,7 +54,15 @@ defmodule WandaWeb.Schemas.V2.Execution.StartExecutionRequest do
         target_type: %Schema{type: :string, description: "Execution target type"},
         env: Env
       },
-      required: [:execution_id, :group_id, :targets]
+      required: [:execution_id, :group_id, :targets],
+      example: %{
+        execution_id: "e1a2b3c4-d5f6-7890-abcd-1234567890ab",
+        group_id: "g1a2b3c4-d5f6-7890-abcd-1234567890ab",
+        targets: [
+          %{agent_id: "a1b2c3d4-e5f6-7890-abcd-1234567890ab", checks: ["SLES-HA-1"]}
+        ],
+        env: %{"VAR1" => "value1"}
+      }
     },
     struct?: false
   )

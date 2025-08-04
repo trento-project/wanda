@@ -19,6 +19,17 @@ defmodule WandaWeb.Schemas.V1.ChecksSelection.SelectableChecksResponse do
         items: %Schema{
           type: :array,
           description: "List of Selectable Checks",
+          example: [
+            %{
+              id: "check_1",
+              name: "Check 1",
+              group: "group_a",
+              description: "Sample check",
+              values: [],
+              customizable: true,
+              customized: false
+            }
+          ],
           items: %Schema{
             description: "A check that can be selected and customized for execution.",
             type: :object,
@@ -30,6 +41,19 @@ defmodule WandaWeb.Schemas.V1.ChecksSelection.SelectableChecksResponse do
               description: %Schema{type: :string, description: "Check description"},
               values: %Schema{
                 type: :array,
+                example: [
+                  %{
+                    name: "threshold",
+                    default_value: 10,
+                    custom_value: 15,
+                    customizable: true
+                  },
+                  %{
+                    name: "enabled",
+                    default_value: true,
+                    customizable: false
+                  }
+                ],
                 items: %Schema{
                   oneOf: [
                     CustomizedCheckValue,

@@ -20,7 +20,13 @@ defmodule WandaWeb.Schemas.V1.Execution.Value do
         },
         customized: %Schema{type: :boolean, description: "Whether the value has been customized"}
       },
-      required: [:check_id, :name, :value]
+      required: [:check_id, :name, :value],
+      example: %{
+        name: "fencing_configured",
+        check_id: "SLES-HA-1",
+        value: true,
+        customized: false
+      }
     },
     struct?: false
   )

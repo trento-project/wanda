@@ -32,7 +32,18 @@ defmodule WandaWeb.Schemas.V2.Execution.AgentCheckResult do
           description: "Result of the single expectation evaluation"
         }
       },
-      required: [:agent_id, :facts, :expectation_evaluations]
+      required: [:agent_id, :facts, :expectation_evaluations],
+      example: %{
+        agent_id: "a1b2c3d4-e5f6-7890-abcd-1234567890ab",
+        facts: [%{check_id: "SLES-HA-1", name: "node_count", value: 3}],
+        expectation_evaluations: [
+          %{
+            name: "fencing_enabled",
+            type: "expect_enum",
+            return_value: "critical"
+          }
+        ]
+      }
     },
     struct?: false
   )

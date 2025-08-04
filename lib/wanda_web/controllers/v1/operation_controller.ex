@@ -45,7 +45,8 @@ defmodule WandaWeb.V1.OperationController do
       ],
       status: [
         in: :query,
-        description: "Filter by operation status. Allowed values: #{Enum.join(Status.values(), ", ")}",
+        description:
+          "Filter by operation status. Allowed values: #{Enum.join(Status.values(), ", ")}",
         type: %Schema{
           type: :string,
           enum: Status.values()

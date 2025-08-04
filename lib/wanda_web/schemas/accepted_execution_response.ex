@@ -19,6 +19,10 @@ defmodule WandaWeb.Schemas.AcceptedExecutionResponse do
       properties: %{
         execution_id: %Schema{type: :string, format: :uuid},
         group_id: %Schema{type: :string, format: :uuid}
+      },
+      example: %{
+        execution_id: "e1a2b3c4-d5f6-7890-abcd-1234567890ab",
+        group_id: "g1a2b3c4-d5f6-7890-abcd-1234567890ab"
       }
     },
     struct?: false

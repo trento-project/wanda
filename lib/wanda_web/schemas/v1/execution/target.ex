@@ -18,7 +18,11 @@ defmodule WandaWeb.Schemas.V1.Execution.Target do
           items: %Schema{type: :string, description: "Check ID"}
         }
       },
-      required: [:agent_id, :checks]
+      required: [:agent_id, :checks],
+      example: %{
+        agent_id: "a1b2c3d4-e5f6-7890-abcd-1234567890ab",
+        checks: ["SLES-HA-1"]
+      }
     },
     struct?: false
   )

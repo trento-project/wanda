@@ -33,7 +33,13 @@ defmodule WandaWeb.Schemas.V2.Execution.ExpectationResult do
           description: "Failure message. Only available for `expect_same` scenarios"
         }
       },
-      required: [:name, :result, :type]
+      required: [:name, :result, :type],
+      example: %{
+        name: "fencing_enabled",
+        result: "critical",
+        type: "expect_enum",
+        failure_message: "Fencing is not configured for all nodes."
+      }
     },
     struct?: false
   )

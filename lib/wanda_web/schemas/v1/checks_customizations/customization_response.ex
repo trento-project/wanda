@@ -14,6 +14,18 @@ defmodule WandaWeb.Schemas.V1.ChecksCustomizations.CustomizationResponse do
       description: "Response for a customization",
       type: :object,
       additionalProperties: false,
+      example: %{
+        values: [
+          %{
+            name: "threshold",
+            value: 15
+          },
+          %{
+            name: "enabled",
+            value: true
+          }
+        ]
+      },
       properties: %{
         values: %Schema{
           type: :array,

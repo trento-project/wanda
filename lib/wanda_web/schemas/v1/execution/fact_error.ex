@@ -17,7 +17,13 @@ defmodule WandaWeb.Schemas.V1.Execution.FactError do
         type: %Schema{type: :string, description: "Error type"},
         message: %Schema{type: :string, description: "Error message"}
       },
-      required: [:check_id, :name, :type, :message]
+      required: [:check_id, :name, :type, :message],
+      example: %{
+        check_id: "SLES-HA-1",
+        name: "node_count",
+        type: "gathering_error",
+        message: "Timeout while gathering fact"
+      }
     },
     struct?: false
   )

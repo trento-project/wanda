@@ -15,6 +15,18 @@ defmodule WandaWeb.Schemas.V1.ChecksCustomizations.CustomizationRequest do
       type: :object,
       additionalProperties: false,
       minProperties: 1,
+      example: %{
+        values: [
+          %{
+            name: "threshold",
+            value: 15
+          },
+          %{
+            name: "enabled",
+            value: true
+          }
+        ]
+      },
       properties: %{
         values: %Schema{
           type: :array,

@@ -16,6 +16,44 @@ defmodule WandaWeb.Schemas.V3.Catalog.CatalogResponse do
       additionalProperties: false,
       properties: %{
         items: %Schema{type: :array, description: "List of catalog checks", items: Check}
+      },
+      example: %{
+        items: [
+          %{
+            id: "SLES-HA-1",
+            name: "Cluster node fencing configured",
+            group: "SLES-HA",
+            description: "Checks if fencing is configured for all cluster nodes.",
+            remediation: "Configure fencing for all cluster nodes to ensure high availability.",
+            metadata: %{"category" => "ha", "impact" => "critical"},
+            severity: "critical",
+            facts: [
+              %{name: "node_count", gatherer: "cluster_node_gatherer", argument: ""}
+            ],
+            values: [
+              %{
+                name: "fencing_configured",
+                default: false,
+                conditions: [
+                  %{value: true, expression: "node_count > 1"}
+                ],
+                customization_disabled: false
+              }
+            ],
+            expectations: [
+              %{
+                name: "fencing_enabled",
+                type: "expect_enum",
+                expression: "fencing_configured == true",
+                failure_message: "Fencing is not configured for all nodes.",
+                warning_message: "Warning: fencing may not be fully configured."
+              }
+            ],
+            when: "node_count > 0",
+            premium: false,
+            customization_disabled: false
+          }
+        ]
       }
     },
     struct?: false

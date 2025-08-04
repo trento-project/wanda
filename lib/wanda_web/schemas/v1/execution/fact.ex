@@ -22,6 +22,11 @@ defmodule WandaWeb.Schemas.V1.Execution.Fact do
             %Schema{type: :array},
             %Schema{type: :object}
           ],
+          example: %{
+            check_id: "SLES-HA-1",
+            name: "node_count",
+            value: 3
+          },
           description: "Value"
         }
       },

@@ -33,7 +33,13 @@ defmodule WandaWeb.Schemas.V1.Operation.AgentReport do
           description: "Error message in case of a failed operation"
         }
       },
-      required: [:agent_id, :result, :diff, :error_message]
+      required: [:agent_id, :result, :diff, :error_message],
+      example: %{
+        agent_id: "a1b2c3d4-e5f6-7890-abcd-1234567890ab",
+        result: "updated",
+        diff: %{before: "absent", after: "present"},
+        error_message: ""
+      }
     },
     struct?: false
   )

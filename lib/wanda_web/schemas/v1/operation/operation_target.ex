@@ -25,7 +25,11 @@ defmodule WandaWeb.Schemas.V1.Operation.OperationTarget do
           }
         }
       },
-      required: [:agent_id, :arguments]
+      required: [:agent_id, :arguments],
+      example: %{
+        agent_id: "a1b2c3d4-e5f6-7890-abcd-1234567890ab",
+        arguments: %{"package" => "nginx", "version" => "1.18.0"}
+      }
     },
     struct?: false
   )

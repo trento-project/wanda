@@ -19,7 +19,12 @@ defmodule WandaWeb.Schemas.V1.Execution.ExpectationEvaluationError do
           description: "Error type"
         }
       },
-      required: [:name, :message, :type]
+      required: [:name, :message, :type],
+      example: %{
+        name: "fencing_enabled",
+        message: "Expression evaluation failed",
+        type: "evaluation_error"
+      }
     },
     struct?: false
   )
