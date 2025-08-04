@@ -10,7 +10,8 @@ defmodule WandaWeb.V1.ExecutionController do
   alias WandaWeb.Schemas.{
     AcceptedExecutionResponse,
     BadRequest,
-    NotFound
+    NotFound,
+    UnprocessableEntity
   }
 
   alias WandaWeb.Schemas.V1.Execution.{
@@ -40,7 +41,7 @@ defmodule WandaWeb.V1.ExecutionController do
     ],
     responses: [
       ok: {"List executions response", "application/json", ListExecutionsResponse},
-      unprocessable_entity: OpenApiSpex.JsonErrorResponse.response()
+      unprocessable_entity: UnprocessableEntity.response()
     ]
 
   def index(conn, params) do
@@ -67,7 +68,7 @@ defmodule WandaWeb.V1.ExecutionController do
     responses: [
       ok: {"Execution", "application/json", ExecutionResponse},
       not_found: NotFound.response(),
-      unprocessable_entity: OpenApiSpex.JsonErrorResponse.response()
+      unprocessable_entity: UnprocessableEntity.response()
     ]
 
   def show(conn, %{id: execution_id}) do
@@ -93,7 +94,7 @@ defmodule WandaWeb.V1.ExecutionController do
     responses: [
       ok: {"Execution", "application/json", ExecutionResponse},
       not_found: NotFound.response(),
-      unprocessable_entity: OpenApiSpex.JsonErrorResponse.response()
+      unprocessable_entity: UnprocessableEntity.response()
     ]
 
   def last(conn, %{id: group_id}) do
@@ -110,7 +111,7 @@ defmodule WandaWeb.V1.ExecutionController do
     responses: [
       accepted: {"Accepted Execution Response", "application/json", AcceptedExecutionResponse},
       bad_request: BadRequest.response(),
-      unprocessable_entity: OpenApiSpex.JsonErrorResponse.response()
+      unprocessable_entity: UnprocessableEntity.response()
     ]
 
   def start(
