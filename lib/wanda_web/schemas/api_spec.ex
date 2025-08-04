@@ -21,6 +21,8 @@ defmodule WandaWeb.Schemas.ApiSpec do
       alias OpenApiSpex.{
         Components,
         Info,
+        License,
+        Contact,
         OpenApi,
         Paths,
         SecurityScheme,
@@ -40,10 +42,25 @@ defmodule WandaWeb.Schemas.ApiSpec do
           info: %Info{
             title: "Wanda",
             description: to_string(Application.spec(:wanda, :description)),
-            version: to_string(Application.spec(:wanda, :vsn)) <> "-" <> unquote(api_version)
+            version: to_string(Application.spec(:wanda, :vsn)) <> "-" <> unquote(api_version),
+            license: %OpenApiSpex.License{
+              name: "Apache 2.0",
+              url: "https://www.apache.org/licenses/LICENSE-2.0"
+            },
+            contact: %Contact{
+              name: "Trento Project",
+              url: "https://www.trento-project.io",
+              email: "trento-project@suse.com"
+            }
           },
           components: %Components{
-            securitySchemes: %{"authorization" => %SecurityScheme{type: "http", scheme: "bearer"}}
+            securitySchemes: %{
+              "authorization" => %SecurityScheme{
+                type: "http",
+                scheme: "bearer",
+                description: "Bearer token authentication"
+              }
+            }
           },
           security: [%{"authorization" => []}],
           paths: build_paths_for_version(unquote(api_version), router),
@@ -68,7 +85,10 @@ defmodule WandaWeb.Schemas.ApiSpec do
           # If the endpoint is not running, use a placeholder
           # this happens when generating openapi.json with --start-app=false
           # e.g. mix openapi.spec.json --start-app=false --spec WandaWeb.ApiSpec
-          %OpenApiSpex.Server{url: "https://demo.trento-project.io"}
+          %OpenApiSpex.Server{
+            url: "https://demo.trento-project.io",
+            description: "Trento demo server."
+          }
         end
       end
 
