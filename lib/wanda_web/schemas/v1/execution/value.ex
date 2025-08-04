@@ -13,6 +13,7 @@ defmodule WandaWeb.Schemas.V1.Execution.Value do
       additionalProperties: false,
       properties: %{
         name: %Schema{type: :string, description: "Name"},
+        check_id: %Schema{type: :string, description: "Check ID"},
         value: %Schema{
           oneOf: [%Schema{type: :string}, %Schema{type: :number}, %Schema{type: :boolean}],
           description: "Value"
