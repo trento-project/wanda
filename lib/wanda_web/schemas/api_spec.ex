@@ -49,13 +49,9 @@ defmodule WandaWeb.Schemas.ApiSpec do
           paths: build_paths_for_version(unquote(api_version), router),
           tags: [
             %Tag{
-              name: "Wanda Platform",
+              name: "Platform",
               description: "Providing access to Wanda Platform features"
             },
-            %Tag{
-              name: "Wanda checks",
-              description: "Checks management and execution"
-            }
           ]
         })
       end
