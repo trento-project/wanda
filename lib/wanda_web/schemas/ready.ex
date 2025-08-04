@@ -10,14 +10,15 @@ defmodule WandaWeb.Schemas.Ready do
   OpenApiSpex.schema(
     %Schema{
       title: "Ready",
+      description: "Platform readiness status response.",
       type: :object,
-      additionalProperties: false,
       example: %{
         ready: true
       },
+      additionalProperties: false,
       properties: %{
         ready: %Schema{
-          description: "Wanda platform ready",
+          description: "Trento Web platform ready.",
           type: :boolean
         }
       }

@@ -10,16 +10,18 @@ defmodule WandaWeb.Schemas.Health do
   OpenApiSpex.schema(
     %Schema{
       title: "Health",
+      description: "Platform health check status response.",
       type: :object,
-      additionalProperties: false,
       example: %{
         database: "pass"
       },
+      additionalProperties: false,
       properties: %{
         database: %Schema{
-          description: "The status of the database connection",
+          description: "The status of the database connection.",
           type: :string,
-          enum: ["pass", "fail"]
+          enum: ["pass", "fail"],
+          example: "pass"
         }
       }
     },
