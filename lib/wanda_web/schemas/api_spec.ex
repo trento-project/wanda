@@ -51,7 +51,7 @@ defmodule WandaWeb.Schemas.ApiSpec do
             %Tag{
               name: "Platform",
               description: "Providing access to Wanda Platform features"
-            },
+            }
           ]
         })
       end
