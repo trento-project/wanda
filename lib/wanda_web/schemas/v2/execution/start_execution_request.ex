@@ -47,7 +47,7 @@ defmodule WandaWeb.Schemas.V2.Execution.StartExecutionRequest do
         execution_id: %Schema{type: :string, format: :uuid, description: "Execution identifier"},
         group_id: %Schema{type: :string, format: :uuid, description: "Group Execution identifier"},
         targets: %Schema{
-          title: "Targets",
+          description: "List of target agents for the execution.",
           type: :array,
           items: Target
         },

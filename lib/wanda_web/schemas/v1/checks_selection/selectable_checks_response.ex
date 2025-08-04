@@ -20,7 +20,7 @@ defmodule WandaWeb.Schemas.V1.ChecksSelection.SelectableChecksResponse do
           type: :array,
           description: "List of Selectable Checks",
           items: %Schema{
-            title: "SelectableCheck",
+            description: "A check that can be selected and customized for execution.",
             type: :object,
             additionalProperties: false,
             properties: %{

@@ -31,10 +31,21 @@ defmodule WandaWeb.V1.OperationController do
         },
         example: "00000000-0000-0000-0000-000000000001"
       ],
-      page: [in: :query, description: "Page", type: :integer, example: 3],
-      items_per_page: [in: :query, description: "Items per page", type: :integer, example: 20],
+      page: [
+        in: :query,
+        description: "Page number for paginated results.",
+        type: :integer,
+        example: 3
+      ],
+      items_per_page: [
+        in: :query,
+        description: "Number of items per page for paginated results.",
+        type: :integer,
+        example: 20
+      ],
       status: [
         in: :query,
+        description: "Filter by operation status. Allowed values: #{Enum.join(Status.values(), ", ")}",
         type: %Schema{
           type: :string,
           enum: Status.values()
@@ -61,7 +72,7 @@ defmodule WandaWeb.V1.OperationController do
     parameters: [
       id: [
         in: :path,
-        description: "Operation ID",
+        description: "UUID of the operation to retrieve.",
         type: %Schema{
           type: :string,
           format: :uuid
