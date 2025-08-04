@@ -10,6 +10,7 @@ defmodule WandaWeb.V2.CatalogController do
 
   operation :catalog,
     summary: "List checks catalog",
+    tags: ["Wanda checks"],
     parameters: [
       env: [
         in: :query,

@@ -15,6 +15,7 @@ defmodule WandaWeb.V1.CatalogController do
 
   operation :catalog,
     summary: "List checks catalog",
+    tags: ["Wanda checks"],
     parameters: [
       env: [
         in: :query,
@@ -36,6 +37,7 @@ defmodule WandaWeb.V1.CatalogController do
 
   operation :selectable_checks,
     summary: "List selectable checks for a given execution group and environment",
+    tags: ["Wanda checks"],
     parameters: [
       group_id: [
         in: :path,

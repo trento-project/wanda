@@ -11,7 +11,7 @@ defmodule WandaWeb.HealthController do
 
   operation :ready,
     summary: "Wanda ready",
-    tags: ["Platform"],
+    tags: ["Wanda Platform"],
     description: "Check if Wanda is ready",
     security: [],
     responses: [
@@ -26,7 +26,7 @@ defmodule WandaWeb.HealthController do
 
   operation :health,
     summary: "Wanda health",
-    tags: ["Platform"],
+    tags: ["Wanda Platform"],
     description: "Get the health status of the Wanda platform",
     security: [],
     responses: [

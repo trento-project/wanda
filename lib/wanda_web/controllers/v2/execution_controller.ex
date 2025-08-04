@@ -24,6 +24,7 @@ defmodule WandaWeb.V2.ExecutionController do
 
   operation :index,
     summary: "List executions",
+    tags: ["Wanda checks"],
     parameters: [
       group_id: [
         in: :query,
@@ -51,6 +52,7 @@ defmodule WandaWeb.V2.ExecutionController do
 
   operation :show,
     summary: "Get an execution by ID",
+    tags: ["Wanda checks"],
     parameters: [
       id: [
         in: :path,
@@ -76,6 +78,7 @@ defmodule WandaWeb.V2.ExecutionController do
 
   operation :last,
     summary: "Get the last execution of a group",
+    tags: ["Wanda checks"],
     parameters: [
       id: [
         in: :path,
@@ -101,6 +104,7 @@ defmodule WandaWeb.V2.ExecutionController do
 
   operation :start,
     summary: "Start a Checks Execution",
+    tags: ["Wanda checks"],
     description: "Start a Checks Execution on the target infrastructure",
     request_body: {"Execution Context", "application/json", StartExecutionRequest},
     responses: [
