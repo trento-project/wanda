@@ -146,8 +146,8 @@ else
 fi
 
 # Run redocly linter
-# echo "Running redocly linter..."
-# redocly lint "$MERGED_OPENAPI_FILE" --extends recommended --format=stylish --skip-rule=operation-4xx-response || true
+echo "Running redocly linter..."
+redocly lint "$MERGED_OPENAPI_FILE" --extends recommended --format=stylish --skip-rule=operation-4xx-response || true
 
 # Run spectral linter
 echo "Running spectral linter..."
