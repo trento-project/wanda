@@ -12,7 +12,7 @@ defmodule WandaWeb.V2.CatalogController do
 
   operation :catalog,
     summary: "List checks catalog",
-    tags: ["Wanda checks"],
+    tags: ["Wanda Checks"],
     parameters: [
       env: [
         in: :query,

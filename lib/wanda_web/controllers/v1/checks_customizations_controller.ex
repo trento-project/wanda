@@ -23,7 +23,7 @@ defmodule WandaWeb.V1.ChecksCustomizationsController do
 
   operation :apply_custom_values,
     summary: "Apply custom values for a specific check",
-    tags: ["Wanda checks"],
+    tags: ["Wanda Checks"],
     parameters: [
       check_id: [
         in: :path,
@@ -70,7 +70,7 @@ defmodule WandaWeb.V1.ChecksCustomizationsController do
 
   operation :reset_customization,
     summary: "Reset the customizations applied for a specific check",
-    tags: ["Wanda checks"],
+    tags: ["Wanda Checks"],
     description: "Removes all previously applied customizations for a check in a specific group",
     parameters: [
       check_id: [

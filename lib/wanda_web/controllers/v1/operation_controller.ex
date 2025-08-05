@@ -20,7 +20,7 @@ defmodule WandaWeb.V1.OperationController do
 
   operation :index,
     summary: "List operations",
-    tags: ["Wanda checks"],
+    tags: ["Wanda Checks"],
     parameters: [
       group_id: [
         in: :query,
@@ -69,7 +69,7 @@ defmodule WandaWeb.V1.OperationController do
 
   operation :show,
     summary: "Get an operation by ID",
-    tags: ["Wanda checks"],
+    tags: ["Wanda Checks"],
     parameters: [
       id: [
         in: :path,
