@@ -10,7 +10,8 @@ defmodule WandaWeb.Schemas.NotFound do
   OpenApiSpex.schema(
     %{
       title: "NotFound",
-      description: "Resource not found error response.",
+      description:
+        "This response indicates that the requested resource could not be found in the system.",
       type: :object,
       additionalProperties: false,
       example: %{
@@ -45,7 +46,7 @@ defmodule WandaWeb.Schemas.NotFound do
 
   def response do
     Operation.response(
-      "Not Found.",
+      "This response indicates that the requested resource could not be found in the system.",
       "application/json",
       __MODULE__
     )

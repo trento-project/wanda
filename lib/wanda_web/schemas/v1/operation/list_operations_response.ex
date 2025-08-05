@@ -12,22 +12,27 @@ defmodule WandaWeb.Schemas.V1.Operation.ListOperationsResponse do
   OpenApiSpex.schema(
     %{
       title: "ListOperationsResponse",
-      description: "The paginated list of operations",
+      description:
+        "Represents a paginated list of operations, including the total count and individual operation items.",
       type: :object,
       additionalProperties: false,
       properties: %{
         items: %Schema{type: :array, items: OperationResponse},
-        total_count: %Schema{type: :integer, description: "Total count of operations"}
+        total_count: %Schema{
+          type: :integer,
+          description: "The total number of operations included in the paginated response."
+        }
       },
       example: %{
         items: [
           %{
-            operation_id: "o1a2b3c4-d5f6-7890-abcd-1234567890ab",
-            group_id: "g1a2b3c4-d5f6-7890-abcd-1234567890ab",
+            operation_id: "985edb19-cb1d-463e-81c2-53a4fa85d1fa",
+            group_id: "353fd789-d8ae-4a1b-a9f9-3919bd773e79",
             status: "completed",
             result: "updated",
             name: "Install NGINX",
-            description: "Installs the NGINX package on target agents.",
+            description:
+              "A sample operation that installs the NGINX package on target agents for demonstration purposes.",
             operation: "install_package",
             targets: [
               %{

@@ -10,7 +10,8 @@ defmodule WandaWeb.Schemas.V1.ChecksCustomizations.CustomValue do
   OpenApiSpex.schema(
     %{
       title: "CustomValue",
-      description: "A single custom value to be applied or already applied to a check",
+      description:
+        "Represents a single custom value to be applied or already applied to a check, including its name and overriding value.",
       type: :object,
       additionalProperties: false,
       example: %{
@@ -18,9 +19,13 @@ defmodule WandaWeb.Schemas.V1.ChecksCustomizations.CustomValue do
         value: 15
       },
       properties: %{
-        name: %Schema{type: :string, description: "Name of the specific value to be customized"},
+        name: %Schema{
+          type: :string,
+          description: "The name of the specific value to be customized for the check."
+        },
         value: %Schema{
-          description: "Overriding value",
+          description:
+            "The overriding value to be applied to the check, replacing the default or previous value for customization purposes.",
           oneOf: [
             %Schema{type: :string},
             %Schema{type: :integer},

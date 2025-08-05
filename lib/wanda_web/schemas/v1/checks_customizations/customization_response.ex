@@ -11,7 +11,8 @@ defmodule WandaWeb.Schemas.V1.ChecksCustomizations.CustomizationResponse do
   OpenApiSpex.schema(
     %{
       title: "CustomizationResponse",
-      description: "Response for a customization",
+      description:
+        "Represents the response for a customization operation, including the list of custom values applied to a check.",
       type: :object,
       additionalProperties: false,
       example: %{
@@ -29,7 +30,8 @@ defmodule WandaWeb.Schemas.V1.ChecksCustomizations.CustomizationResponse do
       properties: %{
         values: %Schema{
           type: :array,
-          description: "List of the custom values applied",
+          description:
+            "A list of custom values that have been applied to the check, reflecting the customization performed.",
           items: CustomValue
         }
       }

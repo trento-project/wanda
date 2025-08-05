@@ -10,7 +10,8 @@ defmodule WandaWeb.Schemas.Forbidden do
   OpenApiSpex.schema(
     %{
       title: "Forbidden",
-      description: "Access forbidden error response.",
+      description:
+        "This response indicates that access to the requested resource or operation is forbidden due to insufficient permissions.",
       type: :object,
       additionalProperties: false,
       example: %{
@@ -48,7 +49,7 @@ defmodule WandaWeb.Schemas.Forbidden do
 
   def response do
     Operation.response(
-      "Forbidden.",
+      "This response indicates that access to the requested resource or operation is forbidden due to insufficient permissions.",
       "application/json",
       __MODULE__
     )

@@ -18,52 +18,81 @@ defmodule WandaWeb.Schemas.V1.Operation.OperationResponse do
   OpenApiSpex.schema(
     %{
       title: "OperationResponse",
-      description: "The representation of an operation, it may be a running or completed one",
+      description:
+        "Represents the details of an operation, including its status, timing, results, and associated targets. Can be running or completed.",
       type: :object,
       additionalProperties: false,
       properties: %{
-        operation_id: %Schema{type: :string, format: :uuid, description: "Operation ID"},
-        group_id: %Schema{type: :string, format: :uuid, description: "Group ID"},
+        operation_id: %Schema{
+          type: :string,
+          format: :uuid,
+          description: "The unique identifier of the operation."
+        },
+        group_id: %Schema{
+          type: :string,
+          format: :uuid,
+          description: "The unique identifier of the group associated with the operation."
+        },
         status: %Schema{
           type: :string,
           enum: Status.values(),
-          description: "The status of the current operation"
+          description:
+            "The current status of the operation, indicating its progress or completion state."
         },
         result: %Schema{
           type: :string,
           nullable: true,
           enum: Result.values(),
-          description: "Aggregated result of the operation, unknown for running ones"
+          description:
+            "The aggregated result of the operation, summarizing the overall outcome. Unknown for running operations."
         },
-        name: %Schema{type: :string, description: "Operation name"},
-        description: %Schema{type: :string, description: "Operation description"},
-        operation: %Schema{type: :string, description: "Executed operation"},
-        targets: %Schema{type: :array, items: OperationTarget},
-        agent_reports: %Schema{type: :array, nullable: true, items: StepReport},
+        name: %Schema{type: :string, description: "The name of the operation being performed."},
+        description: %Schema{
+          type: :string,
+          description:
+            "A description of the operation, outlining its purpose and expected behavior."
+        },
+        operation: %Schema{
+          type: :string,
+          description: "The type of operation executed, specifying the action performed."
+        },
+        targets: %Schema{
+          type: :array,
+          items: OperationTarget,
+          description: "The list of targets involved in the operation."
+        },
+        agent_reports: %Schema{
+          type: :array,
+          nullable: true,
+          items: StepReport,
+          description:
+            "A list of reports from agents involved in the operation, providing detailed outcome information."
+        },
         started_at: %Schema{
           type: :string,
           format: :"date-time",
-          description: "Operation start time"
+          description: "The timestamp indicating when the operation started."
         },
         updated_at: %Schema{
           type: :string,
           format: :"date-time",
-          description: "Operation last update time"
+          description: "The timestamp indicating when the operation was last updated."
         },
         completed_at: %Schema{
           type: :string,
           nullable: true,
           format: :"date-time",
-          description: "Operation completion time"
+          description: "The timestamp indicating when the operation was completed, if applicable."
         }
       },
       example: %{
-        operation_id: "o1a2b3c4-d5f6-7890-abcd-1234567890ab",
-        group_id: "g1a2b3c4-d5f6-7890-abcd-1234567890ab",
+        operation_id: "985edb19-cb1d-463e-81c2-53a4fa85d1fa",
+        group_id: "353fd789-d8ae-4a1b-a9f9-3919bd773e79",
         status: "completed",
         result: "updated",
         name: "Install NGINX",
-        description: "Installs the NGINX package on target agents.",
+        description:
+          "A sample operation that installs the NGINX package on target agents for demonstration purposes.",
         operation: "install_package",
         targets: [
           %{

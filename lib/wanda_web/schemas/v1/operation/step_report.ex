@@ -10,14 +10,30 @@ defmodule WandaWeb.Schemas.V1.Operation.StepReport do
   OpenApiSpex.schema(
     %{
       title: "StepReport",
-      description: "Operation step report",
+      description:
+        "Represents a report for a single step in an operation, including step details and agent outcomes.",
       type: :object,
       additionalProperties: false,
       properties: %{
-        name: %Schema{type: :string, description: "Operation step name"},
-        operator: %Schema{type: :string, description: "Operation step operator"},
-        predicate: %Schema{type: :string, description: "Operation step predicate"},
-        timeout: %Schema{type: :integer, description: "Operation step timeout"},
+        name: %Schema{
+          type: :string,
+          description: "The name of the operation step being reported."
+        },
+        operator: %Schema{
+          type: :string,
+          description:
+            "The operator used in the operation step, specifying the comparison or action performed."
+        },
+        predicate: %Schema{
+          type: :string,
+          description:
+            "The predicate evaluated in the operation step, defining the condition for success."
+        },
+        timeout: %Schema{
+          type: :integer,
+          description:
+            "The timeout value for the operation step, specifying the maximum allowed duration in seconds."
+        },
         agents: %Schema{type: :array, items: AgentReport}
       },
       required: [:name, :operator, :predicate, :timeout, :agents],

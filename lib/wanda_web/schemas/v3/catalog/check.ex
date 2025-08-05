@@ -10,23 +10,44 @@ defmodule WandaWeb.Schemas.V3.Catalog.Check do
   OpenApiSpex.schema(
     %{
       title: "Check",
-      description: "A single check from the catalog",
+      description:
+        "This object represents a single check from the catalog, including its configuration, metadata, and validation logic.",
       type: :object,
       additionalProperties: false,
       properties: %{
-        id: %Schema{type: :string, description: "Check ID"},
-        name: %Schema{type: :string, description: "Check name"},
-        group: %Schema{type: :string, description: "Check group"},
-        description: %Schema{type: :string, description: "Check description"},
-        remediation: %Schema{type: :string, description: "Check remediation"},
+        id: %Schema{
+          type: :string,
+          description: "A unique identifier for the check in the catalog."
+        },
+        name: %Schema{
+          type: :string,
+          description: "The name assigned to the check for identification and reporting purposes."
+        },
+        group: %Schema{
+          type: :string,
+          description:
+            "The logical group to which the check belongs, used for organization and filtering."
+        },
+        description: %Schema{
+          type: :string,
+          description:
+            "A detailed explanation of the check, outlining its purpose and expected behavior."
+        },
+        remediation: %Schema{
+          type: :string,
+          description:
+            "Guidance or steps to resolve issues detected by the check, helping users remediate problems."
+        },
         metadata: %Schema{
           type: :object,
-          description: "Check metadata",
+          description:
+            "Additional metadata associated with the check, providing context and categorization.",
           nullable: true
         },
         severity: %Schema{
           type: :string,
-          description: "Check severity: critical|warning",
+          description:
+            "Indicates the severity level of the check, such as critical or warning, to help prioritize remediation.",
           enum: [:critical, :warning]
         },
         facts: %Schema{
@@ -35,9 +56,18 @@ defmodule WandaWeb.Schemas.V3.Catalog.Check do
             type: :object,
             additionalProperties: false,
             properties: %{
-              name: %Schema{type: :string, description: "Fact name"},
-              gatherer: %Schema{type: :string, description: "Used gatherer"},
-              argument: %Schema{type: :string, description: "Argument for the gatherer"}
+              name: %Schema{
+                type: :string,
+                description: "The label for the fact gathered for the check."
+              },
+              gatherer: %Schema{
+                type: :string,
+                description: "The gatherer used to collect the fact for the check."
+              },
+              argument: %Schema{
+                type: :string,
+                description: "The argument provided to the gatherer for fact collection."
+              }
             },
             required: [:name, :gatherer, :argument]
           }
@@ -48,10 +78,14 @@ defmodule WandaWeb.Schemas.V3.Catalog.Check do
             type: :object,
             additionalProperties: false,
             properties: %{
-              name: %Schema{type: :string, description: "Value name"},
+              name: %Schema{
+                type: :string,
+                description: "The label for the value used in the check."
+              },
               default: %Schema{
                 oneOf: [%Schema{type: :string}, %Schema{type: :number}, %Schema{type: :boolean}],
-                description: "Default value. Used if none of the conditions matches"
+                description:
+                  "The default value used if none of the conditions matches for the check."
               },
               conditions: %Schema{
                 type: :array,
@@ -65,11 +99,12 @@ defmodule WandaWeb.Schemas.V3.Catalog.Check do
                         %Schema{type: :number},
                         %Schema{type: :boolean}
                       ],
-                      description: "Value for this condition"
+                      description: "The value to be used for this condition in the check."
                     },
                     expression: %Schema{
                       type: :string,
-                      description: "Expression to be evaluated to use the current value"
+                      description:
+                        "The expression to be evaluated to use the current value for the check."
                     }
                   },
                   required: [:value, :expression]
@@ -77,7 +112,7 @@ defmodule WandaWeb.Schemas.V3.Catalog.Check do
               },
               customization_disabled: %Schema{
                 type: :boolean,
-                description: "Whether the value is customizable or not"
+                description: "Indicates whether the value is customizable or not for this check."
               }
             },
             required: [:name, :default, :conditions, :customization_disabled]
@@ -89,20 +124,26 @@ defmodule WandaWeb.Schemas.V3.Catalog.Check do
             type: :object,
             additionalProperties: false,
             properties: %{
-              name: %Schema{type: :string, description: "Expectation name"},
+              name: %Schema{
+                type: :string,
+                description: "A label that identifies the expectation for the check."
+              },
               type: %Schema{
                 type: :string,
-                description: "Expectation type",
+                description:
+                  "Specifies the type of expectation for the check, such as expect or expect_same.",
                 enum: [:unknown, :expect, :expect_same, :expect_enum]
               },
               expression: %Schema{
                 type: :string,
-                description: "Expression to be evaluated to get the expectation result"
+                description:
+                  "The expression to be evaluated to get the expectation result for the check."
               },
               failure_message: %Schema{
                 type: :string,
                 nullable: true,
-                description: "Message returned when the check fails"
+                description:
+                  "A message returned when the check fails, providing context for troubleshooting."
               },
               warning_message: %Schema{
                 type: :string,

@@ -10,7 +10,8 @@ defmodule WandaWeb.Schemas.UnprocessableEntity do
   OpenApiSpex.schema(
     %{
       title: "UnprocessableEntity",
-      description: "Unprocessable entity error response.",
+      description:
+        "This response indicates that the request could not be processed due to semantic errors or invalid data.",
       type: :object,
       additionalProperties: false,
       example: %{
@@ -47,7 +48,7 @@ defmodule WandaWeb.Schemas.UnprocessableEntity do
 
   def response do
     Operation.response(
-      "Unprocessable Entity.",
+      "This response indicates that the request could not be processed due to semantic errors or invalid data.",
       "application/json",
       __MODULE__
     )

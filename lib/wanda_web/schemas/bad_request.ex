@@ -11,7 +11,8 @@ defmodule WandaWeb.Schemas.BadRequest do
   OpenApiSpex.schema(
     %{
       title: "BadRequest",
-      description: "Bad request error response.",
+      description:
+        "This response indicates that the request was malformed or contained invalid parameters, and could not be processed.",
       type: :object,
       additionalProperties: false,
       example: %{
@@ -49,7 +50,7 @@ defmodule WandaWeb.Schemas.BadRequest do
 
   def response do
     Operation.response(
-      "Bad Request.",
+      "This response indicates that the request was malformed or contained invalid parameters, and could not be processed.",
       "application/json",
       __MODULE__
     )

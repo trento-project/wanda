@@ -58,7 +58,8 @@ defmodule WandaWeb.Schemas.ApiSpec do
               "authorization" => %SecurityScheme{
                 type: "http",
                 scheme: "bearer",
-                description: "Bearer token authentication"
+                description:
+                  "This security scheme uses Bearer token authentication for API access. Please provide a valid token in the Authorization header."
               }
             }
           },
@@ -67,11 +68,12 @@ defmodule WandaWeb.Schemas.ApiSpec do
           tags: [
             %Tag{
               name: "Wanda Checks",
-              description: "Checks management and execution"
+              description:
+                "Endpoints for managing and executing checks, including configuration and results retrieval."
             },
             %Tag{
               name: "Wanda Platform",
-              description: "Providing access to Wanda Platform features"
+              description: "Endpoints for accessing Wanda Platform features."
             }
           ]
         })
@@ -87,7 +89,8 @@ defmodule WandaWeb.Schemas.ApiSpec do
           # e.g. mix openapi.spec.json --start-app=false --spec WandaWeb.ApiSpec
           %OpenApiSpex.Server{
             url: "https://demo.trento-project.io",
-            description: "Trento demo server."
+            description:
+              "This is the Trento demo server, provided for testing and demonstration purposes."
           }
         end
       end

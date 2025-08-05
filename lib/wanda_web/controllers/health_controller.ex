@@ -10,12 +10,15 @@ defmodule WandaWeb.HealthController do
   }
 
   operation :ready,
-    summary: "Wanda ready",
+    summary: "Wanda ready.",
     tags: ["Wanda Platform"],
-    description: "Check if Wanda is ready",
+    description:
+      "This endpoint checks if the Wanda platform is ready to accept requests and operate normally.",
     security: [],
     responses: [
-      ok: {"Wanda is ready", "application/json", Ready}
+      ok:
+        {"This response confirms that the Wanda platform is ready for operation.",
+         "application/json", Ready}
     ]
 
   def ready(conn, _) do
@@ -25,12 +28,15 @@ defmodule WandaWeb.HealthController do
   end
 
   operation :health,
-    summary: "Wanda health",
+    summary: "Wanda health.",
     tags: ["Wanda Platform"],
-    description: "Get the health status of the Wanda platform",
+    description:
+      "This endpoint returns the health status of the Wanda platform, including database connectivity and overall system readiness.",
     security: [],
     responses: [
-      ok: {"Wanda health status", "application/json", Health}
+      ok:
+        {"This response provides the current health status of the Wanda platform, including database connectivity.",
+         "application/json", Health}
     ]
 
   def health(conn, _) do

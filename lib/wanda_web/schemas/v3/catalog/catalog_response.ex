@@ -11,11 +11,16 @@ defmodule WandaWeb.Schemas.V3.Catalog.CatalogResponse do
   OpenApiSpex.schema(
     %{
       title: "CatalogResponse",
-      description: "Checks catalog listing response",
+      description:
+        "This object represents the response for a catalog listing, including all available checks.",
       type: :object,
       additionalProperties: false,
       properties: %{
-        items: %Schema{type: :array, description: "List of catalog checks", items: Check}
+        items: %Schema{
+          type: :array,
+          description: "An array containing all catalog checks included in the response.",
+          items: Check
+        }
       },
       example: %{
         items: [
@@ -23,7 +28,8 @@ defmodule WandaWeb.Schemas.V3.Catalog.CatalogResponse do
             id: "SLES-HA-1",
             name: "Cluster node fencing configured",
             group: "SLES-HA",
-            description: "Checks if fencing is configured for all cluster nodes.",
+            description:
+              "This check verifies whether fencing is configured for all cluster nodes to ensure high availability.",
             remediation: "Configure fencing for all cluster nodes to ensure high availability.",
             metadata: %{"category" => "ha", "impact" => "critical"},
             severity: "critical",
@@ -51,7 +57,7 @@ defmodule WandaWeb.Schemas.V3.Catalog.CatalogResponse do
             ],
             when: "node_count > 0",
             premium: false,
-            customization_disabled: false
+            customization_disabled: true
           }
         ]
       }

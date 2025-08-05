@@ -12,18 +12,27 @@ defmodule WandaWeb.Schemas.V1.Execution.ListExecutionsResponse do
   OpenApiSpex.schema(
     %{
       title: "ListExecutionsResponse",
-      description: "The paginated list of executions",
+      description:
+        "Represents a paginated list of executions, including the total count and individual execution items.",
       type: :object,
       additionalProperties: false,
       properties: %{
-        items: %Schema{type: :array, items: ExecutionResponse},
-        total_count: %Schema{type: :integer, description: "Total count of executions"}
+        items: %Schema{
+          type: :array,
+          items: ExecutionResponse,
+          description:
+            "A list of execution items included in the paginated response, each representing an execution instance."
+        },
+        total_count: %Schema{
+          type: :integer,
+          description: "The total number of executions included in the paginated response."
+        }
       },
       example: %{
         items: [
           %{
             execution_id: "e1a2b3c4-d5f6-7890-abcd-1234567890ab",
-            group_id: "g1a2b3c4-d5f6-7890-abcd-1234567890ab",
+            group_id: "353fd789-d8ae-4a1b-a9f9-3919bd773e79",
             status: "completed",
             started_at: "2025-08-04T10:00:00Z",
             completed_at: "2025-08-04T10:05:00Z",
@@ -42,7 +51,7 @@ defmodule WandaWeb.Schemas.V1.Execution.ListExecutionsResponse do
                 expectation_results: [
                   %{
                     name: "fencing_enabled",
-                    result: false,
+                    result: true,
                     type: "expect",
                     failure_message: "Fencing is not configured for all nodes."
                   }

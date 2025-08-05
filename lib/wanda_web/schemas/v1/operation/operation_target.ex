@@ -8,14 +8,20 @@ defmodule WandaWeb.Schemas.V1.Operation.OperationTarget do
   OpenApiSpex.schema(
     %{
       title: "OperationTarget",
-      description: "Target where operations are executed",
+      description:
+        "Represents the target where operations are executed, including agent identification and arguments for execution.",
       type: :object,
       additionalProperties: false,
       properties: %{
-        agent_id: %Schema{type: :string, format: :uuid, description: "Agent ID"},
+        agent_id: %Schema{
+          type: :string,
+          format: :uuid,
+          description: "The unique identifier of the agent where the operation is executed."
+        },
         arguments: %Schema{
           type: :object,
-          description: "Arguments map",
+          description:
+            "A map of arguments provided for the operation execution, allowing for flexible configuration.",
           additionalProperties: %Schema{
             oneOf: [
               %Schema{type: :string},

@@ -8,21 +8,30 @@ defmodule WandaWeb.Schemas.V1.Execution.ExpectationEvaluationError do
   OpenApiSpex.schema(
     %{
       title: "ExpectationEvaluationError",
-      description: "An error occurred during the evaluation of an expectation",
+      description:
+        "Indicates that an error occurred during the evaluation of an expectation, providing details for troubleshooting.",
       type: :object,
       additionalProperties: false,
       properties: %{
-        name: %Schema{type: :string, description: "Expectation name"},
-        message: %Schema{type: :string, description: "Error message"},
+        name: %Schema{
+          type: :string,
+          description: "The name of the expectation for which the error occurred."
+        },
+        message: %Schema{
+          type: :string,
+          description:
+            "A detailed message describing the error encountered during expectation evaluation."
+        },
         type: %Schema{
           type: :string,
-          description: "Error type"
+          description:
+            "The type of error encountered during expectation evaluation, such as validation or runtime error."
         }
       },
       required: [:name, :message, :type],
       example: %{
         name: "fencing_enabled",
-        message: "Expression evaluation failed",
+        message: "Expression evaluation failed.",
         type: "evaluation_error"
       }
     },

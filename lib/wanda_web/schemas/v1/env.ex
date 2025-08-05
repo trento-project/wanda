@@ -8,7 +8,8 @@ defmodule WandaWeb.Schemas.V1.Env do
   OpenApiSpex.schema(
     %{
       title: "ExecutionEnv",
-      description: "Contextual Environment for the current execution",
+      description:
+        "Defines the contextual environment settings used during the current execution, allowing for flexible configuration.",
       type: :object,
       additionalProperties: %Schema{
         oneOf: [
@@ -21,8 +22,7 @@ defmodule WandaWeb.Schemas.V1.Env do
       example: %{
         "VAR1" => "value1",
         "MAX_RETRIES" => 3,
-        "DEBUG" => true,
-        "EXTRA" => ["foo", "bar"]
+        "DEBUG" => true
       }
     },
     struct?: false

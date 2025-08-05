@@ -14,13 +14,36 @@ defmodule WandaWeb.Schemas.V1.Execution.CheckResult do
   OpenApiSpex.schema(
     %{
       title: "CheckResult",
-      description: "The result of a check",
+      description:
+        "Represents the result of a check execution, including expectation evaluations and customization status.",
       type: :object,
       additionalProperties: false,
       properties: %{
-        check_id: %Schema{type: :string, description: "Check ID"},
-        customized: %Schema{type: :boolean, description: "Whether the check has been customized"},
-        expectation_results: %Schema{type: :array, items: ExpectationResult},
+        check_id: %Schema{
+          type: :string,
+          description: "The unique identifier of the check for which the result is reported.",
+          example: "SLES-HA-1"
+        },
+        customized: %Schema{
+          type: :boolean,
+          description:
+            "Indicates whether the check has been customized for this execution, allowing for tailored validation.",
+          example: false
+        },
+        expectation_results: %Schema{
+          type: :array,
+          items: ExpectationResult,
+          description:
+            "List of results for each expectation evaluated during the check, providing detailed outcome information.",
+          example: [
+            %{
+              name: "fencing_enabled",
+              result: true,
+              type: "expect",
+              failure_message: "Fencing is not configured for all nodes."
+            }
+          ]
+        },
         agents_check_results: %Schema{
           type: :array,
           items: %Schema{
@@ -28,12 +51,17 @@ defmodule WandaWeb.Schemas.V1.Execution.CheckResult do
               AgentCheckResult,
               AgentCheckError
             ]
-          }
+          },
+          description:
+            "The aggregated result of the check execution, summarizing the overall outcome for the check.",
+          example: []
         },
         result: %Schema{
           type: :string,
           enum: ["passing", "warning", "critical"],
-          description: "Result of the check"
+          description:
+            "Aggregated result of the check execution. Possible values are: passing, warning, or critical.",
+          example: "critical"
         }
       },
       required: [:check_id, :expectation_results, :agents_check_results, :result],
@@ -43,7 +71,7 @@ defmodule WandaWeb.Schemas.V1.Execution.CheckResult do
         expectation_results: [
           %{
             name: "fencing_enabled",
-            result: false,
+            result: true,
             type: "expect",
             failure_message: "Fencing is not configured for all nodes."
           }

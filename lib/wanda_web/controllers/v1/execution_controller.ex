@@ -24,23 +24,37 @@ defmodule WandaWeb.V1.ExecutionController do
   action_fallback WandaWeb.FallbackController
 
   operation :index,
-    summary: "List executions",
+    summary: "List executions.",
+    description:
+      "Provides a paginated list of executions performed in the system, supporting monitoring and analysis.",
     tags: ["Wanda Checks"],
     parameters: [
       group_id: [
         in: :query,
-        description: "Filter by group ID",
+        description: "The unique identifier of the group to filter the executions list.",
         type: %Schema{
           type: :string,
           format: :uuid
         },
-        example: "00000000-0000-0000-0000-000000000001"
+        example: "c1a2b3c4-d5e6-7890-abcd-ef1234567890"
       ],
-      page: [in: :query, description: "Page", type: :integer, example: 3],
-      items_per_page: [in: :query, description: "Items per page", type: :integer, example: 20]
+      page: [
+        in: :query,
+        description: "Specify the page number to retrieve paginated results for executions.",
+        type: :integer,
+        example: 3
+      ],
+      items_per_page: [
+        in: :query,
+        description: "Set the number of items to be returned per page in the paginated results.",
+        type: :integer,
+        example: 20
+      ]
     ],
     responses: [
-      ok: {"List executions response", "application/json", ListExecutionsResponse},
+      ok:
+        {"A successful response containing a paginated list of executions.", "application/json",
+         ListExecutionsResponse},
       unprocessable_entity: UnprocessableEntity.response()
     ]
 
@@ -52,21 +66,24 @@ defmodule WandaWeb.V1.ExecutionController do
   end
 
   operation :show,
-    summary: "Get an execution by ID",
+    summary: "Get an execution by ID.",
+    description: "Provides detailed information about a specific execution identified by its ID.",
     tags: ["Wanda Checks"],
     parameters: [
       id: [
         in: :path,
-        description: "Execution ID",
+        description: "The unique identifier of the execution to retrieve details for.",
         type: %Schema{
           type: :string,
           format: :uuid
         },
-        example: "00000000-0000-0000-0000-000000000001"
+        example: "c1a2b3c4-d5e6-7890-abcd-ef1234567890"
       ]
     ],
     responses: [
-      ok: {"Execution", "application/json", ExecutionResponse},
+      ok:
+        {"A successful response containing details of the requested execution.",
+         "application/json", ExecutionResponse},
       not_found: NotFound.response(),
       unprocessable_entity: UnprocessableEntity.response()
     ]
@@ -78,21 +95,25 @@ defmodule WandaWeb.V1.ExecutionController do
   end
 
   operation :last,
-    summary: "Get the last execution of a group",
+    summary: "Get the last execution of a group.",
+    description: "Provides details about the most recent execution for a specified group.",
     tags: ["Wanda Checks"],
     parameters: [
       id: [
         in: :path,
-        description: "Group ID",
+        description:
+          "The unique identifier of the group for which the last execution is requested.",
         type: %Schema{
           type: :string,
           format: :uuid
         },
-        example: "00000000-0000-0000-0000-000000000001"
+        example: "c1a2b3c4-d5e6-7890-abcd-ef1234567890"
       ]
     ],
     responses: [
-      ok: {"Execution", "application/json", ExecutionResponse},
+      ok:
+        {"A successful response containing details of the last execution for the specified group.",
+         "application/json", ExecutionResponse},
       not_found: NotFound.response(),
       unprocessable_entity: UnprocessableEntity.response()
     ]
@@ -104,12 +125,18 @@ defmodule WandaWeb.V1.ExecutionController do
   end
 
   operation :start,
-    summary: "Start a Checks Execution",
+    summary: "Start a Checks Execution.",
+    description:
+      "Initiates a new checks execution on the target infrastructure, enabling automated validation.",
     tags: ["Wanda Checks"],
-    description: "Start a Checks Execution on the target infrastructure",
-    request_body: {"Execution Context", "application/json", StartExecutionRequest},
+    request_body: {"Execution Context.", "application/json", StartExecutionRequest},
+    request_body:
+      {"The context required to start a new execution, including necessary parameters.",
+       "application/json", StartExecutionRequest},
     responses: [
-      accepted: {"Accepted Execution Response", "application/json", AcceptedExecutionResponse},
+      accepted:
+        {"A successful response indicating the execution was accepted and started.",
+         "application/json", AcceptedExecutionResponse},
       bad_request: BadRequest.response(),
       unprocessable_entity: UnprocessableEntity.response()
     ]

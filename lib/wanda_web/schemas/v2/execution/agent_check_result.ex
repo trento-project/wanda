@@ -15,12 +15,23 @@ defmodule WandaWeb.Schemas.V2.Execution.AgentCheckResult do
   OpenApiSpex.schema(
     %{
       title: "AgentCheckResult",
-      description: "The result of check on a specific agent",
+      description:
+        "This object represents the result of a check performed on a specific agent during the execution process.",
       type: :object,
       additionalProperties: false,
       properties: %{
-        agent_id: %Schema{type: :string, format: :uuid, description: "Agent ID"},
-        facts: %Schema{type: :array, items: Fact, description: "Facts gathered from the targets"},
+        agent_id: %Schema{
+          type: :string,
+          format: :uuid,
+          description:
+            "A unique identifier for the agent that participated in the check execution."
+        },
+        facts: %Schema{
+          type: :array,
+          items: Fact,
+          description:
+            "An array of facts that were gathered from the agent during the execution process."
+        },
         expectation_evaluations: %Schema{
           type: :array,
           items: %Schema{
@@ -29,7 +40,8 @@ defmodule WandaWeb.Schemas.V2.Execution.AgentCheckResult do
               ExpectationEvaluationError
             ]
           },
-          description: "Result of the single expectation evaluation"
+          description:
+            "An array containing the results of each expectation evaluation performed for the agent during the check execution."
         }
       },
       required: [:agent_id, :facts, :expectation_evaluations],
