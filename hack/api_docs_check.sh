@@ -150,25 +150,50 @@ fi
 # redocly lint "$MERGED_OPENAPI_FILE" --extends recommended --format=stylish --skip-rule=operation-4xx-response || true
 
 # Run spectral linter
-# echo "Running spectral linter..."
-# spectral lint "$MERGED_OPENAPI_FILE" -r https://unpkg.com/@apisyouwonthate/style-guide/dist/ruleset.js --format=text || true
-spectral lint "$MERGED_OPENAPI_FILE" -r https://unpkg.com/@stoplight/spectral-documentation/dist/ruleset.mjs --format=text || true
-# spectral lint "$MERGED_OPENAPI_FILE" -r https://unpkg.com/@rhoas/spectral-ruleset --format=text || true
-# spectral lint "$MERGED_OPENAPI_FILE" -r https://raw.githubusercontent.com/SchwarzIT/api-linter-rules/refs/heads/main/spectral.yml --format=text || true
+echo "Running spectral linter..."
+
+# Create a temporary ruleset file to combine all spectral rulesets and ignore specific rules.
+SPECTRAL_RULESET_FILE=$(mktemp .spectral.XXXXXX.yaml)
+TEMP_FILES+=("$SPECTRAL_RULESET_FILE")
+cat > "$SPECTRAL_RULESET_FILE" << EOF
+extends:
+  - "https://unpkg.com/@apisyouwonthate/style-guide/dist/ruleset.js"
+  - "https://unpkg.com/@rhoas/spectral-ruleset"
+  - "https://raw.githubusercontent.com/SchwarzIT/api-linter-rules/refs/heads/main/spectral.yml"
+  - "https://unpkg.com/@stoplight/spectral-documentation/dist/ruleset.mjs"
+rules:
+  api-health: "off"
+  api-home: "off"
+  common-responses-unauthorized: "off"
+  no-numeric-ids: "off"
+  no-unknown-error-format: "off"
+  path-must-match-api-standards: "off"
+  path-must-match-api-standards: "off"
+  paths-kebab-case: "off"
+  rhoas-error-schema: "off"
+  rhoas-list-schema: "off"
+  rhoas-object-schema: "off"
+  rhoas-path-regexp: "off"
+  rhoas-schema-name-pascal-case: "off"
+  rhoas-servers-config: "off"
+  servers-must-match-api-standards: "off"
+EOF
+
+spectral lint "$MERGED_OPENAPI_FILE" -r "$SPECTRAL_RULESET_FILE" --verbose --format=text || true
+echo ""
 
 # Run vacuum linter
-# echo "Running vacuum linter..."
+echo "Running vacuum linter..."
 
-# # Create a temporary ruleset file to ignore the description-duplication rule.
-# # The file will be cleaned up automatically on script exit.
-# VACUUM_RULESET_FILE=$(mktemp .vacuum.XXXXXX.yaml)
-# TEMP_FILES+=("$VACUUM_RULESET_FILE")
-# cat > "$VACUUM_RULESET_FILE" << EOF
-# extends:
-#   - vacuum:recommended
-# rules:
-#   paths-kebab-case: false        # Allow kebab-case in paths
-#   description-duplication: false # Allow duplication of description
-# EOF
+# Create a temporary ruleset file to ignore the description-duplication rule.
+VACUUM_RULESET_FILE=$(mktemp .vacuum.XXXXXX.yaml)
+TEMP_FILES+=("$VACUUM_RULESET_FILE")
+cat > "$VACUUM_RULESET_FILE" << EOF
+extends:
+  - vacuum:recommended
+rules:
+  paths-kebab-case: false
+  description-duplication: false
+EOF
 
-# vacuum lint "$MERGED_OPENAPI_FILE" -r "$VACUUM_RULESET_FILE" -d --ignore-array-circle-ref || true
+vacuum lint "$MERGED_OPENAPI_FILE" -r "$VACUUM_RULESET_FILE" -d --ignore-array-circle-ref || true
