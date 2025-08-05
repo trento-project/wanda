@@ -12,11 +12,20 @@ defmodule WandaWeb.Schemas.V1.ChecksSelection.NotCustomizedCheckValue do
   OpenApiSpex.schema(
     %{
       title: "NotCustomizedCheckValue",
-      description: "A check value that is not customized",
+      description:
+        "Represents a check value that has not been customized, including its name, default value, and customization status.",
       type: :object,
       additionalProperties: false,
+      example: %{
+        name: "threshold",
+        default_value: 10,
+        customizable: true
+      },
       properties: %{
-        name: %Schema{type: :string, description: "Value name"},
+        name: %Schema{
+          type: :string,
+          description: "The name of the check value that has not been customized."
+        },
         default_value: %Schema{
           oneOf: [
             %Schema{type: :string},
@@ -24,11 +33,12 @@ defmodule WandaWeb.Schemas.V1.ChecksSelection.NotCustomizedCheckValue do
             %Schema{type: :boolean}
           ],
           description:
-            "Original value as defined by specification. Resolved based on the environment. Absent if value is not customizable."
+            "The original value as defined by specification, resolved based on the environment. Absent if value is not customizable."
         },
         customizable: %Schema{
           type: :boolean,
-          description: "Whether the check is customizable or not"
+          description:
+            "Indicates whether the check value can be customized for execution, allowing for tailored validation."
         }
       },
       required: [:name, :customizable]
