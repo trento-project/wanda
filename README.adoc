@@ -26,6 +26,7 @@ link:https://trento-project.io/wanda/swaggerui[trento-project.io/wanda/swaggerui
 Please refer to link:https://github.com/trento-project/checks[Trento Checks]
 and link:#testing-executions[testing Checks Executions].
 
+[[testing-executions]]
 == Testing Executions
 
 With a running setup, it is possible to easily test Checks and their
