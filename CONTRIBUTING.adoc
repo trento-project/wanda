@@ -13,7 +13,7 @@ contributions.
 Before creating a new issue make sure you use the search functionality
 to confirm that a similar issue doesn’t already exist. Next, make sure
 you properly label the issue as per our
-https://github.com/trento-project/wanda/labels[labels]
+link:https://github.com/trento-project/wanda/labels[labels]
 
 If you are reporting a `+bug+`, please share a file generated using the
 `+trento-support.sh+` script with the following params:
@@ -28,7 +28,7 @@ sensitive data of your own.
 
 === Submitting changes
 
-Always refer to the https://github.com/trento-project/docs[docs
+Always refer to the link:https://github.com/trento-project/docs[docs
 repository] for coding standards and general guidelines.
 
 ==== Pull Requests guideline

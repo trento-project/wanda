@@ -330,4 +330,4 @@ let all_rabbits_are_strong = rabbits.all(|rabbit| rabbit.power > 9000) // false,
 == Rhai
 
 For extra information about the underlying scripting language see
-https://rhai.rs/book/language/[Rhai].
+link:https://rhai.rs/book/language/[Rhai].

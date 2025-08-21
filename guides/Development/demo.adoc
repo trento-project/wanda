@@ -10,7 +10,7 @@ wanda’s fake server returns faked gathered facts.
 
 == How to setup Wanda in demo mode?
 
-First set up the link:https://github.com/trento-project/wanda/blob/main/guides/development/hack_on_wanda.adoc[local environment] and run the
+First set up the xref:./hack-on-wanda.adoc[local environment] and run the
 following command to start Wanda in demo mode, instead of the usual
 `+iex -S mix phx.server+`
 
@@ -42,14 +42,14 @@ the demo environment).
 == Modify demo facts configuration
 
 In the Wanda demo environment, configure fake facts by editing the
-https://github.com/trento-project/wanda/blob/main/priv/demo/fake_facts.yaml[fake_facts
+link:https://github.com/trento-project/wanda/blob/main/priv/demo/fake_facts.yaml[fake_facts
 configuration]. Define or modify custom facts for different targets and
 checks.
 
 === YAML Structure
 
 The Configuration is saved in
-https://github.com/trento-project/wanda/blob/main/priv/demo/fake_facts.yaml[fake_facts.yaml]
+link:https://github.com/trento-project/wanda/blob/main/priv/demo/fake_facts.yaml[fake_facts.yaml]
 file, which follows a specific structure with two main sections:
 `+targets+` and `+facts+`.
 
@@ -143,9 +143,7 @@ is added to wanda, changing the the configuration is optional.
 === How to know what’s the correct return value of a fact?
 
 Every Fact Gatherer has specific return values. To get an overview of
-all gatherers, refer to link:https://github.com/trento-project/wanda/blob/main/guides/specification.adoc[Wanda’s gatherers guide].
+all gatherers, refer to xref:../specification.adoc[Wanda's gatherers guide].
 Determining the correct return value of a fact requires inspecting the
-specific check itself. Visit the
-https://github.com/trento-project/wanda/blob/main/priv/catalog[Checks
-Catalog] to find out which gatherer is used for the specific check and
+specific check itself. Visit the link:https://github.com/trento-project/checks[Checks Catalog] to find out which gatherer is used for the specific check and
 which values are expected.
