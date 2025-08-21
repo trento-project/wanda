@@ -3,7 +3,7 @@ ifndef::site-gen-antora[:relfileprefix: guides/]
 :ci-workflow: {github-url}/actions/workflows/ci.yaml
 :coverage-url: https://coveralls.io/github/trento-project/wanda?branch=main
 :docs-url: https://trento-project.io/wanda/
-
+:license-year: 2021-2025
 = Trento Wanda
 
 image:{ci-workflow}/badge.svg[CI,link={ci-workflow}]
@@ -299,7 +299,7 @@ endif::[]
 
 == License
 
-Copyright 2021-2025 SUSE LLC
+Copyright {license-year} LLC
 
 Licensed under the Apache License, Version 2.0 (the "`License`"); you
 may not use any of the source code in this project except in compliance
