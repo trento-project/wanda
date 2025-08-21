@@ -270,7 +270,7 @@ in the written check:
 === Running a Development Environment
 
 To set up a local development environment for Wanda, follow the
-instructions provided in xref:Development/hack_on_wanda.adoc[how to hack on wanda].
+instructions provided in xref:Development/hack-on-wanda.adoc[how to hack on wanda].
 
 This guide walks through the process of installing and configuring the
 necessary dependencies, as well as setting up a local development
