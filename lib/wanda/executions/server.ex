@@ -54,7 +54,7 @@ defmodule Wanda.Executions.Server do
 
     targets =
       Enum.map(targets, fn %{checks: target_checks} = target ->
-        %Target{target | checks: target_checks -- target_checks -- checks_ids}
+        %Target{target | checks: target_checks -- (target_checks -- checks_ids)}
       end)
 
     maybe_start_execution(execution_id, group_id, targets, checks, env, config)
