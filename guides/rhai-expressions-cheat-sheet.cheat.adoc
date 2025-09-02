@@ -5,8 +5,6 @@ be done through Rhai, for convenience.
 
 == Cheatsheet
 
-\{: .col-2}
-
 === Arrays
 
 ==== Filtering an array
