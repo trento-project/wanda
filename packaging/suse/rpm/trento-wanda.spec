@@ -79,6 +79,6 @@ install -D -m 0600 packaging/suse/rpm/systemd/trento-wanda.example %{buildroot}/
 /etc/trento/trento-wanda.example
 
 %license LICENSE
-%doc README.md guides
+%doc README.adoc guides
 
 %changelog
