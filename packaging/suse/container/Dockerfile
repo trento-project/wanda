@@ -5,7 +5,7 @@
 #!UseOBSRepositories
 #!ExclusiveArch: x86_64
 
-FROM registry.suse.com/bci/rust:1.81 AS release
+FROM registry.suse.com/bci/rust:1.88 AS release
 ADD wanda.tar.gz /build/
 RUN zypper -n in git-core elixir==1.15 elixir-hex erlang==26 erlang-rebar3
 WORKDIR /build/wanda/

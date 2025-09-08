@@ -28,8 +28,8 @@ BuildRequires:  elixir >= 1.15
 BuildRequires:  elixir-hex
 BuildRequires:  erlang-rebar3
 BuildRequires:  git-core
-BuildRequires:  rust1.81
-BuildRequires:  cargo1.81
+BuildRequires:  rust1.88
+BuildRequires:  cargo1.88
 # avoid conflicting aliases in the rust dependency tree
 #!BuildIgnore: cargo
 #!BuildIgnore: rust
