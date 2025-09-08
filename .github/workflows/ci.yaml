@@ -27,6 +27,13 @@ jobs:
     name: Static Code Analysis
     needs: elixir-deps
     runs-on: ubuntu-24.04
+    strategy:
+      matrix:
+        include:
+          - elixir: "1.15"
+            otp: "26"
+          - elixir: "1.18"
+            otp: "27"
     steps:
       - name: Cancel Previous Runs
         uses: styfle/cancel-workflow-action@0.12.1
@@ -40,8 +47,8 @@ jobs:
         id: setup-elixir
         uses: erlef/setup-beam@v1
         with:
-          version-file: .tool-versions
-          version-type: strict
+          otp-version: ${{ matrix.otp }}
+          elixir-version: ${{ matrix.elixir }}
       - name: Read .tool-versions
         uses: endorama/asdf-parse-tool-versions@v1.3.4
         id: tool-versions
@@ -67,6 +74,13 @@ jobs:
     name: Test
     needs: elixir-deps
     runs-on: ubuntu-24.04
+    strategy:
+      matrix:
+        include:
+          - elixir: "1.15"
+            otp: "26"
+          - elixir: "1.18"
+            otp: "27"
     services:
       postgres:
         image: postgres
@@ -101,8 +115,8 @@ jobs:
         id: setup-elixir
         uses: erlef/setup-beam@v1
         with:
-          version-file: .tool-versions
-          version-type: strict
+          otp-version: ${{ matrix.otp }}
+          elixir-version: ${{ matrix.elixir }}
       - name: Read .tool-versions
         uses: endorama/asdf-parse-tool-versions@v1.3.4
         id: tool-versions
@@ -138,8 +152,23 @@ jobs:
       matrix:
         include:
           - version: V1
+            elixir: "1.15"
+            otp: "26"
+          - version: V1
+            elixir: "1.18"
+            otp: "27"
           - version: V2
+            elixir: "1.15"
+            otp: "26"
+          - version: V2
+            elixir: "1.18"
+            otp: "27"
           - version: V3
+            elixir: "1.15"
+            otp: "26"
+          - version: V3
+            elixir: "1.18"
+            otp: "27"
     steps:
       - name: Cancel Previous Runs
         uses: styfle/cancel-workflow-action@0.12.1
@@ -151,8 +180,8 @@ jobs:
         id: setup-elixir
         uses: erlef/setup-beam@v1
         with:
-          version-file: .tool-versions
-          version-type: strict
+          otp-version: ${{ matrix.otp }}
+          elixir-version: ${{ matrix.elixir }}
       - name: Read .tool-versions
         uses: endorama/asdf-parse-tool-versions@v1.3.4
         id: tool-versions
