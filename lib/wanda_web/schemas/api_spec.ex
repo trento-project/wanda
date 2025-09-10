@@ -96,6 +96,11 @@ defmodule WandaWeb.Schemas.ApiSpec do
       end
 
       defp build_paths_for_version(version, router) do
+        available_versions = router.available_api_versions()
+
+        excluded_versions = List.delete(available_versions, version)
+        actual_versions = List.delete(available_versions, "unversioned")
+
         router
         |> Paths.from_router()
         |> Enum.reject(fn {path, _info} ->
@@ -104,21 +109,18 @@ defmodule WandaWeb.Schemas.ApiSpec do
             |> String.trim("/")
             |> String.split("/")
             |> Enum.at(1)
+            |> map_version(actual_versions)
 
-          cond do
-            # When generating "unversioned" version, include only unversioned endpoints
-            version == "unversioned" ->
-              current_version in router.available_api_versions()
-
-            # When generating specific version, exclude unversioned and other versions
-            true ->
-              excluded_versions = List.delete(router.available_api_versions(), version)
-
-              current_version in excluded_versions or
-                current_version not in router.available_api_versions()
-          end
+          Enum.member?(excluded_versions, current_version)
         end)
         |> Map.new()
+      end
+
+      defp map_version(version, actual_versions) do
+        case version in actual_versions do
+          true -> version
+          _ -> "unversioned"
+        end
       end
     end
   end

@@ -5,7 +5,7 @@ defmodule WandaWeb.HealthControllerTest do
 
   import OpenApiSpex.TestAssertions
 
-  alias WandaWeb.Schemas.V1.ApiSpec
+  alias WandaWeb.Schemas.Unversioned.ApiSpec
 
   setup do
     %{api_spec: ApiSpec.spec()}
