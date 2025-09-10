@@ -1,8 +1,9 @@
+ifndef::site-gen-antora[:relfileprefix: guides/]
 :github-url: https://github.com/trento-project/wanda
 :ci-workflow: {github-url}/actions/workflows/ci.yaml
 :coverage-url: https://coveralls.io/github/trento-project/wanda?branch=main
 :docs-url: https://trento-project.io/wanda/
-
+:license-year: 2021-2025
 = Trento Wanda
 
 image:{ci-workflow}/badge.svg[CI,link={ci-workflow}]
@@ -15,16 +16,17 @@ infrastructure.
 == Documentation
 
 The documentation is available at
-https://trento-project.io/wanda/[trento-project.io/wanda].
+link:https://trento-project.io/wanda/[trento-project.io/wanda].
 
 Swagger UI is available at
-https://trento-project.io/wanda/swaggerui[trento-project.io/wanda/swaggerui].
+link:https://trento-project.io/wanda/swaggerui[trento-project.io/wanda/swaggerui].
 
 == Developing Checks
 
-Please refer to https://github.com/trento-project/checks[Trento Checks]
+Please refer to link:https://github.com/trento-project/checks[Trento Checks]
 and link:#testing-executions[testing Checks Executions].
 
+[[testing-executions]]
 == Testing Executions
 
 With a running setup, it is possible to easily test Checks and their
@@ -38,7 +40,7 @@ Execution by:
 
 === *Starting the targets*
 
-The https://github.com/trento-project/agent[trento-agent] must be up and
+The link:https://github.com/trento-project/agent[trento-agent] must be up and
 running on the targets to run a correct execution, otherwise a timeout
 error is raised.
 
@@ -64,7 +66,7 @@ The ID can be obtained running:
 ....
 
 If the execution is run in a development/testing environment,
-https://github.com/trento-project/agent#fake-agent-id[faking the agent
+link:https://github.com/trento-project/agent#fake-agent-id[faking the agent
 id] might come handy.
 
 === *Consulting the catalog*
@@ -226,7 +228,7 @@ link:#starting-a-checks-execution[starting an execution] might result in
 a `404 not found`, because the execution, as mentioned, is _eventually
 started_. In this case, retry getting the detail of the execution.
 
-Refer to the http://localhost:4000/swaggerui[API doc] for more
+Refer to the link:http://localhost:4000/swaggerui[API doc] for more
 information about requests and responses.
 
 ==== *Debugging gathered facts*
@@ -268,7 +270,7 @@ in the written check:
 === Running a Development Environment
 
 To set up a local development environment for Wanda, follow the
-instructions provided in link:https://github.com/trento-project/wanda/blob/main/guides/development/hack_on_wanda.adoc[how to hack on wanda].
+instructions provided in xref:Development/hack-on-wanda.adoc[how to hack on wanda].
 
 This guide walks through the process of installing and configuring the
 necessary dependencies, as well as setting up a local development
@@ -278,29 +280,33 @@ environment.
 
 The demo mode of Wanda allows to showcase checks evaluation without the
 full setup with actual agents on the host. To run a demo instance,
-follow the instructions provided in
-link:https://github.com/trento-project/wanda/blob/main/guides/development/demo.adoc[how to run wanda demo guide].
+follow the instructions provided in xref:Development/demo.adoc[how to run wanda demo guide].
 
 == Support
 
 Please only report bugs via
-https://github.com/trento-project/wanda/issues[GitHub issues] and for
+link:https://github.com/trento-project/wanda/issues[GitHub issues] and for
 any other inquiry or topic use
-https://github.com/trento-project/wanda/discussions[GitHub discussion].
+link:https://github.com/trento-project/wanda/discussions[GitHub discussion].
 
 == Contributing
 
-See xref:CONTRIBUTING.adoc[CONTRIBUTING] guide.
+ifdef::site-gen-antora[]
+See xref:CONTRIBUTING.adoc[contribution guidelines].
+endif::[]
+ifndef::site-gen-antora[]
+See link:CONTRIBUTING.adoc[contribution guidelines].
+endif::[]
 
 == License
 
-Copyright 2021-2024 SUSE LLC
+Copyright {license-year} LLC
 
 Licensed under the Apache License, Version 2.0 (the "`License`"); you
 may not use any of the source code in this project except in compliance
 with the License. You may obtain a copy of the License at
 
-https://www.apache.org/licenses/LICENSE-2.0
+link:https://www.apache.org/licenses/LICENSE-2.0[LICENSE-2.0L]
 
 Unless required by applicable law or agreed to in writing, software
 distributed under the License is distributed on an "`AS IS`" BASIS,

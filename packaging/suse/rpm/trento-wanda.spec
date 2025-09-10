@@ -28,8 +28,8 @@ BuildRequires:  elixir >= 1.15
 BuildRequires:  elixir-hex
 BuildRequires:  erlang-rebar3
 BuildRequires:  git-core
-BuildRequires:  rust1.81
-BuildRequires:  cargo1.81
+BuildRequires:  rust1.88
+BuildRequires:  cargo1.88
 # avoid conflicting aliases in the rust dependency tree
 #!BuildIgnore: cargo
 #!BuildIgnore: rust
@@ -79,6 +79,6 @@ install -D -m 0600 packaging/suse/rpm/systemd/trento-wanda.example %{buildroot}/
 /etc/trento/trento-wanda.example
 
 %license LICENSE
-%doc README.md guides
+%doc README.adoc guides
 
 %changelog
