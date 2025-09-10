@@ -84,10 +84,8 @@ command -v spectral >/dev/null 2>&1 || {
     exit 1
 }
 
-PROJECT_DIR=$(cd "$(dirname "${BASH_SOURCE[0]}")/.." >/dev/null && pwd)
 MERGED_OPENAPI_FILE="openapi.json"
 VERSIONS=("Unversioned" "V1" "V2" "V3")
-# VERSIONS=("V1" "V2" "V3")
 
 if [ "$SKIP_GENERATION" = false ]; then
     # Generate the API docs into temporary files
@@ -189,8 +187,7 @@ echo "Running vacuum linter..."
 VACUUM_RULESET_FILE=$(mktemp .vacuum.XXXXXX.yaml)
 TEMP_FILES+=("$VACUUM_RULESET_FILE")
 cat > "$VACUUM_RULESET_FILE" << EOF
-extends:
-  - vacuum:recommended
+extends: [[vacuum:oas, recommended]]
 rules:
   paths-kebab-case: false
   description-duplication: false

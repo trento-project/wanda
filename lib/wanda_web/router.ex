@@ -2,7 +2,7 @@ defmodule WandaWeb.Router do
   use WandaWeb, :router
 
   # From newest to oldest
-  @available_api_versions ["v3", "v2", "v1"]
+  @available_api_versions ["unversioned", "v3", "v2", "v1"]
 
   pipeline :browser do
     plug :accepts, ["html"]
@@ -30,6 +30,11 @@ defmodule WandaWeb.Router do
     plug OpenApiSpex.Plug.PutApiSpec, module: WandaWeb.Schemas.V3.ApiSpec
   end
 
+  pipeline :unversioned_api do
+    plug :api
+    plug OpenApiSpex.Plug.PutApiSpec, module: TrentoWeb.OpenApi.Unversioned.ApiSpec
+  end
+
   pipeline :protected_api do
     plug Unplug,
       if: {Unplug.Predicates.AppConfigEquals, {:wanda, :jwt_authentication_enabled, true}},
@@ -44,7 +49,8 @@ defmodule WandaWeb.Router do
       urls: [
         %{url: "/api/v1/openapi", name: "Version 1"},
         %{url: "/api/v2/openapi", name: "Version 2"},
-        %{url: "/api/v3/openapi", name: "Version 3"}
+        %{url: "/api/v3/openapi", name: "Version 3"},
+        %{url: "/api/unversioned/openapi", name: "Unversioned"}
       ]
   end
 
@@ -117,6 +123,11 @@ defmodule WandaWeb.Router do
 
     scope "/v3" do
       pipe_through :api_v3
+      get "/openapi", OpenApiSpex.Plug.RenderSpec, []
+    end
+
+    scope "/unversioned" do
+      pipe_through :unversioned_api
       get "/openapi", OpenApiSpex.Plug.RenderSpec, []
     end
   end
