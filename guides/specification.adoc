@@ -934,7 +934,7 @@ expectations:
     expect: facts.corosync_token_timeout == values.expected_token_timeout
 ----
 
-See xref:expression_language.adoc[reference for the Expression
+See xref:expression-language.adoc[reference for the Expression
 Language].
 
 === Evaluation Scope

@@ -199,7 +199,7 @@ output is in XML format, the gatherer converts it to map/dictionary type
 format, so the fields are available with the normal dot access way. Some
 specific fields, such as `+primitive+`, `+clone+`, `+master+`, etc (find
 the complete list
-https://github.com/trento-project/agent/blob/main/internal/factsengine/gatherers/cibadmin.go#L48[here])
+link:https://github.com/trento-project/agent/blob/main/internal/factsengine/gatherers/cibadmin.go#L48[here])
 are converted to lists, in order to avoid differences when the field
 appears one or multiple times.
 
@@ -417,7 +417,7 @@ Example output (in Rhai):
 ----
 
 For extra information refer to
-https://github.com/trento-project/agent/blob/main/internal/factsengine/gatherers/corosyncconf_test.go[trento-project/agent/../gatherers/corosyncconf_test.go]
+link:https://github.com/trento-project/agent/blob/main/internal/factsengine/gatherers/corosyncconf_test.go[trento-project/agent/../gatherers/corosyncconf_test.go]
 
 === dir_scan@v1
 
@@ -922,7 +922,7 @@ element in the list via `+package_fact_name[0]+` or
 
 In the second usecase, the return value is as follows (see additional
 details
-https://fedoraproject.org/wiki/Archive:Tools/RPM/VersionComparison#The_rpmvercmp_algorithm[here]):
+link:https://fedoraproject.org/wiki/Archive:Tools/RPM/VersionComparison#The_rpmvercmp_algorithm[here]):
 
 * A value of `+0+` if the provided version string matches the installed
 package version for the requested package.
@@ -1269,7 +1269,7 @@ This gatherer allows access to certain webmethods that `+sapcontrol+`
 implements. An argument is required to specify which webmethod should be
 called. The communication with `+sapcontrol+` is created opening a unix
 socket connection using the file `+/tmp/.sapstream5xx13+`. The
-https://www.sap.com/documents/2016/09/0a40e60d-8b7c-0010-82c7-eda71af511fa.html[Sapcontrol
+link:https://www.sap.com/documents/2016/09/0a40e60d-8b7c-0010-82c7-eda71af511fa.html[Sapcontrol
 Web Service Interface] documents the SOAP API interface, including all
 the possible values each of the fields could have, specifically helpful
 for enumerators like `+dispstatus+` in `+GetProcessList+` and
@@ -1728,7 +1728,7 @@ Example output (in Rhai):
 ----
 
 For extra information refer to
-https://github.com/trento-project/agent/blob/main/internal/factsengine/gatherers/sbddump_test.go[trento-project/agent/../gatherers/sbddump_test.go]
+link:https://github.com/trento-project/agent/blob/main/internal/factsengine/gatherers/sbddump_test.go[trento-project/agent/../gatherers/sbddump_test.go]
 
 === sudoers@v1
 
@@ -1907,7 +1907,7 @@ or `+.mount+`.
 
 Only a subset of properties are returned. Additional information about
 these is available in the
-https://www.man7.org/linux/man-pages/man5/org.freedesktop.systemd1.5.html#UNIT_OBJECTS[systemd]
+link:https://www.man7.org/linux/man-pages/man5/org.freedesktop.systemd1.5.html#UNIT_OBJECTS[systemd]
 man pages, with some detailed description in the `+Properties+`
 sub-chapter.
 
