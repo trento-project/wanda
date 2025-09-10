@@ -27,10 +27,12 @@ defmodule WandaWeb.Schemas.V1.Operation.AgentReport do
           nullable: true,
           properties: %{
             before: %Schema{
+              type: :string,
               description:
                 "The state of the agent before applying the operation, providing context for the change."
             },
             after: %Schema{
+              type: :string,
               description:
                 "The state of the agent after applying the operation, showing the result of the change."
             }
