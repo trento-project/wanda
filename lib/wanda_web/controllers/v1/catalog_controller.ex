@@ -35,7 +35,7 @@ defmodule WandaWeb.V1.CatalogController do
       ok:
         {"A successful response containing the catalog of available checks.", "application/json",
          CatalogResponse},
-          unprocessable_entity: UnprocessableEntity.response()
+      unprocessable_entity: UnprocessableEntity.response()
     ]
 
   def catalog(conn, params) do
