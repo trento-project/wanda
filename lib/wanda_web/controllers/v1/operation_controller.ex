@@ -19,21 +19,35 @@ defmodule WandaWeb.V1.OperationController do
   action_fallback WandaWeb.FallbackController
 
   operation :index,
-    summary: "List operations",
+    summary: "List operations.",
+    description:
+      "Provides a paginated list of operations performed in the system, allowing for easy tracking and management.",
+    tags: ["Wanda Checks"],
     parameters: [
       group_id: [
         in: :query,
-        description: "Filter by group ID",
+        description: "The unique identifier of the group to filter the operations list.",
         type: %Schema{
           type: :string,
           format: :uuid
         },
-        example: "00000000-0000-0000-0000-000000000001"
+        example: "c1a2b3c4-d5e6-7890-abcd-ef1234567890"
       ],
-      page: [in: :query, description: "Page", type: :integer, example: 3],
-      items_per_page: [in: :query, description: "Items per page", type: :integer, example: 20],
+      page: [
+        in: :query,
+        description: "Specify the page number to retrieve paginated results for operations.",
+        type: :integer,
+        example: 3
+      ],
+      items_per_page: [
+        in: :query,
+        description: "Set the number of items to be returned per page in the paginated results.",
+        type: :integer,
+        example: 20
+      ],
       status: [
         in: :query,
+        description: "Filter the operations by their status, using one of the allowed values.",
         type: %Schema{
           type: :string,
           enum: Status.values()
@@ -41,8 +55,9 @@ defmodule WandaWeb.V1.OperationController do
       ]
     ],
     responses: [
-      ok: {"List operations response", "application/json", ListOperationsResponse},
-      unprocessable_entity: OpenApiSpex.JsonErrorResponse.response()
+      ok:
+        {"A successful response containing a paginated list of operations.", "application/json",
+         ListOperationsResponse},
     ]
 
   def index(conn, params) do
@@ -55,20 +70,25 @@ defmodule WandaWeb.V1.OperationController do
   end
 
   operation :show,
-    summary: "Get an operation by ID",
+    summary: "Get an operation by ID.",
+    description:
+      "Provides detailed information about a specific operation identified by its UUID.",
+    tags: ["Wanda Checks"],
     parameters: [
       id: [
         in: :path,
-        description: "Operation ID",
+        description: "The unique identifier (UUID) of the operation to retrieve details for.",
         type: %Schema{
           type: :string,
           format: :uuid
         },
-        example: "00000000-0000-0000-0000-000000000001"
+        example: "c1a2b3c4-d5e6-7890-abcd-ef1234567890"
       ]
     ],
     responses: [
-      ok: {"Operation", "application/json", OperationResponse},
+      ok:
+        {"A successful response containing details of the requested operation.",
+         "application/json", OperationResponse},
       not_found: NotFound.response(),
       unprocessable_entity: OpenApiSpex.JsonErrorResponse.response()
     ]

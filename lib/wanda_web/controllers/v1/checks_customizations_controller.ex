@@ -22,11 +22,15 @@ defmodule WandaWeb.V1.ChecksCustomizationsController do
   action_fallback WandaWeb.FallbackController
 
   operation :apply_custom_values,
-    summary: "Apply custom values for a specific check",
+    summary: "Apply custom values for a specific check.",
+    description:
+      "Allows users to apply custom values to a specific check for a selected group, enabling tailored validation.",
+    tags: ["Wanda Checks"],
     parameters: [
       check_id: [
         in: :path,
-        description: "Identifier of the specific check that is being customized",
+        description:
+          "The unique identifier of the check to which custom values are being applied.",
         type: %Schema{
           type: :string
         },
@@ -34,17 +38,23 @@ defmodule WandaWeb.V1.ChecksCustomizationsController do
       ],
       group_id: [
         in: :path,
-        description: "Identifier of the group for which a custom value should be applied",
+        description:
+          "The unique identifier of the group for which the custom value is being set.",
         type: %Schema{
           type: :string,
           format: :uuid
         },
-        example: "00000000-0000-0000-0000-000000000001"
+        example: "c1a2b3c4-d5e6-7890-abcd-ef1234567890"
       ]
     ],
-    request_body: {"Custom Values", "application/json", CustomizationRequest},
+    request_body: {"Custom Values.", "application/json", CustomizationRequest},
+    request_body:
+      {"The custom values to be applied to the specified check.", "application/json",
+       CustomizationRequest},
     responses: [
-      ok: {"Check Customizations", "application/json", CustomizationResponse},
+      ok:
+        {"A successful response containing the applied customizations for the specified check and group.",
+         "application/json", CustomizationResponse},
       forbidden: Forbidden.response(),
       bad_request: BadRequest.response(),
       unprocessable_entity: OpenApiSpex.JsonErrorResponse.response(),
@@ -68,13 +78,15 @@ defmodule WandaWeb.V1.ChecksCustomizationsController do
   end
 
   operation :reset_customization,
-    summary: "Reset the customizations applied for a specific check",
-    description: "Removes all previously applied customizations for a check in a specific group",
+    summary: "Reset the customizations applied for a specific check.",
+    description:
+      "Removes all previously applied customizations for a check in a specific group, restoring default values.",
+    tags: ["Wanda Checks"],
     parameters: [
       check_id: [
         in: :path,
         description:
-          "Identifier of the specific check for which the customization is being reset",
+          "The unique identifier of the check for which the customization is being reset.",
         type: %Schema{
           type: :string
         },
@@ -83,16 +95,17 @@ defmodule WandaWeb.V1.ChecksCustomizationsController do
       group_id: [
         in: :path,
         description:
-          "Identifier of the group for which the specific check's customization is being reset",
+          "The unique identifier of the group for which the check's customization is being reset.",
         type: %Schema{
           type: :string,
           format: :uuid
         },
-        example: "00000000-0000-0000-0000-000000000001"
+        example: "c1a2b3c4-d5e6-7890-abcd-ef1234567890"
       ]
     ],
     responses: [
-      no_content: "Customization successfully reset",
+      no_content:
+        "A successful response indicating the customization was reset and defaults restored.",
       not_found: NotFound.response()
     ]
 

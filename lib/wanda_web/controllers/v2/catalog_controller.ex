@@ -9,18 +9,24 @@ defmodule WandaWeb.V2.CatalogController do
   plug OpenApiSpex.Plug.CastAndValidate, json_render_error_v2: true
 
   operation :catalog,
-    summary: "List checks catalog",
+    summary: "List checks catalog.",
+    description:
+      "Provides the catalog of checks that can be executed in the system for improved reliability and compliance.",
+    tags: ["Wanda Checks"],
     parameters: [
       env: [
         in: :query,
-        description: "env variables",
+        description:
+          "Specify environment variables to filter or customize the returned catalog of checks.",
         explode: true,
         style: :form,
         schema: Env
       ]
     ],
     responses: [
-      ok: {"Check catalog response", "application/json", CatalogResponse},
+      ok:
+        {"A successful response containing the catalog of available checks.", "application/json",
+         CatalogResponse},
       unprocessable_entity: OpenApiSpex.JsonErrorResponse.response()
     ]
 
