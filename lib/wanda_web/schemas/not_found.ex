@@ -2,10 +2,11 @@ defmodule WandaWeb.Schemas.NotFound do
   @moduledoc """
   404 - Not Found.
   """
-  require OpenApiSpex
 
   alias OpenApiSpex.Operation
   alias OpenApiSpex.Schema
+
+  require OpenApiSpex
 
   OpenApiSpex.schema(
     %{

@@ -20,9 +20,9 @@ defmodule WandaWeb.Schemas.ApiSpec do
     quote do
       alias OpenApiSpex.{
         Components,
+        Contact,
         Info,
         License,
-        Contact,
         OpenApi,
         Paths,
         SecurityScheme,

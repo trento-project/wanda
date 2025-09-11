@@ -2,6 +2,7 @@ defmodule WandaWeb.Schemas.Ready do
   @moduledoc """
   Ready.
   """
+
   alias OpenApiSpex.Operation
   alias OpenApiSpex.Schema
 

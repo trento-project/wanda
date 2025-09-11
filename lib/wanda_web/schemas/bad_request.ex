@@ -3,10 +3,10 @@ defmodule WandaWeb.Schemas.BadRequest do
   Bad Request.
   """
 
-  require OpenApiSpex
-
   alias OpenApiSpex.Operation
   alias OpenApiSpex.Schema
+
+  require OpenApiSpex
 
   OpenApiSpex.schema(
     %{
