@@ -143,9 +143,50 @@ jobs:
     with:
       checkout_ref: main
 
+  target-branch-deps:
+    name: Rebuild target branch dependencies
+    runs-on: ubuntu-24.04
+    strategy:
+      matrix:
+        include:
+          - elixir: "1.15"
+            otp: "26"
+          - elixir: "1.18"
+            otp: "27"
+    if: github.event_name == 'pull_request'
+    steps:
+      - name: Checkout target branch
+        uses: actions/checkout@v5
+        with:
+          ref: ${{ github.event.pull_request.base.ref }}
+      - name: Set up Elixir
+        id: setup-elixir
+        uses: erlef/setup-beam@v1
+        with:
+          otp-version: ${{ matrix.otp }}
+          elixir-version: ${{ matrix.elixir }}
+      - name: Retrieve Elixir Cached Dependencies - target branch
+        uses: actions/cache@v4
+        id: mix-cache-target
+        with:
+          path: |
+            deps
+            _build/${{ env.MIX_ENV }}
+            priv/plts
+          key: erlang-${{ steps.setup-elixir.outputs.otp-version }}-elixir-${{ steps.setup-elixir.outputs.elixir-version }}-${{ hashFiles('mix.lock') }}-${{ env.MIX_ENV }}
+      - name: Install missing dependencies
+        if: steps.mix-cache-target.outputs.cache-hit != 'true'
+        run: |
+          mkdir -p priv/plts
+          mix local.rebar --force
+          mix local.hex --force
+          mix deps.get
+          mix deps.compile --warnings-as-errors
+          mix dialyzer --plt
+
   api-bc-check:
     name: API bc check
-    needs: [elixir-deps, main-branch-deps]
+    needs: [elixir-deps, target-branch-deps]
     if: github.event_name == 'pull_request' && !failure() && !cancelled()
     runs-on: ubuntu-24.04
     strategy:
@@ -194,39 +235,37 @@ jobs:
         with:
           path: |
             deps
-            _build/test
+            _build/${{ env.MIX_ENV }}
             priv/plts
           key: erlang-${{ steps.setup-elixir.outputs.otp-version }}-elixir-${{ steps.setup-elixir.outputs.elixir-version }}-rust-${{ env.RUST_VERSION }}-${{ hashFiles('mix.lock') }}
       - name: Generate current openapi.json
         run: |
           mix openapi.spec.json --start-app=false --spec WandaWeb.Schemas.${{ matrix.version }}.ApiSpec /tmp/specs/current-spec.json
-
-      - name: Checkout main branch
+      - name: Checkout target branch
         uses: actions/checkout@v5
         with:
-          ref: main
-      - name: Retrieve Cached Dependencies - main branch
+          ref: ${{ github.event.pull_request.base.ref || github.ref_name }}
+      - name: Retrieve Elixir Cached Dependencies - target branch
         uses: actions/cache@v4
-        id: mix-cache-main
+        id: mix-cache-target
         with:
           path: |
             deps
-            _build/test
+            _build/${{ env.MIX_ENV }}
             priv/plts
           key: erlang-${{ steps.setup-elixir.outputs.otp-version }}-elixir-${{ steps.setup-elixir.outputs.elixir-version }}-rust-${{ env.RUST_VERSION }}-${{ hashFiles('mix.lock') }}
-      - name: Generate main openapi.json
+      - name: Generate target openapi.json
         run: |
-          mix openapi.spec.json --start-app=false --spec WandaWeb.Schemas.${{ matrix.version }}.ApiSpec /tmp/specs/main-spec.json
+          mix openapi.spec.json --start-app=false --spec WandaWeb.Schemas.${{ matrix.version }}.ApiSpec /tmp/specs/target-spec.json
       - name: Locate generated specs
         run: mv /tmp/specs .
       - name: Find difference between OpenAPI specifications
         run: |
           docker run -v "$(pwd)/specs:/specs" --rm openapitools/openapi-diff:2.0.1 \
-            /specs/main-spec.json \
+            /specs/target-spec.json \
             /specs/current-spec.json \
             --fail-on-incompatible \
             --markdown /specs/changes.md \
-            --json /specs/changes.json \
             --text /specs/changes.txt \
             --html /specs/changes.html
       - name: Upload OpenAPI diff report
