@@ -54,7 +54,7 @@ defmodule WandaWeb.V2.ExecutionController do
       ok:
         {"A successful response containing a paginated list of executions.", "application/json",
          ListExecutionsResponse},
-      unprocessable_entity: UnprocessableEntity.response()
+      unprocessable_entity: OpenApiSpex.JsonErrorResponse.response()
     ]
 
   def index(conn, params) do
