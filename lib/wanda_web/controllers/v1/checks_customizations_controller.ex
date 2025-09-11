@@ -6,7 +6,7 @@ defmodule WandaWeb.V1.ChecksCustomizationsController do
   alias Wanda.Users.User
 
   alias WandaWeb.Auth.UserDetector
-  alias WandaWeb.Schemas.{BadRequest, Forbidden, NotFound}
+  alias WandaWeb.Schemas.{BadRequest, Forbidden, NotFound, UnprocessableEntity}
   alias WandaWeb.Schemas.V1.ChecksCustomizations.{CustomizationRequest, CustomizationResponse}
 
   alias Wanda.ChecksCustomizations
@@ -57,7 +57,7 @@ defmodule WandaWeb.V1.ChecksCustomizationsController do
          "application/json", CustomizationResponse},
       forbidden: Forbidden.response(),
       bad_request: BadRequest.response(),
-      unprocessable_entity: OpenApiSpex.JsonErrorResponse.response(),
+      unprocessable_entity: UnprocessableEntity.response(),
       not_found: NotFound.response()
     ]
 
