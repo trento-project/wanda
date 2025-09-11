@@ -2,6 +2,7 @@ defmodule WandaWeb.Schemas.Health do
   @moduledoc """
   Healthcheck
   """
+
   alias OpenApiSpex.Operation
   alias OpenApiSpex.Schema
 

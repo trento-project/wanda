@@ -2,10 +2,11 @@ defmodule WandaWeb.Schemas.Forbidden do
   @moduledoc """
   403 - Forbidden.
   """
-  require OpenApiSpex
 
   alias OpenApiSpex.Operation
   alias OpenApiSpex.Schema
+
+  require OpenApiSpex
 
   OpenApiSpex.schema(
     %{
