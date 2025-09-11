@@ -47,7 +47,6 @@ defmodule WandaWeb.V1.ChecksCustomizationsController do
         example: "c1a2b3c4-d5e6-7890-abcd-ef1234567890"
       ]
     ],
-    request_body: {"Custom Values.", "application/json", CustomizationRequest},
     request_body:
       {"The custom values to be applied to the specified check.", "application/json",
        CustomizationRequest},
