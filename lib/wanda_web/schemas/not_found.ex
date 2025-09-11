@@ -1,7 +1,8 @@
 defmodule WandaWeb.Schemas.NotFound do
   @moduledoc """
-  404 - Not Found
+  404 - Not Found.
   """
+
   alias OpenApiSpex.Operation
   alias OpenApiSpex.Schema
 
@@ -10,14 +11,29 @@ defmodule WandaWeb.Schemas.NotFound do
   OpenApiSpex.schema(
     %{
       title: "NotFound",
+      description:
+        "This response indicates that the requested resource could not be found in the system.",
       type: :object,
       additionalProperties: false,
+      example: %{
+        errors: [
+          %{
+            detail: "The requested resource cannot be found.",
+            title: "Not Found"
+          }
+        ]
+      },
       properties: %{
         errors: %Schema{
           type: :array,
+          example: [
+            %{
+              detail: "The requested resource cannot be found.",
+              title: "Not Found"
+            }
+          ],
           items: %Schema{
             type: :object,
-            additionalProperties: false,
             properties: %{
               detail: %Schema{type: :string, example: "The requested resource cannot be found."},
               title: %Schema{type: :string, example: "Not Found"}
@@ -31,7 +47,7 @@ defmodule WandaWeb.Schemas.NotFound do
 
   def response do
     Operation.response(
-      "Not Found",
+      "This response indicates that the requested resource could not be found in the system.",
       "application/json",
       __MODULE__
     )

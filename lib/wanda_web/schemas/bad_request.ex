@@ -1,7 +1,8 @@
 defmodule WandaWeb.Schemas.BadRequest do
   @moduledoc """
-  Bad Request
+  Bad Request.
   """
+
   alias OpenApiSpex.Operation
   alias OpenApiSpex.Schema
 
@@ -10,14 +11,29 @@ defmodule WandaWeb.Schemas.BadRequest do
   OpenApiSpex.schema(
     %{
       title: "BadRequest",
+      description:
+        "This response indicates that the request was malformed or contained invalid parameters, and could not be processed.",
       type: :object,
       additionalProperties: false,
+      example: %{
+        errors: [
+          %{
+            detail: "Invalid request payload.",
+            title: "Bad Request"
+          }
+        ]
+      },
       properties: %{
         errors: %Schema{
           type: :array,
+          example: [
+            %{
+              detail: "Invalid request payload.",
+              title: "Bad Request"
+            }
+          ],
           items: %Schema{
             type: :object,
-            additionalProperties: false,
             properties: %{
               detail: %Schema{
                 type: :string,
@@ -34,7 +50,7 @@ defmodule WandaWeb.Schemas.BadRequest do
 
   def response do
     Operation.response(
-      "Bad Request",
+      "This response indicates that the request was malformed or contained invalid parameters, and could not be processed.",
       "application/json",
       __MODULE__
     )

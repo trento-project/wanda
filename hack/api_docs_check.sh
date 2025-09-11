@@ -191,6 +191,7 @@ extends: [[vacuum:oas, recommended]]
 rules:
   paths-kebab-case: false
   description-duplication: false
+  no-ambiguous-paths: false
 EOF
 
 vacuum lint "$MERGED_OPENAPI_FILE" -r "$VACUUM_RULESET_FILE" -d --ignore-array-circle-ref || true
