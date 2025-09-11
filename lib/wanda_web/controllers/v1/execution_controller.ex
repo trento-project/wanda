@@ -128,7 +128,6 @@ defmodule WandaWeb.V1.ExecutionController do
     description:
       "Initiates a new checks execution on the target infrastructure, enabling automated validation.",
     tags: ["Wanda Checks"],
-    request_body: {"Execution Context.", "application/json", StartExecutionRequest},
     request_body:
       {"The context required to start a new execution, including necessary parameters.",
        "application/json", StartExecutionRequest},
