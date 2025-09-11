@@ -18,6 +18,7 @@ defmodule WandaWeb.Schemas.V1.Execution.AgentCheckResult do
       description:
         "Represents the result of a check performed on a specific agent, including gathered facts and expectation evaluations.",
       type: :object,
+      additionalProperties: false,
       properties: %{
         agent_id: %Schema{
           type: :string,

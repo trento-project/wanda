@@ -28,11 +28,21 @@ defmodule WandaWeb.Schemas.V1.Execution.Fact do
             %Schema{type: :string},
             %Schema{type: :number},
             %Schema{type: :boolean},
-            %Schema{type: :array, items: %Schema{type: :string}},
+            %Schema{
+              type: :array,
+              items: %Schema{
+                oneOf: [
+                  %Schema{type: :string},
+                  %Schema{type: :number},
+                  %Schema{type: :boolean},
+                  %Schema{type: :object}
+                ]
+              }
+            },
             %Schema{type: :object}
           ],
           description:
-            "The value of the fact as observed during execution, which may be a string, integer, boolean, or array."
+            "The value of the fact as observed during execution, which may be a string, number, boolean, object, or an array of these types."
         }
       },
       required: [:check_id, :name, :value],
