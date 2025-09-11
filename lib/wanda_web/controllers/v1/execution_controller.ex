@@ -53,7 +53,7 @@ defmodule WandaWeb.V1.ExecutionController do
     responses: [
       ok:
         {"A successful response containing a paginated list of executions.", "application/json",
-         ListExecutionsResponse},
+         ListExecutionsResponse}
     ]
 
   def index(conn, params) do

@@ -70,7 +70,7 @@ defmodule WandaWeb.V1.CatalogController do
             }
           ]
         }
-      },
+      }
     ]
 
   def catalog(conn, params) do

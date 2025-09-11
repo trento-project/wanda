@@ -57,7 +57,7 @@ defmodule WandaWeb.V1.OperationController do
     responses: [
       ok:
         {"A successful response containing a paginated list of operations.", "application/json",
-         ListOperationsResponse},
+         ListOperationsResponse}
     ]
 
   def index(conn, params) do
