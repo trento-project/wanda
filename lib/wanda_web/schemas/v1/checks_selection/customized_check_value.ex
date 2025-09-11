@@ -16,23 +16,32 @@ defmodule WandaWeb.Schemas.V1.ChecksSelection.CustomizedCheckValue do
   OpenApiSpex.schema(
     %{
       title: "CustomizedCheckValue",
-      description: "A single customized check value",
+      description:
+        "Represents a single customized check value, including its name, custom value, default value, and customization status.",
       type: :object,
       additionalProperties: false,
+      example: %{
+        name: "threshold",
+        custom_value: 15,
+        default_value: 10,
+        customizable: true
+      },
       properties: %{
-        name: %Schema{type: :string, description: "Value name"},
+        name: %Schema{type: :string, description: "The name of the customized check value."},
         custom_value: %Schema{
           oneOf: @value_types,
-          description: "Represents the custom value that overrides the current one."
+          description:
+            "The custom value that overrides the default value for this check, allowing for tailored validation."
         },
         default_value: %Schema{
           oneOf: @value_types,
           description:
-            "Original value as defined by specification. Resolved based on the environment."
+            "The original value as defined by specification, resolved based on the environment."
         },
         customizable: %Schema{
           type: :boolean,
-          description: "Whether the check is customizable or not"
+          description:
+            "Indicates whether the check value can be customized for execution, allowing for tailored validation."
         }
       },
       required: [:name, :custom_value, :default_value, :customizable]

@@ -11,14 +11,28 @@ defmodule WandaWeb.Schemas.V1.ChecksCustomizations.CustomizationRequest do
   OpenApiSpex.schema(
     %{
       title: "CustomizationRequest",
-      description: "Request to customize a check",
+      description:
+        "Represents a request to customize a check, including the list of values to be customized for tailored validation.",
       type: :object,
       additionalProperties: false,
       minProperties: 1,
+      example: %{
+        values: [
+          %{
+            name: "threshold",
+            value: 15
+          },
+          %{
+            name: "enabled",
+            value: true
+          }
+        ]
+      },
       properties: %{
         values: %Schema{
           type: :array,
-          description: "List of values to customize",
+          description:
+            "A list of values to be customized for the check, allowing for flexible and targeted configuration.",
           items: CustomValue,
           minItems: 1
         }
