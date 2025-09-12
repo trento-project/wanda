@@ -6,7 +6,7 @@ defmodule WandaWeb.V1.OperationController do
 
   alias Wanda.Operations
 
-  alias WandaWeb.Schemas.NotFound
+  alias WandaWeb.Schemas.{NotFound, UnprocessableEntity}
 
   alias WandaWeb.Schemas.V1.Operation.{
     ListOperationsResponse,
@@ -58,7 +58,7 @@ defmodule WandaWeb.V1.OperationController do
       ok:
         {"A successful response containing a paginated list of operations.", "application/json",
          ListOperationsResponse},
-      unprocessable_entity: OpenApiSpex.JsonErrorResponse.response()
+      unprocessable_entity: UnprocessableEntity.response()
     ]
 
   def index(conn, params) do
@@ -91,7 +91,7 @@ defmodule WandaWeb.V1.OperationController do
         {"A successful response containing details of the requested operation.",
          "application/json", OperationResponse},
       not_found: NotFound.response(),
-      unprocessable_entity: OpenApiSpex.JsonErrorResponse.response()
+      unprocessable_entity: UnprocessableEntity.response()
     ]
 
   def show(conn, %{id: operation_id}) do

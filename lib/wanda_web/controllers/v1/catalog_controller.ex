@@ -11,6 +11,8 @@ defmodule WandaWeb.V1.CatalogController do
   alias WandaWeb.Schemas.V1.ChecksSelection.SelectableChecksResponse
   alias WandaWeb.Schemas.V2.Env, as: V2Env
 
+  alias WandaWeb.Schemas.UnprocessableEntity
+
   plug OpenApiSpex.Plug.CastAndValidate, json_render_error_v2: true
 
   operation :catalog,
@@ -33,7 +35,7 @@ defmodule WandaWeb.V1.CatalogController do
       ok:
         {"A successful response containing the catalog of available checks.", "application/json",
          CatalogResponse},
-      unprocessable_entity: OpenApiSpex.JsonErrorResponse.response()
+      unprocessable_entity: UnprocessableEntity.response()
     ]
 
   def catalog(conn, params) do
