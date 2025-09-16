@@ -192,25 +192,28 @@ jobs:
     strategy:
       matrix:
         include:
-          - version: V1
-            elixir: "1.15"
-            otp: "26"
-          - version: V1
-            elixir: "1.18"
-            otp: "27"
-          - version: V2
-            elixir: "1.15"
-            otp: "26"
-          - version: V2
-            elixir: "1.18"
-            otp: "27"
-          - version: V3
-            elixir: "1.15"
-            otp: "26"
-          - version: V3
-            elixir: "1.18"
-            otp: "27"
           - version: Unversioned
+            elixir: "1.15"
+            otp: "26"
+          - version: Unversioned
+            elixir: "1.18"
+            otp: "27"
+          - version: V1
+            elixir: "1.15"
+            otp: "26"
+          - version: V1
+            elixir: "1.18"
+            otp: "27"
+          - version: V2
+            elixir: "1.15"
+            otp: "26"
+          - version: V2
+            elixir: "1.18"
+            otp: "27"
+          - version: V3
+            elixir: "1.15"
+            otp: "26"
+          - version: V3
             elixir: "1.18"
             otp: "27"
     steps:
