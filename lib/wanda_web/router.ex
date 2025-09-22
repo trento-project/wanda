@@ -32,7 +32,7 @@ defmodule WandaWeb.Router do
 
   pipeline :unversioned_api do
     plug :api
-    plug OpenApiSpex.Plug.PutApiSpec, module: TrentoWeb.OpenApi.Unversioned.ApiSpec
+    plug OpenApiSpex.Plug.PutApiSpec, module: WandaWeb.Schemas.Unversioned.ApiSpec
   end
 
   pipeline :protected_api do
