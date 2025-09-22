@@ -30,7 +30,7 @@ defmodule WandaWeb.V1.OperationControllerTest do
       assert_schema(json, "ListOperationsResponse", api_spec)
     end
 
-    test "should return a 422 status code if an invalid paramaters is passed", %{conn: conn} do
+    test "should return a 422 status code if an invalid parameters is passed", %{conn: conn} do
       conn = get(conn, "/api/v1/operations/executions?limit=invalid")
 
       assert 422 == conn.status
