@@ -26,12 +26,12 @@ defmodule WandaWeb.Schemas.V1.Catalog.CatalogResponse do
       example: %{
         items: [
           %{
-            id: "SLES-HA-1",
-            name: "Cluster node fencing configured",
-            group: "SLES-HA",
-            description:
-              "Verifies whether fencing is configured for all nodes in the cluster to ensure high availability, providing context for remediation.",
-            remediation: "Configure fencing for all cluster nodes to ensure high availability.",
+            id: "156F64",
+            name: "Corosync `token` timeout",
+            group: "Corosync",
+            description: "Corosync `token` timeout is set to the correct value",
+            remediation:
+              "The value of the Corosync `token` timeout is not set as recommended. Adjust the corosync `token` timeout as recommended...",
             metadata: %{"category" => "ha", "impact" => "critical"},
             severity: "critical",
             facts: [

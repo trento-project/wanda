@@ -32,7 +32,7 @@ defmodule WandaWeb.Schemas.V1.Execution.StartExecutionRequest do
               "A selection of checks to be executed on this specific target in the current execution, allowing for targeted validation.",
             type: :array,
             items: %Schema{type: :string},
-            example: ["SLES-HA-1"]
+            example: ["156F64"]
           }
         },
         required: [:agent_id, :checks]
@@ -68,7 +68,7 @@ defmodule WandaWeb.Schemas.V1.Execution.StartExecutionRequest do
           type: :array,
           items: Target,
           example: [
-            %{agent_id: "a1b2c3d4-e5f6-7890-abcd-1234567890ab", checks: ["SLES-HA-1"]}
+            %{agent_id: "a1b2c3d4-e5f6-7890-abcd-1234567890ab", checks: ["156F64"]}
           ]
         },
         target_type: %Schema{
@@ -85,7 +85,7 @@ defmodule WandaWeb.Schemas.V1.Execution.StartExecutionRequest do
         group_id: "353fd789-d8ae-4a1b-a9f9-3919bd773e79",
         env: %{"VAR1" => "value1"},
         targets: [
-          %{agent_id: "a1b2c3d4-e5f6-7890-abcd-1234567890ab", checks: ["SLES-HA-1"]}
+          %{agent_id: "a1b2c3d4-e5f6-7890-abcd-1234567890ab", checks: ["156F64"]}
         ]
       }
     },

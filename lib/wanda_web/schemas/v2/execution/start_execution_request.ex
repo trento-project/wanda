@@ -73,7 +73,7 @@ defmodule WandaWeb.Schemas.V2.Execution.StartExecutionRequest do
         execution_id: "e1a2b3c4-d5f6-7890-abcd-1234567890ab",
         group_id: "353fd789-d8ae-4a1b-a9f9-3919bd773e79",
         targets: [
-          %{agent_id: "a1b2c3d4-e5f6-7890-abcd-1234567890ab", checks: ["SLES-HA-1"]}
+          %{agent_id: "a1b2c3d4-e5f6-7890-abcd-1234567890ab", checks: ["156F64"]}
         ],
         env: %{"VAR1" => "value1"}
       }
