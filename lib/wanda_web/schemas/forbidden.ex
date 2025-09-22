@@ -1,6 +1,6 @@
 defmodule WandaWeb.Schemas.Forbidden do
   @moduledoc """
-  403 - Forbidden
+  403 - Forbidden.
   """
 
   alias OpenApiSpex.Operation
@@ -11,11 +11,27 @@ defmodule WandaWeb.Schemas.Forbidden do
   OpenApiSpex.schema(
     %{
       title: "Forbidden",
+      description:
+        "This response indicates that access to the requested resource or operation is forbidden due to insufficient permissions.",
       type: :object,
       additionalProperties: false,
+      example: %{
+        errors: [
+          %{
+            detail: "The requested operation could not be performed.",
+            title: "Forbidden"
+          }
+        ]
+      },
       properties: %{
         errors: %Schema{
           type: :array,
+          example: [
+            %{
+              detail: "The requested operation could not be performed.",
+              title: "Forbidden"
+            }
+          ],
           items: %Schema{
             type: :object,
             properties: %{
@@ -34,7 +50,7 @@ defmodule WandaWeb.Schemas.Forbidden do
 
   def response do
     Operation.response(
-      "Forbidden",
+      "This response indicates that access to the requested resource or operation is forbidden due to insufficient permissions.",
       "application/json",
       __MODULE__
     )

@@ -13,6 +13,8 @@ defmodule Wanda.MixProject do
       aliases: aliases(),
       deps: deps(),
       name: "Wanda",
+      description:
+        "Wanda is an open source platform for automated cluster checks, health monitoring, and remediation. It provides APIs for managing checks, executions, customizations, and integrations with the Trento Platform. Wanda helps ensure high availability and reliability for your infrastructure by automating best practices and compliance checks.",
       docs: docs(),
       test_coverage: [tool: ExCoveralls],
       preferred_cli_env: [

@@ -13,12 +13,17 @@ defmodule WandaWeb.Schemas.AcceptedExecutionResponse do
   OpenApiSpex.schema(
     %{
       title: "AcceptedExecutionResponse",
-      description: "Identifiers of the recently accepted execution",
+      description:
+        "This response contains the identifiers for an execution that was recently accepted by the system. These identifiers can be used to query the execution status later.",
       type: :object,
       additionalProperties: false,
       properties: %{
         execution_id: %Schema{type: :string, format: :uuid},
         group_id: %Schema{type: :string, format: :uuid}
+      },
+      example: %{
+        execution_id: "e1a2b3c4-d5f6-7890-abcd-1234567890ab",
+        group_id: "353fd789-d8ae-4a1b-a9f9-3919bd773e79"
       }
     },
     struct?: false

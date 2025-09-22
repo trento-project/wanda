@@ -12,12 +12,55 @@ defmodule WandaWeb.Schemas.V1.Operation.ListOperationsResponse do
   OpenApiSpex.schema(
     %{
       title: "ListOperationsResponse",
-      description: "The paginated list of operations",
+      description:
+        "Represents a paginated list of operations, including the total count and individual operation items.",
       type: :object,
       additionalProperties: false,
       properties: %{
         items: %Schema{type: :array, items: OperationResponse},
-        total_count: %Schema{type: :integer, description: "Total count of operations"}
+        total_count: %Schema{
+          type: :integer,
+          description: "The total number of operations included in the paginated response."
+        }
+      },
+      example: %{
+        items: [
+          %{
+            operation_id: "985edb19-cb1d-463e-81c2-53a4fa85d1fa",
+            group_id: "353fd789-d8ae-4a1b-a9f9-3919bd773e79",
+            status: "completed",
+            result: "updated",
+            name: "Test operation",
+            description: "A test operation.",
+            operation: "testoperation@v1",
+            targets: [
+              %{
+                agent_id: "a1b2c3d4-e5f6-7890-abcd-1234567890ab",
+                arguments: %{"arg" => "test_value"}
+              }
+            ],
+            agent_reports: [
+              %{
+                name: "First step",
+                operator: "test@v1",
+                predicate: "*",
+                timeout: 60,
+                agents: [
+                  %{
+                    agent_id: "a1b2c3d4-e5f6-7890-abcd-1234567890ab",
+                    result: "updated",
+                    diff: %{before: "old", after: "new"},
+                    error_message: ""
+                  }
+                ]
+              }
+            ],
+            started_at: "2025-08-04T10:00:00Z",
+            updated_at: "2025-08-04T10:01:00Z",
+            completed_at: "2025-08-04T10:02:00Z"
+          }
+        ],
+        total_count: 1
       }
     },
     struct?: false

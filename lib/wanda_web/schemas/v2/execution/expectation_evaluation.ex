@@ -8,11 +8,15 @@ defmodule WandaWeb.Schemas.V2.Execution.ExpectationEvaluation do
   OpenApiSpex.schema(
     %{
       title: "ExpectationEvaluation",
-      description: "Evaluation of an expectation",
+      description:
+        "This object describes the evaluation process and outcome for a specific expectation during a check execution.",
       type: :object,
       additionalProperties: false,
       properties: %{
-        name: %Schema{type: :string, description: "Name"},
+        name: %Schema{
+          type: :string,
+          description: "A label that identifies the expectation being evaluated in the check."
+        },
         return_value: %Schema{
           oneOf: [
             %Schema{type: :string},
@@ -20,20 +24,29 @@ defmodule WandaWeb.Schemas.V2.Execution.ExpectationEvaluation do
             %Schema{type: :boolean},
             %Schema{type: :string, enum: [:passing, :warning, :critical]}
           ],
-          description: "Return value"
+          description:
+            "The value returned after evaluating the expectation for the check execution."
         },
         type: %Schema{
           type: :string,
           enum: [:unknown, :expect, :expect_same, :expect_enum],
-          description: "Evaluation type"
+          description:
+            "Specifies the type of evaluation performed for the expectation in the check execution."
         },
         failure_message: %Schema{
           type: :string,
           nullable: true,
-          description: "Failure message. Only available for `expect` scenarios"
+          description:
+            "A message describing the reason for failure when the expectation is not met. Only available for certain scenarios."
         }
       },
-      required: [:name, :return_value, :type]
+      required: [:name, :return_value, :type],
+      example: %{
+        name: "fencing_enabled",
+        return_value: "critical",
+        type: "expect_enum",
+        failure_message: "Fencing is not configured for all nodes."
+      }
     },
     struct?: false
   )

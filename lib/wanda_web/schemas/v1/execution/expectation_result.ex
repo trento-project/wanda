@@ -8,24 +8,36 @@ defmodule WandaWeb.Schemas.V1.Execution.ExpectationResult do
   OpenApiSpex.schema(
     %{
       title: "ExpectationResult",
-      description: "The result of an expectation",
+      description:
+        "Represents the result of an expectation evaluation, including its name, result, type, and any failure message.",
       type: :object,
       additionalProperties: false,
       properties: %{
-        name: %Schema{type: :string, description: "Expectation name"},
-        result: %Schema{type: :boolean, description: "Result of the expectation condition"},
+        name: %Schema{type: :string, description: "The name of the expectation being evaluated."},
+        result: %Schema{
+          type: :boolean,
+          description: "Indicates whether the expectation condition was met during evaluation."
+        },
         type: %Schema{
           type: :string,
           enum: [:unknown, :expect, :expect_same],
-          description: "Evaluation type"
+          description:
+            "The type of evaluation performed for the expectation, such as expect or expect_same."
         },
         failure_message: %Schema{
           type: :string,
           nullable: true,
-          description: "Failure message. Only available for `expect_same` scenarios"
+          description:
+            "A message describing the failure, only available for scenarios where the expectation was not met."
         }
       },
-      required: [:name, :result, :type]
+      required: [:name, :result, :type],
+      example: %{
+        name: "fencing_enabled",
+        result: true,
+        type: "expect",
+        failure_message: "Fencing is not configured for all nodes."
+      }
     },
     struct?: false
   )
