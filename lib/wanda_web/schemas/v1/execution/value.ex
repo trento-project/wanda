@@ -35,7 +35,7 @@ defmodule WandaWeb.Schemas.V1.Execution.Value do
       required: [:check_id, :name, :value],
       example: %{
         name: "fencing_configured",
-        check_id: "SLES-HA-1",
+        check_id: "156F64",
         value: true,
         customized: false
       }

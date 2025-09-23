@@ -186,11 +186,12 @@ defmodule WandaWeb.Schemas.V3.Catalog.Check do
         :customization_disabled
       ],
       example: %{
-        id: "SLES-HA-1",
-        name: "Cluster node fencing configured",
-        group: "SLES-HA",
-        description: "Checks if fencing is configured for all cluster nodes.",
-        remediation: "Configure fencing for all cluster nodes to ensure high availability.",
+        id: "156F64",
+        name: "Corosync `token` timeout",
+        group: "Corosync",
+        description: "Corosync `token` timeout is set to the correct value",
+        remediation:
+          "The value of the Corosync `token` timeout is not set as recommended. Adjust the corosync `token` timeout as recommended...",
         metadata: %{"category" => "ha", "impact" => "critical"},
         severity: "critical",
         facts: [

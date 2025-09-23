@@ -52,7 +52,7 @@ defmodule WandaWeb.Schemas.V2.Execution.CheckResult do
       },
       required: [:check_id, :expectation_results, :agents_check_results, :result],
       example: %{
-        check_id: "SLES-HA-1",
+        check_id: "156F64",
         customized: false,
         expectation_results: [
           %{

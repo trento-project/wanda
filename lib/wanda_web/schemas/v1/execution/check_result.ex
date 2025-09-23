@@ -22,7 +22,7 @@ defmodule WandaWeb.Schemas.V1.Execution.CheckResult do
         check_id: %Schema{
           type: :string,
           description: "The unique identifier of the check for which the result is reported.",
-          example: "SLES-HA-1"
+          example: "156F64"
         },
         customized: %Schema{
           type: :boolean,
@@ -66,7 +66,7 @@ defmodule WandaWeb.Schemas.V1.Execution.CheckResult do
       },
       required: [:check_id, :expectation_results, :agents_check_results, :result],
       example: %{
-        check_id: "SLES-HA-1",
+        check_id: "156F64",
         customized: false,
         expectation_results: [
           %{

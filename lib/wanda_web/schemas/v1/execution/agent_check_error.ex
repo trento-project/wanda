@@ -47,12 +47,12 @@ defmodule WandaWeb.Schemas.V1.Execution.AgentCheckError do
         agent_id: "a1b2c3d4-e5f6-7890-abcd-1234567890ab",
         facts: [
           %{
-            check_id: "SLES-HA-1",
+            check_id: "156F64",
             name: "node_count",
             value: 3
           },
           %{
-            check_id: "SLES-HA-1",
+            check_id: "156F64",
             name: "node_count",
             type: "gathering_error",
             message: "Timeout"

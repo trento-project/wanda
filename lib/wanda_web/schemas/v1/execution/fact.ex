@@ -47,7 +47,7 @@ defmodule WandaWeb.Schemas.V1.Execution.Fact do
       },
       required: [:check_id, :name, :value],
       example: %{
-        check_id: "SLES-HA-1",
+        check_id: "156F64",
         name: "node_count",
         value: 3
       }

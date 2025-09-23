@@ -34,7 +34,7 @@ defmodule WandaWeb.Schemas.V1.Execution.FactError do
       },
       required: [:check_id, :name, :type, :message],
       example: %{
-        check_id: "SLES-HA-1",
+        check_id: "156F64",
         name: "node_count",
         type: "gathering_error",
         message: "Timeout while gathering fact"

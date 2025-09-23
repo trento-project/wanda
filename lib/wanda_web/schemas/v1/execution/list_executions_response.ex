@@ -38,7 +38,7 @@ defmodule WandaWeb.Schemas.V1.Execution.ListExecutionsResponse do
             completed_at: "2025-08-04T10:05:00Z",
             result: "critical",
             targets: [
-              %{agent_id: "a1b2c3d4-e5f6-7890-abcd-1234567890ab", checks: ["SLES-HA-1"]}
+              %{agent_id: "a1b2c3d4-e5f6-7890-abcd-1234567890ab", checks: ["156F64"]}
             ],
             critical_count: 1,
             warning_count: 0,
@@ -46,7 +46,7 @@ defmodule WandaWeb.Schemas.V1.Execution.ListExecutionsResponse do
             timeout: [],
             check_results: [
               %{
-                check_id: "SLES-HA-1",
+                check_id: "156F64",
                 customized: false,
                 expectation_results: [
                   %{

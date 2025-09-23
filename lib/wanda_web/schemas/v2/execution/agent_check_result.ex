@@ -47,7 +47,7 @@ defmodule WandaWeb.Schemas.V2.Execution.AgentCheckResult do
       required: [:agent_id, :facts, :expectation_evaluations],
       example: %{
         agent_id: "a1b2c3d4-e5f6-7890-abcd-1234567890ab",
-        facts: [%{check_id: "SLES-HA-1", name: "node_count", value: 3}],
+        facts: [%{check_id: "156F64", name: "node_count", value: 3}],
         expectation_evaluations: [
           %{
             name: "fencing_enabled",

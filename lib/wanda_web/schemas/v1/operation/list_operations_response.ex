@@ -30,27 +30,26 @@ defmodule WandaWeb.Schemas.V1.Operation.ListOperationsResponse do
             group_id: "353fd789-d8ae-4a1b-a9f9-3919bd773e79",
             status: "completed",
             result: "updated",
-            name: "Install NGINX",
-            description:
-              "A sample operation that installs the NGINX package on target agents for demonstration purposes.",
-            operation: "install_package",
+            name: "Test operation",
+            description: "A test operation.",
+            operation: "testoperation@v1",
             targets: [
               %{
                 agent_id: "a1b2c3d4-e5f6-7890-abcd-1234567890ab",
-                arguments: %{"package" => "nginx", "version" => "1.18.0"}
+                arguments: %{"arg" => "test_value"}
               }
             ],
             agent_reports: [
               %{
-                name: "install_package",
-                operator: "equals",
-                predicate: "package_installed == true",
+                name: "First step",
+                operator: "test@v1",
+                predicate: "*",
                 timeout: 60,
                 agents: [
                   %{
                     agent_id: "a1b2c3d4-e5f6-7890-abcd-1234567890ab",
                     result: "updated",
-                    diff: %{before: "absent", after: "present"},
+                    diff: %{before: "old", after: "new"},
                     error_message: ""
                   }
                 ]
