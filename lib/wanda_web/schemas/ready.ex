@@ -12,7 +12,7 @@ defmodule WandaWeb.Schemas.Ready do
     %Schema{
       title: "Ready",
       description:
-        "This response provides the readiness status of the Wanda platform, indicating whether it is ready to accept requests.",
+        "This response provides the readiness status of the checks/operations platform, indicating whether it is ready to accept requests.",
       type: :object,
       example: %{
         ready: true
@@ -31,7 +31,7 @@ defmodule WandaWeb.Schemas.Ready do
 
   def response do
     Operation.response(
-      "This response provides the readiness status of the Wanda platform, indicating whether it is ready to accept requests.",
+      "This response provides the readiness status of the checks/operations platform, indicating whether it is ready to accept requests.",
       "application/json",
       __MODULE__
     )
