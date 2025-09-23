@@ -136,7 +136,7 @@ defmodule WandaWeb.V1.ChecksCustomizationsControllerTest do
           |> put_req_header("content-type", "application/json")
           |> post("/api/v1/groups/#{group_id}/checks/#{check_id}/customization", invalid_body)
           |> json_response(:unprocessable_entity)
-          |> assert_schema("JsonErrorResponse", api_spec)
+          |> assert_schema("UnprocessableEntity", api_spec)
 
         assert %{errors: ^expected_errors} = response
       end
