@@ -6,6 +6,8 @@ defmodule WandaWeb.V3.CatalogController do
   alias WandaWeb.Schemas.V2.Env
   alias WandaWeb.Schemas.V3.Catalog.CatalogResponse
 
+  alias WandaWeb.Schemas.UnprocessableEntity
+
   plug OpenApiSpex.Plug.CastAndValidate, json_render_error_v2: true
 
   operation :catalog,
@@ -27,7 +29,7 @@ defmodule WandaWeb.V3.CatalogController do
       ok:
         {"A successful response containing the catalog of available checks.", "application/json",
          CatalogResponse},
-      unprocessable_entity: OpenApiSpex.JsonErrorResponse.response()
+      unprocessable_entity: UnprocessableEntity.response()
     ]
 
   def catalog(conn, params) do
