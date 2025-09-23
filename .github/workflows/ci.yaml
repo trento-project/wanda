@@ -269,9 +269,7 @@ jobs:
           - version: V3
             elixir: "1.18"
             otp: "27"
-          - version: Unversioned
-            elixir: "1.18"
-            otp: "27"
+
     steps:
       - name: Cancel Previous Runs
         uses: styfle/cancel-workflow-action@0.12.1

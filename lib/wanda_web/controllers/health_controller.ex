@@ -11,13 +11,13 @@ defmodule WandaWeb.HealthController do
 
   operation :ready,
     summary: "Wanda ready.",
-    tags: ["Wanda Platform"],
+    tags: ["Checks/Operations Platform"],
     description:
-      "This endpoint checks if the Wanda platform is ready to accept requests and operate normally.",
+      "This endpoint checks if the checks/operations platform is ready to accept requests and operate normally.",
     security: [],
     responses: [
       ok:
-        {"This response confirms that the Wanda platform is ready for operation.",
+        {"This response confirms that the checks/operations platform is ready for operation.",
          "application/json", Ready}
     ]
 
@@ -29,13 +29,13 @@ defmodule WandaWeb.HealthController do
 
   operation :health,
     summary: "Wanda health.",
-    tags: ["Wanda Platform"],
+    tags: ["Checks/Operations Platform"],
     description:
-      "This endpoint returns the health status of the Wanda platform, including database connectivity and overall system readiness.",
+      "This endpoint returns the health status of the checks/operations platform, including database connectivity and overall system readiness.",
     security: [],
     responses: [
       ok:
-        {"This response provides the current health status of the Wanda platform, including database connectivity.",
+        {"This response provides the current health status of the checks/operations platform, including database connectivity.",
          "application/json", Health}
     ]
 

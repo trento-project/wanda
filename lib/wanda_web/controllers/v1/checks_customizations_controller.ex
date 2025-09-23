@@ -25,7 +25,7 @@ defmodule WandaWeb.V1.ChecksCustomizationsController do
     summary: "Apply custom values for a specific check.",
     description:
       "Allows users to apply custom values to a specific check for a selected group, enabling tailored validation.",
-    tags: ["Wanda Checks"],
+    tags: ["Checks Engine"],
     parameters: [
       check_id: [
         in: :path,
@@ -80,7 +80,7 @@ defmodule WandaWeb.V1.ChecksCustomizationsController do
     summary: "Reset the customizations applied for a specific check.",
     description:
       "Removes all previously applied customizations for a check in a specific group, restoring default values.",
-    tags: ["Wanda Checks"],
+    tags: ["Checks Engine"],
     parameters: [
       check_id: [
         in: :path,

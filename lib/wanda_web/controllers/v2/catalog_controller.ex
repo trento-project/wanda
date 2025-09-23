@@ -12,7 +12,7 @@ defmodule WandaWeb.V2.CatalogController do
     summary: "List checks catalog.",
     description:
       "Provides the catalog of checks that can be executed in the system for improved reliability and compliance.",
-    tags: ["Wanda Checks"],
+    tags: ["Checks Engine"],
     parameters: [
       env: [
         in: :query,

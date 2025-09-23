@@ -22,7 +22,7 @@ defmodule WandaWeb.V1.OperationController do
     summary: "List operations.",
     description:
       "Provides a paginated list of operations performed in the system, allowing for easy tracking and management.",
-    tags: ["Wanda Checks"],
+    tags: ["Operations Engine"],
     parameters: [
       group_id: [
         in: :query,
@@ -74,7 +74,7 @@ defmodule WandaWeb.V1.OperationController do
     summary: "Get an operation by ID.",
     description:
       "Provides detailed information about a specific operation identified by its UUID.",
-    tags: ["Wanda Checks"],
+    tags: ["Operations Engine"],
     parameters: [
       id: [
         in: :path,

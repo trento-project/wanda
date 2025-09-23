@@ -12,7 +12,7 @@ defmodule WandaWeb.Schemas.Health do
     %Schema{
       title: "Health",
       description:
-        "This response provides the health status of the Wanda platform, including the status of its database connection.",
+        "This response provides the health status of the checks/operations platform platform, including the status of its database connection.",
       type: :object,
       example: %{
         database: "pass"
@@ -21,7 +21,7 @@ defmodule WandaWeb.Schemas.Health do
       properties: %{
         database: %Schema{
           description:
-            "This field shows the current status of the database connection for the Wanda platform.",
+            "This field shows the current status of the database connection for the checks/operations platform platform.",
           type: :string,
           enum: ["pass", "fail"],
           example: "pass"
@@ -33,7 +33,7 @@ defmodule WandaWeb.Schemas.Health do
 
   def response do
     Operation.response(
-      "This response provides the health status of the Wanda platform, including the status of its database connection.",
+      "This response provides the health status of the checks/operations platform, including the status of its database connection.",
       "application/json",
       __MODULE__
     )
