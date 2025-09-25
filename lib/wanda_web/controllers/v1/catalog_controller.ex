@@ -19,7 +19,7 @@ defmodule WandaWeb.V1.CatalogController do
     summary: "List checks catalog.",
     description:
       "Provides the catalog of checks that can be executed in the system for improved reliability and compliance.",
-    tags: ["Checks Engine"],
+    tags: ["Checks Engine", "MCP"],
     parameters: [
       env: [
         in: :query,
@@ -47,7 +47,7 @@ defmodule WandaWeb.V1.CatalogController do
     summary: "List selectable checks for a given execution group and environment.",
     description:
       "Provides a list of selectable checks for a specified group and environment, enabling targeted execution.",
-    tags: ["Checks Engine"],
+    tags: ["Checks Engine", "MCP"],
     parameters: [
       group_id: [
         in: :path,
