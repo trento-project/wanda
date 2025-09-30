@@ -9,6 +9,8 @@ defmodule WandaWeb.V2.ExecutionControllerTest do
 
   alias Wanda.Executions.Target
 
+  require Wanda.Catalog.Enums.ExpectType, as: ExpectType
+
   setup :verify_on_exit!
 
   describe "list executions" do
@@ -135,6 +137,29 @@ defmodule WandaWeb.V2.ExecutionControllerTest do
       for value <- values do
         facts = build_list(1, :fact, value: value)
         agents_check_results = build_list(5, :agent_check_result, facts: facts)
+        check_results = build_list(1, :check_result, agents_check_results: agents_check_results)
+        result = build(:result, check_results: check_results, result: :passing)
+
+        %{execution_id: execution_id} =
+          insert(:execution, status: :completed, completed_at: DateTime.utc_now(), result: result)
+
+        json =
+          conn
+          |> get("/api/v2/checks/executions/#{execution_id}")
+          |> json_response(200)
+
+        api_spec = ApiSpec.spec()
+        assert_schema(json, "ExecutionResponse", api_spec)
+      end
+    end
+
+    test "should accept all different expectation types", %{conn: conn} do
+      for expect_type <- ExpectType.values() do
+        expectation_evaluations = build_list(1, :expectation_evaluation, type: expect_type)
+
+        agents_check_results =
+          build_list(5, :agent_check_result, expectation_evaluations: expectation_evaluations)
+
         check_results = build_list(1, :check_result, agents_check_results: agents_check_results)
         result = build(:result, check_results: check_results, result: :passing)
 
