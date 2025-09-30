@@ -54,7 +54,7 @@ defmodule WandaWeb.V2.ExecutionControllerTest do
 
       json =
         conn
-        |> get("/api/v1/checks/executions/#{execution_id}")
+        |> get("/api/v2/checks/executions/#{execution_id}")
         |> json_response(200)
 
       api_spec = ApiSpec.spec()

@@ -5,7 +5,8 @@ defmodule WandaWeb.Schemas.V2.Execution.AgentCheckResult do
 
   alias WandaWeb.Schemas.V1.Execution.{
     ExpectationEvaluationError,
-    Fact
+    Fact,
+    Value
   }
 
   alias WandaWeb.Schemas.V2.Execution.ExpectationEvaluation
@@ -32,6 +33,12 @@ defmodule WandaWeb.Schemas.V2.Execution.AgentCheckResult do
           description:
             "An array of facts that were gathered from the agent during the execution process."
         },
+        values: %Schema{
+          type: :array,
+          items: Value,
+          description:
+            "Values resolved for the current execution, representing the computed results for the agent's check."
+        },
         expectation_evaluations: %Schema{
           type: :array,
           items: %Schema{
@@ -48,6 +55,9 @@ defmodule WandaWeb.Schemas.V2.Execution.AgentCheckResult do
       example: %{
         agent_id: "a1b2c3d4-e5f6-7890-abcd-1234567890ab",
         facts: [%{check_id: "156F64", name: "node_count", value: 3}],
+        values: [
+          %{name: "fencing_configured", check_id: "156F64", value: true, customized: false}
+        ],
         expectation_evaluations: [
           %{
             name: "fencing_enabled",
