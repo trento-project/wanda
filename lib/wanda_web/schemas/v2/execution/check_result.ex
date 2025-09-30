@@ -3,9 +3,9 @@ defmodule WandaWeb.Schemas.V2.Execution.CheckResult do
 
   alias OpenApiSpex.Schema
 
-  alias WandaWeb.Schemas.V1.Execution.{AgentCheckError, AgentCheckResult, ExpectationResult}
+  alias WandaWeb.Schemas.V1.Execution.{AgentCheckError, ExpectationResult}
 
-  alias WandaWeb.Schemas.V2.Execution.ExpectationResult
+  alias WandaWeb.Schemas.V2.Execution.{AgentCheckResult, ExpectationResult}
 
   require OpenApiSpex
 

@@ -8,6 +8,7 @@ defmodule WandaWeb.Schemas.V1.Execution.ExpectationResult do
   OpenApiSpex.schema(
     %{
       title: "ExpectationResult",
+      deprecated: true,
       description:
         "Represents the result of an expectation evaluation, including its name, result, type, and any failure message.",
       type: :object,

@@ -15,6 +15,7 @@ defmodule WandaWeb.Schemas.V1.Execution.ExecutionResponse do
   OpenApiSpex.schema(
     %{
       title: "ExecutionResponse",
+      deprecated: true,
       description:
         "Represents the details of an execution, including its status, timing, results, and associated targets. Can be running or completed.",
       type: :object,

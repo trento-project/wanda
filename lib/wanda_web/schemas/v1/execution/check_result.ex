@@ -14,6 +14,7 @@ defmodule WandaWeb.Schemas.V1.Execution.CheckResult do
   OpenApiSpex.schema(
     %{
       title: "CheckResult",
+      deprecated: true,
       description:
         "Represents the result of a check execution, including expectation evaluations and customization status.",
       type: :object,
