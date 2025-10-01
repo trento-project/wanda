@@ -11,6 +11,7 @@ defmodule WandaWeb.Schemas.V1.Catalog.CatalogResponse do
   OpenApiSpex.schema(
     %{
       title: "CatalogResponse",
+      deprecated: true,
       description:
         "Represents the response for a catalog listing, including a list of catalog checks and their details.",
       type: :object,

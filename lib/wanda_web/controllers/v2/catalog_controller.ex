@@ -12,6 +12,7 @@ defmodule WandaWeb.V2.CatalogController do
 
   operation :catalog,
     summary: "List checks catalog.",
+    deprecated: true,
     description:
       "Provides the catalog of checks that can be executed in the system for improved reliability and compliance.",
     tags: ["Checks Engine"],

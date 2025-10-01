@@ -25,6 +25,7 @@ defmodule WandaWeb.V1.ExecutionController do
 
   operation :index,
     summary: "List executions.",
+    deprecated: true,
     description:
       "Provides a paginated list of executions performed in the system, supporting monitoring and analysis.",
     tags: ["Checks Engine"],
@@ -67,6 +68,7 @@ defmodule WandaWeb.V1.ExecutionController do
 
   operation :show,
     summary: "Get an execution by ID.",
+    deprecated: true,
     description: "Provides detailed information about a specific execution identified by its ID.",
     tags: ["Checks Engine"],
     parameters: [
@@ -96,6 +98,7 @@ defmodule WandaWeb.V1.ExecutionController do
 
   operation :last,
     summary: "Get the last execution of a group.",
+    deprecated: true,
     description: "Provides details about the most recent execution for a specified group.",
     tags: ["Checks Engine"],
     parameters: [
@@ -126,6 +129,7 @@ defmodule WandaWeb.V1.ExecutionController do
 
   operation :start,
     summary: "Start a Checks Execution.",
+    deprecated: true,
     description:
       "Initiates a new checks execution on the target infrastructure, enabling automated validation.",
     tags: ["Checks Engine"],

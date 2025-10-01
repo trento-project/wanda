@@ -14,6 +14,7 @@ defmodule WandaWeb.Schemas.V1.Execution.StartExecutionRequest do
     OpenApiSpex.schema(
       %{
         title: "Target",
+        deprecated: true,
         description:
           "Specifies the target agent on which facts gathering should occur during execution.",
         type: :object,
@@ -44,6 +45,7 @@ defmodule WandaWeb.Schemas.V1.Execution.StartExecutionRequest do
   OpenApiSpex.schema(
     %{
       title: "StartExecutionRequest",
+      deprecated: true,
       description:
         "Defines the context required to run a check execution, including execution and group identifiers, targets, and environment settings.",
       type: :object,
