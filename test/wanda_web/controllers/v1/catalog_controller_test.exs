@@ -22,7 +22,7 @@ defmodule WandaWeb.V1.CatalogControllerTest do
         |> get("/api/v1/checks/catalog")
         |> json_response(200)
 
-      assert_schema(json, "CatalogResponse", api_spec)
+      assert_schema(json, "CatalogResponseV1", api_spec)
     end
 
     test "listing the checks catalog produces a CatalogResponse when filtered", %{
@@ -49,7 +49,7 @@ defmodule WandaWeb.V1.CatalogControllerTest do
                ]
              } = json
 
-      assert_schema(json, "CatalogResponse", api_spec)
+      assert_schema(json, "CatalogResponseV1", api_spec)
     end
 
     test "does not accept different types inside the env", %{conn: conn} do
@@ -78,7 +78,7 @@ defmodule WandaWeb.V1.CatalogControllerTest do
         conn
         |> get("/api/v1/groups/#{Faker.UUID.v4()}/checks", %{})
         |> json_response(:ok)
-        |> assert_schema("SelectableChecksResponse", api_spec)
+        |> assert_schema("SelectableChecksResponseV1", api_spec)
 
       assert length(selectable_checks) == 10
       refute Enum.any?(selectable_checks, & &1.customized)
@@ -121,7 +121,7 @@ defmodule WandaWeb.V1.CatalogControllerTest do
           conn
           |> get("/api/v1/groups/#{group_id}/checks", %{})
           |> json_response(:ok)
-          |> assert_schema("SelectableChecksResponse", api_spec)
+          |> assert_schema("SelectableChecksResponseV1", api_spec)
 
         assert length(selectable_checks) == 10
 

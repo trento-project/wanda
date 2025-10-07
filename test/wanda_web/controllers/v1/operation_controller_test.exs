@@ -27,7 +27,7 @@ defmodule WandaWeb.V1.OperationControllerTest do
         |> json_response(200)
 
       api_spec = ApiSpec.spec()
-      assert_schema(json, "ListOperationsResponse", api_spec)
+      assert_schema(json, "ListOperationsResponseV1", api_spec)
     end
 
     test "should return a 422 status code if an invalid parameters is passed", %{conn: conn} do
@@ -48,7 +48,7 @@ defmodule WandaWeb.V1.OperationControllerTest do
         |> json_response(200)
 
       api_spec = ApiSpec.spec()
-      assert_schema(json, "OperationResponse", api_spec)
+      assert_schema(json, "OperationResponseV1", api_spec)
     end
 
     test "should return an operation with agent reports", %{conn: conn} do
@@ -64,7 +64,7 @@ defmodule WandaWeb.V1.OperationControllerTest do
         |> json_response(200)
 
       api_spec = ApiSpec.spec()
-      assert_schema(json, "OperationResponse", api_spec)
+      assert_schema(json, "OperationResponseV1", api_spec)
     end
 
     test "should return a 404", %{conn: conn} do

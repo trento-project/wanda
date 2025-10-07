@@ -10,7 +10,7 @@ defmodule WandaWeb.Schemas.V1.Ready do
 
   OpenApiSpex.schema(
     %Schema{
-      title: "Ready",
+      title: "ReadyV1",
       description:
         "This response provides the readiness status of the checks/operations platform, indicating whether it is ready to accept requests.",
       type: :object,

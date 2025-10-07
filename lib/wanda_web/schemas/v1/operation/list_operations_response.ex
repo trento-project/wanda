@@ -11,7 +11,7 @@ defmodule WandaWeb.Schemas.V1.Operation.ListOperationsResponse do
 
   OpenApiSpex.schema(
     %{
-      title: "ListOperationsResponse",
+      title: "ListOperationsResponseV1",
       description:
         "Represents a paginated list of operations, including the total count and individual operation items.",
       type: :object,

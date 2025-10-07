@@ -9,7 +9,7 @@ defmodule WandaWeb.Schemas.V1.Execution.AgentCheckError do
 
   OpenApiSpex.schema(
     %{
-      title: "AgentCheckError",
+      title: "AgentCheckErrorV1",
       description:
         "Indicates that some facts could not be gathered on a specific agent due to issues such as gathering failure or timeout. This error provides context for troubleshooting agent data collection problems.",
       type: :object,

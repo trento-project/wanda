@@ -12,7 +12,7 @@ defmodule WandaWeb.Schemas.V1.AcceptedExecutionResponse do
 
   OpenApiSpex.schema(
     %{
-      title: "AcceptedExecutionResponse",
+      title: "AcceptedExecutionResponseV1",
       description:
         "This response contains the identifiers for an execution that was recently accepted by the system. These identifiers can be used to query the execution status later.",
       type: :object,

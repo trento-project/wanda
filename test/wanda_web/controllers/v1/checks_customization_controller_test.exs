@@ -136,7 +136,7 @@ defmodule WandaWeb.V1.ChecksCustomizationsControllerTest do
           |> put_req_header("content-type", "application/json")
           |> post("/api/v1/groups/#{group_id}/checks/#{check_id}/customization", invalid_body)
           |> json_response(:unprocessable_entity)
-          |> assert_schema("UnprocessableEntity", api_spec)
+          |> assert_schema("UnprocessableEntityV1", api_spec)
 
         assert %{errors: ^expected_errors} = response
       end
@@ -153,7 +153,7 @@ defmodule WandaWeb.V1.ChecksCustomizationsControllerTest do
         |> put_req_header("content-type", "application/json")
         |> post("/api/v1/groups/#{group_id}/checks/#{check_id}/customization", request_body)
         |> json_response(:not_found)
-        |> assert_schema("NotFound", api_spec)
+        |> assert_schema("NotFoundV1", api_spec)
 
       assert %{
                errors: [
@@ -179,7 +179,7 @@ defmodule WandaWeb.V1.ChecksCustomizationsControllerTest do
         |> put_req_header("content-type", "application/json")
         |> post("/api/v1/groups/#{group_id}/checks/#{check_id}/customization", request_body)
         |> json_response(:forbidden)
-        |> assert_schema("Forbidden", api_spec)
+        |> assert_schema("ForbiddenV1", api_spec)
 
       assert %{
                errors: [
@@ -276,7 +276,7 @@ defmodule WandaWeb.V1.ChecksCustomizationsControllerTest do
             values: values
           })
           |> json_response(:bad_request)
-          |> assert_schema("BadRequest", api_spec)
+          |> assert_schema("BadRequestV1", api_spec)
 
         assert %{
                  errors: [
@@ -317,7 +317,7 @@ defmodule WandaWeb.V1.ChecksCustomizationsControllerTest do
             values: custom_values
           })
           |> json_response(:ok)
-          |> assert_schema("CustomizationResponse", api_spec)
+          |> assert_schema("CustomizationResponseV1", api_spec)
 
         assert %{values: customized_values} = response
 
@@ -366,7 +366,7 @@ defmodule WandaWeb.V1.ChecksCustomizationsControllerTest do
                  "/api/v1/checks/#{possibly_invalid_check_id}/group/#{possibly_invalid_group_id}/customization"
                )
                |> json_response(:not_found)
-               |> assert_schema("NotFound", api_spec)
+               |> assert_schema("NotFoundV1", api_spec)
       end
     end
 
@@ -434,7 +434,7 @@ defmodule WandaWeb.V1.ChecksCustomizationsControllerTest do
         values: custom_values
       })
       |> json_response(:forbidden)
-      |> assert_schema("Forbidden", api_spec)
+      |> assert_schema("ForbiddenV1", api_spec)
     end
 
     @tag abilities: @insufficient_abilities
@@ -446,7 +446,7 @@ defmodule WandaWeb.V1.ChecksCustomizationsControllerTest do
       |> put_req_header("content-type", "application/json")
       |> delete("/api/v1/groups/#{Faker.UUID.v4()}/checks/#{Faker.UUID.v4()}/customization")
       |> json_response(:forbidden)
-      |> assert_schema("Forbidden", api_spec)
+      |> assert_schema("ForbiddenV1", api_spec)
     end
   end
 end

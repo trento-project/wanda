@@ -9,7 +9,7 @@ defmodule WandaWeb.Schemas.V1.Operation.AgentReport do
 
   OpenApiSpex.schema(
     %{
-      title: "AgentReport",
+      title: "AgentReportV1",
       description:
         "Represents an individual agent report of an operation, including agent identification, result, state differences, and error messages.",
       type: :object,

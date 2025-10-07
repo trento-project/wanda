@@ -7,7 +7,7 @@ defmodule WandaWeb.Schemas.V1.Execution.FactError do
 
   OpenApiSpex.schema(
     %{
-      title: "FactError",
+      title: "FactErrorV1",
       description:
         "Indicates that a fact could not be gathered during execution, providing details for troubleshooting data collection issues.",
       type: :object,

@@ -9,7 +9,7 @@ defmodule WandaWeb.Schemas.V1.Catalog.Check do
 
   OpenApiSpex.schema(
     %{
-      title: "Check",
+      title: "CheckV1",
       deprecated: true,
       description:
         "Represents a single check from the catalog, including its metadata, configuration, and validation logic.",

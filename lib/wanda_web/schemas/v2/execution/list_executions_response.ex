@@ -11,7 +11,7 @@ defmodule WandaWeb.Schemas.V2.Execution.ListExecutionsResponse do
 
   OpenApiSpex.schema(
     %{
-      title: "ListExecutionsResponse",
+      title: "ListExecutionsResponseV2",
       description:
         "This schema represents a paginated response containing multiple execution records.",
       type: :object,

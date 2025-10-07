@@ -11,7 +11,7 @@ defmodule WandaWeb.Schemas.V1.ChecksSelection.NotCustomizedCheckValue do
 
   OpenApiSpex.schema(
     %{
-      title: "NotCustomizedCheckValue",
+      title: "NotCustomizedCheckValueV1",
       description:
         "Represents a check value that has not been customized, including its name, default value, and customization status.",
       type: :object,

@@ -15,7 +15,7 @@ defmodule WandaWeb.Schemas.V2.Execution.AgentCheckResult do
 
   OpenApiSpex.schema(
     %{
-      title: "AgentCheckResult",
+      title: "AgentCheckResultV2",
       description:
         "This object represents the result of a check performed on a specific agent during the execution process.",
       type: :object,

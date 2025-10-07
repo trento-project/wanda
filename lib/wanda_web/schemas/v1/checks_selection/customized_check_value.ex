@@ -15,7 +15,7 @@ defmodule WandaWeb.Schemas.V1.ChecksSelection.CustomizedCheckValue do
 
   OpenApiSpex.schema(
     %{
-      title: "CustomizedCheckValue",
+      title: "CustomizedCheckValueV1",
       description:
         "Represents a single customized check value, including its name, custom value, default value, and customization status.",
       type: :object,

@@ -7,7 +7,7 @@ defmodule WandaWeb.Schemas.V1.Execution.Value do
 
   OpenApiSpex.schema(
     %{
-      title: "Value",
+      title: "ValueV1",
       description:
         "Represents a value used in the expectations evaluation, including its name, check association, and customization status.",
       type: :object,

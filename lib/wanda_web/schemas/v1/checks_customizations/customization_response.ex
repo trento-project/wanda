@@ -10,7 +10,7 @@ defmodule WandaWeb.Schemas.V1.ChecksCustomizations.CustomizationResponse do
 
   OpenApiSpex.schema(
     %{
-      title: "CustomizationResponse",
+      title: "CustomizationResponseV1",
       description:
         "Represents the response for a customization operation, including the list of custom values applied to a check.",
       type: :object,

@@ -10,7 +10,7 @@ defmodule WandaWeb.Schemas.V1.NotFound do
 
   OpenApiSpex.schema(
     %{
-      title: "NotFound",
+      title: "NotFoundV1",
       description:
         "This response indicates that the requested resource could not be found in the system.",
       type: :object,

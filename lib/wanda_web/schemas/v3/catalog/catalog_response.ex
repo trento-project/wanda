@@ -10,7 +10,7 @@ defmodule WandaWeb.Schemas.V3.Catalog.CatalogResponse do
 
   OpenApiSpex.schema(
     %{
-      title: "CatalogResponse",
+      title: "CatalogResponseV3",
       description:
         "This object represents the response for a catalog listing, including all available checks.",
       type: :object,

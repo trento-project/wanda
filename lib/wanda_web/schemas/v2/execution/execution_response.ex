@@ -13,7 +13,7 @@ defmodule WandaWeb.Schemas.V2.Execution.ExecutionResponse do
 
   OpenApiSpex.schema(
     %{
-      title: "ExecutionResponse",
+      title: "ExecutionResponseV2",
       description:
         "This object represents the details and status of an execution, which may be running or completed.",
       type: :object,

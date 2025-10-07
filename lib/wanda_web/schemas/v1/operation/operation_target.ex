@@ -7,7 +7,7 @@ defmodule WandaWeb.Schemas.V1.Operation.OperationTarget do
 
   OpenApiSpex.schema(
     %{
-      title: "OperationTarget",
+      title: "OperationTargetV1",
       description:
         "Represents the target where operations are executed, including agent identification and arguments for execution.",
       type: :object,

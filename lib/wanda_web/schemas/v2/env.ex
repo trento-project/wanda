@@ -7,7 +7,7 @@ defmodule WandaWeb.Schemas.V2.Env do
 
   OpenApiSpex.schema(
     %{
-      title: "ExecutionEnv",
+      title: "ExecutionEnvV2",
       description:
         "Defines the contextual environment settings used during the current execution, allowing for flexible configuration.",
       type: :object,

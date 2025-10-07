@@ -13,7 +13,7 @@ defmodule WandaWeb.Schemas.V2.Execution.StartExecutionRequest do
 
     OpenApiSpex.schema(
       %{
-        title: "Target",
+        title: "TargetV2",
         description:
           "This object represents the agent where facts will be gathered for the execution process.",
         type: :object,
@@ -25,7 +25,7 @@ defmodule WandaWeb.Schemas.V2.Execution.StartExecutionRequest do
             description: "A unique identifier for the agent involved in the execution process."
           },
           checks: %Schema{
-            title: "ChecksSelection",
+            title: "ChecksSelectionV2",
             description:
               "A list of checks that will be executed for this target during the current execution.",
             type: :array,
@@ -40,7 +40,7 @@ defmodule WandaWeb.Schemas.V2.Execution.StartExecutionRequest do
 
   OpenApiSpex.schema(
     %{
-      title: "StartExecutionRequest",
+      title: "StartExecutionRequestV2",
       description:
         "This schema defines the context and parameters required to start a check execution.",
       type: :object,

@@ -13,7 +13,7 @@ defmodule WandaWeb.Schemas.V1.Execution.StartExecutionRequest do
 
     OpenApiSpex.schema(
       %{
-        title: "Target",
+        title: "TargetV1",
         deprecated: true,
         description:
           "Specifies the target agent on which facts gathering should occur during execution.",
@@ -28,7 +28,7 @@ defmodule WandaWeb.Schemas.V1.Execution.StartExecutionRequest do
             example: "a1b2c3d4-e5f6-7890-abcd-1234567890ab"
           },
           checks: %Schema{
-            title: "ChecksSelection",
+            title: "ChecksSelectionV1",
             description:
               "A selection of checks to be executed on this specific target in the current execution, allowing for targeted validation.",
             type: :array,
@@ -44,7 +44,7 @@ defmodule WandaWeb.Schemas.V1.Execution.StartExecutionRequest do
 
   OpenApiSpex.schema(
     %{
-      title: "StartExecutionRequest",
+      title: "StartExecutionRequestV1",
       deprecated: true,
       description:
         "Defines the context required to run a check execution, including execution and group identifiers, targets, and environment settings.",

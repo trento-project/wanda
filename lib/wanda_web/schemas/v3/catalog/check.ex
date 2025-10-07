@@ -9,7 +9,7 @@ defmodule WandaWeb.Schemas.V3.Catalog.Check do
 
   OpenApiSpex.schema(
     %{
-      title: "Check",
+      title: "CheckV3",
       description:
         "This object represents a single check from the catalog, including its configuration, metadata, and validation logic.",
       type: :object,
