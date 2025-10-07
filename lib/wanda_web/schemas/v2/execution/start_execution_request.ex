@@ -25,7 +25,6 @@ defmodule WandaWeb.Schemas.V2.Execution.StartExecutionRequest do
             description: "A unique identifier for the agent involved in the execution process."
           },
           checks: %Schema{
-            title: "ChecksSelectionV2",
             description:
               "A list of checks that will be executed for this target during the current execution.",
             type: :array,

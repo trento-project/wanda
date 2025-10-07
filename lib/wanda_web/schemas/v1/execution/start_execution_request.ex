@@ -28,7 +28,6 @@ defmodule WandaWeb.Schemas.V1.Execution.StartExecutionRequest do
             example: "a1b2c3d4-e5f6-7890-abcd-1234567890ab"
           },
           checks: %Schema{
-            title: "ChecksSelectionV1",
             description:
               "A selection of checks to be executed on this specific target in the current execution, allowing for targeted validation.",
             type: :array,
