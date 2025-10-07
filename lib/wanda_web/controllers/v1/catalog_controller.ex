@@ -6,6 +6,7 @@ defmodule WandaWeb.V1.CatalogController do
 
   alias Wanda.Catalog
   alias WandaWeb.Schemas.V1.Catalog.CatalogResponse
+
   alias WandaWeb.Schemas.V1.{
     Env,
     UnprocessableEntity
