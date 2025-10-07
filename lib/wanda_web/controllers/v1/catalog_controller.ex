@@ -6,12 +6,13 @@ defmodule WandaWeb.V1.CatalogController do
 
   alias Wanda.Catalog
   alias WandaWeb.Schemas.V1.Catalog.CatalogResponse
-  alias WandaWeb.Schemas.V1.Env
+  alias WandaWeb.Schemas.V1.{
+    Env,
+    UnprocessableEntity
+  }
 
   alias WandaWeb.Schemas.V1.ChecksSelection.SelectableChecksResponse
   alias WandaWeb.Schemas.V2.Env, as: V2Env
-
-  alias WandaWeb.Schemas.UnprocessableEntity
 
   plug OpenApiSpex.Plug.CastAndValidate, json_render_error_v2: true
 

@@ -1,4 +1,4 @@
-defmodule WandaWeb.Schemas.AcceptedExecutionResponse do
+defmodule WandaWeb.Schemas.V1.AcceptedExecutionResponse do
   @moduledoc """
   Minimal information about an Execution accepted by the system,
   it carries the same identifiers provided by the consumer that requested the execution to start.

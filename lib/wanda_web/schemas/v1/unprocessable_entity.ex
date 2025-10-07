@@ -1,4 +1,4 @@
-defmodule WandaWeb.Schemas.UnprocessableEntity do
+defmodule WandaWeb.Schemas.V1.UnprocessableEntity do
   @moduledoc """
   422 - Unprocessable Entity.
   """

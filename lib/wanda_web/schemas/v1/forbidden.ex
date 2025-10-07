@@ -1,6 +1,6 @@
-defmodule WandaWeb.Schemas.BadRequest do
+defmodule WandaWeb.Schemas.V1.Forbidden do
   @moduledoc """
-  Bad Request.
+  403 - Forbidden.
   """
 
   alias OpenApiSpex.Operation
@@ -10,16 +10,16 @@ defmodule WandaWeb.Schemas.BadRequest do
 
   OpenApiSpex.schema(
     %{
-      title: "BadRequest",
+      title: "Forbidden",
       description:
-        "This response indicates that the request was malformed or contained invalid parameters, and could not be processed.",
+        "This response indicates that access to the requested resource or operation is forbidden due to insufficient permissions.",
       type: :object,
       additionalProperties: false,
       example: %{
         errors: [
           %{
-            detail: "Invalid request payload.",
-            title: "Bad Request"
+            detail: "The requested operation could not be performed.",
+            title: "Forbidden"
           }
         ]
       },
@@ -28,8 +28,8 @@ defmodule WandaWeb.Schemas.BadRequest do
           type: :array,
           example: [
             %{
-              detail: "Invalid request payload.",
-              title: "Bad Request"
+              detail: "The requested operation could not be performed.",
+              title: "Forbidden"
             }
           ],
           items: %Schema{
@@ -37,9 +37,9 @@ defmodule WandaWeb.Schemas.BadRequest do
             properties: %{
               detail: %Schema{
                 type: :string,
-                example: "Invalid request payload."
+                example: "The requested operation could not be performed."
               },
-              title: %Schema{type: :string, example: "Bad Request"}
+              title: %Schema{type: :string, example: "Forbidden"}
             }
           }
         }
@@ -50,7 +50,7 @@ defmodule WandaWeb.Schemas.BadRequest do
 
   def response do
     Operation.response(
-      "This response indicates that the request was malformed or contained invalid parameters, and could not be processed.",
+      "This response indicates that access to the requested resource or operation is forbidden due to insufficient permissions.",
       "application/json",
       __MODULE__
     )

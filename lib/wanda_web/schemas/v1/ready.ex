@@ -1,4 +1,4 @@
-defmodule WandaWeb.Schemas.Ready do
+defmodule WandaWeb.Schemas.V1.Ready do
   @moduledoc """
   Ready.
   """

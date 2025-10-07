@@ -1,4 +1,4 @@
-defmodule WandaWeb.Schemas.NotFound do
+defmodule WandaWeb.Schemas.V1.NotFound do
   @moduledoc """
   404 - Not Found.
   """

@@ -1,4 +1,4 @@
-defmodule WandaWeb.Schemas.Health do
+defmodule WandaWeb.Schemas.V1.Health do
   @moduledoc """
   Healthcheck
   """

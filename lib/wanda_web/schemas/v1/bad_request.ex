@@ -1,6 +1,6 @@
-defmodule WandaWeb.Schemas.Forbidden do
+defmodule WandaWeb.Schemas.V1.BadRequest do
   @moduledoc """
-  403 - Forbidden.
+  Bad Request.
   """
 
   alias OpenApiSpex.Operation
@@ -10,16 +10,16 @@ defmodule WandaWeb.Schemas.Forbidden do
 
   OpenApiSpex.schema(
     %{
-      title: "Forbidden",
+      title: "BadRequest",
       description:
-        "This response indicates that access to the requested resource or operation is forbidden due to insufficient permissions.",
+        "This response indicates that the request was malformed or contained invalid parameters, and could not be processed.",
       type: :object,
       additionalProperties: false,
       example: %{
         errors: [
           %{
-            detail: "The requested operation could not be performed.",
-            title: "Forbidden"
+            detail: "Invalid request payload.",
+            title: "Bad Request"
           }
         ]
       },
@@ -28,8 +28,8 @@ defmodule WandaWeb.Schemas.Forbidden do
           type: :array,
           example: [
             %{
-              detail: "The requested operation could not be performed.",
-              title: "Forbidden"
+              detail: "Invalid request payload.",
+              title: "Bad Request"
             }
           ],
           items: %Schema{
@@ -37,9 +37,9 @@ defmodule WandaWeb.Schemas.Forbidden do
             properties: %{
               detail: %Schema{
                 type: :string,
-                example: "The requested operation could not be performed."
+                example: "Invalid request payload."
               },
-              title: %Schema{type: :string, example: "Forbidden"}
+              title: %Schema{type: :string, example: "Bad Request"}
             }
           }
         }
@@ -50,7 +50,7 @@ defmodule WandaWeb.Schemas.Forbidden do
 
   def response do
     Operation.response(
-      "This response indicates that access to the requested resource or operation is forbidden due to insufficient permissions.",
+      "This response indicates that the request was malformed or contained invalid parameters, and could not be processed.",
       "application/json",
       __MODULE__
     )
