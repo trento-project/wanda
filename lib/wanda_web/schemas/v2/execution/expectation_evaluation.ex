@@ -43,8 +43,8 @@ defmodule WandaWeb.Schemas.V2.Execution.ExpectationEvaluation do
       required: [:name, :return_value, :type],
       example: %{
         name: "fencing_enabled",
-        return_value: "critical",
-        type: "expect_enum",
+        return_value: true,
+        type: "expect",
         failure_message: "Fencing is not configured for all nodes."
       }
     },

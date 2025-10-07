@@ -31,7 +31,11 @@ defmodule WandaWeb.Schemas.V2.Execution.StartExecutionRequest do
             items: %Schema{type: :string}
           }
         },
-        required: [:agent_id, :checks]
+        required: [:agent_id, :checks],
+        example: %{
+          agent_id: "a1b2c3d4-e5f6-7890-abcd-1234567890ab",
+          checks: ["156F64"]
+        }
       },
       struct?: false
     )

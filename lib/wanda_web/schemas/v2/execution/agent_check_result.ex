@@ -61,8 +61,8 @@ defmodule WandaWeb.Schemas.V2.Execution.AgentCheckResult do
         expectation_evaluations: [
           %{
             name: "fencing_enabled",
-            type: "expect_enum",
-            return_value: "critical"
+            type: "expect",
+            return_value: true
           }
         ]
       }
