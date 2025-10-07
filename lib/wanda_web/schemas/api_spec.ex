@@ -8,10 +8,17 @@ defmodule WandaWeb.Schemas.ApiSpec do
     use WandaWeb.OpenApi.ApiSpec,
       api_version: "v1"
 
+    # For all endpoints:
+    use WandaWeb.OpenApi.ApiSpec,
+      api_version: "all"
+
     # For unversioned endpoints:
     use WandaWeb.OpenApi.ApiSpec,
       api_version: "unversioned"
   """
+  alias WandaWeb.Schemas.ApiSpec
+
+  alias OpenApiSpex.Paths
 
   defmacro __using__(opts) do
     api_version =
@@ -42,7 +49,7 @@ defmodule WandaWeb.Schemas.ApiSpec do
           info: %Info{
             title: "Wanda",
             description: to_string(Application.spec(:wanda, :description)),
-            version: to_string(Application.spec(:wanda, :vsn)) <> "-" <> unquote(api_version),
+            version: ApiSpec.build_version(unquote(api_version)),
             license: %OpenApiSpex.License{
               name: "Apache 2.0",
               url: "https://www.apache.org/licenses/LICENSE-2.0"
@@ -64,7 +71,7 @@ defmodule WandaWeb.Schemas.ApiSpec do
             }
           },
           security: [%{"authorization" => []}],
-          paths: build_paths_for_version(unquote(api_version), router),
+          paths: ApiSpec.build_paths_for_version(unquote(api_version), router),
           tags: [
             %Tag{
               name: "Checks Engine",
@@ -99,34 +106,35 @@ defmodule WandaWeb.Schemas.ApiSpec do
           }
         end
       end
-
-      defp build_paths_for_version(version, router) do
-        available_versions = router.available_api_versions()
-
-        excluded_versions = List.delete(available_versions, version)
-        actual_versions = List.delete(available_versions, "unversioned")
-
-        router
-        |> Paths.from_router()
-        |> Enum.reject(fn {path, _info} ->
-          current_version =
-            path
-            |> String.trim("/")
-            |> String.split("/")
-            |> Enum.at(1)
-            |> map_version(actual_versions)
-
-          Enum.member?(excluded_versions, current_version)
-        end)
-        |> Map.new()
-      end
-
-      defp map_version(version, actual_versions) do
-        case version in actual_versions do
-          true -> version
-          _ -> "unversioned"
-        end
-      end
     end
   end
+
+  def build_version("all"), do: to_string(Application.spec(:wanda, :vsn))
+  def build_version(version), do: to_string(Application.spec(:wanda, :vsn)) <> "-" <> version
+
+  def build_paths_for_version("all", router), do: Paths.from_router(router)
+
+  def build_paths_for_version(version, router) do
+    available_versions = router.available_api_versions()
+
+    router
+    |> Paths.from_router()
+    |> Enum.filter(fn {path, _info} ->
+      path
+      |> String.trim("/")
+      |> String.split("/")
+      |> Enum.at(1)
+      |> include_path?(version, available_versions)
+    end)
+    |> Map.new()
+  end
+
+  defp include_path?(route_api_version, "unversioned", available_versions),
+    do: not Enum.member?(available_versions, route_api_version)
+
+  defp include_path?(version, version, _available_versions),
+    do: true
+
+  defp include_path?(_route_api_version, _api_version, _available_versions),
+    do: false
 end
