@@ -12,7 +12,7 @@
 
     <link rel="stylesheet" href="dist/html-elixir-J3PIVQVA.css" />
 
-    <script defer src="dist/sidebar_items-2A9F03C0.js"></script>
+    <script defer src="dist/sidebar_items-4E7C9BB5.js"></script>
     <script defer src="docs_config.js"></script>
     <script defer src="dist/html-DPJLHKSM.js"></script>
 
@@ -94,12 +94,101 @@ Wanda
 
     <section id="moduledoc">
 <p>OpenApi specification entry point</p><p><code class="inline">api_version</code> must be provided to specify the version of this openapi specification</p><p>Example:
-  use WandaWeb.OpenApi.ApiSpec,</p><pre><code class="makeup elixir" translate="no"><span class="ss">api_version</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;v1&quot;</span></code></pre><p>  # For unversioned endpoints:
+  use WandaWeb.OpenApi.ApiSpec,</p><pre><code class="makeup elixir" translate="no"><span class="ss">api_version</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;v1&quot;</span></code></pre><p>  # For all endpoints:
+  use WandaWeb.OpenApi.ApiSpec,</p><pre><code class="makeup elixir" translate="no"><span class="ss">api_version</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;all&quot;</span></code></pre><p>  # For unversioned endpoints:
   use WandaWeb.OpenApi.ApiSpec,</p><pre><code class="makeup elixir" translate="no"><span class="ss">api_version</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;unversioned&quot;</span></code></pre>
     </section>
 
 </div>
 
+  <section id="summary" class="details-list">
+    <h1 class="section-heading">
+      <a class="hover-link" href="#summary">
+        <i class="ri-link-m" aria-hidden="true"></i>
+      </a>
+      <span class="text">Summary</span>
+    </h1>
+<div class="summary-functions summary">
+  <h2>
+    <a href="#functions">Functions</a>
+  </h2>
+
+    <div class="summary-row">
+      <div class="summary-signature">
+        <a href="#build_paths_for_version/2" data-no-tooltip="" translate="no">build_paths_for_version(version, router)</a>
+
+      </div>
+
+    </div>
+
+    <div class="summary-row">
+      <div class="summary-signature">
+        <a href="#build_version/1" data-no-tooltip="" translate="no">build_version(version)</a>
+
+      </div>
+
+    </div>
+
+</div>
+
+  </section>
+
+
+  <section id="functions" class="details-list">
+    <h1 class="section-heading">
+      <a class="hover-link" href="#functions">
+        <i class="ri-link-m" aria-hidden="true"></i>
+      </a>
+      <span class="text">Functions</span>
+    </h1>
+    <div class="functions-list">
+<section class="detail" id="build_paths_for_version/2">
+
+  <div class="detail-header">
+    <a href="#build_paths_for_version/2" class="detail-link" data-no-tooltip="" aria-label="Link to this function">
+      <i class="ri-link-m" aria-hidden="true"></i>
+    </a>
+    <div class="heading-with-actions">
+      <h1 class="signature" translate="no">build_paths_for_version(version, router)</h1>
+
+
+        <a href="https://github.com/trento-project/wanda/blob/main/lib/wanda_web/schemas/api_spec.ex#L115" class="icon-action" rel="help" aria-label="View Source">
+          <i class="ri-code-s-slash-line" aria-hidden="true"></i>
+        </a>
+
+    </div>
+  </div>
+
+  <section class="docstring">
+
+
+  </section>
+</section>
+<section class="detail" id="build_version/1">
+
+  <div class="detail-header">
+    <a href="#build_version/1" class="detail-link" data-no-tooltip="" aria-label="Link to this function">
+      <i class="ri-link-m" aria-hidden="true"></i>
+    </a>
+    <div class="heading-with-actions">
+      <h1 class="signature" translate="no">build_version(version)</h1>
+
+
+        <a href="https://github.com/trento-project/wanda/blob/main/lib/wanda_web/schemas/api_spec.ex#L112" class="icon-action" rel="help" aria-label="View Source">
+          <i class="ri-code-s-slash-line" aria-hidden="true"></i>
+        </a>
+
+    </div>
+  </div>
+
+  <section class="docstring">
+
+
+  </section>
+</section>
+
+    </div>
+  </section>
 
     <footer class="footer">
       <p>
