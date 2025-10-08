@@ -17,7 +17,7 @@ defmodule WandaWeb.Schemas.V1.Operation.OperationResponse do
 
   OpenApiSpex.schema(
     %{
-      title: "OperationResponse",
+      title: "OperationResponseV1",
       description:
         "Represents the details of an operation, including its status, timing, results, and associated targets. Can be running or completed.",
       type: :object,

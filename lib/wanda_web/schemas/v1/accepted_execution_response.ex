@@ -1,4 +1,4 @@
-defmodule WandaWeb.Schemas.AcceptedExecutionResponse do
+defmodule WandaWeb.Schemas.V1.AcceptedExecutionResponse do
   @moduledoc """
   Minimal information about an Execution accepted by the system,
   it carries the same identifiers provided by the consumer that requested the execution to start.
@@ -12,7 +12,7 @@ defmodule WandaWeb.Schemas.AcceptedExecutionResponse do
 
   OpenApiSpex.schema(
     %{
-      title: "AcceptedExecutionResponse",
+      title: "AcceptedExecutionResponseV1",
       description:
         "This response contains the identifiers for an execution that was recently accepted by the system. These identifiers can be used to query the execution status later.",
       type: :object,

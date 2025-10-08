@@ -11,7 +11,7 @@ defmodule WandaWeb.Schemas.V1.Execution.ListExecutionsResponse do
 
   OpenApiSpex.schema(
     %{
-      title: "ListExecutionsResponse",
+      title: "ListExecutionsResponseV1",
       deprecated: true,
       description:
         "Represents a paginated list of executions, including the total count and individual execution items.",

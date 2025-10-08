@@ -14,7 +14,7 @@ defmodule WandaWeb.V3.CatalogControllerTest do
         |> json_response(200)
 
       api_spec = ApiSpec.spec()
-      assert_schema(json, "CatalogResponse", api_spec)
+      assert_schema(json, "CatalogResponseV3", api_spec)
     end
 
     test "listing the checks catalog produces a CatalogResponse when filtered", %{conn: conn} do
@@ -39,7 +39,7 @@ defmodule WandaWeb.V3.CatalogControllerTest do
              } = json
 
       api_spec = ApiSpec.spec()
-      assert_schema(json, "CatalogResponse", api_spec)
+      assert_schema(json, "CatalogResponseV3", api_spec)
     end
 
     test "accepts different types inside the env", %{conn: conn} do
@@ -64,7 +64,7 @@ defmodule WandaWeb.V3.CatalogControllerTest do
              } = json
 
       api_spec = ApiSpec.spec()
-      assert_schema(json, "CatalogResponse", api_spec)
+      assert_schema(json, "CatalogResponseV3", api_spec)
     end
   end
 end

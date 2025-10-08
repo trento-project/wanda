@@ -6,7 +6,7 @@ defmodule WandaWeb.V2.CatalogController do
   alias WandaWeb.Schemas.V1.Catalog.CatalogResponse
   alias WandaWeb.Schemas.V2.Env
 
-  alias WandaWeb.Schemas.UnprocessableEntity
+  alias WandaWeb.Schemas.V1.UnprocessableEntity
 
   plug OpenApiSpex.Plug.CastAndValidate, json_render_error_v2: true
 

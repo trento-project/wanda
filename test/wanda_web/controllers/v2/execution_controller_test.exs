@@ -23,7 +23,7 @@ defmodule WandaWeb.V2.ExecutionControllerTest do
         |> json_response(200)
 
       api_spec = ApiSpec.spec()
-      assert_schema(json, "ListExecutionsResponse", api_spec)
+      assert_schema(json, "ListExecutionsResponseV2", api_spec)
     end
 
     test "should return a 422 status code if an invalid parameters is passed", %{conn: conn} do
@@ -43,7 +43,7 @@ defmodule WandaWeb.V2.ExecutionControllerTest do
         |> json_response(200)
 
       api_spec = ApiSpec.spec()
-      assert_schema(json, "ExecutionResponse", api_spec)
+      assert_schema(json, "ExecutionResponseV2", api_spec)
     end
 
     test "should return a completed execution", %{conn: conn} do
@@ -60,7 +60,7 @@ defmodule WandaWeb.V2.ExecutionControllerTest do
         |> json_response(200)
 
       api_spec = ApiSpec.spec()
-      assert_schema(json, "ExecutionResponse", api_spec)
+      assert_schema(json, "ExecutionResponseV2", api_spec)
     end
 
     test "should return a completed execution with errors", %{conn: conn} do
@@ -118,7 +118,7 @@ defmodule WandaWeb.V2.ExecutionControllerTest do
         |> json_response(200)
 
       api_spec = ApiSpec.spec()
-      assert_schema(json, "ExecutionResponse", api_spec)
+      assert_schema(json, "ExecutionResponseV2", api_spec)
     end
 
     test "should accept all different types of fact values", %{conn: conn} do
@@ -149,7 +149,7 @@ defmodule WandaWeb.V2.ExecutionControllerTest do
           |> json_response(200)
 
         api_spec = ApiSpec.spec()
-        assert_schema(json, "ExecutionResponse", api_spec)
+        assert_schema(json, "ExecutionResponseV2", api_spec)
       end
     end
 
@@ -172,7 +172,7 @@ defmodule WandaWeb.V2.ExecutionControllerTest do
           |> json_response(200)
 
         api_spec = ApiSpec.spec()
-        assert_schema(json, "ExecutionResponse", api_spec)
+        assert_schema(json, "ExecutionResponseV2", api_spec)
       end
     end
 
@@ -193,7 +193,7 @@ defmodule WandaWeb.V2.ExecutionControllerTest do
         |> json_response(200)
 
       api_spec = ApiSpec.spec()
-      assert_schema(json, "ExecutionResponse", api_spec)
+      assert_schema(json, "ExecutionResponseV2", api_spec)
     end
 
     test "should return a 404", %{conn: conn} do
@@ -244,7 +244,7 @@ defmodule WandaWeb.V2.ExecutionControllerTest do
         |> json_response(202)
 
       api_spec = ApiSpec.spec()
-      assert_schema(json, "AcceptedExecutionResponse", api_spec)
+      assert_schema(json, "AcceptedExecutionResponseV1", api_spec)
     end
 
     test "should return an error when the start execution operation fails", %{

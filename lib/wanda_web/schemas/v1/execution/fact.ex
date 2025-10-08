@@ -7,7 +7,7 @@ defmodule WandaWeb.Schemas.V1.Execution.Fact do
 
   OpenApiSpex.schema(
     %{
-      title: "Fact",
+      title: "FactV1",
       description:
         "Represents a fact gathered during execution, including its check association and observed value.",
       type: :object,

@@ -7,7 +7,7 @@ defmodule WandaWeb.V1.ExecutionController do
   alias Wanda.Executions
   alias Wanda.Executions.Target
 
-  alias WandaWeb.Schemas.{
+  alias WandaWeb.Schemas.V1.{
     AcceptedExecutionResponse,
     BadRequest,
     NotFound,

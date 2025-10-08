@@ -4,7 +4,7 @@ defmodule WandaWeb.HealthController do
 
   alias Ecto.Adapters.SQL
 
-  alias WandaWeb.Schemas.{
+  alias WandaWeb.Schemas.V1.{
     Health,
     Ready
   }

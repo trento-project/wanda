@@ -1,4 +1,4 @@
-defmodule WandaWeb.Schemas.Forbidden do
+defmodule WandaWeb.Schemas.V1.Forbidden do
   @moduledoc """
   403 - Forbidden.
   """
@@ -10,7 +10,7 @@ defmodule WandaWeb.Schemas.Forbidden do
 
   OpenApiSpex.schema(
     %{
-      title: "Forbidden",
+      title: "ForbiddenV1",
       description:
         "This response indicates that access to the requested resource or operation is forbidden due to insufficient permissions.",
       type: :object,

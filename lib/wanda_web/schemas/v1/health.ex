@@ -1,4 +1,4 @@
-defmodule WandaWeb.Schemas.Health do
+defmodule WandaWeb.Schemas.V1.Health do
   @moduledoc """
   Healthcheck
   """
@@ -10,7 +10,7 @@ defmodule WandaWeb.Schemas.Health do
 
   OpenApiSpex.schema(
     %Schema{
-      title: "Health",
+      title: "HealthV1",
       description:
         "This response provides the health status of the checks/operations platform platform, including the status of its database connection.",
       type: :object,

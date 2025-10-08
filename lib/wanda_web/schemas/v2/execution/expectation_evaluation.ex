@@ -7,7 +7,7 @@ defmodule WandaWeb.Schemas.V2.Execution.ExpectationEvaluation do
 
   OpenApiSpex.schema(
     %{
-      title: "ExpectationEvaluation",
+      title: "ExpectationEvaluationV2",
       description:
         "This object describes the evaluation process and outcome for a specific expectation during a check execution.",
       type: :object,
@@ -43,8 +43,8 @@ defmodule WandaWeb.Schemas.V2.Execution.ExpectationEvaluation do
       required: [:name, :return_value, :type],
       example: %{
         name: "fencing_enabled",
-        return_value: "critical",
-        type: "expect_enum",
+        return_value: true,
+        type: "expect",
         failure_message: "Fencing is not configured for all nodes."
       }
     },

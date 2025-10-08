@@ -6,7 +6,7 @@ defmodule WandaWeb.V1.OperationController do
 
   alias Wanda.Operations
 
-  alias WandaWeb.Schemas.{NotFound, UnprocessableEntity}
+  alias WandaWeb.Schemas.V1.{NotFound, UnprocessableEntity}
 
   alias WandaWeb.Schemas.V1.Operation.{
     ListOperationsResponse,

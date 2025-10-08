@@ -15,7 +15,7 @@ defmodule WandaWeb.Schemas.V2.Execution.AgentCheckResult do
 
   OpenApiSpex.schema(
     %{
-      title: "AgentCheckResult",
+      title: "AgentCheckResultV2",
       description:
         "This object represents the result of a check performed on a specific agent during the execution process.",
       type: :object,
@@ -61,8 +61,8 @@ defmodule WandaWeb.Schemas.V2.Execution.AgentCheckResult do
         expectation_evaluations: [
           %{
             name: "fencing_enabled",
-            type: "expect_enum",
-            return_value: "critical"
+            type: "expect",
+            return_value: true
           }
         ]
       }

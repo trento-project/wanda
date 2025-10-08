@@ -7,7 +7,7 @@ defmodule WandaWeb.Schemas.V1.Execution.ExpectationEvaluationError do
 
   OpenApiSpex.schema(
     %{
-      title: "ExpectationEvaluationError",
+      title: "ExpectationEvaluationErrorV1",
       description:
         "Indicates that an error occurred during the evaluation of an expectation, providing details for troubleshooting.",
       type: :object,

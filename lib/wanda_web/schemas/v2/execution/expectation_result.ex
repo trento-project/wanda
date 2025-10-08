@@ -7,7 +7,7 @@ defmodule WandaWeb.Schemas.V2.Execution.ExpectationResult do
 
   OpenApiSpex.schema(
     %{
-      title: "ExpectationResult",
+      title: "ExpectationResultV2",
       description:
         "This object describes the outcome of an expectation evaluation during a check execution.",
       type: :object,

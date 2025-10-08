@@ -7,7 +7,7 @@ defmodule WandaWeb.Schemas.V1.Execution.Target do
 
   OpenApiSpex.schema(
     %{
-      title: "Target",
+      title: "TargetV1",
       description:
         "Represents the target where execution facts are gathered, including agent and check associations.",
       type: :object,

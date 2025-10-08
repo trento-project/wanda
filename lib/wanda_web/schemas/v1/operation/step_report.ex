@@ -9,7 +9,7 @@ defmodule WandaWeb.Schemas.V1.Operation.StepReport do
 
   OpenApiSpex.schema(
     %{
-      title: "StepReport",
+      title: "StepReportV1",
       description:
         "Represents a report for a single step in an operation, including step details and agent outcomes.",
       type: :object,

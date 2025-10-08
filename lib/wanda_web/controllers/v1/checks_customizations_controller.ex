@@ -6,7 +6,7 @@ defmodule WandaWeb.V1.ChecksCustomizationsController do
   alias Wanda.Users.User
 
   alias WandaWeb.Auth.UserDetector
-  alias WandaWeb.Schemas.{BadRequest, Forbidden, NotFound, UnprocessableEntity}
+  alias WandaWeb.Schemas.V1.{BadRequest, Forbidden, NotFound, UnprocessableEntity}
   alias WandaWeb.Schemas.V1.ChecksCustomizations.{CustomizationRequest, CustomizationResponse}
 
   alias Wanda.ChecksCustomizations

@@ -11,7 +11,7 @@ defmodule WandaWeb.Schemas.V1.ChecksSelection.SelectableChecksResponse do
 
   OpenApiSpex.schema(
     %{
-      title: "SelectableChecksResponse",
+      title: "SelectableChecksResponseV1",
       description:
         "Represents the list of selectable checks for a given execution group and environment, including details for customization and selection.",
       type: :object,
