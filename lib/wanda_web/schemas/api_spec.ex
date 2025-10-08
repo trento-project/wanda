@@ -83,6 +83,11 @@ defmodule WandaWeb.Schemas.ApiSpec do
               description: "Endpoints for accessing checks/operations platform features."
             },
             %Tag{
+              name: "MCP",
+              description:
+                "Exposes endpoints as tools for Model Context Protocol (MCP) integration, enabling those endpoints to be consumed by any LLM."
+            },
+            %Tag{
               name: "Operations Engine",
               description:
                 "Endpoints for managing and executing operations and related information."

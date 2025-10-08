@@ -27,7 +27,7 @@ defmodule WandaWeb.V2.ExecutionController do
     summary: "List executions.",
     description:
       "Provides a paginated list of executions performed in the system, supporting monitoring and analysis.",
-    tags: ["Checks Engine"],
+    tags: ["Checks Engine", "MCP"],
     parameters: [
       group_id: [
         in: :query,
@@ -68,7 +68,7 @@ defmodule WandaWeb.V2.ExecutionController do
   operation :show,
     summary: "Get an execution by ID.",
     description: "Provides detailed information about a specific execution identified by its ID.",
-    tags: ["Checks Engine"],
+    tags: ["Checks Engine", "MCP"],
     parameters: [
       id: [
         in: :path,
@@ -97,7 +97,7 @@ defmodule WandaWeb.V2.ExecutionController do
   operation :last,
     summary: "Get the last execution of a group.",
     description: "Provides details about the most recent execution for a specified group.",
-    tags: ["Checks Engine"],
+    tags: ["Checks Engine", "MCP"],
     parameters: [
       id: [
         in: :path,
