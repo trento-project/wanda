@@ -128,7 +128,8 @@ defmodule Wanda.MixProject do
       # required overrides to upgrade to elixir 1.15.7 and erlang otp 26
       # https://stackoverflow.com/questions/76562092/hi-i-had-created-elixir-project-with-phoenix-framework-there-is-yaml-file-when
       {:ecto, "~> 3.10", override: true},
-      {:bodyguard, "~> 2.4"}
+      {:bodyguard, "~> 2.4"},
+      {:httpoison, "~> 2.0"}
     ]
   end
 
