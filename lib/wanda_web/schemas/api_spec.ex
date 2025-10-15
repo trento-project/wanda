@@ -97,22 +97,18 @@ defmodule WandaWeb.Schemas.ApiSpec do
         cond do
           not is_nil(oas_server_url) ->
             %OpenApiSpex.Server{
-              url: build_server_url(oas_server_url)
+              url: oas_server_url
             }
 
           Process.whereis(Endpoint) ->
-            %{url: url} = Server.from_endpoint(Endpoint)
-
-            %OpenApiSpex.Server{
-              url: build_server_url(url)
-            }
+            Server.from_endpoint(Endpoint)
 
           true ->
             %OpenApiSpex.Server{
               url: "{url}",
               variables: %{
                 url: %{
-                  default: build_server_url("https://demo.trento-project.io")
+                  default: "https://demo.trento-project.io/wanda"
                 }
               },
               description:
@@ -120,8 +116,6 @@ defmodule WandaWeb.Schemas.ApiSpec do
             }
         end
       end
-
-      defp build_server_url(url), do: Path.join(url, "wanda")
     end
   end
 

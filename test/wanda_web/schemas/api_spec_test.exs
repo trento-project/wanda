@@ -1,5 +1,5 @@
 defmodule WandaWeb.Schemas.ApiSpecTest do
-  use ExUnit.Case
+  use ExUnit.Case, async: false
 
   alias WandaWeb.Schemas.ApiSpec
 
@@ -101,12 +101,10 @@ defmodule WandaWeb.Schemas.ApiSpecTest do
       assert %OpenApiSpex.OpenApi{
                servers: [
                  %{
-                   url: expected_url
+                   url: ^url
                  }
                ]
              } = All.spec(TestRouter)
-
-      assert expected_url == Path.join(url, "wanda")
     end
   end
 
