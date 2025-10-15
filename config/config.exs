@@ -89,7 +89,8 @@ config :wanda,
   cors_enabled: true,
   jwt_authentication_enabled: true,
   operations_enabled: true,
-  date_service: Wanda.Support.DateService
+  date_service: Wanda.Support.DateService,
+  oas_server_url: nil
 
 config :bodyguard,
   default_error: :forbidden

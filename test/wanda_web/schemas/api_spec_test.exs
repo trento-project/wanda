@@ -89,6 +89,25 @@ defmodule WandaWeb.Schemas.ApiSpecTest do
                paths: %{"/api/not_versioned" => _, "/api/v1/route" => _, "/api/v2/route" => _}
              } = All.spec(TestRouter)
     end
+
+    test "should use oas_server_url if configured" do
+      on_exit(fn ->
+        Application.put_env(:wanda, :oas_server_url, nil)
+      end)
+
+      url = "https://my-wanda.io"
+      Application.put_env(:wanda, :oas_server_url, url)
+
+      assert %OpenApiSpex.OpenApi{
+               servers: [
+                 %{
+                   url: expected_url
+                 }
+               ]
+             } = All.spec(TestRouter)
+
+      assert expected_url == Path.join(url, "wanda")
+    end
   end
 
   defp get_app_version, do: to_string(Application.spec(:wanda, :vsn))

@@ -46,17 +46,22 @@ defmodule WandaWeb.Router do
       do: WandaWeb.Auth.JWTAuthPlug
   end
 
+  # Forward /wanda prefix to existing paths to have a different prefix than web project API
+  scope "/wanda" do
+    forward "/", __MODULE__
+  end
+
   scope "/" do
     pipe_through :browser
 
     get "/api/doc", OpenApiSpex.Plug.SwaggerUI,
-      path: "/api/v1/openapi",
+      path: "/wanda/api/all/openapi",
       urls: [
-        %{url: "/api/v1/openapi", name: "Version 1"},
-        %{url: "/api/v2/openapi", name: "Version 2"},
-        %{url: "/api/v3/openapi", name: "Version 3"},
-        %{url: "/api/unversioned/openapi", name: "Unversioned"},
-        %{url: "/api/all/openapi", name: "All"}
+        %{url: "/wanda/api/all/openapi", name: "All"},
+        %{url: "/wanda/api/v1/openapi", name: "Version 1"},
+        %{url: "/wanda/api/v2/openapi", name: "Version 2"},
+        %{url: "/wanda/api/v3/openapi", name: "Version 3"},
+        %{url: "/wanda/api/unversioned/openapi", name: "Unversioned"}
       ]
   end
 
