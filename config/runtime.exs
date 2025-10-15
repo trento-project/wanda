@@ -56,6 +56,9 @@ if config_env() in [:prod, :demo] do
     ],
     secret_key_base: secret_key_base
 
+  config :wanda,
+    oas_server_url: System.get_env("OAS_SERVER_URL")
+
   amqp_url =
     System.get_env("AMQP_URL") ||
       raise """

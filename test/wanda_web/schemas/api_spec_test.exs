@@ -1,5 +1,5 @@
 defmodule WandaWeb.Schemas.ApiSpecTest do
-  use ExUnit.Case
+  use ExUnit.Case, async: false
 
   alias WandaWeb.Schemas.ApiSpec
 
@@ -87,6 +87,23 @@ defmodule WandaWeb.Schemas.ApiSpecTest do
                  version: ^expected_version
                },
                paths: %{"/api/not_versioned" => _, "/api/v1/route" => _, "/api/v2/route" => _}
+             } = All.spec(TestRouter)
+    end
+
+    test "should use oas_server_url if configured" do
+      on_exit(fn ->
+        Application.put_env(:wanda, :oas_server_url, nil)
+      end)
+
+      url = "https://my-wanda.io"
+      Application.put_env(:wanda, :oas_server_url, url)
+
+      assert %OpenApiSpex.OpenApi{
+               servers: [
+                 %{
+                   url: ^url
+                 }
+               ]
              } = All.spec(TestRouter)
     end
   end

@@ -49,14 +49,15 @@ defmodule WandaWeb.Router do
   scope "/" do
     pipe_through :browser
 
-    get "/api/doc", OpenApiSpex.Plug.SwaggerUI,
-      path: "/api/v1/openapi",
+    # The path and urls are updated in the plug, adding the oas_server_url path as prefix
+    get "/api/doc", WandaWeb.Plugs.SwaggerUIRuntime,
+      path: "/api/all/openapi",
       urls: [
+        %{url: "/api/all/openapi", name: "All"},
         %{url: "/api/v1/openapi", name: "Version 1"},
         %{url: "/api/v2/openapi", name: "Version 2"},
         %{url: "/api/v3/openapi", name: "Version 3"},
-        %{url: "/api/unversioned/openapi", name: "Unversioned"},
-        %{url: "/api/all/openapi", name: "All"}
+        %{url: "/api/unversioned/openapi", name: "Unversioned"}
       ]
   end
 
