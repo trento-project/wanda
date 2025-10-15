@@ -8,7 +8,7 @@
     <meta name="project" content="Wanda v1.5.0">
 
 
-    <title>Wanda.Executions.ExpectationResult — Wanda v1.5.0</title>
+    <title>WandaWeb.Plugs.SwaggerUIRuntime — Wanda v1.5.0</title>
 
     <link rel="stylesheet" href="dist/html-elixir-J3PIVQVA.css" />
 
@@ -79,12 +79,12 @@ Wanda
 <div id="top-content">
   <div class="heading-with-actions top-heading">
     <h1>
-      <span translate="no">Wanda.Executions.ExpectationResult</span> 
+      <span translate="no">WandaWeb.Plugs.SwaggerUIRuntime</span> 
       <small class="app-vsn" translate="no">(Wanda v1.5.0)</small>
 
     </h1>
 
-      <a href="https://github.com/trento-project/wanda/blob/main/lib/wanda/executions/expectation_result.ex#L1" title="View Source" class="icon-action" rel="help">
+      <a href="https://github.com/trento-project/wanda/blob/main/lib/wanda_web/plugs/swaggerui_runtime.ex#L1" title="View Source" class="icon-action" rel="help">
         <i class="ri-code-s-slash-line" aria-hidden="true"></i>
         <span class="sr-only">View Source</span>
       </a>
@@ -93,80 +93,15 @@ Wanda
 
 
     <section id="moduledoc">
-<p>Represents the result of an expectation.</p>
+<p>  This Plug updates the original SwaggerUI configuration, by adding the
+  configuration of oas_server_url (OAS_SERVER_URL in runtime) url subpath
+  to the individual urls as prefix.
+  This is needed if the OAS_SERVER_URL is given, most probably because
+  wanda requests are coming from a proxy.</p>
     </section>
 
 </div>
 
-  <section id="summary" class="details-list">
-    <h1 class="section-heading">
-      <a class="hover-link" href="#summary">
-        <i class="ri-link-m" aria-hidden="true"></i>
-      </a>
-      <span class="text">Summary</span>
-    </h1>
-<div class="summary-types summary">
-  <h2>
-    <a href="#types">Types</a>
-  </h2>
-
-    <div class="summary-row">
-      <div class="summary-signature">
-        <a href="#t:t/0" data-no-tooltip="" translate="no">t()</a>
-
-      </div>
-
-    </div>
-
-</div>
-
-  </section>
-
-
-  <section id="types" class="details-list">
-    <h1 class="section-heading">
-      <a class="hover-link" href="#types">
-        <i class="ri-link-m" aria-hidden="true"></i>
-      </a>
-      <span class="text">Types</span>
-    </h1>
-    <div class="types-list">
-<section class="detail" id="t:t/0">
-
-  <div class="detail-header">
-    <a href="#t:t/0" class="detail-link" data-no-tooltip="" aria-label="Link to this type">
-      <i class="ri-link-m" aria-hidden="true"></i>
-    </a>
-    <div class="heading-with-actions">
-      <h1 class="signature" translate="no">t()</h1>
-
-
-        <a href="https://github.com/trento-project/wanda/blob/main/lib/wanda/executions/expectation_result.ex#L17" class="icon-action" rel="help" aria-label="View Source">
-          <i class="ri-code-s-slash-line" aria-hidden="true"></i>
-        </a>
-
-    </div>
-  </div>
-
-  <section class="docstring">
-
-      <div class="specs">
-
-          <pre translate="no"><span class="attribute">@type</span> t() :: %Wanda.Executions.ExpectationResult{
-  failure_message: <a href="https://hexdocs.pm/elixir/String.html#t:t/0">String.t</a>() | nil,
-  name: <a href="https://hexdocs.pm/elixir/String.html#t:t/0">String.t</a>(),
-  result: <a href="https://hexdocs.pm/elixir/typespecs.html#built-in-types">boolean</a>() | <a href="Wanda.Executions.Enums.Result.html#t:t/0">Wanda.Executions.Enums.Result.t</a>(),
-  type: <a href="Wanda.Catalog.Enums.ExpectType.html#t:t/0">Wanda.Catalog.Enums.ExpectType.t</a>()
-}</pre>
-
-      </div>
-
-
-  </section>
-</section>
-
-    </div>
-  </section>
 
     <footer class="footer">
       <p>
