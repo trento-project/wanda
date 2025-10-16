@@ -14,7 +14,7 @@ defmodule WandaWeb.V3.CatalogController do
     summary: "List checks catalog.",
     description:
       "Provides the catalog of checks that can be executed in the system for improved reliability and compliance.",
-    tags: ["Checks Engine"],
+    tags: ["Checks Engine", "MCP"],
     parameters: [
       env: [
         in: :query,
