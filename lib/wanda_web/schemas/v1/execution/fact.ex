@@ -16,7 +16,8 @@ defmodule WandaWeb.Schemas.V1.Execution.Fact do
         check_id: %Schema{
           type: :string,
           description:
-            "The unique identifier of the check that produced this fact during execution."
+            "The unique identifier of the check that produced this fact during execution.",
+          example: "156F64"
         },
         name: %Schema{
           type: :string,
