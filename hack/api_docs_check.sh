@@ -130,6 +130,7 @@ rules:
   camel-case-properties: false
   description-duplication: false
   no-unnecessary-combinator: false
+  oas3-valid-schema-example: false # it can't handle circular reference yet
   owasp-security-hosts-https-oas3: false
   paths-kebab-case: false
 EOF

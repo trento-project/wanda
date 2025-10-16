@@ -18,8 +18,16 @@ defmodule WandaWeb.Schemas.V1.AcceptedExecutionResponse do
       type: :object,
       additionalProperties: false,
       properties: %{
-        execution_id: %Schema{type: :string, format: :uuid, example: "e1a2b3c4-d5f6-7890-abcd-1234567890ab"},
-        group_id: %Schema{type: :string, format: :uuid, example: "353fd789-d8ae-4a1b-a9f9-3919bd773e79"}
+        execution_id: %Schema{
+          type: :string,
+          format: :uuid,
+          example: "e1a2b3c4-d5f6-7890-abcd-1234567890ab"
+        },
+        group_id: %Schema{
+          type: :string,
+          format: :uuid,
+          example: "353fd789-d8ae-4a1b-a9f9-3919bd773e79"
+        }
       },
       example: %{
         execution_id: "e1a2b3c4-d5f6-7890-abcd-1234567890ab",
