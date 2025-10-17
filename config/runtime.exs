@@ -106,12 +106,12 @@ if config_env() in [:prod, :demo] do
       origin: [cors_origin]
   end
 
-  jwt_authentication_enabled = System.get_env("JWT_AUTHENTICATION_ENABLED", "true") == "true"
+  token_authentication_enabled = System.get_env("TOKEN_AUTHENTICATION_ENABLED", "true") == "true"
 
   config :wanda,
-    jwt_authentication_enabled: jwt_authentication_enabled
+    token_authentication_enabled: token_authentication_enabled
 
-  if jwt_authentication_enabled do
+  if token_authentication_enabled do
     config :joken,
       access_token_signer:
         System.get_env("ACCESS_TOKEN_ENC_SECRET") ||
@@ -133,6 +133,15 @@ if config_env() in [:prod, :demo] do
         )
       )
     ]
+
+  auth_server_url =
+    System.get_env("AUTH_SERVER_URL") ||
+      raise """
+      environment variable AUTH_SERVER_URL is missing.
+      For example: http://localhost:4000
+      """
+
+  config :wanda, :auth_server, url: auth_server_url
 end
 
 if config_env() === :demo do

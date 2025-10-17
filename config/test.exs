@@ -106,7 +106,7 @@ config :joken,
   access_token_signer: "s2ZdE+3+ke1USHEJ5O45KT364KiXPYaB9cJPdH3p60t8yT0nkLexLBNw8TFSzC7k"
 
 config :wanda,
-  jwt_authentication_enabled: false
+  token_authentication_enabled: false
 
 config :wanda, Wanda.Executions.FakeGatheredFacts,
   demo_facts_config: "test/fixtures/demo/fake_facts_test.yaml"
