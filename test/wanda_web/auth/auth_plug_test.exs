@@ -4,6 +4,8 @@ defmodule WandaWeb.Auth.AuthPlugTest do
   import Mox
   import Wanda.Factory
 
+  alias Faker.Random.Elixir, as: RandomElixir
+
   alias WandaWeb.Auth.AuthPlug
 
   setup [:set_mox_from_context, :verify_on_exit!]
@@ -12,7 +14,7 @@ defmodule WandaWeb.Auth.AuthPlugTest do
     test "should return the connection with the user related information" do
       active_token = Faker.String.base64(32)
 
-      user_id = Faker.Random.Elixir.random_between(1, 100)
+      user_id = RandomElixir.random_between(1, 100)
       abilities = build_list(3, :ability)
 
       expect(WandaWeb.Auth.Client.AuthClientMock, :introspect_token, fn ^active_token ->
@@ -38,7 +40,7 @@ defmodule WandaWeb.Auth.AuthPlugTest do
     test "should return the connection with empty user abilities" do
       active_token = Faker.String.base64(32)
 
-      user_id = Faker.Random.Elixir.random_between(1, 100)
+      user_id = RandomElixir.random_between(1, 100)
 
       expect(WandaWeb.Auth.Client.AuthClientMock, :introspect_token, fn ^active_token ->
         {:ok,
@@ -64,7 +66,7 @@ defmodule WandaWeb.Auth.AuthPlugTest do
         {:ok,
          %{
            active: false,
-           sub: Faker.Random.Elixir.random_between(1, 100),
+           sub: RandomElixir.random_between(1, 100),
            abilities: build_list(3, :ability)
          }}
       end)
