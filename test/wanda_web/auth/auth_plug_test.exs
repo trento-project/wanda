@@ -9,18 +9,6 @@ defmodule WandaWeb.Auth.AuthPlugTest do
   setup [:set_mox_from_context, :verify_on_exit!]
 
   describe "call/2" do
-    setup do
-      stub(
-        Joken.CurrentTime.Mock,
-        :current_time,
-        fn ->
-          1_671_715_992
-        end
-      )
-
-      :ok
-    end
-
     test "should return the connection with the user related information" do
       active_token = Faker.String.base64(32)
 
