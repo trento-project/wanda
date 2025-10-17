@@ -9,11 +9,9 @@ defmodule WandaWeb.Auth.Client.HttpClient do
 
   require Logger
 
-  @auth_server_url Application.compile_env!(:wanda, :auth_server)[:url]
-
   @impl AuthClient
   def introspect_token(token) do
-    "#{@auth_server_url}/api/session/token/introspect"
+    "#{auth_server_url()}/api/session/token/introspect"
     |> HTTPoison.post(
       Jason.encode!(%{"token" => token}),
       [{"Content-type", "application/json"}]
@@ -53,5 +51,9 @@ defmodule WandaWeb.Auth.Client.HttpClient do
     Logger.error("Unable to decode response body Error: #{inspect(error)}")
 
     error
+  end
+
+  defp auth_server_url do
+    Application.fetch_env!(:wanda, :auth_server)[:url]
   end
 end
