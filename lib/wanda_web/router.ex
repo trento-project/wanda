@@ -42,8 +42,8 @@ defmodule WandaWeb.Router do
 
   pipeline :protected_api do
     plug Unplug,
-      if: {Unplug.Predicates.AppConfigEquals, {:wanda, :jwt_authentication_enabled, true}},
-      do: WandaWeb.Auth.JWTAuthPlug
+      if: {Unplug.Predicates.AppConfigEquals, {:wanda, :token_authentication_enabled, true}},
+      do: WandaWeb.Auth.AuthPlug
   end
 
   scope "/" do

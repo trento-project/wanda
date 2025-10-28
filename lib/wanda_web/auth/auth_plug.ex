@@ -1,6 +1,6 @@
-defmodule WandaWeb.Auth.JWTAuthPlug do
+defmodule WandaWeb.Auth.AuthPlug do
   @moduledoc """
-    Plug responsible for reading the JWT from the authorization header and
+    Plug responsible for reading the Token from the authorization header and
     validating it.
 
     If the token is valid, the user_id is added to the private section of the
@@ -11,26 +11,26 @@ defmodule WandaWeb.Auth.JWTAuthPlug do
 
   import Plug.Conn
 
-  alias WandaWeb.Auth.AccessToken
+  alias WandaWeb.Auth.Client.AuthClient
 
   require Logger
 
   def init(opts), do: opts
 
   @doc """
-    Read, validate and decode the JWT from authorization header at each call
+    Read, validate and decode the Token from authorization header at each call
   """
   def call(conn, _) do
     authenticate(conn)
   end
 
   defp authenticate(conn) do
-    with {:ok, jwt_token} <- read_token(conn),
-         {:ok, %{"sub" => sub, "abilities" => abilities}} <-
-           AccessToken.verify_and_validate(jwt_token) do
+    with {:ok, token} <- read_token(conn),
+         {:ok, %{active: true, sub: sub, abilities: abilities}} <-
+           AuthClient.introspect_token(token) do
       conn
       |> put_private(:user_id, sub)
-      |> put_private(:abilities, abilities_to_atom_map(abilities))
+      |> put_private(:abilities, abilities)
     else
       _ ->
         conn
@@ -52,15 +52,4 @@ defmodule WandaWeb.Auth.JWTAuthPlug do
         {:error, :no_token}
     end
   end
-
-  defp abilities_to_atom_map(abilities) when is_list(abilities) do
-    Enum.map(abilities, fn %{"name" => name, "resource" => resource} ->
-      %{
-        name: name,
-        resource: resource
-      }
-    end)
-  end
-
-  defp abilities_to_atom_map(_), do: []
 end

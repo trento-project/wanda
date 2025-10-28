@@ -332,35 +332,35 @@ jobs:
 
   build-containers:
     name: Build containers
-    needs:
-      - static-code-analysis
-      - test
-    if: (github.event_name == 'push' && github.ref_name == 'main') || github.event_name == 'workflow_dispatch'
+    # needs:
+    #   - static-code-analysis
+    #   - test
+    # if: (github.event_name == 'push' && github.ref_name == 'main') || github.event_name == 'workflow_dispatch'
     uses: trento-project/web/.github/workflows/build-containers.yaml@main
     strategy:
       matrix:
         include:
           - MIX_ENV: prod
-            tag: "${{ (github.event_name == 'push' && github.ref_name == 'main' && 'rolling') || github.sha }}"
+            tag: tesing-introspection
           - MIX_ENV: demo
-            tag: demo
+            tag: tesing-introspection
     with:
       image_name: trento-wanda
       MIX_ENV: ${{ matrix.MIX_ENV }}
       tag: ${{ matrix.tag }}
 
-  deploy-demo:
-    runs-on: ubuntu-24.04
-    if: vars.DEPLOY_DEMO == 'true'
-    needs:
-      - build-containers
-    steps:
-      - name: Remotely trigger trento-web demo deployment
-        uses: peter-evans/repository-dispatch@v3
-        with:
-          token: ${{ secrets.WEB_REPO_DISPATCH_PAT }}
-          repository: ${{ github.repository_owner }}/${{ vars.DEMO_TRIGGER_TARGET || 'web' }}
-          event-type: deploy-demo
+  # deploy-demo:
+  #   runs-on: ubuntu-24.04
+  #   if: vars.DEPLOY_DEMO == 'true'
+  #   needs:
+  #     - build-containers
+  #   steps:
+  #     - name: Remotely trigger trento-web demo deployment
+  #       uses: peter-evans/repository-dispatch@v3
+  #       with:
+  #         token: ${{ secrets.WEB_REPO_DISPATCH_PAT }}
+  #         repository: ${{ github.repository_owner }}/${{ vars.DEMO_TRIGGER_TARGET || 'web' }}
+  #         event-type: deploy-demo
 
   generate-docs:
     name: Generate project documentation

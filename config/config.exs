@@ -87,13 +87,15 @@ config :rustler_precompiled, :force_build, rhai_rustler: true
 
 config :wanda,
   cors_enabled: true,
-  jwt_authentication_enabled: true,
+  token_authentication_enabled: true,
   operations_enabled: true,
   date_service: Wanda.Support.DateService,
   oas_server_url: nil
 
 config :bodyguard,
   default_error: :forbidden
+
+config :wanda, :auth_server, url: "http://localhost:4000"
 
 # Import environment specific config. This must remain at the bottom
 # of this file so it overrides the configuration defined above.
