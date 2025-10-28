@@ -50,7 +50,7 @@ jobs:
           otp-version: ${{ matrix.otp }}
           elixir-version: ${{ matrix.elixir }}
       - name: Read .tool-versions
-        uses: endorama/asdf-parse-tool-versions@v1.3.4
+        uses: endorama/asdf-parse-tool-versions@v1.4.0
         id: tool-versions
       - name: Retrieve Elixir Cached Dependencies
         uses: actions/cache@v4
@@ -118,7 +118,7 @@ jobs:
           otp-version: ${{ matrix.otp }}
           elixir-version: ${{ matrix.elixir }}
       - name: Read .tool-versions
-        uses: endorama/asdf-parse-tool-versions@v1.3.4
+        uses: endorama/asdf-parse-tool-versions@v1.4.0
         id: tool-versions
       - name: Retrieve Cached Dependencies
         uses: actions/cache@v4
@@ -212,7 +212,7 @@ jobs:
           otp-version: ${{ matrix.otp }}
           elixir-version: ${{ matrix.elixir }}
       - name: Read .tool-versions
-        uses: endorama/asdf-parse-tool-versions@v1.3.4
+        uses: endorama/asdf-parse-tool-versions@v1.4.0
         id: tool-versions
       - name: Retrieve Cached Dependencies - current branch
         uses: actions/cache@v4
@@ -282,7 +282,7 @@ jobs:
           otp-version: ${{ matrix.otp }}
           elixir-version: ${{ matrix.elixir }}
       - name: Read .tool-versions
-        uses: endorama/asdf-parse-tool-versions@v1.3.4
+        uses: endorama/asdf-parse-tool-versions@v1.4.0
         id: tool-versions
       - name: Retrieve Cached Dependencies - current branch
         uses: actions/cache@v4
@@ -375,7 +375,7 @@ jobs:
           version-file: .tool-versions
           version-type: strict
       - name: Read .tool-versions
-        uses: endorama/asdf-parse-tool-versions@v1.3.4
+        uses: endorama/asdf-parse-tool-versions@v1.4.0
         id: tool-versions
       - name: Retrieve Cached Dependencies
         uses: actions/cache@v4

@@ -37,7 +37,7 @@ jobs:
           otp-version: ${{ matrix.otp }}
           elixir-version: ${{ matrix.elixir }}
       - name: Read .tool-versions
-        uses: endorama/asdf-parse-tool-versions@v1.3.4
+        uses: endorama/asdf-parse-tool-versions@v1.4.0
         id: tool-versions
       - name: Setup rust
         uses: actions-rs/toolchain@v1
