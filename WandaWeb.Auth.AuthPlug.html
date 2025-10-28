@@ -8,7 +8,7 @@
     <meta name="project" content="Wanda v1.5.0">
 
 
-    <title>Wanda.Catalog.CustomizationPolicy — Wanda v1.5.0</title>
+    <title>WandaWeb.Auth.AuthPlug — Wanda v1.5.0</title>
 
     <link rel="stylesheet" href="dist/html-elixir-J3PIVQVA.css" />
 
@@ -79,12 +79,12 @@ Wanda
 <div id="top-content">
   <div class="heading-with-actions top-heading">
     <h1>
-      <span translate="no">Wanda.Catalog.CustomizationPolicy</span> 
+      <span translate="no">WandaWeb.Auth.AuthPlug</span> 
       <small class="app-vsn" translate="no">(Wanda v1.5.0)</small>
 
     </h1>
 
-      <a href="https://github.com/trento-project/wanda/blob/main/lib/wanda/catalog/customization_policy.ex#L1" title="View Source" class="icon-action" rel="help">
+      <a href="https://github.com/trento-project/wanda/blob/main/lib/wanda_web/auth/auth_plug.ex#L1" title="View Source" class="icon-action" rel="help">
         <i class="ri-code-s-slash-line" aria-hidden="true"></i>
         <span class="sr-only">View Source</span>
       </a>
@@ -93,7 +93,10 @@ Wanda
 
 
     <section id="moduledoc">
-<p>Policy for checks customizations.</p>
+<p>  Plug responsible for reading the Token from the authorization header and
+  validating it.</p><p>  If the token is valid, the user_id is added to the private section of the
+  connection.
+  If the token is invalid, the connection is halted with a 401 response.</p>
     </section>
 
 </div>
@@ -112,11 +115,21 @@ Wanda
 
     <div class="summary-row">
       <div class="summary-signature">
-        <a href="#authorize/3" data-no-tooltip="" translate="no">authorize(action, user, arg3)</a>
+        <a href="#call/2" data-no-tooltip="" translate="no">call(conn, _)</a>
 
       </div>
 
-        <div class="summary-synopsis"><p>Callback implementation for <a><code class="inline">Bodyguard.Policy.authorize/3</code></a>.</p></div>
+        <div class="summary-synopsis"><p>  Read, validate and decode the Token from authorization header at each call</p></div>
+
+    </div>
+
+    <div class="summary-row">
+      <div class="summary-signature">
+        <a href="#init/1" data-no-tooltip="" translate="no">init(opts)</a>
+
+      </div>
+
+        <div class="summary-synopsis"><p>Callback implementation for <a><code class="inline">Plug.init/1</code></a>.</p></div>
 
     </div>
 
@@ -133,17 +146,17 @@ Wanda
       <span class="text">Functions</span>
     </h1>
     <div class="functions-list">
-<section class="detail" id="authorize/3">
+<section class="detail" id="call/2">
 
   <div class="detail-header">
-    <a href="#authorize/3" class="detail-link" data-no-tooltip="" aria-label="Link to this function">
+    <a href="#call/2" class="detail-link" data-no-tooltip="" aria-label="Link to this function">
       <i class="ri-link-m" aria-hidden="true"></i>
     </a>
     <div class="heading-with-actions">
-      <h1 class="signature" translate="no">authorize(action, user, arg3)</h1>
+      <h1 class="signature" translate="no">call(conn, _)</h1>
 
 
-        <a href="https://github.com/trento-project/wanda/blob/main/lib/wanda/catalog/customization_policy.ex#L12" class="icon-action" rel="help" aria-label="View Source">
+        <a href="https://github.com/trento-project/wanda/blob/main/lib/wanda_web/auth/auth_plug.ex#L23" class="icon-action" rel="help" aria-label="View Source">
           <i class="ri-code-s-slash-line" aria-hidden="true"></i>
         </a>
 
@@ -152,7 +165,29 @@ Wanda
 
   <section class="docstring">
 
-<p>Callback implementation for <a href="https://hexdocs.pm/bodyguard/2.4.3/Bodyguard.Policy.html#c:authorize/3"><code class="inline">Bodyguard.Policy.authorize/3</code></a>.</p>
+<p>  Read, validate and decode the Token from authorization header at each call</p>
+  </section>
+</section>
+<section class="detail" id="init/1">
+
+  <div class="detail-header">
+    <a href="#init/1" class="detail-link" data-no-tooltip="" aria-label="Link to this function">
+      <i class="ri-link-m" aria-hidden="true"></i>
+    </a>
+    <div class="heading-with-actions">
+      <h1 class="signature" translate="no">init(opts)</h1>
+
+
+        <a href="https://github.com/trento-project/wanda/blob/main/lib/wanda_web/auth/auth_plug.ex#L18" class="icon-action" rel="help" aria-label="View Source">
+          <i class="ri-code-s-slash-line" aria-hidden="true"></i>
+        </a>
+
+    </div>
+  </div>
+
+  <section class="docstring">
+
+<p>Callback implementation for <a href="https://hexdocs.pm/plug/1.17.0/Plug.html#c:init/1"><code class="inline">Plug.init/1</code></a>.</p>
   </section>
 </section>
 
