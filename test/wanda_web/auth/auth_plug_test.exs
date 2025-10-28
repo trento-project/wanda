@@ -1,5 +1,5 @@
 defmodule WandaWeb.Auth.AuthPlugTest do
-  use WandaWeb.ConnCase, async: false
+  use WandaWeb.ConnCase, async: true
 
   import Mox
   import Wanda.Factory
@@ -63,12 +63,7 @@ defmodule WandaWeb.Auth.AuthPlugTest do
       inactive_token = Faker.String.base64(32)
 
       expect(WandaWeb.Auth.Client.AuthClientMock, :introspect_token, fn ^inactive_token ->
-        {:ok,
-         %{
-           active: false,
-           sub: RandomElixir.random_between(1, 100),
-           abilities: build_list(3, :ability)
-         }}
+        {:ok, %{active: false}}
       end)
 
       conn =
