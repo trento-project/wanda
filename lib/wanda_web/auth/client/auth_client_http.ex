@@ -11,46 +11,40 @@ defmodule WandaWeb.Auth.Client.HttpClient do
 
   @impl AuthClient
   def introspect_token(token) do
-    "#{auth_server_url()}/api/session/token/introspect"
-    |> HTTPoison.post(
+    with response <- make_introspect_request(token),
+         {:ok, body} <- get_response_body(response),
+         {:ok, _} = result <- decode_response(body) do
+      result
+    end
+  end
+
+  defp make_introspect_request(token) do
+    HTTPoison.post(
+      "#{auth_server_url()}/api/session/token/introspect",
       Jason.encode!(%{"token" => token}),
       [{"Content-type", "application/json"}]
     )
-    |> get_response_body(
-      error_atom: :unable_to_get_introspect_response,
-      error_log: "Unable to retrieve token introspection response body"
-    )
-    |> decode_response(
-      error_atom: :cannot_decode_introspect_response,
-      error_log: "Unable to decode token introspection response body"
-    )
   end
 
-  defp get_response_body({:ok, %HTTPoison.Response{status_code: 200, body: body}}, _),
+  defp get_response_body({:ok, %HTTPoison.Response{status_code: 200, body: body}}),
     do: {:ok, body}
 
-  defp get_response_body(error, error_atom: error_atom, error_log: error_log) do
-    Logger.error("#{error_log} Error: #{inspect(error)}")
+  defp get_response_body(error) do
+    Logger.error("Unable to retrieve token introspection response body Error: #{inspect(error)}")
 
-    {:error, error_atom}
+    {:error, :unable_to_get_introspect_response}
   end
 
-  defp decode_response({:ok, body}, error_atom: error_atom, error_log: error_log) do
+  defp decode_response(body) do
     case Jason.decode(body, keys: :atoms) do
       {:ok, _} = result ->
         result
 
       error ->
-        Logger.error("#{error_log} Error: #{inspect(error)}")
+        Logger.error("Unable to decode response body Error: #{inspect(error)}")
 
-        {:error, error_atom}
+        {:error, :cannot_decode_introspect_response}
     end
-  end
-
-  defp decode_response({:error, _} = error, _) do
-    Logger.error("Unable to decode response body Error: #{inspect(error)}")
-
-    error
   end
 
   defp auth_server_url do
