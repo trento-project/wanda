@@ -30,7 +30,7 @@ defmodule WandaWeb.Auth.Client.HttpClient do
     do: {:ok, body}
 
   defp get_response_body(error) do
-    Logger.error("Unable to retrieve token introspection response body Error: #{inspect(error)}")
+    Logger.error("Unable to retrieve token introspection response body. Error: #{inspect(error)}")
 
     {:error, :unable_to_get_introspect_response}
   end
@@ -41,7 +41,7 @@ defmodule WandaWeb.Auth.Client.HttpClient do
         result
 
       error ->
-        Logger.error("Unable to decode response body Error: #{inspect(error)}")
+        Logger.error("Unable to decode response body. Error: #{inspect(error)}")
 
         {:error, :cannot_decode_introspect_response}
     end
