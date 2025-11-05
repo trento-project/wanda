@@ -77,7 +77,6 @@ Wanda.Support.DateService.html
 Wanda.Support.Ecto.Json.html
 Wanda.Support.Enum.html
 Wanda.Users.User.html
-WandaWeb.Auth.AccessToken.html
 WandaWeb.Auth.AuthPlug.html
 WandaWeb.Auth.Client.AuthClient.html
 WandaWeb.Auth.Client.HttpClient.html
@@ -149,7 +148,7 @@ dist/lato-latin-700-normal-2XVSBPG4.woff2
 dist/lato-latin-ext-400-normal-N27NCBWW.woff2
 dist/lato-latin-ext-700-normal-Q2L5DVMW.woff2
 dist/remixicon-QPNJX265.woff2
-dist/search_data-BFAB5E3B.js
-dist/sidebar_items-695CA0CC.js
+dist/search_data-51625050.js
+dist/sidebar_items-A7726B95.js
 index.html
 search.html
