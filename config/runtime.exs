@@ -111,16 +111,6 @@ if config_env() in [:prod, :demo] do
   config :wanda,
     token_authentication_enabled: token_authentication_enabled
 
-  if token_authentication_enabled do
-    config :joken,
-      access_token_signer:
-        System.get_env("ACCESS_TOKEN_ENC_SECRET") ||
-          raise("""
-          environment variable ACCESS_TOKEN_ENC_SECRET is missing.
-          You can generate one by calling: mix phx.gen.secret
-          """)
-  end
-
   # Update catalog path to the current application dir during runtime
   config :wanda, Wanda.Catalog,
     catalog_paths: [
