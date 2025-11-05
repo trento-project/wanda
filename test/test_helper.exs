@@ -11,9 +11,6 @@ Application.put_env(:wanda, Wanda.Policy,
 
 Mox.defmock(GenRMQ.Processor.Mock, for: GenRMQ.Processor)
 
-Mox.defmock(Joken.CurrentTime.Mock, for: Joken.CurrentTime)
-Application.put_env(:joken, :current_time_adapter, Joken.CurrentTime.Mock)
-
 Mox.defmock(Wanda.Support.DateService.Mock, for: Wanda.Support.DateService)
 
 Mox.defmock(WandaWeb.Auth.Client.AuthClientMock, for: WandaWeb.Auth.Client.AuthClient)
