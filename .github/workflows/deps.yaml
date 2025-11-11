@@ -90,4 +90,4 @@ jobs:
           mix local.hex --force
           mix deps.get
           mix deps.compile --warnings-as-errors
-          mix dialyzer --plt 
+          mix dialyzer --plt
