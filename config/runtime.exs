@@ -111,6 +111,17 @@ if config_env() in [:prod, :demo] do
   config :wanda,
     token_authentication_enabled: token_authentication_enabled
 
+  if token_authentication_enabled do
+    auth_server_url =
+      System.get_env("AUTH_SERVER_URL") ||
+        raise """
+        environment variable AUTH_SERVER_URL is missing.
+        For example: http://localhost:4000
+        """
+
+    config :wanda, :auth_server, url: auth_server_url
+  end
+
   # Update catalog path to the current application dir during runtime
   config :wanda, Wanda.Catalog,
     catalog_paths: [
@@ -123,15 +134,6 @@ if config_env() in [:prod, :demo] do
         )
       )
     ]
-
-  auth_server_url =
-    System.get_env("AUTH_SERVER_URL") ||
-      raise """
-      environment variable AUTH_SERVER_URL is missing.
-      For example: http://localhost:4000
-      """
-
-  config :wanda, :auth_server, url: auth_server_url
 end
 
 if config_env() === :demo do
