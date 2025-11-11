@@ -163,7 +163,8 @@ jobs:
     name: main branch dependencies
     if: github.event_name == 'pull_request'
     uses: ./.github/workflows/deps.yaml
-    checkout_ref: main
+    with:
+      checkout_ref: main
 
   target-branch-deps:
     name: Rebuild target branch dependencies
