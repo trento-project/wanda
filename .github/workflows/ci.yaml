@@ -86,7 +86,7 @@ jobs:
             deps
             _build/test
             priv/plts
-          key: erlang-${{ steps.setup-elixir.outputs.otp-version }}-elixir-${{ steps.setup-elixir.outputs.elixir-version }}-rust-${{ env.RUST_VERSION }}-${{ hashFiles('mix.lock') }}
+          key: erlang-${{ steps.setup-elixir.outputs.otp-version }}-elixir-${{ steps.setup-elixir.outputs.elixir-version }}-rust-${{ steps.setup-matrix-env.outputs.RUST_DEV }}-${{ hashFiles('mix.lock') }}
       - name: Check for Unused Dependencies
         run: mix deps.unlock --check-unused
       - name: Check Code Format
@@ -242,7 +242,7 @@ jobs:
             deps
             _build/${{ env.MIX_ENV }}
             priv/plts
-          key: erlang-${{ steps.setup-elixir.outputs.otp-version }}-elixir-${{ steps.setup-elixir.outputs.elixir-version }}-rust-${{ env.RUST_DEV }}-${{ hashFiles('mix.lock') }}
+          key: erlang-${{ steps.setup-elixir.outputs.otp-version }}-elixir-${{ steps.setup-elixir.outputs.elixir-version }}-rust-${{ steps.setup-matrix-env.outputs.RUST_DEV }}-${{ hashFiles('mix.lock') }}
       - name: Setup Node.js
         uses: actions/setup-node@v6
         with:
@@ -301,9 +301,6 @@ jobs:
         with:
           otp-version: ${{ matrix.otp }}
           elixir-version: ${{ matrix.elixir }}
-      - name: Read .tool-versions
-        uses: endorama/asdf-parse-tool-versions@v1.4.0
-        id: tool-versions
       - name: Retrieve Cached Dependencies - current branch
         uses: actions/cache@v4
         id: mix-cache-current
@@ -312,7 +309,7 @@ jobs:
             deps
             _build/${{ env.MIX_ENV }}
             priv/plts
-          key: erlang-${{ steps.setup-elixir.outputs.otp-version }}-elixir-${{ steps.setup-elixir.outputs.elixir-version }}-rust-${{ env.RUST_VERSION }}-${{ hashFiles('mix.lock') }}
+          key: erlang-${{ steps.setup-elixir.outputs.otp-version }}-elixir-${{ steps.setup-elixir.outputs.elixir-version }}-rust-${{ steps.setup-matrix-env.outputs.RUST_DEV }}-${{ hashFiles('mix.lock') }}
       - name: Generate current openapi.json
         run: |
           mix openapi.spec.json --start-app=false --spec WandaWeb.Schemas.${{ matrix.version }}.ApiSpec /tmp/specs/current-spec.json
@@ -328,7 +325,7 @@ jobs:
             deps
             _build/${{ env.MIX_ENV }}
             priv/plts
-          key: erlang-${{ steps.setup-elixir.outputs.otp-version }}-elixir-${{ steps.setup-elixir.outputs.elixir-version }}-rust-${{ env.RUST_VERSION }}-${{ hashFiles('mix.lock') }}
+          key: erlang-${{ steps.setup-elixir.outputs.otp-version }}-elixir-${{ steps.setup-elixir.outputs.elixir-version }}-rust-${{ steps.setup-matrix-env.outputs.RUST_DEV }}-${{ hashFiles('mix.lock') }}
       - name: Generate target openapi.json
         run: |
           mix openapi.spec.json --start-app=false --spec WandaWeb.Schemas.${{ matrix.version }}.ApiSpec /tmp/specs/target-spec.json
@@ -405,7 +402,7 @@ jobs:
             deps
             _build/test
             priv/plts
-          key: erlang-${{ steps.setup-elixir.outputs.otp-version }}-elixir-${{ steps.setup-elixir.outputs.elixir-version }}-rust-${{ env.RUST_VERSION }}-${{ hashFiles('mix.lock') }}
+          key: erlang-${{ steps.setup-elixir.outputs.otp-version }}-elixir-${{ steps.setup-elixir.outputs.elixir-version }}-rust-${{ steps.setup-matrix-env.outputs.RUST_DEV }}-${{ hashFiles('mix.lock') }}
       - name: Build docs
         uses: lee-dohm/generate-elixir-docs@v1
       - name: Generate openapi.json
