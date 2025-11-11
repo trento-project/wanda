@@ -71,7 +71,7 @@ jobs:
         id: setup-rust
         uses: actions-rs/toolchain@v1
         with:
-          toolchain: ${{ steps.setup-matrix-env.outputs.RUST_DEV }}
+          toolchain: ${{ needs.setup-matrix-env.outputs.RUST_DEV }}
           default: true
       - name: Retrieve Cached Dependencies
         uses: actions/cache@v4
