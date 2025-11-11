@@ -19,7 +19,6 @@ env:
   MIX_ENV: test
   ELIXIR_BC: "1.15.7-otp-26"
   ERLANG_BC: "26.2.1"
-  NODEJS_BC: "20.14.0"
 
 jobs:
   setup-matrix-env:
@@ -39,11 +38,9 @@ jobs:
         run: |
           echo "ELIXIR_DEV=${{ env.ELIXIR_VERSION }}" >> $GITHUB_OUTPUT
           echo "ERLANG_DEV=${{ env.ERLANG_VERSION }}" >> $GITHUB_OUTPUT
-          echo "NODEJS_DEV=${{ env.NODEJS_VERSION }}" >> $GITHUB_OUTPUT
           echo "RUST_DEV=${{ env.RUST_VERSION }}" >> $GITHUB_OUTPUT
           echo "ELIXIR_BC=${{ env.ELIXIR_BC }}" >> $GITHUB_OUTPUT
           echo "ERLANG_BC=${{ env.ERLANG_BC }}" >> $GITHUB_OUTPUT
-          echo "NODEJS_BC=${{ env.NODEJS_BC }}" >> $GITHUB_OUTPUT
 
   elixir-deps:
     name: Elixir dependencies
