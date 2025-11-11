@@ -8,17 +8,45 @@ on:
         type: string
         default: ${{ github.ref }}
 
+env:
+  ELIXIR_BC: "1.15.7-otp-26"
+  ERLANG_BC: "26.2.1"
+
 jobs:
+  setup-matrix-env:
+    runs-on: ubuntu-24.04
+    outputs:
+      ELIXIR_DEV: ${{ env.ELIXIR_VERSION }}
+      ERLANG_DEV: ${{ env.ERLANG_VERSION }}
+      RUST_DEV: ${{ env.RUST_VERSION }}
+      ELIXIR_BC: ${{ env.ELIXIR_BC }}
+      ERLANG_BC: ${{ env.ERLANG_BC }}
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v5
+        with:
+          ref: ${{ inputs.checkout_ref }}
+      - name: gather versions
+        uses: endorama/asdf-parse-tool-versions@v1
+      - name: Compute matrix
+        run: |
+          echo "ELIXIR_DEV=${{ env.ELIXIR_VERSION }}" >> $GITHUB_OUTPUT
+          echo "ERLANG_DEV=${{ env.ERLANG_VERSION }}" >> $GITHUB_OUTPUT
+          echo "RUST_DEV=${{ env.RUST_VERSION }}" >> $GITHUB_OUTPUT
+          echo "ELIXIR_BC=${{ env.ELIXIR_BC }}" >> $GITHUB_OUTPUT
+          echo "ERLANG_BC=${{ env.ERLANG_BC }}" >> $GITHUB_OUTPUT
+
   elixir-deps:
     name: Elixir dependencies
     runs-on: ubuntu-24.04
+    needs: [setup-matrix-env]
     strategy:
       matrix:
         include:
-          - elixir: "1.15"
-            otp: "26"
-          - elixir: "1.18"
-            otp: "27"
+          - elixir: ${{ needs.setup-matrix-env.outputs.ELIXIR_BC }}
+            otp: ${{ needs.setup-matrix-env.outputs.ERLANG_BC }}
+          - elixir: ${{ needs.setup-matrix-env.outputs.ELIXIR_DEV }}
+            otp: ${{ needs.setup-matrix-env.outputs.ERLANG_DEV }}
     env:
       RHAI_RUSTLER_FORCE_BUILD: "true"
     steps:
@@ -40,9 +68,10 @@ jobs:
         uses: endorama/asdf-parse-tool-versions@v1.4.0
         id: tool-versions
       - name: Setup rust
+        id: setup-rust
         uses: actions-rs/toolchain@v1
         with:
-          toolchain: ${{ env.RUST_VERSION }}
+          toolchain: ${{ needs.setup-matrix-env.outputs.RUST_DEV }}
           default: true
       - name: Retrieve Cached Dependencies
         uses: actions/cache@v4
@@ -52,7 +81,7 @@ jobs:
             deps
             _build/test
             priv/plts
-          key: erlang-${{ steps.setup-elixir.outputs.otp-version }}-elixir-${{ steps.setup-elixir.outputs.elixir-version }}-rust-${{ env.RUST_VERSION }}-${{ hashFiles('mix.lock') }}
+          key: erlang-${{ steps.setup-elixir.outputs.otp-version }}-elixir-${{ steps.setup-elixir.outputs.elixir-version }}-rust-${{ needs.setup-matrix-env.outputs.RUST_DEV }}-${{ hashFiles('mix.lock') }}
       - name: Install Dependencies
         if: steps.mix-cache.outputs.cache-hit != 'true'
         run: |

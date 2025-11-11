@@ -17,23 +17,46 @@ on:
 
 env:
   MIX_ENV: test
+  ELIXIR_BC: "1.15.7-otp-26"
+  ERLANG_BC: "26.2.1"
 
 jobs:
+  setup-matrix-env:
+    runs-on: ubuntu-24.04
+    outputs:
+      ELIXIR_DEV: ${{ env.ELIXIR_VERSION }}
+      ERLANG_DEV: ${{ env.ERLANG_VERSION }}
+      RUST_DEV: ${{ env.RUST_VERSION }}
+      ELIXIR_BC: ${{ env.ELIXIR_BC }}
+      ERLANG_BC: ${{ env.ERLANG_BC }}
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v5
+      - name: gather versions
+        uses: endorama/asdf-parse-tool-versions@v1
+      - name: Compute matrix
+        run: |
+          echo "ELIXIR_DEV=${{ env.ELIXIR_VERSION }}" >> $GITHUB_OUTPUT
+          echo "ERLANG_DEV=${{ env.ERLANG_VERSION }}" >> $GITHUB_OUTPUT
+          echo "RUST_DEV=${{ env.RUST_VERSION }}" >> $GITHUB_OUTPUT
+          echo "ELIXIR_BC=${{ env.ELIXIR_BC }}" >> $GITHUB_OUTPUT
+          echo "ERLANG_BC=${{ env.ERLANG_BC }}" >> $GITHUB_OUTPUT
+
   elixir-deps:
     name: Elixir dependencies
     uses: ./.github/workflows/deps.yaml
 
   static-code-analysis:
     name: Static Code Analysis
-    needs: elixir-deps
+    needs: [setup-matrix-env, elixir-deps]
     runs-on: ubuntu-24.04
     strategy:
       matrix:
         include:
-          - elixir: "1.15"
-            otp: "26"
-          - elixir: "1.18"
-            otp: "27"
+          - elixir: ${{ needs.setup-matrix-env.outputs.ELIXIR_BC }}
+            otp: ${{ needs.setup-matrix-env.outputs.ERLANG_BC }}
+          - elixir: ${{ needs.setup-matrix-env.outputs.ELIXIR_DEV }}
+            otp: ${{ needs.setup-matrix-env.outputs.ERLANG_DEV }}
     steps:
       - name: Cancel Previous Runs
         uses: styfle/cancel-workflow-action@0.12.1
@@ -49,9 +72,6 @@ jobs:
         with:
           otp-version: ${{ matrix.otp }}
           elixir-version: ${{ matrix.elixir }}
-      - name: Read .tool-versions
-        uses: endorama/asdf-parse-tool-versions@v1.4.0
-        id: tool-versions
       - name: Retrieve Elixir Cached Dependencies
         uses: actions/cache@v4
         id: mix-cache
@@ -60,7 +80,7 @@ jobs:
             deps
             _build/test
             priv/plts
-          key: erlang-${{ steps.setup-elixir.outputs.otp-version }}-elixir-${{ steps.setup-elixir.outputs.elixir-version }}-rust-${{ env.RUST_VERSION }}-${{ hashFiles('mix.lock') }}
+          key: erlang-${{ steps.setup-elixir.outputs.otp-version }}-elixir-${{ steps.setup-elixir.outputs.elixir-version }}-rust-${{ needs.setup-matrix-env.outputs.RUST_DEV }}-${{ hashFiles('mix.lock') }}
       - name: Check for Unused Dependencies
         run: mix deps.unlock --check-unused
       - name: Check Code Format
@@ -72,15 +92,15 @@ jobs:
 
   test:
     name: Test
-    needs: elixir-deps
+    needs: [setup-matrix-env, elixir-deps]
     runs-on: ubuntu-24.04
     strategy:
       matrix:
         include:
-          - elixir: "1.15"
-            otp: "26"
-          - elixir: "1.18"
-            otp: "27"
+          - elixir: ${{ needs.setup-matrix-env.outputs.ELIXIR_BC }}
+            otp: ${{ needs.setup-matrix-env.outputs.ERLANG_BC }}
+          - elixir: ${{ needs.setup-matrix-env.outputs.ELIXIR_DEV }}
+            otp: ${{ needs.setup-matrix-env.outputs.ERLANG_DEV }}
     services:
       postgres:
         image: postgres
@@ -117,9 +137,6 @@ jobs:
         with:
           otp-version: ${{ matrix.otp }}
           elixir-version: ${{ matrix.elixir }}
-      - name: Read .tool-versions
-        uses: endorama/asdf-parse-tool-versions@v1.4.0
-        id: tool-versions
       - name: Retrieve Cached Dependencies
         uses: actions/cache@v4
         id: mix-cache
@@ -128,7 +145,7 @@ jobs:
             deps
             _build/test
             priv/plts
-          key: erlang-${{ steps.setup-elixir.outputs.otp-version }}-elixir-${{ steps.setup-elixir.outputs.elixir-version }}-rust-${{ env.RUST_VERSION }}-${{ hashFiles('mix.lock') }}
+          key: erlang-${{ steps.setup-elixir.outputs.otp-version }}-elixir-${{ steps.setup-elixir.outputs.elixir-version }}-rust-${{ needs.setup-matrix-env.outputs.RUST_DEV }}-${{ hashFiles('mix.lock') }}
       - name: Compile
         run: mix compile --warnings-as-errors
       - name: Run test
@@ -145,14 +162,15 @@ jobs:
 
   target-branch-deps:
     name: Rebuild target branch dependencies
+    needs: [setup-matrix-env]
     runs-on: ubuntu-24.04
     strategy:
       matrix:
         include:
-          - elixir: "1.15"
-            otp: "26"
-          - elixir: "1.18"
-            otp: "27"
+          - elixir: ${{ needs.setup-matrix-env.outputs.ELIXIR_BC }}
+            otp: ${{ needs.setup-matrix-env.outputs.ERLANG_BC }}
+          - elixir: ${{ needs.setup-matrix-env.outputs.ELIXIR_DEV }}
+            otp: ${{ needs.setup-matrix-env.outputs.ERLANG_DEV }}
     if: github.event_name == 'pull_request'
     steps:
       - name: Checkout target branch
@@ -186,16 +204,16 @@ jobs:
 
   api-docs-check:
     name: API docs check
-    needs: elixir-deps
+    needs: [setup-matrix-env, elixir-deps]
     if: github.event_name == 'pull_request' && !failure() && !cancelled()
     runs-on: ubuntu-24.04
     strategy:
       matrix:
         include:
-          - elixir: "1.15"
-            otp: "26"
-          - elixir: "1.18"
-            otp: "27"
+          - elixir: ${{ needs.setup-matrix-env.outputs.ELIXIR_BC }}
+            otp: ${{ needs.setup-matrix-env.outputs.ERLANG_BC }}
+          - elixir: ${{ needs.setup-matrix-env.outputs.ELIXIR_DEV }}
+            otp: ${{ needs.setup-matrix-env.outputs.ERLANG_DEV }}
     steps:
       - name: Cancel Previous Runs
         uses: styfle/cancel-workflow-action@0.12.1
@@ -211,9 +229,6 @@ jobs:
         with:
           otp-version: ${{ matrix.otp }}
           elixir-version: ${{ matrix.elixir }}
-      - name: Read .tool-versions
-        uses: endorama/asdf-parse-tool-versions@v1.4.0
-        id: tool-versions
       - name: Retrieve Cached Dependencies - current branch
         uses: actions/cache@v4
         id: mix-cache-current
@@ -222,7 +237,7 @@ jobs:
             deps
             _build/${{ env.MIX_ENV }}
             priv/plts
-          key: erlang-${{ steps.setup-elixir.outputs.otp-version }}-elixir-${{ steps.setup-elixir.outputs.elixir-version }}-rust-${{ env.RUST_VERSION }}-${{ hashFiles('mix.lock') }}
+          key: erlang-${{ steps.setup-elixir.outputs.otp-version }}-elixir-${{ steps.setup-elixir.outputs.elixir-version }}-rust-${{ needs.setup-matrix-env.outputs.RUST_DEV }}-${{ hashFiles('mix.lock') }}
       - name: Setup Node.js
         uses: actions/setup-node@v6
         with:
@@ -237,36 +252,36 @@ jobs:
 
   api-bc-check:
     name: API bc check
-    needs: [elixir-deps, target-branch-deps]
+    needs: [setup-matrix-env, elixir-deps, target-branch-deps]
     if: github.event_name == 'pull_request' && !failure() && !cancelled()
     runs-on: ubuntu-24.04
     strategy:
       matrix:
         include:
           - version: Unversioned
-            elixir: "1.15"
-            otp: "26"
+            elixir: ${{ needs.setup-matrix-env.outputs.ELIXIR_BC }}
+            otp: ${{ needs.setup-matrix-env.outputs.ERLANG_BC }}
           - version: Unversioned
-            elixir: "1.18"
-            otp: "27"
+            elixir: ${{ needs.setup-matrix-env.outputs.ELIXIR_DEV }}
+            otp: ${{ needs.setup-matrix-env.outputs.ERLANG_DEV }}
           - version: V1
-            elixir: "1.15"
-            otp: "26"
+            elixir: ${{ needs.setup-matrix-env.outputs.ELIXIR_BC }}
+            otp: ${{ needs.setup-matrix-env.outputs.ERLANG_BC }}
           - version: V1
-            elixir: "1.18"
-            otp: "27"
+            elixir: ${{ needs.setup-matrix-env.outputs.ELIXIR_DEV }}
+            otp: ${{ needs.setup-matrix-env.outputs.ERLANG_DEV }}
           - version: V2
-            elixir: "1.15"
-            otp: "26"
+            elixir: ${{ needs.setup-matrix-env.outputs.ELIXIR_BC }}
+            otp: ${{ needs.setup-matrix-env.outputs.ERLANG_BC }}
           - version: V2
-            elixir: "1.18"
-            otp: "27"
+            elixir: ${{ needs.setup-matrix-env.outputs.ELIXIR_DEV }}
+            otp: ${{ needs.setup-matrix-env.outputs.ERLANG_DEV }}
           - version: V3
-            elixir: "1.15"
-            otp: "26"
+            elixir: ${{ needs.setup-matrix-env.outputs.ELIXIR_BC }}
+            otp: ${{ needs.setup-matrix-env.outputs.ERLANG_BC }}
           - version: V3
-            elixir: "1.18"
-            otp: "27"
+            elixir: ${{ needs.setup-matrix-env.outputs.ELIXIR_DEV }}
+            otp: ${{ needs.setup-matrix-env.outputs.ERLANG_DEV }}
 
     steps:
       - name: Cancel Previous Runs
@@ -281,9 +296,6 @@ jobs:
         with:
           otp-version: ${{ matrix.otp }}
           elixir-version: ${{ matrix.elixir }}
-      - name: Read .tool-versions
-        uses: endorama/asdf-parse-tool-versions@v1.4.0
-        id: tool-versions
       - name: Retrieve Cached Dependencies - current branch
         uses: actions/cache@v4
         id: mix-cache-current
@@ -292,7 +304,7 @@ jobs:
             deps
             _build/${{ env.MIX_ENV }}
             priv/plts
-          key: erlang-${{ steps.setup-elixir.outputs.otp-version }}-elixir-${{ steps.setup-elixir.outputs.elixir-version }}-rust-${{ env.RUST_VERSION }}-${{ hashFiles('mix.lock') }}
+          key: erlang-${{ steps.setup-elixir.outputs.otp-version }}-elixir-${{ steps.setup-elixir.outputs.elixir-version }}-rust-${{ needs.setup-matrix-env.outputs.RUST_DEV }}-${{ hashFiles('mix.lock') }}
       - name: Generate current openapi.json
         run: |
           mix openapi.spec.json --start-app=false --spec WandaWeb.Schemas.${{ matrix.version }}.ApiSpec /tmp/specs/current-spec.json
@@ -308,7 +320,7 @@ jobs:
             deps
             _build/${{ env.MIX_ENV }}
             priv/plts
-          key: erlang-${{ steps.setup-elixir.outputs.otp-version }}-elixir-${{ steps.setup-elixir.outputs.elixir-version }}-rust-${{ env.RUST_VERSION }}-${{ hashFiles('mix.lock') }}
+          key: erlang-${{ steps.setup-elixir.outputs.otp-version }}-elixir-${{ steps.setup-elixir.outputs.elixir-version }}-rust-${{ needs.setup-matrix-env.outputs.RUST_DEV }}-${{ hashFiles('mix.lock') }}
       - name: Generate target openapi.json
         run: |
           mix openapi.spec.json --start-app=false --spec WandaWeb.Schemas.${{ matrix.version }}.ApiSpec /tmp/specs/target-spec.json
@@ -374,9 +386,6 @@ jobs:
         with:
           version-file: .tool-versions
           version-type: strict
-      - name: Read .tool-versions
-        uses: endorama/asdf-parse-tool-versions@v1.4.0
-        id: tool-versions
       - name: Retrieve Cached Dependencies
         uses: actions/cache@v4
         id: mix-cache
@@ -385,7 +394,7 @@ jobs:
             deps
             _build/test
             priv/plts
-          key: erlang-${{ steps.setup-elixir.outputs.otp-version }}-elixir-${{ steps.setup-elixir.outputs.elixir-version }}-rust-${{ env.RUST_VERSION }}-${{ hashFiles('mix.lock') }}
+          key: erlang-${{ steps.setup-elixir.outputs.otp-version }}-elixir-${{ steps.setup-elixir.outputs.elixir-version }}-rust-${{ needs.setup-matrix-env.outputs.RUST_DEV }}-${{ hashFiles('mix.lock') }}
       - name: Build docs
         uses: lee-dohm/generate-elixir-docs@v1
       - name: Generate openapi.json
