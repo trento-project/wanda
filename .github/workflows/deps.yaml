@@ -23,7 +23,7 @@ jobs:
       ERLANG_BC: ${{ env.ERLANG_BC }}
     steps:
       - name: Checkout
-        uses: actions/checkout@v5
+        uses: actions/checkout@v6
         with:
           ref: ${{ inputs.checkout_ref }}
       - name: gather versions
@@ -55,7 +55,7 @@ jobs:
         with:
           access_token: ${{ github.token }}
       - name: Checkout
-        uses: actions/checkout@v5
+        uses: actions/checkout@v6
         with:
           ref: ${{ inputs.checkout_ref }}
       - name: Setup
