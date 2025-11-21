@@ -31,7 +31,7 @@ jobs:
       ERLANG_BC: ${{ env.ERLANG_BC }}
     steps:
       - name: Checkout
-        uses: actions/checkout@v5
+        uses: actions/checkout@v6
       - name: gather versions
         uses: endorama/asdf-parse-tool-versions@v1
       - name: Compute matrix
@@ -63,7 +63,7 @@ jobs:
         with:
           access_token: ${{ github.token }}
       - name: Checkout
-        uses: actions/checkout@v5
+        uses: actions/checkout@v6
         with:
           fetch-depth: 0
       - name: Setup
@@ -128,7 +128,7 @@ jobs:
         with:
           access_token: ${{ github.token }}
       - name: Checkout
-        uses: actions/checkout@v5
+        uses: actions/checkout@v6
         with:
           fetch-depth: 0
       - name: Setup
@@ -174,7 +174,7 @@ jobs:
     if: github.event_name == 'pull_request'
     steps:
       - name: Checkout target branch
-        uses: actions/checkout@v5
+        uses: actions/checkout@v6
         with:
           ref: ${{ github.event.pull_request.base.ref }}
       - name: Set up Elixir
@@ -220,7 +220,7 @@ jobs:
         with:
           access_token: ${{ github.token }}
       - name: Checkout
-        uses: actions/checkout@v5
+        uses: actions/checkout@v6
         with:
           fetch-depth: 0
       - name: Set up Elixir
@@ -289,7 +289,7 @@ jobs:
         with:
           access_token: ${{ github.token }}
       - name: Checkout current branch
-        uses: actions/checkout@v5
+        uses: actions/checkout@v6
       - name: Set up Elixir
         id: setup-elixir
         uses: erlef/setup-beam@v1
@@ -309,7 +309,7 @@ jobs:
         run: |
           mix openapi.spec.json --start-app=false --spec WandaWeb.Schemas.${{ matrix.version }}.ApiSpec /tmp/specs/current-spec.json
       - name: Checkout target branch
-        uses: actions/checkout@v5
+        uses: actions/checkout@v6
         with:
           ref: ${{ github.event.pull_request.base.ref || github.ref_name }}
       - name: Retrieve Elixir Cached Dependencies - target branch
@@ -379,7 +379,7 @@ jobs:
     runs-on: ubuntu-24.04
     if: github.event_name == 'push' && github.ref_name == 'main'
     steps:
-      - uses: actions/checkout@v5
+      - uses: actions/checkout@v6
       - name: Set up Elixir
         id: setup-elixir
         uses: erlef/setup-beam@v1
