@@ -1,5 +1,75 @@
 # Changelog
 
+## [2.0.0](https://github.com/trento-project/wanda/tree/1.4.0/compare/1.5.0...2.0.0) - 2025-11-27
+
+### What's Changed
+
+* Release version 2.0.0 (#667) @nelsonkopliku
+* Remove unneeded references to jwt libraries and environment variables (#662) @nelsonkopliku
+* [TRNT-3845] Add missing examples in API spec (#657) @antgamdia
+* [TRNT-3845] Tag endpoints for MCP (#650) @antgamdia
+* [TRNT-3845] Enable API docs linter in CI (#648) @antgamdia
+* [TRNT-3845] Run API documentation linter in CI (#645) @antgamdia
+* Add host reboot operation (#640) @balanza
+* Fixes reference to md (#639) @gagandeepb
+* Elixir 1.18 and Erlang/OTP 27 (#638) @gagandeepb
+* Prepare wanda docs for autobuild (#637) @EMaksy
+* Add cluster start/stop operations to registry (#633) @balanza
+* Convert md docs to adoc (#630) @EMaksy
+* Update the env to include the architecture of a host (#627) @janvhs
+* Filter operations by status (#626) @arbulu89
+* Add Docs for the fs_usage-Gatherer (#625) @janvhs
+* Enable operations in produdction (#621) @arbulu89
+* Clustermaintenancechange (#616) @arbulu89
+
+#### Features
+
+* Require AUTH_SERVER_URL only when token authentication is enabled (#664) @nelsonkopliku
+* Token introspection auth (#658) @nelsonkopliku
+* Add oas server url configuration option (#656) @arbulu89
+* Openapi all spec (#653) @arbulu89
+* Add deprecated flag to operation and schemas (#651) @arbulu89
+* [TRNT-3845] Run linters on the API spec and fix the errors (controller) (#642) @antgamdia
+* [TRNT-3845] Run linters on the API spec and fix the errors (schemas) (#641) @antgamdia
+* [TRNT-3845] Combine API specs in a single file with improved feedback loop (#634) @antgamdia
+* [TRNT-3845] Make "api-bc-check" CI step check API against PR's target instead of main (#643) @antgamdia
+* Add database start/stop operations (#632) @arbulu89
+* Add SAP system start/stop operations (#629) @arbulu89
+* Add enable/disable pacemaker operations spec (#622) @nelsonkopliku
+* Add SAP instance start/stop operations (#619) @arbulu89
+
+#### Bug Fixes
+
+* Add deprecated flag to operation and schemas (#651) @arbulu89
+
+#### Maintenance
+
+* CI improvements (#663) @gagandeepb
+* Revert temporary changes (#661) @nelsonkopliku
+* Sync both stable and rolling versions in OBS (#631) @vicenteqa
+* use latest version of get latest tag action (#628) @vicenteqa
+* Fix CI obs image tarball creation (#624) @arbulu89
+* Fix deps cache key in CI (#615) @nelsonkopliku
+
+#### Dependencies
+
+<details>
+<summary>11 changes</summary>
+* Bump actions/checkout from 5 to 6 (#666) @[dependabot[bot]](https://github.com/apps/dependabot)
+* Bump stefanzweifel/git-auto-commit-action from 6 to 7 (#654) @[dependabot[bot]](https://github.com/apps/dependabot)
+* Bump actions/upload-artifact from 4 to 5 (#659) @[dependabot[bot]](https://github.com/apps/dependabot)
+* Bump endorama/asdf-parse-tool-versions from 1.3.4 to 1.4.0 (#660) @[dependabot[bot]](https://github.com/apps/dependabot)
+* Bump actions/setup-node from 4 to 6 (#655) @[dependabot[bot]](https://github.com/apps/dependabot)
+* Bump actions/checkout from 4 to 5 (#636) @[dependabot[bot]](https://github.com/apps/dependabot)
+* Bump stefanzweifel/git-auto-commit-action from 5 to 6 (#623) @[dependabot[bot]](https://github.com/apps/dependabot)
+* Bump phoenix from 1.7.19 to 1.7.21 (#600) @[dependabot[bot]](https://github.com/apps/dependabot)
+* Bump phoenix_ecto from 4.6.3 to 4.6.4 (#613) @[dependabot[bot]](https://github.com/apps/dependabot)
+* Bump plug_cowboy from 2.7.2 to 2.7.3 (#580) @[dependabot[bot]](https://github.com/apps/dependabot)
+* Bump credo from 1.7.11 to 1.7.12 (#614) @[dependabot[bot]](https://github.com/apps/dependabot)
+
+</details>
+**Full Changelog**: https://github.com/trento-project/wanda/compare/1.5.0...2.0.0
+
 ## [1.5.0](https://github.com/trento-project/wanda/tree/1.4.0/compare/1.4.0...1.5.0) - 2025-05-23
 
 ### What's Changed
@@ -88,10 +158,8 @@
 * Bump postgrex from 0.19.2 to 0.19.3 (#529) @[dependabot[bot]](https://github.com/apps/dependabot)
 * Update gen_rmq to cdimonaco/gen_rmq version 5 (#555) @CDimonaco
 * Bump docker/metadata-action from 5.5.1 to 5.6.1 (#531) @[dependabot[bot]](https://github.com/apps/dependabot)
-
 </details>
 **Full Changelog**: https://github.com/trento-project/wanda/compare/1.4.0...1.5.0
-
 ## [1.4.0](https://github.com/trento-project/wanda/tree/1.4.0) (2024-11-11)
 
 [Full Changelog](https://github.com/trento-project/wanda/compare/1.3.0...1.4.0)
