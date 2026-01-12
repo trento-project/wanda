@@ -336,7 +336,7 @@ jobs:
             --text /specs/changes.txt \
             --html /specs/changes.html
       - name: Upload OpenAPI diff report
-        uses: actions/upload-artifact@v5
+        uses: actions/upload-artifact@v6
         if: failure()
         with:
           name: openapi-diff-report-${{ matrix.version }}
