@@ -13,7 +13,7 @@ defmodule Wanda.Operations.Catalog.ClusterResourceRefreshV1 do
       Arguments:
         is_dc (boolean): Whether the target is the designated controller of the cluster
         resource_id (string): The ID of the cluster resource to refresh
-        node_id (string): The ID of the cluster node where the resource with resource_id is running. resource_id is required
+        node_id (string): The ID of the cluster node where the resource with resource_id is running. It has to be provided with a resource_id
       """,
       required_args: ["is_dc"],
       steps: [
