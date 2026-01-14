@@ -7,6 +7,7 @@ defmodule Wanda.Operations.Catalog.Registry do
 
   alias Wanda.Operations.Catalog.{
     ClusterMaintenanceChangeV1,
+    ClusterResourceRefreshV1,
     CrmClusterStartV1,
     CrmClusterStopV1,
     DatabaseStartV1,
@@ -24,6 +25,7 @@ defmodule Wanda.Operations.Catalog.Registry do
 
   @registry %{
     "clustermaintenancechange@v1" => ClusterMaintenanceChangeV1.operation(),
+    "clusterresourcerefresh@v1" => ClusterResourceRefreshV1.operation(),
     "crmclusterstart@v1" => CrmClusterStartV1.operation(),
     "crmclusterstop@v1" => CrmClusterStopV1.operation(),
     "hostreboot@v1" => HostRebootV1.operation(),
