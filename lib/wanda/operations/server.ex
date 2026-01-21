@@ -11,12 +11,9 @@ defmodule Wanda.Operations.Server do
   alias Wanda.Operations
 
   alias Wanda.Operations.{
-    AgentReport,
     OperationTarget,
-    OperatorError,
-    OperatorResult,
+    Reporting,
     State,
-    StepReport,
     Supervisor
   }
 
@@ -28,7 +25,6 @@ defmodule Wanda.Operations.Server do
 
   alias Wanda.Operations.Messaging.Publisher
 
-  require Wanda.Operations.Enums.OperatorPhase, as: OperatorPhase
   require Wanda.Operations.Enums.Result, as: Result
   require Wanda.Operations.Enums.Status, as: Status
 
@@ -101,13 +97,11 @@ defmodule Wanda.Operations.Server do
           group_id: group_id,
           targets: targets,
           operation: %Operation{
-            id: catalog_operation_id
+            id: catalog_operation_id,
+            steps: steps
           }
         } = state
       ) do
-    engine = EvaluationEngine.new()
-    new_state = initialize_report_results(state)
-
     Operations.create_operation!(operation_id, group_id, catalog_operation_id, targets)
 
     operation_started =
@@ -115,7 +109,10 @@ defmodule Wanda.Operations.Server do
 
     :ok = Messaging.publish(Publisher, "results", operation_started)
 
-    {:noreply, %State{new_state | engine: engine}, {:continue, :execute_step}}
+    engine = EvaluationEngine.new()
+    report = Reporting.initialize_report_results(targets, steps)
+
+    {:noreply, %State{state | engine: engine, agent_reports: report}, {:continue, :execute_step}}
   end
 
   @impl true
@@ -135,7 +132,7 @@ defmodule Wanda.Operations.Server do
 
     # Start rollback?
 
-    result = evaluate_agent_reports_result(agent_reports)
+    result = Reporting.evaluate_agent_reports_result(agent_reports)
 
     Operations.complete_operation!(operation_id, result)
 
@@ -156,10 +153,13 @@ defmodule Wanda.Operations.Server do
   def handle_continue(
         :execute_step,
         %State{
+          engine: engine,
+          targets: targets,
           operation: %Operation{
             steps: steps
           },
-          current_step_index: current_step_index
+          current_step_index: current_step_index,
+          agent_reports: agent_reports
         } = state
       )
       when current_step_index < length(steps) do
@@ -168,11 +168,15 @@ defmodule Wanda.Operations.Server do
     %Step{predicate: predicate, operator: operator, timeout: timeout} =
       Enum.at(steps, current_step_index)
 
+    {pending_targets, updated_reports} =
+      Reporting.handle_step(engine, predicate, targets, current_step_index, agent_reports)
+
     new_state =
-      %State{pending_targets_on_step: pending_targets} =
-      state
-      |> predicate_targets_execution(predicate)
-      |> maybe_save_skipped_operation_state()
+      %State{
+        state
+        | pending_targets_on_step: pending_targets,
+          agent_reports: updated_reports
+      }
       |> maybe_request_operation_execution(operator, timeout)
       |> maybe_increase_current_step()
       |> store_agent_reports()
@@ -199,7 +203,7 @@ defmodule Wanda.Operations.Server do
       ) do
     Logger.debug("All operation steps completed.", state: inspect(state))
 
-    result = evaluate_agent_reports_result(agent_reports)
+    result = Reporting.evaluate_agent_reports_result(agent_reports)
 
     # Result based on evaluation result
     Operations.complete_operation!(operation_id, result)
@@ -224,6 +228,7 @@ defmodule Wanda.Operations.Server do
           operation_id: operation_id,
           current_step_index: step_number,
           pending_targets_on_step: targets,
+          agent_reports: current_agent_reports,
           timer_ref: timer_ref
         } = state
       ) do
@@ -233,11 +238,25 @@ defmodule Wanda.Operations.Server do
     )
 
     pending_targets = List.delete(targets, agent_id)
-    {result, diff, message} = evaluate_operator_result(operator_result)
+
+    {result, diff, message} = Reporting.evaluate_operator_result(operator_result)
+
+    updated_reports =
+      Reporting.update_report_results(
+        current_agent_reports,
+        step_number,
+        agent_id,
+        result,
+        diff,
+        message
+      )
 
     new_state =
-      %State{state | pending_targets_on_step: pending_targets}
-      |> update_report_results(step_number, agent_id, result, diff, message)
+      %State{
+        state
+        | pending_targets_on_step: pending_targets,
+          agent_reports: updated_reports
+      }
       |> maybe_set_step_failed(result)
       |> maybe_increase_current_step()
       |> store_agent_reports()
@@ -277,15 +296,15 @@ defmodule Wanda.Operations.Server do
         :timeout,
         %State{
           current_step_index: current_step_index,
-          pending_targets_on_step: pending_targets_on_step
+          pending_targets_on_step: pending_targets_on_step,
+          agent_reports: current_agent_reports
         } = state
       ) do
     Logger.debug("Timeout reached on step number #{current_step_index}.", state: inspect(state))
 
-    new_state =
-      pending_targets_on_step
-      |> Enum.reduce(state, fn agent_id, acc ->
-        update_report_results(
+    updated_reports =
+      Enum.reduce(pending_targets_on_step, current_agent_reports, fn agent_id, acc ->
+        Reporting.update_report_results(
           acc,
           current_step_index,
           agent_id,
@@ -294,8 +313,15 @@ defmodule Wanda.Operations.Server do
           @timeout_message
         )
       end)
-      |> Map.put(:step_failed, true)
-      |> store_agent_reports()
+
+    new_state =
+      %State{
+        state
+        | agent_reports: updated_reports,
+          step_failed: true
+      }
+
+    store_agent_reports(new_state)
 
     {:noreply, new_state, {:continue, :execute_step}}
   end
@@ -354,77 +380,6 @@ defmodule Wanda.Operations.Server do
     end
   end
 
-  # Initialize operation results as not executed for all steps and agents
-  defp initialize_report_results(
-         %State{
-           targets: targets,
-           operation: %Operation{
-             steps: steps
-           }
-         } = state
-       ) do
-    not_executed_agent_reports =
-      Enum.map(targets, fn %OperationTarget{agent_id: agent_id} ->
-        %AgentReport{agent_id: agent_id, result: Result.not_executed()}
-      end)
-
-    agent_reports =
-      steps
-      |> Enum.with_index()
-      |> Enum.map(fn {_, index} ->
-        %StepReport{step_number: index, agents: not_executed_agent_reports}
-      end)
-
-    %State{state | agent_reports: agent_reports}
-  end
-
-  defp predicate_targets_execution(
-         %State{
-           engine: engine,
-           targets: targets
-         } = state,
-         predicate
-       ) do
-    pending_targets =
-      Enum.reduce(targets, [], fn %OperationTarget{agent_id: agent_id, arguments: arguments},
-                                  acc ->
-        if predicate_is_met(engine, predicate, arguments) do
-          [agent_id | acc]
-        else
-          acc
-        end
-      end)
-
-    %State{state | pending_targets_on_step: pending_targets}
-  end
-
-  defp predicate_is_met(_, "*", _), do: true
-  defp predicate_is_met(_, "", _), do: true
-
-  defp predicate_is_met(engine, predicate, arguments) do
-    case EvaluationEngine.eval(engine, predicate, arguments) do
-      {:ok, true} ->
-        true
-
-      _ ->
-        false
-    end
-  end
-
-  defp maybe_save_skipped_operation_state(
-         %State{
-           targets: targets,
-           pending_targets_on_step: pending_targets,
-           current_step_index: step_number
-         } = state
-       ) do
-    targets
-    |> Enum.filter(fn %OperationTarget{agent_id: agent_id} -> agent_id not in pending_targets end)
-    |> Enum.reduce(state, fn %OperationTarget{agent_id: agent_id}, acc ->
-      update_report_results(acc, step_number, agent_id, Result.skipped(), nil, nil)
-    end)
-  end
-
   defp maybe_request_operation_execution(%State{pending_targets_on_step: []} = state, _, _) do
     state
   end
@@ -466,37 +421,6 @@ defmodule Wanda.Operations.Server do
 
   defp maybe_increase_current_step(state), do: state
 
-  # update_report_results updates the agent report status for the given
-  # agent, step_number and result
-  defp update_report_results(
-         %State{agent_reports: current_agent_reports} = state,
-         step_number,
-         agent_id,
-         result,
-         diff,
-         message
-       ) do
-    %StepReport{agents: current_agents} =
-      step_to_update = Enum.at(current_agent_reports, step_number)
-
-    updated_agents =
-      Enum.map(current_agents, fn
-        %AgentReport{agent_id: ^agent_id} = agent_report ->
-          %AgentReport{agent_report | result: result, diff: diff, error_message: message}
-
-        agent_report ->
-          agent_report
-      end)
-
-    updated_agent_reports =
-      List.replace_at(current_agent_reports, step_number, %{
-        step_to_update
-        | agents: updated_agents
-      })
-
-    %State{state | agent_reports: updated_agent_reports}
-  end
-
   defp store_agent_reports(
          %State{
            operation_id: operation_id,
@@ -513,34 +437,6 @@ defmodule Wanda.Operations.Server do
        do: %State{state | step_failed: true}
 
   defp maybe_set_step_failed(state, _), do: state
-
-  defp evaluate_operator_result(%OperatorResult{diff: %{before: value, after: value} = diff}),
-    do: {Result.not_updated(), diff, nil}
-
-  defp evaluate_operator_result(%OperatorResult{diff: diff}), do: {Result.updated(), diff, nil}
-
-  defp evaluate_operator_result(%OperatorError{phase: OperatorPhase.commit(), message: message}),
-    do: {Result.rolled_back(), nil, message}
-
-  defp evaluate_operator_result(%OperatorError{message: message}),
-    do: {Result.failed(), nil, message}
-
-  defp evaluate_agent_reports_result(agent_reports) do
-    agent_reports
-    |> Enum.flat_map(fn %{agents: agents} -> agents end)
-    |> Enum.map(& &1.result)
-    |> Enum.map(&{&1, result_weight(&1)})
-    |> Enum.max_by(fn {_, weight} -> weight end)
-    |> elem(0)
-  end
-
-  defp result_weight(Result.failed()), do: 6
-  defp result_weight(Result.rolled_back()), do: 5
-  defp result_weight(Result.timeout()), do: 4
-  defp result_weight(Result.updated()), do: 3
-  defp result_weight(Result.not_updated()), do: 2
-  defp result_weight(Result.skipped()), do: 1
-  defp result_weight(Result.not_executed()), do: 0
 
   defp via_tuple(group_id),
     do: {:via, :global, {__MODULE__, group_id}}
