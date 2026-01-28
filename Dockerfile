@@ -1,8 +1,8 @@
-FROM registry.suse.com/bci/rust:1.88 AS elixir-build
+FROM registry.suse.com/bci/rust:1.92 AS elixir-build
 ENV LANG=en_US.UTF-8
 ENV LANGUAGE=en_US:en
 ENV LC_ALL=en_US.UTF-8
-RUN zypper ar https://download.opensuse.org/repositories/devel:sap:trento:builddeps/15.6 buildeps
+RUN zypper ar https://download.opensuse.org/repositories/devel:sap:trento:builddeps/15.6 builddeps
 RUN zypper -n --gpg-auto-import-keys ref
 RUN zypper -n in git-core elixir==1.15 elixir-hex erlang==26 erlang-rebar3
 COPY . /build
@@ -24,7 +24,7 @@ ENV VERSION=$VERSION
 RUN mix phx.digest
 RUN mix release
 
-FROM registry.suse.com/bci/bci-base:15.6
+FROM registry.suse.com/bci/bci-base:15.7
 LABEL org.opencontainers.image.source="https://github.com/trento-project/wanda"
 ARG MIX_ENV=prod
 ENV MIX_ENV=$MIX_ENV
@@ -32,7 +32,7 @@ ENV LANG=en_US.UTF-8
 ENV LANGUAGE=en_US:en
 ENV LC_ALL=en_US.UTF-8
 # Erlang runtime dependencies
-RUN zypper -n in libsystemd0 libopenssl1_1
+RUN zypper -n in libsystemd0 libopenssl3
 WORKDIR /app
 COPY --from=release /build/_build/$MIX_ENV/rel/wanda .
 VOLUME /usr/share/trento/checks
