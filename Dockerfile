@@ -2,7 +2,7 @@ FROM registry.suse.com/bci/rust:1.92 AS elixir-build
 ENV LANG=en_US.UTF-8
 ENV LANGUAGE=en_US:en
 ENV LC_ALL=en_US.UTF-8
-RUN zypper ar https://download.opensuse.org/repositories/devel:sap:trento:builddeps/15.6 builddeps
+RUN zypper ar https://download.opensuse.org/repositories/devel:sap:trento:builddeps/15.7 builddeps
 RUN zypper -n --gpg-auto-import-keys ref
 RUN zypper -n in git-core elixir==1.15 elixir-hex erlang==26 erlang-rebar3
 COPY . /build
