@@ -1563,6 +1563,7 @@ Supported arguments:
 * `+solution-list+` (maps to `+saptune --format json solution list+`)
 * `+note-verify+` (maps to `+saptune --format json note verify+`)
 * `+note-list+` (maps to `+saptune --format json note list+`)
+* `+check+` (maps to `+saptune --format json check+`. Only available in agents with `+saptune+` version 3.2.0 and higher)
 
 A `+status+` call with a successful return should look like this:
 
