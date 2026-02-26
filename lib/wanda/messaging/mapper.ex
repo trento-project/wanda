@@ -13,6 +13,7 @@ defmodule Wanda.Messaging.Mapper do
   }
 
   alias Wanda.Operations.{
+    OperationErrorDetails,
     OperationTarget,
     OperatorError,
     OperatorResult
@@ -143,6 +144,39 @@ defmodule Wanda.Messaging.Mapper do
       group_id: group_id,
       operation_type: operation_type,
       result: map_operation_result(result)
+    }
+  end
+
+  @spec to_operation_completed_with_errors(
+          String.t(),
+          String.t(),
+          String.t(),
+          atom(),
+          OperationErrorDetails.t()
+        ) ::
+          OperationCompleted.t()
+  def to_operation_completed_with_errors(
+        operation_id,
+        group_id,
+        operation_type,
+        result,
+        %OperationErrorDetails{
+          step: step,
+          target_errors: target_errors
+        }
+      ) do
+    %OperationCompleted{
+      operation_id: operation_id,
+      group_id: group_id,
+      operation_type: operation_type,
+      result: map_operation_result(result),
+      details: {
+        :error_details,
+        %Trento.Operations.V1.OperationErrorDetails{
+          step: step,
+          target_errors: target_errors
+        }
+      }
     }
   end
 
