@@ -66,7 +66,7 @@
   "telemetry_poller": {:hex, :telemetry_poller, "1.2.0", "ba82e333215aed9dd2096f93bd1d13ae89d249f82760fcada0850ba33bac154b", [:rebar3], [{:telemetry, "~> 1.0", [hex: :telemetry, repo: "hexpm", optional: false]}], "hexpm", "7216e21a6c326eb9aa44328028c34e9fd348fb53667ca837be59d0aa2a0156e8"},
   "thoas": {:hex, :thoas, "1.2.1", "19a25f31177a17e74004d4840f66d791d4298c5738790fa2cc73731eb911f195", [:rebar3], [], "hexpm", "e38697edffd6e91bd12cea41b155115282630075c2a727e7a6b2947f5408b86a"},
   "toml": {:hex, :toml, "0.7.0", "fbcd773caa937d0c7a02c301a1feea25612720ac3fa1ccb8bfd9d30d822911de", [:mix], [], "hexpm", "0690246a2478c1defd100b0c9b89b4ea280a22be9a7b313a8a058a2408a2fa70"},
-  "trento_contracts": {:git, "https://github.com/trento-project/contracts.git", "67fe0387f4f61b5d53f081fec3caf63919d85bac", [sparse: "elixir", ref: "67fe0387f4f61b5d53f081fec3caf63919d85bac"]},
+  "trento_contracts": {:git, "https://github.com/trento-project/contracts.git", "ef30beda51fa62799d1c26a92975db69c71c1c5a", [sparse: "elixir", ref: "ef30beda51fa62799d1c26a92975db69c71c1c5a"]},
   "unicode_util_compat": {:hex, :unicode_util_compat, "0.7.1", "a48703a25c170eedadca83b11e88985af08d35f37c6f664d6dcfb106a97782fc", [:rebar3], [], "hexpm", "b3a917854ce3ae233619744ad1e0102e05673136776fb2fa76234f3e03b23642"},
   "unplug": {:hex, :unplug, "1.1.0", "acd8c40dfda63a831b01534307c8cc44726389429294a5ed44d7f89fb01ccd02", [:mix], [{:plug, "~> 1.8", [hex: :plug, repo: "hexpm", optional: false]}], "hexpm", "a3b302125ed60b658a9a7c0dff6941050bfc56dc77a0bca72facdb743159898f"},
   "websock": {:hex, :websock, "0.5.3", "2f69a6ebe810328555b6fe5c831a851f485e303a7c8ce6c5f675abeb20ebdadc", [:mix], [], "hexpm", "6105453d7fac22c712ad66fab1d45abdf049868f253cf719b625151460b8b453"},
