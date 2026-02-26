@@ -12,6 +12,7 @@ defmodule Wanda.Operations.Server do
 
   alias Wanda.Operations.{
     AgentReport,
+    OperationErrorDetails,
     OperationTarget,
     OperatorError,
     OperatorResult,
@@ -126,8 +127,10 @@ defmodule Wanda.Operations.Server do
           group_id: group_id,
           step_failed: true,
           agent_reports: agent_reports,
+          current_step_index: current_step_index,
           operation: %Operation{
-            id: catalog_operation_id
+            id: catalog_operation_id,
+            steps: steps
           }
         } = state
       ) do
@@ -139,12 +142,28 @@ defmodule Wanda.Operations.Server do
 
     Operations.complete_operation!(operation_id, result)
 
+    failed_step_index = current_step_index - 1
+
+    %Step{name: failed_step_name} =
+      Enum.at(steps, failed_step_index)
+
+    target_errors =
+      agent_reports
+      |> Enum.at(failed_step_index)
+      |> Map.get(:agents, [])
+      |> Enum.filter(fn %{error_message: msg} -> msg != nil end)
+      |> Enum.into(%{}, fn %{agent_id: agent_id, error_message: msg} -> {agent_id, msg} end)
+
     operation_completed =
-      Messaging.Mapper.to_operation_completed(
+      Messaging.Mapper.to_operation_completed_with_errors(
         operation_id,
         group_id,
         catalog_operation_id,
-        result
+        result,
+        %OperationErrorDetails{
+          step: failed_step_name,
+          target_errors: target_errors
+        }
       )
 
     :ok = Messaging.publish(Publisher, "results", operation_completed)
@@ -295,6 +314,7 @@ defmodule Wanda.Operations.Server do
         )
       end)
       |> Map.put(:step_failed, true)
+      |> Map.put(:current_step_index, current_step_index + 1)
       |> store_agent_reports()
 
     {:noreply, new_state, {:continue, :execute_step}}
@@ -309,19 +329,28 @@ defmodule Wanda.Operations.Server do
           operation_id: operation_id,
           group_id: group_id,
           status: Status.running(),
+          current_step_index: current_step_index,
           operation: %Operation{
-            id: catalog_operation_id
+            id: catalog_operation_id,
+            steps: steps
           }
         } = state
       ) do
     Operations.abort_operation!(operation_id)
 
+    %Step{name: failed_step_name} =
+      Enum.at(steps, current_step_index)
+
     operation_completed =
-      Messaging.Mapper.to_operation_completed(
+      Messaging.Mapper.to_operation_completed_with_errors(
         operation_id,
         group_id,
         catalog_operation_id,
-        Status.aborted()
+        Status.aborted(),
+        %OperationErrorDetails{
+          step: failed_step_name,
+          target_errors: %{}
+        }
       )
 
     :ok = Messaging.publish(Publisher, "results", operation_completed)

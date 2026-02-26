@@ -10,6 +10,7 @@ defmodule Wanda.Operations.ServerTest do
 
   alias Trento.Operations.V1.{
     OperationCompleted,
+    OperationErrorDetails,
     OperationStarted,
     OperatorExecutionRequested,
     OperatorExecutionRequestedTarget
@@ -109,10 +110,18 @@ defmodule Wanda.Operations.ServerTest do
     test "should stop execution if last step failed" do
       operation_id = UUID.uuid4()
       group_id = UUID.uuid4()
-      operation = build(:catalog_operation, id: @existing_catalog_operation_id)
+
+      operation =
+        %{steps: [%{name: failed_step} | _]} =
+        build(:catalog_operation, id: @existing_catalog_operation_id)
 
       [%{agent_id: agent_id_1}, %{agent_id: agent_id_2}] =
         targets = build_list(2, :operation_target)
+
+      %{diff: %{before: before, after: after_value}} =
+        result_1 = build(:operator_result)
+
+      %{message: message} = result_2 = build(:operator_error, phase: OperatorPhase.verify())
 
       expect(Wanda.Messaging.Adapters.Mock, :publish, 3, fn
         _, "results", %OperationStarted{}, _ ->
@@ -129,7 +138,23 @@ defmodule Wanda.Operations.ServerTest do
         _ ->
           :ok
 
-        _, "results", %OperationCompleted{result: :FAILED}, _ ->
+        _,
+        "results",
+        %OperationCompleted{
+          result: :FAILED,
+          details:
+            {:error_details,
+             %OperationErrorDetails{
+               step: ^failed_step,
+               target_errors:
+                 %{
+                   ^agent_id_2 => ^message
+                 } = target_errors
+             }}
+        },
+        _ ->
+          # check only failed targets are included
+          refute Map.get(target_errors, agent_id_1)
           :ok
       end)
 
@@ -143,11 +168,6 @@ defmodule Wanda.Operations.ServerTest do
 
       pid = :global.whereis_name({Server, group_id})
       ref = Process.monitor(pid)
-
-      %{diff: %{before: before, after: after_value}} =
-        result_1 = build(:operator_result)
-
-      %{message: message} = result_2 = build(:operator_error, phase: OperatorPhase.verify())
 
       Server.receive_operation_reports(operation_id, group_id, 0, agent_id_1, result_1)
       Server.receive_operation_reports(operation_id, group_id, 0, agent_id_2, result_2)
@@ -241,7 +261,8 @@ defmodule Wanda.Operations.ServerTest do
         _ ->
           :ok
 
-        _, "results", %OperationCompleted{result: :UPDATED}, _ ->
+        _, "results", %OperationCompleted{result: :UPDATED} = operation_completed_event, _ ->
+          refute Map.get(operation_completed_event, :details)
           :ok
       end)
 
@@ -601,6 +622,7 @@ defmodule Wanda.Operations.ServerTest do
       group_id = UUID.uuid4()
 
       operation =
+        %{steps: [%{name: failed_step} | _]} =
         build(:catalog_operation,
           id: @existing_catalog_operation_id,
           steps: build_list(2, :operation_step, timeout: 0)
@@ -617,7 +639,21 @@ defmodule Wanda.Operations.ServerTest do
           assert 0 == DateTime.diff(DateTime.utc_now(), expiration)
           :ok
 
-        _, "results", %OperationCompleted{result: :FAILED}, _ ->
+        _,
+        "results",
+        %OperationCompleted{
+          result: :FAILED,
+          details:
+            {:error_details,
+             %OperationErrorDetails{
+               step: ^failed_step,
+               target_errors: %{
+                 ^agent_id_1 => "Operator execution timed out",
+                 ^agent_id_2 => "Operator execution timed out"
+               }
+             }}
+        },
+        _ ->
           :ok
       end)
 
@@ -787,14 +823,31 @@ defmodule Wanda.Operations.ServerTest do
       group_id = UUID.uuid4()
 
       operation =
+        %{steps: [%{name: failed_step} | _]} =
         build(:catalog_operation, id: @existing_catalog_operation_id)
 
       targets = build_list(2, :operation_target)
 
       expect(Wanda.Messaging.Adapters.Mock, :publish, 3, fn
-        _, "results", %OperationStarted{}, _ -> :ok
-        _, "agents", %OperatorExecutionRequested{}, _ -> :ok
-        _, "results", %OperationCompleted{result: :ABORTED}, _ -> :ok
+        _, "results", %OperationStarted{}, _ ->
+          :ok
+
+        _, "agents", %OperatorExecutionRequested{}, _ ->
+          :ok
+
+        _,
+        "results",
+        %OperationCompleted{
+          result: :ABORTED,
+          details:
+            {:error_details,
+             %OperationErrorDetails{
+               step: ^failed_step,
+               target_errors: %{}
+             }}
+        },
+        _ ->
+          :ok
       end)
 
       Server.start_operation(
