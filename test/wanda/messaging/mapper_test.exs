@@ -462,11 +462,6 @@ defmodule Wanda.Messaging.MapperTest do
       UUID.uuid4() => Faker.StarWars.character()
     }
 
-    error_details = %Operations.OperationErrorDetails{
-      step: failed_step,
-      target_errors: target_errors
-    }
-
     assert %OperationCompleted{
              operation_id: operation_id,
              group_id: group_id,
@@ -485,7 +480,8 @@ defmodule Wanda.Messaging.MapperTest do
                group_id,
                operation_type,
                :failed,
-               error_details
+               failed_step,
+               target_errors
              )
   end
 

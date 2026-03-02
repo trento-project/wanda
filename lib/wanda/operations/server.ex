@@ -12,7 +12,6 @@ defmodule Wanda.Operations.Server do
 
   alias Wanda.Operations.{
     AgentReport,
-    OperationErrorDetails,
     OperationTarget,
     OperatorError,
     OperatorResult,
@@ -160,10 +159,8 @@ defmodule Wanda.Operations.Server do
         group_id,
         catalog_operation_id,
         result,
-        %OperationErrorDetails{
-          step: failed_step_name,
-          target_errors: target_errors
-        }
+        failed_step_name,
+        target_errors
       )
 
     :ok = Messaging.publish(Publisher, "results", operation_completed)
@@ -347,10 +344,8 @@ defmodule Wanda.Operations.Server do
         group_id,
         catalog_operation_id,
         Status.aborted(),
-        %OperationErrorDetails{
-          step: failed_step_name,
-          target_errors: %{}
-        }
+        failed_step_name,
+        %{}
       )
 
     :ok = Messaging.publish(Publisher, "results", operation_completed)

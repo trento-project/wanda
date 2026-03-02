@@ -13,7 +13,6 @@ defmodule Wanda.Messaging.Mapper do
   }
 
   alias Wanda.Operations.{
-    OperationErrorDetails,
     OperationTarget,
     OperatorError,
     OperatorResult
@@ -37,6 +36,7 @@ defmodule Wanda.Messaging.Mapper do
 
   alias Trento.Operations.V1.{
     OperationCompleted,
+    OperationErrorDetails,
     OperationRequested,
     OperationStarted,
     OperatorExecutionCompleted,
@@ -151,8 +151,9 @@ defmodule Wanda.Messaging.Mapper do
           String.t(),
           String.t(),
           String.t(),
-          atom(),
-          OperationErrorDetails.t()
+          :failed | :rolled_back | :timeout | :aborted,
+          String.t(),
+          %{Ecto.UUID.t() => String.t()}
         ) ::
           OperationCompleted.t()
   def to_operation_completed_with_errors(
@@ -160,10 +161,8 @@ defmodule Wanda.Messaging.Mapper do
         group_id,
         operation_type,
         result,
-        %OperationErrorDetails{
-          step: step,
-          target_errors: target_errors
-        }
+        failed_step_name,
+        target_errors
       ) do
     %OperationCompleted{
       operation_id: operation_id,
@@ -172,8 +171,8 @@ defmodule Wanda.Messaging.Mapper do
       result: map_operation_result(result),
       details: {
         :error_details,
-        %Trento.Operations.V1.OperationErrorDetails{
-          step: step,
+        %OperationErrorDetails{
+          step: failed_step_name,
           target_errors: target_errors
         }
       }
