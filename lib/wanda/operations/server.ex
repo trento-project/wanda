@@ -148,9 +148,12 @@ defmodule Wanda.Operations.Server do
 
     target_errors =
       agent_reports
-      |> Enum.at(failed_step_index)
-      |> Map.get(:agents, [])
-      |> Enum.filter(fn %{error_message: msg} -> msg != nil end)
+      |> Enum.find_value([], fn %{step_number: step_number, agents: agents} ->
+        if step_number == failed_step_index do
+          agents
+        end
+      end)
+      |> Enum.filter(&(&1.result in [Result.failed(), Result.rolled_back(), Result.timeout()]))
       |> Enum.into(%{}, fn %{agent_id: agent_id, error_message: msg} -> {agent_id, msg} end)
 
     operation_completed =
