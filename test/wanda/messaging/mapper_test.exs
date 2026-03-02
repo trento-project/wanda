@@ -28,6 +28,7 @@ defmodule Wanda.Messaging.MapperTest do
 
   alias Trento.Operations.V1.{
     OperationCompleted,
+    OperationErrorDetails,
     OperationRequested,
     OperationStarted,
     OperationTarget,
@@ -449,6 +450,39 @@ defmodule Wanda.Messaging.MapperTest do
                result: mapped_result
              } == Mapper.to_operation_completed(operation_id, group_id, operation_type, result)
     end
+  end
+
+  test "should map to OperationCompletedV1 event with errors" do
+    operation_id = UUID.uuid4()
+    group_id = UUID.uuid4()
+    operation_type = Faker.StarWars.character()
+    failed_step = Faker.StarWars.character()
+
+    target_errors = %{
+      UUID.uuid4() => Faker.StarWars.character()
+    }
+
+    assert %OperationCompleted{
+             operation_id: operation_id,
+             group_id: group_id,
+             operation_type: operation_type,
+             result: :FAILED,
+             details: {
+               :error_details,
+               %OperationErrorDetails{
+                 step: failed_step,
+                 target_errors: target_errors
+               }
+             }
+           } ==
+             Mapper.to_operation_completed_with_errors(
+               operation_id,
+               group_id,
+               operation_type,
+               :failed,
+               failed_step,
+               target_errors
+             )
   end
 
   test "should map to OperatorExecutionRequestedV1 event" do
