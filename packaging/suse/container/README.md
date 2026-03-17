@@ -33,8 +33,9 @@ As a quick example, you can run the container image using the following command:
 # Create a volume for the checks and run the container
 docker volume create trento-checks \
   && docker run \
+  --name trento-checks-installer \
   -v trento-checks:/usr/share/trento/checks \
-  registry.suse.com/trento/trento-checks:latest
+  registry.suse.com/trento/trento-checks
 ```
 
 ```bash
