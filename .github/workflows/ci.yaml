@@ -29,9 +29,12 @@ jobs:
       RUST_DEV: ${{ env.RUST_VERSION }}
       ELIXIR_BC: ${{ env.ELIXIR_BC }}
       ERLANG_BC: ${{ env.ERLANG_BC }}
+      VERSION: ${{ steps.get-version.outputs.VERSION }}
     steps:
       - name: Checkout
         uses: actions/checkout@v6
+        with:
+          fetch-depth: 0
       - name: gather versions
         uses: endorama/asdf-parse-tool-versions@v1
       - name: Compute matrix
@@ -41,6 +44,9 @@ jobs:
           echo "RUST_DEV=${{ env.RUST_VERSION }}" >> $GITHUB_OUTPUT
           echo "ELIXIR_BC=${{ env.ELIXIR_BC }}" >> $GITHUB_OUTPUT
           echo "ERLANG_BC=${{ env.ERLANG_BC }}" >> $GITHUB_OUTPUT
+      - name: Get version from git history
+        id: get-version
+        run: echo "VERSION=$(hack/get_version_from_git.sh)" >> $GITHUB_OUTPUT
 
   elixir-deps:
     name: Elixir dependencies
@@ -347,6 +353,7 @@ jobs:
     needs:
       - static-code-analysis
       - test
+      - setup-matrix-env
     if: (github.event_name == 'push' && github.ref_name == 'main') || github.event_name == 'workflow_dispatch'
     uses: trento-project/web/.github/workflows/build-containers.yaml@main
     secrets: inherit
@@ -359,6 +366,7 @@ jobs:
             tag: demo
     with:
       image_name: trento-wanda
+      version: ${{ needs.setup-matrix-env.outputs.VERSION }}
       MIX_ENV: ${{ matrix.MIX_ENV }}
       tag: ${{ matrix.tag }}
 
