@@ -348,19 +348,22 @@ jobs:
       - static-code-analysis
       - test
     if: (github.event_name == 'push' && github.ref_name == 'main') || github.event_name == 'workflow_dispatch'
-    uses: trento-project/web/.github/workflows/build-containers.yaml@main
-    secrets: inherit
     strategy:
       matrix:
         include:
-          - MIX_ENV: prod
+          - mix_env: prod
             tag: "${{ (github.event_name == 'push' && github.ref_name == 'main' && 'rolling') || github.sha }}"
-          - MIX_ENV: demo
+          - mix_env: demo
             tag: demo
+    uses: trento-project/.github/.github/workflows/publish-containers.yaml@98e2a3d821253d603d16fd53fb10bcf85f64b395
     with:
       image_name: trento-wanda
-      MIX_ENV: ${{ matrix.MIX_ENV }}
       tag: ${{ matrix.tag }}
+      extra_build_args: |
+        MIX_ENV=${{ matrix.mix_env }}
+    secrets:
+      gh_token: ${{ secrets.TRENTOBOT_GH_PAT }}
+      ssh_key: ${{ secrets.TRENTOBOT_SSH_KEY }}
 
   deploy-demo:
     runs-on: ubuntu-24.04
