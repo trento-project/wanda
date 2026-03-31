@@ -83,22 +83,26 @@ jobs:
 
   build-containers:
     name: Build containers
-    uses: trento-project/web/.github/workflows/build-containers.yaml@main
     needs:
       - release
     strategy:
       matrix:
         include:
-          - MIX_ENV: prod
+          - mix_env: prod
             tag: ${{ needs.release.outputs.version }}
-          - MIX_ENV: prod
+          - mix_env: prod
             tag: rolling
-          - MIX_ENV: demo
+          - mix_env: demo
             tag: demo
+    uses: rento-project/.github/.github/workflows/publish-containers.yaml@98e2a3d821253d603d16fd53fb10bcf85f64b395
     with:
       image_name: trento-wanda
-      MIX_ENV: ${{ matrix.MIX_ENV }}
       tag: ${{ matrix.tag }}
+      extra_build_args: |
+        MIX_ENV=${{ matrix.mix_env }}
+    secrets:
+      gh_token: ${{ secrets.TRENTOBOT_GH_PAT }}
+      ssh_key: ${{ secrets.TRENTOBOT_SSH_KEY }}
 
   obs-sync:
     name: Update OBS package
