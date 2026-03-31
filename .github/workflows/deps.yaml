@@ -23,11 +23,11 @@ jobs:
       ERLANG_BC: ${{ env.ERLANG_BC }}
     steps:
       - name: Checkout
-        uses: actions/checkout@v6
+        uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6
         with:
           ref: ${{ inputs.checkout_ref }}
       - name: gather versions
-        uses: endorama/asdf-parse-tool-versions@v1
+        uses: endorama/asdf-parse-tool-versions@c981d1f09f7fad3a91bc97b6d28ce6ec0c93ded5 # v1
       - name: Compute matrix
         run: |
           echo "ELIXIR_DEV=${{ env.ELIXIR_VERSION }}" >> $GITHUB_OUTPUT
@@ -51,30 +51,30 @@ jobs:
       RHAI_RUSTLER_FORCE_BUILD: "true"
     steps:
       - name: Cancel Previous Runs
-        uses: styfle/cancel-workflow-action@0.13.1
+        uses: styfle/cancel-workflow-action@d07a454dad7609a92316b57b23c9ccfd4f59af66 # 0.13.1
         with:
           access_token: ${{ github.token }}
       - name: Checkout
-        uses: actions/checkout@v6
+        uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6
         with:
           ref: ${{ inputs.checkout_ref }}
       - name: Setup
         id: setup-elixir
-        uses: erlef/setup-beam@v1
+        uses: erlef/setup-beam@fc68ffb90438ef2936bbb3251622353b3dcb2f93 # v1
         with:
           otp-version: ${{ matrix.otp }}
           elixir-version: ${{ matrix.elixir }}
       - name: Read .tool-versions
-        uses: endorama/asdf-parse-tool-versions@v1.4.0
+        uses: endorama/asdf-parse-tool-versions@d856570ea60164ceed32e71661d8ab2e9ea2069a # v1.4.0
         id: tool-versions
       - name: Setup rust
         id: setup-rust
-        uses: actions-rs/toolchain@v1
+        uses: actions-rs/toolchain@16499b5e05bf2e26879000db0c1d13f7e13fa3af # v1
         with:
           toolchain: ${{ needs.setup-matrix-env.outputs.RUST_DEV }}
           default: true
       - name: Retrieve Cached Dependencies
-        uses: actions/cache@v5
+        uses: actions/cache@668228422ae6a00e4ad889ee87cd7109ec5666a7 # v5
         id: mix-cache
         with:
           path: |
