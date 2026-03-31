@@ -38,6 +38,7 @@ defmodule Wanda.Messaging.Mapper do
     OperationCompleted,
     OperationErrorDetails,
     OperationRequested,
+    OperationRequestFailedDetails,
     OperationStarted,
     OperatorExecutionCompleted,
     OperatorExecutionRequested,
@@ -174,6 +175,28 @@ defmodule Wanda.Messaging.Mapper do
         %OperationErrorDetails{
           step: failed_step_name,
           target_errors: target_errors
+        }
+      }
+    }
+  end
+
+  @spec to_operation_completed_with_failed_request(
+          String.t(),
+          String.t(),
+          String.t(),
+          :arguments_missing | :targets_missing | :already_running | :unknown
+        ) ::
+          OperationCompleted.t()
+  def to_operation_completed_with_failed_request(operation_id, group_id, operation_type, error) do
+    %OperationCompleted{
+      operation_id: operation_id,
+      group_id: group_id,
+      operation_type: operation_type,
+      result: map_operation_result(:request_failed),
+      details: {
+        :request_failed_details,
+        %OperationRequestFailedDetails{
+          error: map_request_failed_error(error)
         }
       }
     }
@@ -322,7 +345,12 @@ defmodule Wanda.Messaging.Mapper do
   defp map_operation_result(:aborted), do: :ABORTED
   defp map_operation_result(:skipped), do: :NOT_UPDATED
   defp map_operation_result(:not_executed), do: :NOT_UPDATED
-  defp map_operation_result(:already_running), do: :ALREADY_RUNNING
+  defp map_operation_result(:request_failed), do: :REQUEST_FAILED
+
+  defp map_request_failed_error(:arguments_missing), do: :ARGUMENTS_MISSING
+  defp map_request_failed_error(:targets_missing), do: :TARGETS_MISSING
+  defp map_request_failed_error(:already_running), do: :ALREADY_RUNNING
+  defp map_request_failed_error(_), do: :UNKNOWN
 
   defp map_value(map) when is_map(map) do
     Enum.into(map, %{}, fn {key, value} -> {key, map_value(value)} end)

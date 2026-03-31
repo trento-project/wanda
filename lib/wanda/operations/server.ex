@@ -39,10 +39,8 @@ defmodule Wanda.Operations.Server do
   @impl true
   def start_operation(operation_id, group_id, operation, targets, config \\ [])
 
-  def start_operation(_, _, _, [], _), do: {:error, :targets_missing}
-
   def start_operation(operation_id, group_id, operation, targets, config) do
-    %Operation{required_args: required_args} = operation
+    %Operation{id: catalog_operation_id, required_args: required_args} = operation
 
     # Check if all targets have the required arguments
     all_arguments_present =
@@ -50,14 +48,33 @@ defmodule Wanda.Operations.Server do
         required_args -- Map.keys(arguments) == []
       end)
 
-    maybe_start_operation(
-      all_arguments_present,
-      operation_id,
-      group_id,
-      operation,
-      targets,
-      config
-    )
+    result =
+      maybe_start_operation(
+        all_arguments_present,
+        operation_id,
+        group_id,
+        operation,
+        targets,
+        config
+      )
+
+    case result do
+      {:error, error} ->
+        operation_request_failed =
+          Messaging.Mapper.to_operation_completed_with_failed_request(
+            operation_id,
+            group_id,
+            catalog_operation_id,
+            error
+          )
+
+        :ok = Messaging.publish(Publisher, "results", operation_request_failed)
+
+      :ok ->
+        :ok
+    end
+
+    result
   end
 
   @impl true
@@ -359,6 +376,8 @@ defmodule Wanda.Operations.Server do
   def terminate(_, state), do: state
 
   defp maybe_start_operation(false, _, _, _, _, _), do: {:error, :arguments_missing}
+
+  defp maybe_start_operation(true, _, _, _, [], _), do: {:error, :targets_missing}
 
   defp maybe_start_operation(true, operation_id, group_id, operation, targets, config) do
     case DynamicSupervisor.start_child(

@@ -30,6 +30,7 @@ defmodule Wanda.Messaging.MapperTest do
     OperationCompleted,
     OperationErrorDetails,
     OperationRequested,
+    OperationRequestFailedDetails,
     OperationStarted,
     OperationTarget,
     OperatorDiff,
@@ -437,7 +438,6 @@ defmodule Wanda.Messaging.MapperTest do
       %{result: :failed, mapped_result: :FAILED},
       %{result: :timeout, mapped_result: :FAILED},
       %{result: :aborted, mapped_result: :ABORTED},
-      %{result: :already_running, mapped_result: :ALREADY_RUNNING},
       %{result: :skipped, mapped_result: :NOT_UPDATED},
       %{result: :not_executed, mapped_result: :NOT_UPDATED}
     ]
@@ -483,6 +483,40 @@ defmodule Wanda.Messaging.MapperTest do
                failed_step,
                target_errors
              )
+  end
+
+  test "should map to OperationCompletedV1 event with a failed request" do
+    operation_id = UUID.uuid4()
+    group_id = UUID.uuid4()
+    operation_type = Faker.StarWars.character()
+
+    scenarios = [
+      %{error: :arguments_missing, mapped_error: :ARGUMENTS_MISSING},
+      %{error: :targets_missing, mapped_error: :TARGETS_MISSING},
+      %{error: :already_running, mapped_error: :ALREADY_RUNNING},
+      %{error: :other, mapped_error: :UNKNOWN}
+    ]
+
+    for %{error: error, mapped_error: mapped_error} <- scenarios do
+      assert %OperationCompleted{
+               operation_id: operation_id,
+               group_id: group_id,
+               operation_type: operation_type,
+               result: :REQUEST_FAILED,
+               details: {
+                 :request_failed_details,
+                 %OperationRequestFailedDetails{
+                   error: mapped_error
+                 }
+               }
+             } ==
+               Mapper.to_operation_completed_with_failed_request(
+                 operation_id,
+                 group_id,
+                 operation_type,
+                 error
+               )
+    end
   end
 
   test "should map to OperatorExecutionRequestedV1 event" do

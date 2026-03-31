@@ -11,6 +11,7 @@ defmodule Wanda.Operations.ServerTest do
   alias Trento.Operations.V1.{
     OperationCompleted,
     OperationErrorDetails,
+    OperationRequestFailedDetails,
     OperationStarted,
     OperatorExecutionRequested,
     OperatorExecutionRequestedTarget
@@ -34,6 +35,18 @@ defmodule Wanda.Operations.ServerTest do
   describe "operation execution" do
     test "should not start operation if targets are missing" do
       catalog_operation = build(:catalog_operation)
+
+      expect(Wanda.Messaging.Adapters.Mock, :publish, 1, fn
+        _,
+        "results",
+        %OperationCompleted{
+          result: :REQUEST_FAILED,
+          details:
+            {:request_failed_details, %OperationRequestFailedDetails{error: :TARGETS_MISSING}}
+        },
+        _ ->
+          :ok
+      end)
 
       assert {:error, :targets_missing} =
                Server.start_operation(
@@ -64,6 +77,18 @@ defmodule Wanda.Operations.ServerTest do
         ]
       ]
 
+      expect(Wanda.Messaging.Adapters.Mock, :publish, 4, fn
+        _,
+        "results",
+        %OperationCompleted{
+          result: :REQUEST_FAILED,
+          details:
+            {:request_failed_details, %OperationRequestFailedDetails{error: :ARGUMENTS_MISSING}}
+        },
+        _ ->
+          :ok
+      end)
+
       for targets <- test_targets do
         assert {:error, :arguments_missing} =
                  Server.start_operation(
@@ -79,10 +104,25 @@ defmodule Wanda.Operations.ServerTest do
     test "should not start operation if it is already running for that group_id" do
       group_id = UUID.uuid4()
 
-      expect(Wanda.Messaging.Adapters.Mock, :publish, 3, fn
-        _, "results", %OperationStarted{}, _ -> :ok
-        _, "agents", %OperatorExecutionRequested{}, _ -> :ok
-        _, "results", %OperationCompleted{result: :ABORTED}, _ -> :ok
+      expect(Wanda.Messaging.Adapters.Mock, :publish, 4, fn
+        _, "results", %OperationStarted{}, _ ->
+          :ok
+
+        _, "agents", %OperatorExecutionRequested{}, _ ->
+          :ok
+
+        _, "results", %OperationCompleted{result: :ABORTED}, _ ->
+          :ok
+
+        _,
+        "results",
+        %OperationCompleted{
+          result: :REQUEST_FAILED,
+          details:
+            {:request_failed_details, %OperationRequestFailedDetails{error: :ALREADY_RUNNING}}
+        },
+        _ ->
+          :ok
       end)
 
       Server.start_operation(
