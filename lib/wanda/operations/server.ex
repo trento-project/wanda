@@ -102,12 +102,24 @@ defmodule Wanda.Operations.Server do
   end
 
   @impl true
-  def init(%State{operation_id: operation_id} = state) do
+  def init(%State{operation_id: operation_id, targets: targets} = state) do
     Logger.debug("Starting operation: #{operation_id}", state: inspect(state))
 
     Process.flag(:trap_exit, true)
 
-    {:ok, state, {:continue, :start_operation}}
+    target_ids = Enum.map(targets, & &1.agent_id)
+
+    # lock targets usage in the init, so the process is self contained and all
+    # the locks are released once the operation itself is finished
+    case lock_targets(target_ids) do
+      :ok ->
+        {:ok, state, {:continue, :start_operation}}
+
+      {:error, :target_already_in_use} ->
+        Logger.error("Operation already in progress in some of the requested targets")
+
+        {:stop, :already_running}
+    end
   end
 
   @impl true
@@ -397,6 +409,42 @@ defmodule Wanda.Operations.Server do
 
       error ->
         error
+    end
+  end
+
+  # lock_targets tries to lock operation targets to avoid their usage in parallel.
+  # It uses the :global registry and it supports distributed erlang clusters deployment
+  defp lock_targets(target_ids) do
+    # List of all nodes in a distributed cluster
+    nodes = [node() | Node.list()]
+    # The requester_id is set to self as this is a new GenServer process.
+    # If this function was used outside of the short lived GenServer,
+    # self() might not be a good choice
+    requester_id = self()
+
+    locking_result =
+      target_ids
+      |> Enum.sort()
+      |> Enum.reduce_while([], fn target_id, locked_ids ->
+        # lock target in all nodes with 0 retries to simply try once
+        if :global.set_lock({{:target, target_id}, requester_id}, nodes, 0) do
+          {:cont, [target_id | locked_ids]}
+        else
+          {:halt, {:error, locked_ids}}
+        end
+      end)
+
+    case locking_result do
+      {:error, locked_ids} ->
+        # Some target is now in an operation process.
+        # Delete currently locked ids so they are free for other coming operations
+        # In any case, the locks are released once the parent process finishes
+        Enum.each(locked_ids, &:global.del_lock({{:target, &1}, requester_id}, nodes))
+
+        {:error, :target_already_in_use}
+
+      _locked_ids ->
+        :ok
     end
   end
 
