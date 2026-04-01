@@ -34,11 +34,11 @@ jobs:
       options: -u 0:0
     steps:
       - name: Cancel Previous Runs
-        uses: styfle/cancel-workflow-action@0.13.1
+        uses: styfle/cancel-workflow-action@d07a454dad7609a92316b57b23c9ccfd4f59af66 # 0.13.1
         with:
           access_token: ${{ github.token }}
       - name: Checkout
-        uses: actions/checkout@v6
+        uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6
         with:
           fetch-depth: 0
       - name: Configure git for in-container operations
@@ -49,10 +49,10 @@ jobs:
           VERSION=$(/scripts/get_version_from_git.sh)
           echo "version=$VERSION" >> $GITHUB_OUTPUT
       - name: Read .tool-versions
-        uses: endorama/asdf-parse-tool-versions@v1.4.0
+        uses: endorama/asdf-parse-tool-versions@d856570ea60164ceed32e71661d8ab2e9ea2069a # v1.4.0
         id: tool-versions
       - name: Setup rust
-        uses: actions-rs/toolchain@v1
+        uses: actions-rs/toolchain@16499b5e05bf2e26879000db0c1d13f7e13fa3af # v1
         with:
           toolchain: ${{ env.RUST_VERSION }}
       - name: Get mix deps
@@ -110,10 +110,10 @@ jobs:
       options: -u 0:0
     steps:
       - name: Cancel Previous Runs
-        uses: styfle/cancel-workflow-action@0.13.1
+        uses: styfle/cancel-workflow-action@d07a454dad7609a92316b57b23c9ccfd4f59af66 # 0.13.1
         with:
           access_token: ${{ github.token }}
-      - uses: actions/checkout@v6
+      - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6
         with:
           fetch-depth: 0
       - name: Configure git for in-container operations
@@ -124,10 +124,10 @@ jobs:
           VERSION=$(/scripts/get_version_from_git.sh)
           echo "version=$VERSION" >> $GITHUB_OUTPUT
       - name: Read .tool-versions
-        uses: endorama/asdf-parse-tool-versions@v1.4.0
+        uses: endorama/asdf-parse-tool-versions@d856570ea60164ceed32e71661d8ab2e9ea2069a # v1.4.0
         id: tool-versions
       - name: Setup rust
-        uses: actions-rs/toolchain@v1
+        uses: actions-rs/toolchain@16499b5e05bf2e26879000db0c1d13f7e13fa3af # v1
         with:
           toolchain: ${{ env.RUST_VERSION }}
       - name: Get mix deps
