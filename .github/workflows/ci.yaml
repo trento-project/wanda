@@ -342,12 +342,13 @@ jobs:
           name: openapi-diff-report-${{ matrix.version }}
           path: specs/
 
-  build-containers:
-    name: Build containers
+  publish-containers:
+    name: Publish GHCR Containers
     needs:
       - static-code-analysis
       - test
-    if: (github.event_name == 'push' && github.ref_name == 'main') || github.event_name == 'workflow_dispatch'
+    if: >-
+      github.event_name == 'push' || github.event_name == 'workflow_dispatch'
     strategy:
       matrix:
         include:
@@ -355,7 +356,7 @@ jobs:
             tag: "${{ (github.event_name == 'push' && github.ref_name == 'main' && 'rolling') || github.sha }}"
           - mix_env: demo
             tag: demo
-    uses: trento-project/.github/.github/workflows/publish-containers.yaml@98e2a3d821253d603d16fd53fb10bcf85f64b395
+    uses: trento-project/.github/.github/workflows/publish-containers.yaml@145e0db1f8ffe3b28218ad91ae871936f640f439 # v1.4.3
     with:
       image_name: trento-wanda
       tag: ${{ matrix.tag }}
@@ -369,7 +370,7 @@ jobs:
     runs-on: ubuntu-24.04
     if: vars.DEPLOY_DEMO == 'true'
     needs:
-      - build-containers
+      - publish-containers
     steps:
       - name: Remotely trigger trento-web demo deployment
         uses: peter-evans/repository-dispatch@ff45666b9427631e3450c54a1bcbee4d9ff4d7c0 # v3
