@@ -88,6 +88,7 @@ WandaWeb.ErrorJSON.html
 WandaWeb.FallbackController.html
 WandaWeb.HealthController.html
 WandaWeb.HealthJSON.html
+WandaWeb.InfoController.html
 WandaWeb.Plugs.ApiRedirector.html
 WandaWeb.Plugs.SwaggerUIRuntime.html
 WandaWeb.Router.html
@@ -110,6 +111,7 @@ WandaWeb.Schemas.V1.Execution.ListExecutionsResponse.html
 WandaWeb.Schemas.V1.Execution.StartExecutionRequest.html
 WandaWeb.Schemas.V1.Forbidden.html
 WandaWeb.Schemas.V1.Health.html
+WandaWeb.Schemas.V1.Info.html
 WandaWeb.Schemas.V1.NotFound.html
 WandaWeb.Schemas.V1.Operation.ListOperationsResponse.html
 WandaWeb.Schemas.V1.Operation.OperationResponse.html
@@ -148,7 +150,7 @@ dist/lato-latin-700-normal-2XVSBPG4.woff2
 dist/lato-latin-ext-400-normal-N27NCBWW.woff2
 dist/lato-latin-ext-700-normal-Q2L5DVMW.woff2
 dist/remixicon-QPNJX265.woff2
-dist/search_data-7BE846C7.js
-dist/sidebar_items-3CEB22CE.js
+dist/search_data-2270C5E9.js
+dist/sidebar_items-DDC31139.js
 index.html
 search.html

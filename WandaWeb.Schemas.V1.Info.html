@@ -8,7 +8,7 @@
     <meta name="project" content="Wanda v2.0.0">
 
 
-    <title>Wanda.Executions.Gathering — Wanda v2.0.0</title>
+    <title>WandaWeb.Schemas.V1.Info — Wanda v2.0.0</title>
 
     <link rel="stylesheet" href="dist/html-elixir-J3PIVQVA.css" />
 
@@ -79,12 +79,12 @@ Wanda
 <div id="top-content">
   <div class="heading-with-actions top-heading">
     <h1>
-      <span translate="no">Wanda.Executions.Gathering</span> 
+      <span translate="no">WandaWeb.Schemas.V1.Info</span> 
       <small class="app-vsn" translate="no">(Wanda v2.0.0)</small>
 
     </h1>
 
-      <a href="https://github.com/trento-project/wanda/blob/main/lib/wanda/executions/gathering.ex#L1" title="View Source" class="icon-action" rel="help">
+      <a href="https://github.com/trento-project/wanda/blob/main/lib/wanda_web/schemas/v1/info.ex#L1" title="View Source" class="icon-action" rel="help">
         <i class="ri-code-s-slash-line" aria-hidden="true"></i>
         <span class="sr-only">View Source</span>
       </a>
@@ -93,7 +93,7 @@ Wanda
 
 
     <section id="moduledoc">
-<p>Facts gathering functional core.</p>
+<p>Info response schema.</p>
     </section>
 
 </div>
@@ -112,41 +112,19 @@ Wanda
 
     <div class="summary-row">
       <div class="summary-signature">
-        <a href="#all_agents_sent_facts?/2" data-no-tooltip="" translate="no">all_agents_sent_facts?(agents_gathered, targets)</a>
+        <a href="#response/0" data-no-tooltip="" translate="no">response()</a>
 
       </div>
-
-        <div class="summary-synopsis"><p>Check if all the agents have sent the facts</p></div>
 
     </div>
 
     <div class="summary-row">
       <div class="summary-signature">
-        <a href="#put_gathered_facts/3" data-no-tooltip="" translate="no">put_gathered_facts(gathered_facts, agent_id, facts)</a>
+        <a href="#schema/0" data-no-tooltip="" translate="no">schema()</a>
 
       </div>
 
-        <div class="summary-synopsis"><p>Adds gathered facts of an agent.</p></div>
-
-    </div>
-
-    <div class="summary-row">
-      <div class="summary-signature">
-        <a href="#put_gathering_timeouts/2" data-no-tooltip="" translate="no">put_gathering_timeouts(gathered_facts, timed_out_agents)</a>
-
-      </div>
-
-        <div class="summary-synopsis"><p>Adds timeout data to gathered facts.</p></div>
-
-    </div>
-
-    <div class="summary-row">
-      <div class="summary-signature">
-        <a href="#target?/2" data-no-tooltip="" translate="no">target?(targets, agent_id)</a>
-
-      </div>
-
-        <div class="summary-synopsis"><p>Check if an agent is a target of an execution</p></div>
+        <div class="summary-synopsis"><p>Callback implementation for <a><code class="inline">OpenApiSpex.Schema.schema/0</code></a>.</p></div>
 
     </div>
 
@@ -163,17 +141,17 @@ Wanda
       <span class="text">Functions</span>
     </h1>
     <div class="functions-list">
-<section class="detail" id="all_agents_sent_facts?/2">
+<section class="detail" id="response/0">
 
   <div class="detail-header">
-    <a href="#all_agents_sent_facts?/2" class="detail-link" data-no-tooltip="" aria-label="Link to this function">
+    <a href="#response/0" class="detail-link" data-no-tooltip="" aria-label="Link to this function">
       <i class="ri-link-m" aria-hidden="true"></i>
     </a>
     <div class="heading-with-actions">
-      <h1 class="signature" translate="no">all_agents_sent_facts?(agents_gathered, targets)</h1>
+      <h1 class="signature" translate="no">response()</h1>
 
 
-        <a href="https://github.com/trento-project/wanda/blob/main/lib/wanda/executions/gathering.ex#L46" class="icon-action" rel="help" aria-label="View Source">
+        <a href="https://github.com/trento-project/wanda/blob/main/lib/wanda_web/schemas/v1/info.ex#L39" class="icon-action" rel="help" aria-label="View Source">
           <i class="ri-code-s-slash-line" aria-hidden="true"></i>
         </a>
 
@@ -182,26 +160,20 @@ Wanda
 
   <section class="docstring">
 
-      <div class="specs">
 
-          <pre translate="no"><span class="attribute">@spec</span> all_agents_sent_facts?([<a href="https://hexdocs.pm/elixir/String.html#t:t/0">String.t</a>()], [<a href="Wanda.Executions.Target.html#t:t/0">Wanda.Executions.Target.t</a>()]) :: <a href="https://hexdocs.pm/elixir/typespecs.html#built-in-types">boolean</a>()</pre>
-
-      </div>
-
-<p>Check if all the agents have sent the facts</p>
   </section>
 </section>
-<section class="detail" id="put_gathered_facts/3">
+<section class="detail" id="schema/0">
 
   <div class="detail-header">
-    <a href="#put_gathered_facts/3" class="detail-link" data-no-tooltip="" aria-label="Link to this function">
+    <a href="#schema/0" class="detail-link" data-no-tooltip="" aria-label="Link to this function">
       <i class="ri-link-m" aria-hidden="true"></i>
     </a>
     <div class="heading-with-actions">
-      <h1 class="signature" translate="no">put_gathered_facts(gathered_facts, agent_id, facts)</h1>
+      <h1 class="signature" translate="no">schema()</h1>
 
 
-        <a href="https://github.com/trento-project/wanda/blob/main/lib/wanda/executions/gathering.ex#L12" class="icon-action" rel="help" aria-label="View Source">
+        <a href="https://github.com/trento-project/wanda/blob/main/lib/wanda_web/schemas/v1/info.ex#L11" class="icon-action" rel="help" aria-label="View Source">
           <i class="ri-code-s-slash-line" aria-hidden="true"></i>
         </a>
 
@@ -210,72 +182,7 @@ Wanda
 
   <section class="docstring">
 
-      <div class="specs">
-
-          <pre translate="no"><span class="attribute">@spec</span> put_gathered_facts(<a href="https://hexdocs.pm/elixir/typespecs.html#basic-types">map</a>(), <a href="https://hexdocs.pm/elixir/String.html#t:t/0">String.t</a>(), [
-  <a href="Wanda.Executions.Fact.html#t:t/0">Wanda.Executions.Fact.t</a>() | <a href="Wanda.Executions.FactError.html#t:t/0">Wanda.Executions.FactError.t</a>()
-]) ::
-  <a href="https://hexdocs.pm/elixir/typespecs.html#basic-types">map</a>()</pre>
-
-      </div>
-
-<p>Adds gathered facts of an agent.</p>
-  </section>
-</section>
-<section class="detail" id="put_gathering_timeouts/2">
-
-  <div class="detail-header">
-    <a href="#put_gathering_timeouts/2" class="detail-link" data-no-tooltip="" aria-label="Link to this function">
-      <i class="ri-link-m" aria-hidden="true"></i>
-    </a>
-    <div class="heading-with-actions">
-      <h1 class="signature" translate="no">put_gathering_timeouts(gathered_facts, timed_out_agents)</h1>
-
-
-        <a href="https://github.com/trento-project/wanda/blob/main/lib/wanda/executions/gathering.ex#L26" class="icon-action" rel="help" aria-label="View Source">
-          <i class="ri-code-s-slash-line" aria-hidden="true"></i>
-        </a>
-
-    </div>
-  </div>
-
-  <section class="docstring">
-
-      <div class="specs">
-
-          <pre translate="no"><span class="attribute">@spec</span> put_gathering_timeouts(<a href="https://hexdocs.pm/elixir/typespecs.html#basic-types">map</a>(), [<a href="Wanda.Executions.Target.html#t:t/0">Wanda.Executions.Target.t</a>()]) :: <a href="https://hexdocs.pm/elixir/typespecs.html#basic-types">map</a>()</pre>
-
-      </div>
-
-<p>Adds timeout data to gathered facts.</p>
-  </section>
-</section>
-<section class="detail" id="target?/2">
-
-  <div class="detail-header">
-    <a href="#target?/2" class="detail-link" data-no-tooltip="" aria-label="Link to this function">
-      <i class="ri-link-m" aria-hidden="true"></i>
-    </a>
-    <div class="heading-with-actions">
-      <h1 class="signature" translate="no">target?(targets, agent_id)</h1>
-
-
-        <a href="https://github.com/trento-project/wanda/blob/main/lib/wanda/executions/gathering.ex#L39" class="icon-action" rel="help" aria-label="View Source">
-          <i class="ri-code-s-slash-line" aria-hidden="true"></i>
-        </a>
-
-    </div>
-  </div>
-
-  <section class="docstring">
-
-      <div class="specs">
-
-          <pre translate="no"><span class="attribute">@spec</span> target?([<a href="Wanda.Executions.Target.html#t:t/0">Wanda.Executions.Target.t</a>()], <a href="https://hexdocs.pm/elixir/String.html#t:t/0">String.t</a>()) :: <a href="https://hexdocs.pm/elixir/typespecs.html#built-in-types">boolean</a>()</pre>
-
-      </div>
-
-<p>Check if an agent is a target of an execution</p>
+<p>Callback implementation for <a href="https://hexdocs.pm/open_api_spex/3.21.2/OpenApiSpex.Schema.html#c:schema/0"><code class="inline">OpenApiSpex.Schema.schema/0</code></a>.</p>
   </section>
 </section>
 
