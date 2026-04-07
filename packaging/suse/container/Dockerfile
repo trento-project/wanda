@@ -7,23 +7,7 @@
 #!UseOBSRepositories
 #!ExclusiveArch: x86_64
 
-ARG OS_VER=15.7
-FROM registry.suse.com/bci/rust:1.92 AS release
-ADD wanda.tar.gz /build/
-RUN zypper -n in git-core elixir==1.15 elixir-hex erlang==26 erlang-rebar3
-WORKDIR /build/wanda/
-ENV LANG=en_US.UTF-8
-ENV LANGUAGE=en_US:en
-ENV LC_ALL=en_US.UTF-8
-ENV MIX_ENV=prod
-ENV MIX_HOME=/usr/bin
-ENV MIX_REBAR3=/usr/bin/rebar3
-ENV MIX_PATH=/usr/lib/elixir/lib/hex/ebin
-ENV VERSION=%%VERSION%%
-RUN mix phx.digest
-RUN mix release
-
-FROM registry.suse.com/bci/bci-base:${OS_VER}
+FROM registry.suse.com/bci/bci-base:15.7
 ENV LANG=en_US.UTF-8
 ENV LANGUAGE=en_US:en
 ENV LC_ALL=en_US.UTF-8
@@ -51,10 +35,23 @@ LABEL org.opencontainers.image.base.name="%BASE_REFNAME%"
 LABEL org.opencontainers.image.base.digest="%BASE_DIGEST%"
 LABEL io.artifacthub.package.logo-url="https://www.trento-project.io/images/trento-icon.svg"
 LABEL io.artifacthub.package.readme-url="%SOURCEURL_WITH(README.md)%"
-# Erlang runtime dependencies
-RUN zypper -n in libsystemd0 libopenssl3
-WORKDIR /app
-COPY --from=release /build/wanda/_build/prod/rel/wanda .
+
+RUN set -euo pipefail; \
+    zypper -n install --no-recommends trento-wanda
+
+# cleanup logs and temporary files
+RUN set -euo pipefail; zypper -n clean -a; \
+    rm -rf {/target,}/var/log/{alternatives.log,lastlog,tallylog,zypper.log,zypp/history,YaST2}; \
+    rm -rf {/target,}/run/*; \
+    rm -f {/target,}/etc/{shadow-,group-,passwd-,.pwd.lock}; \
+    rm -f {/target,}/usr/lib/sysimage/rpm/.rpm.lock; \
+    rm -f {/target,}/var/lib/zypp/AnonymousUniqueId; \
+    rm -f {/target,}/var/lib/zypp/AutoInstalled; \
+    rm -f {/target,}/var/cache/ldconfig/aux-cache
+
+# set the day of last password change to empty
+RUN set -euo pipefail; sed -i 's/^\([^:]*:[^:]*:\)[^:]*\(:.*\)$/\1\2/' /etc/shadow
+
 VOLUME /usr/share/trento/checks
 EXPOSE 4000/tcp
-ENTRYPOINT ["/app/bin/wanda"]
+ENTRYPOINT ["/usr/lib/wanda/bin/wanda"]
