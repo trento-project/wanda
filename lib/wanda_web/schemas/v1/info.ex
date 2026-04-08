@@ -16,7 +16,8 @@ defmodule WandaWeb.Schemas.V1.Info do
       type: :object,
       example: %{
         name: "wanda",
-        version: "2.0.0"
+        version: "2.0.0",
+        checks_version: "1.0.0"
       },
       additionalProperties: false,
       properties: %{
@@ -29,9 +30,15 @@ defmodule WandaWeb.Schemas.V1.Info do
           description: "The version of the running Wanda application.",
           type: :string,
           example: "2.0.0"
+        },
+        checks_version: %Schema{
+          description: "The version of the mounted checks catalog.",
+          type: :string,
+          example: "1.0.0",
+          nullable: true
         }
       },
-      required: [:name, :version]
+      required: [:name, :version, :checks_version]
     },
     struct?: false
   )

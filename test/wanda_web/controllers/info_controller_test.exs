@@ -23,7 +23,8 @@ defmodule WandaWeb.InfoControllerTest do
 
       assert %{
                "name" => "wanda",
-               "version" => _
+               "version" => _,
+               "checks_version" => "1.0.0"
              } = response
 
       assert_schema(response, "InfoV1", api_spec)
