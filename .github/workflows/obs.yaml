@@ -49,7 +49,7 @@ jobs:
           VERSION=$(/scripts/get_version_from_git.sh)
           echo "version=$VERSION" >> $GITHUB_OUTPUT
       - name: Read .tool-versions
-        uses: endorama/asdf-parse-tool-versions@d856570ea60164ceed32e71661d8ab2e9ea2069a # v1.4.0
+        uses: endorama/asdf-parse-tool-versions@23a7edd74b0f97626c857c48e32ebbe4ba596a23 # v1.5.1
         id: tool-versions
       - name: Setup rust
         uses: actions-rs/toolchain@16499b5e05bf2e26879000db0c1d13f7e13fa3af # v1
@@ -124,7 +124,7 @@ jobs:
           VERSION=$(/scripts/get_version_from_git.sh)
           echo "version=$VERSION" >> $GITHUB_OUTPUT
       - name: Read .tool-versions
-        uses: endorama/asdf-parse-tool-versions@d856570ea60164ceed32e71661d8ab2e9ea2069a # v1.4.0
+        uses: endorama/asdf-parse-tool-versions@23a7edd74b0f97626c857c48e32ebbe4ba596a23 # v1.5.1
         id: tool-versions
       - name: Setup rust
         uses: actions-rs/toolchain@16499b5e05bf2e26879000db0c1d13f7e13fa3af # v1
