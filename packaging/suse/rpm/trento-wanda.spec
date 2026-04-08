@@ -23,6 +23,7 @@ License:        Apache-2.0
 URL:            https://github.com/trento-project/wanda
 Source:         %{name}-%{version}.tar.gz
 Source1:        deps.tar.gz
+Source2:        vendor-rhai_rustler.tar.gz
 Group:          System/Monitoring
 BuildRequires:  elixir >= 1.15
 BuildRequires:  elixir-hex
@@ -41,7 +42,12 @@ Trento is an open cloud-native web application for SAP Applications administrato
 Within Trento, Wanda is the service responsible to orchestrate Checks executions on the monitored nodes.
 
 %prep
-%autosetup -a1
+%autosetup
+%setup -q -D -T -a 1
+%setup -q -D -T -a 2
+# Delete old config since it shadows the newly created one
+# config.toml, -f for future-proofing.
+rm -f deps/rhai_rustler/native/rhai_rustler/.cargo/config
 
 %build
 export LANG=en_US.UTF-8
