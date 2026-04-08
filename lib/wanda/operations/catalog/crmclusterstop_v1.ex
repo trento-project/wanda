@@ -4,15 +4,15 @@ defmodule Wanda.Operations.Catalog.CrmClusterStopV1 do
   use Wanda.Operations.Catalog.Operation,
     operation: %Wanda.Operations.Catalog.Operation{
       id: "crmclusterstop@v1",
-      name: "Stop HA cluster on the node",
+      name: "Set node offline in cluster",
       description: """
-      This operation stops the High Availability (HA) cluster on a specified node.
+      This operation sets a node offline in the cluster.
       It is typically used to bring a node down from the cluster or to stop the cluster services on a node.
       """,
       required_args: [],
       steps: [
         %Wanda.Operations.Catalog.Step{
-          name: "Stop HA cluster on the node",
+          name: "Set node offline in cluster",
           operator: "crmclusterstop@v1",
           predicate: "*"
         }
