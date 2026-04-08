@@ -21,6 +21,7 @@ defmodule Wanda.CatalogTest do
     Enum.flat_map(configured_paths, fn path ->
       path
       |> File.ls!()
+      |> Enum.filter(&String.ends_with?(&1, ".yaml"))
       |> Enum.sort()
     end)
   end

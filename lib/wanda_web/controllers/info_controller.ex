@@ -18,12 +18,25 @@ defmodule WandaWeb.InfoController do
 
   def info(conn, _) do
     version = to_string(Application.spec(:wanda, :vsn))
+    checks_version = read_checks_version()
 
     conn
     |> put_status(200)
     |> json(%{
       name: "wanda",
-      version: version
+      version: version,
+      checks_version: checks_version
     })
+  end
+
+  defp read_checks_version do
+    catalog_paths = Application.fetch_env!(:wanda, Wanda.Catalog)[:catalog_paths]
+    checks_path = List.first(catalog_paths)
+    version_file = Path.join(checks_path, "VERSION")
+
+    case File.read(version_file) do
+      {:ok, content} -> String.trim(content)
+      {:error, _} -> nil
+    end
   end
 end
