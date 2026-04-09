@@ -6,7 +6,8 @@ updates:
       interval: "weekly"
     cooldown:
       default-days: 14
-      exclude: "trento-project/.github*"
+      exclude: 
+        - "trento-project/.github*"
   - package-ecosystem: "mix"
     directory: "/"
     schedule:
