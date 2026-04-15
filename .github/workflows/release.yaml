@@ -58,7 +58,7 @@ jobs:
             name: stable
           - obs_project: ${{ vars.OBS_PROJECT_ROLLING }}
             name: rolling
-    uses: trento-project/.github/.github/workflows/obs-sync.yaml@26f5627e586f437be10eb1b00f87426e39940ce8 # v1.5.0
+    uses: trento-project/.github/.github/workflows/obs-sync.yaml@406be0972195864a87ed454458eaa0856d0c5457 # v1.6.0
     with:
       update_changelog: true
       obs_project: ${{ matrix.obs_project }}
