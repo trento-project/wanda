@@ -35,7 +35,7 @@ jobs:
           - mix_env: demo
             tag: demo
             branch: main
-    uses: trento-project/.github/.github/workflows/publish-containers.yaml@26f5627e586f437be10eb1b00f87426e39940ce8 # v1.5.0
+    uses: trento-project/.github/.github/workflows/publish-containers.yaml@406be0972195864a87ed454458eaa0856d0c5457 # v1.6.0
     with:
       branch: ${{ matrix.branch }}
       image_name: trento-wanda
