@@ -147,6 +147,164 @@ defmodule Wanda.Operations.ServerTest do
       GenServer.stop(pid)
     end
 
+    test "should not start operation if a target is already running in other operation" do
+      group_id = UUID.uuid4()
+      operation_id_1 = UUID.uuid4()
+      operation_id_2 = UUID.uuid4()
+      [first_target | _] = targets = build_list(2, :operation_target)
+
+      new_targest = [
+        build(:operation_target),
+        first_target
+      ]
+
+      expect(Wanda.Messaging.Adapters.Mock, :publish, 4, fn
+        _, "results", %OperationStarted{operation_id: ^operation_id_1}, _ ->
+          :ok
+
+        _, "agents", %OperatorExecutionRequested{operation_id: ^operation_id_1}, _ ->
+          :ok
+
+        _, "results", %OperationCompleted{operation_id: ^operation_id_1, result: :ABORTED}, _ ->
+          :ok
+
+        _,
+        "results",
+        %OperationCompleted{
+          operation_id: ^operation_id_2,
+          result: :REQUEST_FAILED,
+          details:
+            {:request_failed_details, %OperationRequestFailedDetails{error: :ALREADY_RUNNING}}
+        },
+        _ ->
+          :ok
+      end)
+
+      assert :ok =
+               Server.start_operation(
+                 operation_id_1,
+                 group_id,
+                 build(:catalog_operation, id: @existing_catalog_operation_id),
+                 targets,
+                 []
+               )
+
+      assert {:error, :already_running} =
+               Server.start_operation(
+                 operation_id_2,
+                 UUID.uuid4(),
+                 build(:catalog_operation),
+                 new_targest,
+                 []
+               )
+
+      pid = :global.whereis_name({Server, group_id})
+      GenServer.stop(pid)
+    end
+
+    test "should start 2 operations in parallel if group_id and targets are different" do
+      group_id_1 = UUID.uuid4()
+      group_id_2 = UUID.uuid4()
+      operation_id_1 = UUID.uuid4()
+      operation_id_2 = UUID.uuid4()
+
+      expect(Wanda.Messaging.Adapters.Mock, :publish, 6, fn
+        _, "results", %OperationStarted{operation_id: ^operation_id_1}, _ ->
+          :ok
+
+        _, "agents", %OperatorExecutionRequested{operation_id: ^operation_id_1}, _ ->
+          :ok
+
+        _, "results", %OperationCompleted{operation_id: ^operation_id_1, result: :ABORTED}, _ ->
+          :ok
+
+        _, "results", %OperationStarted{operation_id: ^operation_id_2}, _ ->
+          :ok
+
+        _, "agents", %OperatorExecutionRequested{operation_id: ^operation_id_2}, _ ->
+          :ok
+
+        _, "results", %OperationCompleted{operation_id: ^operation_id_2, result: :ABORTED}, _ ->
+          :ok
+      end)
+
+      assert :ok =
+               Server.start_operation(
+                 operation_id_1,
+                 group_id_1,
+                 build(:catalog_operation, id: @existing_catalog_operation_id),
+                 build_list(2, :operation_target),
+                 []
+               )
+
+      assert :ok =
+               Server.start_operation(
+                 operation_id_2,
+                 group_id_2,
+                 build(:catalog_operation, id: @existing_catalog_operation_id),
+                 build_list(2, :operation_target),
+                 []
+               )
+
+      pid_1 = :global.whereis_name({Server, group_id_1})
+      pid_2 = :global.whereis_name({Server, group_id_2})
+
+      GenServer.stop(pid_1)
+      GenServer.stop(pid_2)
+    end
+
+    test "should start operation after unlocking targets after previous operation is done" do
+      group_id_1 = UUID.uuid4()
+      group_id_2 = UUID.uuid4()
+      operation_id_1 = UUID.uuid4()
+      operation_id_2 = UUID.uuid4()
+      targets = build_list(2, :operation_target)
+
+      expect(Wanda.Messaging.Adapters.Mock, :publish, 6, fn
+        _, "results", %OperationStarted{operation_id: ^operation_id_1}, _ ->
+          :ok
+
+        _, "agents", %OperatorExecutionRequested{operation_id: ^operation_id_1}, _ ->
+          :ok
+
+        _, "results", %OperationCompleted{operation_id: ^operation_id_1, result: :ABORTED}, _ ->
+          :ok
+
+        _, "results", %OperationStarted{operation_id: ^operation_id_2}, _ ->
+          :ok
+
+        _, "agents", %OperatorExecutionRequested{operation_id: ^operation_id_2}, _ ->
+          :ok
+
+        _, "results", %OperationCompleted{operation_id: ^operation_id_2, result: :ABORTED}, _ ->
+          :ok
+      end)
+
+      assert :ok =
+               Server.start_operation(
+                 operation_id_1,
+                 group_id_1,
+                 build(:catalog_operation, id: @existing_catalog_operation_id),
+                 targets,
+                 []
+               )
+
+      pid_1 = :global.whereis_name({Server, group_id_1})
+      GenServer.stop(pid_1)
+
+      assert :ok =
+               Server.start_operation(
+                 operation_id_2,
+                 group_id_2,
+                 build(:catalog_operation, id: @existing_catalog_operation_id),
+                 targets,
+                 []
+               )
+
+      pid_2 = :global.whereis_name({Server, group_id_2})
+      GenServer.stop(pid_2)
+    end
+
     test "should stop execution if last step failed" do
       operation_id = UUID.uuid4()
       group_id = UUID.uuid4()
