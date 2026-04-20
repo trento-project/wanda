@@ -20,7 +20,8 @@ defmodule Wanda.Operations.Catalog.Registry do
     SapSystemStartV1,
     SapSystemStopV1,
     SaptuneApplySolutionV1,
-    SaptuneChangeSolutionV1
+    SaptuneChangeSolutionV1,
+    UnregisterHANASecondaryV1
   }
 
   @registry %{
@@ -38,7 +39,8 @@ defmodule Wanda.Operations.Catalog.Registry do
     "sapsystemstart@v1" => SapSystemStartV1.operation(),
     "sapsystemstop@v1" => SapSystemStopV1.operation(),
     "saptuneapplysolution@v1" => SaptuneApplySolutionV1.operation(),
-    "saptunechangesolution@v1" => SaptuneChangeSolutionV1.operation()
+    "saptunechangesolution@v1" => SaptuneChangeSolutionV1.operation(),
+    "unregisterhanasecondary@v1" => UnregisterHANASecondaryV1.operation()
   }
 
   @doc """
