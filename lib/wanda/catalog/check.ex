@@ -20,6 +20,7 @@ defmodule Wanda.Catalog.Check do
     :values,
     :expectations,
     :when,
+    :exclude,
     :customization_disabled
   ]
 
@@ -35,6 +36,7 @@ defmodule Wanda.Catalog.Check do
           facts: [Fact.t()],
           values: [Value.t()],
           expectations: [Expectation.t()],
-          when: String.t()
+          when: String.t(),
+          exclude: String.t() | nil
         }
 end

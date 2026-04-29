@@ -432,6 +432,10 @@ defmodule Wanda.Executions.Evaluation do
         _ -> false
       end)
 
+  defp aggregate_execution_result(%Result{check_results: []} = execution) do
+    %Result{execution | result: ResultEnum.passing()}
+  end
+
   defp aggregate_execution_result(%Result{check_results: check_results} = execution) do
     result =
       check_results

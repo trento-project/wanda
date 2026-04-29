@@ -4,7 +4,7 @@ defmodule Wanda.Executions.State do
   """
 
   alias Wanda.Catalog.SelectedCheck
-  alias Wanda.Executions.Target
+  alias Wanda.Executions.{ExcludedCheckResult, Target}
 
   defstruct [
     :engine,
@@ -15,7 +15,8 @@ defmodule Wanda.Executions.State do
     checks: [],
     env: %{},
     gathered_facts: %{},
-    agents_gathered: []
+    agents_gathered: [],
+    excluded_checks: []
   ]
 
   @type t :: %__MODULE__{
@@ -27,6 +28,7 @@ defmodule Wanda.Executions.State do
           checks: [SelectedCheck.t()],
           env: %{String.t() => boolean() | number() | String.t()},
           gathered_facts: map(),
-          agents_gathered: [String.t()]
+          agents_gathered: [String.t()],
+          excluded_checks: [ExcludedCheckResult.t()]
         }
 end

@@ -1,0 +1,16 @@
+id: exclude_check
+name: Exclude test check
+group: Test
+description: |
+  A check with an exclude predicate
+remediation: |
+  ## Remediation
+  Remediation text
+exclude: host["provider"] == "aws"
+facts:
+  - name: jedi
+    gatherer: wandalorian
+    argument: -o
+expectations:
+  - name: some_expectation
+    expect: facts.jedi == true
