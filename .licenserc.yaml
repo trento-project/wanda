@@ -1,0 +1,28 @@
+# SPDX-FileCopyrightText: SUSE LLC
+# SPDX-License-Identifier: Apache-2.0
+
+header:
+  comment: on-failure
+  license:
+    spdx-id: Apache-2.0
+    copyright-owner: SUSE LLC
+    software-name: trento-wanda
+    content: |
+      SPDX-FileCopyrightText: SUSE LLC
+      SPDX-License-Identifier: Apache-2.0
+  paths-ignore:
+    - "**/*.adoc"
+    - "**/*.eslintrc"
+    - "**/*.example"
+    - "**/*.json"
+    - "**/*.md"
+    - "**/*.pem"
+    - "**/*.service"
+    - "**/*.svg"
+    - "**/*.txt"
+    - ".github/CODEOWNERS"
+    - ".github/dependabot.yaml"
+    - ".tool-versions"
+    - "LICENSE"
+    - "VERSION"
+    - "mix.lock"
