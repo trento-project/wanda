@@ -12,14 +12,12 @@ header:
       SPDX-License-Identifier: Apache-2.0
   paths-ignore:
     - "**/*.adoc"
-    - "**/*.eslintrc"
     - "**/*.example"
     - "**/*.json"
     - "**/*.md"
     - "**/*.pem"
     - "**/*.service"
     - "**/*.svg"
-    - "**/*.txt"
     - ".github/CODEOWNERS"
     - ".github/dependabot.yaml"
     - ".tool-versions"
