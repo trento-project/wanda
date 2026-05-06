@@ -1,3 +1,6 @@
+# SPDX-FileCopyrightText: SUSE LLC
+# SPDX-License-Identifier: Apache-2.0
+
 defmodule Wanda.Support.Ecto.Json do
   @moduledoc """
   Ecto Type that represents JSON data.

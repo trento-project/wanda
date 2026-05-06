@@ -1,3 +1,6 @@
+# SPDX-FileCopyrightText: SUSE LLC
+# SPDX-License-Identifier: Apache-2.0
+
 defmodule Wanda.Catalog.SelectedCheck do
   @moduledoc """
   Represents a selected check used during a check execution.

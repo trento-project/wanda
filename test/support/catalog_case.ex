@@ -1,3 +1,6 @@
+# SPDX-FileCopyrightText: SUSE LLC
+# SPDX-License-Identifier: Apache-2.0
+
 defmodule Wanda.Support.CatalogCase do
   @moduledoc """
   Base case for testing the checks catalog only against fixtures in the `test/fixtures/catalog` directory.

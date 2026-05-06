@@ -1,3 +1,6 @@
+# SPDX-FileCopyrightText: SUSE LLC
+# SPDX-License-Identifier: Apache-2.0
+
 defmodule Wanda.Catalog.CheckCustomization do
   @moduledoc """
   Schema representing Customizations applied for a Check in a specific execution group.

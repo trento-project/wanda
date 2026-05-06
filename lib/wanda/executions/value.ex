@@ -1,3 +1,6 @@
+# SPDX-FileCopyrightText: SUSE LLC
+# SPDX-License-Identifier: Apache-2.0
+
 defmodule Wanda.Executions.Value do
   @moduledoc """
   Represents a Value used in expectation evaluation.

@@ -1,3 +1,6 @@
+# SPDX-FileCopyrightText: SUSE LLC
+# SPDX-License-Identifier: Apache-2.0
+
 defmodule WandaWeb.Schemas.V1.AcceptedExecutionResponse do
   @moduledoc """
   Minimal information about an Execution accepted by the system,

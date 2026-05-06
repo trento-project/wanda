@@ -1,3 +1,6 @@
+# SPDX-FileCopyrightText: SUSE LLC
+# SPDX-License-Identifier: Apache-2.0
+
 defmodule Wanda.Executions do
   @moduledoc """
   This module exposes functionalities to interact with the historycal log of executions.

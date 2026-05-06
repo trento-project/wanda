@@ -1,3 +1,6 @@
+# SPDX-FileCopyrightText: SUSE LLC
+# SPDX-License-Identifier: Apache-2.0
+
 defmodule Wanda.Operations.Catalog.Operation do
   @moduledoc """
   An operation is a set of actions executed step by step in agents to apply

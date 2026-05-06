@@ -1,3 +1,6 @@
+# SPDX-FileCopyrightText: SUSE LLC
+# SPDX-License-Identifier: Apache-2.0
+
 defmodule Wanda.Messaging.Mapper do
   @moduledoc """
   Maps domain structures to integration events.

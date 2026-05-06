@@ -1,3 +1,6 @@
+# SPDX-FileCopyrightText: SUSE LLC
+# SPDX-License-Identifier: Apache-2.0
+
 defmodule WandaWeb.Auth.Client.AuthClient do
   @moduledoc """
   Client for interacting with the authentication server.

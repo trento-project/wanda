@@ -1,3 +1,6 @@
+# SPDX-FileCopyrightText: SUSE LLC
+# SPDX-License-Identifier: Apache-2.0
+
 defmodule WandaWeb.Auth.AuthPlug do
   @moduledoc """
     Plug responsible for reading the Token from the authorization header and

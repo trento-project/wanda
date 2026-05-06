@@ -1,3 +1,6 @@
+# SPDX-FileCopyrightText: SUSE LLC
+# SPDX-License-Identifier: Apache-2.0
+
 defmodule WandaWeb.Endpoint do
   use Phoenix.Endpoint, otp_app: :wanda
 

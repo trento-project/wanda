@@ -1,3 +1,6 @@
+# SPDX-FileCopyrightText: SUSE LLC
+# SPDX-License-Identifier: Apache-2.0
+
 defmodule Wanda.Operations.AgentReport do
   @moduledoc """
   Report of an executed operation from an individual agent

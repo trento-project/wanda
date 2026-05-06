@@ -1,3 +1,6 @@
+# SPDX-FileCopyrightText: SUSE LLC
+# SPDX-License-Identifier: Apache-2.0
+
 defmodule WandaWeb.V1.CatalogControllerTest do
   use WandaWeb.ConnCase, async: false
   use Wanda.Support.CatalogCase

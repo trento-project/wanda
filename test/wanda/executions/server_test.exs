@@ -1,3 +1,6 @@
+# SPDX-FileCopyrightText: SUSE LLC
+# SPDX-License-Identifier: Apache-2.0
+
 defmodule Wanda.Executions.ServerTest do
   use Wanda.Support.MessagingCase, async: false
   use Wanda.DataCase

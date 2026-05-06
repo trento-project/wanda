@@ -1,3 +1,6 @@
+# SPDX-FileCopyrightText: SUSE LLC
+# SPDX-License-Identifier: Apache-2.0
+
 defmodule Wanda.Catalog.SelectableCheck do
   @moduledoc """
   Represents a check that is selectable for a given execution group given the context.

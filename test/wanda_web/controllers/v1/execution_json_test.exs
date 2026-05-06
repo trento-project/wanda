@@ -1,3 +1,6 @@
+# SPDX-FileCopyrightText: SUSE LLC
+# SPDX-License-Identifier: Apache-2.0
+
 defmodule WandaWeb.V1.ExecutionJSONTest do
   use WandaWeb.ConnCase, async: true
 

@@ -1,3 +1,6 @@
+# SPDX-FileCopyrightText: SUSE LLC
+# SPDX-License-Identifier: Apache-2.0
+
 defmodule WandaWeb.InfoController do
   use WandaWeb, :controller
   use OpenApiSpex.ControllerSpecs

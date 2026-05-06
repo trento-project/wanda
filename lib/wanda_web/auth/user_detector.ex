@@ -1,3 +1,6 @@
+# SPDX-FileCopyrightText: SUSE LLC
+# SPDX-License-Identifier: Apache-2.0
+
 defmodule WandaWeb.Auth.UserDetector do
   @moduledoc """
   This module allows extracting a very simple representation of a user from a connection.

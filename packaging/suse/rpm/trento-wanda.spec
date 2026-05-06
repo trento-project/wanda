@@ -1,7 +1,8 @@
 #
 # spec file for package trento-wanda
 #
-# Copyright (c) 2024 SUSE LLC
+# SPDX-FileCopyrightText: SUSE LLC
+# SPDX-License-Identifier: Apache-2.0
 #
 # All modifications and additions to the file contributed by third parties
 # remain the property of their copyright owners, unless otherwise agreed
@@ -66,17 +67,17 @@ cp -a _build/prod/rel/wanda %{buildroot}/usr/lib
 install -D -m 0644 packaging/suse/rpm/systemd/trento-wanda.service %{buildroot}%{_unitdir}/trento-wanda.service
 install -D -m 0600 packaging/suse/rpm/systemd/trento-wanda.example %{buildroot}/etc/trento/trento-wanda.example
 
-%pre  
-%service_add_pre trento-wanda.service  
+%pre
+%service_add_pre trento-wanda.service
 
-%post  
-%service_add_post trento-wanda.service  
+%post
+%service_add_post trento-wanda.service
 
-%preun  
-%service_del_preun trento-wanda.service  
+%preun
+%service_del_preun trento-wanda.service
 
-%postun  
-%service_del_postun trento-wanda.service  
+%postun
+%service_del_postun trento-wanda.service
 
 %files
 /usr/lib/wanda

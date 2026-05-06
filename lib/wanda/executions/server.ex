@@ -1,3 +1,6 @@
+# SPDX-FileCopyrightText: SUSE LLC
+# SPDX-License-Identifier: Apache-2.0
+
 defmodule Wanda.Executions.Server do
   @moduledoc """
   Represents the execution of the CheckSelection(s) on the target nodes/agents of a cluster

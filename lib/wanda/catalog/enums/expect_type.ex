@@ -1,3 +1,6 @@
+# SPDX-FileCopyrightText: SUSE LLC
+# SPDX-License-Identifier: Apache-2.0
+
 defmodule Wanda.Catalog.Enums.ExpectType do
   @moduledoc """
   Type that represents a check expectation type.

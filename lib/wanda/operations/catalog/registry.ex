@@ -1,3 +1,6 @@
+# SPDX-FileCopyrightText: SUSE LLC
+# SPDX-License-Identifier: Apache-2.0
+
 defmodule Wanda.Operations.Catalog.Registry do
   @moduledoc """
   Operations registry where are available operations are listed

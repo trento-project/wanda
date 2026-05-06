@@ -1,3 +1,6 @@
+# SPDX-FileCopyrightText: SUSE LLC
+# SPDX-License-Identifier: Apache-2.0
+
 defmodule WandaWeb.Schemas.V3.Catalog.Check do
   @moduledoc """
   Individual check of the catalog response API spec

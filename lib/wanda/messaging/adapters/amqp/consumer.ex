@@ -1,3 +1,6 @@
+# SPDX-FileCopyrightText: SUSE LLC
+# SPDX-License-Identifier: Apache-2.0
+
 defmodule Wanda.Messaging.Adapters.AMQP.Consumer do
   @moduledoc """
   AMQP consumer.

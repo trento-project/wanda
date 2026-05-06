@@ -1,3 +1,6 @@
+# SPDX-FileCopyrightText: SUSE LLC
+# SPDX-License-Identifier: Apache-2.0
+
 defmodule Wanda.Executions.AgentCheckError do
   @moduledoc """
   Represents the result of a check on a specific agent.

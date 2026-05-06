@@ -1,3 +1,6 @@
+# SPDX-FileCopyrightText: SUSE LLC
+# SPDX-License-Identifier: Apache-2.0
+
 defmodule WandaWeb.Schemas.V1.Execution.ListExecutionsResponse do
   @moduledoc """
   Execution list response API spec
