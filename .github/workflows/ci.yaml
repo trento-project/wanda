@@ -33,6 +33,8 @@ jobs:
       RUST_DEV: ${{ env.RUST_VERSION }}
       ELIXIR_BC: ${{ env.ELIXIR_BC }}
       ERLANG_BC: ${{ env.ERLANG_BC }}
+      POSTGRES_VERSION: ${{ env.POSTGRES_VERSION }}
+      RABBITMQ_VERSION: ${{ env.RABBITMQ_VERSION }}
     steps:
       - name: Checkout
         uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6
@@ -45,6 +47,8 @@ jobs:
           echo "RUST_DEV=${{ env.RUST_VERSION }}" >> $GITHUB_OUTPUT
           echo "ELIXIR_BC=${{ env.ELIXIR_BC }}" >> $GITHUB_OUTPUT
           echo "ERLANG_BC=${{ env.ERLANG_BC }}" >> $GITHUB_OUTPUT
+          echo "POSTGRES_VERSION=${{ env.POSTGRES_VERSION }}" >> $GITHUB_OUTPUT
+          echo "RABBITMQ_VERSION=${{ env.RABBITMQ_VERSION }}" >> $GITHUB_OUTPUT
 
   elixir-deps:
     name: Elixir dependencies
@@ -107,7 +111,7 @@ jobs:
             otp: ${{ needs.setup-matrix-env.outputs.ERLANG_DEV }}
     services:
       postgres:
-        image: registry.suse.com/suse/postgres:${{ env.POSTGRES_VERSION }}
+        image: registry.suse.com/suse/postgres:${{ needs.setup-matrix-env.outputs.POSTGRES_VERSION }}
         env:
           POSTGRES_PASSWORD: postgres
           POSTGRES_DB: wanda_test
@@ -120,7 +124,7 @@ jobs:
           --health-timeout 5s
           --health-retries 5
       rabbitmq:
-        image: rabbitmq:${{ env.RABBITMQ_VERSION }}
+        image: rabbitmq:${{ needs.setup-matrix-env.outputs.RABBITMQ_VERSION }}
         env:
           RABBITMQ_DEFAULT_USER: wanda
           RABBITMQ_DEFAULT_PASS: wanda
