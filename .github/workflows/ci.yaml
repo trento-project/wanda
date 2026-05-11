@@ -19,6 +19,8 @@ env:
   MIX_ENV: test
   ELIXIR_BC: "1.15.7-otp-26"
   ERLANG_BC: "26.2.1"
+  NODEJS_BC: "22.15.1"
+  OPENAPI_DIFF_VERSION: "2.1.7" # https://github.com/OpenAPITools/openapi-diff/releases
 
 jobs:
   setup-matrix-env:
@@ -241,7 +243,7 @@ jobs:
       - name: Setup Node.js
         uses: actions/setup-node@53b83947a5a98c8d113130e565377fae1a50d02f # v6
         with:
-          node-version: 22.15.1
+          node-version: ${{ env.NODEJS_BC }}
       - name: Install API linting tools
         run: |
           npm install -g @redocly/cli@latest
@@ -328,7 +330,7 @@ jobs:
         run: mv /tmp/specs .
       - name: Find difference between OpenAPI specifications
         run: |
-          docker run -v "$(pwd)/specs:/specs" --rm openapitools/openapi-diff:2.0.1 \
+          docker run -v "$(pwd)/specs:/specs" --rm openapitools/openapi-diff:${{ env.OPENAPI_DIFF_VERSION }} \
             /specs/target-spec.json \
             /specs/current-spec.json \
             --fail-on-incompatible \
