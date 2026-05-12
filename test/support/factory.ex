@@ -14,6 +14,7 @@ defmodule Wanda.Factory do
     AgentCheckResult,
     CheckResult,
     Execution,
+    ExcludedCheckResult,
     ExpectationEvaluation,
     ExpectationEvaluationError,
     ExpectationResult,
@@ -62,6 +63,7 @@ defmodule Wanda.Factory do
       values: build_list(10, :catalog_value),
       expectations: build_list(10, :catalog_expectation),
       when: Faker.Lorem.sentence(),
+      exclude: nil,
       customization_disabled: Enum.random([false, true])
     }
   end
@@ -103,7 +105,8 @@ defmodule Wanda.Factory do
   def target_factory do
     %Target{
       agent_id: UUID.uuid4(),
-      checks: random_checks()
+      checks: random_checks(),
+      host_data: %{}
     }
   end
 
