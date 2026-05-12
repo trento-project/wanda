@@ -10,7 +10,7 @@ services:
     # Keep versions in sync with
       # .github/workflows/ci.yaml
       # https://github.com/trento-project/helm-charts/blob/main/charts/trento-server/charts/rabbitmq/values.yaml
-    image: rabbitmq:3.12.6-management-alpine
+    image: rabbitmq:3.12.6-management-alpine # https://hub.docker.com/_/rabbitmq/tags
     ports:
       - 5676:5671
       - 5674:5672
@@ -22,7 +22,8 @@ services:
     # Keep versions in sync with
       # .github/workflows/ci.yaml
       # https://github.com/trento-project/helm-charts/blob/main/charts/trento-server/values.yaml
-    image: registry.suse.com/suse/postgres:14
+      # https://documentation.suse.com/sles-sap/trento/single-html/SLES-SAP-trento/SLES-SAP-trento.html#id-install-postgresql
+    image: registry.suse.com/suse/postgres:17.5 # https://registry.suse.com/repositories/suse-postgres17?tag=17.5
     environment:
       POSTGRES_USER: postgres
       POSTGRES_PASSWORD: postgres
