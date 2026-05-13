@@ -1,7 +1,7 @@
 # SPDX-FileCopyrightText: SUSE LLC
 # SPDX-License-Identifier: Apache-2.0
 
-name: Continous Integration
+name: Continuous Integration
 
 on:
   push:
@@ -22,6 +22,10 @@ env:
   MIX_ENV: test
   ELIXIR_BC: "1.15.7-otp-26"
   ERLANG_BC: "26.2.1"
+  NODEJS_BC: "22.15.1"
+  POSTGRES_VERSION: "17.5" # https://registry.suse.com/repositories/suse-postgres17?tag=17.5
+  RABBITMQ_VERSION: "3.12.6-management-alpine" # https://github.com/trento-project/helm-charts/blob/main/charts/trento-server/charts/rabbitmq/values.yaml
+  OPENAPI_DIFF_VERSION: "2.1.7" # https://github.com/OpenAPITools/openapi-diff/releases
 
 jobs:
   setup-matrix-env:
@@ -32,6 +36,8 @@ jobs:
       RUST_DEV: ${{ env.RUST_VERSION }}
       ELIXIR_BC: ${{ env.ELIXIR_BC }}
       ERLANG_BC: ${{ env.ERLANG_BC }}
+      POSTGRES_VERSION: ${{ env.POSTGRES_VERSION }}
+      RABBITMQ_VERSION: ${{ env.RABBITMQ_VERSION }}
     steps:
       - name: Checkout
         uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6
@@ -44,6 +50,8 @@ jobs:
           echo "RUST_DEV=${{ env.RUST_VERSION }}" >> $GITHUB_OUTPUT
           echo "ELIXIR_BC=${{ env.ELIXIR_BC }}" >> $GITHUB_OUTPUT
           echo "ERLANG_BC=${{ env.ERLANG_BC }}" >> $GITHUB_OUTPUT
+          echo "POSTGRES_VERSION=${{ env.POSTGRES_VERSION }}" >> $GITHUB_OUTPUT
+          echo "RABBITMQ_VERSION=${{ env.RABBITMQ_VERSION }}" >> $GITHUB_OUTPUT
 
   elixir-deps:
     name: Elixir dependencies
@@ -108,7 +116,7 @@ jobs:
             otp: ${{ needs.setup-matrix-env.outputs.ERLANG_DEV }}
     services:
       postgres:
-        image: postgres
+        image: registry.suse.com/suse/postgres:${{ needs.setup-matrix-env.outputs.POSTGRES_VERSION }}
         env:
           POSTGRES_PASSWORD: postgres
           POSTGRES_DB: wanda_test
@@ -121,10 +129,15 @@ jobs:
           --health-timeout 5s
           --health-retries 5
       rabbitmq:
-        image: rabbitmq
+        image: rabbitmq:${{ needs.setup-matrix-env.outputs.RABBITMQ_VERSION }}
         env:
           RABBITMQ_DEFAULT_USER: wanda
           RABBITMQ_DEFAULT_PASS: wanda
+        options: >-
+          --health-cmd "rabbitmq-diagnostics ping"
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
         ports:
           - 5674:5672
     steps:
@@ -248,7 +261,7 @@ jobs:
       - name: Setup Node.js
         uses: actions/setup-node@53b83947a5a98c8d113130e565377fae1a50d02f # v6
         with:
-          node-version: 22.15.1
+          node-version: ${{ env.NODEJS_BC }}
       - name: Install API linting tools
         run: |
           npm install -g @redocly/cli@latest
@@ -335,7 +348,7 @@ jobs:
         run: mv /tmp/specs .
       - name: Find difference between OpenAPI specifications
         run: |
-          docker run -v "$(pwd)/specs:/specs" --rm openapitools/openapi-diff:2.0.1 \
+          docker run -v "$(pwd)/specs:/specs" --rm openapitools/openapi-diff:${{ env.OPENAPI_DIFF_VERSION }} \
             /specs/target-spec.json \
             /specs/current-spec.json \
             --fail-on-incompatible \
