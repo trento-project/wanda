@@ -1,3 +1,6 @@
+# SPDX-FileCopyrightText: SUSE LLC
+# SPDX-License-Identifier: Apache-2.0
+
 defmodule WandaWeb.V1.ChecksCustomizationsControllerTest do
   use WandaWeb.ConnCase, async: true
   use Wanda.Support.MessagingCase, async: true

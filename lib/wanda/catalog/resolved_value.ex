@@ -1,3 +1,6 @@
+# SPDX-FileCopyrightText: SUSE LLC
+# SPDX-License-Identifier: Apache-2.0
+
 defmodule Wanda.Catalog.ResolvedValue do
   @moduledoc """
   Represents a resolved check value as defined check specification.

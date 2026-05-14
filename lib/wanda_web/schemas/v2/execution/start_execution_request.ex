@@ -1,3 +1,6 @@
+# SPDX-FileCopyrightText: SUSE LLC
+# SPDX-License-Identifier: Apache-2.0
+
 defmodule WandaWeb.Schemas.V2.Execution.StartExecutionRequest do
   @moduledoc """
   The request to be sent to start an execution.

@@ -1,3 +1,6 @@
+# SPDX-FileCopyrightText: SUSE LLC
+# SPDX-License-Identifier: Apache-2.0
+
 import Config
 
 config :wanda, Wanda.Messaging.Publisher, adapter: Wanda.Messaging.Adapters.AMQP

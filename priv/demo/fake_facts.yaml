@@ -1,3 +1,6 @@
+# SPDX-FileCopyrightText: SUSE LLC
+# SPDX-License-Identifier: Apache-2.0
+
 targets:
   target1: 0a055c90-4cb6-54ce-ac9c-ae3fedaf40d4
   target2: 13e8c25c-3180-5a9a-95c8-51ec38e50cfc

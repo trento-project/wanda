@@ -1,3 +1,6 @@
+# SPDX-FileCopyrightText: SUSE LLC
+# SPDX-License-Identifier: Apache-2.0
+
 defmodule Wanda.Executions.FakeGatheredFacts do
   @moduledoc """
   Module responsible to generate the fake gathered facts from targets

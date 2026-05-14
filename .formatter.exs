@@ -1,3 +1,6 @@
+# SPDX-FileCopyrightText: SUSE LLC
+# SPDX-License-Identifier: Apache-2.0
+
 # Used by "mix format"
 [
   import_deps: [:ecto, :phoenix, :open_api_spex],

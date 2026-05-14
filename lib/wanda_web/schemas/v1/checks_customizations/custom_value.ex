@@ -1,3 +1,6 @@
+# SPDX-FileCopyrightText: SUSE LLC
+# SPDX-License-Identifier: Apache-2.0
+
 defmodule WandaWeb.Schemas.V1.ChecksCustomizations.CustomValue do
   @moduledoc """
   Custom value to be applied or already applied to a check

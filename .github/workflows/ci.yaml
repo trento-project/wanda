@@ -1,3 +1,6 @@
+# SPDX-FileCopyrightText: SUSE LLC
+# SPDX-License-Identifier: Apache-2.0
+
 name: Continuous Integration
 
 on:
@@ -97,6 +100,8 @@ jobs:
         run: mix credo --strict
       - name: Run Dialyzer
         run: mix dialyzer
+      - uses: apache/skywalking-eyes/header@61275cc80d0798a405cb070f7d3a8aaf7cf2c2c1 # v0.8.0
+        name: Check license headers
 
   test:
     name: Test
@@ -161,6 +166,8 @@ jobs:
           key: erlang-${{ steps.setup-elixir.outputs.otp-version }}-elixir-${{ steps.setup-elixir.outputs.elixir-version }}-rust-${{ needs.setup-matrix-env.outputs.RUST_DEV }}-${{ hashFiles('mix.lock') }}
       - name: Compile
         run: mix compile --warnings-as-errors
+      - name: Create and migrate database
+        run: mix ecto.create && mix ecto.migrate
       - name: Run test
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

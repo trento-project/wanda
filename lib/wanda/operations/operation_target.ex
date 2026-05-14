@@ -1,3 +1,6 @@
+# SPDX-FileCopyrightText: SUSE LLC
+# SPDX-License-Identifier: Apache-2.0
+
 defmodule Wanda.Operations.OperationTarget do
   @moduledoc """
   An operation target defines an agent where the operation is executed

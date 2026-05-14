@@ -1,3 +1,6 @@
+# SPDX-FileCopyrightText: SUSE LLC
+# SPDX-License-Identifier: Apache-2.0
+
 defmodule WandaWeb.Plugs.ApiRedirectorTest do
   use WandaWeb.ConnCase, async: true
 

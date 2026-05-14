@@ -1,3 +1,6 @@
+# SPDX-FileCopyrightText: SUSE LLC
+# SPDX-License-Identifier: Apache-2.0
+
 defmodule WandaWeb.Plugs.SwaggerUIRuntime do
   @moduledoc """
     This Plug updates the original SwaggerUI configuration, by adding the

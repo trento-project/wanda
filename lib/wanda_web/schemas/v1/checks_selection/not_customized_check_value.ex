@@ -1,3 +1,6 @@
+# SPDX-FileCopyrightText: SUSE LLC
+# SPDX-License-Identifier: Apache-2.0
+
 defmodule WandaWeb.Schemas.V1.ChecksSelection.NotCustomizedCheckValue do
   @moduledoc """
   A Check Value that has not been customized.

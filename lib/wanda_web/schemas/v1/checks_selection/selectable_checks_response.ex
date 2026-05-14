@@ -1,3 +1,6 @@
+# SPDX-FileCopyrightText: SUSE LLC
+# SPDX-License-Identifier: Apache-2.0
+
 defmodule WandaWeb.Schemas.V1.ChecksSelection.SelectableChecksResponse do
   @moduledoc """
   Response representing the list of selectable checks for a given execution group and environment.

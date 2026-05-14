@@ -1,3 +1,4 @@
+# SPDX-FileCopyrightText: SUSE LLC
 # SPDX-License-Identifier: Apache-2.0
 #!BuildTag: trento/trento-wanda:latest
 #!BuildTag: trento/trento-wanda:%%VERSION%%

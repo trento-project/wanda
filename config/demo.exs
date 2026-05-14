@@ -1,3 +1,6 @@
+# SPDX-FileCopyrightText: SUSE LLC
+# SPDX-License-Identifier: Apache-2.0
+
 import Config
 
 config :wanda, Wanda.Policy, execution_server_impl: Wanda.Executions.FakeServer

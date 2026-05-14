@@ -1,3 +1,6 @@
+# SPDX-FileCopyrightText: SUSE LLC
+# SPDX-License-Identifier: Apache-2.0
+
 defmodule Wanda.Executions.Fact do
   @moduledoc """
   A fact is a piece of information that was gathered from a target.

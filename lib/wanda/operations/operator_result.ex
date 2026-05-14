@@ -1,3 +1,6 @@
+# SPDX-FileCopyrightText: SUSE LLC
+# SPDX-License-Identifier: Apache-2.0
+
 defmodule Wanda.Operations.OperatorResult do
   @moduledoc """
   Operator execution result retrieved from an agent.

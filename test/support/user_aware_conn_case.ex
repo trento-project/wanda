@@ -1,3 +1,6 @@
+# SPDX-FileCopyrightText: SUSE LLC
+# SPDX-License-Identifier: Apache-2.0
+
 defmodule WandaWeb.UserAwareConnCase do
   @moduledoc """
   Test case to deal with users and their abilities.

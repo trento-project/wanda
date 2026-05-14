@@ -1,3 +1,6 @@
+# SPDX-FileCopyrightText: SUSE LLC
+# SPDX-License-Identifier: Apache-2.0
+
 defmodule Wanda.Catalog.Evaluation do
   @moduledoc """
   This module provides functions to evaluate check values based on their conditions.

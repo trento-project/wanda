@@ -1,3 +1,6 @@
+# SPDX-FileCopyrightText: SUSE LLC
+# SPDX-License-Identifier: Apache-2.0
+
 defmodule Wanda.EvaluationEngine do
   @moduledoc """
   This module wraps the Rhai engine and provides a simple interface for
