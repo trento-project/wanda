@@ -84,7 +84,7 @@ Wanda
 
     </h1>
 
-      <a href="https://github.com/trento-project/wanda/blob/main/test/support/data_case.ex#L1" title="View Source" class="icon-action" rel="help">
+      <a href="https://github.com/trento-project/wanda/blob/main/test/support/data_case.ex#L4" title="View Source" class="icon-action" rel="help">
         <i class="ri-code-s-slash-line" aria-hidden="true"></i>
         <span class="sr-only">View Source</span>
       </a>
@@ -160,7 +160,7 @@ this option is not recommended for other databases.</p>
       <h1 class="signature" translate="no">errors_on(changeset)</h1>
 
 
-        <a href="https://github.com/trento-project/wanda/blob/main/test/support/data_case.ex#L52" class="icon-action" rel="help" aria-label="View Source">
+        <a href="https://github.com/trento-project/wanda/blob/main/test/support/data_case.ex#L55" class="icon-action" rel="help" aria-label="View Source">
           <i class="ri-code-s-slash-line" aria-hidden="true"></i>
         </a>
 
@@ -169,9 +169,9 @@ this option is not recommended for other databases.</p>
 
   <section class="docstring">
 
-<p>A helper that transforms changeset errors into a map of messages.</p><pre><code class="makeup elixir" translate="no"><span class="n">assert</span><span class="w"> </span><span class="p" data-group-id="8328048347-1">{</span><span class="ss">:error</span><span class="p">,</span><span class="w"> </span><span class="n">changeset</span><span class="p" data-group-id="8328048347-1">}</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nc">Accounts</span><span class="o">.</span><span class="n">create_user</span><span class="p" data-group-id="8328048347-2">(</span><span class="p" data-group-id="8328048347-3">%{</span><span class="ss">password</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;short&quot;</span><span class="p" data-group-id="8328048347-3">}</span><span class="p" data-group-id="8328048347-2">)</span><span class="w">
-</span><span class="n">assert</span><span class="w"> </span><span class="s">&quot;password is too short&quot;</span><span class="w"> </span><span class="ow">in</span><span class="w"> </span><span class="n">errors_on</span><span class="p" data-group-id="8328048347-4">(</span><span class="n">changeset</span><span class="p" data-group-id="8328048347-4">)</span><span class="o">.</span><span class="n">password</span><span class="w">
-</span><span class="n">assert</span><span class="w"> </span><span class="p" data-group-id="8328048347-5">%{</span><span class="ss">password</span><span class="p">:</span><span class="w"> </span><span class="p" data-group-id="8328048347-6">[</span><span class="s">&quot;password is too short&quot;</span><span class="p" data-group-id="8328048347-6">]</span><span class="p" data-group-id="8328048347-5">}</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">errors_on</span><span class="p" data-group-id="8328048347-7">(</span><span class="n">changeset</span><span class="p" data-group-id="8328048347-7">)</span></code></pre>
+<p>A helper that transforms changeset errors into a map of messages.</p><pre><code class="makeup elixir" translate="no"><span class="n">assert</span><span class="w"> </span><span class="p" data-group-id="1603021238-1">{</span><span class="ss">:error</span><span class="p">,</span><span class="w"> </span><span class="n">changeset</span><span class="p" data-group-id="1603021238-1">}</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nc">Accounts</span><span class="o">.</span><span class="n">create_user</span><span class="p" data-group-id="1603021238-2">(</span><span class="p" data-group-id="1603021238-3">%{</span><span class="ss">password</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;short&quot;</span><span class="p" data-group-id="1603021238-3">}</span><span class="p" data-group-id="1603021238-2">)</span><span class="w">
+</span><span class="n">assert</span><span class="w"> </span><span class="s">&quot;password is too short&quot;</span><span class="w"> </span><span class="ow">in</span><span class="w"> </span><span class="n">errors_on</span><span class="p" data-group-id="1603021238-4">(</span><span class="n">changeset</span><span class="p" data-group-id="1603021238-4">)</span><span class="o">.</span><span class="n">password</span><span class="w">
+</span><span class="n">assert</span><span class="w"> </span><span class="p" data-group-id="1603021238-5">%{</span><span class="ss">password</span><span class="p">:</span><span class="w"> </span><span class="p" data-group-id="1603021238-6">[</span><span class="s">&quot;password is too short&quot;</span><span class="p" data-group-id="1603021238-6">]</span><span class="p" data-group-id="1603021238-5">}</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">errors_on</span><span class="p" data-group-id="1603021238-7">(</span><span class="n">changeset</span><span class="p" data-group-id="1603021238-7">)</span></code></pre>
   </section>
 </section>
 <section class="detail" id="setup_sandbox/1">
@@ -184,7 +184,7 @@ this option is not recommended for other databases.</p>
       <h1 class="signature" translate="no">setup_sandbox(tags)</h1>
 
 
-        <a href="https://github.com/trento-project/wanda/blob/main/test/support/data_case.ex#L39" class="icon-action" rel="help" aria-label="View Source">
+        <a href="https://github.com/trento-project/wanda/blob/main/test/support/data_case.ex#L42" class="icon-action" rel="help" aria-label="View Source">
           <i class="ri-code-s-slash-line" aria-hidden="true"></i>
         </a>
 
