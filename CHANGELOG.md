@@ -1,5 +1,64 @@
 # Changelog
 
+## [2.1.0](https://github.com/trento-project/wanda/tree/1.4.0/compare/2.0.0...2.1.0) - 2026-05-19
+
+### What's Changed
+
+* Release trigger for 2.1.0 (#715) @skrech
+* [TRNT-4358] Add license headers (#709) @antgamdia
+* [TRNT-4358] Update LICENSE to match Apache-2.0 verbatim text (#710) @antgamdia
+* Read checks version (#694) @balanza
+* Fix rhai_rustler vendoring (#693) @skrech
+* Add service info (#691) @balanza
+* [TRNT-4317] Pin GHA to SHA instead of tags (#687) @antgamdia
+* Implements dependabot cooldown (#686) @gagandeepb
+* [TRNT-4227] Add missing arg in dockerfile (#680) @antgamdia
+* [TRNT-4227] Add additional labels to the container image (#677) @antgamdia
+* Add placeholder value for GTM_ID (#675) @arbulu89
+* Document saptune check gatherer (#673) @arbulu89
+
+#### Features
+
+* Publish operation request failed (#684) @arbulu89
+* Update database start/stop to handle multi-tier system replication (#682) @arbulu89
+* Operation completed errors (#674) @arbulu89
+* Add cluster resource refresh operation (#670) @arbulu89
+
+#### Maintenance
+
+* [TRNT-4376] Align DB dependencies (#712) @antgamdia
+* Group Dependabot updates for our common workflows into a single PR (#703) @skrech
+* Exclude our common workflows from cooldown (#698) @skrech
+* Remove _services file from packaging (#697) @skrech
+* New release process (#696) @skrech
+* New obs-sync for rolling (#692) @skrech
+* Make ci.yaml to use publish-containers workflow (#685) @arbulu89
+* Workaround api_docs_checks linter to use previous version (#683) @arbulu89
+* Bump BCI references to 15.7 (#672) @nelsonkopliku
+
+#### Dependencies
+
+<details>
+<summary>15 changes</summary>
+* updating gen_rmq to point to a fork in Trento (#714) @chargio
+* Bump actions/cache from 5.0.4 to 5.0.5 (#705) @[dependabot[bot]](https://github.com/apps/dependabot)
+* Bump actions/upload-artifact from 7.0.0 to 7.0.1 (#706) @[dependabot[bot]](https://github.com/apps/dependabot)
+* Bump the common-workflows group across 1 directory with 3 updates (#713) @[dependabot[bot]](https://github.com/apps/dependabot)
+* Bump actions/setup-node from 6.3.0 to 6.4.0 (#711) @[dependabot[bot]](https://github.com/apps/dependabot)
+* Bump the common-workflows group with 3 updates (#704) @[dependabot[bot]](https://github.com/apps/dependabot)
+* Bump trento-project/.github/.github/workflows/publish-containers.yaml from 1.4.3 to 1.5.0 (#699) @[dependabot[bot]](https://github.com/apps/dependabot)
+* Bump peter-evans/repository-dispatch from 3.0.0 to 4.0.1 (#690) @[dependabot[bot]](https://github.com/apps/dependabot)
+* Bump endorama/asdf-parse-tool-versions from 1.0.0 to 1.5.1 (#689) @[dependabot[bot]](https://github.com/apps/dependabot)
+* Bump release-drafter/release-drafter from 6 to 7 (#679) @[dependabot[bot]](https://github.com/apps/dependabot)
+* Bump styfle/cancel-workflow-action from 0.13.0 to 0.13.1 (#678) @[dependabot[bot]](https://github.com/apps/dependabot)
+* Bump actions/upload-artifact from 6 to 7 (#676) @[dependabot[bot]](https://github.com/apps/dependabot)
+* Bump styfle/cancel-workflow-action from 0.12.1 to 0.13.0 (#671) @[dependabot[bot]](https://github.com/apps/dependabot)
+* Bump actions/upload-artifact from 5 to 6 (#669) @[dependabot[bot]](https://github.com/apps/dependabot)
+* Bump actions/cache from 4 to 5 (#668) @[dependabot[bot]](https://github.com/apps/dependabot)
+
+</details>
+**Full Changelog**: https://github.com/trento-project/wanda/compare/2.0.0...2.1.0
+
 ## [2.0.0](https://github.com/trento-project/wanda/tree/1.4.0/compare/1.5.0...2.0.0) - 2025-11-27
 
 ### What's Changed
@@ -66,10 +125,8 @@
 * Bump phoenix_ecto from 4.6.3 to 4.6.4 (#613) @[dependabot[bot]](https://github.com/apps/dependabot)
 * Bump plug_cowboy from 2.7.2 to 2.7.3 (#580) @[dependabot[bot]](https://github.com/apps/dependabot)
 * Bump credo from 1.7.11 to 1.7.12 (#614) @[dependabot[bot]](https://github.com/apps/dependabot)
-
 </details>
 **Full Changelog**: https://github.com/trento-project/wanda/compare/1.5.0...2.0.0
-
 ## [1.5.0](https://github.com/trento-project/wanda/tree/1.4.0/compare/1.4.0...1.5.0) - 2025-05-23
 
 ### What's Changed
@@ -161,7 +218,6 @@
 </details>
 **Full Changelog**: https://github.com/trento-project/wanda/compare/1.4.0...1.5.0
 ## [1.4.0](https://github.com/trento-project/wanda/tree/1.4.0) (2024-11-11)
-
 [Full Changelog](https://github.com/trento-project/wanda/compare/1.3.0...1.4.0)
 
 **Implemented enhancements:**
