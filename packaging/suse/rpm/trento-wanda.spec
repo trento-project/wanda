@@ -1,8 +1,7 @@
 #
 # spec file for package trento-wanda
 #
-# SPDX-FileCopyrightText: SUSE LLC
-# SPDX-License-Identifier: Apache-2.0
+# Copyright (c) 2026 SUSE LLC and contributors
 #
 # All modifications and additions to the file contributed by third parties
 # remain the property of their copyright owners, unless otherwise agreed
@@ -14,6 +13,7 @@
 # published by the Open Source Initiative.
 
 # Please submit bugfixes or comments via https://bugs.opensuse.org/
+#
 
 
 Name:           trento-wanda
@@ -26,12 +26,12 @@ Source:         %{name}-%{version}.tar.gz
 Source1:        deps.tar.gz
 Source2:        vendor-rhai_rustler.tar.gz
 Group:          System/Monitoring
+BuildRequires:  cargo1.92
 BuildRequires:  elixir >= 1.15
 BuildRequires:  elixir-hex
 BuildRequires:  erlang-rebar3
 BuildRequires:  git-core
 BuildRequires:  rust1.92
-BuildRequires:  cargo1.92
 # avoid conflicting aliases in the rust dependency tree
 #!BuildIgnore: cargo
 #!BuildIgnore: rust
