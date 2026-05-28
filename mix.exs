@@ -20,15 +20,20 @@ defmodule Wanda.MixProject do
         "Wanda is an open source platform for automated cluster checks, health monitoring, and remediation. It provides APIs for managing checks, executions, customizations, and integrations with the Trento Platform. Wanda helps ensure high availability and reliability for your infrastructure by automating best practices and compliance checks.",
       docs: docs(),
       test_coverage: [tool: ExCoveralls],
-      preferred_cli_env: [
+      dialyzer: [plt_add_apps: [:ex_unit]]
+    ]
+  end
+
+  def cli do
+    [
+      preferred_envs: [
         coveralls: :test,
         "coveralls.github": :test,
         vcr: :test,
         "vcr.delete": :test,
         "vcr.check": :test,
         "vcr.show": :test
-      ],
-      dialyzer: [plt_add_apps: [:ex_unit]]
+      ]
     ]
   end
 
@@ -114,8 +119,8 @@ defmodule Wanda.MixProject do
       {:unplug, "~> 1.1.0"},
       # test deps
       {:ex_doc, "~> 0.29", only: [:dev, :test], runtime: false},
-      {:credo, "~> 1.6", only: [:dev, :test], runtime: false},
-      {:dialyxir, "~> 1.0", only: [:dev, :test], runtime: false},
+      {:credo, "~> 1.7", only: [:dev, :test], runtime: false},
+      {:dialyxir, "~> 1.4", only: [:dev, :test], runtime: false},
       {:mox, "~> 1.0", only: :test},
       {:ex_machina, "~> 2.8.0", only: [:demo, :test]},
       {:faker, "~> 0.17", only: [:demo, :test]},

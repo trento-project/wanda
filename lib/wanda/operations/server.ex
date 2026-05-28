@@ -557,7 +557,7 @@ defmodule Wanda.Operations.Server do
     state
   end
 
-  defp maybe_set_step_failed(state, result)
+  defp maybe_set_step_failed(%State{} = state, result)
        when result in [Result.failed(), Result.rolled_back()],
        do: %State{state | step_failed: true}
 

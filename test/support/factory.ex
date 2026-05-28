@@ -381,7 +381,7 @@ defmodule Wanda.Factory do
         %{return_value: true} = expectation_evaluation ->
           expectation_evaluation
 
-        %{return_value: false} = expectation_evaluation ->
+        %ExpectationEvaluation{return_value: false} = expectation_evaluation ->
           %ExpectationEvaluation{expectation_evaluation | failure_message: failure_message}
       end)
 
