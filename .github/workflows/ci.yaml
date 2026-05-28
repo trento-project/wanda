@@ -58,7 +58,7 @@ jobs:
     uses: ./.github/workflows/deps.yaml
 
   static-code-analysis:
-    name: Static Code Analysis
+    name: Static Code Analysis (Elixir ${{ matrix.elixir }})
     needs: [setup-matrix-env, elixir-deps]
     runs-on: ubuntu-24.04
     strategy:
@@ -91,7 +91,7 @@ jobs:
             deps
             _build/test
             priv/plts
-          key: erlang-${{ steps.setup-elixir.outputs.otp-version }}-elixir-${{ steps.setup-elixir.outputs.elixir-version }}-rust-${{ needs.setup-matrix-env.outputs.RUST_DEV }}-${{ hashFiles('mix.lock') }}
+          key: erlang-${{ matrix.otp }}-elixir-${{ matrix.elixir }}-rust-${{ needs.setup-matrix-env.outputs.RUST_DEV }}-${{ hashFiles('mix.lock') }}
       - name: Check for Unused Dependencies
         run: mix deps.unlock --check-unused
       - name: Check Code Format
@@ -104,7 +104,7 @@ jobs:
         name: Check license headers
 
   test:
-    name: Test
+    name: Test (Elixir ${{ matrix.elixir }})
     needs: [setup-matrix-env, elixir-deps]
     runs-on: ubuntu-24.04
     strategy:
@@ -163,7 +163,7 @@ jobs:
             deps
             _build/test
             priv/plts
-          key: erlang-${{ steps.setup-elixir.outputs.otp-version }}-elixir-${{ steps.setup-elixir.outputs.elixir-version }}-rust-${{ needs.setup-matrix-env.outputs.RUST_DEV }}-${{ hashFiles('mix.lock') }}
+          key: erlang-${{ matrix.otp }}-elixir-${{ matrix.elixir }}-rust-${{ needs.setup-matrix-env.outputs.RUST_DEV }}-${{ hashFiles('mix.lock') }}
       - name: Compile
         run: mix compile --warnings-as-errors
       - name: Create and migrate database
@@ -181,7 +181,7 @@ jobs:
       checkout_ref: main
 
   target-branch-deps:
-    name: Rebuild target branch dependencies
+    name: Rebuild target branch dependencies (Elixir ${{ matrix.elixir }})
     needs: [setup-matrix-env]
     runs-on: ubuntu-24.04
     strategy:
@@ -211,7 +211,7 @@ jobs:
             deps
             _build/${{ env.MIX_ENV }}
             priv/plts
-          key: erlang-${{ steps.setup-elixir.outputs.otp-version }}-elixir-${{ steps.setup-elixir.outputs.elixir-version }}-${{ hashFiles('mix.lock') }}-${{ env.MIX_ENV }}
+          key: erlang-${{ matrix.otp }}-elixir-${{ matrix.elixir }}-rust-${{ needs.setup-matrix-env.outputs.RUST_DEV }}-${{ hashFiles('mix.lock') }}
       - name: Install missing dependencies
         if: steps.mix-cache-target.outputs.cache-hit != 'true'
         run: |
@@ -223,7 +223,7 @@ jobs:
           mix dialyzer --plt
 
   api-docs-check:
-    name: API docs check
+    name: API docs check (Elixir ${{ matrix.elixir }})
     needs: [setup-matrix-env, elixir-deps]
     if: github.event_name == 'pull_request' && !failure() && !cancelled()
     runs-on: ubuntu-24.04
@@ -257,7 +257,7 @@ jobs:
             deps
             _build/${{ env.MIX_ENV }}
             priv/plts
-          key: erlang-${{ steps.setup-elixir.outputs.otp-version }}-elixir-${{ steps.setup-elixir.outputs.elixir-version }}-rust-${{ needs.setup-matrix-env.outputs.RUST_DEV }}-${{ hashFiles('mix.lock') }}
+          key: erlang-${{ matrix.otp }}-elixir-${{ matrix.elixir }}-rust-${{ needs.setup-matrix-env.outputs.RUST_DEV }}-${{ hashFiles('mix.lock') }}
       - name: Setup Node.js
         uses: actions/setup-node@48b55a011bda9f5d6aeb4c2d9c7362e8dae4041e # v6
         with:
@@ -271,7 +271,7 @@ jobs:
         run: ./hack/api_docs_check.sh
 
   api-bc-check:
-    name: API bc check
+    name: API bc check (${{ matrix.version }}, Elixir ${{ matrix.elixir }})
     needs: [setup-matrix-env, elixir-deps, target-branch-deps]
     if: github.event_name == 'pull_request' && !failure() && !cancelled()
     runs-on: ubuntu-24.04
@@ -324,7 +324,7 @@ jobs:
             deps
             _build/${{ env.MIX_ENV }}
             priv/plts
-          key: erlang-${{ steps.setup-elixir.outputs.otp-version }}-elixir-${{ steps.setup-elixir.outputs.elixir-version }}-rust-${{ needs.setup-matrix-env.outputs.RUST_DEV }}-${{ hashFiles('mix.lock') }}
+          key: erlang-${{ matrix.otp }}-elixir-${{ matrix.elixir }}-rust-${{ needs.setup-matrix-env.outputs.RUST_DEV }}-${{ hashFiles('mix.lock') }}
       - name: Generate current openapi.json
         run: |
           mix openapi.spec.json --start-app=false --spec WandaWeb.Schemas.${{ matrix.version }}.ApiSpec /tmp/specs/current-spec.json
@@ -340,7 +340,7 @@ jobs:
             deps
             _build/${{ env.MIX_ENV }}
             priv/plts
-          key: erlang-${{ steps.setup-elixir.outputs.otp-version }}-elixir-${{ steps.setup-elixir.outputs.elixir-version }}-rust-${{ needs.setup-matrix-env.outputs.RUST_DEV }}-${{ hashFiles('mix.lock') }}
+          key: erlang-${{ matrix.otp }}-elixir-${{ matrix.elixir }}-rust-${{ needs.setup-matrix-env.outputs.RUST_DEV }}-${{ hashFiles('mix.lock') }}
       - name: Generate target openapi.json
         run: |
           mix openapi.spec.json --start-app=false --spec WandaWeb.Schemas.${{ matrix.version }}.ApiSpec /tmp/specs/target-spec.json
@@ -401,6 +401,7 @@ jobs:
 
   generate-docs:
     name: Generate project documentation
+    needs: [setup-matrix-env]
     runs-on: ubuntu-24.04
     if: github.event_name == 'push' && github.ref_name == 'main'
     steps:
@@ -409,8 +410,8 @@ jobs:
         id: setup-elixir
         uses: erlef/setup-beam@fc68ffb90438ef2936bbb3251622353b3dcb2f93 # v1
         with:
-          version-file: .tool-versions
-          version-type: strict
+          otp-version: ${{ needs.setup-matrix-env.outputs.ERLANG_DEV }}
+          elixir-version: ${{ needs.setup-matrix-env.outputs.ELIXIR_DEV }}
       - name: Retrieve Cached Dependencies
         uses: actions/cache@27d5ce7f107fe9357f9df03efb73ab90386fccae # v5
         id: mix-cache
@@ -419,7 +420,7 @@ jobs:
             deps
             _build/test
             priv/plts
-          key: erlang-${{ steps.setup-elixir.outputs.otp-version }}-elixir-${{ steps.setup-elixir.outputs.elixir-version }}-rust-${{ needs.setup-matrix-env.outputs.RUST_DEV }}-${{ hashFiles('mix.lock') }}
+          key: erlang-${{ needs.setup-matrix-env.outputs.ERLANG_DEV }}-elixir-${{ needs.setup-matrix-env.outputs.ELIXIR_DEV }}-rust-${{ needs.setup-matrix-env.outputs.RUST_DEV }}-${{ hashFiles('mix.lock') }}
       - name: Build docs
         uses: lee-dohm/generate-elixir-docs@a745603eef443621976df401f45aaff4d849056b # v1
       - name: Generate openapi.json
