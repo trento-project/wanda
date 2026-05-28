@@ -107,7 +107,7 @@ defmodule Wanda.MixProject do
     [
       {:rhai_rustler, "~> 1.2.0"},
       {:rustler, ">= 0.0.0", optional: true},
-      {:jason, "~> 1.3"},
+      {:jason, "~> 1.4"},
       # see: https://github.com/pma/amqp/issues/231#issuecomment-2445049446
       {:ranch, "~> 2.2.0", override: true},
       {:gen_rmq, github: "trento-project/trnt_gen_rmq", ref: "v5.0.1"},
@@ -115,32 +115,31 @@ defmodule Wanda.MixProject do
       {:trento_contracts,
        github: "trento-project/contracts",
        sparse: "elixir",
-       ref: "c5530804a09a2e50381c9298bb9fb6c1a82957e9"},
+       ref: "9256294c5fdc3f242f1575ce010c25890e2599b3"},
       {:unplug, "~> 1.1.0"},
       # test deps
       {:ex_doc, "~> 0.29", only: [:dev, :test], runtime: false},
       {:credo, "~> 1.7", only: [:dev, :test], runtime: false},
-      {:dialyxir, "~> 1.4", only: [:dev, :test], runtime: false},
+      {:dialyxir, "~> 1.4.7", only: [:dev, :test], runtime: false},
       {:mox, "~> 1.0", only: :test},
       {:ex_machina, "~> 2.8.0", only: [:demo, :test]},
       {:faker, "~> 0.17", only: [:demo, :test]},
       {:excoveralls, "~> 0.10", only: :test},
       # phoenix deps
-      {:phoenix, "~> 1.7"},
+      {:phoenix, "~> 1.7.23"},
       {:phoenix_view, "~> 2.0"},
-      {:phoenix_ecto, "~> 4.4"},
-      {:ecto_sql, "~> 3.6"},
+      {:phoenix_ecto, "~> 4.5"},
+      {:ecto_sql, "~> 3.14"},
       {:postgrex, ">= 0.0.0"},
       {:telemetry_metrics, "~> 1.0"},
       {:telemetry_poller, "~> 1.0"},
       {:plug_cowboy, "~> 2.5"},
-      {:open_api_spex, "~> 3.21.0"},
+      {:open_api_spex, "~> 3.21"},
       {:cors_plug, "~> 3.0"},
-      # required overrides to upgrade to elixir 1.15.7 and erlang otp 26
-      # https://stackoverflow.com/questions/76562092/hi-i-had-created-elixir-project-with-phoenix-framework-there-is-yaml-file-when
-      {:ecto, "~> 3.10", override: true},
+      {:ecto, "~> 3.14"},
+      {:plug, "~> 1.19", override: true},
       {:bodyguard, "~> 2.4"},
-      {:httpoison, "~> 2.0"},
+      {:httpoison, "== 2.2.3"},
       {:exvcr, "~> 0.11", only: :test}
     ]
   end
