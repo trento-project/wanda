@@ -386,6 +386,24 @@ jobs:
       gh_token: ${{ secrets.TRENTOBOT_GH_PAT }}
       ssh_key: ${{ secrets.TRENTOBOT_SSH_KEY }}
 
+  # TEMPORARY: per-PR prod image build for elixir119 upgrade validation.
+  # Tag: <PR-NUMBER>-env. Remove this job before merging.
+  publish-pr-container:
+    name: Publish PR Container (PR ${{ github.event.pull_request.number }})
+    needs:
+      - static-code-analysis
+      - test
+    if: github.event_name == 'pull_request'
+    uses: trento-project/.github/.github/workflows/publish-containers.yaml@7ea6a8a1c3ed8a1f2185328219be4a724dd3686e # v1.8.0
+    with:
+      image_name: trento-wanda
+      tag: ${{ github.event.pull_request.number }}-env
+      extra_build_args: |
+        MIX_ENV=prod
+    secrets:
+      gh_token: ${{ secrets.TRENTOBOT_GH_PAT }}
+      ssh_key: ${{ secrets.TRENTOBOT_SSH_KEY }}
+
   deploy-demo:
     runs-on: ubuntu-24.04
     if: vars.DEPLOY_DEMO == 'true'
