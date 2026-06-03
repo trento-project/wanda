@@ -7,6 +7,7 @@ defmodule Wanda.Messaging.Adapter.AMQP.ProcessorTest do
   import Mox
 
   alias Trento.Checks.V1.ExecutionRequested
+  alias Trento.Checks.V1.Target, as: ExecutionRequestedTarget
 
   alias Wanda.Executions.Target
   alias Wanda.Messaging.Adapters.AMQP.Processor
@@ -24,11 +25,11 @@ defmodule Wanda.Messaging.Adapter.AMQP.ProcessorTest do
         Trento.Contracts.to_event(%ExecutionRequested{
           execution_id: execution_id,
           group_id: group_id,
-          targets: [%{agent_id: agent_id, checks: ["check_id"]}],
+          targets: [%ExecutionRequestedTarget{agent_id: agent_id, checks: ["check_id"]}],
           target_type: target_type,
           env: %{
-            "key" => %{kind: {:string_value, "value"}},
-            "other_key" => %{kind: {:string_value, "other_value"}}
+            "key" => %Google.Protobuf.Value{kind: {:string_value, "value"}},
+            "other_key" => %Google.Protobuf.Value{kind: {:string_value, "other_value"}}
           }
         })
 

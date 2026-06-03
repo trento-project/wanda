@@ -132,7 +132,7 @@ defmodule Wanda.Catalog do
     %SelectedCheck{
       id: id,
       spec: check,
-      customized: Enum.count(customizations) > 0,
+      customized: not Enum.empty?(customizations),
       customizations: customizations
     }
   end
