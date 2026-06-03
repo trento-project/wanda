@@ -51,7 +51,6 @@ defmodule Wanda.MixProject do
       logo: "priv/static/images/trento.svg",
       extra_section: "Project Info",
       source_url: @source_url,
-      assets: "guides/assets/",
       extras: extras(),
       groups_for_modules: groups_for_modules(),
       nest_modules_by_prefix: [
