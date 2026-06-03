@@ -1,0 +1,279 @@
+# Wanda v2.1.0 - API Reference
+
+## Modules
+
+- [Wanda.ChecksCustomizations](Wanda.ChecksCustomizations.md): Customization features.
+
+- [Wanda.DataCase](Wanda.DataCase.md): This module defines the setup for tests requiring
+access to the application's data layer.
+- [Wanda.EvaluationEngine](Wanda.EvaluationEngine.md): This module wraps the Rhai engine and provides a simple interface for
+evaluating expressions.
+It also sets some default options for the engine.
+
+- [Wanda.Operations](Wanda.Operations.md): Operations are combined actions dispatched to different agents in order to apply
+persistent changes on them.
+
+- [Wanda.Operations.AgentReport](Wanda.Operations.AgentReport.md): Report of an executed operation from an individual agent
+
+- [Wanda.Operations.Catalog.Operation](Wanda.Operations.Catalog.Operation.md): An operation is a set of actions executed step by step in agents to apply
+permanent changes in them.
+
+- [Wanda.Operations.Catalog.Registry](Wanda.Operations.Catalog.Registry.md): Operations registry where are available operations are listed
+
+- [Wanda.Operations.Catalog.Step](Wanda.Operations.Catalog.Step.md): A individual operation step running a single operator.
+The predicate is a rhai execution that returns true/false
+defining if the step needs to be executed in a certain agent.
+- [Wanda.Operations.Enums.OperatorPhase](Wanda.Operations.Enums.OperatorPhase.md): Type that represents an operator phase.
+
+- [Wanda.Operations.Enums.Result](Wanda.Operations.Enums.Result.md): Type that represents an operation result.
+
+- [Wanda.Operations.Enums.Status](Wanda.Operations.Enums.Status.md): Type that represents an operation execution status.
+
+- [Wanda.Operations.Messaging.Consumer](Wanda.Operations.Messaging.Consumer.md): Operations messagging consumer module
+
+- [Wanda.Operations.Messaging.Publisher](Wanda.Operations.Messaging.Publisher.md): Operations messagging publisher module
+
+- [Wanda.Operations.Operation](Wanda.Operations.Operation.md): Schema of a persisted operation.
+
+- [Wanda.Operations.Operation.Target](Wanda.Operations.Operation.Target.md)
+- [Wanda.Operations.OperationTarget](Wanda.Operations.OperationTarget.md): An operation target defines an agent where the operation is executed
+with arguments attached to this target, usually used to run the
+operation step predicate
+
+- [Wanda.Operations.OperatorError](Wanda.Operations.OperatorError.md): Operator execution result with an error retrieved from an agent.
+
+- [Wanda.Operations.OperatorResult](Wanda.Operations.OperatorResult.md): Operator execution result retrieved from an agent.
+
+- [Wanda.Operations.Server](Wanda.Operations.Server.md): Represents the execution of operations in target agents
+Orchestrates operation executions - issuing operations and receiving back the reports.
+
+- [Wanda.Operations.ServerBehaviour](Wanda.Operations.ServerBehaviour.md): Operation server API behaviour.
+
+- [Wanda.Operations.State](Wanda.Operations.State.md): State of an operation.
+- [Wanda.Operations.StepReport](Wanda.Operations.StepReport.md): Report of all agent execution of an operation step
+
+- [Wanda.Policy](Wanda.Policy.md): Handles integration events.
+
+- [Wanda.Release](Wanda.Release.md): Used for executing DB release tasks when run in production without Mix
+installed.
+
+- [Wanda.Repo](Wanda.Repo.md)
+- [Wanda.Support.AbilitiesHelper](Wanda.Support.AbilitiesHelper.md): Helper functions for bodyguard policies
+
+- [Wanda.Support.CatalogCase](Wanda.Support.CatalogCase.md): Base case for testing the checks catalog only against fixtures in the `test/fixtures/catalog` directory.
+- [Wanda.Support.DateService](Wanda.Support.DateService.md): DateTime service
+
+- [Wanda.Support.Ecto.Json](Wanda.Support.Ecto.Json.md): Ecto Type that represents JSON data.
+
+- [Wanda.Support.Enum](Wanda.Support.Enum.md): Enum  module with added macros to define a type,
+check supported values and validate possible values
+
+- [Wanda.Users.User](Wanda.Users.User.md): Represents the user performing actions in the system.
+
+- Executions
+  - [Wanda.Executions](Wanda.Executions.md): This module exposes functionalities to interact with the historycal log of executions.
+
+  - [Wanda.Executions.AgentCheckError](Wanda.Executions.AgentCheckError.md): Represents the result of a check on a specific agent.
+
+  - [Wanda.Executions.AgentCheckResult](Wanda.Executions.AgentCheckResult.md): Represents the result of a check on a specific agent.
+
+  - [Wanda.Executions.CheckResult](Wanda.Executions.CheckResult.md): Represents the result of a check.
+
+  - [Wanda.Executions.Enums.Result](Wanda.Executions.Enums.Result.md): Type that represents a check execution result.
+
+  - [Wanda.Executions.Enums.Status](Wanda.Executions.Enums.Status.md): Type that represents a check execution status.
+
+  - [Wanda.Executions.Evaluation](Wanda.Executions.Evaluation.md): Evaluation functional core.
+
+  - [Wanda.Executions.Execution](Wanda.Executions.Execution.md): Schema of a persisted execution.
+
+  - [Wanda.Executions.Execution.Target](Wanda.Executions.Execution.Target.md)
+  - [Wanda.Executions.ExpectationEvaluation](Wanda.Executions.ExpectationEvaluation.md): Represents the evaluation of an expectation.
+
+  - [Wanda.Executions.ExpectationEvaluationError](Wanda.Executions.ExpectationEvaluationError.md): Represents an error occurred during the evaluation of an expectation.
+
+  - [Wanda.Executions.ExpectationResult](Wanda.Executions.ExpectationResult.md): Represents the result of an expectation.
+
+  - [Wanda.Executions.Fact](Wanda.Executions.Fact.md): A fact is a piece of information that was gathered from a target.
+
+  - [Wanda.Executions.FactError](Wanda.Executions.FactError.md): Fact with an error.
+
+  - [Wanda.Executions.FakeGatheredFacts](Wanda.Executions.FakeGatheredFacts.md): Module responsible to generate the fake gathered facts from targets
+
+  - [Wanda.Executions.FakeServer](Wanda.Executions.FakeServer.md): Execution server implementation that does not actually execute anything and just
+returns (fake) random results.
+
+  - [Wanda.Executions.Gathering](Wanda.Executions.Gathering.md): Facts gathering functional core.
+
+  - [Wanda.Executions.Messaging.Consumer](Wanda.Executions.Messaging.Consumer.md): Executions messagging consumer module
+
+  - [Wanda.Executions.Messaging.Publisher](Wanda.Executions.Messaging.Publisher.md): Executions messagging publisher module
+
+  - [Wanda.Executions.Result](Wanda.Executions.Result.md): Represents the result of an execution.
+
+  - [Wanda.Executions.Server](Wanda.Executions.Server.md): Represents the execution of the CheckSelection(s) on the target nodes/agents of a cluster
+Orchestrates facts gathering on the targets - issuing execution and receiving back facts - and following check evaluations.
+
+  - [Wanda.Executions.ServerBehaviour](Wanda.Executions.ServerBehaviour.md): Execution server API behaviour.
+
+  - [Wanda.Executions.State](Wanda.Executions.State.md): State of an execution.
+
+  - [Wanda.Executions.Target](Wanda.Executions.Target.md): Execution targets.
+
+  - [Wanda.Executions.Value](Wanda.Executions.Value.md): Represents a Value used in expectation evaluation.
+This value has been already determined given the conditions in check definition.
+
+- Catalog
+  - [Wanda.Catalog](Wanda.Catalog.md): Function to interact with the checks catalog.
+
+  - [Wanda.Catalog.Check](Wanda.Catalog.Check.md): Represents a check.
+
+  - [Wanda.Catalog.CheckCustomization](Wanda.Catalog.CheckCustomization.md): Schema representing Customizations applied for a Check in a specific execution group.
+
+  - [Wanda.Catalog.Condition](Wanda.Catalog.Condition.md): Represents a condition.
+
+  - [Wanda.Catalog.CustomizationPolicy](Wanda.Catalog.CustomizationPolicy.md): Policy for checks customizations.
+
+  - [Wanda.Catalog.CustomizedValue](Wanda.Catalog.CustomizedValue.md): Represents a check's customized value.
+
+  - [Wanda.Catalog.Enums.ExpectType](Wanda.Catalog.Enums.ExpectType.md): Type that represents a check expectation type.
+
+  - [Wanda.Catalog.Enums.Severity](Wanda.Catalog.Enums.Severity.md): Type that represents a check severity.
+
+  - [Wanda.Catalog.Evaluation](Wanda.Catalog.Evaluation.md): This module provides functions to evaluate check values based on their conditions.
+
+  - [Wanda.Catalog.Expectation](Wanda.Catalog.Expectation.md): Represents an expectation.
+
+  - [Wanda.Catalog.Fact](Wanda.Catalog.Fact.md): Represents a fact.
+
+  - [Wanda.Catalog.Messaging.Publisher](Wanda.Catalog.Messaging.Publisher.md): Catalog messaging publisher module
+
+  - [Wanda.Catalog.ResolvedValue](Wanda.Catalog.ResolvedValue.md): Represents a resolved check value as defined check specification.
+It is based on the contextual environment.
+
+  - [Wanda.Catalog.SelectableCheck](Wanda.Catalog.SelectableCheck.md): Represents a check that is selectable for a given execution group given the context.
+
+  - [Wanda.Catalog.SelectedCheck](Wanda.Catalog.SelectedCheck.md): Represents a selected check used during a check execution.
+  - [Wanda.Catalog.Value](Wanda.Catalog.Value.md): Represents a value.
+
+- Messaging
+  - [Wanda.Messaging](Wanda.Messaging.md): Publishes messages to the message bus
+
+  - [Wanda.Messaging.Adapters.AMQP](Wanda.Messaging.Adapters.AMQP.md): AMQP adapter
+
+  - [Wanda.Messaging.Adapters.AMQP.Consumer](Wanda.Messaging.Adapters.AMQP.Consumer.md): AMQP consumer.
+
+  - [Wanda.Messaging.Adapters.AMQP.Processor](Wanda.Messaging.Adapters.AMQP.Processor.md): AMQP processor.
+
+  - [Wanda.Messaging.Adapters.AMQP.Publisher](Wanda.Messaging.Adapters.AMQP.Publisher.md): AMQP publisher.
+
+  - [Wanda.Messaging.Mapper](Wanda.Messaging.Mapper.md): Maps domain structures to integration events.
+
+- Web
+  - [WandaWeb](WandaWeb.md): The entrypoint for defining your web interface, such
+as controllers, views, channels and so on.
+  - [WandaWeb.Auth.AuthPlug](WandaWeb.Auth.AuthPlug.md):   Plug responsible for reading the Token from the authorization header and
+  validating it.
+  - [WandaWeb.Auth.Client.AuthClient](WandaWeb.Auth.Client.AuthClient.md): Client for interacting with the authentication server.
+
+  - [WandaWeb.Auth.Client.HttpClient](WandaWeb.Auth.Client.HttpClient.md): Http AuthClient implementation.
+
+  - [WandaWeb.Auth.UserDetector](WandaWeb.Auth.UserDetector.md): This module allows extracting a very simple representation of a user from a connection.
+  - [WandaWeb.ConnCase](WandaWeb.ConnCase.md): This module defines the test case to be used by
+tests that require setting up a connection.
+  - [WandaWeb.Endpoint](WandaWeb.Endpoint.md)
+  - [WandaWeb.ErrorHelpers](WandaWeb.ErrorHelpers.md): Conveniences for translating and building error messages.
+
+  - [WandaWeb.ErrorJSON](WandaWeb.ErrorJSON.md)
+  - [WandaWeb.FallbackController](WandaWeb.FallbackController.md)
+  - [WandaWeb.HealthController](WandaWeb.HealthController.md)
+  - [WandaWeb.HealthJSON](WandaWeb.HealthJSON.md)
+  - [WandaWeb.InfoController](WandaWeb.InfoController.md)
+  - [WandaWeb.Plugs.ApiRedirector](WandaWeb.Plugs.ApiRedirector.md):   This Plug is responsible for redirecting api requests without a specific version
+  to the latest available version, when the requested path exists
+  - [WandaWeb.Plugs.SwaggerUIRuntime](WandaWeb.Plugs.SwaggerUIRuntime.md):   This Plug updates the original SwaggerUI configuration, by adding the
+  configuration of oas_server_url (OAS_SERVER_URL in runtime) url subpath
+  to the individual urls as prefix.
+  This is needed if the OAS_SERVER_URL is given, most probably because
+  wanda requests are coming from a proxy.
+
+  - [WandaWeb.Router](WandaWeb.Router.md)
+  - [WandaWeb.Schemas.All.ApiSpec](WandaWeb.Schemas.All.ApiSpec.md): OpenApi all specification
+
+  - [WandaWeb.Schemas.ApiSpec](WandaWeb.Schemas.ApiSpec.md): OpenApi specification entry point
+  - [WandaWeb.Schemas.Unversioned.ApiSpec](WandaWeb.Schemas.Unversioned.ApiSpec.md): OpenApi specification entry point for unversioned endpoints
+
+  - [WandaWeb.Schemas.V1.AcceptedExecutionResponse](WandaWeb.Schemas.V1.AcceptedExecutionResponse.md): Minimal information about an Execution accepted by the system,
+it carries the same identifiers provided by the consumer that requested the execution to start.
+  - [WandaWeb.Schemas.V1.ApiSpec](WandaWeb.Schemas.V1.ApiSpec.md): OpenApi specification for entrypoint V1
+
+  - [WandaWeb.Schemas.V1.BadRequest](WandaWeb.Schemas.V1.BadRequest.md): Bad Request.
+
+  - [WandaWeb.Schemas.V1.Catalog.CatalogResponse](WandaWeb.Schemas.V1.Catalog.CatalogResponse.md): Checks catalog response API spec
+
+  - [WandaWeb.Schemas.V1.Catalog.Check](WandaWeb.Schemas.V1.Catalog.Check.md): Individual check of the catalog response API spec
+
+  - [WandaWeb.Schemas.V1.ChecksCustomizations.CustomValue](WandaWeb.Schemas.V1.ChecksCustomizations.CustomValue.md): Custom value to be applied or already applied to a check
+
+  - [WandaWeb.Schemas.V1.ChecksCustomizations.CustomizationRequest](WandaWeb.Schemas.V1.ChecksCustomizations.CustomizationRequest.md): Request to customize a check
+
+  - [WandaWeb.Schemas.V1.ChecksCustomizations.CustomizationResponse](WandaWeb.Schemas.V1.ChecksCustomizations.CustomizationResponse.md): Response for a customization operation
+
+  - [WandaWeb.Schemas.V1.ChecksSelection.CustomizedCheckValue](WandaWeb.Schemas.V1.ChecksSelection.CustomizedCheckValue.md): A Customized Check Value
+
+  - [WandaWeb.Schemas.V1.ChecksSelection.NotCustomizedCheckValue](WandaWeb.Schemas.V1.ChecksSelection.NotCustomizedCheckValue.md): A Check Value that has not been customized.
+  - [WandaWeb.Schemas.V1.ChecksSelection.SelectableChecksResponse](WandaWeb.Schemas.V1.ChecksSelection.SelectableChecksResponse.md): Response representing the list of selectable checks for a given execution group and environment.
+
+  - [WandaWeb.Schemas.V1.Execution.ExecutionResponse](WandaWeb.Schemas.V1.Execution.ExecutionResponse.md): Execution item response API spec
+
+  - [WandaWeb.Schemas.V1.Execution.ListExecutionsResponse](WandaWeb.Schemas.V1.Execution.ListExecutionsResponse.md): Execution list response API spec
+
+  - [WandaWeb.Schemas.V1.Execution.StartExecutionRequest](WandaWeb.Schemas.V1.Execution.StartExecutionRequest.md): The request to be sent to start an execution.
+
+  - [WandaWeb.Schemas.V1.Forbidden](WandaWeb.Schemas.V1.Forbidden.md): 403 - Forbidden.
+
+  - [WandaWeb.Schemas.V1.Health](WandaWeb.Schemas.V1.Health.md): Healthcheck
+
+  - [WandaWeb.Schemas.V1.Info](WandaWeb.Schemas.V1.Info.md): Info response schema.
+
+  - [WandaWeb.Schemas.V1.NotFound](WandaWeb.Schemas.V1.NotFound.md): 404 - Not Found.
+
+  - [WandaWeb.Schemas.V1.Operation.ListOperationsResponse](WandaWeb.Schemas.V1.Operation.ListOperationsResponse.md): Operation list response API spec
+
+  - [WandaWeb.Schemas.V1.Operation.OperationResponse](WandaWeb.Schemas.V1.Operation.OperationResponse.md): Operation item response API spec
+
+  - [WandaWeb.Schemas.V1.Ready](WandaWeb.Schemas.V1.Ready.md): Ready.
+
+  - [WandaWeb.Schemas.V1.UnprocessableEntity](WandaWeb.Schemas.V1.UnprocessableEntity.md): 422 - Unprocessable Entity.
+
+  - [WandaWeb.Schemas.V2.ApiSpec](WandaWeb.Schemas.V2.ApiSpec.md): OpenApi specification for entrypoint V2
+
+  - [WandaWeb.Schemas.V2.Execution.ExecutionResponse](WandaWeb.Schemas.V2.Execution.ExecutionResponse.md): Execution item response API spec
+
+  - [WandaWeb.Schemas.V2.Execution.ListExecutionsResponse](WandaWeb.Schemas.V2.Execution.ListExecutionsResponse.md): Execution list response API spec
+
+  - [WandaWeb.Schemas.V2.Execution.StartExecutionRequest](WandaWeb.Schemas.V2.Execution.StartExecutionRequest.md): The request to be sent to start an execution.
+
+  - [WandaWeb.Schemas.V3.ApiSpec](WandaWeb.Schemas.V3.ApiSpec.md): OpenApi specification for entrypoint V3
+
+  - [WandaWeb.Schemas.V3.Catalog.CatalogResponse](WandaWeb.Schemas.V3.Catalog.CatalogResponse.md): Checks catalog response API spec
+
+  - [WandaWeb.Schemas.V3.Catalog.Check](WandaWeb.Schemas.V3.Catalog.Check.md): Individual check of the catalog response API spec
+
+  - [WandaWeb.UserAwareConnCase](WandaWeb.UserAwareConnCase.md): Test case to deal with users and their abilities.
+
+  - [WandaWeb.V1.CatalogController](WandaWeb.V1.CatalogController.md)
+  - [WandaWeb.V1.CatalogJSON](WandaWeb.V1.CatalogJSON.md)
+  - [WandaWeb.V1.ChecksCustomizationsController](WandaWeb.V1.ChecksCustomizationsController.md)
+  - [WandaWeb.V1.ChecksCustomizationsJSON](WandaWeb.V1.ChecksCustomizationsJSON.md)
+  - [WandaWeb.V1.ExecutionController](WandaWeb.V1.ExecutionController.md)
+  - [WandaWeb.V1.ExecutionJSON](WandaWeb.V1.ExecutionJSON.md)
+  - [WandaWeb.V1.OperationController](WandaWeb.V1.OperationController.md)
+  - [WandaWeb.V1.OperationJSON](WandaWeb.V1.OperationJSON.md)
+  - [WandaWeb.V2.CatalogController](WandaWeb.V2.CatalogController.md)
+  - [WandaWeb.V2.CatalogJSON](WandaWeb.V2.CatalogJSON.md)
+  - [WandaWeb.V2.ExecutionController](WandaWeb.V2.ExecutionController.md)
+  - [WandaWeb.V2.ExecutionJSON](WandaWeb.V2.ExecutionJSON.md)
+  - [WandaWeb.V3.CatalogController](WandaWeb.V3.CatalogController.md)
+  - [WandaWeb.V3.CatalogJSON](WandaWeb.V3.CatalogJSON.md)
+

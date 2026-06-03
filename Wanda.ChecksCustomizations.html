@@ -4,17 +4,17 @@
     <meta charset="utf-8">
     <meta http-equiv="x-ua-compatible" content="ie=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="generator" content="ExDoc v0.38.1">
+    <meta name="generator" content="ExDoc v0.40.3">
     <meta name="project" content="Wanda v2.1.0">
 
 
     <title>Wanda.ChecksCustomizations — Wanda v2.1.0</title>
 
-    <link rel="stylesheet" href="dist/html-elixir-J3PIVQVA.css" />
+    <link rel="stylesheet" href="dist/html-elixir-NHQLCD6Y.css" />
 
-    <script defer src="dist/sidebar_items-3530905C.js"></script>
+    <script defer src="dist/sidebar_items-A8A9B361.js"></script>
     <script defer src="docs_config.js"></script>
-    <script defer src="dist/html-DPJLHKSM.js"></script>
+    <script defer src="dist/html-Y2MUTVIN.js"></script>
 
   </head>
   <body>
@@ -58,16 +58,34 @@ Wanda
         <form class="search-bar" action="search.html">
           <label class="search-label">
             <span class="sr-only">Search documentation of Wanda</span>
-            <input name="q" type="text" class="search-input" placeholder="Press / to search" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" />
+            <div class="search-input-wrapper">
+              <input name="q" type="text" class="search-input" placeholder="Press / to search" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" />
+              <button type="button" tabindex="-1" class="search-close-button" aria-hidden="true">
+                <i class="ri-close-line ri-lg" title="Cancel search"></i>
+              </button>
+            </div>
           </label>
-          <button type="submit" class="search-button" aria-label="Submit Search" tabindex="-1">
-            <i class="ri-search-2-line ri-lg" aria-hidden="true"></i>
-          </button>
-          <button type="button" tabindex="-1" class="search-close-button" aria-hidden="true">
-            <i class="ri-close-line ri-lg" title="Cancel search"></i>
-          </button>
         </form>
         <div class="autocomplete">
+        </div>
+        <div class="engine-selector" data-multiple="false">
+          <button type="button" class="engine-button" aria-label="Select search engine" aria-haspopup="true" aria-expanded="false">
+            <i class="ri-search-2-line" aria-hidden="true"></i>
+            <span class="engine-name">Default</span>
+            <i class="ri-arrow-down-s-line" aria-hidden="true"></i>
+          </button>
+          <div class="engine-dropdown" hidden role="menu">
+
+              <button type="button"
+                      class="engine-option"
+                      data-engine-url="search.html?q="
+                      role="menuitemradio"
+                      aria-checked="true">
+                <span class="name">Default</span>
+                <span class="help">In-browser search</span>
+              </button>
+
+          </div>
         </div>
         <button class="icon-settings display-settings">
           <i class="ri-settings-3-line"></i>
@@ -79,12 +97,19 @@ Wanda
 <div id="top-content">
   <div class="heading-with-actions top-heading">
     <h1>
-      <span translate="no">Wanda.ChecksCustomizations</span> 
+      <span translate="no">Wanda.<wbr />ChecksCustomizations</span> 
       <small class="app-vsn" translate="no">(Wanda v2.1.0)</small>
 
     </h1>
 
-      <a href="https://github.com/trento-project/wanda/blob/main/lib/wanda/checks_customizations.ex#L4" title="View Source" class="icon-action" rel="help">
+<a href="Wanda.ChecksCustomizations.md" title="Copy Markdown (hold Ctrl/Cmd and click it to open as Markdown)" class="copy-markdown icon-action" rel="help">
+  <i class="ri-markdown-line" aria-hidden="true"></i>
+  <span class="sr-only">Copy Markdown</span>
+</a>
+
+
+
+      <a href="https://github.com/trento-project/wanda/blob/main/lib/wanda/checks_customizations.ex#L4" title="View Source" class="icon-action" rel="help nofollow">
         <i class="ri-code-s-slash-line" aria-hidden="true"></i>
         <span class="sr-only">View Source</span>
       </a>
@@ -99,16 +124,16 @@ Wanda
 </div>
 
   <section id="summary" class="details-list">
-    <h1 class="section-heading">
+    <h2 class="section-heading">
       <a class="hover-link" href="#summary">
         <i class="ri-link-m" aria-hidden="true"></i>
       </a>
       <span class="text">Summary</span>
-    </h1>
+    </h2>
 <div class="summary-types summary">
-  <h2>
+  <h3>
     <a href="#types">Types</a>
-  </h2>
+  </h3>
 
     <div class="summary-row">
       <div class="summary-signature">
@@ -120,9 +145,9 @@ Wanda
 
 </div>
 <div class="summary-functions summary">
-  <h2>
+  <h3>
     <a href="#functions">Functions</a>
-  </h2>
+  </h3>
 
     <div class="summary-row">
       <div class="summary-signature">
@@ -154,12 +179,13 @@ Wanda
 
 
   <section id="types" class="details-list">
-    <h1 class="section-heading">
+    <h2 class="section-heading">
       <a class="hover-link" href="#types">
         <i class="ri-link-m" aria-hidden="true"></i>
       </a>
       <span class="text">Types</span>
-    </h1>
+    </h2>
+
     <div class="types-list">
 <section class="detail" id="t:custom_value/0">
 
@@ -171,7 +197,7 @@ Wanda
       <h1 class="signature" translate="no">custom_value()</h1>
 
 
-        <a href="https://github.com/trento-project/wanda/blob/main/lib/wanda/checks_customizations.ex#L28" class="icon-action" rel="help" aria-label="View Source">
+        <a href="https://github.com/trento-project/wanda/blob/main/lib/wanda/checks_customizations.ex#L28" class="icon-action" rel="help nofollow" aria-label="View Source">
           <i class="ri-code-s-slash-line" aria-hidden="true"></i>
         </a>
 
@@ -194,12 +220,13 @@ Wanda
   </section>
 
   <section id="functions" class="details-list">
-    <h1 class="section-heading">
+    <h2 class="section-heading">
       <a class="hover-link" href="#functions">
         <i class="ri-link-m" aria-hidden="true"></i>
       </a>
       <span class="text">Functions</span>
-    </h1>
+    </h2>
+
     <div class="functions-list">
 <section class="detail" id="customize/4">
 
@@ -213,7 +240,7 @@ Wanda
       <h1 class="signature" translate="no">customize(check_id, group_id, custom_values, opts \\ [])</h1>
 
 
-        <a href="https://github.com/trento-project/wanda/blob/main/lib/wanda/checks_customizations.ex#L49" class="icon-action" rel="help" aria-label="View Source">
+        <a href="https://github.com/trento-project/wanda/blob/main/lib/wanda/checks_customizations.ex#L49" class="icon-action" rel="help nofollow" aria-label="View Source">
           <i class="ri-code-s-slash-line" aria-hidden="true"></i>
         </a>
 
@@ -226,7 +253,7 @@ Wanda
 
           <pre translate="no"><span class="attribute">@spec</span> customize(
   check_id :: <a href="https://hexdocs.pm/elixir/String.html#t:t/0">String.t</a>(),
-  group_id :: <a href="https://hexdocs.pm/ecto/3.12.5/Ecto.UUID.html#t:t/0">Ecto.UUID.t</a>(),
+  group_id :: <a href="https://hexdocs.pm/ecto/3.14.0/Ecto.UUID.html#t:t/0">Ecto.UUID.t</a>(),
   [<a href="#t:custom_value/0">custom_value</a>()],
   opts :: <a href="https://hexdocs.pm/elixir/Keyword.html#t:t/0">Keyword.t</a>()
 ) ::
@@ -249,7 +276,7 @@ Wanda
       <h1 class="signature" translate="no">get_customizations(group_id)</h1>
 
 
-        <a href="https://github.com/trento-project/wanda/blob/main/lib/wanda/checks_customizations.ex#L34" class="icon-action" rel="help" aria-label="View Source">
+        <a href="https://github.com/trento-project/wanda/blob/main/lib/wanda/checks_customizations.ex#L34" class="icon-action" rel="help nofollow" aria-label="View Source">
           <i class="ri-code-s-slash-line" aria-hidden="true"></i>
         </a>
 
@@ -260,7 +287,7 @@ Wanda
 
       <div class="specs">
 
-          <pre translate="no"><span class="attribute">@spec</span> get_customizations(<a href="https://hexdocs.pm/ecto/3.12.5/Ecto.UUID.html#t:t/0">Ecto.UUID.t</a>()) :: [<a href="Wanda.Catalog.CheckCustomization.html#t:t/0">Wanda.Catalog.CheckCustomization.t</a>()]</pre>
+          <pre translate="no"><span class="attribute">@spec</span> get_customizations(<a href="https://hexdocs.pm/ecto/3.14.0/Ecto.UUID.html#t:t/0">Ecto.UUID.t</a>()) :: [<a href="Wanda.Catalog.CheckCustomization.html#t:t/0">Wanda.Catalog.CheckCustomization.t</a>()]</pre>
 
       </div>
 
@@ -279,7 +306,7 @@ Wanda
       <h1 class="signature" translate="no">reset_customization(check_id, group_id, opts \\ [])</h1>
 
 
-        <a href="https://github.com/trento-project/wanda/blob/main/lib/wanda/checks_customizations.ex#L63" class="icon-action" rel="help" aria-label="View Source">
+        <a href="https://github.com/trento-project/wanda/blob/main/lib/wanda/checks_customizations.ex#L63" class="icon-action" rel="help nofollow" aria-label="View Source">
           <i class="ri-code-s-slash-line" aria-hidden="true"></i>
         </a>
 
@@ -292,7 +319,7 @@ Wanda
 
           <pre translate="no"><span class="attribute">@spec</span> reset_customization(
   check_id :: <a href="https://hexdocs.pm/elixir/String.html#t:t/0">String.t</a>(),
-  group_id :: <a href="https://hexdocs.pm/ecto/3.12.5/Ecto.UUID.html#t:t/0">Ecto.UUID.t</a>(),
+  group_id :: <a href="https://hexdocs.pm/ecto/3.14.0/Ecto.UUID.html#t:t/0">Ecto.UUID.t</a>(),
   opts :: <a href="https://hexdocs.pm/elixir/Keyword.html#t:t/0">Keyword.t</a>()
 ) :: :ok | {:error, :customization_not_found}</pre>
 
@@ -306,27 +333,34 @@ Wanda
   </section>
 
     <footer class="footer">
-      <p>
 
-        <span class="line">
-          <button class="a-main footer-button display-quick-switch" title="Search HexDocs packages">
-            Search HexDocs
-          </button>
+        <p>
 
-            <a href="Wanda.epub" title="ePub version">
-              Download ePub version
-            </a>
+          <span class="line">
+            <button class="a-main footer-button display-quick-switch" title="Go to package docs">
+              Go to package docs
+            </button>
 
-        </span>
-      </p>
+              <a href="llms.txt" target="_blank">
+                View llms.txt
+              </a>
 
-      <p class="built-using">
-        Built using
-        <a href="https://github.com/elixir-lang/ex_doc" title="ExDoc" target="_blank" rel="help noopener" translate="no">ExDoc</a> (v0.38.1) for the
 
-          <a href="https://elixir-lang.org" title="Elixir" target="_blank" translate="no">Elixir programming language</a>
+              <a href="Wanda.epub">
+                Download ePub version
+              </a>
 
-      </p>
+          </span>
+        </p>
+
+        <p class="built-using">
+          Built using
+          <a href="https://github.com/elixir-lang/ex_doc" title="ExDoc" target="_blank" rel="help noopener" translate="no">ExDoc</a> (v0.40.3) for the
+
+            <a href="https://elixir-lang.org" title="Elixir" target="_blank" translate="no">Elixir programming language</a>
+
+        </p>
+
 
     </footer>
   </div>

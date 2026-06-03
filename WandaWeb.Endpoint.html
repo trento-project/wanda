@@ -4,17 +4,17 @@
     <meta charset="utf-8">
     <meta http-equiv="x-ua-compatible" content="ie=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="generator" content="ExDoc v0.38.1">
+    <meta name="generator" content="ExDoc v0.40.3">
     <meta name="project" content="Wanda v2.1.0">
 
 
     <title>WandaWeb.Endpoint — Wanda v2.1.0</title>
 
-    <link rel="stylesheet" href="dist/html-elixir-J3PIVQVA.css" />
+    <link rel="stylesheet" href="dist/html-elixir-NHQLCD6Y.css" />
 
-    <script defer src="dist/sidebar_items-3530905C.js"></script>
+    <script defer src="dist/sidebar_items-A8A9B361.js"></script>
     <script defer src="docs_config.js"></script>
-    <script defer src="dist/html-DPJLHKSM.js"></script>
+    <script defer src="dist/html-Y2MUTVIN.js"></script>
 
   </head>
   <body>
@@ -58,16 +58,34 @@ Wanda
         <form class="search-bar" action="search.html">
           <label class="search-label">
             <span class="sr-only">Search documentation of Wanda</span>
-            <input name="q" type="text" class="search-input" placeholder="Press / to search" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" />
+            <div class="search-input-wrapper">
+              <input name="q" type="text" class="search-input" placeholder="Press / to search" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" />
+              <button type="button" tabindex="-1" class="search-close-button" aria-hidden="true">
+                <i class="ri-close-line ri-lg" title="Cancel search"></i>
+              </button>
+            </div>
           </label>
-          <button type="submit" class="search-button" aria-label="Submit Search" tabindex="-1">
-            <i class="ri-search-2-line ri-lg" aria-hidden="true"></i>
-          </button>
-          <button type="button" tabindex="-1" class="search-close-button" aria-hidden="true">
-            <i class="ri-close-line ri-lg" title="Cancel search"></i>
-          </button>
         </form>
         <div class="autocomplete">
+        </div>
+        <div class="engine-selector" data-multiple="false">
+          <button type="button" class="engine-button" aria-label="Select search engine" aria-haspopup="true" aria-expanded="false">
+            <i class="ri-search-2-line" aria-hidden="true"></i>
+            <span class="engine-name">Default</span>
+            <i class="ri-arrow-down-s-line" aria-hidden="true"></i>
+          </button>
+          <div class="engine-dropdown" hidden role="menu">
+
+              <button type="button"
+                      class="engine-option"
+                      data-engine-url="search.html?q="
+                      role="menuitemradio"
+                      aria-checked="true">
+                <span class="name">Default</span>
+                <span class="help">In-browser search</span>
+              </button>
+
+          </div>
         </div>
         <button class="icon-settings display-settings">
           <i class="ri-settings-3-line"></i>
@@ -79,12 +97,19 @@ Wanda
 <div id="top-content">
   <div class="heading-with-actions top-heading">
     <h1>
-      <span translate="no">WandaWeb.Endpoint</span> 
+      <span translate="no">WandaWeb.<wbr />Endpoint</span> 
       <small class="app-vsn" translate="no">(Wanda v2.1.0)</small>
 
     </h1>
 
-      <a href="https://github.com/trento-project/wanda/blob/main/lib/wanda_web/endpoint.ex#L4" title="View Source" class="icon-action" rel="help">
+<a href="WandaWeb.Endpoint.md" title="Copy Markdown (hold Ctrl/Cmd and click it to open as Markdown)" class="copy-markdown icon-action" rel="help">
+  <i class="ri-markdown-line" aria-hidden="true"></i>
+  <span class="sr-only">Copy Markdown</span>
+</a>
+
+
+
+      <a href="https://github.com/trento-project/wanda/blob/main/lib/wanda_web/endpoint.ex#L4" title="View Source" class="icon-action" rel="help nofollow">
         <i class="ri-code-s-slash-line" aria-hidden="true"></i>
         <span class="sr-only">View Source</span>
       </a>
@@ -95,16 +120,16 @@ Wanda
 </div>
 
   <section id="summary" class="details-list">
-    <h1 class="section-heading">
+    <h2 class="section-heading">
       <a class="hover-link" href="#summary">
         <i class="ri-link-m" aria-hidden="true"></i>
       </a>
       <span class="text">Summary</span>
-    </h1>
+    </h2>
 <div class="summary-functions summary">
-  <h2>
+  <h3>
     <a href="#functions">Functions</a>
-  </h2>
+  </h3>
 
     <div class="summary-row">
       <div class="summary-signature">
@@ -112,7 +137,7 @@ Wanda
 
       </div>
 
-        <div class="summary-synopsis"><p>Callback implementation for <a><code class="inline">Phoenix.Endpoint.broadcast/3</code></a>.</p></div>
+        <div class="summary-synopsis"><p>Callback implementation for <a href="https://hexdocs.pm/phoenix/1.7.23/Phoenix.Endpoint.html#c:broadcast/3"><code class="inline">Phoenix.Endpoint.broadcast/3</code></a>.</p></div>
 
     </div>
 
@@ -122,7 +147,7 @@ Wanda
 
       </div>
 
-        <div class="summary-synopsis"><p>Callback implementation for <a><code class="inline">Phoenix.Endpoint.broadcast!/3</code></a>.</p></div>
+        <div class="summary-synopsis"><p>Callback implementation for <a href="https://hexdocs.pm/phoenix/1.7.23/Phoenix.Endpoint.html#c:broadcast!/3"><code class="inline">Phoenix.Endpoint.broadcast!/3</code></a>.</p></div>
 
     </div>
 
@@ -132,7 +157,7 @@ Wanda
 
       </div>
 
-        <div class="summary-synopsis"><p>Callback implementation for <a><code class="inline">Phoenix.Endpoint.broadcast_from/4</code></a>.</p></div>
+        <div class="summary-synopsis"><p>Callback implementation for <a href="https://hexdocs.pm/phoenix/1.7.23/Phoenix.Endpoint.html#c:broadcast_from/4"><code class="inline">Phoenix.Endpoint.broadcast_from/4</code></a>.</p></div>
 
     </div>
 
@@ -142,7 +167,7 @@ Wanda
 
       </div>
 
-        <div class="summary-synopsis"><p>Callback implementation for <a><code class="inline">Phoenix.Endpoint.broadcast_from!/4</code></a>.</p></div>
+        <div class="summary-synopsis"><p>Callback implementation for <a href="https://hexdocs.pm/phoenix/1.7.23/Phoenix.Endpoint.html#c:broadcast_from!/4"><code class="inline">Phoenix.Endpoint.broadcast_from!/4</code></a>.</p></div>
 
     </div>
 
@@ -152,7 +177,7 @@ Wanda
 
       </div>
 
-        <div class="summary-synopsis"><p>Callback implementation for <a><code class="inline">Plug.call/2</code></a>.</p></div>
+        <div class="summary-synopsis"><p>Callback implementation for <a href="https://hexdocs.pm/plug/1.19.2/Plug.html#c:call/2"><code class="inline">Plug.call/2</code></a>.</p></div>
 
     </div>
 
@@ -203,7 +228,7 @@ under a supervision tree.</p></div>
 
       </div>
 
-        <div class="summary-synopsis"><p>Callback implementation for <a><code class="inline">Plug.init/1</code></a>.</p></div>
+        <div class="summary-synopsis"><p>Callback implementation for <a href="https://hexdocs.pm/plug/1.19.2/Plug.html#c:init/1"><code class="inline">Plug.init/1</code></a>.</p></div>
 
     </div>
 
@@ -213,7 +238,7 @@ under a supervision tree.</p></div>
 
       </div>
 
-        <div class="summary-synopsis"><p>Callback implementation for <a><code class="inline">Phoenix.Endpoint.local_broadcast/3</code></a>.</p></div>
+        <div class="summary-synopsis"><p>Callback implementation for <a href="https://hexdocs.pm/phoenix/1.7.23/Phoenix.Endpoint.html#c:local_broadcast/3"><code class="inline">Phoenix.Endpoint.local_broadcast/3</code></a>.</p></div>
 
     </div>
 
@@ -223,7 +248,7 @@ under a supervision tree.</p></div>
 
       </div>
 
-        <div class="summary-synopsis"><p>Callback implementation for <a><code class="inline">Phoenix.Endpoint.local_broadcast_from/4</code></a>.</p></div>
+        <div class="summary-synopsis"><p>Callback implementation for <a href="https://hexdocs.pm/phoenix/1.7.23/Phoenix.Endpoint.html#c:local_broadcast_from/4"><code class="inline">Phoenix.Endpoint.local_broadcast_from/4</code></a>.</p></div>
 
     </div>
 
@@ -315,7 +340,7 @@ and the second item being the <code class="inline">static_integrity</code>.</p><
 
       </div>
 
-        <div class="summary-synopsis"><p>Generates the endpoint base URL but as a <a><code class="inline">URI</code></a> struct.</p></div>
+        <div class="summary-synopsis"><p>Generates the endpoint base URL but as a <a href="https://hexdocs.pm/elixir/URI.html"><code class="inline">URI</code></a> struct.</p></div>
 
     </div>
 
@@ -325,7 +350,7 @@ and the second item being the <code class="inline">static_integrity</code>.</p><
 
       </div>
 
-        <div class="summary-synopsis"><p>Callback implementation for <a><code class="inline">Phoenix.Endpoint.subscribe/2</code></a>.</p></div>
+        <div class="summary-synopsis"><p>Callback implementation for <a href="https://hexdocs.pm/phoenix/1.7.23/Phoenix.Endpoint.html#c:subscribe/2"><code class="inline">Phoenix.Endpoint.subscribe/2</code></a>.</p></div>
 
     </div>
 
@@ -335,7 +360,7 @@ and the second item being the <code class="inline">static_integrity</code>.</p><
 
       </div>
 
-        <div class="summary-synopsis"><p>Callback implementation for <a><code class="inline">Phoenix.Endpoint.unsubscribe/1</code></a>.</p></div>
+        <div class="summary-synopsis"><p>Callback implementation for <a href="https://hexdocs.pm/phoenix/1.7.23/Phoenix.Endpoint.html#c:unsubscribe/1"><code class="inline">Phoenix.Endpoint.unsubscribe/1</code></a>.</p></div>
 
     </div>
 
@@ -355,12 +380,13 @@ and the second item being the <code class="inline">static_integrity</code>.</p><
 
 
   <section id="functions" class="details-list">
-    <h1 class="section-heading">
+    <h2 class="section-heading">
       <a class="hover-link" href="#functions">
         <i class="ri-link-m" aria-hidden="true"></i>
       </a>
       <span class="text">Functions</span>
-    </h1>
+    </h2>
+
     <div class="functions-list">
 <section class="detail" id="broadcast/3">
 
@@ -372,7 +398,7 @@ and the second item being the <code class="inline">static_integrity</code>.</p><
       <h1 class="signature" translate="no">broadcast(topic, event, msg)</h1>
 
 
-        <a href="https://github.com/trento-project/wanda/blob/main/lib/wanda_web/endpoint.ex#L5" class="icon-action" rel="help" aria-label="View Source">
+        <a href="https://github.com/trento-project/wanda/blob/main/lib/wanda_web/endpoint.ex#L5" class="icon-action" rel="help nofollow" aria-label="View Source">
           <i class="ri-code-s-slash-line" aria-hidden="true"></i>
         </a>
 
@@ -381,7 +407,7 @@ and the second item being the <code class="inline">static_integrity</code>.</p><
 
   <section class="docstring">
 
-<p>Callback implementation for <a href="https://hexdocs.pm/phoenix/1.7.21/Phoenix.Endpoint.html#c:broadcast/3"><code class="inline">Phoenix.Endpoint.broadcast/3</code></a>.</p>
+<p>Callback implementation for <a href="https://hexdocs.pm/phoenix/1.7.23/Phoenix.Endpoint.html#c:broadcast/3"><code class="inline">Phoenix.Endpoint.broadcast/3</code></a>.</p>
   </section>
 </section>
 <section class="detail" id="broadcast!/3">
@@ -394,7 +420,7 @@ and the second item being the <code class="inline">static_integrity</code>.</p><
       <h1 class="signature" translate="no">broadcast!(topic, event, msg)</h1>
 
 
-        <a href="https://github.com/trento-project/wanda/blob/main/lib/wanda_web/endpoint.ex#L5" class="icon-action" rel="help" aria-label="View Source">
+        <a href="https://github.com/trento-project/wanda/blob/main/lib/wanda_web/endpoint.ex#L5" class="icon-action" rel="help nofollow" aria-label="View Source">
           <i class="ri-code-s-slash-line" aria-hidden="true"></i>
         </a>
 
@@ -403,7 +429,7 @@ and the second item being the <code class="inline">static_integrity</code>.</p><
 
   <section class="docstring">
 
-<p>Callback implementation for <a href="https://hexdocs.pm/phoenix/1.7.21/Phoenix.Endpoint.html#c:broadcast!/3"><code class="inline">Phoenix.Endpoint.broadcast!/3</code></a>.</p>
+<p>Callback implementation for <a href="https://hexdocs.pm/phoenix/1.7.23/Phoenix.Endpoint.html#c:broadcast!/3"><code class="inline">Phoenix.Endpoint.broadcast!/3</code></a>.</p>
   </section>
 </section>
 <section class="detail" id="broadcast_from/4">
@@ -416,7 +442,7 @@ and the second item being the <code class="inline">static_integrity</code>.</p><
       <h1 class="signature" translate="no">broadcast_from(from, topic, event, msg)</h1>
 
 
-        <a href="https://github.com/trento-project/wanda/blob/main/lib/wanda_web/endpoint.ex#L5" class="icon-action" rel="help" aria-label="View Source">
+        <a href="https://github.com/trento-project/wanda/blob/main/lib/wanda_web/endpoint.ex#L5" class="icon-action" rel="help nofollow" aria-label="View Source">
           <i class="ri-code-s-slash-line" aria-hidden="true"></i>
         </a>
 
@@ -425,7 +451,7 @@ and the second item being the <code class="inline">static_integrity</code>.</p><
 
   <section class="docstring">
 
-<p>Callback implementation for <a href="https://hexdocs.pm/phoenix/1.7.21/Phoenix.Endpoint.html#c:broadcast_from/4"><code class="inline">Phoenix.Endpoint.broadcast_from/4</code></a>.</p>
+<p>Callback implementation for <a href="https://hexdocs.pm/phoenix/1.7.23/Phoenix.Endpoint.html#c:broadcast_from/4"><code class="inline">Phoenix.Endpoint.broadcast_from/4</code></a>.</p>
   </section>
 </section>
 <section class="detail" id="broadcast_from!/4">
@@ -438,7 +464,7 @@ and the second item being the <code class="inline">static_integrity</code>.</p><
       <h1 class="signature" translate="no">broadcast_from!(from, topic, event, msg)</h1>
 
 
-        <a href="https://github.com/trento-project/wanda/blob/main/lib/wanda_web/endpoint.ex#L5" class="icon-action" rel="help" aria-label="View Source">
+        <a href="https://github.com/trento-project/wanda/blob/main/lib/wanda_web/endpoint.ex#L5" class="icon-action" rel="help nofollow" aria-label="View Source">
           <i class="ri-code-s-slash-line" aria-hidden="true"></i>
         </a>
 
@@ -447,7 +473,7 @@ and the second item being the <code class="inline">static_integrity</code>.</p><
 
   <section class="docstring">
 
-<p>Callback implementation for <a href="https://hexdocs.pm/phoenix/1.7.21/Phoenix.Endpoint.html#c:broadcast_from!/4"><code class="inline">Phoenix.Endpoint.broadcast_from!/4</code></a>.</p>
+<p>Callback implementation for <a href="https://hexdocs.pm/phoenix/1.7.23/Phoenix.Endpoint.html#c:broadcast_from!/4"><code class="inline">Phoenix.Endpoint.broadcast_from!/4</code></a>.</p>
   </section>
 </section>
 <section class="detail" id="call/2">
@@ -460,7 +486,7 @@ and the second item being the <code class="inline">static_integrity</code>.</p><
       <h1 class="signature" translate="no">call(conn, opts)</h1>
 
 
-        <a href="https://github.com/trento-project/wanda/blob/main/lib/wanda_web/endpoint.ex#L4" class="icon-action" rel="help" aria-label="View Source">
+        <a href="https://github.com/trento-project/wanda/blob/main/lib/wanda_web/endpoint.ex#L4" class="icon-action" rel="help nofollow" aria-label="View Source">
           <i class="ri-code-s-slash-line" aria-hidden="true"></i>
         </a>
 
@@ -469,7 +495,7 @@ and the second item being the <code class="inline">static_integrity</code>.</p><
 
   <section class="docstring">
 
-<p>Callback implementation for <a href="https://hexdocs.pm/plug/1.17.0/Plug.html#c:call/2"><code class="inline">Plug.call/2</code></a>.</p>
+<p>Callback implementation for <a href="https://hexdocs.pm/plug/1.19.2/Plug.html#c:call/2"><code class="inline">Plug.call/2</code></a>.</p>
   </section>
 </section>
 <section class="detail" id="child_spec/1">
@@ -482,7 +508,7 @@ and the second item being the <code class="inline">static_integrity</code>.</p><
       <h1 class="signature" translate="no">child_spec(opts)</h1>
 
 
-        <a href="https://github.com/trento-project/wanda/blob/main/lib/wanda_web/endpoint.ex#L5" class="icon-action" rel="help" aria-label="View Source">
+        <a href="https://github.com/trento-project/wanda/blob/main/lib/wanda_web/endpoint.ex#L5" class="icon-action" rel="help nofollow" aria-label="View Source">
           <i class="ri-code-s-slash-line" aria-hidden="true"></i>
         </a>
 
@@ -507,7 +533,7 @@ under a supervision tree.</p>
       <h1 class="signature" translate="no">config(key, default \\ nil)</h1>
 
 
-        <a href="https://github.com/trento-project/wanda/blob/main/lib/wanda_web/endpoint.ex#L5" class="icon-action" rel="help" aria-label="View Source">
+        <a href="https://github.com/trento-project/wanda/blob/main/lib/wanda_web/endpoint.ex#L5" class="icon-action" rel="help nofollow" aria-label="View Source">
           <i class="ri-code-s-slash-line" aria-hidden="true"></i>
         </a>
 
@@ -529,7 +555,7 @@ under a supervision tree.</p>
       <h1 class="signature" translate="no">config_change(changed, removed)</h1>
 
 
-        <a href="https://github.com/trento-project/wanda/blob/main/lib/wanda_web/endpoint.ex#L5" class="icon-action" rel="help" aria-label="View Source">
+        <a href="https://github.com/trento-project/wanda/blob/main/lib/wanda_web/endpoint.ex#L5" class="icon-action" rel="help nofollow" aria-label="View Source">
           <i class="ri-code-s-slash-line" aria-hidden="true"></i>
         </a>
 
@@ -551,7 +577,7 @@ under a supervision tree.</p>
       <h1 class="signature" translate="no">host()</h1>
 
 
-        <a href="https://github.com/trento-project/wanda/blob/main/lib/wanda_web/endpoint.ex#L5" class="icon-action" rel="help" aria-label="View Source">
+        <a href="https://github.com/trento-project/wanda/blob/main/lib/wanda_web/endpoint.ex#L5" class="icon-action" rel="help nofollow" aria-label="View Source">
           <i class="ri-code-s-slash-line" aria-hidden="true"></i>
         </a>
 
@@ -573,7 +599,7 @@ under a supervision tree.</p>
       <h1 class="signature" translate="no">init(opts)</h1>
 
 
-        <a href="https://github.com/trento-project/wanda/blob/main/lib/wanda_web/endpoint.ex#L5" class="icon-action" rel="help" aria-label="View Source">
+        <a href="https://github.com/trento-project/wanda/blob/main/lib/wanda_web/endpoint.ex#L5" class="icon-action" rel="help nofollow" aria-label="View Source">
           <i class="ri-code-s-slash-line" aria-hidden="true"></i>
         </a>
 
@@ -582,7 +608,7 @@ under a supervision tree.</p>
 
   <section class="docstring">
 
-<p>Callback implementation for <a href="https://hexdocs.pm/plug/1.17.0/Plug.html#c:init/1"><code class="inline">Plug.init/1</code></a>.</p>
+<p>Callback implementation for <a href="https://hexdocs.pm/plug/1.19.2/Plug.html#c:init/1"><code class="inline">Plug.init/1</code></a>.</p>
   </section>
 </section>
 <section class="detail" id="local_broadcast/3">
@@ -595,7 +621,7 @@ under a supervision tree.</p>
       <h1 class="signature" translate="no">local_broadcast(topic, event, msg)</h1>
 
 
-        <a href="https://github.com/trento-project/wanda/blob/main/lib/wanda_web/endpoint.ex#L5" class="icon-action" rel="help" aria-label="View Source">
+        <a href="https://github.com/trento-project/wanda/blob/main/lib/wanda_web/endpoint.ex#L5" class="icon-action" rel="help nofollow" aria-label="View Source">
           <i class="ri-code-s-slash-line" aria-hidden="true"></i>
         </a>
 
@@ -604,7 +630,7 @@ under a supervision tree.</p>
 
   <section class="docstring">
 
-<p>Callback implementation for <a href="https://hexdocs.pm/phoenix/1.7.21/Phoenix.Endpoint.html#c:local_broadcast/3"><code class="inline">Phoenix.Endpoint.local_broadcast/3</code></a>.</p>
+<p>Callback implementation for <a href="https://hexdocs.pm/phoenix/1.7.23/Phoenix.Endpoint.html#c:local_broadcast/3"><code class="inline">Phoenix.Endpoint.local_broadcast/3</code></a>.</p>
   </section>
 </section>
 <section class="detail" id="local_broadcast_from/4">
@@ -617,7 +643,7 @@ under a supervision tree.</p>
       <h1 class="signature" translate="no">local_broadcast_from(from, topic, event, msg)</h1>
 
 
-        <a href="https://github.com/trento-project/wanda/blob/main/lib/wanda_web/endpoint.ex#L5" class="icon-action" rel="help" aria-label="View Source">
+        <a href="https://github.com/trento-project/wanda/blob/main/lib/wanda_web/endpoint.ex#L5" class="icon-action" rel="help nofollow" aria-label="View Source">
           <i class="ri-code-s-slash-line" aria-hidden="true"></i>
         </a>
 
@@ -626,7 +652,7 @@ under a supervision tree.</p>
 
   <section class="docstring">
 
-<p>Callback implementation for <a href="https://hexdocs.pm/phoenix/1.7.21/Phoenix.Endpoint.html#c:local_broadcast_from/4"><code class="inline">Phoenix.Endpoint.local_broadcast_from/4</code></a>.</p>
+<p>Callback implementation for <a href="https://hexdocs.pm/phoenix/1.7.23/Phoenix.Endpoint.html#c:local_broadcast_from/4"><code class="inline">Phoenix.Endpoint.local_broadcast_from/4</code></a>.</p>
   </section>
 </section>
 <section class="detail" id="path/1">
@@ -639,7 +665,7 @@ under a supervision tree.</p>
       <h1 class="signature" translate="no">path(path)</h1>
 
 
-        <a href="https://github.com/trento-project/wanda/blob/main/lib/wanda_web/endpoint.ex#L5" class="icon-action" rel="help" aria-label="View Source">
+        <a href="https://github.com/trento-project/wanda/blob/main/lib/wanda_web/endpoint.ex#L5" class="icon-action" rel="help nofollow" aria-label="View Source">
           <i class="ri-code-s-slash-line" aria-hidden="true"></i>
         </a>
 
@@ -661,7 +687,7 @@ under a supervision tree.</p>
       <h1 class="signature" translate="no">script_name()</h1>
 
 
-        <a href="https://github.com/trento-project/wanda/blob/main/lib/wanda_web/endpoint.ex#L5" class="icon-action" rel="help" aria-label="View Source">
+        <a href="https://github.com/trento-project/wanda/blob/main/lib/wanda_web/endpoint.ex#L5" class="icon-action" rel="help nofollow" aria-label="View Source">
           <i class="ri-code-s-slash-line" aria-hidden="true"></i>
         </a>
 
@@ -683,7 +709,7 @@ under a supervision tree.</p>
       <h1 class="signature" translate="no">server_info(scheme)</h1>
 
 
-        <a href="https://github.com/trento-project/wanda/blob/main/lib/wanda_web/endpoint.ex#L5" class="icon-action" rel="help" aria-label="View Source">
+        <a href="https://github.com/trento-project/wanda/blob/main/lib/wanda_web/endpoint.ex#L5" class="icon-action" rel="help nofollow" aria-label="View Source">
           <i class="ri-code-s-slash-line" aria-hidden="true"></i>
         </a>
 
@@ -707,7 +733,7 @@ under a supervision tree.</p>
       <h1 class="signature" translate="no">start_link(opts \\ [])</h1>
 
 
-        <a href="https://github.com/trento-project/wanda/blob/main/lib/wanda_web/endpoint.ex#L5" class="icon-action" rel="help" aria-label="View Source">
+        <a href="https://github.com/trento-project/wanda/blob/main/lib/wanda_web/endpoint.ex#L5" class="icon-action" rel="help nofollow" aria-label="View Source">
           <i class="ri-code-s-slash-line" aria-hidden="true"></i>
         </a>
 
@@ -729,7 +755,7 @@ under a supervision tree.</p>
       <h1 class="signature" translate="no">static_integrity(path)</h1>
 
 
-        <a href="https://github.com/trento-project/wanda/blob/main/lib/wanda_web/endpoint.ex#L5" class="icon-action" rel="help" aria-label="View Source">
+        <a href="https://github.com/trento-project/wanda/blob/main/lib/wanda_web/endpoint.ex#L5" class="icon-action" rel="help nofollow" aria-label="View Source">
           <i class="ri-code-s-slash-line" aria-hidden="true"></i>
         </a>
 
@@ -752,7 +778,7 @@ in <code class="inline">priv/static</code>. Meant to be used for Subresource Int
       <h1 class="signature" translate="no">static_lookup(path)</h1>
 
 
-        <a href="https://github.com/trento-project/wanda/blob/main/lib/wanda_web/endpoint.ex#L5" class="icon-action" rel="help" aria-label="View Source">
+        <a href="https://github.com/trento-project/wanda/blob/main/lib/wanda_web/endpoint.ex#L5" class="icon-action" rel="help nofollow" aria-label="View Source">
           <i class="ri-code-s-slash-line" aria-hidden="true"></i>
         </a>
 
@@ -775,7 +801,7 @@ and the second item being the <code class="inline">static_integrity</code>.</p>
       <h1 class="signature" translate="no">static_path(path)</h1>
 
 
-        <a href="https://github.com/trento-project/wanda/blob/main/lib/wanda_web/endpoint.ex#L5" class="icon-action" rel="help" aria-label="View Source">
+        <a href="https://github.com/trento-project/wanda/blob/main/lib/wanda_web/endpoint.ex#L5" class="icon-action" rel="help nofollow" aria-label="View Source">
           <i class="ri-code-s-slash-line" aria-hidden="true"></i>
         </a>
 
@@ -797,7 +823,7 @@ and the second item being the <code class="inline">static_integrity</code>.</p>
       <h1 class="signature" translate="no">static_url()</h1>
 
 
-        <a href="https://github.com/trento-project/wanda/blob/main/lib/wanda_web/endpoint.ex#L5" class="icon-action" rel="help" aria-label="View Source">
+        <a href="https://github.com/trento-project/wanda/blob/main/lib/wanda_web/endpoint.ex#L5" class="icon-action" rel="help nofollow" aria-label="View Source">
           <i class="ri-code-s-slash-line" aria-hidden="true"></i>
         </a>
 
@@ -820,7 +846,7 @@ such. It falls back to <code class="inline">:url</code> if <code class="inline">
       <h1 class="signature" translate="no">struct_url()</h1>
 
 
-        <a href="https://github.com/trento-project/wanda/blob/main/lib/wanda_web/endpoint.ex#L5" class="icon-action" rel="help" aria-label="View Source">
+        <a href="https://github.com/trento-project/wanda/blob/main/lib/wanda_web/endpoint.ex#L5" class="icon-action" rel="help nofollow" aria-label="View Source">
           <i class="ri-code-s-slash-line" aria-hidden="true"></i>
         </a>
 
@@ -846,7 +872,7 @@ URL helpers.</p>
       <h1 class="signature" translate="no">subscribe(topic, opts \\ [])</h1>
 
 
-        <a href="https://github.com/trento-project/wanda/blob/main/lib/wanda_web/endpoint.ex#L5" class="icon-action" rel="help" aria-label="View Source">
+        <a href="https://github.com/trento-project/wanda/blob/main/lib/wanda_web/endpoint.ex#L5" class="icon-action" rel="help nofollow" aria-label="View Source">
           <i class="ri-code-s-slash-line" aria-hidden="true"></i>
         </a>
 
@@ -855,7 +881,7 @@ URL helpers.</p>
 
   <section class="docstring">
 
-<p>Callback implementation for <a href="https://hexdocs.pm/phoenix/1.7.21/Phoenix.Endpoint.html#c:subscribe/2"><code class="inline">Phoenix.Endpoint.subscribe/2</code></a>.</p>
+<p>Callback implementation for <a href="https://hexdocs.pm/phoenix/1.7.23/Phoenix.Endpoint.html#c:subscribe/2"><code class="inline">Phoenix.Endpoint.subscribe/2</code></a>.</p>
   </section>
 </section>
 <section class="detail" id="unsubscribe/1">
@@ -868,7 +894,7 @@ URL helpers.</p>
       <h1 class="signature" translate="no">unsubscribe(topic)</h1>
 
 
-        <a href="https://github.com/trento-project/wanda/blob/main/lib/wanda_web/endpoint.ex#L5" class="icon-action" rel="help" aria-label="View Source">
+        <a href="https://github.com/trento-project/wanda/blob/main/lib/wanda_web/endpoint.ex#L5" class="icon-action" rel="help nofollow" aria-label="View Source">
           <i class="ri-code-s-slash-line" aria-hidden="true"></i>
         </a>
 
@@ -877,7 +903,7 @@ URL helpers.</p>
 
   <section class="docstring">
 
-<p>Callback implementation for <a href="https://hexdocs.pm/phoenix/1.7.21/Phoenix.Endpoint.html#c:unsubscribe/1"><code class="inline">Phoenix.Endpoint.unsubscribe/1</code></a>.</p>
+<p>Callback implementation for <a href="https://hexdocs.pm/phoenix/1.7.23/Phoenix.Endpoint.html#c:unsubscribe/1"><code class="inline">Phoenix.Endpoint.unsubscribe/1</code></a>.</p>
   </section>
 </section>
 <section class="detail" id="url/0">
@@ -890,7 +916,7 @@ URL helpers.</p>
       <h1 class="signature" translate="no">url()</h1>
 
 
-        <a href="https://github.com/trento-project/wanda/blob/main/lib/wanda_web/endpoint.ex#L5" class="icon-action" rel="help" aria-label="View Source">
+        <a href="https://github.com/trento-project/wanda/blob/main/lib/wanda_web/endpoint.ex#L5" class="icon-action" rel="help nofollow" aria-label="View Source">
           <i class="ri-code-s-slash-line" aria-hidden="true"></i>
         </a>
 
@@ -907,27 +933,34 @@ URL helpers.</p>
   </section>
 
     <footer class="footer">
-      <p>
 
-        <span class="line">
-          <button class="a-main footer-button display-quick-switch" title="Search HexDocs packages">
-            Search HexDocs
-          </button>
+        <p>
 
-            <a href="Wanda.epub" title="ePub version">
-              Download ePub version
-            </a>
+          <span class="line">
+            <button class="a-main footer-button display-quick-switch" title="Go to package docs">
+              Go to package docs
+            </button>
 
-        </span>
-      </p>
+              <a href="llms.txt" target="_blank">
+                View llms.txt
+              </a>
 
-      <p class="built-using">
-        Built using
-        <a href="https://github.com/elixir-lang/ex_doc" title="ExDoc" target="_blank" rel="help noopener" translate="no">ExDoc</a> (v0.38.1) for the
 
-          <a href="https://elixir-lang.org" title="Elixir" target="_blank" translate="no">Elixir programming language</a>
+              <a href="Wanda.epub">
+                Download ePub version
+              </a>
 
-      </p>
+          </span>
+        </p>
+
+        <p class="built-using">
+          Built using
+          <a href="https://github.com/elixir-lang/ex_doc" title="ExDoc" target="_blank" rel="help noopener" translate="no">ExDoc</a> (v0.40.3) for the
+
+            <a href="https://elixir-lang.org" title="Elixir" target="_blank" translate="no">Elixir programming language</a>
+
+        </p>
+
 
     </footer>
   </div>

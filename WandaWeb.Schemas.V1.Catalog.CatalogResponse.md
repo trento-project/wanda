@@ -1,0 +1,10 @@
+# `WandaWeb.Schemas.V1.Catalog.CatalogResponse`
+[🔗](https://github.com/trento-project/wanda/blob/main/lib/wanda_web/schemas/v1/catalog/catalog_response.ex#L4)
+
+Checks catalog response API spec
+
+# `schema`
+
+---
+
+*Consult [api-reference.md](api-reference.md) for complete listing*
