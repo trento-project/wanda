@@ -18,7 +18,7 @@ defmodule WandaWeb.V2.CatalogController do
     deprecated: true,
     description:
       "Provides the catalog of checks that can be executed in the system for improved reliability and compliance.",
-    tags: ["Checks Engine", "MCP"],
+    tags: ["Checks Engine"],
     parameters: [
       env: [
         in: :query,

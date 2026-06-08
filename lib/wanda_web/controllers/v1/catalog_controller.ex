@@ -25,7 +25,7 @@ defmodule WandaWeb.V1.CatalogController do
     deprecated: true,
     description:
       "Provides the catalog of checks that can be executed in the system for improved reliability and compliance.",
-    tags: ["Checks Engine", "MCP"],
+    tags: ["Checks Engine"],
     parameters: [
       env: [
         in: :query,
@@ -54,6 +54,10 @@ defmodule WandaWeb.V1.CatalogController do
     description:
       "Provides a list of selectable checks for a specified group and environment, enabling targeted execution.",
     tags: ["Checks Engine", "MCP"],
+    "x-ai-tool": %{
+      name: "selectable_checks",
+      display_text: "Selectable Checks"
+    },
     parameters: [
       group_id: [
         in: :path,

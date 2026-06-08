@@ -26,6 +26,10 @@ defmodule WandaWeb.V1.OperationController do
     description:
       "Provides a paginated list of operations performed in the system, allowing for easy tracking and management.",
     tags: ["Operations Engine", "MCP"],
+    "x-ai-tool": %{
+      name: "operations_list",
+      display_text: "Operations List"
+    },
     parameters: [
       group_id: [
         in: :query,
@@ -78,6 +82,10 @@ defmodule WandaWeb.V1.OperationController do
     description:
       "Provides detailed information about a specific operation identified by its UUID.",
     tags: ["Operations Engine", "MCP"],
+    "x-ai-tool": %{
+      name: "operations_details",
+      display_text: "Operation Details"
+    },
     parameters: [
       id: [
         in: :path,
