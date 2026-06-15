@@ -11,7 +11,7 @@ defmodule WandaWeb.InfoController do
     summary: "Wanda service information.",
     tags: ["Checks/Operations Platform"],
     description:
-      "This endpoint returns information about this Wanda instance for service discovery purposes, including name and version",
+      "This endpoint returns information about this Wanda instance for service discovery purposes, including name and version.",
     security: [],
     responses: [
       ok:
