@@ -173,6 +173,49 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: mix coveralls.github --warnings-as-errors --color --trace
 
+  test-release:
+    name: Test release build (Elixir ${{ matrix.elixir }})
+    needs: [setup-matrix-env, elixir-deps]
+    runs-on: ubuntu-24.04
+    strategy:
+      matrix:
+        include:
+          - elixir: ${{ needs.setup-matrix-env.outputs.ELIXIR_BC }}
+            otp: ${{ needs.setup-matrix-env.outputs.ERLANG_BC }}
+          - elixir: ${{ needs.setup-matrix-env.outputs.ELIXIR_DEV }}
+            otp: ${{ needs.setup-matrix-env.outputs.ERLANG_DEV }}
+    env:
+      MIX_ENV: prod
+    steps:
+      - name: Checkout
+        uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6
+        with:
+          fetch-depth: 0
+      - name: Setup
+        id: setup-elixir
+        uses: erlef/setup-beam@fc68ffb90438ef2936bbb3251622353b3dcb2f93 # v1
+        with:
+          otp-version: ${{ matrix.otp }}
+          elixir-version: ${{ matrix.elixir }}
+      - name: Retrieve Elixir Cached Dependencies
+        uses: actions/cache@27d5ce7f107fe9357f9df03efb73ab90386fccae # v5
+        id: mix-cache
+        with:
+          path: |
+            deps
+            _build/${{ env.MIX_ENV }}
+            priv/plts
+          key: erlang-${{ matrix.otp }}-elixir-${{ matrix.elixir }}-rust-${{ needs.setup-matrix-env.outputs.RUST_DEV }}-${{ hashFiles('mix.lock') }}
+      - name: Build release
+        run: mix release
+      - name: Start release
+        run: |
+          export CORS_ORIGIN=localhost
+          export SECRET_KEY_BASE=OxpmZytAd3dCb8heWykxY02zDQaNeDINbYK0ZCYxVn/xd+Vawc3JFiOLv5kwVBfARp3OT8mWqal0F45AiNP2QA==
+          export AMQP_URL=amqp://trento_user:trento_user_password@rabbitmq-host/vhost
+          export DATABASE_URL=ecto://wanda_user:wanda_password@postgres-host/wanda
+          export AUTH_SERVER_URL=http://localhost:4000
+          _build/prod/rel/wanda/bin/wanda eval "IO.puts(:ok)"
   main-branch-deps:
     name: main branch dependencies
     if: github.event_name == 'pull_request'
