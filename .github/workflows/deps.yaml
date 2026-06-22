@@ -40,17 +40,32 @@ jobs:
           echo "ERLANG_BC=${{ env.ERLANG_BC }}" >> $GITHUB_OUTPUT
 
   elixir-deps:
-    name: Elixir dependencies (Elixir ${{ matrix.elixir }})
+    name: Elixir ${{ matrix.mix_env }} dependencies (Elixir ${{ matrix.elixir }})
     runs-on: ubuntu-24.04
     needs: [setup-matrix-env]
     strategy:
       matrix:
         include:
-          - elixir: ${{ needs.setup-matrix-env.outputs.ELIXIR_BC }}
+          - mix_env: dev
+            elixir: ${{ needs.setup-matrix-env.outputs.ELIXIR_BC }}
             otp: ${{ needs.setup-matrix-env.outputs.ERLANG_BC }}
-          - elixir: ${{ needs.setup-matrix-env.outputs.ELIXIR_DEV }}
+          - mix_env: dev
+            elixir: ${{ needs.setup-matrix-env.outputs.ELIXIR_DEV }}
+            otp: ${{ needs.setup-matrix-env.outputs.ERLANG_DEV }}
+          - mix_env: test
+            elixir: ${{ needs.setup-matrix-env.outputs.ELIXIR_BC }}
+            otp: ${{ needs.setup-matrix-env.outputs.ERLANG_BC }}
+          - mix_env: test
+            elixir: ${{ needs.setup-matrix-env.outputs.ELIXIR_DEV }}
+            otp: ${{ needs.setup-matrix-env.outputs.ERLANG_DEV }}
+          - mix_env: prod
+            elixir: ${{ needs.setup-matrix-env.outputs.ELIXIR_BC }}
+            otp: ${{ needs.setup-matrix-env.outputs.ERLANG_BC }}
+          - mix_env: prod
+            elixir: ${{ needs.setup-matrix-env.outputs.ELIXIR_DEV }}
             otp: ${{ needs.setup-matrix-env.outputs.ERLANG_DEV }}
     env:
+      MIX_ENV: ${{ matrix.mix_env }}
       RHAI_RUSTLER_FORCE_BUILD: "true"
     steps:
       - name: Cancel Previous Runs
@@ -82,9 +97,9 @@ jobs:
         with:
           path: |
             deps
-            _build/test
+            _build/${{ env.MIX_ENV }}
             priv/plts
-          key: erlang-${{ matrix.otp }}-elixir-${{ matrix.elixir }}-rust-${{ needs.setup-matrix-env.outputs.RUST_DEV }}-${{ hashFiles('mix.lock') }}
+          key: erlang-${{ matrix.otp }}-elixir-${{ matrix.elixir }}-rust-${{ needs.setup-matrix-env.outputs.RUST_DEV }}-${{ hashFiles('mix.lock') }}-${{ env.MIX_ENV }}
       - name: Install Dependencies
         if: steps.mix-cache.outputs.cache-hit != 'true'
         run: |
@@ -93,4 +108,6 @@ jobs:
           mix local.hex --force
           mix deps.get
           mix deps.compile --warnings-as-errors
-          mix dialyzer --plt
+      - name: Build Dialyzer PLT
+        if: steps.mix-cache.outputs.cache-hit != 'true' && matrix.mix_env != 'prod'
+        run: mix dialyzer --plt
