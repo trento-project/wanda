@@ -173,6 +173,13 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: mix coveralls.github --warnings-as-errors --color --trace
 
+  target-branch-deps:
+    name: Target branch dependencies
+    if: github.event_name == 'pull_request'
+    uses: ./.github/workflows/deps.yaml
+    with:
+      checkout_ref: ${{ github.event.pull_request.base.ref }}
+
   test-release:
     name: Test release build (Elixir ${{ matrix.elixir }})
     needs: [setup-matrix-env, elixir-deps]
@@ -216,14 +223,6 @@ jobs:
           export DATABASE_URL=ecto://wanda_user:wanda_password@postgres-host/wanda
           export AUTH_SERVER_URL=http://localhost:4000
           _build/prod/rel/wanda/bin/wanda eval "IO.puts(:ok)"
-
-  base-branch-deps:
-    name: Base branch dependencies
-    if: github.event_name == 'pull_request'
-    uses: ./.github/workflows/deps.yaml
-    with:
-      checkout_ref: ${{ github.event.pull_request.base.ref }}
-
   api-docs-check:
     name: API docs check (Elixir ${{ matrix.elixir }})
     needs: [setup-matrix-env, elixir-deps]
@@ -274,7 +273,7 @@ jobs:
 
   api-bc-check:
     name: API bc check (${{ matrix.version }}, Elixir ${{ matrix.elixir }})
-    needs: [setup-matrix-env, elixir-deps, base-branch-deps]
+    needs: [setup-matrix-env, elixir-deps, target-branch-deps]
     if: github.event_name == 'pull_request' && !failure() && !cancelled()
     runs-on: ubuntu-24.04
     strategy:

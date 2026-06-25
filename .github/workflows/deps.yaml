@@ -46,12 +46,6 @@ jobs:
     strategy:
       matrix:
         include:
-          - mix_env: dev
-            elixir: ${{ needs.setup-matrix-env.outputs.ELIXIR_BC }}
-            otp: ${{ needs.setup-matrix-env.outputs.ERLANG_BC }}
-          - mix_env: dev
-            elixir: ${{ needs.setup-matrix-env.outputs.ELIXIR_DEV }}
-            otp: ${{ needs.setup-matrix-env.outputs.ERLANG_DEV }}
           - mix_env: test
             elixir: ${{ needs.setup-matrix-env.outputs.ELIXIR_BC }}
             otp: ${{ needs.setup-matrix-env.outputs.ERLANG_BC }}
