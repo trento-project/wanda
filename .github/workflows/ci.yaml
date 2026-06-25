@@ -179,6 +179,7 @@ jobs:
     uses: ./.github/workflows/deps.yaml
     with:
       checkout_ref: ${{ github.event.pull_request.base.ref }}
+      mix_envs: '["test"]'
 
   test-release:
     name: Test release build (Elixir ${{ matrix.elixir }})
