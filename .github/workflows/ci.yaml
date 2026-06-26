@@ -89,9 +89,9 @@ jobs:
         with:
           path: |
             deps
-            _build/test
+            _build/${{ env.MIX_ENV }}
             priv/plts
-          key: erlang-${{ matrix.otp }}-elixir-${{ matrix.elixir }}-rust-${{ needs.setup-matrix-env.outputs.RUST_DEV }}-${{ hashFiles('mix.lock') }}
+          key: erlang-${{ matrix.otp }}-elixir-${{ matrix.elixir }}-rust-${{ needs.setup-matrix-env.outputs.RUST_DEV }}-${{ hashFiles('mix.lock') }}-${{ env.MIX_ENV }}
       - name: Check for Unused Dependencies
         run: mix deps.unlock --check-unused
       - name: Check Code Format
@@ -161,9 +161,9 @@ jobs:
         with:
           path: |
             deps
-            _build/test
+            _build/${{ env.MIX_ENV }}
             priv/plts
-          key: erlang-${{ matrix.otp }}-elixir-${{ matrix.elixir }}-rust-${{ needs.setup-matrix-env.outputs.RUST_DEV }}-${{ hashFiles('mix.lock') }}
+          key: erlang-${{ matrix.otp }}-elixir-${{ matrix.elixir }}-rust-${{ needs.setup-matrix-env.outputs.RUST_DEV }}-${{ hashFiles('mix.lock') }}-${{ env.MIX_ENV }}
       - name: Compile
         run: mix compile --warnings-as-errors
       - name: Create and migrate database
@@ -173,16 +173,17 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: mix coveralls.github --warnings-as-errors --color --trace
 
-  main-branch-deps:
-    name: main branch dependencies
+  target-branch-deps:
+    name: Target branch dependencies
     if: github.event_name == 'pull_request'
     uses: ./.github/workflows/deps.yaml
     with:
-      checkout_ref: main
+      checkout_ref: ${{ github.event.pull_request.base.ref }}
+      mix_envs: '["test"]'
 
-  target-branch-deps:
-    name: Rebuild target branch dependencies (Elixir ${{ matrix.elixir }})
-    needs: [setup-matrix-env]
+  test-release:
+    name: Test release build (Elixir ${{ matrix.elixir }})
+    needs: [setup-matrix-env, elixir-deps]
     runs-on: ubuntu-24.04
     strategy:
       matrix:
@@ -191,37 +192,38 @@ jobs:
             otp: ${{ needs.setup-matrix-env.outputs.ERLANG_BC }}
           - elixir: ${{ needs.setup-matrix-env.outputs.ELIXIR_DEV }}
             otp: ${{ needs.setup-matrix-env.outputs.ERLANG_DEV }}
-    if: github.event_name == 'pull_request'
+    env:
+      MIX_ENV: prod
     steps:
-      - name: Checkout target branch
+      - name: Checkout
         uses: actions/checkout@df4cb1c069e1874edd31b4311f1884172cec0e10 # v6
         with:
-          ref: ${{ github.event.pull_request.base.ref }}
-      - name: Set up Elixir
+          fetch-depth: 0
+      - name: Setup
         id: setup-elixir
         uses: erlef/setup-beam@fc68ffb90438ef2936bbb3251622353b3dcb2f93 # v1
         with:
           otp-version: ${{ matrix.otp }}
           elixir-version: ${{ matrix.elixir }}
-      - name: Retrieve Elixir Cached Dependencies - target branch
+      - name: Retrieve Elixir Cached Dependencies
         uses: actions/cache@27d5ce7f107fe9357f9df03efb73ab90386fccae # v5
-        id: mix-cache-target
+        id: mix-cache
         with:
           path: |
             deps
             _build/${{ env.MIX_ENV }}
             priv/plts
-          key: erlang-${{ matrix.otp }}-elixir-${{ matrix.elixir }}-rust-${{ needs.setup-matrix-env.outputs.RUST_DEV }}-${{ hashFiles('mix.lock') }}
-      - name: Install missing dependencies
-        if: steps.mix-cache-target.outputs.cache-hit != 'true'
+          key: erlang-${{ matrix.otp }}-elixir-${{ matrix.elixir }}-rust-${{ needs.setup-matrix-env.outputs.RUST_DEV }}-${{ hashFiles('mix.lock') }}-${{ env.MIX_ENV }}
+      - name: Build release
+        run: mix release
+      - name: Start release
         run: |
-          mkdir -p priv/plts
-          mix local.rebar --force
-          mix local.hex --force
-          mix deps.get
-          mix deps.compile --warnings-as-errors
-          mix dialyzer --plt
-
+          export CORS_ORIGIN=localhost
+          export SECRET_KEY_BASE=OxpmZytAd3dCb8heWykxY02zDQaNeDINbYK0ZCYxVn/xd+Vawc3JFiOLv5kwVBfARp3OT8mWqal0F45AiNP2QA==
+          export AMQP_URL=amqp://trento_user:trento_user_password@rabbitmq-host/vhost
+          export DATABASE_URL=ecto://wanda_user:wanda_password@postgres-host/wanda
+          export AUTH_SERVER_URL=http://localhost:4000
+          _build/prod/rel/wanda/bin/wanda eval "IO.puts(:ok)"
   api-docs-check:
     name: API docs check (Elixir ${{ matrix.elixir }})
     needs: [setup-matrix-env, elixir-deps]
@@ -257,7 +259,7 @@ jobs:
             deps
             _build/${{ env.MIX_ENV }}
             priv/plts
-          key: erlang-${{ matrix.otp }}-elixir-${{ matrix.elixir }}-rust-${{ needs.setup-matrix-env.outputs.RUST_DEV }}-${{ hashFiles('mix.lock') }}
+          key: erlang-${{ matrix.otp }}-elixir-${{ matrix.elixir }}-rust-${{ needs.setup-matrix-env.outputs.RUST_DEV }}-${{ hashFiles('mix.lock') }}-${{ env.MIX_ENV }}
       - name: Setup Node.js
         uses: actions/setup-node@48b55a011bda9f5d6aeb4c2d9c7362e8dae4041e # v6
         with:
@@ -324,7 +326,7 @@ jobs:
             deps
             _build/${{ env.MIX_ENV }}
             priv/plts
-          key: erlang-${{ matrix.otp }}-elixir-${{ matrix.elixir }}-rust-${{ needs.setup-matrix-env.outputs.RUST_DEV }}-${{ hashFiles('mix.lock') }}
+          key: erlang-${{ matrix.otp }}-elixir-${{ matrix.elixir }}-rust-${{ needs.setup-matrix-env.outputs.RUST_DEV }}-${{ hashFiles('mix.lock') }}-${{ env.MIX_ENV }}
       - name: Generate current openapi.json
         run: |
           mix openapi.spec.json --start-app=false --spec WandaWeb.Schemas.${{ matrix.version }}.ApiSpec /tmp/specs/current-spec.json
@@ -340,7 +342,7 @@ jobs:
             deps
             _build/${{ env.MIX_ENV }}
             priv/plts
-          key: erlang-${{ matrix.otp }}-elixir-${{ matrix.elixir }}-rust-${{ needs.setup-matrix-env.outputs.RUST_DEV }}-${{ hashFiles('mix.lock') }}
+          key: erlang-${{ matrix.otp }}-elixir-${{ matrix.elixir }}-rust-${{ needs.setup-matrix-env.outputs.RUST_DEV }}-${{ hashFiles('mix.lock') }}-${{ env.MIX_ENV }}
       - name: Generate target openapi.json
         run: |
           mix openapi.spec.json --start-app=false --spec WandaWeb.Schemas.${{ matrix.version }}.ApiSpec /tmp/specs/target-spec.json
@@ -418,9 +420,9 @@ jobs:
         with:
           path: |
             deps
-            _build/test
+            _build/${{ env.MIX_ENV }}
             priv/plts
-          key: erlang-${{ needs.setup-matrix-env.outputs.ERLANG_DEV }}-elixir-${{ needs.setup-matrix-env.outputs.ELIXIR_DEV }}-rust-${{ needs.setup-matrix-env.outputs.RUST_DEV }}-${{ hashFiles('mix.lock') }}
+          key: erlang-${{ needs.setup-matrix-env.outputs.ERLANG_DEV }}-elixir-${{ needs.setup-matrix-env.outputs.ELIXIR_DEV }}-rust-${{ needs.setup-matrix-env.outputs.RUST_DEV }}-${{ hashFiles('mix.lock') }}-${{ env.MIX_ENV }}
       - name: Build docs
         uses: lee-dohm/generate-elixir-docs@a745603eef443621976df401f45aaff4d849056b # v1
       - name: Generate openapi.json
