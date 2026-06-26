@@ -10,6 +10,10 @@ on:
         required: false
         type: string
         default: ${{ github.ref }}
+      mix_envs:
+        required: false
+        type: string
+        default: '["test","prod"]'
 
 env:
   ELIXIR_BC: "1.15.7-otp-26"
@@ -40,17 +44,19 @@ jobs:
           echo "ERLANG_BC=${{ env.ERLANG_BC }}" >> $GITHUB_OUTPUT
 
   elixir-deps:
-    name: Elixir dependencies
+    name: Elixir ${{ matrix.mix_env }} dependencies (Elixir ${{ matrix.versions.elixir }})
     runs-on: ubuntu-24.04
     needs: [setup-matrix-env]
     strategy:
       matrix:
-        include:
+        mix_env: ${{ fromJSON(inputs.mix_envs) }}
+        versions:
           - elixir: ${{ needs.setup-matrix-env.outputs.ELIXIR_BC }}
             otp: ${{ needs.setup-matrix-env.outputs.ERLANG_BC }}
           - elixir: ${{ needs.setup-matrix-env.outputs.ELIXIR_DEV }}
             otp: ${{ needs.setup-matrix-env.outputs.ERLANG_DEV }}
     env:
+      MIX_ENV: ${{ matrix.mix_env }}
       RHAI_RUSTLER_FORCE_BUILD: "true"
     steps:
       - name: Cancel Previous Runs
@@ -65,8 +71,8 @@ jobs:
         id: setup-elixir
         uses: erlef/setup-beam@54075bcc5e249e4758d363f27d099f55d843f124 # v1
         with:
-          otp-version: ${{ matrix.otp }}
-          elixir-version: ${{ matrix.elixir }}
+          otp-version: ${{ matrix.versions.otp }}
+          elixir-version: ${{ matrix.versions.elixir }}
       - name: Read .tool-versions
         uses: endorama/asdf-parse-tool-versions@23a7edd74b0f97626c857c48e32ebbe4ba596a23 # v1.5.1
         id: tool-versions
@@ -82,9 +88,9 @@ jobs:
         with:
           path: |
             deps
-            _build/test
+            _build/${{ env.MIX_ENV }}
             priv/plts
-          key: erlang-${{ steps.setup-elixir.outputs.otp-version }}-elixir-${{ steps.setup-elixir.outputs.elixir-version }}-rust-${{ needs.setup-matrix-env.outputs.RUST_DEV }}-${{ hashFiles('mix.lock') }}
+          key: erlang-${{ matrix.versions.otp }}-elixir-${{ matrix.versions.elixir }}-rust-${{ needs.setup-matrix-env.outputs.RUST_DEV }}-${{ hashFiles('mix.lock') }}-${{ env.MIX_ENV }}
       - name: Install Dependencies
         if: steps.mix-cache.outputs.cache-hit != 'true'
         run: |
@@ -93,4 +99,6 @@ jobs:
           mix local.hex --force
           mix deps.get
           mix deps.compile --warnings-as-errors
-          mix dialyzer --plt
+      - name: Build Dialyzer PLT
+        if: steps.mix-cache.outputs.cache-hit != 'true' && matrix.mix_env != 'prod'
+        run: mix dialyzer --plt
