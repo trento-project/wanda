@@ -106,7 +106,7 @@ defmodule Wanda.Factory do
     %Target{
       agent_id: UUID.uuid4(),
       checks: random_checks(),
-      host_data: %{}
+      attributes: %{}
     }
   end
 

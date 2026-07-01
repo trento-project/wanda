@@ -99,12 +99,12 @@ defmodule Wanda.Messaging.Mapper do
       }) do
     plain_targets =
       Enum.map(targets, fn %{agent_id: agent_id, checks: checks} = item ->
-        host_data =
+        attributes =
           item
-          |> Map.get(:host_data, %{})
+          |> Map.get(:attributes, %{})
           |> Map.new(fn {k, v} -> {k, unwrap_proto_value(v)} end)
 
-        %{agent_id: agent_id, checks: checks, host_data: host_data}
+        %{agent_id: agent_id, checks: checks, attributes: attributes}
       end)
 
     %{

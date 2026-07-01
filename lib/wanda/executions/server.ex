@@ -335,10 +335,10 @@ defmodule Wanda.Executions.Server do
 
   defp evaluate_exclude_predicate(
          %SelectedCheck{spec: %Check{id: check_id, exclude: exclude_expr}},
-         %Target{agent_id: agent_id, host_data: host_data},
+         %Target{agent_id: agent_id, attributes: attributes},
          engine
        ) do
-    case EvaluationEngine.eval(engine, exclude_expr, %{"host" => host_data}) do
+    case EvaluationEngine.eval(engine, exclude_expr, %{"host" => attributes}) do
       {:ok, true} ->
         :excluded
 

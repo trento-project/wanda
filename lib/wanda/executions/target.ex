@@ -9,13 +9,13 @@ defmodule Wanda.Executions.Target do
   defstruct [
     :agent_id,
     checks: [],
-    host_data: %{}
+    attributes: %{}
   ]
 
   @type t :: %__MODULE__{
           agent_id: String.t(),
           checks: [String.t()],
-          host_data: %{String.t() => term()}
+          attributes: %{String.t() => term()}
         }
 
   @spec get_checks_from_targets([t()]) :: [String.t()]
@@ -32,7 +32,7 @@ defmodule Wanda.Executions.Target do
       %__MODULE__{
         agent_id: agent_id,
         checks: checks,
-        host_data: Map.get(item, :host_data, %{})
+        attributes: Map.get(item, :attributes, %{})
       }
     end)
   end

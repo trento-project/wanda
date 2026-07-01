@@ -694,7 +694,7 @@ defmodule Wanda.Messaging.MapperTest do
     end
   end
 
-  describe "host_data unwrapping in from_execution_requested" do
+  describe "attributes unwrapping in from_execution_requested" do
     test "unwraps string proto value to plain string" do
       execution = %ExecutionRequested{
         execution_id: UUID.uuid4(),
@@ -703,7 +703,7 @@ defmodule Wanda.Messaging.MapperTest do
           %{
             agent_id: "agent_1",
             checks: ["check_1"],
-            host_data: %{"provider" => %{kind: {:string_value, "aws"}}}
+            attributes: %{"provider" => %{kind: {:string_value, "aws"}}}
           }
         ],
         env: %{}
@@ -713,7 +713,7 @@ defmodule Wanda.Messaging.MapperTest do
                targets: [
                  %Executions.Target{
                    agent_id: "agent_1",
-                   host_data: %{"provider" => "aws"}
+                   attributes: %{"provider" => "aws"}
                  }
                ]
              } = Mapper.from_execution_requested(execution)
@@ -727,7 +727,7 @@ defmodule Wanda.Messaging.MapperTest do
           %{
             agent_id: "agent_1",
             checks: ["check_1"],
-            host_data: %{
+            attributes: %{
               "roles" => %{
                 kind:
                   {:list_value,
@@ -747,7 +747,7 @@ defmodule Wanda.Messaging.MapperTest do
       assert %{
                targets: [
                  %Executions.Target{
-                   host_data: %{"roles" => ["primary", "secondary"]}
+                   attributes: %{"roles" => ["primary", "secondary"]}
                  }
                ]
              } = Mapper.from_execution_requested(execution)
@@ -761,7 +761,7 @@ defmodule Wanda.Messaging.MapperTest do
           %{
             agent_id: "agent_1",
             checks: ["check_1"],
-            host_data: %{"unknown" => %{kind: {:null_value, :NULL_VALUE}}}
+            attributes: %{"unknown" => %{kind: {:null_value, :NULL_VALUE}}}
           }
         ],
         env: %{}
@@ -770,13 +770,13 @@ defmodule Wanda.Messaging.MapperTest do
       assert %{
                targets: [
                  %Executions.Target{
-                   host_data: %{"unknown" => ""}
+                   attributes: %{"unknown" => ""}
                  }
                ]
              } = Mapper.from_execution_requested(execution)
     end
 
-    test "maps empty host_data to empty map (backwards compatibility)" do
+    test "maps empty attributes to empty map (backwards compatibility)" do
       execution = %ExecutionRequested{
         execution_id: UUID.uuid4(),
         group_id: UUID.uuid4(),
@@ -791,12 +791,12 @@ defmodule Wanda.Messaging.MapperTest do
 
       assert %{
                targets: [
-                 %Executions.Target{host_data: %{}}
+                 %Executions.Target{attributes: %{}}
                ]
              } = Mapper.from_execution_requested(execution)
     end
 
-    test "unwraps multiple host_data fields in a single target" do
+    test "unwraps multiple attributes fields in a single target" do
       execution = %ExecutionRequested{
         execution_id: UUID.uuid4(),
         group_id: UUID.uuid4(),
@@ -804,7 +804,7 @@ defmodule Wanda.Messaging.MapperTest do
           %{
             agent_id: "agent_1",
             checks: ["check_1"],
-            host_data: %{
+            attributes: %{
               "provider" => %{kind: {:string_value, "azure"}},
               "os_family" => %{kind: {:string_value, "suse"}},
               "arch" => %{kind: {:string_value, "x86_64"}},
@@ -820,7 +820,7 @@ defmodule Wanda.Messaging.MapperTest do
       assert %{
                targets: [
                  %Executions.Target{
-                   host_data: %{
+                   attributes: %{
                      "provider" => "azure",
                      "os_family" => "suse",
                      "arch" => "x86_64",

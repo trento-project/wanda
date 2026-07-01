@@ -323,8 +323,14 @@ defmodule Wanda.Executions.ServerTest do
       group_id = UUID.uuid4()
 
       targets = [
-        build(:target, checks: ["expect_check"], host_data: %{"provider" => "aws"}),
-        build(:target, checks: ["expect_check"], host_data: %{"provider" => "azure"})
+        build(:target,
+          checks: ["expect_check"],
+          attributes: %{"any_attribute" => "excluding_value"}
+        ),
+        build(:target,
+          checks: ["expect_check"],
+          attributes: %{"any_attribute" => "including_value"}
+        )
       ]
 
       assert :ok =
@@ -350,9 +356,9 @@ defmodule Wanda.Executions.ServerTest do
 
       targets = [
         build(:target, agent_id: aws_agent, checks: ["exclude_check"],
-          host_data: %{"provider" => "aws"}),
+          attributes: %{"provider" => "aws"}),
         build(:target, agent_id: azure_agent, checks: ["exclude_check"],
-          host_data: %{"provider" => "azure"})
+          attributes: %{"provider" => "azure"})
       ]
 
       expect(Wanda.Messaging.Adapters.Mock, :publish, fn
@@ -383,9 +389,9 @@ defmodule Wanda.Executions.ServerTest do
 
       targets = [
         build(:target, agent_id: aws_agent, checks: ["exclude_check"],
-          host_data: %{"provider" => "aws"}),
+          attributes: %{"provider" => "aws"}),
         build(:target, agent_id: azure_agent, checks: ["exclude_check"],
-          host_data: %{"provider" => "azure"})
+          attributes: %{"provider" => "azure"})
       ]
 
       expect(Wanda.Messaging.Adapters.Mock, :publish, fn _, _, _, _ -> :ok end)
@@ -415,8 +421,14 @@ defmodule Wanda.Executions.ServerTest do
       execution_id = UUID.uuid4()
 
       targets = [
-        build(:target, checks: ["exclude_check"], host_data: %{"provider" => "aws"}),
-        build(:target, checks: ["exclude_check"], host_data: %{"provider" => "aws"})
+        build(:target,
+          checks: ["exclude_check"],
+          attributes: %{"any_attribute" => "excluding_value"}
+        ),
+        build(:target,
+          checks: ["exclude_check"],
+          attributes: %{"any_attribute" => "excluding_value"}
+        )
       ]
 
       # Expect execution_started + execution_completed (no agents gathering)
@@ -470,7 +482,9 @@ defmodule Wanda.Executions.ServerTest do
 
       selected_check = build(:selected_check, spec: spec)
 
-      targets = [build(:target, checks: [spec.id], host_data: %{"provider" => "aws"})]
+      targets = [
+        build(:target, checks: [spec.id], attributes: %{"any_attribute" => "excluding_value"})
+      ]
 
       expect(Wanda.Messaging.Adapters.Mock, :publish, fn _, _, _, _ -> :ok end)
 
@@ -513,7 +527,7 @@ defmodule Wanda.Executions.ServerTest do
 
       selected_check = build(:selected_check, spec: spec)
 
-      targets = [build(:target, checks: [spec.id], host_data: %{})]
+      targets = [build(:target, checks: [spec.id], attributes: %{})]
 
       expect(Wanda.Messaging.Adapters.Mock, :publish, fn _, _, _, _ -> :ok end)
 
@@ -538,7 +552,7 @@ defmodule Wanda.Executions.ServerTest do
     end
 
     @tag capture_log: true
-    test "exclude predicate on empty host_data keeps the pair (backwards compatibility)" do
+    test "exclude predicate on empty attributes keeps the pair (backwards compatibility)" do
       group_id = UUID.uuid4()
 
       [%Catalog.Fact{name: fact_name}] = catalog_facts = build_list(1, :catalog_fact)
@@ -555,8 +569,8 @@ defmodule Wanda.Executions.ServerTest do
 
       selected_check = build(:selected_check, spec: spec)
 
-      # empty host_data simulates old web version with no host_data
-      targets = [build(:target, checks: [spec.id], host_data: %{})]
+      # empty attributes simulates old web version with no attributes
+      targets = [build(:target, checks: [spec.id], attributes: %{})]
 
       expect(Wanda.Messaging.Adapters.Mock, :publish, fn _, _, _, _ -> :ok end)
 
