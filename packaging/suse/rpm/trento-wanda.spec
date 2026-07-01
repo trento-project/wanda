@@ -27,7 +27,6 @@ Source1:        deps.tar.gz
 Source2:        vendor-rhai_rustler.tar.gz
 Group:          System/Monitoring
 BuildRequires:  cargo1.92
-BuildRequires:  elixir >= 1.15
 BuildRequires:  elixir-hex
 BuildRequires:  erlang-rebar3
 BuildRequires:  git-core
@@ -36,6 +35,15 @@ BuildRequires:  rust1.92
 #!BuildIgnore: cargo
 #!BuildIgnore: rust
 Requires:       trento-checks
+
+%if !0%{?is_opensuse} && 0%{?suse_version} < 1600
+BuildRequires:  erlang26
+BuildConflicts: erlang27
+BuildRequires:  elixir115
+BuildConflicts: elixir119
+%else
+BuildRequires:  elixir >= 1.15
+%endif
 
 %description
 Trento is an open cloud-native web application for SAP Applications administrators.
