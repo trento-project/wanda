@@ -280,7 +280,7 @@ defmodule Wanda.Executions.Server do
 
   defp evaluate_exclusions(targets, checks, engine) do
     {active_targets_rev, excluded} =
-      Enum.reduce(targets, {[], []}, fn target, {active_acc, excluded_acc} ->
+      Enum.reduce(targets, {[], []}, fn %Target{} = target, {active_acc, excluded_acc} ->
         {active_check_ids_rev, excluded_for_target} =
           Enum.reduce(target.checks, {[], []}, fn check_id, {keep, excl} ->
             case Enum.find(checks, &(&1.id == check_id)) do
