@@ -367,7 +367,7 @@ defmodule Wanda.Executions.ServerTest do
         )
       ]
 
-      expect(Wanda.Messaging.Adapters.Mock, :publish, fn
+      expect(Wanda.Messaging.Adapters.Mock, :publish, 2, fn
         Publisher, "agents", %FactsGatheringRequested{targets: gathering_targets}, _ ->
           send(pid, {:gathering_targets, gathering_targets})
           :ok
@@ -387,7 +387,6 @@ defmodule Wanda.Executions.ServerTest do
     end
 
     test "excluded pairs are recorded with excluded_by_policy status" do
-      pid = self()
       group_id = UUID.uuid4()
 
       aws_agent = UUID.uuid4()
@@ -406,7 +405,7 @@ defmodule Wanda.Executions.ServerTest do
         )
       ]
 
-      expect(Wanda.Messaging.Adapters.Mock, :publish, fn _, _, _, _ -> :ok end)
+      expect(Wanda.Messaging.Adapters.Mock, :publish, 2, fn _, _, _, _ -> :ok end)
 
       assert :ok = Server.start_execution(UUID.uuid4(), group_id, targets, "cluster", %{})
 
@@ -498,7 +497,7 @@ defmodule Wanda.Executions.ServerTest do
         build(:target, checks: [spec.id], attributes: %{"any_attribute" => "excluding_value"})
       ]
 
-      expect(Wanda.Messaging.Adapters.Mock, :publish, fn _, _, _, _ -> :ok end)
+      expect(Wanda.Messaging.Adapters.Mock, :publish, 2, fn _, _, _, _ -> :ok end)
 
       start_supervised!(
         {Server,
@@ -541,7 +540,7 @@ defmodule Wanda.Executions.ServerTest do
 
       targets = [build(:target, checks: [spec.id], attributes: %{})]
 
-      expect(Wanda.Messaging.Adapters.Mock, :publish, fn _, _, _, _ -> :ok end)
+      expect(Wanda.Messaging.Adapters.Mock, :publish, 2, fn _, _, _, _ -> :ok end)
 
       start_supervised!(
         {Server,
@@ -584,7 +583,7 @@ defmodule Wanda.Executions.ServerTest do
       # empty attributes simulates old web version with no attributes
       targets = [build(:target, checks: [spec.id], attributes: %{})]
 
-      expect(Wanda.Messaging.Adapters.Mock, :publish, fn _, _, _, _ -> :ok end)
+      expect(Wanda.Messaging.Adapters.Mock, :publish, 2, fn _, _, _, _ -> :ok end)
 
       start_supervised!(
         {Server,

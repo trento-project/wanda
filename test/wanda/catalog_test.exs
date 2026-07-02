@@ -242,7 +242,7 @@ defmodule Wanda.CatalogTest do
           "id" => "mixed_values_customizability"
         })
 
-      assert length(selectable_checks) == 10
+      assert length(selectable_checks) == 11
 
       refute Enum.any?(selectable_checks, & &1.customized)
 
@@ -327,7 +327,7 @@ defmodule Wanda.CatalogTest do
             "some_key" => "some_value"
           })
 
-        assert length(selectable_checks) == 10
+        assert length(selectable_checks) == 11
 
         Enum.each(
           selectable_checks,

@@ -761,7 +761,7 @@ defmodule Wanda.Messaging.MapperTest do
           %{
             agent_id: "agent_1",
             checks: ["check_1"],
-            attributes: %{"unknown" => %{kind: {:null_value, :NULL_VALUE}}}
+            attributes: %{"unknown" => %{kind: nil}}
           }
         ],
         env: %{}

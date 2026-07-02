@@ -137,8 +137,7 @@ defmodule Wanda.Executions.Server do
         end)
 
       check_results =
-        checks
-        |> Enum.map(fn %SelectedCheck{spec: %Check{id: id}} = sc ->
+        Enum.map(checks, fn %SelectedCheck{spec: %Check{id: id}} = sc ->
           %CheckResult{
             check_id: id,
             customized: sc.customized,
@@ -287,18 +286,7 @@ defmodule Wanda.Executions.Server do
     {active_targets_rev, excluded} =
       Enum.reduce(targets, {[], []}, fn %Target{} = target, {active_acc, excluded_acc} ->
         {active_check_ids_rev, excluded_for_target} =
-          Enum.reduce(target.checks, {[], []}, fn check_id, {keep, excl} ->
-            case Enum.find(checks, &(&1.id == check_id)) do
-              nil ->
-                {[check_id | keep], excl}
-
-              selected_check ->
-                case evaluate_exclude_predicate(selected_check, target, engine) do
-                  :excluded -> {keep, [check_id | excl]}
-                  :keep -> {[check_id | keep], excl}
-                end
-            end
-          end)
+          partition_target_checks(target, checks, engine)
 
         newly_excluded =
           Enum.map(excluded_for_target, fn check_id ->
@@ -322,6 +310,22 @@ defmodule Wanda.Executions.Server do
       |> Enum.filter(fn %Target{checks: checks} -> checks != [] end)
 
     {filtered_targets, excluded}
+  end
+
+  defp partition_target_checks(%Target{} = target, checks, engine) do
+    Enum.reduce(target.checks, {[], []}, fn check_id, {keep, excl} ->
+      case classify_check(check_id, checks, target, engine) do
+        :keep -> {[check_id | keep], excl}
+        :excluded -> {keep, [check_id | excl]}
+      end
+    end)
+  end
+
+  defp classify_check(check_id, checks, target, engine) do
+    case Enum.find(checks, &(&1.id == check_id)) do
+      nil -> :keep
+      selected_check -> evaluate_exclude_predicate(selected_check, target, engine)
+    end
   end
 
   defp find_exclude_expression(checks, check_id) do
@@ -378,37 +382,35 @@ defmodule Wanda.Executions.Server do
     do: result
 
   defp inject_excluded_checks(%Result{check_results: check_results} = result, excluded) do
-    excluded_by_check =
-      excluded
-      |> Enum.group_by(& &1.check_id)
+    excluded_by_check = Enum.group_by(excluded, & &1.check_id)
 
     new_check_results =
       Enum.map(check_results, fn %CheckResult{check_id: check_id} = check_result ->
-        case Map.get(excluded_by_check, check_id) do
-          nil ->
-            check_result
-
-          entries ->
-            excluded_agents =
-              Enum.map(entries, fn %ExcludedCheckResult{
-                                     agent_id: agent_id,
-                                     exclude_expression: exclude_expression
-                                   } ->
-                %AgentCheckResult{
-                  agent_id: agent_id,
-                  status: :excluded_by_policy,
-                  exclude_expression: exclude_expression
-                }
-              end)
-
-            %CheckResult{
-              check_result
-              | agents_check_results: check_result.agents_check_results ++ excluded_agents
-            }
-        end
+        inject_excluded_agents(check_result, Map.get(excluded_by_check, check_id))
       end)
 
     %Result{result | check_results: new_check_results}
+  end
+
+  defp inject_excluded_agents(check_result, nil), do: check_result
+
+  defp inject_excluded_agents(%CheckResult{} = check_result, entries) do
+    excluded_agents =
+      Enum.map(entries, fn %ExcludedCheckResult{
+                             agent_id: agent_id,
+                             exclude_expression: exclude_expression
+                           } ->
+        %AgentCheckResult{
+          agent_id: agent_id,
+          status: :excluded_by_policy,
+          exclude_expression: exclude_expression
+        }
+      end)
+
+    %CheckResult{
+      check_result
+      | agents_check_results: check_result.agents_check_results ++ excluded_agents
+    }
   end
 
   defp maybe_start_execution(_, _, _, [], _, _), do: {:error, :no_checks_selected}
