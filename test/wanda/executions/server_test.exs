@@ -355,10 +355,16 @@ defmodule Wanda.Executions.ServerTest do
       azure_agent = UUID.uuid4()
 
       targets = [
-        build(:target, agent_id: aws_agent, checks: ["exclude_check"],
-          attributes: %{"provider" => "aws"}),
-        build(:target, agent_id: azure_agent, checks: ["exclude_check"],
-          attributes: %{"provider" => "azure"})
+        build(:target,
+          agent_id: aws_agent,
+          checks: ["exclude_check"],
+          attributes: %{"any_attribute" => "excluding_value"}
+        ),
+        build(:target,
+          agent_id: azure_agent,
+          checks: ["exclude_check"],
+          attributes: %{"any_attribute" => "including_value"}
+        )
       ]
 
       expect(Wanda.Messaging.Adapters.Mock, :publish, fn
@@ -388,10 +394,16 @@ defmodule Wanda.Executions.ServerTest do
       azure_agent = UUID.uuid4()
 
       targets = [
-        build(:target, agent_id: aws_agent, checks: ["exclude_check"],
-          attributes: %{"provider" => "aws"}),
-        build(:target, agent_id: azure_agent, checks: ["exclude_check"],
-          attributes: %{"provider" => "azure"})
+        build(:target,
+          agent_id: aws_agent,
+          checks: ["exclude_check"],
+          attributes: %{"any_attribute" => "excluding_value"}
+        ),
+        build(:target,
+          agent_id: azure_agent,
+          checks: ["exclude_check"],
+          attributes: %{"any_attribute" => "including_value"}
+        )
       ]
 
       expect(Wanda.Messaging.Adapters.Mock, :publish, fn _, _, _, _ -> :ok end)

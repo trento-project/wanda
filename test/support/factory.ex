@@ -14,7 +14,6 @@ defmodule Wanda.Factory do
     AgentCheckResult,
     CheckResult,
     Execution,
-    ExcludedCheckResult,
     ExpectationEvaluation,
     ExpectationEvaluationError,
     ExpectationResult,

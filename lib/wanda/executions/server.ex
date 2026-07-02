@@ -161,7 +161,12 @@ defmodule Wanda.Executions.Server do
       {:stop, :normal, state}
     else
       facts_gathering_requested =
-        Messaging.Mapper.to_facts_gathering_requested(execution_id, group_id, active_targets, specs)
+        Messaging.Mapper.to_facts_gathering_requested(
+          execution_id,
+          group_id,
+          active_targets,
+          specs
+        )
 
       :ok = Messaging.publish(Publisher, "agents", facts_gathering_requested)
 
@@ -386,9 +391,9 @@ defmodule Wanda.Executions.Server do
           entries ->
             excluded_agents =
               Enum.map(entries, fn %ExcludedCheckResult{
-                                         agent_id: agent_id,
-                                         exclude_expression: exclude_expression
-                                       } ->
+                                     agent_id: agent_id,
+                                     exclude_expression: exclude_expression
+                                   } ->
                 %AgentCheckResult{
                   agent_id: agent_id,
                   status: :excluded_by_policy,
