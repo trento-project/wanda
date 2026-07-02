@@ -1,6 +1,9 @@
 # SPDX-FileCopyrightText: SUSE LLC
 # SPDX-License-Identifier: Apache-2.0
 
+# SPDX-FileCopyrightText: SUSE LLC
+# SPDX-License-Identifier: Apache-2.0
+
 defmodule Wanda.Executions.ExcludedCheckResult do
   @moduledoc """
   Represents a (check, agent) pair excluded by the check's `exclude` predicate.
