@@ -8,12 +8,14 @@ defmodule Wanda.Executions.Target do
 
   defstruct [
     :agent_id,
-    checks: []
+    checks: [],
+    attributes: %{}
   ]
 
   @type t :: %__MODULE__{
           agent_id: String.t(),
-          checks: [String.t()]
+          checks: [String.t()],
+          attributes: %{String.t() => term()}
         }
 
   @spec get_checks_from_targets([t()]) :: [String.t()]
@@ -26,8 +28,12 @@ defmodule Wanda.Executions.Target do
   def map_targets(map_list) do
     map_list
     |> Enum.uniq_by(& &1.agent_id)
-    |> Enum.map(fn %{agent_id: agent_id, checks: checks} ->
-      %__MODULE__{agent_id: agent_id, checks: checks}
+    |> Enum.map(fn %{agent_id: agent_id, checks: checks} = item ->
+      %__MODULE__{
+        agent_id: agent_id,
+        checks: checks,
+        attributes: Map.get(item, :attributes, %{})
+      }
     end)
   end
 end

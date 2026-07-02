@@ -97,10 +97,20 @@ defmodule Wanda.Messaging.Mapper do
         target_type: target_type,
         env: env
       }) do
+    plain_targets =
+      Enum.map(targets, fn %{agent_id: agent_id, checks: checks} = item ->
+        attributes =
+          item
+          |> Map.get(:attributes, %{})
+          |> Map.new(fn {k, v} -> {k, unwrap_proto_value(v)} end)
+
+        %{agent_id: agent_id, checks: checks, attributes: attributes}
+      end)
+
     %{
       execution_id: execution_id,
       group_id: group_id,
-      targets: Target.map_targets(targets),
+      targets: Target.map_targets(plain_targets),
       target_type: target_type,
       env: from_value(env)
     }
@@ -416,4 +426,20 @@ defmodule Wanda.Messaging.Mapper do
   defp from_value(map) when is_map(map) do
     Enum.into(map, %{}, fn {key, value} -> {key, from_value(value)} end)
   end
+
+  defp unwrap_proto_value(%{kind: {:string_value, s}}), do: s
+
+  defp unwrap_proto_value(%{kind: {:bool_value, b}}), do: b
+
+  defp unwrap_proto_value(%{kind: {:number_value, n}}), do: n
+
+  defp unwrap_proto_value(%{kind: {:null_value, _}}), do: nil
+
+  defp unwrap_proto_value(%{kind: {:list_value, %{values: vals}}}),
+    do: Enum.map(vals, &unwrap_proto_value/1)
+
+  defp unwrap_proto_value(%{kind: {:struct_value, %{fields: fields}}}),
+    do: Map.new(fields, fn {k, v} -> {k, unwrap_proto_value(v)} end)
+
+  defp unwrap_proto_value(_), do: ""
 end

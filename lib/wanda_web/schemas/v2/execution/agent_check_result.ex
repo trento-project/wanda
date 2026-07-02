@@ -52,6 +52,19 @@ defmodule WandaWeb.Schemas.V2.Execution.AgentCheckResult do
           },
           description:
             "An array containing the results of each expectation evaluation performed for the agent during the check execution."
+        },
+        status: %Schema{
+          type: :string,
+          nullable: true,
+          enum: ["excluded_by_policy"],
+          description:
+            "Status of this agent's result for the check. When null, the check was actually executed. When `excluded_by_policy`, the agent was excluded from this check by the check's `exclude` predicate."
+        },
+        exclude_expression: %Schema{
+          type: :string,
+          nullable: true,
+          description:
+            "The Rhai expression from the check's `exclude` field that evaluated to true and caused this agent to be excluded. Only set when `status` is `excluded_by_policy`."
         }
       },
       required: [:agent_id, :facts, :expectation_evaluations],
