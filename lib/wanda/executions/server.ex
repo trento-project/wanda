@@ -127,7 +127,6 @@ defmodule Wanda.Executions.Server do
         execution_id
         |> Evaluation.execute(group_id, checks, %{}, env, engine)
         |> inject_excluded_checks(excluded_checks, checks)
-        |> Map.put(:excluded_checks, [])
 
       store_and_publish_execution_result(result, env)
       {:stop, :normal, state}
@@ -204,7 +203,6 @@ defmodule Wanda.Executions.Server do
       execution_id
       |> Evaluation.execute(group_id, checks, gathered_facts, env, timedout_agents, engine)
       |> inject_excluded_checks(excluded_checks, checks)
-      |> Map.put(:excluded_checks, [])
 
     store_and_publish_execution_result(result, env)
 
@@ -236,7 +234,6 @@ defmodule Wanda.Executions.Server do
         execution_id
         |> Evaluation.execute(group_id, checks, gathered_facts, env, engine)
         |> inject_excluded_checks(excluded_checks, checks)
-        |> Map.put(:excluded_checks, [])
 
       store_and_publish_execution_result(result, env)
 
