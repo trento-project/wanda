@@ -475,6 +475,112 @@ defmodule Wanda.Executions.ServerTest do
     end
 
     @tag capture_log: true
+    test "surfaces a check excluded on all its targets while other checks still run" do
+      pid = self()
+      execution_id = UUID.uuid4()
+      group_id = UUID.uuid4()
+      agent_id = UUID.uuid4()
+
+      # exclude_check is excluded on the only host (attributes match), expect_check
+      # is not -> the host stays active for expect_check. exclude_check therefore
+      # gathers no facts and produces no CheckResult during evaluation; it must
+      # still be surfaced as excluded_by_policy rather than silently dropped.
+      targets = [
+        build(:target,
+          agent_id: agent_id,
+          checks: ["expect_check", "exclude_check"],
+          attributes: %{"any_attribute" => "excluding_value"}
+        )
+      ]
+
+      expect(Wanda.Messaging.Adapters.Mock, :publish, 3, fn
+        Publisher, "results", %ExecutionCompleted{}, _ ->
+          send(pid, :completed)
+          :ok
+
+        _, _, _, _ ->
+          :ok
+      end)
+
+      assert :ok = Server.start_execution(execution_id, group_id, targets, "cluster", %{})
+
+      Server.receive_facts(
+        execution_id,
+        group_id,
+        agent_id,
+        build_list(1, :fact, check_id: "expect_check")
+      )
+
+      assert_receive :completed, 500
+
+      assert %Execution{result: %{"check_results" => check_results}} = Repo.one!(Execution)
+
+      exclude_result = Enum.find(check_results, &(&1["check_id"] == "exclude_check"))
+
+      assert %{
+               "agents_check_results" => [
+                 %{"agent_id" => ^agent_id, "status" => "excluded_by_policy"}
+               ]
+             } = exclude_result
+
+      assert Enum.find(check_results, &(&1["check_id"] == "expect_check"))
+
+      stop_supervised(Server)
+    end
+
+    @tag capture_log: true
+    test "surfaces a check excluded on every target while another check runs on all" do
+      pid = self()
+      execution_id = UUID.uuid4()
+      group_id = UUID.uuid4()
+      agent_1 = UUID.uuid4()
+      agent_2 = UUID.uuid4()
+
+      targets =
+        for agent_id <- [agent_1, agent_2] do
+          build(:target,
+            agent_id: agent_id,
+            checks: ["expect_check", "exclude_check"],
+            attributes: %{"any_attribute" => "excluding_value"}
+          )
+        end
+
+      expect(Wanda.Messaging.Adapters.Mock, :publish, 3, fn
+        Publisher, "results", %ExecutionCompleted{}, _ ->
+          send(pid, :completed)
+          :ok
+
+        _, _, _, _ ->
+          :ok
+      end)
+
+      assert :ok = Server.start_execution(execution_id, group_id, targets, "cluster", %{})
+
+      Enum.each([agent_1, agent_2], fn agent_id ->
+        Server.receive_facts(
+          execution_id,
+          group_id,
+          agent_id,
+          build_list(1, :fact, check_id: "expect_check")
+        )
+      end)
+
+      assert_receive :completed, 500
+
+      assert %Execution{result: %{"check_results" => check_results}} = Repo.one!(Execution)
+
+      exclude_result = Enum.find(check_results, &(&1["check_id"] == "exclude_check"))
+
+      excluded_agents = exclude_result["agents_check_results"]
+      excluded_agent_ids = Enum.map(excluded_agents, & &1["agent_id"])
+
+      assert Enum.sort(excluded_agent_ids) == Enum.sort([agent_1, agent_2])
+      assert Enum.all?(excluded_agents, &(&1["status"] == "excluded_by_policy"))
+
+      stop_supervised(Server)
+    end
+
+    @tag capture_log: true
     test "exclude predicate returning non-boolean keeps the pair and logs warning" do
       group_id = UUID.uuid4()
 

@@ -120,41 +120,14 @@ defmodule Wanda.Executions.Server do
     :ok = Messaging.publish(Publisher, "results", execution_started)
 
     if active_targets == [] do
-      # Even with no active targets, we still need to surface the excluded
-      # hosts in each check's `agents_check_results` so the UI can list them.
-      checks_with_excluded =
-        excluded_checks
-        |> Enum.group_by(& &1.check_id)
-        |> Map.new(fn {check_id, entries} ->
-          {check_id,
-           Enum.map(entries, fn %ExcludedCheckResult{agent_id: agent_id} = e ->
-             %AgentCheckResult{
-               agent_id: agent_id,
-               status: :excluded_by_policy,
-               exclude_expression: e.exclude_expression
-             }
-           end)}
-        end)
-
-      check_results =
-        Enum.map(checks, fn %SelectedCheck{spec: %Check{id: id}} = sc ->
-          %CheckResult{
-            check_id: id,
-            customized: sc.customized,
-            agents_check_results: Map.get(checks_with_excluded, id, []),
-            expectation_results: [],
-            result: ResultEnum.passing()
-          }
-        end)
-
-      result = %Result{
-        execution_id: execution_id,
-        group_id: group_id,
-        check_results: check_results,
-        excluded_checks: [],
-        timeout: [],
-        result: ResultEnum.passing()
-      }
+      # Nothing to gather: finalize immediately through the same path a normal
+      # completion uses, so excluded-only results are built by one mechanism
+      # (`inject_excluded_checks`) rather than re-implementing result building.
+      result =
+        execution_id
+        |> Evaluation.execute(group_id, checks, %{}, env, engine)
+        |> inject_excluded_checks(excluded_checks, checks)
+        |> Map.put(:excluded_checks, [])
 
       store_and_publish_execution_result(result, env)
       {:stop, :normal, state}
@@ -230,7 +203,7 @@ defmodule Wanda.Executions.Server do
     result =
       execution_id
       |> Evaluation.execute(group_id, checks, gathered_facts, env, timedout_agents, engine)
-      |> inject_excluded_checks(excluded_checks)
+      |> inject_excluded_checks(excluded_checks, checks)
       |> Map.put(:excluded_checks, [])
 
     store_and_publish_execution_result(result, env)
@@ -262,7 +235,7 @@ defmodule Wanda.Executions.Server do
       result =
         execution_id
         |> Evaluation.execute(group_id, checks, gathered_facts, env, engine)
-        |> inject_excluded_checks(excluded_checks)
+        |> inject_excluded_checks(excluded_checks, checks)
         |> Map.put(:excluded_checks, [])
 
       store_and_publish_execution_result(result, env)
@@ -377,40 +350,67 @@ defmodule Wanda.Executions.Server do
 
   # Injects the excluded (check, agent) pairs into the corresponding check's
   # `agents_check_results` list, so the excluded host appears inline with the
-  # other agent results rather than being silently dropped.
-  defp inject_excluded_checks(%Result{check_results: _check_results} = result, []),
-    do: result
+  # other agent results rather than being silently dropped. Checks that were
+  # excluded on all their targets never produce a `CheckResult` during
+  # evaluation, so a synthetic one is appended for them.
+  defp inject_excluded_checks(%Result{} = result, [], _checks), do: result
 
-  defp inject_excluded_checks(%Result{check_results: check_results} = result, excluded) do
+  defp inject_excluded_checks(%Result{check_results: check_results} = result, excluded, checks) do
     excluded_by_check = Enum.group_by(excluded, & &1.check_id)
+    existing_check_ids = MapSet.new(check_results, & &1.check_id)
 
-    new_check_results =
+    augmented_check_results =
       Enum.map(check_results, fn %CheckResult{check_id: check_id} = check_result ->
         inject_excluded_agents(check_result, Map.get(excluded_by_check, check_id))
       end)
 
-    %Result{result | check_results: new_check_results}
+    missing_check_results =
+      excluded_by_check
+      |> Enum.reject(fn {check_id, _entries} -> check_id in existing_check_ids end)
+      |> Enum.map(fn {check_id, entries} ->
+        build_excluded_check_result(check_id, entries, checks)
+      end)
+
+    %Result{result | check_results: augmented_check_results ++ missing_check_results}
   end
 
   defp inject_excluded_agents(check_result, nil), do: check_result
 
   defp inject_excluded_agents(%CheckResult{} = check_result, entries) do
-    excluded_agents =
-      Enum.map(entries, fn %ExcludedCheckResult{
-                             agent_id: agent_id,
-                             exclude_expression: exclude_expression
-                           } ->
-        %AgentCheckResult{
-          agent_id: agent_id,
-          status: :excluded_by_policy,
-          exclude_expression: exclude_expression
-        }
-      end)
+    excluded_agents = Enum.map(entries, &to_excluded_agent_result/1)
 
     %CheckResult{
       check_result
       | agents_check_results: check_result.agents_check_results ++ excluded_agents
     }
+  end
+
+  defp build_excluded_check_result(check_id, entries, checks) do
+    %CheckResult{
+      check_id: check_id,
+      customized: customized?(checks, check_id),
+      agents_check_results: Enum.map(entries, &to_excluded_agent_result/1),
+      expectation_results: [],
+      result: ResultEnum.passing()
+    }
+  end
+
+  defp to_excluded_agent_result(%ExcludedCheckResult{
+         agent_id: agent_id,
+         exclude_expression: exclude_expression
+       }) do
+    %AgentCheckResult{
+      agent_id: agent_id,
+      status: :excluded_by_policy,
+      exclude_expression: exclude_expression
+    }
+  end
+
+  defp customized?(checks, check_id) do
+    case Enum.find(checks, &(&1.id == check_id)) do
+      %SelectedCheck{customized: customized} -> customized
+      _ -> false
+    end
   end
 
   defp maybe_start_execution(_, _, _, [], _, _), do: {:error, :no_checks_selected}
