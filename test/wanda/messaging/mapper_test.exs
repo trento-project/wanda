@@ -830,5 +830,73 @@ defmodule Wanda.Messaging.MapperTest do
                ]
              } = Mapper.from_execution_requested(execution)
     end
+
+    test "unwraps whole-number proto value to integer (consistent with from_value/1)" do
+      # Whole numbers must arrive as integers, not floats, so that Rhai
+      # comparisons like `host.cpu_count == 42` behave as expected.
+      execution = %ExecutionRequested{
+        execution_id: UUID.uuid4(),
+        group_id: UUID.uuid4(),
+        targets: [
+          %{
+            agent_id: "agent_1",
+            checks: ["check_1"],
+            attributes: %{"cpu_count" => %{kind: {:number_value, 42.0}}}
+          }
+        ],
+        env: %{}
+      }
+
+      assert %{
+               targets: [
+                 %Executions.Target{attributes: %{"cpu_count" => 42}}
+               ]
+             } = Mapper.from_execution_requested(execution)
+    end
+
+    test "unwraps fractional number proto value as float" do
+      execution = %ExecutionRequested{
+        execution_id: UUID.uuid4(),
+        group_id: UUID.uuid4(),
+        targets: [
+          %{
+            agent_id: "agent_1",
+            checks: ["check_1"],
+            attributes: %{"load" => %{kind: {:number_value, 1.5}}}
+          }
+        ],
+        env: %{}
+      }
+
+      assert %{
+               targets: [
+                 %Executions.Target{attributes: %{"load" => 1.5}}
+               ]
+             } = Mapper.from_execution_requested(execution)
+    end
+
+    test "unwraps null proto values to nil (both null_value shapes)" do
+      execution = %ExecutionRequested{
+        execution_id: UUID.uuid4(),
+        group_id: UUID.uuid4(),
+        targets: [
+          %{
+            agent_id: "agent_1",
+            checks: ["check_1"],
+            attributes: %{
+              "a" => %{kind: {:null_value, nil}},
+              "b" => %{kind: {:null_value}}
+            }
+          }
+        ],
+        env: %{}
+      }
+
+      assert %{
+               targets: [
+                 %Executions.Target{attributes: %{"a" => nil, "b" => nil}}
+               ]
+             } = Mapper.from_execution_requested(execution)
+    end
   end
 end

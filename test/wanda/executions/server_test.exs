@@ -403,12 +403,23 @@ defmodule Wanda.Executions.ServerTest do
         )
       ]
 
-      expect(Wanda.Messaging.Adapters.Mock, :publish, 2, fn _, _, _, _ -> :ok end)
+      pid = self()
+
+      expect(Wanda.Messaging.Adapters.Mock, :publish, 2, fn
+        Publisher, "agents", %FactsGatheringRequested{}, _ ->
+          send(pid, :agents_published)
+          :ok
+
+        _, _, _, _ ->
+          :ok
+      end)
 
       assert :ok = Server.start_execution(UUID.uuid4(), group_id, targets, "cluster", %{})
 
-      # Wait for handle_continue to run
-      :timer.sleep(50)
+      # Deterministically wait for handle_continue to finish evaluating
+      # exclusions and publish the facts-gathering request (the last action
+      # before the GenServer sets its state).
+      assert_receive :agents_published, 500
 
       server_pid = :global.whereis_name({Server, group_id})
       %{excluded_checks: excluded} = :sys.get_state(server_pid)
@@ -583,7 +594,16 @@ defmodule Wanda.Executions.ServerTest do
         build(:target, checks: [spec.id], attributes: %{"any_attribute" => "excluding_value"})
       ]
 
-      expect(Wanda.Messaging.Adapters.Mock, :publish, 2, fn _, _, _, _ -> :ok end)
+      pid = self()
+
+      expect(Wanda.Messaging.Adapters.Mock, :publish, 2, fn
+        Publisher, "agents", %FactsGatheringRequested{}, _ ->
+          send(pid, :agents_published)
+          :ok
+
+        _, _, _, _ ->
+          :ok
+      end)
 
       start_supervised!(
         {Server,
@@ -594,7 +614,10 @@ defmodule Wanda.Executions.ServerTest do
          env: %{}}
       )
 
-      :timer.sleep(50)
+      # Deterministically wait for handle_continue to finish evaluating the
+      # exclude predicate and publish the facts-gathering request before
+      # asserting on the GenServer state.
+      assert_receive :agents_published, 500
 
       server_pid = :global.whereis_name({Server, group_id})
       %{targets: active_targets, excluded_checks: excluded} = :sys.get_state(server_pid)
@@ -626,7 +649,16 @@ defmodule Wanda.Executions.ServerTest do
 
       targets = [build(:target, checks: [spec.id], attributes: %{})]
 
-      expect(Wanda.Messaging.Adapters.Mock, :publish, 2, fn _, _, _, _ -> :ok end)
+      pid = self()
+
+      expect(Wanda.Messaging.Adapters.Mock, :publish, 2, fn
+        Publisher, "agents", %FactsGatheringRequested{}, _ ->
+          send(pid, :agents_published)
+          :ok
+
+        _, _, _, _ ->
+          :ok
+      end)
 
       start_supervised!(
         {Server,
@@ -637,7 +669,7 @@ defmodule Wanda.Executions.ServerTest do
          env: %{}}
       )
 
-      :timer.sleep(50)
+      assert_receive :agents_published, 500
 
       server_pid = :global.whereis_name({Server, group_id})
       %{targets: active_targets, excluded_checks: excluded} = :sys.get_state(server_pid)
@@ -669,7 +701,16 @@ defmodule Wanda.Executions.ServerTest do
       # empty attributes simulates old web version with no attributes
       targets = [build(:target, checks: [spec.id], attributes: %{})]
 
-      expect(Wanda.Messaging.Adapters.Mock, :publish, 2, fn _, _, _, _ -> :ok end)
+      pid = self()
+
+      expect(Wanda.Messaging.Adapters.Mock, :publish, 2, fn
+        Publisher, "agents", %FactsGatheringRequested{}, _ ->
+          send(pid, :agents_published)
+          :ok
+
+        _, _, _, _ ->
+          :ok
+      end)
 
       start_supervised!(
         {Server,
@@ -680,7 +721,7 @@ defmodule Wanda.Executions.ServerTest do
          env: %{}}
       )
 
-      :timer.sleep(50)
+      assert_receive :agents_published, 500
 
       server_pid = :global.whereis_name({Server, group_id})
       %{targets: active_targets} = :sys.get_state(server_pid)

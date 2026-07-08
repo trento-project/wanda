@@ -431,9 +431,14 @@ defmodule Wanda.Messaging.Mapper do
 
   defp unwrap_proto_value(%{kind: {:bool_value, b}}), do: b
 
-  defp unwrap_proto_value(%{kind: {:number_value, n}}), do: n
+  defp unwrap_proto_value(%{kind: {:number_value, n}}) do
+    truncated = trunc(n)
+    if truncated == n, do: truncated, else: n
+  end
 
   defp unwrap_proto_value(%{kind: {:null_value, _}}), do: nil
+
+  defp unwrap_proto_value(%{kind: {:null_value}}), do: nil
 
   defp unwrap_proto_value(%{kind: {:list_value, %{values: vals}}}),
     do: Enum.map(vals, &unwrap_proto_value/1)
