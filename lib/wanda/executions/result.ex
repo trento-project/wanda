@@ -6,7 +6,7 @@ defmodule Wanda.Executions.Result do
   Represents the result of an execution.
   """
 
-  alias Wanda.Executions.{CheckResult, ExcludedCheckResult}
+  alias Wanda.Executions.CheckResult
 
   require Wanda.Executions.Enums.Result, as: ResultEnum
 
@@ -16,7 +16,6 @@ defmodule Wanda.Executions.Result do
     :group_id,
     :result,
     check_results: [],
-    excluded_checks: [],
     timeout: []
   ]
 
@@ -24,7 +23,6 @@ defmodule Wanda.Executions.Result do
           execution_id: String.t(),
           group_id: String.t(),
           check_results: [CheckResult.t()],
-          excluded_checks: [ExcludedCheckResult.t()],
           timeout: [String.t()],
           result: ResultEnum.t()
         }

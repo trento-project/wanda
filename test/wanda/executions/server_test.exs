@@ -738,7 +738,7 @@ defmodule Wanda.Executions.ServerTest do
       assert %Execution{
                execution_id: ^execution_id,
                status: :completed,
-               result: %{"excluded_checks" => []}
+               result: %{"check_results" => _}
              } = Repo.one!(Execution)
     end
   end
