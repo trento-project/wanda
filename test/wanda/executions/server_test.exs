@@ -240,8 +240,6 @@ defmodule Wanda.Executions.ServerTest do
 
       ref = Process.monitor(pid)
 
-      # TODO: test partial gathering of facts before sending the timeout signal
-
       Process.send(pid, :timeout, [:noconnect])
 
       assert_receive {:DOWN, ^ref, _, ^pid, :normal}
@@ -551,10 +549,11 @@ defmodule Wanda.Executions.ServerTest do
 
       # Every host of the cluster is reported as excluded by policy for this
       # check.
-      assert Enum.map(agents_check_results, &{&1["agent_id"], &1["status"]})
-             |> Enum.sort() ==
-               [{aws_agent, "excluded_by_policy"}, {azure_agent, "excluded_by_policy"}]
-               |> Enum.sort()
+      assert Enum.sort(Enum.map(agents_check_results, &{&1["agent_id"], &1["status"]})) ==
+               Enum.sort([
+                 {aws_agent, "excluded_by_policy"},
+                 {azure_agent, "excluded_by_policy"}
+               ])
 
       # Only the two selected checks should be in the result.
       assert MapSet.new(Map.keys(results_by_check)) ==

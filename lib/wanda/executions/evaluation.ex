@@ -450,8 +450,6 @@ defmodule Wanda.Executions.Evaluation do
     %Result{execution | result: result}
   end
 
-  # TODO: is unknown needed?
-  # defp result_weight(:unknown), do: 3
   defp result_weight(ResultEnum.critical()), do: 2
   defp result_weight(ResultEnum.warning()), do: 1
   defp result_weight(ResultEnum.passing()), do: 0
