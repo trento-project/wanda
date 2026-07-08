@@ -474,6 +474,93 @@ defmodule Wanda.Executions.ServerTest do
       stop_supervised(Server)
     end
 
+    test "a check excluded for all hosts still appears in the result when other checks run" do
+      pid = self()
+      group_id = UUID.uuid4()
+      execution_id = UUID.uuid4()
+
+      aws_agent = UUID.uuid4()
+      azure_agent = UUID.uuid4()
+
+      # Both targets select two checks. `exclude_check` is excluded for every
+      # host (attributes match its `exclude` predicate), while `check_without_values`
+      # has no `exclude` field and must still run. This forces the non-empty
+      # `active_targets` branch, where the bug used to silently drop the
+      # fully-excluded check from the final result.
+      targets = [
+        build(:target,
+          agent_id: aws_agent,
+          checks: ["check_without_values", "exclude_check"],
+          attributes: %{"any_attribute" => "excluding_value"}
+        ),
+        build(:target,
+          agent_id: azure_agent,
+          checks: ["check_without_values", "exclude_check"],
+          attributes: %{"any_attribute" => "excluding_value"}
+        )
+      ]
+
+      expect(Wanda.Messaging.Adapters.Mock, :publish, 3, fn
+        Publisher, "agents", %FactsGatheringRequested{}, _ ->
+          :ok
+
+        Publisher, "results", %ExecutionStarted{}, _ ->
+          :ok
+
+        Publisher, "results", %ExecutionCompleted{}, _ ->
+          send(pid, :completed)
+          :ok
+
+        _, _, _, _ ->
+          :ok
+      end)
+
+      assert :ok = Server.start_execution(execution_id, group_id, targets, "cluster", %{})
+
+      Enum.each([aws_agent, azure_agent], fn agent_id ->
+        Server.receive_facts(
+          execution_id,
+          group_id,
+          agent_id,
+          [build(:fact, check_id: "check_without_values", name: "jedi", value: "skywalker")]
+        )
+      end)
+
+      assert_receive :completed, 500
+
+      assert %Execution{
+               execution_id: ^execution_id,
+               status: :completed,
+               result: %{"check_results" => check_results}
+             } = Repo.one!(Execution)
+
+      results_by_check = Map.new(check_results, &{&1["check_id"], &1})
+
+      # The running check is still present and was actually evaluated.
+      assert %{"check_id" => "check_without_values"} =
+               Map.get(results_by_check, "check_without_values")
+
+      # The fully-excluded check must NOT be silently dropped: it appears as a
+      # passing result whose `agents_check_results` lists every host as
+      # excluded by policy.
+      assert %{
+               "check_id" => "exclude_check",
+               "result" => "passing",
+               "agents_check_results" => agents_check_results
+             } = Map.get(results_by_check, "exclude_check")
+
+      # Every host of the cluster is reported as excluded by policy for this
+      # check.
+      assert Enum.map(agents_check_results, &{&1["agent_id"], &1["status"]})
+             |> Enum.sort() ==
+               [{aws_agent, "excluded_by_policy"}, {azure_agent, "excluded_by_policy"}]
+               |> Enum.sort()
+
+      # Only the two selected checks should be in the result.
+      assert MapSet.new(Map.keys(results_by_check)) ==
+               MapSet.new(["check_without_values", "exclude_check"])
+    end
+
     @tag capture_log: true
     test "exclude predicate returning non-boolean keeps the pair and logs warning" do
       group_id = UUID.uuid4()
