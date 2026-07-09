@@ -14,8 +14,6 @@ defmodule Wanda.Executions.Server do
   alias Wanda.Catalog.{Check, SelectedCheck}
 
   alias Wanda.Executions.{
-    AgentCheckResult,
-    CheckResult,
     Evaluation,
     ExcludedCheckResult,
     Gathering,
@@ -123,38 +121,10 @@ defmodule Wanda.Executions.Server do
     if active_targets == [] do
       # Even with no active targets, we still need to surface the excluded
       # hosts in each check's `agents_check_results` so the UI can list them.
-      checks_with_excluded =
-        excluded_checks
-        |> Enum.group_by(& &1.check_id)
-        |> Map.new(fn {check_id, entries} ->
-          {check_id,
-           Enum.map(entries, fn %ExcludedCheckResult{agent_id: agent_id} = e ->
-             %AgentCheckResult{
-               agent_id: agent_id,
-               status: AgentCheckStatus.excluded(),
-               exclude_expression: e.exclude_expression
-             }
-           end)}
-        end)
-
-      check_results =
-        Enum.map(checks, fn %SelectedCheck{spec: %Check{id: id}} = sc ->
-          %CheckResult{
-            check_id: id,
-            customized: sc.customized,
-            agents_check_results: Map.get(checks_with_excluded, id, []),
-            expectation_results: [],
-            result: ResultEnum.passing()
-          }
-        end)
-
-      result = %Result{
-        execution_id: execution_id,
-        group_id: group_id,
-        check_results: check_results,
-        timeout: [],
-        result: ResultEnum.passing()
-      }
+      # We delegate to Evaluation.execute with empty gathered_facts, which
+      # will create passing check results containing only excluded agents.
+      result =
+        Evaluation.execute(execution_id, group_id, checks, %{}, env, excluded_checks, [], engine)
 
       store_and_publish_execution_result(result, env)
       {:stop, :normal, state}
