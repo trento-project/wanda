@@ -180,7 +180,36 @@ defmodule Wanda.Messaging.MapperTest do
         %{
           agent_id: "agent1",
           checks: ["check_1", "check_2"],
-          attributes: %{}
+          attributes: %{
+            some_string: %{
+              kind: {:string_value, "some_string"}
+            },
+            decimal_number: %{
+              kind: {:number_value, 10}
+            },
+            some_number: %{
+              kind: {:number_value, 10.0}
+            },
+            some_float: %{
+              kind: {:number_value, 10.5}
+            },
+            some_boolean: %{
+              kind: {:bool_value, true}
+            },
+            null: %{
+              kind: {:null_value}
+            },
+            some_list: %{
+              kind:
+                {:list_value,
+                 %{
+                   values: [
+                     %{kind: {:string_value, "first"}},
+                     %{kind: {:string_value, "second"}}
+                   ]
+                 }}
+            }
+          }
         },
         %{
           agent_id: "agent3",
@@ -210,11 +239,21 @@ defmodule Wanda.Messaging.MapperTest do
              targets: [
                %Executions.Target{
                  agent_id: "agent1",
-                 checks: ["check_1", "check_2"]
+                 checks: ["check_1", "check_2"],
+                 attributes: %{
+                   some_string: "some_string",
+                   some_number: 10,
+                   decimal_number: 10,
+                   some_float: 10.5,
+                   some_boolean: true,
+                   null: nil,
+                   some_list: ["first", "second"]
+                 }
                },
                %Executions.Target{
                  agent_id: "agent3",
-                 checks: ["check_3", "check_4"]
+                 checks: ["check_3", "check_4"],
+                 attributes: %{}
                }
              ],
              env: %{
@@ -693,190 +732,6 @@ defmodule Wanda.Messaging.MapperTest do
                group_id: ^group_id,
                target_type: ^target_type
              } = Mapper.to_check_customization_reset(check_id, group_id, target_type)
-    end
-  end
-
-  describe "attributes unwrapping in from_execution_requested" do
-    test "unwraps string proto value to plain string" do
-      execution = %ExecutionRequested{
-        execution_id: UUID.uuid4(),
-        group_id: UUID.uuid4(),
-        targets: [
-          %{
-            agent_id: "agent_1",
-            checks: ["check_1"],
-            attributes: %{"provider" => %{kind: {:string_value, "aws"}}}
-          }
-        ],
-        env: %{}
-      }
-
-      assert %{
-               targets: [
-                 %Executions.Target{
-                   agent_id: "agent_1",
-                   attributes: %{"provider" => "aws"}
-                 }
-               ]
-             } = Mapper.from_execution_requested(execution)
-    end
-
-    test "unwraps list proto value to list of plain strings" do
-      execution = %ExecutionRequested{
-        execution_id: UUID.uuid4(),
-        group_id: UUID.uuid4(),
-        targets: [
-          %{
-            agent_id: "agent_1",
-            checks: ["check_1"],
-            attributes: %{
-              "roles" => %{
-                kind:
-                  {:list_value,
-                   %{
-                     values: [
-                       %{kind: {:string_value, "primary"}},
-                       %{kind: {:string_value, "secondary"}}
-                     ]
-                   }}
-              }
-            }
-          }
-        ],
-        env: %{}
-      }
-
-      assert %{
-               targets: [
-                 %Executions.Target{
-                   attributes: %{"roles" => ["primary", "secondary"]}
-                 }
-               ]
-             } = Mapper.from_execution_requested(execution)
-    end
-
-    test "maps empty attributes to empty map (backwards compatibility)" do
-      execution = %ExecutionRequested{
-        execution_id: UUID.uuid4(),
-        group_id: UUID.uuid4(),
-        targets: [
-          %{
-            agent_id: "agent_1",
-            checks: ["check_1"],
-            attributes: %{}
-          }
-        ],
-        env: %{}
-      }
-
-      assert %{
-               targets: [
-                 %Executions.Target{attributes: %{}}
-               ]
-             } = Mapper.from_execution_requested(execution)
-    end
-
-    test "unwraps multiple attributes fields in a single target" do
-      execution = %ExecutionRequested{
-        execution_id: UUID.uuid4(),
-        group_id: UUID.uuid4(),
-        targets: [
-          %{
-            agent_id: "agent_1",
-            checks: ["check_1"],
-            attributes: %{
-              "provider" => %{kind: {:string_value, "azure"}},
-              "os_family" => %{kind: {:string_value, "suse"}},
-              "arch" => %{kind: {:string_value, "x86_64"}},
-              "roles" => %{
-                kind: {:list_value, %{values: [%{kind: {:string_value, "primary"}}]}}
-              }
-            }
-          }
-        ],
-        env: %{}
-      }
-
-      assert %{
-               targets: [
-                 %Executions.Target{
-                   attributes: %{
-                     "provider" => "azure",
-                     "os_family" => "suse",
-                     "arch" => "x86_64",
-                     "roles" => ["primary"]
-                   }
-                 }
-               ]
-             } = Mapper.from_execution_requested(execution)
-    end
-
-    test "unwraps whole-number proto value to integer (consistent with from_value/1)" do
-      # Whole numbers must arrive as integers, not floats, so that Rhai
-      # comparisons like `host.cpu_count == 42` behave as expected.
-      execution = %ExecutionRequested{
-        execution_id: UUID.uuid4(),
-        group_id: UUID.uuid4(),
-        targets: [
-          %{
-            agent_id: "agent_1",
-            checks: ["check_1"],
-            attributes: %{"cpu_count" => %{kind: {:number_value, 42.0}}}
-          }
-        ],
-        env: %{}
-      }
-
-      assert %{
-               targets: [
-                 %Executions.Target{attributes: %{"cpu_count" => 42}}
-               ]
-             } = Mapper.from_execution_requested(execution)
-    end
-
-    test "unwraps fractional number proto value as float" do
-      execution = %ExecutionRequested{
-        execution_id: UUID.uuid4(),
-        group_id: UUID.uuid4(),
-        targets: [
-          %{
-            agent_id: "agent_1",
-            checks: ["check_1"],
-            attributes: %{"load" => %{kind: {:number_value, 1.5}}}
-          }
-        ],
-        env: %{}
-      }
-
-      assert %{
-               targets: [
-                 %Executions.Target{attributes: %{"load" => 1.5}}
-               ]
-             } = Mapper.from_execution_requested(execution)
-    end
-
-    test "unwraps null proto values to nil (both null_value shapes)" do
-      execution = %ExecutionRequested{
-        execution_id: UUID.uuid4(),
-        group_id: UUID.uuid4(),
-        targets: [
-          %{
-            agent_id: "agent_1",
-            checks: ["check_1"],
-            attributes: %{
-              "a" => %{kind: {:null_value, nil}},
-              "b" => %{kind: {:null_value}}
-            }
-          }
-        ],
-        env: %{}
-      }
-
-      assert %{
-               targets: [
-                 %Executions.Target{attributes: %{"a" => nil, "b" => nil}}
-               ]
-             } = Mapper.from_execution_requested(execution)
     end
   end
 end
