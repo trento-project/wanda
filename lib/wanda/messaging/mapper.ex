@@ -98,13 +98,8 @@ defmodule Wanda.Messaging.Mapper do
         env: env
       }) do
     plain_targets =
-      Enum.map(targets, fn %{agent_id: agent_id, checks: checks} = item ->
-        attributes =
-          item
-          |> Map.get(:attributes, %{})
-          |> Map.new(fn {k, v} -> {k, unwrap_proto_value(v)} end)
-
-        %{agent_id: agent_id, checks: checks, attributes: attributes}
+      Enum.map(targets, fn %{agent_id: agent_id, checks: checks, attributes: attributes} ->
+        %{agent_id: agent_id, checks: checks, attributes: from_value(attributes)}
       end)
 
     %{
@@ -426,25 +421,4 @@ defmodule Wanda.Messaging.Mapper do
   defp from_value(map) when is_map(map) do
     Enum.into(map, %{}, fn {key, value} -> {key, from_value(value)} end)
   end
-
-  defp unwrap_proto_value(%{kind: {:string_value, s}}), do: s
-
-  defp unwrap_proto_value(%{kind: {:bool_value, b}}), do: b
-
-  defp unwrap_proto_value(%{kind: {:number_value, n}}) do
-    truncated = trunc(n)
-    if truncated == n, do: truncated, else: n
-  end
-
-  defp unwrap_proto_value(%{kind: {:null_value, _}}), do: nil
-
-  defp unwrap_proto_value(%{kind: {:null_value}}), do: nil
-
-  defp unwrap_proto_value(%{kind: {:list_value, %{values: vals}}}),
-    do: Enum.map(vals, &unwrap_proto_value/1)
-
-  defp unwrap_proto_value(%{kind: {:struct_value, %{fields: fields}}}),
-    do: Map.new(fields, fn {k, v} -> {k, unwrap_proto_value(v)} end)
-
-  defp unwrap_proto_value(_), do: ""
 end

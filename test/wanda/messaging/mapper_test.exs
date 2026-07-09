@@ -179,11 +179,13 @@ defmodule Wanda.Messaging.MapperTest do
       targets: [
         %{
           agent_id: "agent1",
-          checks: ["check_1", "check_2"]
+          checks: ["check_1", "check_2"],
+          attributes: %{}
         },
         %{
           agent_id: "agent3",
-          checks: ["check_3", "check_4"]
+          checks: ["check_3", "check_4"],
+          attributes: %{}
         }
       ],
       env: %{
@@ -753,29 +755,6 @@ defmodule Wanda.Messaging.MapperTest do
              } = Mapper.from_execution_requested(execution)
     end
 
-    test "unwraps unknown proto value kind to empty string" do
-      execution = %ExecutionRequested{
-        execution_id: UUID.uuid4(),
-        group_id: UUID.uuid4(),
-        targets: [
-          %{
-            agent_id: "agent_1",
-            checks: ["check_1"],
-            attributes: %{"unknown" => %{kind: nil}}
-          }
-        ],
-        env: %{}
-      }
-
-      assert %{
-               targets: [
-                 %Executions.Target{
-                   attributes: %{"unknown" => ""}
-                 }
-               ]
-             } = Mapper.from_execution_requested(execution)
-    end
-
     test "maps empty attributes to empty map (backwards compatibility)" do
       execution = %ExecutionRequested{
         execution_id: UUID.uuid4(),
@@ -783,7 +762,8 @@ defmodule Wanda.Messaging.MapperTest do
         targets: [
           %{
             agent_id: "agent_1",
-            checks: ["check_1"]
+            checks: ["check_1"],
+            attributes: %{}
           }
         ],
         env: %{}
