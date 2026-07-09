@@ -13,6 +13,7 @@ defmodule Wanda.Executions.Evaluation do
     AgentCheckError,
     AgentCheckResult,
     CheckResult,
+    ExcludedCheckResult,
     ExpectationEvaluation,
     ExpectationEvaluationError,
     ExpectationResult,
@@ -35,10 +36,20 @@ defmodule Wanda.Executions.Evaluation do
           [SelectedCheck.t()],
           map(),
           %{String.t() => boolean() | number() | String.t()},
+          [ExcludedCheckResult.t()],
           [String.t()],
           Rhai.Engine.t()
         ) :: Result.t()
-  def execute(execution_id, group_id, checks, gathered_facts, env, timeouts \\ [], engine) do
+  def execute(
+        execution_id,
+        group_id,
+        checks,
+        gathered_facts,
+        env,
+        excluded_checks,
+        timeouts \\ [],
+        engine
+      ) do
     %Result{
       execution_id: execution_id,
       group_id: group_id,
@@ -50,6 +61,7 @@ defmodule Wanda.Executions.Evaluation do
       env,
       engine
     )
+    |> add_excluded_checks_result(excluded_checks, checks)
     |> aggregate_execution_result()
   end
 
@@ -398,6 +410,72 @@ defmodule Wanda.Executions.Evaluation do
     |> Enum.map(&{&1.return_value, result_weight(&1.return_value)})
     |> Enum.max_by(fn {_, weight} -> weight end)
     |> elem(0)
+  end
+
+  # Adds the excluded (check, agent) pairs into the corresponding check's
+  # `agents_check_results` list, so the excluded host appears inline with the
+  # other agent results rather than being silently dropped.
+  #
+  # A check that is excluded for *every* target is never requested for facts,
+  # so `Evaluation.execute` produces no `CheckResult` for it. Such checks are
+  # re-introduced here as passing results containing only excluded agents,
+  # mirroring the `active_targets == []` branch of `handle_continue/2`. Without
+  # this, a check excluded for all hosts while other checks still run would be
+  # silently dropped from the final execution result.
+  defp add_excluded_checks_result(%Result{} = result, [], _checks),
+    do: result
+
+  defp add_excluded_checks_result(
+         %Result{check_results: check_results} = result,
+         excluded,
+         checks
+       ) do
+    excluded_by_check = Enum.group_by(excluded, & &1.check_id)
+    existing_ids = MapSet.new(check_results, & &1.check_id)
+
+    missing_check_results =
+      checks
+      |> Enum.filter(fn %SelectedCheck{spec: %Check{id: id}} ->
+        Map.has_key?(excluded_by_check, id) and not MapSet.member?(existing_ids, id)
+      end)
+      |> Enum.map(fn %SelectedCheck{spec: %Check{id: id}, customized: customized} ->
+        %CheckResult{
+          check_id: id,
+          customized: customized,
+          agents_check_results: [],
+          expectation_results: [],
+          result: ResultEnum.passing()
+        }
+      end)
+
+    new_check_results =
+      Enum.map(check_results ++ missing_check_results, fn %CheckResult{check_id: check_id} =
+                                                            check_result ->
+        add_excluded_agents_result(check_result, Map.get(excluded_by_check, check_id))
+      end)
+
+    %Result{result | check_results: new_check_results}
+  end
+
+  defp add_excluded_agents_result(check_result, nil), do: check_result
+
+  defp add_excluded_agents_result(%CheckResult{} = check_result, entries) do
+    excluded_agents =
+      Enum.map(entries, fn %ExcludedCheckResult{
+                             agent_id: agent_id,
+                             exclude_expression: exclude_expression
+                           } ->
+        %AgentCheckResult{
+          agent_id: agent_id,
+          status: AgentCheckStatus.excluded(),
+          exclude_expression: exclude_expression
+        }
+      end)
+
+    %CheckResult{
+      check_result
+      | agents_check_results: check_result.agents_check_results ++ excluded_agents
+    }
   end
 
   defp aggregate_check_result(
