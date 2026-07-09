@@ -24,6 +24,7 @@ defmodule Wanda.Executions.Evaluation do
   alias Wanda.EvaluationEngine
 
   require Wanda.Catalog.Enums.ExpectType, as: ExpectType
+  require Wanda.Executions.Enums.AgentCheckStatus, as: AgentCheckStatus
   require Wanda.Executions.Enums.Result, as: ResultEnum
 
   @default_failure_message "Expectation not met"
@@ -142,6 +143,7 @@ defmodule Wanda.Executions.Evaluation do
 
       %AgentCheckResult{
         agent_id: agent_id,
+        status: AgentCheckStatus.executed(),
         facts: facts,
         values: resolved_values,
         expectation_evaluations:

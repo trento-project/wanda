@@ -38,6 +38,7 @@ defmodule Wanda.Factory do
 
   require Wanda.Catalog.Enums.ExpectType, as: ExpectType
   require Wanda.Catalog.Enums.Severity, as: Severity
+  require Wanda.Executions.Enums.AgentCheckStatus, as: AgentCheckStatus
   require Wanda.Executions.Enums.Result, as: ExecutionResult
   require Wanda.Executions.Enums.Status, as: ExecutionStatus
   require Wanda.Operations.Enums.Result, as: OpeartionResult
@@ -173,6 +174,7 @@ defmodule Wanda.Factory do
   def agent_check_result_factory do
     %AgentCheckResult{
       agent_id: UUID.uuid4(),
+      status: AgentCheckStatus.executed(),
       facts: build_list(2, :fact),
       expectation_evaluations: build_list(2, :expectation_evaluation)
     }

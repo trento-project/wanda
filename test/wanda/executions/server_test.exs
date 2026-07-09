@@ -20,6 +20,8 @@ defmodule Wanda.Executions.ServerTest do
 
   alias Wanda.Executions.Messaging.Publisher
 
+  require Wanda.Executions.Enums.AgentCheckStatus, as: AgentCheckStatus
+
   setup [:set_mox_from_context, :verify_on_exit!]
 
   setup_all do
@@ -550,15 +552,15 @@ defmodule Wanda.Executions.ServerTest do
                Map.get(results_by_check, "check_without_values")
 
       # The fully-excluded check must NOT be silently dropped: it appears as a
-      # passing result whose `agents_check_results` lists every host as
-      # excluded by policy.
+      # passing result whose `agents_check_results` lists every host with
+      # excluded status.
       assert %{
                "check_id" => "exclude_check",
                "result" => "passing",
                "agents_check_results" => agents_check_results
              } = Map.get(results_by_check, "exclude_check")
 
-      # Every host of the cluster is reported as excluded by policy for this
+      # Every host of the cluster is reported with excluded status for this
       # check.
       assert Enum.sort(Enum.map(agents_check_results, &{&1["agent_id"], &1["status"]})) ==
                Enum.sort([

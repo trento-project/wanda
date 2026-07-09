@@ -21,6 +21,8 @@ defmodule Wanda.Executions.EvaluationTest do
     Value
   }
 
+  require Wanda.Executions.Enums.AgentCheckStatus, as: AgentCheckStatus
+
   setup do
     engine = EvaluationEngine.new()
 
@@ -64,6 +66,7 @@ defmodule Wanda.Executions.EvaluationTest do
                  %CheckResult{
                    agents_check_results: [
                      %AgentCheckResult{
+                       status: AgentCheckStatus.executed(),
                        agent_id: "agent_1",
                        expectation_evaluations: [
                          %ExpectationEvaluation{
@@ -75,6 +78,7 @@ defmodule Wanda.Executions.EvaluationTest do
                        facts: ^facts
                      },
                      %AgentCheckResult{
+                       status: AgentCheckStatus.executed(),
                        agent_id: "agent_2",
                        expectation_evaluations: [
                          %ExpectationEvaluation{
@@ -149,6 +153,7 @@ defmodule Wanda.Executions.EvaluationTest do
                  %CheckResult{
                    agents_check_results: [
                      %AgentCheckResult{
+                       status: AgentCheckStatus.executed(),
                        agent_id: "agent_1",
                        expectation_evaluations: [
                          %ExpectationEvaluation{
@@ -160,6 +165,7 @@ defmodule Wanda.Executions.EvaluationTest do
                        facts: ^incorrect_facts
                      },
                      %AgentCheckResult{
+                       status: AgentCheckStatus.executed(),
                        agent_id: "agent_2",
                        expectation_evaluations: [
                          %ExpectationEvaluation{
@@ -229,6 +235,7 @@ defmodule Wanda.Executions.EvaluationTest do
                  %CheckResult{
                    agents_check_results: [
                      %AgentCheckResult{
+                       status: AgentCheckStatus.executed(),
                        agent_id: "agent_1",
                        expectation_evaluations: [
                          %ExpectationEvaluation{
@@ -302,6 +309,7 @@ defmodule Wanda.Executions.EvaluationTest do
                  %CheckResult{
                    agents_check_results: [
                      %AgentCheckResult{
+                       status: AgentCheckStatus.executed(),
                        agent_id: "agent_1",
                        expectation_evaluations: [
                          %ExpectationEvaluation{
@@ -313,6 +321,7 @@ defmodule Wanda.Executions.EvaluationTest do
                        facts: ^facts
                      },
                      %AgentCheckResult{
+                       status: AgentCheckStatus.executed(),
                        agent_id: "agent_2",
                        expectation_evaluations: [
                          %ExpectationEvaluation{
@@ -387,6 +396,7 @@ defmodule Wanda.Executions.EvaluationTest do
                  %CheckResult{
                    agents_check_results: [
                      %AgentCheckResult{
+                       status: AgentCheckStatus.executed(),
                        agent_id: "agent_1",
                        expectation_evaluations: [
                          %ExpectationEvaluation{
@@ -398,6 +408,7 @@ defmodule Wanda.Executions.EvaluationTest do
                        facts: ^facts
                      },
                      %AgentCheckResult{
+                       status: AgentCheckStatus.executed(),
                        agent_id: "agent_2",
                        expectation_evaluations: [
                          %ExpectationEvaluation{
@@ -468,6 +479,7 @@ defmodule Wanda.Executions.EvaluationTest do
                    agents_check_results: [
                      _,
                      %AgentCheckResult{
+                       status: AgentCheckStatus.executed(),
                        agent_id: "agent_2",
                        expectation_evaluations: [
                          %ExpectationEvaluationError{
@@ -528,6 +540,7 @@ defmodule Wanda.Executions.EvaluationTest do
                    check_id: ^check_id,
                    agents_check_results: [
                      %AgentCheckResult{
+                       status: AgentCheckStatus.executed(),
                        agent_id: "agent_1",
                        expectation_evaluations: [
                          %ExpectationEvaluationError{
@@ -537,6 +550,7 @@ defmodule Wanda.Executions.EvaluationTest do
                        ]
                      },
                      %AgentCheckResult{
+                       status: AgentCheckStatus.executed(),
                        agent_id: "agent_2",
                        expectation_evaluations: [
                          %ExpectationEvaluationError{
@@ -888,6 +902,7 @@ defmodule Wanda.Executions.EvaluationTest do
                    result: :critical,
                    agents_check_results: [
                      %AgentCheckResult{
+                       status: AgentCheckStatus.executed(),
                        expectation_evaluations: [
                          %ExpectationEvaluation{
                            name: "some_expectation",
@@ -994,6 +1009,7 @@ defmodule Wanda.Executions.EvaluationTest do
                      result: ^return_value,
                      agents_check_results: [
                        %AgentCheckResult{
+                         status: AgentCheckStatus.executed(),
                          expectation_evaluations: [
                            %ExpectationEvaluation{
                              name: "some_expectation",
@@ -1071,6 +1087,7 @@ defmodule Wanda.Executions.EvaluationTest do
                    result: :passing,
                    agents_check_results: [
                      %AgentCheckResult{
+                       status: AgentCheckStatus.executed(),
                        expectation_evaluations: [
                          %ExpectationEvaluation{
                            name: "some_expectation",
@@ -1221,6 +1238,7 @@ defmodule Wanda.Executions.EvaluationTest do
             customized: false,
             agents_check_results: [
               %AgentCheckResult{
+                status: AgentCheckStatus.executed(),
                 agent_id: "agent_1",
                 expectation_evaluations: [
                   %ExpectationEvaluation{
@@ -1245,6 +1263,7 @@ defmodule Wanda.Executions.EvaluationTest do
                 ]
               },
               %AgentCheckResult{
+                status: AgentCheckStatus.executed(),
                 agent_id: "agent_2",
                 expectation_evaluations: [
                   %ExpectationEvaluation{
@@ -1334,6 +1353,7 @@ defmodule Wanda.Executions.EvaluationTest do
                  %CheckResult{
                    agents_check_results: [
                      %AgentCheckResult{
+                       status: AgentCheckStatus.executed(),
                        agent_id: "agent_1",
                        expectation_evaluations: [
                          %ExpectationEvaluation{
@@ -1354,6 +1374,7 @@ defmodule Wanda.Executions.EvaluationTest do
                        ]
                      },
                      %AgentCheckResult{
+                       status: AgentCheckStatus.executed(),
                        agent_id: "agent_2",
                        expectation_evaluations: [
                          %ExpectationEvaluation{
@@ -1414,6 +1435,7 @@ defmodule Wanda.Executions.EvaluationTest do
             customized: false,
             agents_check_results: [
               %AgentCheckResult{
+                status: AgentCheckStatus.executed(),
                 agent_id: "agent_1",
                 expectation_evaluations: [
                   %ExpectationEvaluation{
@@ -1434,6 +1456,7 @@ defmodule Wanda.Executions.EvaluationTest do
                 ]
               },
               %AgentCheckResult{
+                status: AgentCheckStatus.executed(),
                 agent_id: "agent_2",
                 expectation_evaluations: [
                   %ExpectationEvaluation{
@@ -1543,6 +1566,7 @@ defmodule Wanda.Executions.EvaluationTest do
                  %CheckResult{
                    agents_check_results: [
                      %AgentCheckResult{
+                       status: AgentCheckStatus.executed(),
                        agent_id: "agent_1",
                        expectation_evaluations: [
                          %ExpectationEvaluation{
@@ -1563,6 +1587,7 @@ defmodule Wanda.Executions.EvaluationTest do
                        ]
                      },
                      %AgentCheckResult{
+                       status: AgentCheckStatus.executed(),
                        agent_id: "agent_2",
                        expectation_evaluations: [
                          %ExpectationEvaluation{
@@ -1651,6 +1676,7 @@ defmodule Wanda.Executions.EvaluationTest do
                  %CheckResult{
                    agents_check_results: [
                      %AgentCheckResult{
+                       status: AgentCheckStatus.executed(),
                        agent_id: "agent_1",
                        expectation_evaluations: [
                          %ExpectationEvaluation{
@@ -1663,6 +1689,7 @@ defmodule Wanda.Executions.EvaluationTest do
                        facts: ^incorrect_facts
                      },
                      %AgentCheckResult{
+                       status: AgentCheckStatus.executed(),
                        agent_id: "agent_2",
                        expectation_evaluations: [
                          %ExpectationEvaluation{
@@ -1742,6 +1769,7 @@ defmodule Wanda.Executions.EvaluationTest do
                  %CheckResult{
                    agents_check_results: [
                      %AgentCheckResult{
+                       status: AgentCheckStatus.executed(),
                        agent_id: "agent_1",
                        expectation_evaluations: [
                          %ExpectationEvaluation{
@@ -1753,6 +1781,7 @@ defmodule Wanda.Executions.EvaluationTest do
                        facts: ^facts
                      },
                      %AgentCheckResult{
+                       status: AgentCheckStatus.executed(),
                        agent_id: "agent_2",
                        expectation_evaluations: [
                          %ExpectationEvaluation{
@@ -1921,6 +1950,7 @@ defmodule Wanda.Executions.EvaluationTest do
                  %CheckResult{
                    agents_check_results: [
                      %AgentCheckResult{
+                       status: AgentCheckStatus.executed(),
                        agent_id: "agent_1",
                        expectation_evaluations: [
                          %ExpectationEvaluation{
@@ -1933,6 +1963,7 @@ defmodule Wanda.Executions.EvaluationTest do
                        facts: ^incorrect_facts
                      },
                      %AgentCheckResult{
+                       status: AgentCheckStatus.executed(),
                        agent_id: "agent_2",
                        expectation_evaluations: [
                          %ExpectationEvaluation{
@@ -2084,6 +2115,7 @@ defmodule Wanda.Executions.EvaluationTest do
                      customized: true,
                      agents_check_results: [
                        %AgentCheckResult{
+                         status: AgentCheckStatus.executed(),
                          agent_id: "agent_1",
                          expectation_evaluations: [
                            %ExpectationEvaluation{
@@ -2131,6 +2163,7 @@ defmodule Wanda.Executions.EvaluationTest do
                          ]
                        },
                        %AgentCheckResult{
+                         status: AgentCheckStatus.executed(),
                          agent_id: "agent_2",
                          expectation_evaluations: [
                            %ExpectationEvaluation{
