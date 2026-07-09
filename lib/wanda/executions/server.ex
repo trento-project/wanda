@@ -265,76 +265,48 @@ defmodule Wanda.Executions.Server do
   end
 
   defp evaluate_exclusions(targets, checks, engine) do
-    {active_targets_rev, excluded} =
-      Enum.reduce(targets, {[], []}, fn %Target{} = target, {active_acc, excluded_acc} ->
-        {active_check_ids_rev, excluded_for_target} =
-          partition_target_checks(target, checks, engine)
+    checks_by_id = Map.new(checks, &{&1.id, &1})
 
-        newly_excluded =
-          Enum.map(excluded_for_target, fn check_id ->
-            exclude_expr = find_exclude_expression(checks, check_id)
+    Enum.flat_map_reduce(targets, [], fn %Target{checks: target_checks} = target, excluded_acc ->
+      {excluded_checks, active_checks} =
+        Enum.split_with(target_checks, fn check_id ->
+          check_excluded?(check_id, checks_by_id, target, engine)
+        end)
 
-            %ExcludedCheckResult{
-              check_id: check_id,
-              agent_id: target.agent_id,
-              status: AgentCheckStatus.excluded(),
-              exclude_expression: exclude_expr
-            }
-          end)
+      excluded_results = build_excluded_results(excluded_checks, checks_by_id, target.agent_id)
 
-        active_target = %Target{target | checks: Enum.reverse(active_check_ids_rev)}
-        {[active_target | active_acc], newly_excluded ++ excluded_acc}
-      end)
-
-    filtered_targets =
-      active_targets_rev
-      |> Enum.reverse()
-      |> Enum.filter(fn %Target{checks: checks} -> checks != [] end)
-
-    {filtered_targets, excluded}
-  end
-
-  defp partition_target_checks(%Target{} = target, checks, engine) do
-    Enum.reduce(target.checks, {[], []}, fn check_id, {keep, excl} ->
-      case classify_check(check_id, checks, target, engine) do
-        :keep -> {[check_id | keep], excl}
-        :excluded -> {keep, [check_id | excl]}
+      if active_checks == [] do
+        {[], excluded_results ++ excluded_acc}
+      else
+        active_target = %Target{target | checks: active_checks}
+        {[active_target], excluded_results ++ excluded_acc}
       end
     end)
   end
 
-  defp classify_check(check_id, checks, target, engine) do
-    case Enum.find(checks, &(&1.id == check_id)) do
-      nil -> :keep
-      selected_check -> evaluate_exclude_predicate(selected_check, target, engine)
-    end
+  defp check_excluded?(check_id, checks_by_id, target, engine) do
+    selected_check = Map.fetch!(checks_by_id, check_id)
+    evaluate_exclusion(selected_check, target, engine)
   end
 
-  defp find_exclude_expression(checks, check_id) do
-    case Enum.find(checks, &(&1.id == check_id)) do
-      %SelectedCheck{spec: %Check{exclude: expr}} -> expr
-      _ -> nil
-    end
-  end
-
-  defp evaluate_exclude_predicate(
+  defp evaluate_exclusion(
          %SelectedCheck{spec: %Check{exclude: nil}},
          _target,
          _engine
        ),
-       do: :keep
+       do: false
 
-  defp evaluate_exclude_predicate(
+  defp evaluate_exclusion(
          %SelectedCheck{spec: %Check{id: check_id, exclude: exclude_expr}},
          %Target{agent_id: agent_id, attributes: attributes},
          engine
        ) do
     case EvaluationEngine.eval(engine, exclude_expr, %{"host" => attributes}) do
       {:ok, true} ->
-        :excluded
+        true
 
       {:ok, false} ->
-        :keep
+        false
 
       {:ok, other} ->
         Logger.warning(
@@ -342,7 +314,7 @@ defmodule Wanda.Executions.Server do
             "#{inspect(other)}, keeping pair"
         )
 
-        :keep
+        false
 
       {:error, reason} ->
         Logger.warning(
@@ -350,8 +322,21 @@ defmodule Wanda.Executions.Server do
             "#{inspect(reason)}, keeping pair"
         )
 
-        :keep
+        false
     end
+  end
+
+  defp build_excluded_results(excluded_check_ids, checks_by_id, agent_id) do
+    Enum.map(excluded_check_ids, fn check_id ->
+      %SelectedCheck{spec: %Check{exclude: exclude_expr}} = Map.fetch!(checks_by_id, check_id)
+
+      %ExcludedCheckResult{
+        check_id: check_id,
+        agent_id: agent_id,
+        status: AgentCheckStatus.excluded(),
+        exclude_expression: exclude_expr
+      }
+    end)
   end
 
   defp via_tuple(group_id),

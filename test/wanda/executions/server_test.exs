@@ -87,13 +87,16 @@ defmodule Wanda.Executions.ServerTest do
       group_id = UUID.uuid4()
       env = build(:env)
 
+      checks = build_list(10, :selected_check)
+      check_ids = Enum.map(checks, & &1.id)
+
       start_supervised!(
         {Server,
          [
            execution_id: execution_id,
            group_id: group_id,
-           targets: build_list(10, :target),
-           checks: build_list(10, :selected_check),
+           targets: build_list(10, :target, checks: check_ids),
+           checks: checks,
            env: env
          ]}
       )
