@@ -12,7 +12,7 @@ defmodule Wanda.Executions.ExcludedCheckResult do
   @type t :: %__MODULE__{
           check_id: String.t(),
           agent_id: String.t(),
-          status: :excluded_by_policy,
+          status: :excluded,
           exclude_expression: String.t() | nil
         }
 end

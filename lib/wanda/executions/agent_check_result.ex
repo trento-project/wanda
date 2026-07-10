@@ -16,14 +16,14 @@ defmodule Wanda.Executions.AgentCheckResult do
   @derive Jason.Encoder
   defstruct [
     :agent_id,
-    :status,
     :exclude_expression,
+    status: :executed,
     values: [],
     facts: [],
     expectation_evaluations: []
   ]
 
-  @type status :: :excluded_by_policy | nil
+  @type status :: :executed | :excluded
 
   @type t :: %__MODULE__{
           agent_id: String.t(),

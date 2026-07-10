@@ -55,19 +55,18 @@ defmodule WandaWeb.Schemas.V2.Execution.AgentCheckResult do
         },
         status: %Schema{
           type: :string,
-          nullable: true,
-          enum: ["excluded_by_policy"],
+          enum: ["executed", "excluded"],
           description:
-            "Status of this agent's result for the check. When null, the check was actually executed. When `excluded_by_policy`, the agent was excluded from this check by the check's `exclude` predicate."
+            "Status of this agent's result for the check. `executed` means the check ran normally for this agent. `excluded` means the agent was excluded from this check by the check's `exclude` predicate."
         },
         exclude_expression: %Schema{
           type: :string,
           nullable: true,
           description:
-            "The Rhai expression from the check's `exclude` field that evaluated to true and caused this agent to be excluded. Only set when `status` is `excluded_by_policy`."
+            "The Rhai expression from the check's `exclude` field that evaluated to true and caused this agent to be excluded. Only set when `status` is `excluded`."
         }
       },
-      required: [:agent_id, :facts, :expectation_evaluations],
+      required: [:agent_id, :facts, :expectation_evaluations, :status],
       example: %{
         agent_id: "a1b2c3d4-e5f6-7890-abcd-1234567890ab",
         facts: [%{check_id: "156F64", name: "node_count", value: 3}],
@@ -80,7 +79,8 @@ defmodule WandaWeb.Schemas.V2.Execution.AgentCheckResult do
             type: "expect",
             return_value: true
           }
-        ]
+        ],
+        status: "executed"
       }
     },
     struct?: false

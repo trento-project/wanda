@@ -130,7 +130,7 @@ defmodule Wanda.Executions.Server do
            Enum.map(entries, fn %ExcludedCheckResult{agent_id: agent_id} = e ->
              %AgentCheckResult{
                agent_id: agent_id,
-               status: :excluded_by_policy,
+               status: :excluded,
                exclude_expression: e.exclude_expression
              }
            end)}
@@ -292,7 +292,7 @@ defmodule Wanda.Executions.Server do
             %ExcludedCheckResult{
               check_id: check_id,
               agent_id: target.agent_id,
-              status: :excluded_by_policy,
+              status: :excluded,
               exclude_expression: exclude_expr
             }
           end)
@@ -427,7 +427,7 @@ defmodule Wanda.Executions.Server do
                            } ->
         %AgentCheckResult{
           agent_id: agent_id,
-          status: :excluded_by_policy,
+          status: :excluded,
           exclude_expression: exclude_expression
         }
       end)

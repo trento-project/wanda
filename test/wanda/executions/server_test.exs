@@ -384,7 +384,7 @@ defmodule Wanda.Executions.ServerTest do
       stop_supervised(Server)
     end
 
-    test "excluded pairs are recorded with excluded_by_policy status" do
+    test "excluded pairs are recorded with excluded status" do
       group_id = UUID.uuid4()
 
       aws_agent = UUID.uuid4()
@@ -428,14 +428,14 @@ defmodule Wanda.Executions.ServerTest do
                %Wanda.Executions.ExcludedCheckResult{
                  check_id: "exclude_check",
                  agent_id: ^aws_agent,
-                 status: :excluded_by_policy
+                 status: :excluded
                }
              ] = excluded
 
       stop_supervised(Server)
     end
 
-    test "all targets excluded completes execution immediately with excluded_by_policy entries" do
+    test "all targets excluded completes execution immediately with excluded entries" do
       pid = self()
       group_id = UUID.uuid4()
       execution_id = UUID.uuid4()
@@ -472,8 +472,8 @@ defmodule Wanda.Executions.ServerTest do
                    %{
                      "check_id" => "exclude_check",
                      "agents_check_results" => [
-                       %{"agent_id" => _, "status" => "excluded_by_policy"},
-                       %{"agent_id" => _, "status" => "excluded_by_policy"}
+                       %{"agent_id" => _, "status" => "excluded"},
+                       %{"agent_id" => _, "status" => "excluded"}
                      ]
                    }
                  ]
@@ -562,8 +562,8 @@ defmodule Wanda.Executions.ServerTest do
       # check.
       assert Enum.sort(Enum.map(agents_check_results, &{&1["agent_id"], &1["status"]})) ==
                Enum.sort([
-                 {aws_agent, "excluded_by_policy"},
-                 {azure_agent, "excluded_by_policy"}
+                 {aws_agent, "excluded"},
+                 {azure_agent, "excluded"}
                ])
 
       # Only the two selected checks should be in the result.
