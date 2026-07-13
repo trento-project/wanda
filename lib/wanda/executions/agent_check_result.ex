@@ -19,7 +19,7 @@ defmodule Wanda.Executions.AgentCheckResult do
   defstruct [
     :agent_id,
     :exclude_expression,
-    status: :executed,
+    status: AgentCheckStatus.excluded(),
     values: [],
     facts: [],
     expectation_evaluations: []
