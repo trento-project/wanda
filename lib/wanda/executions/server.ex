@@ -11,10 +11,11 @@ defmodule Wanda.Executions.Server do
 
   use GenServer, restart: :transient
 
-  alias Wanda.Catalog.SelectedCheck
+  alias Wanda.Catalog.{Check, SelectedCheck}
 
   alias Wanda.Executions.{
     Evaluation,
+    ExcludedCheckResult,
     Gathering,
     Result,
     State,
@@ -33,6 +34,7 @@ defmodule Wanda.Executions.Server do
   alias Wanda.Executions.Messaging.Publisher
 
   require Logger
+  require Wanda.Executions.Enums.AgentCheckStatus, as: AgentCheckStatus
 
   @default_target_type "cluster"
   @default_timeout 5 * 60 * 1_000
@@ -101,26 +103,46 @@ defmodule Wanda.Executions.Server do
           group_id: group_id,
           targets: targets,
           checks: checks,
+          env: env,
           timeout: timeout
         } = state
       ) do
     engine = EvaluationEngine.new()
 
+    {active_targets, excluded_checks} = evaluate_exclusions(targets, checks, engine)
+
     specs = SelectedCheck.extract_specs(checks)
 
-    facts_gathering_requested =
-      Messaging.Mapper.to_facts_gathering_requested(execution_id, group_id, targets, specs)
-
     execution_started = Messaging.Mapper.to_execution_started(execution_id, group_id, targets)
-
     Executions.create_execution!(execution_id, group_id, targets)
-
     :ok = Messaging.publish(Publisher, "results", execution_started)
-    :ok = Messaging.publish(Publisher, "agents", facts_gathering_requested)
 
-    Process.send_after(self(), :timeout, timeout)
+    if active_targets == [] do
+      # Even with no active targets, we still need to surface the excluded
+      # hosts in each check's `agents_check_results` so the UI can list them.
+      # We delegate to Evaluation.execute with empty gathered_facts, which
+      # will create passing check results containing only excluded agents.
+      result =
+        Evaluation.execute(execution_id, group_id, checks, %{}, env, excluded_checks, [], engine)
 
-    {:noreply, %State{state | engine: engine}}
+      store_and_publish_execution_result(result, env)
+      {:stop, :normal, state}
+    else
+      facts_gathering_requested =
+        Messaging.Mapper.to_facts_gathering_requested(
+          execution_id,
+          group_id,
+          active_targets,
+          specs
+        )
+
+      :ok = Messaging.publish(Publisher, "agents", facts_gathering_requested)
+
+      Process.send_after(self(), :timeout, timeout)
+
+      {:noreply,
+       %State{state | engine: engine, targets: active_targets, excluded_checks: excluded_checks}}
+    end
   end
 
   @impl true
@@ -161,7 +183,8 @@ defmodule Wanda.Executions.Server do
           targets: targets,
           checks: checks,
           env: env,
-          agents_gathered: agents_gathered
+          agents_gathered: agents_gathered,
+          excluded_checks: excluded_checks
         } = state
       ) do
     targets =
@@ -180,6 +203,7 @@ defmodule Wanda.Executions.Server do
         checks,
         gathered_facts,
         env,
+        excluded_checks,
         timedout_agents,
         engine
       )
@@ -198,7 +222,8 @@ defmodule Wanda.Executions.Server do
            targets: targets,
            checks: checks,
            env: env,
-           agents_gathered: agents_gathered
+           agents_gathered: agents_gathered,
+           excluded_checks: excluded_checks
          } = state,
          agent_id,
          facts
@@ -209,7 +234,17 @@ defmodule Wanda.Executions.Server do
     state = %State{state | gathered_facts: gathered_facts, agents_gathered: agents_gathered}
 
     if Gathering.all_agents_sent_facts?(agents_gathered, targets) do
-      result = Evaluation.execute(execution_id, group_id, checks, gathered_facts, env, engine)
+      result =
+        Evaluation.execute(
+          execution_id,
+          group_id,
+          checks,
+          gathered_facts,
+          env,
+          excluded_checks,
+          [],
+          engine
+        )
 
       store_and_publish_execution_result(result, env)
 
@@ -226,6 +261,81 @@ defmodule Wanda.Executions.Server do
 
     execution_completed = Messaging.Mapper.to_execution_completed(result, target_type)
     :ok = Messaging.publish(Publisher, "results", execution_completed)
+  end
+
+  defp evaluate_exclusions(targets, checks, engine) do
+    checks_by_id = Map.new(checks, &{&1.id, &1})
+
+    Enum.flat_map_reduce(targets, [], fn %Target{checks: target_checks} = target, excluded_acc ->
+      {excluded_checks, active_checks} =
+        Enum.split_with(target_checks, fn check_id ->
+          check_excluded?(check_id, checks_by_id, target, engine)
+        end)
+
+      excluded_results = build_excluded_results(excluded_checks, checks_by_id, target.agent_id)
+
+      if active_checks == [] do
+        {[], excluded_results ++ excluded_acc}
+      else
+        active_target = %Target{target | checks: active_checks}
+        {[active_target], excluded_results ++ excluded_acc}
+      end
+    end)
+  end
+
+  defp check_excluded?(check_id, checks_by_id, target, engine) do
+    selected_check = Map.fetch!(checks_by_id, check_id)
+    evaluate_exclusion(selected_check, target, engine)
+  end
+
+  defp evaluate_exclusion(
+         %SelectedCheck{spec: %Check{exclude: nil}},
+         _target,
+         _engine
+       ),
+       do: false
+
+  defp evaluate_exclusion(
+         %SelectedCheck{spec: %Check{id: check_id, exclude: exclude_expr}},
+         %Target{agent_id: agent_id, attributes: attributes},
+         engine
+       ) do
+    case EvaluationEngine.eval(engine, exclude_expr, %{"host" => attributes}) do
+      {:ok, true} ->
+        true
+
+      {:ok, false} ->
+        false
+
+      {:ok, other} ->
+        Logger.warning(
+          "Check #{check_id} exclude predicate for agent #{agent_id} returned non-boolean " <>
+            "#{inspect(other)}, keeping pair"
+        )
+
+        false
+
+      {:error, reason} ->
+        Logger.warning(
+          "Check #{check_id} exclude predicate for agent #{agent_id} raised error " <>
+            "#{inspect(reason)}, keeping pair"
+        )
+
+        false
+    end
+  end
+
+  defp build_excluded_results(excluded_check_ids, checks_by_id, agent_id) do
+    Enum.map(excluded_check_ids, fn check_id ->
+      %SelectedCheck{spec: %Check{exclude: exclude_expr}} = Map.fetch!(checks_by_id, check_id)
+
+      %ExcludedCheckResult{
+        check_id: check_id,
+        agent_id: agent_id,
+        status: AgentCheckStatus.excluded(),
+        exclude_expression: exclude_expr
+      }
+    end)
   end
 
   defp via_tuple(group_id),

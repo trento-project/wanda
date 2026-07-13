@@ -97,10 +97,15 @@ defmodule Wanda.Messaging.Mapper do
         target_type: target_type,
         env: env
       }) do
+    plain_targets =
+      Enum.map(targets, fn %{agent_id: agent_id, checks: checks, attributes: attributes} ->
+        %{agent_id: agent_id, checks: checks, attributes: from_value(attributes)}
+      end)
+
     %{
       execution_id: execution_id,
       group_id: group_id,
-      targets: Target.map_targets(targets),
+      targets: Target.map_targets(plain_targets),
       target_type: target_type,
       env: from_value(env)
     }

@@ -14,7 +14,6 @@ defmodule Wanda.EvaluationEngine do
     engine = Engine.new()
 
     Engine.set_fail_on_invalid_map_property(engine, true)
-    # TODO: set map size, array size, string size limits
   end
 
   def eval(%Engine{} = engine, expression, %{} = scope) do

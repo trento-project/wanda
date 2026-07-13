@@ -21,6 +21,8 @@ defmodule Wanda.Executions.EvaluationTest do
     Value
   }
 
+  require Wanda.Executions.Enums.AgentCheckStatus, as: AgentCheckStatus
+
   setup do
     engine = EvaluationEngine.new()
 
@@ -64,6 +66,7 @@ defmodule Wanda.Executions.EvaluationTest do
                  %CheckResult{
                    agents_check_results: [
                      %AgentCheckResult{
+                       status: AgentCheckStatus.executed(),
                        agent_id: "agent_1",
                        expectation_evaluations: [
                          %ExpectationEvaluation{
@@ -75,6 +78,7 @@ defmodule Wanda.Executions.EvaluationTest do
                        facts: ^facts
                      },
                      %AgentCheckResult{
+                       status: AgentCheckStatus.executed(),
                        agent_id: "agent_2",
                        expectation_evaluations: [
                          %ExpectationEvaluation{
@@ -98,7 +102,8 @@ defmodule Wanda.Executions.EvaluationTest do
                  }
                ],
                result: :passing
-             } = Evaluation.execute(execution_id, group_id, checks, gathered_facts, %{}, engine)
+             } =
+               Evaluation.execute(execution_id, group_id, checks, gathered_facts, %{}, [], engine)
     end
 
     test "should return a critical result when not all the agents fullfill the expectations with an expect condition",
@@ -149,6 +154,7 @@ defmodule Wanda.Executions.EvaluationTest do
                  %CheckResult{
                    agents_check_results: [
                      %AgentCheckResult{
+                       status: AgentCheckStatus.executed(),
                        agent_id: "agent_1",
                        expectation_evaluations: [
                          %ExpectationEvaluation{
@@ -160,6 +166,7 @@ defmodule Wanda.Executions.EvaluationTest do
                        facts: ^incorrect_facts
                      },
                      %AgentCheckResult{
+                       status: AgentCheckStatus.executed(),
                        agent_id: "agent_2",
                        expectation_evaluations: [
                          %ExpectationEvaluation{
@@ -183,7 +190,8 @@ defmodule Wanda.Executions.EvaluationTest do
                  }
                ],
                result: :critical
-             } = Evaluation.execute(execution_id, group_id, checks, gathered_facts, %{}, engine)
+             } =
+               Evaluation.execute(execution_id, group_id, checks, gathered_facts, %{}, [], engine)
     end
 
     test "should return a critical result when some agent gets fact gathering errors", %{
@@ -229,6 +237,7 @@ defmodule Wanda.Executions.EvaluationTest do
                  %CheckResult{
                    agents_check_results: [
                      %AgentCheckResult{
+                       status: AgentCheckStatus.executed(),
                        agent_id: "agent_1",
                        expectation_evaluations: [
                          %ExpectationEvaluation{
@@ -258,7 +267,8 @@ defmodule Wanda.Executions.EvaluationTest do
                  }
                ],
                result: :critical
-             } = Evaluation.execute(execution_id, group_id, checks, gathered_facts, %{}, engine)
+             } =
+               Evaluation.execute(execution_id, group_id, checks, gathered_facts, %{}, [], engine)
     end
 
     test "should return a passing result when all the agents fullfill the expectations with an expect_same condition",
@@ -302,6 +312,7 @@ defmodule Wanda.Executions.EvaluationTest do
                  %CheckResult{
                    agents_check_results: [
                      %AgentCheckResult{
+                       status: AgentCheckStatus.executed(),
                        agent_id: "agent_1",
                        expectation_evaluations: [
                          %ExpectationEvaluation{
@@ -313,6 +324,7 @@ defmodule Wanda.Executions.EvaluationTest do
                        facts: ^facts
                      },
                      %AgentCheckResult{
+                       status: AgentCheckStatus.executed(),
                        agent_id: "agent_2",
                        expectation_evaluations: [
                          %ExpectationEvaluation{
@@ -336,7 +348,8 @@ defmodule Wanda.Executions.EvaluationTest do
                  }
                ],
                result: :passing
-             } = Evaluation.execute(execution_id, group_id, checks, gathered_facts, %{}, engine)
+             } =
+               Evaluation.execute(execution_id, group_id, checks, gathered_facts, %{}, [], engine)
     end
 
     test "should return a critical result when some of the agents expect_same condition return value is different",
@@ -387,6 +400,7 @@ defmodule Wanda.Executions.EvaluationTest do
                  %CheckResult{
                    agents_check_results: [
                      %AgentCheckResult{
+                       status: AgentCheckStatus.executed(),
                        agent_id: "agent_1",
                        expectation_evaluations: [
                          %ExpectationEvaluation{
@@ -398,6 +412,7 @@ defmodule Wanda.Executions.EvaluationTest do
                        facts: ^facts
                      },
                      %AgentCheckResult{
+                       status: AgentCheckStatus.executed(),
                        agent_id: "agent_2",
                        expectation_evaluations: [
                          %ExpectationEvaluation{
@@ -421,7 +436,8 @@ defmodule Wanda.Executions.EvaluationTest do
                  }
                ],
                result: :critical
-             } = Evaluation.execute(execution_id, group_id, checks, gathered_facts, %{}, engine)
+             } =
+               Evaluation.execute(execution_id, group_id, checks, gathered_facts, %{}, [], engine)
     end
 
     test "should return a critical result if a fact is missing from the agent fact gathering", %{
@@ -468,6 +484,7 @@ defmodule Wanda.Executions.EvaluationTest do
                    agents_check_results: [
                      _,
                      %AgentCheckResult{
+                       status: AgentCheckStatus.executed(),
                        agent_id: "agent_2",
                        expectation_evaluations: [
                          %ExpectationEvaluationError{
@@ -487,7 +504,8 @@ defmodule Wanda.Executions.EvaluationTest do
                    ]
                  }
                ]
-             } = Evaluation.execute(execution_id, group_id, checks, gathered_facts, %{}, engine)
+             } =
+               Evaluation.execute(execution_id, group_id, checks, gathered_facts, %{}, [], engine)
     end
 
     test "should return a critical result if an illegal expression was specified in a check expectation",
@@ -528,6 +546,7 @@ defmodule Wanda.Executions.EvaluationTest do
                    check_id: ^check_id,
                    agents_check_results: [
                      %AgentCheckResult{
+                       status: AgentCheckStatus.executed(),
                        agent_id: "agent_1",
                        expectation_evaluations: [
                          %ExpectationEvaluationError{
@@ -537,6 +556,7 @@ defmodule Wanda.Executions.EvaluationTest do
                        ]
                      },
                      %AgentCheckResult{
+                       status: AgentCheckStatus.executed(),
                        agent_id: "agent_2",
                        expectation_evaluations: [
                          %ExpectationEvaluationError{
@@ -555,7 +575,8 @@ defmodule Wanda.Executions.EvaluationTest do
                    ]
                  }
                ]
-             } = Evaluation.execute(execution_id, group_id, checks, gathered_facts, %{}, engine)
+             } =
+               Evaluation.execute(execution_id, group_id, checks, gathered_facts, %{}, [], engine)
     end
 
     test "should return a critical result if an agent times out", %{engine: engine} do
@@ -619,7 +640,8 @@ defmodule Wanda.Executions.EvaluationTest do
                  }
                ],
                result: :critical
-             } = Evaluation.execute(execution_id, group_id, checks, gathered_facts, %{}, engine)
+             } =
+               Evaluation.execute(execution_id, group_id, checks, gathered_facts, %{}, [], engine)
     end
 
     test "should return warning result if the check severity is specified as warning", %{
@@ -661,7 +683,8 @@ defmodule Wanda.Executions.EvaluationTest do
                  }
                ],
                result: :warning
-             } = Evaluation.execute(execution_id, group_id, checks, gathered_facts, %{}, engine)
+             } =
+               Evaluation.execute(execution_id, group_id, checks, gathered_facts, %{}, [], engine)
     end
 
     test "should return a critical result if an agent times out and severity is warning", %{
@@ -704,7 +727,8 @@ defmodule Wanda.Executions.EvaluationTest do
                  }
                ],
                result: :critical
-             } = Evaluation.execute(execution_id, group_id, checks, gathered_facts, %{}, engine)
+             } =
+               Evaluation.execute(execution_id, group_id, checks, gathered_facts, %{}, [], engine)
     end
   end
 
@@ -847,6 +871,7 @@ defmodule Wanda.Executions.EvaluationTest do
                    checks,
                    gathered_facts,
                    %{},
+                   [],
                    engine
                  )
       end)
@@ -888,6 +913,7 @@ defmodule Wanda.Executions.EvaluationTest do
                    result: :critical,
                    agents_check_results: [
                      %AgentCheckResult{
+                       status: AgentCheckStatus.executed(),
                        expectation_evaluations: [
                          %ExpectationEvaluation{
                            name: "some_expectation",
@@ -908,7 +934,15 @@ defmodule Wanda.Executions.EvaluationTest do
                  }
                ]
              } =
-               Evaluation.execute(UUID.uuid4(), UUID.uuid4(), checks, gathered_facts, %{}, engine)
+               Evaluation.execute(
+                 UUID.uuid4(),
+                 UUID.uuid4(),
+                 checks,
+                 gathered_facts,
+                 %{},
+                 [],
+                 engine
+               )
     end
 
     test "should interpolate the correct failure message", %{engine: engine} do
@@ -994,6 +1028,7 @@ defmodule Wanda.Executions.EvaluationTest do
                      result: ^return_value,
                      agents_check_results: [
                        %AgentCheckResult{
+                         status: AgentCheckStatus.executed(),
                          expectation_evaluations: [
                            %ExpectationEvaluation{
                              name: "some_expectation",
@@ -1020,6 +1055,7 @@ defmodule Wanda.Executions.EvaluationTest do
                    checks,
                    gathered_facts,
                    %{},
+                   [],
                    engine
                  )
       end)
@@ -1071,6 +1107,7 @@ defmodule Wanda.Executions.EvaluationTest do
                    result: :passing,
                    agents_check_results: [
                      %AgentCheckResult{
+                       status: AgentCheckStatus.executed(),
                        expectation_evaluations: [
                          %ExpectationEvaluation{
                            name: "some_expectation",
@@ -1100,7 +1137,15 @@ defmodule Wanda.Executions.EvaluationTest do
                  }
                ]
              } =
-               Evaluation.execute(UUID.uuid4(), UUID.uuid4(), checks, gathered_facts, %{}, engine)
+               Evaluation.execute(
+                 UUID.uuid4(),
+                 UUID.uuid4(),
+                 checks,
+                 gathered_facts,
+                 %{},
+                 [],
+                 engine
+               )
     end
   end
 
@@ -1153,7 +1198,15 @@ defmodule Wanda.Executions.EvaluationTest do
                  }
                ]
              } =
-               Evaluation.execute(UUID.uuid4(), UUID.uuid4(), checks, gathered_facts, %{}, engine)
+               Evaluation.execute(
+                 UUID.uuid4(),
+                 UUID.uuid4(),
+                 checks,
+                 gathered_facts,
+                 %{},
+                 [],
+                 engine
+               )
     end
   end
 
@@ -1221,6 +1274,7 @@ defmodule Wanda.Executions.EvaluationTest do
             customized: false,
             agents_check_results: [
               %AgentCheckResult{
+                status: AgentCheckStatus.executed(),
                 agent_id: "agent_1",
                 expectation_evaluations: [
                   %ExpectationEvaluation{
@@ -1245,6 +1299,7 @@ defmodule Wanda.Executions.EvaluationTest do
                 ]
               },
               %AgentCheckResult{
+                status: AgentCheckStatus.executed(),
                 agent_id: "agent_2",
                 expectation_evaluations: [
                   %ExpectationEvaluation{
@@ -1293,6 +1348,7 @@ defmodule Wanda.Executions.EvaluationTest do
                  %{
                    "some_env" => "whoa"
                  },
+                 [],
                  engine
                )
 
@@ -1305,6 +1361,7 @@ defmodule Wanda.Executions.EvaluationTest do
                  %{
                    "some_env" => "yeah"
                  },
+                 [],
                  engine
                )
     end
@@ -1334,6 +1391,7 @@ defmodule Wanda.Executions.EvaluationTest do
                  %CheckResult{
                    agents_check_results: [
                      %AgentCheckResult{
+                       status: AgentCheckStatus.executed(),
                        agent_id: "agent_1",
                        expectation_evaluations: [
                          %ExpectationEvaluation{
@@ -1354,6 +1412,7 @@ defmodule Wanda.Executions.EvaluationTest do
                        ]
                      },
                      %AgentCheckResult{
+                       status: AgentCheckStatus.executed(),
                        agent_id: "agent_2",
                        expectation_evaluations: [
                          %ExpectationEvaluation{
@@ -1387,7 +1446,8 @@ defmodule Wanda.Executions.EvaluationTest do
                ],
                result: :passing,
                timeout: []
-             } = Evaluation.execute(execution_id, group_id, checks, gathered_facts, env, engine)
+             } =
+               Evaluation.execute(execution_id, group_id, checks, gathered_facts, env, [], engine)
     end
 
     test "should return a passing result based on the default value when environmental condition does not match",
@@ -1414,6 +1474,7 @@ defmodule Wanda.Executions.EvaluationTest do
             customized: false,
             agents_check_results: [
               %AgentCheckResult{
+                status: AgentCheckStatus.executed(),
                 agent_id: "agent_1",
                 expectation_evaluations: [
                   %ExpectationEvaluation{
@@ -1434,6 +1495,7 @@ defmodule Wanda.Executions.EvaluationTest do
                 ]
               },
               %AgentCheckResult{
+                status: AgentCheckStatus.executed(),
                 agent_id: "agent_2",
                 expectation_evaluations: [
                   %ExpectationEvaluation{
@@ -1478,6 +1540,7 @@ defmodule Wanda.Executions.EvaluationTest do
                  %{
                    "some_value" => "unrecognized"
                  },
+                 [],
                  engine
                )
 
@@ -1490,6 +1553,7 @@ defmodule Wanda.Executions.EvaluationTest do
                  %{
                    "some_value" => nil
                  },
+                 [],
                  engine
                )
 
@@ -1502,6 +1566,7 @@ defmodule Wanda.Executions.EvaluationTest do
                  %{
                    "some_value" => ""
                  },
+                 [],
                  engine
                )
 
@@ -1514,6 +1579,7 @@ defmodule Wanda.Executions.EvaluationTest do
                  %{
                    "unrecognized_value" => "some"
                  },
+                 [],
                  engine
                )
     end
@@ -1543,6 +1609,7 @@ defmodule Wanda.Executions.EvaluationTest do
                  %CheckResult{
                    agents_check_results: [
                      %AgentCheckResult{
+                       status: AgentCheckStatus.executed(),
                        agent_id: "agent_1",
                        expectation_evaluations: [
                          %ExpectationEvaluation{
@@ -1563,6 +1630,7 @@ defmodule Wanda.Executions.EvaluationTest do
                        ]
                      },
                      %AgentCheckResult{
+                       status: AgentCheckStatus.executed(),
                        agent_id: "agent_2",
                        expectation_evaluations: [
                          %ExpectationEvaluation{
@@ -1595,7 +1663,8 @@ defmodule Wanda.Executions.EvaluationTest do
                  }
                ],
                result: :critical
-             } = Evaluation.execute(execution_id, group_id, checks, gathered_facts, env, engine)
+             } =
+               Evaluation.execute(execution_id, group_id, checks, gathered_facts, env, [], engine)
     end
   end
 
@@ -1651,6 +1720,7 @@ defmodule Wanda.Executions.EvaluationTest do
                  %CheckResult{
                    agents_check_results: [
                      %AgentCheckResult{
+                       status: AgentCheckStatus.executed(),
                        agent_id: "agent_1",
                        expectation_evaluations: [
                          %ExpectationEvaluation{
@@ -1663,6 +1733,7 @@ defmodule Wanda.Executions.EvaluationTest do
                        facts: ^incorrect_facts
                      },
                      %AgentCheckResult{
+                       status: AgentCheckStatus.executed(),
                        agent_id: "agent_2",
                        expectation_evaluations: [
                          %ExpectationEvaluation{
@@ -1687,7 +1758,8 @@ defmodule Wanda.Executions.EvaluationTest do
                  }
                ],
                result: :critical
-             } = Evaluation.execute(execution_id, group_id, checks, gathered_facts, %{}, engine)
+             } =
+               Evaluation.execute(execution_id, group_id, checks, gathered_facts, %{}, [], engine)
     end
 
     test "should return a failure message inside the result when having a failing expect_same", %{
@@ -1742,6 +1814,7 @@ defmodule Wanda.Executions.EvaluationTest do
                  %CheckResult{
                    agents_check_results: [
                      %AgentCheckResult{
+                       status: AgentCheckStatus.executed(),
                        agent_id: "agent_1",
                        expectation_evaluations: [
                          %ExpectationEvaluation{
@@ -1753,6 +1826,7 @@ defmodule Wanda.Executions.EvaluationTest do
                        facts: ^facts
                      },
                      %AgentCheckResult{
+                       status: AgentCheckStatus.executed(),
                        agent_id: "agent_2",
                        expectation_evaluations: [
                          %ExpectationEvaluation{
@@ -1777,7 +1851,8 @@ defmodule Wanda.Executions.EvaluationTest do
                  }
                ],
                result: :critical
-             } = Evaluation.execute(execution_id, group_id, checks, gathered_facts, %{}, engine)
+             } =
+               Evaluation.execute(execution_id, group_id, checks, gathered_facts, %{}, [], engine)
     end
 
     test "should return the default failure message inside the result when having a failing expect_same",
@@ -1868,7 +1943,8 @@ defmodule Wanda.Executions.EvaluationTest do
                  }
                ],
                result: :critical
-             } = Evaluation.execute(execution_id, group_id, checks, gathered_facts, %{}, engine)
+             } =
+               Evaluation.execute(execution_id, group_id, checks, gathered_facts, %{}, [], engine)
     end
 
     test "should return a default failure message in case of an erroring interpolation", %{
@@ -1921,6 +1997,7 @@ defmodule Wanda.Executions.EvaluationTest do
                  %CheckResult{
                    agents_check_results: [
                      %AgentCheckResult{
+                       status: AgentCheckStatus.executed(),
                        agent_id: "agent_1",
                        expectation_evaluations: [
                          %ExpectationEvaluation{
@@ -1933,6 +2010,7 @@ defmodule Wanda.Executions.EvaluationTest do
                        facts: ^incorrect_facts
                      },
                      %AgentCheckResult{
+                       status: AgentCheckStatus.executed(),
                        agent_id: "agent_2",
                        expectation_evaluations: [
                          %ExpectationEvaluation{
@@ -1957,7 +2035,8 @@ defmodule Wanda.Executions.EvaluationTest do
                  }
                ],
                result: :critical
-             } = Evaluation.execute(execution_id, group_id, checks, gathered_facts, %{}, engine)
+             } =
+               Evaluation.execute(execution_id, group_id, checks, gathered_facts, %{}, [], engine)
     end
   end
 
@@ -2084,6 +2163,7 @@ defmodule Wanda.Executions.EvaluationTest do
                      customized: true,
                      agents_check_results: [
                        %AgentCheckResult{
+                         status: AgentCheckStatus.executed(),
                          agent_id: "agent_1",
                          expectation_evaluations: [
                            %ExpectationEvaluation{
@@ -2131,6 +2211,7 @@ defmodule Wanda.Executions.EvaluationTest do
                          ]
                        },
                        %AgentCheckResult{
+                         status: AgentCheckStatus.executed(),
                          agent_id: "agent_2",
                          expectation_evaluations: [
                            %ExpectationEvaluation{
@@ -2211,9 +2292,205 @@ defmodule Wanda.Executions.EvaluationTest do
                    checks,
                    gathered_facts,
                    env,
+                   [],
                    engine
                  )
       end
+    end
+  end
+
+  describe "exclusion handling in evaluation" do
+    test "should append excluded agents after executed agents in agents_check_results", %{
+      engine: engine
+    } do
+      execution_id = UUID.uuid4()
+      group_id = UUID.uuid4()
+
+      [%Catalog.Fact{name: fact_name}] = catalog_facts = build_list(1, :catalog_fact)
+
+      expectations =
+        build_list(1, :catalog_expectation,
+          name: "expectation",
+          expression: "facts.#{fact_name} == true"
+        )
+
+      checks =
+        build_list(1, :selected_check,
+          spec:
+            build(:check,
+              facts: catalog_facts,
+              expectations: expectations,
+              values: []
+            )
+        )
+
+      [%{id: check_id}] = checks
+
+      # Two agents provide facts
+      gathered_facts = %{
+        check_id => %{
+          "agent_1" => [%Fact{check_id: check_id, name: fact_name, value: true}],
+          "agent_2" => [%Fact{check_id: check_id, name: fact_name, value: true}]
+        }
+      }
+
+      # One agent is excluded
+      excluded_checks = [
+        %Wanda.Executions.ExcludedCheckResult{
+          check_id: check_id,
+          agent_id: "agent_3",
+          status: :excluded,
+          exclude_expression: "host.cluster_type == 'ascs_ers'"
+        }
+      ]
+
+      result =
+        Evaluation.execute(
+          execution_id,
+          group_id,
+          checks,
+          gathered_facts,
+          %{},
+          excluded_checks,
+          [],
+          engine
+        )
+
+      assert %Result{
+               check_results: [
+                 %CheckResult{
+                   agents_check_results: [
+                     %AgentCheckResult{agent_id: "agent_1", status: :executed},
+                     %AgentCheckResult{agent_id: "agent_2", status: :executed},
+                     %AgentCheckResult{agent_id: "agent_3", status: :excluded}
+                   ]
+                 }
+               ]
+             } = result
+    end
+
+    test "should handle multiple excluded agents for the same check", %{engine: engine} do
+      execution_id = UUID.uuid4()
+      group_id = UUID.uuid4()
+
+      checks =
+        build_list(1, :selected_check,
+          spec: build(:check, facts: [], expectations: [], values: [])
+        )
+
+      [%{id: check_id}] = checks
+
+      gathered_facts = %{}
+
+      # Three agents excluded with different expressions
+      excluded_checks = [
+        %Wanda.Executions.ExcludedCheckResult{
+          check_id: check_id,
+          agent_id: "agent_1",
+          status: :excluded,
+          exclude_expression: "host.provider == 'azure'"
+        },
+        %Wanda.Executions.ExcludedCheckResult{
+          check_id: check_id,
+          agent_id: "agent_2",
+          status: :excluded,
+          exclude_expression: "host.provider == 'gcp'"
+        },
+        %Wanda.Executions.ExcludedCheckResult{
+          check_id: check_id,
+          agent_id: "agent_3",
+          status: :excluded,
+          exclude_expression: "host.cluster_type == 'hana_scale_up'"
+        }
+      ]
+
+      result =
+        Evaluation.execute(
+          execution_id,
+          group_id,
+          checks,
+          gathered_facts,
+          %{},
+          excluded_checks,
+          [],
+          engine
+        )
+
+      assert %Result{
+               check_results: [
+                 %CheckResult{
+                   agents_check_results: [
+                     %AgentCheckResult{
+                       status: :excluded,
+                       exclude_expression: "host.provider == 'azure'"
+                     },
+                     %AgentCheckResult{
+                       status: :excluded,
+                       exclude_expression: "host.provider == 'gcp'"
+                     },
+                     %AgentCheckResult{
+                       status: :excluded,
+                       exclude_expression: "host.cluster_type == 'hana_scale_up'"
+                     }
+                   ]
+                 }
+               ]
+             } = result
+    end
+
+    test "should set result to passing for fully excluded check regardless of severity", %{
+      engine: engine
+    } do
+      execution_id = UUID.uuid4()
+      group_id = UUID.uuid4()
+
+      # Create a check with critical severity
+      checks =
+        build_list(1, :selected_check,
+          spec:
+            build(:check,
+              severity: :critical,
+              facts: [],
+              expectations: [],
+              values: []
+            )
+        )
+
+      [%{id: check_id}] = checks
+
+      gathered_facts = %{}
+
+      excluded_checks = [
+        %Wanda.Executions.ExcludedCheckResult{
+          check_id: check_id,
+          agent_id: "agent_1",
+          status: :excluded,
+          exclude_expression: "host.provider == 'azure'"
+        }
+      ]
+
+      result =
+        Evaluation.execute(
+          execution_id,
+          group_id,
+          checks,
+          gathered_facts,
+          %{},
+          excluded_checks,
+          [],
+          engine
+        )
+
+      # Despite critical severity, fully excluded check should be passing
+      assert %Result{
+               result: :passing,
+               check_results: [
+                 %CheckResult{
+                   check_id: ^check_id,
+                   result: :passing
+                 }
+               ]
+             } = result
     end
   end
 end
