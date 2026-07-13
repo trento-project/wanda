@@ -30,6 +30,7 @@ defmodule WandaWeb.V2.CatalogControllerTest do
                "items" => [
                  %{"id" => "check_without_values"},
                  %{"id" => "customizable_check"},
+                 %{"id" => "exclude_check"},
                  %{"id" => "expect_check"},
                  %{"id" => "expect_enum_check"},
                  %{"id" => "expect_same_check"},
@@ -55,6 +56,7 @@ defmodule WandaWeb.V2.CatalogControllerTest do
                "items" => [
                  %{"id" => "check_without_values"},
                  %{"id" => "customizable_check"},
+                 %{"id" => "exclude_check"},
                  %{"id" => "expect_check"},
                  %{"id" => "expect_enum_check"},
                  %{"id" => "expect_same_check"},

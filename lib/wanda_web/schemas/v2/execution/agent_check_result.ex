@@ -14,6 +14,7 @@ defmodule WandaWeb.Schemas.V2.Execution.AgentCheckResult do
 
   alias WandaWeb.Schemas.V2.Execution.ExpectationEvaluation
 
+  require Wanda.Executions.Enums.AgentCheckStatus, as: AgentCheckStatus
   require OpenApiSpex
 
   OpenApiSpex.schema(
@@ -52,9 +53,21 @@ defmodule WandaWeb.Schemas.V2.Execution.AgentCheckResult do
           },
           description:
             "An array containing the results of each expectation evaluation performed for the agent during the check execution."
+        },
+        status: %Schema{
+          type: :string,
+          enum: AgentCheckStatus.values(),
+          description:
+            "Status of this agent's check execution. `executed` means the check ran normally. `excluded` means the agent was excluded from this check by the check's `exclude` predicate."
+        },
+        exclude_expression: %Schema{
+          type: :string,
+          nullable: true,
+          description:
+            "The Rhai expression from the check's `exclude` field that evaluated to true and caused this agent to be excluded. Only set when `status` is `excluded`."
         }
       },
-      required: [:agent_id, :facts, :expectation_evaluations],
+      required: [:agent_id, :facts, :expectation_evaluations, :status],
       example: %{
         agent_id: "a1b2c3d4-e5f6-7890-abcd-1234567890ab",
         facts: [%{check_id: "156F64", name: "node_count", value: 3}],
@@ -67,7 +80,8 @@ defmodule WandaWeb.Schemas.V2.Execution.AgentCheckResult do
             type: "expect",
             return_value: true
           }
-        ]
+        ],
+        status: "executed"
       }
     },
     struct?: false

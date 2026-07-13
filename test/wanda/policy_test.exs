@@ -44,7 +44,8 @@ defmodule Wanda.PolicyTest do
                                                              [
                                                                %Target{
                                                                  agent_id: ^agent_id,
-                                                                 checks: ["check_id"]
+                                                                 checks: ["check_id"],
+                                                                 attributes: %{}
                                                                }
                                                              ],
                                                              ^target_type,
@@ -59,7 +60,7 @@ defmodule Wanda.PolicyTest do
              Wanda.Policy.handle_event(%ExecutionRequested{
                execution_id: execution_id,
                group_id: group_id,
-               targets: [%{agent_id: agent_id, checks: ["check_id"]}],
+               targets: [%{agent_id: agent_id, checks: ["check_id"], attributes: %{}}],
                target_type: target_type,
                env: %{
                  "key" => %{kind: {:string_value, "value"}},

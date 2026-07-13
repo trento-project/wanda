@@ -13,9 +13,13 @@ defmodule Wanda.Executions.AgentCheckResult do
     Value
   }
 
+  require Wanda.Executions.Enums.AgentCheckStatus, as: AgentCheckStatus
+
   @derive Jason.Encoder
   defstruct [
     :agent_id,
+    :exclude_expression,
+    status: AgentCheckStatus.excluded(),
     values: [],
     facts: [],
     expectation_evaluations: []
@@ -23,6 +27,8 @@ defmodule Wanda.Executions.AgentCheckResult do
 
   @type t :: %__MODULE__{
           agent_id: String.t(),
+          status: AgentCheckStatus.t(),
+          exclude_expression: String.t() | nil,
           facts: [Fact.t()],
           values: [Value.t()],
           expectation_evaluations: [ExpectationEvaluation.t() | ExpectationEvaluationError.t()]

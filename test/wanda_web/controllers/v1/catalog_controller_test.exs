@@ -41,6 +41,7 @@ defmodule WandaWeb.V1.CatalogControllerTest do
                "items" => [
                  %{"id" => "check_without_values"},
                  %{"id" => "customizable_check"},
+                 %{"id" => "exclude_check"},
                  %{"id" => "expect_check"},
                  %{"id" => "expect_enum_check"},
                  %{"id" => "expect_same_check"},
@@ -83,7 +84,7 @@ defmodule WandaWeb.V1.CatalogControllerTest do
         |> json_response(:ok)
         |> assert_schema("SelectableChecksResponseV1", api_spec)
 
-      assert length(selectable_checks) == 10
+      assert length(selectable_checks) == 11
       refute Enum.any?(selectable_checks, & &1.customized)
     end
 
@@ -126,7 +127,7 @@ defmodule WandaWeb.V1.CatalogControllerTest do
           |> json_response(:ok)
           |> assert_schema("SelectableChecksResponseV1", api_spec)
 
-        assert length(selectable_checks) == 10
+        assert length(selectable_checks) == 11
 
         assert selectable_checks
                |> Enum.filter(& &1.customized)
@@ -134,7 +135,7 @@ defmodule WandaWeb.V1.CatalogControllerTest do
 
         assert selectable_checks
                |> Enum.filter(&(not &1.customized))
-               |> length() == 9
+               |> length() == 10
 
         %{
           values: customized_check_values,
