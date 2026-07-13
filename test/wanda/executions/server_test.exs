@@ -20,8 +20,6 @@ defmodule Wanda.Executions.ServerTest do
 
   alias Wanda.Executions.Messaging.Publisher
 
-  require Wanda.Executions.Enums.AgentCheckStatus, as: AgentCheckStatus
-
   setup [:set_mox_from_context, :verify_on_exit!]
 
   setup_all do

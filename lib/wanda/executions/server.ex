@@ -35,7 +35,6 @@ defmodule Wanda.Executions.Server do
 
   require Logger
   require Wanda.Executions.Enums.AgentCheckStatus, as: AgentCheckStatus
-  require Wanda.Executions.Enums.Result, as: ResultEnum
 
   @default_target_type "cluster"
   @default_timeout 5 * 60 * 1_000
