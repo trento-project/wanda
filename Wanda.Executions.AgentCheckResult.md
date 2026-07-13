@@ -8,11 +8,13 @@ Represents the result of a check on a specific agent.
 ```elixir
 @type t() :: %Wanda.Executions.AgentCheckResult{
   agent_id: String.t(),
+  exclude_expression: String.t() | nil,
   expectation_evaluations: [
     Wanda.Executions.ExpectationEvaluation.t()
     | Wanda.Executions.ExpectationEvaluationError.t()
   ],
   facts: [Wanda.Executions.Fact.t()],
+  status: Wanda.Executions.Enums.AgentCheckStatus.t(),
   values: [Wanda.Executions.Value.t()]
 }
 ```

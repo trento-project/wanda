@@ -9,6 +9,7 @@ Represents a check.
 @type t() :: %Wanda.Catalog.Check{
   customization_disabled: boolean(),
   description: String.t(),
+  exclude: String.t() | nil,
   expectations: [Wanda.Catalog.Expectation.t()],
   facts: [Wanda.Catalog.Fact.t()],
   group: String.t(),

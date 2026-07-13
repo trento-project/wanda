@@ -21,9 +21,11 @@ Wanda.EvaluationEngine.html
 Wanda.Executions.AgentCheckError.html
 Wanda.Executions.AgentCheckResult.html
 Wanda.Executions.CheckResult.html
+Wanda.Executions.Enums.AgentCheckStatus.html
 Wanda.Executions.Enums.Result.html
 Wanda.Executions.Enums.Status.html
 Wanda.Executions.Evaluation.html
+Wanda.Executions.ExcludedCheckResult.html
 Wanda.Executions.Execution.Target.html
 Wanda.Executions.Execution.html
 Wanda.Executions.ExpectationEvaluation.html
@@ -150,7 +152,7 @@ dist/lato-latin-700-normal-2XVSBPG4.woff2
 dist/lato-latin-ext-400-normal-N27NCBWW.woff2
 dist/lato-latin-ext-700-normal-Q2L5DVMW.woff2
 dist/remixicon-ZWU5GQ4X.woff2
-dist/search_data-0CDCCFC9.js
-dist/sidebar_items-CF6B46F5.js
+dist/search_data-7CB4CE0E.js
+dist/sidebar_items-CF8F8232.js
 index.html
 search.html

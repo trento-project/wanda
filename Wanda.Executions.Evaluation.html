@@ -12,7 +12,7 @@
 
     <link rel="stylesheet" href="dist/html-elixir-NHQLCD6Y.css" />
 
-    <script defer src="dist/sidebar_items-CF6B46F5.js"></script>
+    <script defer src="dist/sidebar_items-CF8F8232.js"></script>
     <script defer src="docs_config.js"></script>
     <script defer src="dist/html-Y2MUTVIN.js"></script>
 
@@ -137,7 +137,7 @@ Wanda
 
     <div class="summary-row">
       <div class="summary-signature">
-        <a href="#execute/7" data-no-tooltip="" translate="no">execute(execution_id, group_id, checks, gathered_facts, env, timeouts \\ [], engine)</a>
+        <a href="#execute/8" data-no-tooltip="" translate="no">execute(execution_id, group_id, checks, gathered_facts, env, excluded_checks, timeouts \\ [], engine)</a>
 
       </div>
 
@@ -165,19 +165,19 @@ Wanda
     </h2>
 
     <div class="functions-list">
-<section class="detail" id="execute/7">
+<section class="detail" id="execute/8">
 
-    <span id="execute/6"></span>
+    <span id="execute/7"></span>
 
   <div class="detail-header">
-    <a href="#execute/7" class="detail-link" data-no-tooltip="" aria-label="Link to this function">
+    <a href="#execute/8" class="detail-link" data-no-tooltip="" aria-label="Link to this function">
       <i class="ri-link-m" aria-hidden="true"></i>
     </a>
     <div class="heading-with-actions">
-      <h1 class="signature" translate="no">execute(execution_id, group_id, checks, gathered_facts, env, timeouts \\ [], engine)</h1>
+      <h1 class="signature" translate="no">execute(execution_id, group_id, checks, gathered_facts, env, excluded_checks, timeouts \\ [], engine)</h1>
 
 
-        <a href="https://github.com/trento-project/wanda/blob/main/lib/wanda/executions/evaluation.ex#L40" class="icon-action" rel="help nofollow" aria-label="View Source">
+        <a href="https://github.com/trento-project/wanda/blob/main/lib/wanda/executions/evaluation.ex#L43" class="icon-action" rel="help nofollow" aria-label="View Source">
           <i class="ri-code-s-slash-line" aria-hidden="true"></i>
         </a>
 
@@ -194,6 +194,7 @@ Wanda
   [<a href="Wanda.Catalog.SelectedCheck.html#t:t/0">Wanda.Catalog.SelectedCheck.t</a>()],
   <a href="https://hexdocs.pm/elixir/typespecs.html#basic-types">map</a>(),
   %{required(<a href="https://hexdocs.pm/elixir/String.html#t:t/0">String.t</a>()) =&gt; <a href="https://hexdocs.pm/elixir/typespecs.html#built-in-types">boolean</a>() | <a href="https://hexdocs.pm/elixir/typespecs.html#built-in-types">number</a>() | <a href="https://hexdocs.pm/elixir/String.html#t:t/0">String.t</a>()},
+  [<a href="Wanda.Executions.ExcludedCheckResult.html#t:t/0">Wanda.Executions.ExcludedCheckResult.t</a>()],
   [<a href="https://hexdocs.pm/elixir/String.html#t:t/0">String.t</a>()],
   <a href="https://hexdocs.pm/rhai_rustler/1.2.0/Rhai.Engine.html#t:t/0">Rhai.Engine.t</a>()
 ) :: <a href="Wanda.Executions.Result.html#t:t/0">Wanda.Executions.Result.t</a>()</pre>
@@ -213,7 +214,7 @@ Wanda
       <h1 class="signature" translate="no">has_some_fact_gathering_error?(facts)</h1>
 
 
-        <a href="https://github.com/trento-project/wanda/blob/main/lib/wanda/executions/evaluation.ex#L153" class="icon-action" rel="help nofollow" aria-label="View Source">
+        <a href="https://github.com/trento-project/wanda/blob/main/lib/wanda/executions/evaluation.ex#L167" class="icon-action" rel="help nofollow" aria-label="View Source">
           <i class="ri-code-s-slash-line" aria-hidden="true"></i>
         </a>
 

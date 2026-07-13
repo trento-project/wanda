@@ -6,7 +6,11 @@ Execution targets.
 # `t`
 
 ```elixir
-@type t() :: %Wanda.Executions.Target{agent_id: String.t(), checks: [String.t()]}
+@type t() :: %Wanda.Executions.Target{
+  agent_id: String.t(),
+  attributes: %{required(String.t()) =&gt; term()},
+  checks: [String.t()]
+}
 ```
 
 # `get_checks_from_targets`

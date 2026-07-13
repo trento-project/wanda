@@ -79,11 +79,15 @@ check supported values and validate possible values
 
   - [Wanda.Executions.CheckResult](Wanda.Executions.CheckResult.md): Represents the result of a check.
 
+  - [Wanda.Executions.Enums.AgentCheckStatus](Wanda.Executions.Enums.AgentCheckStatus.md): Type that represents an agent check execution status.
+
   - [Wanda.Executions.Enums.Result](Wanda.Executions.Enums.Result.md): Type that represents a check execution result.
 
   - [Wanda.Executions.Enums.Status](Wanda.Executions.Enums.Status.md): Type that represents a check execution status.
 
   - [Wanda.Executions.Evaluation](Wanda.Executions.Evaluation.md): Evaluation functional core.
+
+  - [Wanda.Executions.ExcludedCheckResult](Wanda.Executions.ExcludedCheckResult.md): Represents a (check, agent) pair excluded by the check's `exclude` predicate.
 
   - [Wanda.Executions.Execution](Wanda.Executions.Execution.md): Schema of a persisted execution.
 

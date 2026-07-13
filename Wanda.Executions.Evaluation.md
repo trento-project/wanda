@@ -12,6 +12,7 @@ Evaluation functional core.
   [Wanda.Catalog.SelectedCheck.t()],
   map(),
   %{required(String.t()) =&gt; boolean() | number() | String.t()},
+  [Wanda.Executions.ExcludedCheckResult.t()],
   [String.t()],
   Rhai.Engine.t()
 ) :: Wanda.Executions.Result.t()

@@ -8,7 +8,7 @@
     <meta name="project" content="Wanda v2.1.0">
 
 
-    <title>Wanda.Executions.Target — Wanda v2.1.0</title>
+    <title>Wanda.Executions.Enums.AgentCheckStatus — Wanda v2.1.0</title>
 
     <link rel="stylesheet" href="dist/html-elixir-NHQLCD6Y.css" />
 
@@ -97,19 +97,19 @@ Wanda
 <div id="top-content">
   <div class="heading-with-actions top-heading">
     <h1>
-      <span translate="no">Wanda.<wbr />Executions.<wbr />Target</span> 
+      <span translate="no">Wanda.<wbr />Executions.<wbr />Enums.<wbr />AgentCheckStatus</span> 
       <small class="app-vsn" translate="no">(Wanda v2.1.0)</small>
 
     </h1>
 
-<a href="Wanda.Executions.Target.md" title="Copy Markdown (hold Ctrl/Cmd and click it to open as Markdown)" class="copy-markdown icon-action" rel="help">
+<a href="Wanda.Executions.Enums.AgentCheckStatus.md" title="Copy Markdown (hold Ctrl/Cmd and click it to open as Markdown)" class="copy-markdown icon-action" rel="help">
   <i class="ri-markdown-line" aria-hidden="true"></i>
   <span class="sr-only">Copy Markdown</span>
 </a>
 
 
 
-      <a href="https://github.com/trento-project/wanda/blob/main/lib/wanda/executions/target.ex#L4" title="View Source" class="icon-action" rel="help nofollow">
+      <a href="https://github.com/trento-project/wanda/blob/main/lib/wanda/executions/enums/agent_check_status.ex#L4" title="View Source" class="icon-action" rel="help nofollow">
         <i class="ri-code-s-slash-line" aria-hidden="true"></i>
         <span class="sr-only">View Source</span>
       </a>
@@ -118,7 +118,7 @@ Wanda
 
 
     <section id="moduledoc">
-<p>Execution targets.</p>
+<p>Type that represents an agent check execution status.</p>
     </section>
 
 </div>
@@ -151,7 +151,7 @@ Wanda
 
     <div class="summary-row">
       <div class="summary-signature">
-        <a href="#get_checks_from_targets/1" data-no-tooltip="" translate="no">get_checks_from_targets(targets)</a>
+        <a href="#excluded/0" data-no-tooltip="" translate="no">excluded()</a>
 
       </div>
 
@@ -159,7 +159,15 @@ Wanda
 
     <div class="summary-row">
       <div class="summary-signature">
-        <a href="#map_targets/1" data-no-tooltip="" translate="no">map_targets(map_list)</a>
+        <a href="#executed/0" data-no-tooltip="" translate="no">executed()</a>
+
+      </div>
+
+    </div>
+
+    <div class="summary-row">
+      <div class="summary-signature">
+        <a href="#values/0" data-no-tooltip="" translate="no">values()</a>
 
       </div>
 
@@ -189,7 +197,7 @@ Wanda
       <h1 class="signature" translate="no">t()</h1>
 
 
-        <a href="https://github.com/trento-project/wanda/blob/main/lib/wanda/executions/target.ex#L15" class="icon-action" rel="help nofollow" aria-label="View Source">
+        <a href="https://github.com/trento-project/wanda/blob/main/lib/wanda/executions/enums/agent_check_status.ex#L9" class="icon-action" rel="help nofollow" aria-label="View Source">
           <i class="ri-code-s-slash-line" aria-hidden="true"></i>
         </a>
 
@@ -200,11 +208,7 @@ Wanda
 
       <div class="specs">
 
-          <pre translate="no"><span class="attribute">@type</span> t() :: %Wanda.Executions.Target{
-  agent_id: <a href="https://hexdocs.pm/elixir/String.html#t:t/0">String.t</a>(),
-  attributes: %{required(<a href="https://hexdocs.pm/elixir/String.html#t:t/0">String.t</a>()) =&gt; <a href="https://hexdocs.pm/elixir/typespecs.html#built-in-types">term</a>()},
-  checks: [<a href="https://hexdocs.pm/elixir/String.html#t:t/0">String.t</a>()]
-}</pre>
+          <pre translate="no"><span class="attribute">@type</span> t() :: :excluded | :executed</pre>
 
       </div>
 
@@ -224,17 +228,19 @@ Wanda
     </h2>
 
     <div class="functions-list">
-<section class="detail" id="get_checks_from_targets/1">
+<section class="detail" id="excluded/0">
 
   <div class="detail-header">
-    <a href="#get_checks_from_targets/1" class="detail-link" data-no-tooltip="" aria-label="Link to this function">
+    <a href="#excluded/0" class="detail-link" data-no-tooltip="" aria-label="Link to this macro">
       <i class="ri-link-m" aria-hidden="true"></i>
     </a>
     <div class="heading-with-actions">
-      <h1 class="signature" translate="no">get_checks_from_targets(targets)</h1>
+      <h1 class="signature" translate="no">excluded()</h1>
+
+        <span class="note">(macro)</span>
 
 
-        <a href="https://github.com/trento-project/wanda/blob/main/lib/wanda/executions/target.ex#L22" class="icon-action" rel="help nofollow" aria-label="View Source">
+        <a href="https://github.com/trento-project/wanda/blob/main/lib/wanda/executions/enums/agent_check_status.ex#L9" class="icon-action" rel="help nofollow" aria-label="View Source">
           <i class="ri-code-s-slash-line" aria-hidden="true"></i>
         </a>
 
@@ -243,26 +249,46 @@ Wanda
 
   <section class="docstring">
 
-      <div class="specs">
 
-          <pre translate="no"><span class="attribute">@spec</span> get_checks_from_targets([<a href="#t:t/0">t</a>()]) :: [<a href="https://hexdocs.pm/elixir/String.html#t:t/0">String.t</a>()]</pre>
+  </section>
+</section>
+<section class="detail" id="executed/0">
 
-      </div>
+  <div class="detail-header">
+    <a href="#executed/0" class="detail-link" data-no-tooltip="" aria-label="Link to this macro">
+      <i class="ri-link-m" aria-hidden="true"></i>
+    </a>
+    <div class="heading-with-actions">
+      <h1 class="signature" translate="no">executed()</h1>
+
+        <span class="note">(macro)</span>
+
+
+        <a href="https://github.com/trento-project/wanda/blob/main/lib/wanda/executions/enums/agent_check_status.ex#L9" class="icon-action" rel="help nofollow" aria-label="View Source">
+          <i class="ri-code-s-slash-line" aria-hidden="true"></i>
+        </a>
+
+    </div>
+  </div>
+
+  <section class="docstring">
 
 
   </section>
 </section>
-<section class="detail" id="map_targets/1">
+<section class="detail" id="values/0">
 
   <div class="detail-header">
-    <a href="#map_targets/1" class="detail-link" data-no-tooltip="" aria-label="Link to this function">
+    <a href="#values/0" class="detail-link" data-no-tooltip="" aria-label="Link to this macro">
       <i class="ri-link-m" aria-hidden="true"></i>
     </a>
     <div class="heading-with-actions">
-      <h1 class="signature" translate="no">map_targets(map_list)</h1>
+      <h1 class="signature" translate="no">values()</h1>
+
+        <span class="note">(macro)</span>
 
 
-        <a href="https://github.com/trento-project/wanda/blob/main/lib/wanda/executions/target.ex#L28" class="icon-action" rel="help nofollow" aria-label="View Source">
+        <a href="https://github.com/trento-project/wanda/blob/main/lib/wanda/executions/enums/agent_check_status.ex#L9" class="icon-action" rel="help nofollow" aria-label="View Source">
           <i class="ri-code-s-slash-line" aria-hidden="true"></i>
         </a>
 

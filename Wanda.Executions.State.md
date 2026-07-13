@@ -11,6 +11,7 @@ State of an execution.
   checks: [Wanda.Catalog.SelectedCheck.t()],
   engine: Rhai.Engine.t(),
   env: %{required(String.t()) =&gt; boolean() | number() | String.t()},
+  excluded_checks: [Wanda.Executions.ExcludedCheckResult.t()],
   execution_id: String.t(),
   gathered_facts: map(),
   group_id: String.t(),

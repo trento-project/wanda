@@ -20,9 +20,11 @@ Wanda.EvaluationEngine.md
 Wanda.Executions.AgentCheckError.md
 Wanda.Executions.AgentCheckResult.md
 Wanda.Executions.CheckResult.md
+Wanda.Executions.Enums.AgentCheckStatus.md
 Wanda.Executions.Enums.Result.md
 Wanda.Executions.Enums.Status.md
 Wanda.Executions.Evaluation.md
+Wanda.Executions.ExcludedCheckResult.md
 Wanda.Executions.Execution.Target.md
 Wanda.Executions.Execution.md
 Wanda.Executions.ExpectationEvaluation.md
