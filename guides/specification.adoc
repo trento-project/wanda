@@ -385,7 +385,7 @@ metadata:
 An optional Rhai expression evaluated against each host's metadata (`+host+`
 link:#evaluation-scope[scope]) before the check evaluation is performed.
 Hosts for which the predicate returns `+true+` are removed from the target
-set and reported as `+excluded_by_policy+` in the execution results.
+set and reported as `+excluded+` in the execution results.
 
 *Default:* if no `+exclude+` is provided, no host is excluded based on this
 predicate.
@@ -401,6 +401,10 @@ scope:
 HANA cluster it belongs to.
 |===
 
+Additional attributes may be added by Trento Web over time; check the
+link:https://github.com/trento-project/web[web repository] for the
+current set of emitted attributes.
+
 Example:
 
 [source,yaml]
@@ -410,9 +414,6 @@ exclude: host.is_majority_maker == true
 
 This example excludes hosts that are the majority maker node,
 keeping only the *not* majority maker for check evaluation.
-
-See the `+host+` scope in the link:#evaluation-scope[evaluation scope]
-for more details about what data is available.
 
 It's also possible to access host attributes using the bracket notation:
 
