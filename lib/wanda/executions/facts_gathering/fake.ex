@@ -10,7 +10,7 @@ defmodule Wanda.Executions.FactsGathering.Fake do
 
   Because of this the execution flows through the exact same evaluation,
   exclusion and finalization path as in production: `exclude` predicates are
-  honoured and `excluded_by_policy` results are produced in demo just like with
+  honoured and `excluded` results are produced in demo just like with
   the real server.
 
   Facts are delivered asynchronously (after an optional `:sleep` delay) so the

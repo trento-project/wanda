@@ -20,28 +20,12 @@ defmodule Wanda.Executions.FactsGathering.FakeTest do
 
   setup do
     previous_server = Application.get_env(:wanda, Server)
-    previous_facts = Application.get_env(:wanda, Wanda.Executions.FakeGatheredFacts)
 
     Application.put_env(:wanda, Server,
       facts_gathering_impl: Wanda.Executions.FactsGathering.Fake
     )
 
-    Application.put_env(:wanda, Wanda.Executions.FactsGathering.Fake, sleep: 0)
-
-    Application.put_env(:wanda, Wanda.Executions.FakeGatheredFacts,
-      demo_facts_config: "test/fixtures/demo/fake_facts_test.yaml"
-    )
-
-    on_exit(fn ->
-      Application.put_env(:wanda, Server, previous_server)
-      Application.delete_env(:wanda, Wanda.Executions.FactsGathering.Fake)
-
-      if previous_facts do
-        Application.put_env(:wanda, Wanda.Executions.FakeGatheredFacts, previous_facts)
-      else
-        Application.delete_env(:wanda, Wanda.Executions.FakeGatheredFacts)
-      end
-    end)
+    on_exit(fn -> Application.put_env(:wanda, Server, previous_server) end)
 
     :ok
   end
