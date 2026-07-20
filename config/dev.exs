@@ -100,6 +100,9 @@ config :unplug, :init_mode, :runtime
 
 config :open_api_spex, :cache_adapter, OpenApiSpex.Plug.NoneCache
 
+config :wanda, Wanda.Executions.Server, facts_gathering_impl: Wanda.Executions.FactsGathering.Fake
+config :wanda, Wanda.Executions.FakeGatheredFacts, demo_facts_config: "priv/demo/fake_facts.yaml"
+
 # Override with local dev.local.exs file
 if File.exists?("#{__DIR__}/dev.local.exs") do
   import_config "dev.local.exs"

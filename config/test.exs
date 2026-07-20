@@ -111,4 +111,6 @@ config :wanda,
 config :wanda, Wanda.Executions.FakeGatheredFacts,
   demo_facts_config: "test/fixtures/demo/fake_facts_test.yaml"
 
+config :wanda, Wanda.Executions.FactsGathering.Fake, sleep: 0
+
 config :exvcr, global_mock: true
