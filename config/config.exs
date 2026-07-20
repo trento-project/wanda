@@ -60,6 +60,8 @@ config :wanda, Wanda.Policy,
   execution_server_impl: Wanda.Executions.Server,
   operation_server_impl: Wanda.Operations.Server
 
+config :wanda, Wanda.Executions.Server, facts_gathering_impl: Wanda.Executions.FactsGathering.AMQP
+
 # Phoenix configuration
 
 config :wanda,
