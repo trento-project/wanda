@@ -3,40 +3,26 @@
 
 defmodule Wanda.Executions.FakeGatheredFacts do
   @moduledoc """
-  Module responsible to generate the fake gathered facts from targets
-  """
+  Synthesizes the fake value of a single requested fact for the demo/dev facts
+  gathering source.
 
-  alias Wanda.Catalog.{Check, Fact}
-  alias Wanda.Executions.Fact, as: ExecutionFact
-  alias Wanda.Executions.Target
+  This module deliberately knows nothing about *which* facts to gather — that
+  decision belongs to `Wanda.Messaging.Mapper.to_facts_gathering_requested/4`,
+  the single source of truth shared with the production (AMQP) path. Here we only
+  answer "what value should this one `(check, agent, fact)` have", so the demo
+  path cannot drift from production on request contents.
+  """
 
   require Logger
 
   @fallback_fact_value "some fact value"
 
-  def get_demo_gathered_facts(checks, targets) do
-    Enum.reduce(checks, %{}, fn %Check{id: check_id} = check, gathered_facts_map ->
-      Map.put(gathered_facts_map, check_id, get_check_facts(check, targets))
-    end)
-  end
-
-  defp get_check_facts(%Check{id: check_id, facts: facts}, targets) do
-    Enum.reduce(targets, %{}, fn %Target{agent_id: agent_id}, agent_gathered_facts ->
-      Map.put(agent_gathered_facts, agent_id, get_agent_facts(facts, agent_id, check_id))
-    end)
-  end
-
-  defp get_agent_facts(facts, agent_id, check_id) do
-    Enum.map(facts, fn %Fact{name: name} ->
-      %ExecutionFact{
-        check_id: check_id,
-        name: name,
-        value: get_fake_fact_value(check_id, agent_id, name)
-      }
-    end)
-  end
-
-  defp get_fake_fact_value(check_id, agent_id, fact_name) do
+  @doc """
+  Returns the synthetic value for a single `(check, agent, fact)`, from the demo
+  facts yaml config, falling back to a default when not configured/readable.
+  """
+  @spec fake_value(String.t(), String.t(), String.t()) :: term()
+  def fake_value(check_id, agent_id, fact_name) do
     with {:ok, target_refs, fake_facts} <- read_from_yaml_config(),
          {:ok, target_ref} <- get_target_reference(target_refs, agent_id),
          {:ok, fact_value} <- get_fake_value_from_map(fake_facts, check_id, fact_name, target_ref) do
