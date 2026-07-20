@@ -8,11 +8,11 @@
     <meta name="project" content="Wanda v2.1.0">
 
 
-    <title>Wanda.Executions.FakeServer — Wanda v2.1.0</title>
+    <title>Wanda.Executions.FactsGathering.Fake — Wanda v2.1.0</title>
 
     <link rel="stylesheet" href="dist/html-elixir-NHQLCD6Y.css" />
 
-    <script defer src="dist/sidebar_items-0B4B642C.js"></script>
+    <script defer src="dist/sidebar_items-3C54E471.js"></script>
     <script defer src="docs_config.js"></script>
     <script defer src="dist/html-Y2MUTVIN.js"></script>
 
@@ -97,19 +97,19 @@ Wanda
 <div id="top-content">
   <div class="heading-with-actions top-heading">
     <h1>
-      <span translate="no">Wanda.<wbr />Executions.<wbr />FakeServer</span> 
+      <span translate="no">Wanda.<wbr />Executions.<wbr />FactsGathering.<wbr />Fake</span> 
       <small class="app-vsn" translate="no">(Wanda v2.1.0)</small>
 
     </h1>
 
-<a href="Wanda.Executions.FakeServer.md" title="Copy Markdown (hold Ctrl/Cmd and click it to open as Markdown)" class="copy-markdown icon-action" rel="help">
+<a href="Wanda.Executions.FactsGathering.Fake.md" title="Copy Markdown (hold Ctrl/Cmd and click it to open as Markdown)" class="copy-markdown icon-action" rel="help">
   <i class="ri-markdown-line" aria-hidden="true"></i>
   <span class="sr-only">Copy Markdown</span>
 </a>
 
 
 
-      <a href="https://github.com/trento-project/wanda/blob/main/demo/fake_server.ex#L4" title="View Source" class="icon-action" rel="help nofollow">
+      <a href="https://github.com/trento-project/wanda/blob/main/lib/wanda/executions/facts_gathering/fake.ex#L4" title="View Source" class="icon-action" rel="help nofollow">
         <i class="ri-code-s-slash-line" aria-hidden="true"></i>
         <span class="sr-only">View Source</span>
       </a>
@@ -118,12 +118,89 @@ Wanda
 
 
     <section id="moduledoc">
-<p>Execution server implementation that does not actually execute anything and just
-returns (fake) random results.</p>
+<p>Demo/dev facts gathering source: it does not reach out to any agent. Instead
+it synthesizes fake facts (see <a href="Wanda.Executions.FakeGatheredFacts.html"><code class="inline">Wanda.Executions.FakeGatheredFacts</code></a>) and feeds
+them back into <a href="Wanda.Executions.Server.html"><code class="inline">Wanda.Executions.Server</code></a> through the same <code class="inline">receive_facts/4</code>
+entry point the real agents use.</p><p>Because of this the execution flows through the exact same evaluation,
+exclusion and finalization path as in production: <code class="inline">exclude</code> predicates are
+honoured and <code class="inline">excluded</code> results are produced in demo just like with
+the real server.</p><p>Facts are delivered asynchronously (after an optional <code class="inline">:sleep</code> delay) so the
+server process is never blocked and the round-trip mimics real agents.</p>
     </section>
 
 </div>
 
+  <section id="summary" class="details-list">
+    <h2 class="section-heading">
+      <a class="hover-link" href="#summary">
+        <i class="ri-link-m" aria-hidden="true"></i>
+      </a>
+      <span class="text">Summary</span>
+    </h2>
+<div class="summary-functions summary">
+  <h3>
+    <a href="#functions">Functions</a>
+  </h3>
+
+    <div class="summary-row">
+      <div class="summary-signature">
+        <a href="#synthesize_facts/1" data-no-tooltip="" translate="no">synthesize_facts(facts_gathering_requested)</a>
+
+      </div>
+
+        <div class="summary-synopsis"><p>Synthesizes fake facts for exactly the requests carried by a
+<code class="inline">FactsGatheringRequested</code>, returning <code class="inline">[%{agent_id: String.t(), facts: [%Executions.Fact{}]}]</code>.</p></div>
+
+    </div>
+
+</div>
+
+  </section>
+
+
+  <section id="functions" class="details-list">
+    <h2 class="section-heading">
+      <a class="hover-link" href="#functions">
+        <i class="ri-link-m" aria-hidden="true"></i>
+      </a>
+      <span class="text">Functions</span>
+    </h2>
+
+    <div class="functions-list">
+<section class="detail" id="synthesize_facts/1">
+
+  <div class="detail-header">
+    <a href="#synthesize_facts/1" class="detail-link" data-no-tooltip="" aria-label="Link to this function">
+      <i class="ri-link-m" aria-hidden="true"></i>
+    </a>
+    <div class="heading-with-actions">
+      <h1 class="signature" translate="no">synthesize_facts(facts_gathering_requested)</h1>
+
+
+        <a href="https://github.com/trento-project/wanda/blob/main/lib/wanda/executions/facts_gathering/fake.ex#L59" class="icon-action" rel="help nofollow" aria-label="View Source">
+          <i class="ri-code-s-slash-line" aria-hidden="true"></i>
+        </a>
+
+    </div>
+  </div>
+
+  <section class="docstring">
+
+      <div class="specs">
+
+          <pre translate="no"><span class="attribute">@spec</span> synthesize_facts(Trento.Checks.V1.FactsGatheringRequested.t()) :: [
+  %{agent_id: <a href="https://hexdocs.pm/elixir/String.html#t:t/0">String.t</a>(), facts: [<a href="Wanda.Executions.Fact.html#t:t/0">Wanda.Executions.Fact.t</a>()]}
+]</pre>
+
+      </div>
+
+<p>Synthesizes fake facts for exactly the requests carried by a
+<code class="inline">FactsGatheringRequested</code>, returning <code class="inline">[%{agent_id: String.t(), facts: [%Executions.Fact{}]}]</code>.</p><p>Kept public and pure so it can be asserted against the request it consumes.</p>
+  </section>
+</section>
+
+    </div>
+  </section>
 
     <footer class="footer">
 

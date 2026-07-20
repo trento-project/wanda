@@ -32,8 +32,10 @@ Wanda.Executions.ExpectationEvaluationError.md
 Wanda.Executions.ExpectationResult.md
 Wanda.Executions.Fact.md
 Wanda.Executions.FactError.md
+Wanda.Executions.FactsGathering.AMQP.md
+Wanda.Executions.FactsGathering.Fake.md
+Wanda.Executions.FactsGathering.md
 Wanda.Executions.FakeGatheredFacts.md
-Wanda.Executions.FakeServer.md
 Wanda.Executions.Gathering.md
 Wanda.Executions.Messaging.Consumer.md
 Wanda.Executions.Messaging.Publisher.md

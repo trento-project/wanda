@@ -12,7 +12,7 @@
 
     <link rel="stylesheet" href="dist/html-elixir-NHQLCD6Y.css" />
 
-    <script defer src="dist/sidebar_items-0B4B642C.js"></script>
+    <script defer src="dist/sidebar_items-3C54E471.js"></script>
     <script defer src="docs_config.js"></script>
     <script defer src="dist/html-Y2MUTVIN.js"></script>
 
@@ -432,21 +432,44 @@ It also sets some default options for the engine.</p></div>
 </div>
 <div class="summary-row">
   <div class="summary-signature">
-    <a href="Wanda.Executions.FakeGatheredFacts.html" translate="no">Wanda.<wbr />Executions.<wbr />FakeGatheredFacts</a>
+    <a href="Wanda.Executions.FactsGathering.html" translate="no">Wanda.<wbr />Executions.<wbr />FactsGathering</a>
 
   </div>
 
-    <div class="summary-synopsis"><p>Module responsible to generate the fake gathered facts from targets</p></div>
+    <div class="summary-synopsis"><p>Behaviour for the facts gathering source of a check execution.</p></div>
 
 </div>
 <div class="summary-row">
   <div class="summary-signature">
-    <a href="Wanda.Executions.FakeServer.html" translate="no">Wanda.<wbr />Executions.<wbr />FakeServer</a>
+    <a href="Wanda.Executions.FactsGathering.AMQP.html" translate="no">Wanda.<wbr />Executions.<wbr />FactsGathering.<wbr />AMQP</a>
 
   </div>
 
-    <div class="summary-synopsis"><p>Execution server implementation that does not actually execute anything and just
-returns (fake) random results.</p></div>
+    <div class="summary-synopsis"><p>Production facts gathering source: dispatches a <code class="inline">FactsGatheringRequested</code>
+message to the agents over AMQP. The gathered facts flow back asynchronously
+through <code class="inline">Wanda.Executions.Server.receive_facts/4</code>.</p></div>
+
+</div>
+<div class="summary-row">
+  <div class="summary-signature">
+    <a href="Wanda.Executions.FactsGathering.Fake.html" translate="no">Wanda.<wbr />Executions.<wbr />FactsGathering.<wbr />Fake</a>
+
+  </div>
+
+    <div class="summary-synopsis"><p>Demo/dev facts gathering source: it does not reach out to any agent. Instead
+it synthesizes fake facts (see <a href="Wanda.Executions.FakeGatheredFacts.html"><code class="inline">Wanda.Executions.FakeGatheredFacts</code></a>) and feeds
+them back into <a href="Wanda.Executions.Server.html"><code class="inline">Wanda.Executions.Server</code></a> through the same <code class="inline">receive_facts/4</code>
+entry point the real agents use.</p></div>
+
+</div>
+<div class="summary-row">
+  <div class="summary-signature">
+    <a href="Wanda.Executions.FakeGatheredFacts.html" translate="no">Wanda.<wbr />Executions.<wbr />FakeGatheredFacts</a>
+
+  </div>
+
+    <div class="summary-synopsis"><p>Synthesizes the fake value of a single requested fact for the demo/dev facts
+gathering source.</p></div>
 
 </div>
 <div class="summary-row">

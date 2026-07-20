@@ -12,7 +12,7 @@
 
     <link rel="stylesheet" href="dist/html-elixir-NHQLCD6Y.css" />
 
-    <script defer src="dist/sidebar_items-0B4B642C.js"></script>
+    <script defer src="dist/sidebar_items-3C54E471.js"></script>
     <script defer src="docs_config.js"></script>
     <script defer src="dist/html-Y2MUTVIN.js"></script>
 
@@ -109,7 +109,7 @@ Wanda
 
 
 
-      <a href="https://github.com/trento-project/wanda/blob/main/demo/fake_gathered_facts.ex#L4" title="View Source" class="icon-action" rel="help nofollow">
+      <a href="https://github.com/trento-project/wanda/blob/main/lib/wanda/executions/facts_gathering/fake_gathered_facts.ex#L4" title="View Source" class="icon-action" rel="help nofollow">
         <i class="ri-code-s-slash-line" aria-hidden="true"></i>
         <span class="sr-only">View Source</span>
       </a>
@@ -118,7 +118,12 @@ Wanda
 
 
     <section id="moduledoc">
-<p>Module responsible to generate the fake gathered facts from targets</p>
+<p>Synthesizes the fake value of a single requested fact for the demo/dev facts
+gathering source.</p><p>This module deliberately knows nothing about <em>which</em> facts to gather — that
+decision belongs to <a href="Wanda.Messaging.Mapper.html#to_facts_gathering_requested/4"><code class="inline">Wanda.Messaging.Mapper.to_facts_gathering_requested/4</code></a>,
+the single source of truth shared with the production (AMQP) path. Here we only
+answer &quot;what value should this one <code class="inline">(check, agent, fact)</code> have&quot;, so the demo
+path cannot drift from production on request contents.</p>
     </section>
 
 </div>
@@ -137,9 +142,12 @@ Wanda
 
     <div class="summary-row">
       <div class="summary-signature">
-        <a href="#get_demo_gathered_facts/2" data-no-tooltip="" translate="no">get_demo_gathered_facts(checks, targets)</a>
+        <a href="#fake_value/3" data-no-tooltip="" translate="no">fake_value(check_id, agent_id, fact_name)</a>
 
       </div>
+
+        <div class="summary-synopsis"><p>Returns the synthetic value for a single <code class="inline">(check, agent, fact)</code>, from the demo
+facts yaml config, falling back to a default when not configured/readable.</p></div>
 
     </div>
 
@@ -157,17 +165,17 @@ Wanda
     </h2>
 
     <div class="functions-list">
-<section class="detail" id="get_demo_gathered_facts/2">
+<section class="detail" id="fake_value/3">
 
   <div class="detail-header">
-    <a href="#get_demo_gathered_facts/2" class="detail-link" data-no-tooltip="" aria-label="Link to this function">
+    <a href="#fake_value/3" class="detail-link" data-no-tooltip="" aria-label="Link to this function">
       <i class="ri-link-m" aria-hidden="true"></i>
     </a>
     <div class="heading-with-actions">
-      <h1 class="signature" translate="no">get_demo_gathered_facts(checks, targets)</h1>
+      <h1 class="signature" translate="no">fake_value(check_id, agent_id, fact_name)</h1>
 
 
-        <a href="https://github.com/trento-project/wanda/blob/main/demo/fake_gathered_facts.ex#L17" class="icon-action" rel="help nofollow" aria-label="View Source">
+        <a href="https://github.com/trento-project/wanda/blob/main/lib/wanda/executions/facts_gathering/fake_gathered_facts.ex#L25" class="icon-action" rel="help nofollow" aria-label="View Source">
           <i class="ri-code-s-slash-line" aria-hidden="true"></i>
         </a>
 
@@ -176,7 +184,14 @@ Wanda
 
   <section class="docstring">
 
+      <div class="specs">
 
+          <pre translate="no"><span class="attribute">@spec</span> fake_value(<a href="https://hexdocs.pm/elixir/String.html#t:t/0">String.t</a>(), <a href="https://hexdocs.pm/elixir/String.html#t:t/0">String.t</a>(), <a href="https://hexdocs.pm/elixir/String.html#t:t/0">String.t</a>()) :: <a href="https://hexdocs.pm/elixir/typespecs.html#built-in-types">term</a>()</pre>
+
+      </div>
+
+<p>Returns the synthetic value for a single <code class="inline">(check, agent, fact)</code>, from the demo
+facts yaml config, falling back to a default when not configured/readable.</p>
   </section>
 </section>
 

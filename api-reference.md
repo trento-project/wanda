@@ -102,11 +102,17 @@ check supported values and validate possible values
 
   - [Wanda.Executions.FactError](Wanda.Executions.FactError.md): Fact with an error.
 
-  - [Wanda.Executions.FakeGatheredFacts](Wanda.Executions.FakeGatheredFacts.md): Module responsible to generate the fake gathered facts from targets
+  - [Wanda.Executions.FactsGathering](Wanda.Executions.FactsGathering.md): Behaviour for the facts gathering source of a check execution.
+  - [Wanda.Executions.FactsGathering.AMQP](Wanda.Executions.FactsGathering.AMQP.md): Production facts gathering source: dispatches a `FactsGatheringRequested`
+message to the agents over AMQP. The gathered facts flow back asynchronously
+through `Wanda.Executions.Server.receive_facts/4`.
 
-  - [Wanda.Executions.FakeServer](Wanda.Executions.FakeServer.md): Execution server implementation that does not actually execute anything and just
-returns (fake) random results.
-
+  - [Wanda.Executions.FactsGathering.Fake](Wanda.Executions.FactsGathering.Fake.md): Demo/dev facts gathering source: it does not reach out to any agent. Instead
+it synthesizes fake facts (see `Wanda.Executions.FakeGatheredFacts`) and feeds
+them back into `Wanda.Executions.Server` through the same `receive_facts/4`
+entry point the real agents use.
+  - [Wanda.Executions.FakeGatheredFacts](Wanda.Executions.FakeGatheredFacts.md): Synthesizes the fake value of a single requested fact for the demo/dev facts
+gathering source.
   - [Wanda.Executions.Gathering](Wanda.Executions.Gathering.md): Facts gathering functional core.
 
   - [Wanda.Executions.Messaging.Consumer](Wanda.Executions.Messaging.Consumer.md): Executions messagging consumer module
