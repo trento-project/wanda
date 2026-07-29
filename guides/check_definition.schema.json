@@ -18,7 +18,7 @@
     "when": {
       "type": "string"
     },
-    "excluded": {
+    "exclude": {
       "type": "string"
     },
     "metadata": {

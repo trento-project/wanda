@@ -157,7 +157,7 @@ yaml.
 
 |`+metadata+` |not required |link:#metadata[see more]
 
-|`+excluded+` |not required |link:#excluded[see more]
+|`+exclude+` |not required |link:#exclude[see more]
 
 |`+facts+` |required |link:#facts[see more]
 
@@ -378,7 +378,7 @@ metadata:
   qux: [foo, bar, baz]
 ----
 
-==== excluded
+==== exclude
 
 An expression used to exclude facts gathering process and evaluation from
 targets where the assertion is true.
@@ -387,7 +387,7 @@ Example:
 
 [source,yaml]
 ----
-excluded: host.is_majority_maker == true
+exclude: host.is_majority_maker == true
 ----
 
 Excludes fact gathering and evaluation from cluster hosts that act as
