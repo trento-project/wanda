@@ -18,6 +18,9 @@
     "when": {
       "type": "string"
     },
+    "excluded": {
+      "type": "string"
+    },
     "metadata": {
       "$ref": "#/definitions/Metadata"
     },
