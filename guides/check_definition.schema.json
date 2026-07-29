@@ -202,13 +202,19 @@
       ],
       "oneOf": [
         {
-          "required": ["expect"]
+          "required": [
+            "expect"
+          ]
         },
         {
-          "required": ["expect_same"]
+          "required": [
+            "expect_same"
+          ]
         },
         {
-          "required": ["expect_enum"]
+          "required": [
+            "expect_enum"
+          ]
         }
       ]
     },
