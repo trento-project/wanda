@@ -167,6 +167,9 @@ defmodule Wanda.MixProject do
   end
 
   defp get_version_from_file do
-    File.cwd!() |> Path.join("VERSION") |> File.read!() |> String.trim()
+    case File.cwd!() |> Path.join("VERSION") |> File.read() do
+      {:ok, version} -> String.trim(version)
+      {:error, _} -> "0.0.0"
+    end
   end
 end
