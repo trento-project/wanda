@@ -10,6 +10,18 @@ import Config
 # any compile-time configuration in here, as it won't be applied.
 # The block below contains prod specific runtime configuration.
 if config_env() in [:prod, :demo] do
+  log_levels = ~w(debug info warning error)
+  log_level = System.get_env("LOG_LEVEL", "info")
+
+  if log_level not in log_levels do
+    raise """
+    environment variable LOG_LEVEL is invalid.
+    Valid values are: #{Enum.join(log_levels, ", ")}
+    """
+  end
+
+  config :logger, level: String.to_atom(log_level)
+
   database_url =
     System.get_env("DATABASE_URL") ||
       raise """
