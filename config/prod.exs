@@ -17,9 +17,6 @@ config :wanda, WandaWeb.Endpoint,
   cache_static_manifest: "priv/static/cache_manifest.json",
   server: true
 
-# Do not print debug messages in production
-config :logger, level: :info
-
 amqp_connection = "amqp://wanda:wanda@localhost:5672"
 
 config :wanda, Wanda.Messaging.Adapters.AMQP,
