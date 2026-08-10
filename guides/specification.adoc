@@ -167,6 +167,8 @@ yaml.
 |`+values+` |not required |link:#values[see more]
 
 |`+expectations+` |required |link:#expectations[see more]
+
+|`+exclude+` |not required |link:#exclude[see more]
 |===
 
 '''''
@@ -380,8 +382,28 @@ metadata:
 
 ==== exclude
 
-An expression used to exclude facts gathering process and evaluation from
-targets where the assertion is true.
+An optional Rhai expression evaluated against each host's metadata (`+host+`
+link:#evaluation-scope[scope]) before the check evaluation is performed.
+Hosts for which the predicate returns `+true+` are removed from the target
+set and reported as `+excluded+` in the execution results.
+
+*Default:* if no `+exclude+` is provided, no host is excluded based on this
+predicate.
+
+The expression has access to the following host attributes in the `+host+`
+scope:
+
+[width="100%",cols="31%,15%,44%",options="header"]
+|===
+|Attribute |Type |Description
+|`+host.is_majority_maker+` |boolean
+|Indicates that the host has the role of majority maker node in the
+HANA cluster it belongs to.
+|===
+
+Additional attributes may be added by Trento Web over time; check the
+link:https://github.com/trento-project/web[web repository] for the
+current set of emitted attributes.
 
 Example:
 
@@ -390,8 +412,15 @@ Example:
 exclude: host.is_majority_maker == true
 ----
 
-Excludes fact gathering and evaluation from cluster hosts that act as
-majority maker.
+This example excludes hosts that are the majority maker node,
+keeping only the *not* majority maker for check evaluation.
+
+It's also possible to access host attributes using the bracket notation:
+
+[source,yaml]
+----
+exclude: host["is_majority_maker"] == true
+----
 
 ==== Facts, Values, Expectations
 
