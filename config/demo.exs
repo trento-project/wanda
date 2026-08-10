@@ -8,7 +8,5 @@ config :wanda, WandaWeb.Endpoint,
   cache_static_manifest: "priv/static/cache_manifest.json",
   server: true
 
-config :logger, level: :debug
-
 config :wanda, Wanda.Executions.Server, facts_gathering_impl: Wanda.Executions.FactsGathering.Fake
 config :wanda, Wanda.Executions.FakeGatheredFacts, demo_facts_config: "priv/demo/fake_facts.yaml"

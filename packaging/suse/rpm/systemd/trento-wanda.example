@@ -1,3 +1,4 @@
+LOG_LEVEL=info
 CORS_ORIGIN=localhost
 SECRET_KEY_BASE=<secret-key-base>
 AMQP_URL=amqp://trento_user:trento_user_password@rabbitmq-host/vhost
