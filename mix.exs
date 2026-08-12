@@ -138,7 +138,7 @@ defmodule Wanda.MixProject do
       {:ecto, "~> 3.14"},
       {:plug, "~> 1.19", override: true},
       {:bodyguard, "~> 2.4"},
-      {:httpoison, "== 2.2.3"},
+      {:httpoison, "== 2.3.0"},
       {:exvcr, "~> 0.11", only: :test}
     ]
   end
