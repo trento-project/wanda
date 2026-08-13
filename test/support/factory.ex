@@ -70,7 +70,7 @@ defmodule Wanda.Factory do
 
   def catalog_fact_factory do
     %Catalog.Fact{
-      name: Faker.Cat.name(),
+      name: sequence(:fact_name, &"fact_#{&1}"),
       gatherer: Faker.StarWars.character(),
       argument: Faker.StarWars.quote()
     }
