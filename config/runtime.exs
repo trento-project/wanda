@@ -64,7 +64,6 @@ if config_env() in [:prod, :demo] do
       _ -> raise "Invalid value set for environment variable IPV4_OR_IPV6"
     end
 
-
   config :wanda, WandaWeb.Endpoint,
     http: [
       # Enable IPv6 and bind on all interfaces.
