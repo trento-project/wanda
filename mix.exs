@@ -125,7 +125,7 @@ defmodule Wanda.MixProject do
       {:faker, "~> 0.17", only: [:demo, :test]},
       {:excoveralls, "~> 0.10", only: :test},
       # phoenix deps
-      {:phoenix, "~> 1.7.23"},
+      {:phoenix, "~> 1.8.11"},
       {:phoenix_view, "~> 2.0"},
       {:phoenix_ecto, "~> 4.5"},
       {:ecto_sql, "~> 3.14"},
