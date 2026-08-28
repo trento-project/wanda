@@ -56,7 +56,7 @@ LABEL org.opencontainers.image.base.digest="latest"
 LABEL io.artifacthub.package.logo-url="https://www.trento-project.io/images/trento-icon.svg"
 LABEL io.artifacthub.package.readme-url="https://raw.githubusercontent.com/trento-project/wanda/refs/heads/main/packaging/suse/container/README.md"
 # Erlang runtime dependencies
-RUN zypper -n in libsystemd0 libopenssl3
+RUN zypper -n in libsystemd0 libopenssl1_1 libopenssl3
 WORKDIR /app
 COPY --from=release /build/_build/$MIX_ENV/rel/wanda .
 VOLUME /usr/share/trento/checks
