@@ -179,11 +179,42 @@ defmodule Wanda.Messaging.MapperTest do
       targets: [
         %{
           agent_id: "agent1",
-          checks: ["check_1", "check_2"]
+          checks: ["check_1", "check_2"],
+          attributes: %{
+            some_string: %{
+              kind: {:string_value, "some_string"}
+            },
+            decimal_number: %{
+              kind: {:number_value, 10}
+            },
+            some_number: %{
+              kind: {:number_value, 10.0}
+            },
+            some_float: %{
+              kind: {:number_value, 10.5}
+            },
+            some_boolean: %{
+              kind: {:bool_value, true}
+            },
+            null: %{
+              kind: {:null_value}
+            },
+            some_list: %{
+              kind:
+                {:list_value,
+                 %{
+                   values: [
+                     %{kind: {:string_value, "first"}},
+                     %{kind: {:string_value, "second"}}
+                   ]
+                 }}
+            }
+          }
         },
         %{
           agent_id: "agent3",
-          checks: ["check_3", "check_4"]
+          checks: ["check_3", "check_4"],
+          attributes: %{}
         }
       ],
       env: %{
@@ -208,11 +239,21 @@ defmodule Wanda.Messaging.MapperTest do
              targets: [
                %Executions.Target{
                  agent_id: "agent1",
-                 checks: ["check_1", "check_2"]
+                 checks: ["check_1", "check_2"],
+                 attributes: %{
+                   some_string: "some_string",
+                   some_number: 10,
+                   decimal_number: 10,
+                   some_float: 10.5,
+                   some_boolean: true,
+                   null: nil,
+                   some_list: ["first", "second"]
+                 }
                },
                %Executions.Target{
                  agent_id: "agent3",
-                 checks: ["check_3", "check_4"]
+                 checks: ["check_3", "check_4"],
+                 attributes: %{}
                }
              ],
              env: %{

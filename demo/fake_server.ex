@@ -57,6 +57,7 @@ defmodule Wanda.Executions.FakeServer do
         selected_checks,
         gathered_facts,
         env,
+        [],
         EvaluationEngine.new()
       )
 

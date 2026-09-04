@@ -38,6 +38,7 @@ defmodule Wanda.Factory do
 
   require Wanda.Catalog.Enums.ExpectType, as: ExpectType
   require Wanda.Catalog.Enums.Severity, as: Severity
+  require Wanda.Executions.Enums.AgentCheckStatus, as: AgentCheckStatus
   require Wanda.Executions.Enums.Result, as: ExecutionResult
   require Wanda.Executions.Enums.Status, as: ExecutionStatus
   require Wanda.Operations.Enums.Result, as: OpeartionResult
@@ -62,6 +63,7 @@ defmodule Wanda.Factory do
       values: build_list(10, :catalog_value),
       expectations: build_list(10, :catalog_expectation),
       when: Faker.Lorem.sentence(),
+      exclude: nil,
       customization_disabled: Enum.random([false, true])
     }
   end
@@ -103,7 +105,8 @@ defmodule Wanda.Factory do
   def target_factory do
     %Target{
       agent_id: UUID.uuid4(),
-      checks: random_checks()
+      checks: random_checks(),
+      attributes: %{}
     }
   end
 
@@ -171,6 +174,7 @@ defmodule Wanda.Factory do
   def agent_check_result_factory do
     %AgentCheckResult{
       agent_id: UUID.uuid4(),
+      status: AgentCheckStatus.executed(),
       facts: build_list(2, :fact),
       expectation_evaluations: build_list(2, :expectation_evaluation)
     }
