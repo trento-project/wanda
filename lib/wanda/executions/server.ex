@@ -128,15 +128,7 @@ defmodule Wanda.Executions.Server do
       store_and_publish_execution_result(result, env)
       {:stop, :normal, state}
     else
-      facts_gathering_requested =
-        Messaging.Mapper.to_facts_gathering_requested(
-          execution_id,
-          group_id,
-          active_targets,
-          specs
-        )
-
-      :ok = Messaging.publish(Publisher, "agents", facts_gathering_requested)
+      :ok = facts_gathering_impl().request_facts(execution_id, group_id, active_targets, specs)
 
       Process.send_after(self(), :timeout, timeout)
 
@@ -340,6 +332,9 @@ defmodule Wanda.Executions.Server do
 
   defp via_tuple(group_id),
     do: {:via, :global, {__MODULE__, group_id}}
+
+  defp facts_gathering_impl,
+    do: Application.fetch_env!(:wanda, __MODULE__)[:facts_gathering_impl]
 
   defp maybe_start_execution(_, _, _, [], _, _), do: {:error, :no_checks_selected}
 
