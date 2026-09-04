@@ -2,7 +2,7 @@
 # SPDX-License-Identifier: Apache-2.0
 
 defmodule WandaWeb.FallbackController do
-  use Phoenix.Controller
+  use Phoenix.Controller, formats: [:json]
 
   alias WandaWeb.ErrorJSON
 
