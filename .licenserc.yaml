@@ -24,3 +24,4 @@ header:
     - "LICENSE"
     - "VERSION"
     - "mix.lock"
+    - "packaging/suse/rpm/trento-wanda.spec"
