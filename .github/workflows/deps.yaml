@@ -48,6 +48,7 @@ jobs:
     runs-on: ubuntu-24.04
     needs: [setup-matrix-env]
     strategy:
+      fail-fast: false
       matrix:
         mix_env: ${{ fromJSON(inputs.mix_envs) }}
         versions:

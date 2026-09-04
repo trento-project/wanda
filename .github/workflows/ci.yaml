@@ -62,6 +62,7 @@ jobs:
     needs: [setup-matrix-env, elixir-deps]
     runs-on: ubuntu-24.04
     strategy:
+      fail-fast: false
       matrix:
         include:
           - elixir: ${{ needs.setup-matrix-env.outputs.ELIXIR_BC }}
@@ -108,6 +109,7 @@ jobs:
     needs: [setup-matrix-env, elixir-deps]
     runs-on: ubuntu-24.04
     strategy:
+      fail-fast: false
       matrix:
         include:
           - elixir: ${{ needs.setup-matrix-env.outputs.ELIXIR_BC }}
@@ -186,6 +188,7 @@ jobs:
     needs: [setup-matrix-env, elixir-deps]
     runs-on: ubuntu-24.04
     strategy:
+      fail-fast: false
       matrix:
         include:
           - elixir: ${{ needs.setup-matrix-env.outputs.ELIXIR_BC }}
@@ -230,6 +233,7 @@ jobs:
     if: github.event_name == 'pull_request' && !failure() && !cancelled()
     runs-on: ubuntu-24.04
     strategy:
+      fail-fast: false
       matrix:
         include:
           - elixir: ${{ needs.setup-matrix-env.outputs.ELIXIR_BC }}
@@ -278,6 +282,7 @@ jobs:
     if: github.event_name == 'pull_request' && !failure() && !cancelled()
     runs-on: ubuntu-24.04
     strategy:
+      fail-fast: false
       matrix:
         include:
           - version: Unversioned
@@ -343,6 +348,9 @@ jobs:
             _build/${{ env.MIX_ENV }}
             priv/plts
           key: erlang-${{ matrix.otp }}-elixir-${{ matrix.elixir }}-rust-${{ needs.setup-matrix-env.outputs.RUST_DEV }}-${{ hashFiles('mix.lock') }}-${{ env.MIX_ENV }}
+      - name: Install missing dependencies
+        if: steps.mix-cache-target.outputs.cache-hit != 'true'
+        run: mix deps.get
       - name: Generate target openapi.json
         run: |
           mix openapi.spec.json --start-app=false --spec WandaWeb.Schemas.${{ matrix.version }}.ApiSpec /tmp/specs/target-spec.json
@@ -372,6 +380,7 @@ jobs:
     if: >-
       github.event_name == 'push' || github.event_name == 'workflow_dispatch'
     strategy:
+      fail-fast: false
       matrix:
         include:
           - mix_env: prod
