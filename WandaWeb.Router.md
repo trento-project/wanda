@@ -19,6 +19,8 @@
 
 Callback invoked by Plug on every request.
 
+# `formatted_routes`
+
 # `init`
 
 Callback required by Plug that initializes the router
@@ -27,6 +29,8 @@ for serving web requests.
 # `protected_api`
 
 # `unversioned_api`
+
+# `verified_route?`
 
 ---
 
