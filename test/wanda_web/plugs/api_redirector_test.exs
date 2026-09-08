@@ -7,9 +7,27 @@ defmodule WandaWeb.Plugs.ApiRedirectorTest do
   alias WandaWeb.Plugs.ApiRedirector
 
   defmodule FoundRouter do
-    def __match_route__(_, _, _) do
-      {%{}, %{}, %{}, {%{}, %{}}}
-    end
+    use Phoenix.Router, helpers: false
+
+    match :*, "/*path", __MODULE__, :noop
+  end
+
+  defmodule NotFoundRouter do
+    # Don't handle any route -- eg. gives :error on every
+    # Router.route_info() call.
+    use Phoenix.Router, helpers: false
+  end
+
+  defmodule FoundInApiRedirectorRouter do
+    use Phoenix.Router, helpers: false
+
+    match :*, "/*path", ApiRedirector, :noop
+  end
+
+  defmodule V1FoundRouter do
+    use Phoenix.Router, helpers: false
+
+    match :*, "/api/v1/*path", __MODULE__, :noop
   end
 
   describe "init/1" do
@@ -36,16 +54,10 @@ defmodule WandaWeb.Plugs.ApiRedirectorTest do
     test "should return 404 with the error view when the path is not recognized by the router", %{
       conn: conn
     } do
-      defmodule ErrorNotFoundRouter do
-        def __match_route__(_, _, _) do
-          :error
-        end
-      end
-
       resp =
         conn
         |> Map.put(:path_info, ["api", "hosts"])
-        |> ApiRedirector.call(available_api_versions: ["v2", "v1"], router: ErrorNotFoundRouter)
+        |> ApiRedirector.call(available_api_versions: ["v2", "v1"], router: NotFoundRouter)
         |> json_response(404)
 
       assert %{
@@ -59,16 +71,13 @@ defmodule WandaWeb.Plugs.ApiRedirectorTest do
          %{
            conn: conn
          } do
-      defmodule NotFoundRouter do
-        def __match_route__(_, _, _) do
-          {%{plug: ApiRedirector}, %{}, %{}, {%{}, %{}}}
-        end
-      end
-
       resp =
         conn
         |> Map.put(:path_info, ["api", "hosts"])
-        |> ApiRedirector.call(available_api_versions: ["v2", "v1"], router: NotFoundRouter)
+        |> ApiRedirector.call(
+          available_api_versions: ["v2", "v1"],
+          router: FoundInApiRedirectorRouter
+        )
         |> json_response(404)
 
       assert %{
@@ -109,16 +118,6 @@ defmodule WandaWeb.Plugs.ApiRedirectorTest do
 
     test "should redirect to the next available version path if the newest version is not available",
          %{conn: conn} do
-      defmodule V1FoundRouter do
-        def __match_route__(["api", "v1", "test"], _, _) do
-          {%{}, %{}, %{}, {%{}, %{}}}
-        end
-
-        def __match_route__(_, _, _) do
-          :error
-        end
-      end
-
       conn =
         conn
         |> Map.put(:path_info, ["api", "test"])
