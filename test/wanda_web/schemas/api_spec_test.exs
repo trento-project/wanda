@@ -7,7 +7,7 @@ defmodule WandaWeb.Schemas.ApiSpecTest do
   alias WandaWeb.Schemas.ApiSpec
 
   defmodule TestController do
-    use Phoenix.Controller
+    use Phoenix.Controller, formats: [:json]
     use OpenApiSpex.ControllerSpecs
 
     operation :show,
