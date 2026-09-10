@@ -1,5 +1,42 @@
 # Changelog
 
+## [2.1.1](https://github.com/trento-project/wanda/tree/1.4.0/compare/2.1.0...2.1.1) - 2026-09-10
+
+### What's Changed
+
+* Disable fail-fast in the CI for most jobs (#772) @trentobot
+* Adds explicit system env variable for ipv4/ ipv6 handling (#767) @trentobot
+* Handle check exclude predicate  (#768) @trentobot
+
+#### Features
+
+* Add runtime LOG_LEVEL option to change logging level (#770) @trentobot
+* Improve Checks execution mockability (#769) @trentobot
+* Fix conflicting erlang27 packages (#760) @trentobot
+
+#### Maintenance
+
+* Updated license in spec file (#765) @trentobot
+* Removed private function usage in the Phoenix Router tests (#779) @trentobot
+* Export version in rpm packages to use same value during compilation (#764) @trentobot
+* Add test release step in CI (#763) @trentobot
+
+#### Dependencies
+
+<details>
+<summary>8 changes</summary>
+* Bump ecto from 3.14.1 to 3.14.2 (#782) @trentobot
+* Bump httpoison from 2.2.3 to 2.3.0 (#777) @trentobot
+* Bump phoenix from 1.7.23 to 1.8.11 (#780) @trentobot
+* Bump plug_cowboy from 2.8.1 to 2.9.0 (#773) @trentobot
+* Bump ecto from 3.14.0 to 3.14.1 (#774) @trentobot
+* Bump postgrex from 0.22.2 to 0.22.3 (#776) @trentobot
+* Bump yaml_elixir from 2.12.1 to 2.12.2 (#775) @trentobot
+* Bump erlef/setup-beam from 1.24.0 to 1.24.1 (#762) @trentobot
+
+</details>
+**Full Changelog**: https://github.com/trento-project/wanda/compare/2.1.0...2.1.1
+
 ## [2.1.0](https://github.com/trento-project/wanda/tree/1.4.0/compare/2.0.0...2.1.0) - 2026-05-19
 
 ### What's Changed
@@ -55,10 +92,8 @@
 * Bump styfle/cancel-workflow-action from 0.12.1 to 0.13.0 (#671) @[dependabot[bot]](https://github.com/apps/dependabot)
 * Bump actions/upload-artifact from 5 to 6 (#669) @[dependabot[bot]](https://github.com/apps/dependabot)
 * Bump actions/cache from 4 to 5 (#668) @[dependabot[bot]](https://github.com/apps/dependabot)
-
 </details>
 **Full Changelog**: https://github.com/trento-project/wanda/compare/2.0.0...2.1.0
-
 ## [2.0.0](https://github.com/trento-project/wanda/tree/1.4.0/compare/1.5.0...2.0.0) - 2025-11-27
 
 ### What's Changed
@@ -128,7 +163,6 @@
 </details>
 **Full Changelog**: https://github.com/trento-project/wanda/compare/1.5.0...2.0.0
 ## [1.5.0](https://github.com/trento-project/wanda/tree/1.4.0/compare/1.4.0...1.5.0) - 2025-05-23
-
 ### What's Changed
 
 * Check vendor deps on CI (#594) @balanza
@@ -219,7 +253,6 @@
 **Full Changelog**: https://github.com/trento-project/wanda/compare/1.4.0...1.5.0
 ## [1.4.0](https://github.com/trento-project/wanda/tree/1.4.0) (2024-11-11)
 [Full Changelog](https://github.com/trento-project/wanda/compare/1.3.0...1.4.0)
-
 **Implemented enhancements:**
 
 - Require trento-checks and remove premium source [#523](https://github.com/trento-project/wanda/pull/523) ([arbulu89](https://github.com/arbulu89))
