@@ -1,4 +1,4 @@
-# Wanda v2.1.0 - Table of Contents
+# Wanda v2.1.1 - Table of Contents
 
 > Wanda is an open source platform for automated cluster checks, health monitoring, and remediation. It provides APIs for managing checks, executions, customizations, and integrations with the Trento Platform. Wanda helps ensure high availability and reliability for your infrastructure by automating best practices and compliance checks.
 
