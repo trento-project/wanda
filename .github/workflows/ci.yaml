@@ -465,3 +465,23 @@ jobs:
       obs_user: ${{ secrets.OBS_USER }}
       obs_pass: ${{ secrets.OBS_PASS }}
       obs_ssh_key: ${{ secrets.OBS_SSH_KEY }}
+
+  dependabot-auto-merge:
+    name: Approve and merge Dependabot PRs
+    if: >
+      always() &&
+      !contains(needs.*.result, 'failure') &&
+      !contains(needs.*.result, 'cancelled') &&
+      github.event_name == 'pull_request' &&
+      github.event.pull_request.user.login == 'dependabot[bot]'
+    needs:
+      - static-code-analysis
+      - test
+      - test-release
+      - api-docs-check
+      - api-bc-check
+    permissions:
+      contents: write
+      pull-requests: write
+      issues: write
+    uses: trento-project/.github/.github/workflows/dependabot-auto-merge.yaml@main # v1.9.0
