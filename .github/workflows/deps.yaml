@@ -34,7 +34,7 @@ jobs:
         with:
           ref: ${{ inputs.checkout_ref }}
       - name: gather versions
-        uses: endorama/asdf-parse-tool-versions@e60863920ff5af9bf1c794ffbaaef91384b07eed # v1.6.0
+        uses: endorama/asdf-parse-tool-versions@115a5df5884438dfd08a3a21e9c9efdf06dd907e # v1.7.0
       - name: Compute matrix
         run: |
           echo "ELIXIR_DEV=${{ env.ELIXIR_VERSION }}" >> $GITHUB_OUTPUT
@@ -75,7 +75,7 @@ jobs:
           otp-version: ${{ matrix.versions.otp }}
           elixir-version: ${{ matrix.versions.elixir }}
       - name: Read .tool-versions
-        uses: endorama/asdf-parse-tool-versions@e60863920ff5af9bf1c794ffbaaef91384b07eed # v1.6.0
+        uses: endorama/asdf-parse-tool-versions@115a5df5884438dfd08a3a21e9c9efdf06dd907e # v1.7.0
         id: tool-versions
       - name: Setup rust
         id: setup-rust
