@@ -108,7 +108,7 @@ defmodule Wanda.MixProject do
       {:rustler, ">= 0.0.0", optional: true},
       {:jason, "~> 1.4"},
       # see: https://github.com/pma/amqp/issues/231#issuecomment-2445049446
-      {:ranch, "~> 2.2.0", override: true},
+      {:ranch, "~> 2.3.0", override: true},
       {:gen_rmq, github: "trento-project/trnt_gen_rmq", ref: "v5.0.1"},
       {:yaml_elixir, "~> 2.9"},
       {:trento_contracts,
