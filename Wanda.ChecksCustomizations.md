@@ -36,7 +36,8 @@ Customization features.
   check_id :: String.t(),
   group_id :: Ecto.UUID.t(),
   opts :: Keyword.t()
-) :: :ok | {:error, :customization_not_found}
+) ::
+  :ok | {:error, :customization_not_found}
 ```
 
 ---

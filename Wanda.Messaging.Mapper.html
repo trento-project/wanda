@@ -4,17 +4,17 @@
     <meta charset="utf-8">
     <meta http-equiv="x-ua-compatible" content="ie=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="generator" content="ExDoc v0.40.3">
+    <meta name="generator" content="ExDoc v0.40.4">
     <meta name="project" content="Wanda v2.1.1">
 
 
     <title>Wanda.Messaging.Mapper — Wanda v2.1.1</title>
 
-    <link rel="stylesheet" href="dist/html-elixir-NHQLCD6Y.css" />
+    <link rel="stylesheet" href="dist/html-elixir-RXHHCTJW.css" />
 
-    <script defer src="dist/sidebar_items-7EFB37F9.js"></script>
+    <script defer src="dist/sidebar_items-4910FC64.js"></script>
     <script defer src="docs_config.js"></script>
-    <script defer src="dist/html-Y2MUTVIN.js"></script>
+    <script defer src="dist/html-MI33G4N7.js"></script>
 
   </head>
   <body>
@@ -283,11 +283,11 @@ Wanda
       <div class="specs">
 
           <pre translate="no"><span class="attribute">@spec</span> from_execution_requested(Trento.Checks.V1.ExecutionRequested.t()) :: %{
-  execution_id: <a href="https://hexdocs.pm/elixir/String.html#t:t/0">String.t</a>(),
-  group_id: <a href="https://hexdocs.pm/elixir/String.html#t:t/0">String.t</a>(),
+  execution_id: <a href="https://elixir.hexdocs.pm/String.html#t:t/0">String.t</a>(),
+  group_id: <a href="https://elixir.hexdocs.pm/String.html#t:t/0">String.t</a>(),
   targets: [<a href="Wanda.Executions.Target.html#t:t/0">Wanda.Executions.Target.t</a>()],
-  target_type: <a href="https://hexdocs.pm/elixir/String.html#t:t/0">String.t</a>() | nil,
-  env: %{required(<a href="https://hexdocs.pm/elixir/String.html#t:t/0">String.t</a>()) =&gt; <a href="https://hexdocs.pm/elixir/typespecs.html#built-in-types">boolean</a>() | <a href="https://hexdocs.pm/elixir/typespecs.html#built-in-types">number</a>() | <a href="https://hexdocs.pm/elixir/String.html#t:t/0">String.t</a>() | nil}
+  target_type: <a href="https://elixir.hexdocs.pm/String.html#t:t/0">String.t</a>() | nil,
+  env: %{required(<a href="https://elixir.hexdocs.pm/String.html#t:t/0">String.t</a>()) =&gt; <a href="https://elixir.hexdocs.pm/typespecs.html#built-in-types">boolean</a>() | <a href="https://elixir.hexdocs.pm/typespecs.html#built-in-types">number</a>() | <a href="https://elixir.hexdocs.pm/String.html#t:t/0">String.t</a>() | nil}
 }</pre>
 
       </div>
@@ -317,9 +317,9 @@ Wanda
       <div class="specs">
 
           <pre translate="no"><span class="attribute">@spec</span> from_facts_gathererd(Trento.Checks.V1.FactsGathered.t()) :: %{
-  execution_id: <a href="https://hexdocs.pm/elixir/String.html#t:t/0">String.t</a>(),
-  group_id: <a href="https://hexdocs.pm/elixir/String.html#t:t/0">String.t</a>(),
-  agent_id: <a href="https://hexdocs.pm/elixir/String.html#t:t/0">String.t</a>(),
+  execution_id: <a href="https://elixir.hexdocs.pm/String.html#t:t/0">String.t</a>(),
+  group_id: <a href="https://elixir.hexdocs.pm/String.html#t:t/0">String.t</a>(),
+  agent_id: <a href="https://elixir.hexdocs.pm/String.html#t:t/0">String.t</a>(),
   facts_gathered: [<a href="Wanda.Executions.Fact.html#t:t/0">Wanda.Executions.Fact.t</a>() | <a href="Wanda.Executions.FactError.html#t:t/0">Wanda.Executions.FactError.t</a>()]
 }</pre>
 
@@ -350,9 +350,9 @@ Wanda
       <div class="specs">
 
           <pre translate="no"><span class="attribute">@spec</span> from_operation_requested(Trento.Operations.V1.OperationRequested.t()) :: %{
-  operation_id: <a href="https://hexdocs.pm/elixir/String.html#t:t/0">String.t</a>(),
-  group_id: <a href="https://hexdocs.pm/elixir/String.html#t:t/0">String.t</a>(),
-  operation_type: <a href="https://hexdocs.pm/elixir/String.html#t:t/0">String.t</a>(),
+  operation_id: <a href="https://elixir.hexdocs.pm/String.html#t:t/0">String.t</a>(),
+  group_id: <a href="https://elixir.hexdocs.pm/String.html#t:t/0">String.t</a>(),
+  operation_type: <a href="https://elixir.hexdocs.pm/String.html#t:t/0">String.t</a>(),
   targets: [<a href="Wanda.Operations.OperationTarget.html#t:t/0">Wanda.Operations.OperationTarget.t</a>()]
 }</pre>
 
@@ -385,10 +385,10 @@ Wanda
           <pre translate="no"><span class="attribute">@spec</span> from_operator_execution_completed(
   Trento.Operations.V1.OperatorExecutionCompleted.t()
 ) :: %{
-  operation_id: <a href="https://hexdocs.pm/elixir/String.html#t:t/0">String.t</a>(),
-  group_id: <a href="https://hexdocs.pm/elixir/String.html#t:t/0">String.t</a>(),
-  step_number: <a href="https://hexdocs.pm/elixir/typespecs.html#built-in-types">number</a>(),
-  agent_id: <a href="https://hexdocs.pm/elixir/String.html#t:t/0">String.t</a>(),
+  operation_id: <a href="https://elixir.hexdocs.pm/String.html#t:t/0">String.t</a>(),
+  group_id: <a href="https://elixir.hexdocs.pm/String.html#t:t/0">String.t</a>(),
+  step_number: <a href="https://elixir.hexdocs.pm/typespecs.html#built-in-types">number</a>(),
+  agent_id: <a href="https://elixir.hexdocs.pm/String.html#t:t/0">String.t</a>(),
   operator_result:
     <a href="Wanda.Operations.OperatorResult.html#t:t/0">Wanda.Operations.OperatorResult.t</a>() | <a href="Wanda.Operations.OperatorError.html#t:t/0">Wanda.Operations.OperatorError.t</a>()
 }</pre>
@@ -420,9 +420,9 @@ Wanda
       <div class="specs">
 
           <pre translate="no"><span class="attribute">@spec</span> to_check_customization_applied(
-  <a href="https://hexdocs.pm/elixir/String.html#t:t/0">String.t</a>(),
-  <a href="https://hexdocs.pm/elixir/String.html#t:t/0">String.t</a>(),
-  <a href="https://hexdocs.pm/elixir/String.html#t:t/0">String.t</a>(),
+  <a href="https://elixir.hexdocs.pm/String.html#t:t/0">String.t</a>(),
+  <a href="https://elixir.hexdocs.pm/String.html#t:t/0">String.t</a>(),
+  <a href="https://elixir.hexdocs.pm/String.html#t:t/0">String.t</a>(),
   [<a href="Wanda.Catalog.CustomizedValue.html#t:t/0">Wanda.Catalog.CustomizedValue.t</a>()]
 ) :: Trento.Checks.V1.CheckCustomizationApplied.t()</pre>
 
@@ -453,9 +453,9 @@ Wanda
       <div class="specs">
 
           <pre translate="no"><span class="attribute">@spec</span> to_check_customization_reset(
-  <a href="https://hexdocs.pm/elixir/String.html#t:t/0">String.t</a>(),
-  <a href="https://hexdocs.pm/elixir/String.html#t:t/0">String.t</a>(),
-  <a href="https://hexdocs.pm/elixir/String.html#t:t/0">String.t</a>()
+  <a href="https://elixir.hexdocs.pm/String.html#t:t/0">String.t</a>(),
+  <a href="https://elixir.hexdocs.pm/String.html#t:t/0">String.t</a>(),
+  <a href="https://elixir.hexdocs.pm/String.html#t:t/0">String.t</a>()
 ) :: Trento.Checks.V1.CheckCustomizationReset.t()</pre>
 
       </div>
@@ -506,7 +506,7 @@ Wanda
 
       <div class="specs">
 
-          <pre translate="no"><span class="attribute">@spec</span> to_execution_started(<a href="https://hexdocs.pm/elixir/String.html#t:t/0">String.t</a>(), <a href="https://hexdocs.pm/elixir/String.html#t:t/0">String.t</a>(), [<a href="Wanda.Executions.Target.html#t:t/0">Wanda.Executions.Target.t</a>()]) ::
+          <pre translate="no"><span class="attribute">@spec</span> to_execution_started(<a href="https://elixir.hexdocs.pm/String.html#t:t/0">String.t</a>(), <a href="https://elixir.hexdocs.pm/String.html#t:t/0">String.t</a>(), [<a href="Wanda.Executions.Target.html#t:t/0">Wanda.Executions.Target.t</a>()]) ::
   Trento.Checks.V1.ExecutionStarted.t()</pre>
 
       </div>
@@ -557,7 +557,7 @@ Wanda
 
       <div class="specs">
 
-          <pre translate="no"><span class="attribute">@spec</span> to_operation_completed(<a href="https://hexdocs.pm/elixir/String.html#t:t/0">String.t</a>(), <a href="https://hexdocs.pm/elixir/String.html#t:t/0">String.t</a>(), <a href="https://hexdocs.pm/elixir/String.html#t:t/0">String.t</a>(), <a href="https://hexdocs.pm/elixir/typespecs.html#basic-types">atom</a>()) ::
+          <pre translate="no"><span class="attribute">@spec</span> to_operation_completed(<a href="https://elixir.hexdocs.pm/String.html#t:t/0">String.t</a>(), <a href="https://elixir.hexdocs.pm/String.html#t:t/0">String.t</a>(), <a href="https://elixir.hexdocs.pm/String.html#t:t/0">String.t</a>(), <a href="https://elixir.hexdocs.pm/typespecs.html#basic-types">atom</a>()) ::
   Trento.Operations.V1.OperationCompleted.t()</pre>
 
       </div>
@@ -587,12 +587,12 @@ Wanda
       <div class="specs">
 
           <pre translate="no"><span class="attribute">@spec</span> to_operation_completed_with_errors(
-  <a href="https://hexdocs.pm/elixir/String.html#t:t/0">String.t</a>(),
-  <a href="https://hexdocs.pm/elixir/String.html#t:t/0">String.t</a>(),
-  <a href="https://hexdocs.pm/elixir/String.html#t:t/0">String.t</a>(),
+  <a href="https://elixir.hexdocs.pm/String.html#t:t/0">String.t</a>(),
+  <a href="https://elixir.hexdocs.pm/String.html#t:t/0">String.t</a>(),
+  <a href="https://elixir.hexdocs.pm/String.html#t:t/0">String.t</a>(),
   :failed | :rolled_back | :timeout | :aborted,
-  <a href="https://hexdocs.pm/elixir/String.html#t:t/0">String.t</a>(),
-  %{required(<a href="https://hexdocs.pm/ecto/3.14.2/Ecto.UUID.html#t:t/0">Ecto.UUID.t</a>()) =&gt; <a href="https://hexdocs.pm/elixir/String.html#t:t/0">String.t</a>()}
+  <a href="https://elixir.hexdocs.pm/String.html#t:t/0">String.t</a>(),
+  %{required(<a href="https://ecto.hexdocs.pm/3.14.2/Ecto.UUID.html#t:t/0">Ecto.UUID.t</a>()) =&gt; <a href="https://elixir.hexdocs.pm/String.html#t:t/0">String.t</a>()}
 ) :: Trento.Operations.V1.OperationCompleted.t()</pre>
 
       </div>
@@ -622,9 +622,9 @@ Wanda
       <div class="specs">
 
           <pre translate="no"><span class="attribute">@spec</span> to_operation_completed_with_failed_request(
-  <a href="https://hexdocs.pm/elixir/String.html#t:t/0">String.t</a>(),
-  <a href="https://hexdocs.pm/elixir/String.html#t:t/0">String.t</a>(),
-  <a href="https://hexdocs.pm/elixir/String.html#t:t/0">String.t</a>(),
+  <a href="https://elixir.hexdocs.pm/String.html#t:t/0">String.t</a>(),
+  <a href="https://elixir.hexdocs.pm/String.html#t:t/0">String.t</a>(),
+  <a href="https://elixir.hexdocs.pm/String.html#t:t/0">String.t</a>(),
   :arguments_missing | :targets_missing | :already_running | :unknown
 ) :: Trento.Operations.V1.OperationCompleted.t()</pre>
 
@@ -654,7 +654,7 @@ Wanda
 
       <div class="specs">
 
-          <pre translate="no"><span class="attribute">@spec</span> to_operation_started(<a href="https://hexdocs.pm/elixir/String.html#t:t/0">String.t</a>(), <a href="https://hexdocs.pm/elixir/String.html#t:t/0">String.t</a>(), <a href="https://hexdocs.pm/elixir/String.html#t:t/0">String.t</a>(), [
+          <pre translate="no"><span class="attribute">@spec</span> to_operation_started(<a href="https://elixir.hexdocs.pm/String.html#t:t/0">String.t</a>(), <a href="https://elixir.hexdocs.pm/String.html#t:t/0">String.t</a>(), <a href="https://elixir.hexdocs.pm/String.html#t:t/0">String.t</a>(), [
   <a href="Wanda.Operations.OperationTarget.html#t:t/0">Wanda.Operations.OperationTarget.t</a>()
 ]) ::
   Trento.Operations.V1.OperationStarted.t()</pre>
@@ -685,7 +685,7 @@ Wanda
 
       <div class="specs">
 
-          <pre translate="no"><span class="attribute">@spec</span> to_operator_execution_requested(<a href="https://hexdocs.pm/elixir/String.html#t:t/0">String.t</a>(), <a href="https://hexdocs.pm/elixir/String.html#t:t/0">String.t</a>(), <a href="https://hexdocs.pm/elixir/typespecs.html#built-in-types">number</a>(), <a href="https://hexdocs.pm/elixir/String.html#t:t/0">String.t</a>(), [
+          <pre translate="no"><span class="attribute">@spec</span> to_operator_execution_requested(<a href="https://elixir.hexdocs.pm/String.html#t:t/0">String.t</a>(), <a href="https://elixir.hexdocs.pm/String.html#t:t/0">String.t</a>(), <a href="https://elixir.hexdocs.pm/typespecs.html#built-in-types">number</a>(), <a href="https://elixir.hexdocs.pm/String.html#t:t/0">String.t</a>(), [
   <a href="Wanda.Operations.OperationTarget.html#t:t/0">Wanda.Operations.OperationTarget.t</a>()
 ]) :: Trento.Operations.V1.OperatorExecutionRequested.t()</pre>
 
@@ -721,7 +721,7 @@ Wanda
 
         <p class="built-using">
           Built using
-          <a href="https://github.com/elixir-lang/ex_doc" title="ExDoc" target="_blank" rel="help noopener" translate="no">ExDoc</a> (v0.40.3) for the
+          <a href="https://github.com/elixir-lang/ex_doc" title="ExDoc" target="_blank" rel="help noopener" translate="no">ExDoc</a> (v0.40.4) for the
 
             <a href="https://elixir-lang.org" title="Elixir" target="_blank" translate="no">Elixir programming language</a>
 
