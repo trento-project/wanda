@@ -27,8 +27,6 @@ Source1:        deps.tar.gz
 Source2:        vendor-rhai_rustler.tar.gz
 Group:          System/Monitoring
 BuildRequires:  cargo1.92
-BuildRequires:  elixir-hex
-BuildRequires:  erlang-rebar3
 BuildRequires:  git-core
 BuildRequires:  rust1.92
 # avoid conflicting aliases in the rust dependency tree
@@ -37,13 +35,15 @@ BuildRequires:  rust1.92
 Requires:       trento-checks
 
 %if !0%{?is_opensuse} && 0%{?suse_version} < 1600
-BuildRequires:  erlang26
-BuildConflicts: erlang27
-BuildConflicts: erlang27-providers
-BuildRequires:  elixir115
-BuildConflicts: elixir119
+BuildRequires:  erlang27
+BuildRequires:  erlang27-epmd
+BuildRequires:  erlang27-rebar3
+BuildRequires:  elixir119
+BuildRequires:  elixir119-hex
 %else
-BuildRequires:  elixir >= 1.15
+BuildRequires:  elixir
+BuildRequires:  elixir-hex
+BuildRequires:  erlang-rebar3
 %endif
 
 %description
