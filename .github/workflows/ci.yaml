@@ -18,6 +18,10 @@ on:
   repository_dispatch:
     types: [start-ci]
 
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
 env:
   MIX_ENV: test
   NODEJS_BC: "22.15.1"
