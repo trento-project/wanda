@@ -30,23 +30,30 @@ env:
   OPENAPI_DIFF_VERSION: "2.1.7" # https://github.com/OpenAPITools/openapi-diff/releases
 
 jobs:
-  elixir-toolchain:
-    name: Elixir toolchain
+  elixir-setup:
+    name: Elixir toolchain and dependencies
+    needs: [setup-matrix-env]
     runs-on: ubuntu-24.04
     permissions:
       contents: read
     outputs:
-      ELIXIR_DEV: ${{ steps.toolchain.outputs.ELIXIR_DEV }}
-      ERLANG_DEV: ${{ steps.toolchain.outputs.ERLANG_DEV }}
-      TOOLCHAINS: ${{ steps.toolchain.outputs.TOOLCHAINS }}
+      ELIXIR_DEV: ${{ steps.setup.outputs.ELIXIR_DEV }}
+      ERLANG_DEV: ${{ steps.setup.outputs.ERLANG_DEV }}
+      TOOLCHAINS: ${{ steps.setup.outputs.TOOLCHAINS }}
+    env:
+      RHAI_RUSTLER_FORCE_BUILD: true
+      RUSTUP_TOOLCHAIN: ${{ needs.setup-matrix-env.outputs.RUST_DEV }}
     steps:
       - name: Checkout
         uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
         with:
           persist-credentials: false
-      - name: Compute OTP/Elixir toolchain
-        id: toolchain
-        uses: trento-project/.github/actions/elixir-toolchain@shared-elixir-otp-toolchain-matrix
+      - name: Set up Elixir toolchain and build dependencies
+        id: setup
+        uses: trento-project/.github/actions/elixir-setup@single-elixir-setup-action
+        with:
+          mix-envs: '["test","prod"]'
+          cache-key-suffix: rust-${{ needs.setup-matrix-env.outputs.RUST_DEV }}
 
   setup-matrix-env:
     runs-on: ubuntu-24.04
@@ -65,42 +72,14 @@ jobs:
           echo "POSTGRES_VERSION=${{ env.POSTGRES_VERSION }}" >> $GITHUB_OUTPUT
           echo "RABBITMQ_VERSION=${{ env.RABBITMQ_VERSION }}" >> $GITHUB_OUTPUT
 
-  elixir-deps:
-    name: Elixir ${{ matrix.mix_env }} dependencies (Elixir ${{ matrix.toolchain.elixir }})
-    needs: [elixir-toolchain, setup-matrix-env]
-    runs-on: ubuntu-24.04
-    permissions:
-      contents: read
-    strategy:
-      fail-fast: false
-      matrix:
-        mix_env: ["test", "prod"]
-        toolchain: ${{ fromJson(needs.elixir-toolchain.outputs.TOOLCHAINS) }}
-    env:
-      MIX_ENV: ${{ matrix.mix_env }}
-      RHAI_RUSTLER_FORCE_BUILD: true
-      RUSTUP_TOOLCHAIN: ${{ needs.setup-matrix-env.outputs.RUST_DEV }}
-    steps:
-      - name: Checkout
-        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
-        with:
-          persist-credentials: false
-      - name: Set up Elixir and build dependencies
-        uses: trento-project/.github/actions/setup-elixir@shared-elixir-otp-toolchain-matrix
-        with:
-          otp-version: ${{ matrix.toolchain.otp }}
-          elixir-version: ${{ matrix.toolchain.elixir }}
-          cache-key-suffix: rust-${{ needs.setup-matrix-env.outputs.RUST_DEV }}
-          build-deps: "true"
-
   static-code-analysis:
     name: Static Code Analysis (Elixir ${{ matrix.toolchain.elixir }})
-    needs: [elixir-toolchain, setup-matrix-env, elixir-deps]
+    needs: [elixir-setup, setup-matrix-env]
     runs-on: ubuntu-24.04
     strategy:
       fail-fast: false
       matrix:
-        toolchain: ${{ fromJson(needs.elixir-toolchain.outputs.TOOLCHAINS) }}
+        toolchain: ${{ fromJson(needs.elixir-setup.outputs.TOOLCHAINS) }}
     steps:
       - name: Cancel Previous Runs
         uses: styfle/cancel-workflow-action@d07a454dad7609a92316b57b23c9ccfd4f59af66 # 0.13.1
@@ -112,7 +91,7 @@ jobs:
           fetch-depth: 0
       - name: Set up Elixir and restore cached dependencies
         id: mix-cache
-        uses: trento-project/.github/actions/setup-elixir@shared-elixir-otp-toolchain-matrix
+        uses: trento-project/.github/actions/setup-elixir@single-elixir-setup-action
         with:
           otp-version: ${{ matrix.toolchain.otp }}
           elixir-version: ${{ matrix.toolchain.elixir }}
@@ -130,12 +109,12 @@ jobs:
 
   test:
     name: Test (Elixir ${{ matrix.toolchain.elixir }})
-    needs: [elixir-toolchain, setup-matrix-env, elixir-deps]
+    needs: [elixir-setup, setup-matrix-env]
     runs-on: ubuntu-24.04
     strategy:
       fail-fast: false
       matrix:
-        toolchain: ${{ fromJson(needs.elixir-toolchain.outputs.TOOLCHAINS) }}
+        toolchain: ${{ fromJson(needs.elixir-setup.outputs.TOOLCHAINS) }}
     services:
       postgres:
         image: registry.suse.com/suse/postgres:${{ needs.setup-matrix-env.outputs.POSTGRES_VERSION }}
@@ -173,7 +152,7 @@ jobs:
           fetch-depth: 0
       - name: Set up Elixir and restore cached dependencies
         id: mix-cache
-        uses: trento-project/.github/actions/setup-elixir@shared-elixir-otp-toolchain-matrix
+        uses: trento-project/.github/actions/setup-elixir@single-elixir-setup-action
         with:
           otp-version: ${{ matrix.toolchain.otp }}
           elixir-version: ${{ matrix.toolchain.elixir }}
@@ -188,19 +167,13 @@ jobs:
         run: mix coveralls.github --warnings-as-errors --color --trace
 
   target-branch-deps:
-    name: Target branch dependencies (Elixir ${{ matrix.toolchain.elixir }})
-    needs: [elixir-toolchain, setup-matrix-env]
+    name: Target branch dependencies
+    needs: [elixir-setup, setup-matrix-env]
     if: github.event_name == 'pull_request'
     runs-on: ubuntu-24.04
     permissions:
       contents: read
-    strategy:
-      fail-fast: false
-      matrix:
-        mix_env: ["test"]
-        toolchain: ${{ fromJson(needs.elixir-toolchain.outputs.TOOLCHAINS) }}
     env:
-      MIX_ENV: ${{ matrix.mix_env }}
       RHAI_RUSTLER_FORCE_BUILD: true
       RUSTUP_TOOLCHAIN: ${{ needs.setup-matrix-env.outputs.RUST_DEV }}
     steps:
@@ -209,22 +182,21 @@ jobs:
         with:
           ref: ${{ github.event.pull_request.base.ref }}
           persist-credentials: false
-      - name: Set up Elixir and build dependencies
-        uses: trento-project/.github/actions/setup-elixir@shared-elixir-otp-toolchain-matrix
+      - name: Set up Elixir toolchain and build dependencies
+        uses: trento-project/.github/actions/elixir-setup@single-elixir-setup-action
         with:
-          otp-version: ${{ matrix.toolchain.otp }}
-          elixir-version: ${{ matrix.toolchain.elixir }}
+          mix-envs: '["test"]'
+          toolchains: ${{ needs.elixir-setup.outputs.TOOLCHAINS }}
           cache-key-suffix: rust-${{ needs.setup-matrix-env.outputs.RUST_DEV }}
-          build-deps: "true"
 
   test-release:
     name: Test release build (Elixir ${{ matrix.toolchain.elixir }})
-    needs: [elixir-toolchain, setup-matrix-env, elixir-deps]
+    needs: [elixir-setup, setup-matrix-env]
     runs-on: ubuntu-24.04
     strategy:
       fail-fast: false
       matrix:
-        toolchain: ${{ fromJson(needs.elixir-toolchain.outputs.TOOLCHAINS) }}
+        toolchain: ${{ fromJson(needs.elixir-setup.outputs.TOOLCHAINS) }}
     env:
       MIX_ENV: prod
     steps:
@@ -234,7 +206,7 @@ jobs:
           fetch-depth: 0
       - name: Set up Elixir and restore cached dependencies
         id: mix-cache
-        uses: trento-project/.github/actions/setup-elixir@shared-elixir-otp-toolchain-matrix
+        uses: trento-project/.github/actions/setup-elixir@single-elixir-setup-action
         with:
           otp-version: ${{ matrix.toolchain.otp }}
           elixir-version: ${{ matrix.toolchain.elixir }}
@@ -251,13 +223,13 @@ jobs:
           _build/prod/rel/wanda/bin/wanda eval "IO.puts(:ok)"
   api-docs-check:
     name: API docs check (Elixir ${{ matrix.toolchain.elixir }})
-    needs: [elixir-toolchain, setup-matrix-env, elixir-deps]
+    needs: [elixir-setup, setup-matrix-env]
     if: github.event_name == 'pull_request' && !failure() && !cancelled()
     runs-on: ubuntu-24.04
     strategy:
       fail-fast: false
       matrix:
-        toolchain: ${{ fromJson(needs.elixir-toolchain.outputs.TOOLCHAINS) }}
+        toolchain: ${{ fromJson(needs.elixir-setup.outputs.TOOLCHAINS) }}
     steps:
       - name: Cancel Previous Runs
         uses: styfle/cancel-workflow-action@d07a454dad7609a92316b57b23c9ccfd4f59af66 # 0.13.1
@@ -269,7 +241,7 @@ jobs:
           fetch-depth: 0
       - name: Set up Elixir and restore cached dependencies - current branch
         id: mix-cache-current
-        uses: trento-project/.github/actions/setup-elixir@shared-elixir-otp-toolchain-matrix
+        uses: trento-project/.github/actions/setup-elixir@single-elixir-setup-action
         with:
           otp-version: ${{ matrix.toolchain.otp }}
           elixir-version: ${{ matrix.toolchain.elixir }}
@@ -288,14 +260,14 @@ jobs:
 
   api-bc-check:
     name: API bc check (${{ matrix.version }}, Elixir ${{ matrix.toolchain.elixir }})
-    needs: [elixir-toolchain, setup-matrix-env, elixir-deps, target-branch-deps]
+    needs: [elixir-setup, setup-matrix-env, target-branch-deps]
     if: github.event_name == 'pull_request' && !failure() && !cancelled()
     runs-on: ubuntu-24.04
     strategy:
       fail-fast: false
       matrix:
         version: [Unversioned, V1, V2, V3]
-        toolchain: ${{ fromJson(needs.elixir-toolchain.outputs.TOOLCHAINS) }}
+        toolchain: ${{ fromJson(needs.elixir-setup.outputs.TOOLCHAINS) }}
 
     steps:
       - name: Cancel Previous Runs
@@ -306,7 +278,7 @@ jobs:
         uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
       - name: Set up Elixir and restore cached dependencies - current branch
         id: mix-cache-current
-        uses: trento-project/.github/actions/setup-elixir@shared-elixir-otp-toolchain-matrix
+        uses: trento-project/.github/actions/setup-elixir@single-elixir-setup-action
         with:
           otp-version: ${{ matrix.toolchain.otp }}
           elixir-version: ${{ matrix.toolchain.elixir }}
@@ -320,7 +292,7 @@ jobs:
           ref: ${{ github.event.pull_request.base.ref || github.ref_name }}
       - name: Retrieve Elixir Cached Dependencies - target branch
         id: mix-cache-target
-        uses: trento-project/.github/actions/setup-elixir@shared-elixir-otp-toolchain-matrix
+        uses: trento-project/.github/actions/setup-elixir@single-elixir-setup-action
         with:
           otp-version: ${{ matrix.toolchain.otp }}
           elixir-version: ${{ matrix.toolchain.elixir }}
@@ -390,17 +362,17 @@ jobs:
 
   generate-docs:
     name: Generate project documentation
-    needs: [elixir-toolchain, setup-matrix-env]
+    needs: [elixir-setup, setup-matrix-env]
     runs-on: ubuntu-24.04
     if: github.event_name == 'push' && github.ref_name == 'main'
     steps:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
       - name: Set up Elixir and restore cached dependencies
         id: mix-cache
-        uses: trento-project/.github/actions/setup-elixir@shared-elixir-otp-toolchain-matrix
+        uses: trento-project/.github/actions/setup-elixir@single-elixir-setup-action
         with:
-          otp-version: ${{ needs.elixir-toolchain.outputs.ERLANG_DEV }}
-          elixir-version: ${{ needs.elixir-toolchain.outputs.ELIXIR_DEV }}
+          otp-version: ${{ needs.elixir-setup.outputs.ERLANG_DEV }}
+          elixir-version: ${{ needs.elixir-setup.outputs.ELIXIR_DEV }}
           cache-key-suffix: rust-${{ needs.setup-matrix-env.outputs.RUST_DEV }}
       - name: Build docs
         uses: lee-dohm/generate-elixir-docs@a745603eef443621976df401f45aaff4d849056b # v1
