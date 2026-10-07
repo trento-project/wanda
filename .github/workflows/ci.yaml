@@ -365,7 +365,7 @@ jobs:
             tag: "${{ (github.event_name == 'push' && github.ref_name == 'main' && 'rolling') || github.sha }}"
           - mix_env: demo
             tag: demo
-    uses: trento-project/.github/.github/workflows/publish-containers.yaml@d8679bc6bc759e119793a2d59285098613f52055 # v1.10.0
+    uses: trento-project/.github/.github/workflows/publish-containers.yaml@94dac57211d792dda649383e7f23326b24a9087b # v1.11.0
     with:
       image_name: trento-wanda
       tag: ${{ matrix.tag }}
@@ -423,7 +423,7 @@ jobs:
     if: >-
       fromJSON(vars.OBS_ENABLED)
       && (github.event_name == 'push' || github.event_name == 'workflow_dispatch')
-    uses: trento-project/.github/.github/workflows/obs-sync.yaml@d8679bc6bc759e119793a2d59285098613f52055 # v1.10.0
+    uses: trento-project/.github/.github/workflows/obs-sync.yaml@94dac57211d792dda649383e7f23326b24a9087b # v1.11.0
     needs:
       - static-code-analysis
       - test
