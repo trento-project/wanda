@@ -45,6 +45,6 @@ docker run -d --name wanda -p 4001:4000 -v trento-checks:/usr/share/trento/check
 
 ## Licensing
 
-`SPDX-License-Identifier: Apache-2.0`
+`SPDX-License-Identifier: GPL-3.0-or-later`
 
-This project is licensed under the Apache License 2.0. See the [LICENSE](https://github.com/trento-project/wanda/blob/main/LICENSE) file for details.
+This project is licensed under the GPL 3.0-or-later license. See the [LICENSE](https://github.com/trento-project/wanda/blob/main/LICENSE) file for details.

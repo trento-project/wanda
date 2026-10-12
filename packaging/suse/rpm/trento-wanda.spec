@@ -20,7 +20,7 @@ Name:           trento-wanda
 Version:        0
 Release:        0
 Summary:        Trento wanda component
-License:        Apache-2.0
+License:        GPL-3.0-or-later
 URL:            https://github.com/trento-project/wanda
 Source:         %{name}-%{version}.tar.gz
 Source1:        deps.tar.gz
