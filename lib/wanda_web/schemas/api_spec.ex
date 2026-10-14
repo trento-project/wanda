@@ -1,5 +1,5 @@
 # SPDX-FileCopyrightText: SUSE LLC
-# SPDX-License-Identifier: Apache-2.0
+# SPDX-License-Identifier: GPL-3.0-or-later
 
 defmodule WandaWeb.Schemas.ApiSpec do
   @moduledoc """
@@ -54,8 +54,8 @@ defmodule WandaWeb.Schemas.ApiSpec do
             description: to_string(Application.spec(:wanda, :description)),
             version: ApiSpec.build_version(unquote(api_version)),
             license: %OpenApiSpex.License{
-              name: "Apache 2.0",
-              url: "https://www.apache.org/licenses/LICENSE-2.0"
+              name: "GPL-3.0-or-later",
+              url: "https://www.gnu.org/licenses/gpl-3.0.html"
             },
             contact: %Contact{
               name: "Trento Project",
