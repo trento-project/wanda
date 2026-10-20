@@ -1,5 +1,5 @@
 # SPDX-FileCopyrightText: SUSE LLC
-# SPDX-License-Identifier: Apache-2.0
+# SPDX-License-Identifier: GPL-3.0-or-later
 
 defmodule Wanda.Factory do
   @moduledoc false
@@ -70,7 +70,7 @@ defmodule Wanda.Factory do
 
   def catalog_fact_factory do
     %Catalog.Fact{
-      name: Faker.Cat.name(),
+      name: sequence(:fact_name, &"fact_#{&1}"),
       gatherer: Faker.StarWars.character(),
       argument: Faker.StarWars.quote()
     }
@@ -385,7 +385,7 @@ defmodule Wanda.Factory do
         %{return_value: true} = expectation_evaluation ->
           expectation_evaluation
 
-        %{return_value: false} = expectation_evaluation ->
+        %ExpectationEvaluation{return_value: false} = expectation_evaluation ->
           %ExpectationEvaluation{expectation_evaluation | failure_message: failure_message}
       end)
 

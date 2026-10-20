@@ -1,5 +1,5 @@
 # SPDX-FileCopyrightText: SUSE LLC
-# SPDX-License-Identifier: Apache-2.0
+# SPDX-License-Identifier: GPL-3.0-or-later
 
 defmodule Wanda.Executions.EvaluationTest do
   use ExUnit.Case
@@ -2122,7 +2122,11 @@ defmodule Wanda.Executions.EvaluationTest do
       gathered_facts = %{
         check_id => %{
           "agent_1" => [
-            build(:fact, check_id: check_id, name: "fact_1", value: "expected_customized_value_1"),
+            build(:fact,
+              check_id: check_id,
+              name: "fact_1",
+              value: "expected_customized_value_1"
+            ),
             build(:fact, check_id: check_id, name: "fact_2", value: "expected_customized_value_2")
           ],
           "agent_2" => [

@@ -1,5 +1,5 @@
 # SPDX-FileCopyrightText: SUSE LLC
-# SPDX-License-Identifier: Apache-2.0
+# SPDX-License-Identifier: GPL-3.0-or-later
 
 defmodule Wanda.Catalog do
   @moduledoc """
@@ -132,7 +132,7 @@ defmodule Wanda.Catalog do
     %SelectedCheck{
       id: id,
       spec: check,
-      customized: Enum.count(customizations) > 0,
+      customized: not Enum.empty?(customizations),
       customizations: customizations
     }
   end

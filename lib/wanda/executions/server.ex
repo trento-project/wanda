@@ -1,5 +1,5 @@
 # SPDX-FileCopyrightText: SUSE LLC
-# SPDX-License-Identifier: Apache-2.0
+# SPDX-License-Identifier: GPL-3.0-or-later
 
 defmodule Wanda.Executions.Server do
   @moduledoc """
@@ -58,7 +58,7 @@ defmodule Wanda.Executions.Server do
     checks_ids = Enum.map(checks, & &1.id)
 
     targets =
-      Enum.map(targets, fn %{checks: target_checks} = target ->
+      Enum.map(targets, fn %Target{checks: target_checks} = target ->
         checks_diff = target_checks -- checks_ids
         %Target{target | checks: target_checks -- checks_diff}
       end)

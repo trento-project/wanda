@@ -1,5 +1,5 @@
 # SPDX-FileCopyrightText: SUSE LLC
-# SPDX-License-Identifier: Apache-2.0
+# SPDX-License-Identifier: GPL-3.0-or-later
 
 defmodule WandaWeb.InfoController do
   use WandaWeb, :controller
@@ -11,7 +11,7 @@ defmodule WandaWeb.InfoController do
     summary: "Wanda service information.",
     tags: ["Checks/Operations Platform"],
     description:
-      "This endpoint returns information about this Wanda instance for service discovery purposes, including name and version",
+      "This endpoint returns information about this Wanda instance for service discovery purposes, including name and version.",
     security: [],
     responses: [
       ok:

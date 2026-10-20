@@ -1,5 +1,5 @@
 # SPDX-FileCopyrightText: SUSE LLC
-# SPDX-License-Identifier: Apache-2.0
+# SPDX-License-Identifier: GPL-3.0-or-later
 
 defmodule Wanda.MixProject do
   use Mix.Project
@@ -20,15 +20,20 @@ defmodule Wanda.MixProject do
         "Wanda is an open source platform for automated cluster checks, health monitoring, and remediation. It provides APIs for managing checks, executions, customizations, and integrations with the Trento Platform. Wanda helps ensure high availability and reliability for your infrastructure by automating best practices and compliance checks.",
       docs: docs(),
       test_coverage: [tool: ExCoveralls],
-      preferred_cli_env: [
+      dialyzer: [plt_add_apps: [:ex_unit]]
+    ]
+  end
+
+  def cli do
+    [
+      preferred_envs: [
         coveralls: :test,
         "coveralls.github": :test,
         vcr: :test,
         "vcr.delete": :test,
         "vcr.check": :test,
         "vcr.show": :test
-      ],
-      dialyzer: [plt_add_apps: [:ex_unit]]
+      ]
     ]
   end
 
@@ -46,7 +51,6 @@ defmodule Wanda.MixProject do
       logo: "priv/static/images/trento.svg",
       extra_section: "Project Info",
       source_url: @source_url,
-      assets: "guides/assets/",
       extras: extras(),
       groups_for_modules: groups_for_modules(),
       nest_modules_by_prefix: [
@@ -102,20 +106,20 @@ defmodule Wanda.MixProject do
     [
       {:rhai_rustler, "~> 1.2.0"},
       {:rustler, ">= 0.0.0", optional: true},
-      {:jason, "~> 1.3"},
+      {:jason, "~> 1.4"},
       # see: https://github.com/pma/amqp/issues/231#issuecomment-2445049446
-      {:ranch, "~> 2.2.0", override: true},
+      {:ranch, "~> 2.3.0", override: true},
       {:gen_rmq, github: "trento-project/trnt_gen_rmq", ref: "v5.0.1"},
       {:yaml_elixir, "~> 2.9"},
       {:trento_contracts,
        github: "trento-project/contracts",
        sparse: "elixir",
-       ref: "af252ccb0e64234d65e0581043996b6574687fc8"},
+       ref: "6c64b180d0c1e4c97655a5043d714e5661c7fafc"},
       {:unplug, "~> 1.1.0"},
       # test deps
       {:ex_doc, "~> 0.29", only: [:dev, :test], runtime: false},
-      {:credo, "~> 1.6", only: [:dev, :test], runtime: false},
-      {:dialyxir, "~> 1.0", only: [:dev, :test], runtime: false},
+      {:credo, "~> 1.7", only: [:dev, :test], runtime: false},
+      {:dialyxir, "~> 1.4.7", only: [:dev, :test], runtime: false},
       {:mox, "~> 1.0", only: :test},
       {:ex_machina, "~> 2.8.0", only: [:demo, :test]},
       {:faker, "~> 0.17", only: [:demo, :test]},
@@ -123,17 +127,16 @@ defmodule Wanda.MixProject do
       # phoenix deps
       {:phoenix, "~> 1.8.11"},
       {:phoenix_view, "~> 2.0"},
-      {:phoenix_ecto, "~> 4.4"},
-      {:ecto_sql, "~> 3.6"},
+      {:phoenix_ecto, "~> 4.5"},
+      {:ecto_sql, "~> 3.14"},
       {:postgrex, ">= 0.0.0"},
       {:telemetry_metrics, "~> 1.0"},
       {:telemetry_poller, "~> 1.0"},
       {:plug_cowboy, "~> 2.5"},
-      {:open_api_spex, "~> 3.22.0"},
+      {:open_api_spex, "~> 3.21"},
       {:cors_plug, "~> 3.0"},
-      # required overrides to upgrade to elixir 1.15.7 and erlang otp 26
-      # https://stackoverflow.com/questions/76562092/hi-i-had-created-elixir-project-with-phoenix-framework-there-is-yaml-file-when
-      {:ecto, "~> 3.10", override: true},
+      {:ecto, "~> 3.14"},
+      {:plug, "~> 1.19", override: true},
       {:bodyguard, "~> 2.4"},
       {:httpoison, "== 2.3.0"},
       {:exvcr, "~> 0.11", only: :test}
@@ -163,7 +166,13 @@ defmodule Wanda.MixProject do
     end
   end
 
+  # Dependabot's hex file fetcher only pulls mix.exs, mix.lock, subapp mixfiles and paths
+  # referenced by Code.eval_file/Code.require_file.
+  # get_version_from_file/0 reads VERSION, so the reference below is what makes Dependabot fetch it.
+  # Do not delete.
+  #
+  # Code.eval_file("VERSION")
   defp get_version_from_file do
-    File.cwd!() |> Path.join("VERSION") |> File.read!() |> String.trim()
+    __DIR__ |> Path.join("VERSION") |> File.read!() |> String.trim()
   end
 end
