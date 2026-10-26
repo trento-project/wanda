@@ -1,5 +1,69 @@
 # Changelog
 
+## [2.2.0](https://github.com/trento-project/wanda/tree/1.4.0/compare/2.1.1...2.2.0) - 2026-10-20
+
+### What's Changed
+
+* Bump contracts version (#804) @nelsonkopliku
+* Switch to pull_request_target for backport action (#761) @nelsonkopliku
+* Document `exclude` predicate (#731) @balanza, Emanuele De Cupis
+* Add `exclude` field to specification json schema (#736) @arbulu89
+* Enforce using erlang26 on SLES15 (#723) @balanza, Emanuele De Cupis
+* Remove repo template to use project-wide template instead. (#724) @eromanova97
+
+#### Features
+
+* Bump build to otp27 elixir119 (#797) @nelsonkopliku
+* Add x-ai-tool information to MCP tagged operations (#722) @nelsonkopliku
+* update to elixir 1.19.5 and erlang 27.3.4.11 (#718) @nelsonkopliku
+
+#### Bug Fixes
+
+* Fix docs generation (#720) @nelsonkopliku
+
+#### Maintenance
+
+* Relicense under GPL-3.0-or-later (#803) @nelsonkopliku
+* Use shared OTP toolchain matrix (#799) @nelsonkopliku
+* Use automerge reusable workflow (#787) @antgamdia
+* Revert backport workflow back to normal (#781) @skrech
+* Enable backport action (#755) @skrech
+* Make catalog_fact factory name value sequential (#746) @arbulu89
+* Add default version for dependabot (#738) @antgamdia
+* Remove temporary CI step (#721) @nelsonkopliku
+
+#### Dependencies
+
+<details>
+<summary>24 changes</summary>
+* Bump phoenix from 1.8.14 to 1.8.15 (#805) [@dependabot[bot]](https://github.com/apps/dependabot)
+* Bump phoenix from 1.8.11 to 1.8.14 (#798) [@dependabot[bot]](https://github.com/apps/dependabot)
+* Bump contracts version (#802) @arbulu89
+* Bump the common-workflows group with 4 updates (#801) [@dependabot[bot]](https://github.com/apps/dependabot)
+* Bump mox from 1.2.0 to 1.3.2 (#796) [@dependabot[bot]](https://github.com/apps/dependabot)
+* Bump ranch from 2.2.1 to 2.3.0 (#794) [@dependabot[bot]](https://github.com/apps/dependabot)
+* Bump endorama/asdf-parse-tool-versions from 1.6.0 to 1.7.0 (#795) [@dependabot[bot]](https://github.com/apps/dependabot)
+* Bump ex_doc from 0.40.3 to 0.40.4 (#790) [@dependabot[bot]](https://github.com/apps/dependabot)
+* Bump dialyxir from 1.4.7 to 1.4.8 (#793) [@dependabot[bot]](https://github.com/apps/dependabot)
+* Bump the common-workflows group across 1 directory with 4 updates (#788) [@dependabot[bot]](https://github.com/apps/dependabot)
+* Bump open_api_spex from 3.22.3 to 3.22.4 (#792) [@dependabot[bot]](https://github.com/apps/dependabot)
+* Bump apache/skywalking-eyes/header from 0.8.0 to 0.9.0 (#789) [@dependabot[bot]](https://github.com/apps/dependabot)
+* Bump telemetry_metrics from 1.1.0 to 1.2.0 (#784) [@dependabot[bot]](https://github.com/apps/dependabot)
+* Bump ex_machina from 2.8.1 to 2.8.2 (#753) [@dependabot[bot]](https://github.com/apps/dependabot)
+* Bump credo from 1.7.18 to 1.7.19 (#751) [@dependabot[bot]](https://github.com/apps/dependabot)
+* Bump ex_machina from 2.8.0 to 2.8.1 (#748) [@dependabot[bot]](https://github.com/apps/dependabot)
+* Bump faker from 0.18.0 to 0.19.0 (#742) [@dependabot[bot]](https://github.com/apps/dependabot)
+* Bump actions/setup-node from 6.4.0 to 7.0.0 (#737) [@dependabot[bot]](https://github.com/apps/dependabot), @arbulu89
+* Bump actions/checkout from 7.0.0 to 7.0.1 (#739) [@dependabot[bot]](https://github.com/apps/dependabot)
+* Bump actions/cache from 5.0.5 to 6.1.0 (#734) [@dependabot[bot]](https://github.com/apps/dependabot)
+* Bump actions/checkout from 6.0.3 to 7.0.0 (#730) [@dependabot[bot]](https://github.com/apps/dependabot)
+* Bump endorama/asdf-parse-tool-versions from 1.5.1 to 1.6.0 (#727) [@dependabot[bot]](https://github.com/apps/dependabot)
+* Bump actions/checkout from 6.0.2 to 6.0.3 (#726) [@dependabot[bot]](https://github.com/apps/dependabot)
+* Bump peaceiris/actions-gh-pages from 4.0.0 to 4.1.0 (#719) [@dependabot[bot]](https://github.com/apps/dependabot)
+
+</details>
+**Full Changelog**: https://github.com/trento-project/wanda/compare/2.1.0...2.2.0
+
 ## [2.1.1](https://github.com/trento-project/wanda/tree/1.4.0/compare/2.1.0...2.1.1) - 2026-09-10
 
 ### What's Changed
@@ -33,10 +97,8 @@
 * Bump postgrex from 0.22.2 to 0.22.3 (#776) @trentobot
 * Bump yaml_elixir from 2.12.1 to 2.12.2 (#775) @trentobot
 * Bump erlef/setup-beam from 1.24.0 to 1.24.1 (#762) @trentobot
-
 </details>
 **Full Changelog**: https://github.com/trento-project/wanda/compare/2.1.0...2.1.1
-
 ## [2.1.0](https://github.com/trento-project/wanda/tree/1.4.0/compare/2.0.0...2.1.0) - 2026-05-19
 
 ### What's Changed
@@ -95,7 +157,6 @@
 </details>
 **Full Changelog**: https://github.com/trento-project/wanda/compare/2.0.0...2.1.0
 ## [2.0.0](https://github.com/trento-project/wanda/tree/1.4.0/compare/1.5.0...2.0.0) - 2025-11-27
-
 ### What's Changed
 
 * Release version 2.0.0 (#667) @nelsonkopliku
@@ -164,7 +225,6 @@
 **Full Changelog**: https://github.com/trento-project/wanda/compare/1.5.0...2.0.0
 ## [1.5.0](https://github.com/trento-project/wanda/tree/1.4.0/compare/1.4.0...1.5.0) - 2025-05-23
 ### What's Changed
-
 * Check vendor deps on CI (#594) @balanza
 * Update build dependency requirements (again) (#597) @stefanotorresi
 * Fix typo in rust package alias (#596) @stefanotorresi
@@ -254,7 +314,6 @@
 ## [1.4.0](https://github.com/trento-project/wanda/tree/1.4.0) (2024-11-11)
 [Full Changelog](https://github.com/trento-project/wanda/compare/1.3.0...1.4.0)
 **Implemented enhancements:**
-
 - Require trento-checks and remove premium source [#523](https://github.com/trento-project/wanda/pull/523) ([arbulu89](https://github.com/arbulu89))
 - Adapted the existing checks to work with ascs_ers cluster [#475](https://github.com/trento-project/wanda/pull/475) ([ksanjeet](https://github.com/ksanjeet))
 - Add pr template [#473](https://github.com/trento-project/wanda/pull/473) ([EMaksy](https://github.com/EMaksy))

@@ -1,4 +1,4 @@
-# Wanda v2.1.1 - API Reference
+# Wanda v2.2.0 - API Reference
 
 ## Modules
 
