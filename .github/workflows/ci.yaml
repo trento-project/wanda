@@ -46,7 +46,7 @@ jobs:
           persist-credentials: false
       - name: Compute OTP/Elixir toolchain
         id: toolchain
-        uses: trento-project/.github/actions/elixir-toolchain@94dac57211d792dda649383e7f23326b24a9087b # v1.11.0
+        uses: trento-project/.github/actions/elixir-toolchain@9eeba3813dd18bf0350ba0c867ef0f3f2cc26342 # v1.13.0
         with:
           # Elixir of SLES 16.0 and 16.1. Their OTP 27.1.3 fails mix local.hex
           # with key_usage_mismatch
@@ -92,7 +92,7 @@ jobs:
         with:
           persist-credentials: false
       - name: Set up Elixir and build dependencies
-        uses: trento-project/.github/actions/setup-elixir@94dac57211d792dda649383e7f23326b24a9087b # v1.11.0
+        uses: trento-project/.github/actions/setup-elixir@9eeba3813dd18bf0350ba0c867ef0f3f2cc26342 # v1.13.0
         with:
           otp-version: ${{ matrix.toolchain.otp }}
           elixir-version: ${{ matrix.toolchain.elixir }}
@@ -118,7 +118,7 @@ jobs:
           fetch-depth: 0
       - name: Set up Elixir and restore cached dependencies
         id: mix-cache
-        uses: trento-project/.github/actions/setup-elixir@94dac57211d792dda649383e7f23326b24a9087b # v1.11.0
+        uses: trento-project/.github/actions/setup-elixir@9eeba3813dd18bf0350ba0c867ef0f3f2cc26342 # v1.13.0
         with:
           otp-version: ${{ matrix.toolchain.otp }}
           elixir-version: ${{ matrix.toolchain.elixir }}
@@ -179,7 +179,7 @@ jobs:
           fetch-depth: 0
       - name: Set up Elixir and restore cached dependencies
         id: mix-cache
-        uses: trento-project/.github/actions/setup-elixir@94dac57211d792dda649383e7f23326b24a9087b # v1.11.0
+        uses: trento-project/.github/actions/setup-elixir@9eeba3813dd18bf0350ba0c867ef0f3f2cc26342 # v1.13.0
         with:
           otp-version: ${{ matrix.toolchain.otp }}
           elixir-version: ${{ matrix.toolchain.elixir }}
@@ -216,7 +216,7 @@ jobs:
           ref: ${{ github.event.pull_request.base.ref }}
           persist-credentials: false
       - name: Set up Elixir and build dependencies
-        uses: trento-project/.github/actions/setup-elixir@94dac57211d792dda649383e7f23326b24a9087b # v1.11.0
+        uses: trento-project/.github/actions/setup-elixir@9eeba3813dd18bf0350ba0c867ef0f3f2cc26342 # v1.13.0
         with:
           otp-version: ${{ matrix.toolchain.otp }}
           elixir-version: ${{ matrix.toolchain.elixir }}
@@ -240,7 +240,7 @@ jobs:
           fetch-depth: 0
       - name: Set up Elixir and restore cached dependencies
         id: mix-cache
-        uses: trento-project/.github/actions/setup-elixir@94dac57211d792dda649383e7f23326b24a9087b # v1.11.0
+        uses: trento-project/.github/actions/setup-elixir@9eeba3813dd18bf0350ba0c867ef0f3f2cc26342 # v1.13.0
         with:
           otp-version: ${{ matrix.toolchain.otp }}
           elixir-version: ${{ matrix.toolchain.elixir }}
@@ -275,7 +275,7 @@ jobs:
           fetch-depth: 0
       - name: Set up Elixir and restore cached dependencies - current branch
         id: mix-cache-current
-        uses: trento-project/.github/actions/setup-elixir@94dac57211d792dda649383e7f23326b24a9087b # v1.11.0
+        uses: trento-project/.github/actions/setup-elixir@9eeba3813dd18bf0350ba0c867ef0f3f2cc26342 # v1.13.0
         with:
           otp-version: ${{ matrix.toolchain.otp }}
           elixir-version: ${{ matrix.toolchain.elixir }}
@@ -312,7 +312,7 @@ jobs:
         uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
       - name: Set up Elixir and restore cached dependencies - current branch
         id: mix-cache-current
-        uses: trento-project/.github/actions/setup-elixir@94dac57211d792dda649383e7f23326b24a9087b # v1.11.0
+        uses: trento-project/.github/actions/setup-elixir@9eeba3813dd18bf0350ba0c867ef0f3f2cc26342 # v1.13.0
         with:
           otp-version: ${{ matrix.toolchain.otp }}
           elixir-version: ${{ matrix.toolchain.elixir }}
@@ -326,7 +326,7 @@ jobs:
           ref: ${{ github.event.pull_request.base.ref || github.ref_name }}
       - name: Retrieve Elixir Cached Dependencies - target branch
         id: mix-cache-target
-        uses: trento-project/.github/actions/setup-elixir@94dac57211d792dda649383e7f23326b24a9087b # v1.11.0
+        uses: trento-project/.github/actions/setup-elixir@9eeba3813dd18bf0350ba0c867ef0f3f2cc26342 # v1.13.0
         with:
           otp-version: ${{ matrix.toolchain.otp }}
           elixir-version: ${{ matrix.toolchain.elixir }}
@@ -371,7 +371,7 @@ jobs:
             tag: "${{ (github.event_name == 'push' && github.ref_name == 'main' && 'rolling') || github.sha }}"
           - mix_env: demo
             tag: demo
-    uses: trento-project/.github/.github/workflows/publish-containers.yaml@94dac57211d792dda649383e7f23326b24a9087b # v1.11.0
+    uses: trento-project/.github/.github/workflows/publish-containers.yaml@9eeba3813dd18bf0350ba0c867ef0f3f2cc26342 # v1.13.0
     with:
       image_name: trento-wanda
       tag: ${{ matrix.tag }}
@@ -403,7 +403,7 @@ jobs:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
       - name: Set up Elixir and restore cached dependencies
         id: mix-cache
-        uses: trento-project/.github/actions/setup-elixir@94dac57211d792dda649383e7f23326b24a9087b # v1.11.0
+        uses: trento-project/.github/actions/setup-elixir@9eeba3813dd18bf0350ba0c867ef0f3f2cc26342 # v1.13.0
         with:
           otp-version: ${{ needs.elixir-toolchain.outputs.ERLANG_DEV }}
           elixir-version: ${{ needs.elixir-toolchain.outputs.ELIXIR_DEV }}
@@ -461,6 +461,6 @@ jobs:
       contents: write
       pull-requests: write
       issues: write
-    uses: trento-project/.github/.github/workflows/dependabot-auto-merge.yaml@4ca871917ddcecb8cca455409a299d2be7bcbe11 # v1.12.0
+    uses: trento-project/.github/.github/workflows/dependabot-auto-merge.yaml@9eeba3813dd18bf0350ba0c867ef0f3f2cc26342 # v1.13.0
     secrets:
       gh_token: ${{ secrets.TRENTOBOT_GH_PAT }}
